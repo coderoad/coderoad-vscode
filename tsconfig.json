@@ -8,6 +8,7 @@
 		],
 		"sourceMap": true,
 		"rootDir": "src",
+		"baseUrl": "src",
 		"strict": true,   /* enable all strict type-checking options */
 		/* Additional Checks */
 		"forceConsistentCasingInFileNames": true,
@@ -18,10 +19,11 @@
 		"suppressImplicitAnyIndexErrors": true,
 		"noUnusedLocals": false,
 		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true
-	},
-	"paths": {
-		"typings": "./src/typings/index.d.ts"
+		"emitDecoratorMetadata": true,
+		"paths": {
+			"typings": ["./typings/index.d.ts"],
+			"tutorials": ["./tutorials"]
+		},
 	},
 	"exclude": [
 		"node_modules",

@@ -2,26 +2,28 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode'
 
+import createCommands from './commands'
+import createViews from './views'
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "coderoad-vscode" is now active!')
+	// commands
+	createCommands(context)
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
+	// tasks
+	// add tasks here
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello You!')
-	})
-
-	context.subscriptions.push(disposable);
+	// views
+	createViews(context)
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() { }
+export function deactivate(context: vscode.ExtensionContext): void {
+	// cleanup subscriptions/tasks
+	console.log('deactivate context', context)
+	for (const disposable of context.subscriptions) {
+		disposable.dispose()
+	}
+}
