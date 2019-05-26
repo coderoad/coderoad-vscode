@@ -1,4 +1,8 @@
 {
+	"extends": [
+		"tslint:latest",
+		"tslint-config-prettier"
+	],
 	"rules": {
 		"no-string-throw": true,
 		"no-unused-expression": true,
@@ -7,9 +11,14 @@
 		"class-name": true,
 		"semicolon": [
 			true,
-			"always"
+			"never"
 		],
-		"triple-equals": true
+		"triple-equals": true,
+		"interface-name": [
+			true,
+			"never-prefix"
+		]
 	},
-	"defaultSeverity": "warning"
+	"defaultSeverity": "warning",
+	"no-submodule-imports": false,
 }

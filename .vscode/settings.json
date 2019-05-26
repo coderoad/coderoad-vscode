@@ -1,11 +1,34 @@
-// Place your settings in this file to overwrite default and user settings.
 {
-    "files.exclude": {
-        "out": false // set this to true to hide the "out" folder with the compiled JS files
-    },
-    "search.exclude": {
-        "out": true // set this to false to include "out" folder in search results
-    },
-    // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
-    "typescript.tsc.autoDetect": "off"
+  // autofix
+  // "eslint.autoFixOnSave": true,
+  // "eslint.validate": [
+  //   "javascript",
+  //   {
+  //     "language": "typescript",
+  //     "autoFix": true
+  //   },
+  //   {
+  //     "language": "typescriptreact",
+  //     "autoFix": true
+  //   }
+  // ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+  },
+  "tslint.enable": true,
+  "tslint.jsEnable": true,
+  "[javascript]": {
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true
+  },
+  // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
+  // "typescript.tsc.autoDetect": "off",
+  "files.exclude": {
+    "out": false // set this to true to hide the "out" folder with the compiled JS files
+  },
+  "search.exclude": {
+    "out": true // set this to false to include "out" folder in search results
+  },
 }
