@@ -6,9 +6,9 @@ import loadSolution from './loadSolution'
 // import quit from './quit'
 
 const COMMANDS = {
-  RUN_TEST: 'coderoad.test_run',
-  TUTORIAL_LOAD: 'coderoad.tutorial_load',
   TUTORIAL_SETUP: 'coderoad.tutorial_setup',
+  TUTORIAL_LOAD: 'coderoad.tutorial_load',
+  RUN_TEST: 'coderoad.test_run',
   LOAD_SOLUTION: 'coderoad.solution_load',
   // QUIT: 'coderoad.quit',
 }

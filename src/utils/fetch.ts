@@ -1,7 +1,7 @@
 import * as CR from 'typings'
 
 // temporary tutorials
-import basicTutorial from 'tutorials/basic'
+import basicTutorial from '../tutorials/basic'
 
 interface Options {
   resource: string

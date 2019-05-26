@@ -9,17 +9,55 @@
 	"categories": [
 		"Other"
 	],
+	"publisher": "Shawn McKay <shawn.j.mckay@gmail.com>",
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"onCommand:coderoad.tutorial_load"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
+				"command": "coderoad.tutorial_setup",
+				"title": "Tutorial Setup",
+				"category": "CodeRoad"
+			},
+			{
+				"command": "coderoad.tutorial_load",
+				"title": "Load Tutorial",
+				"category": "CodeRoad"
+			},
+			{
+				"command": "coderoad.test_run",
+				"title": "Run Test",
+				"category": "CodeRoad"
+			},
+			{
+				"command": "coderoad.solution_load",
+				"title": "Load Solution",
+				"category": "CodeRoad"
 			}
-		]
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "coderoad-tutorial",
+					"title": "CodeRoad Tutorial",
+					"icon": "resources/icons/icon.svg"
+				}
+			]
+		},
+		"views": {
+			"coderoad-tutorial": [
+				{
+					"id": "tutorial-summary",
+					"name": "Summary"
+				},
+				{
+					"id": "tutorial-steps",
+					"name": "Instructions"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

@@ -22,7 +22,6 @@
 		"emitDecoratorMetadata": true,
 		"paths": {
 			"typings": ["./typings/index.d.ts"],
-			"tutorials": ["./tutorials"]
 		},
 	},
 	"exclude": [
