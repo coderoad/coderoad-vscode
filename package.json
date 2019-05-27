@@ -49,12 +49,20 @@
 		"views": {
 			"coderoad-tutorial": [
 				{
-					"id": "tutorial-summary",
-					"name": "Summary"
+					"id": "progress",
+					"name": "Progress"
 				},
 				{
-					"id": "tutorial-steps",
+					"id": "explanation",
+					"name": "Explanation"
+				},
+				{
+					"id": "instructions",
 					"name": "Instructions"
+				},
+				{
+					"id": "hints",
+					"name": "Hints"
 				}
 			]
 		}
