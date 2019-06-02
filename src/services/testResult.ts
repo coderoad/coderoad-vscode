@@ -1,6 +1,6 @@
 import * as CR from 'typings'
 import * as vscode from 'vscode'
-import * as storage from './vscode/storage'
+import * as storage from '../editor/storage'
 
 
 export async function onSuccess(position: CR.Position) {

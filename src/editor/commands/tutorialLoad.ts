@@ -1,13 +1,13 @@
 import * as vscode from 'vscode'
 import * as CR from 'typings'
 
-import fetch from '../utils/fetch'
-import tutorialSetup from '../services/tutorialSetup'
-import { loadProgressPosition } from '../services/position'
-import * as storage from '../services/storage'
-import rootSetup from '../services/rootSetup'
-import { isEmptyWorkspace, openReadme } from '../utils/workspace'
-import * as git from '../services/git'
+import api from '../../services/api'
+import tutorialSetup from '../../services/tutorialSetup'
+import { loadProgressPosition } from '../../services/position'
+import * as storage from '../storage'
+import rootSetup from '../../services/rootSetup'
+import { isEmptyWorkspace, openReadme } from '../workspace'
+import * as git from '../../services/git'
 
 /*
 new
@@ -78,7 +78,7 @@ export default async function tutorialLoad(context: vscode.ExtensionContext): Pr
   // }
 
   // // load tutorial summaries
-  // const tutorialsData: { [id: string]: CR.TutorialSummary } = await fetch({
+  // const tutorialsData: { [id: string]: CR.TutorialSummary } = await api({
   //   resource: 'getTutorialsSummary',
   // })
   // const selectableTutorials: TutorialQuickPickItem[] = Object.keys(tutorialsData).map(id => {

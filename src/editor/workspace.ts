@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import * as vscode from 'vscode'
-import { exec, exists } from '../node'
+import { exec, exists } from '../services/node'
 
 export async function isEmptyWorkspace(): Promise<boolean> {
   const { stdout, stderr } = await exec('ls')

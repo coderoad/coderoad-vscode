@@ -1,6 +1,6 @@
 import * as CR from 'typings'
-import * as storage from '../services/storage'
-import { gitLoadCommits, gitClear } from '../services/git'
+import * as storage from '../storage'
+import { gitLoadCommits, gitClear } from '../../services/git'
 
 export default async function loadSolution(): Promise<void> {
   const [position, tutorial]: [CR.Position, CR.Tutorial | undefined] = await Promise.all([

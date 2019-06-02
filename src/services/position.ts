@@ -1,5 +1,5 @@
 import * as CR from 'typings'
-import * as storage from './vscode/storage'
+import * as storage from '../editor/storage'
 
 export async function getInitial(tutorial: CR.Tutorial): Promise<CR.Position> {
   const { data } = tutorial

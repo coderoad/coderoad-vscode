@@ -2,7 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode'
 
-import createCommands from './commands'
+import createCommands from './editor/commands'
 import createViews from './views'
 
 // this method is called when your extension is activated

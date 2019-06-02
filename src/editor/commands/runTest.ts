@@ -1,7 +1,7 @@
-import { getOutputChannel } from '../utils/channel'
-import { exec } from '../utils/node'
-import * as storage from '../services/storage'
-import * as testResult from '../services/testResult'
+import { getOutputChannel } from '../channel'
+import { exec } from '../../services/node'
+import * as storage from '../storage'
+import * as testResult from '../../services/testResult'
 
 // ensure only latest run_test action is taken
 let currentId = 0

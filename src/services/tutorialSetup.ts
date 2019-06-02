@@ -1,7 +1,7 @@
 import * as CR from 'typings'
 import * as position from '../services/position'
-import * as storage from '../services/vscode/storage'
-import { isEmptyWorkspace } from '../services/vscode/workspace'
+import * as storage from '../editor/storage'
+import { isEmptyWorkspace } from '../editor/workspace'
 import { gitLoadCommits, gitInitIfNotExists, gitSetupRemote } from '../services/git'
 
 const testRepo = 'https://github.com/ShMcK/coderoad-tutorial-basic.git'
