@@ -11,68 +11,36 @@
 	],
 	"publisher": "Shawn McKay <shawn.j.mckay@gmail.com>",
 	"activationEvents": [
-		"onCommand:coderoad.tutorial_load"
+		"onCommand:coderoad.start"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "coderoad.tutorial_setup",
-				"title": "Tutorial Setup",
-				"category": "CodeRoad"
-			},
-			{
-				"command": "coderoad.tutorial_load",
-				"title": "Load Tutorial",
-				"category": "CodeRoad"
-			},
-			{
-				"command": "coderoad.test_run",
-				"title": "Run Test",
-				"category": "CodeRoad"
-			},
-			{
-				"command": "coderoad.solution_load",
-				"title": "Load Solution",
+				"command": "coderoad.start",
+				"title": "Start",
 				"category": "CodeRoad"
 			}
-		],
-		"viewsContainers": {
-			"activitybar": [
-				{
-					"id": "coderoad-tutorial",
-					"title": "CodeRoad Tutorial",
-					"icon": "resources/icons/icon.svg"
-				}
-			]
-		},
-		"views": {
-			"coderoad-tutorial": [
-				{
-					"id": "tutorial-summary",
-					"name": "Summary"
-				},
-				{
-					"id": "tutorial-steps",
-					"name": "Instructions"
-				}
-			]
-		}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
+		"machine": "node ./out/state/index.js",
 		"compile": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
 		"postinstall": "node ./node_modules/vscode/bin/install",
 		"test": "npm run compile && node ./node_modules/vscode/bin/test"
 	},
 	"devDependencies": {
-		"@types/mocha": "^2.2.42",
-		"@types/node": "^10.12.21",
+		"@types/mocha": "^5.2.7",
+		"@types/node": "^12.0.4",
 		"prettier": "^1.17.1",
-		"tslint": "^5.12.1",
+		"tslint": "^5.17.0",
 		"tslint-config-prettier": "^1.18.0",
-		"typescript": "^3.3.1",
+		"typescript": "^3.5.1",
 		"vscode": "^1.1.28"
+	},
+	"dependencies": {
+		"xstate": "^4.6.0"
 	}
 }
