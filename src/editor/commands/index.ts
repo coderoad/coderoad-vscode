@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import start from './start'
+import ReactPanel from '../views/createWebview'
 
 // import runTest from './runTest'
 // import loadSolution from './loadSolution'
@@ -8,6 +9,7 @@ import start from './start'
 const COMMANDS = {
   // TUTORIAL_SETUP: 'coderoad.tutorial_setup',
   START: 'coderoad.start',
+  OPEN_WEBVIEW: 'coderoad.open_webview'
   // RUN_TEST: 'coderoad.test_run',
   // LOAD_SOLUTION: 'coderoad.solution_load',
   // QUIT: 'coderoad.quit',
@@ -19,6 +21,10 @@ export default (context: vscode.ExtensionContext): void => {
     [COMMANDS.START]: async function startCommand(): Promise<void> {
       return start(context)
     },
+    [COMMANDS.OPEN_WEBVIEW]: () => {
+      console.log('webview createOrShow')
+      ReactPanel.createOrShow(context.extensionPath);
+    }
     // [COMMANDS.RUN_TEST]: runTest,
     // [COMMANDS.LOAD_SOLUTION]: loadSolution,
     // [COMMANDS.QUIT]: () => quit(context.subscriptions),

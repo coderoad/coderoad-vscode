@@ -21,10 +21,10 @@ class ReactPanel {
     public static async createOrShow(extensionPath: string): Promise<void> {
         const hasActiveEditor = vscode.window.activeTextEditor
 
-        if (!hasActiveEditor) {
-            throw new Error('Should have an open file on launch')
-        }
-        const column = vscode.ViewColumn.Two
+        // if (!hasActiveEditor) {
+        //     throw new Error('Should have an open file on launch')
+        // }
+        const column = vscode.ViewColumn.One
 
         // If we already have a panel, show it.
         // Otherwise, create a new panel.

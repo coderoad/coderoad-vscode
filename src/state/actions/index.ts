@@ -1,7 +1,6 @@
 import { assign } from 'xstate'
 import * as CR from 'typings'
-import * as storage from '../../services/storage'
-import * as git from '../../services/git'
+import * as vscode from 'vscode'
 
 let initialTutorial: CR.Tutorial | undefined
 let initialProgress: CR.Progress = {
@@ -46,5 +45,8 @@ export default {
             return position
         }
     }),
-
+    createWebview() {
+        console.log('execute coderoad.open_webview')
+        vscode.commands.executeCommand('coderoad.open_webview')
+    }
 }

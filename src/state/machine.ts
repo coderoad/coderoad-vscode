@@ -25,6 +25,7 @@ export const machine = Machine<
                         },
                     },
                     NewTutorial: {
+                        onEntry: ['createWebview'],
                         initial: 'SelectTutorial',
                         states: {
                             SelectTutorial: {
