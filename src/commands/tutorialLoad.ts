@@ -39,15 +39,6 @@ async function newTutorial(tutorial: CR.Tutorial) {
   await openReadme()
 }
 
-function onSaveHook(languageIds: string[]) {
-  // trigger command on save
-  vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
-    if (languageIds.includes(document.languageId) && document.uri.scheme === 'file') {
-      // do work
-      vscode.commands.executeCommand('coderoad.test_run')
-    }
-  })
-}
 
 async function validateCanContinue(): Promise<boolean> {
   // validate tutorial & progress found in local storage
@@ -127,7 +118,7 @@ export default async function tutorialLoad(context: vscode.ExtensionContext): Pr
   // }
 
   // // setup hook to run tests on save
-  // onSaveHook(tutorial.meta.languages)
+
 
   // TODO: start
 }

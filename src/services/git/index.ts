@@ -1,5 +1,5 @@
 import * as CR from 'typings'
-import { exec, exists, openFile } from '../utils/node'
+import { exec, exists, openFile } from '../node'
 
 const gitOrigin = 'coderoad'
 
