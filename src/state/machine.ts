@@ -18,16 +18,10 @@ export const tutorialMachine = Machine<
         initial: 'initial',
         states: {
             initial: {
+                onEntry: 'start',
                 on: {
-                    START: [
-                        {
-                            target: 'continue',
-                            cond: 'hasExistingTutorial',
-                        },
-                        {
-                            target: 'new',
-                        },
-                    ],
+                    CONTINUE: 'continue',
+                    NEW: 'new',
                 },
             },
             new: {
