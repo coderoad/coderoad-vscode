@@ -15,120 +15,144 @@ export const tutorialMachine = Machine<
     {
         id: 'tutorial',
         context: initialContext,
-        initial: 'initial',
+        initial: 'Start',
         states: {
-            initial: {
-                onEntry: 'start',
-                on: {
-                    CONTINUE: 'continue',
-                    NEW: 'new',
-                },
-            },
-            new: {
-                on: {
-                    TUTORIAL_START: 'loading',
-                },
-            },
-            continue: {
-                on: {
-                    TUTORIAL_START: 'loading',
-                },
-            },
-            loading: {
-                on: {
-                    TUTORIAL_LOADED: [
-                        {
-                            target: 'summary',
-                            cond: 'hasNoProgress',
-                        },
-                        {
-                            target: 'level',
-                            cond: 'hasNoLevelProgress',
-                        },
-                        {
-                            target: 'stage',
-                        },
-                    ],
-                },
-            },
-            summary: {
-                on: {
-                    NEXT: 'level',
-                },
-            },
-            level: {
-                onEntry: ['loadLevel'],
-                on: {
-                    NEXT: 'stage',
-                    BACK: 'summary',
-                },
-            },
-            stage: {
-                onEntry: ['loadStage'],
-                initial: 'stageNormal',
+            Start: {
                 states: {
-                    stageNormal: {
+                    Initial: {
+                        onEntry: 'start',
                         on: {
-                            TEST_RUN: 'testRunning',
-                            STEP_SOLUTION_LOAD: {
-                                actions: ['callSolution'],
+                            CONTINUE: 'ContinueTutorial',
+                            NEW: 'NewTutorial',
+                        },
+                    },
+                    NewTutorial: {
+                        initial: 'SelectTutorial',
+                        states: {
+                            SelectTutorial: {
+                                on: {
+                                    TUTORIAL_START: 'InitializeTutorial',
+                                },
+                            },
+                            InitializeTutorial: {
+                                on: {
+                                    TUTORIAL_LOADED: 'Tutorial'
+                                }
+                            },
+                        }
+
+                    },
+                    ContinueTutorial: {
+                        onEntry: 'loadTutorial',
+                        on: {
+                            TUTORIAL_START: {
+                                target: 'Tutorial',
+                            }
+                        }
+                    },
+                }
+            },
+            Tutorial: {
+                initial: 'Initialize',
+                states: {
+                    Initialize: {
+                        on: {
+                            TUTORIAL_LOADED: [
+                                {
+                                    target: 'Summary',
+                                    cond: 'hasNoProgress',
+                                },
+                                {
+                                    target: 'Level',
+                                    cond: 'hasNoLevelProgress',
+                                },
+                                {
+                                    target: 'Stage',
+                                },
+                            ],
+                        },
+                    },
+
+                    Summary: {
+                        on: {
+                            NEXT: 'Level',
+                        },
+                    },
+                    Level: {
+                        onEntry: ['loadLevel'],
+                        on: {
+                            NEXT: 'Stage',
+                            BACK: 'Summary',
+                        },
+                    },
+                    Stage: {
+                        onEntry: ['loadStage'],
+                        initial: 'StageNormal',
+                        states: {
+                            StageNormal: {
+                                on: {
+                                    TEST_RUN: 'TestRunning',
+                                    STEP_SOLUTION_LOAD: {
+                                        actions: ['callSolution'],
+                                    },
+                                },
+                            },
+                            TestRunning: {
+                                on: {
+                                    TEST_SUCCESS: [
+                                        {
+                                            target: 'StageComplete',
+                                            cond: 'tasksComplete',
+                                        },
+                                        {
+                                            target: 'TestPass',
+                                        },
+                                    ],
+                                    TEST_FAILURE: 'TestFail',
+                                },
+                            },
+                            TestPass: {
+                                onEntry: ['stepComplete'],
+                                on: {
+                                    NEXT: [
+                                        {
+                                            target: 'StageNormal',
+                                            cond: 'hasNextStep',
+                                        },
+                                        {
+                                            target: 'StageComplete',
+                                        },
+                                    ],
+                                },
+                            },
+                            TestFail: {
+                                on: {
+                                    RETURN: 'StageNormal',
+                                },
+                            },
+                            StageComplete: {
+                                on: {
+                                    NEXT: [
+                                        {
+                                            target: 'Stage',
+                                            cond: 'hasNextStage',
+                                        },
+                                        {
+                                            target: 'Level',
+                                            cond: 'hasNextLevel',
+                                        },
+                                        {
+                                            target: 'EndTutorial',
+                                        },
+                                    ],
+                                },
                             },
                         },
                     },
-                    testRunning: {
-                        on: {
-                            TEST_SUCCESS: [
-                                {
-                                    target: 'complete',
-                                    cond: 'tasksComplete',
-                                },
-                                {
-                                    target: 'testPass',
-                                },
-                            ],
-                            TEST_FAILURE: 'testFail',
-                        },
-                    },
-                    testPass: {
-                        onEntry: ['stepComplete'],
-                        on: {
-                            NEXT: [
-                                {
-                                    target: 'stageNormal',
-                                    cond: 'hasNextStep',
-                                },
-                                {
-                                    target: 'stageComplete',
-                                },
-                            ],
-                        },
-                    },
-                    testFail: {
-                        on: {
-                            RETURN: 'stageNormal',
-                        },
-                    },
-                    stageComplete: {
-                        on: {
-                            NEXT: [
-                                {
-                                    target: 'stage',
-                                    cond: 'hasNextStage',
-                                },
-                                {
-                                    target: 'level',
-                                    cond: 'hasNextLevel',
-                                },
-                                {
-                                    target: 'complete',
-                                },
-                            ],
-                        },
-                    },
-                },
-            },
-            complete: {},
-        },
+                    EndTutorial: {},
+                }
+            }
+        }
     },
     {
         actions,

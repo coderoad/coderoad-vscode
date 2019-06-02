@@ -129,21 +129,34 @@ export interface MachineEvent {
 
 export interface MachineStateSchema {
     states: {
-        initial: {}
-        new: {}
-        continue: {}
-        loading: {}
-        summary: {}
-        level: {}
-        stage: {
+        Start: {
             states: {
-                stageNormal: {}
-                testRunning: {}
-                testPass: {}
-                testFail: {}
-                stageComplete: {}
+                Initial: {}
+                NewTutorial: {
+                    states: {
+                        SelectTutorial: {}
+                        InitializeTutorial: {}
+                    }
+                }
+                ContinueTutorial: {}
             }
         }
-        complete: {}
+        Tutorial: {
+            states: {
+                Initialize: {}
+                Summary: {}
+                Level: {}
+                Stage: {
+                    states: {
+                        StageNormal: {}
+                        TestRunning: {}
+                        TestPass: {}
+                        TestFail: {}
+                        StageComplete: {}
+                    }
+                }
+                EndTutorial: {}
+            }
+        }
     }
 }
