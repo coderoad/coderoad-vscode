@@ -13,6 +13,7 @@ let initialProgress: CR.Progress = {
 
 export default {
     start: async () => {
+        console.log('ACTION: start')
         // verify that the user has a tutorial & progress
         // verify git is setup with a coderoad remote
         const [tutorial, progress, hasGit, hasGitRemote] = await Promise.all([
@@ -31,6 +32,7 @@ export default {
     tutorialLoad: assign({
         // load initial data, progress & position
         data(): CR.TutorialData {
+            console.log('ACTION: tutorialLoad.data')
             if (!initialTutorial) {
                 throw new Error('No Tutorial loaded')
             }
@@ -38,9 +40,11 @@ export default {
 
         },
         progress(): CR.Progress {
+            console.log('ACTION: tutorialLoad.progress')
             return initialProgress
         },
         position() {
+            console.log('ACTION: tutorialLoad.position')
             if (!initialTutorial) {
                 throw new Error('No Tutorial loaded')
             }

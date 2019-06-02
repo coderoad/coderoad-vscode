@@ -16,7 +16,6 @@
     "source.fixAll": true,
   },
   "tslint.enable": true,
-  "tslint.jsEnable": true,
   "[javascript]": {
     "editor.formatOnSave": true
   },

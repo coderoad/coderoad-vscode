@@ -1,13 +1,11 @@
 import * as vscode from 'vscode'
 import * as CR from 'typings'
 
-import api from '../../services/api'
 import tutorialSetup from '../../services/tutorialSetup'
-import { loadProgressPosition } from '../../services/position'
-import * as storage from '../../services/storage'
-import rootSetup from '../../services/rootSetup'
 import { isEmptyWorkspace, openReadme } from '../workspace'
-import * as git from '../../services/git'
+import { setWorkspaceRoot } from '../../services/node'
+import { setStorage } from '../../editor/storage'
+import createStateMachine from '../../state'
 
 /*
 new
@@ -15,13 +13,13 @@ if current workspace is empty, use it
 if not, open a new folder then start
 */
 
-async function continueTutorial() {
-  // TODO: verify that tutorial is loaded in workspace
-  // TODO: verify progress
-  // TODO: verify setup
-  await loadProgressPosition()
-  await openReadme()
-}
+// async function continueTutorial() {
+//   // TODO: verify that tutorial is loaded in workspace
+//   // TODO: verify progress
+//   // TODO: verify setup
+//   await loadProgressPosition()
+//   await openReadme()
+// }
 
 async function newTutorial(tutorial: CR.Tutorial) {
   // if workspace isn't empty, clear it out if given permission
@@ -40,23 +38,15 @@ async function newTutorial(tutorial: CR.Tutorial) {
 }
 
 
-async function validateCanContinue(): Promise<boolean> {
-  // validate tutorial & progress found in local storage
-  // validate git is setup with a remote
-  const [tutorial, progress, hasGit, hasGitRemote] = await Promise.all([
-    storage.getTutorial(),
-    storage.getProgress(),
-    git.gitVersion(),
-    git.gitCheckRemoteExists(),
-  ])
-  return !!(tutorial && progress && hasGit && hasGitRemote)
-}
-
-export default async function tutorialLoad(context: vscode.ExtensionContext): Promise<void> {
-  console.log(`tutorialLoad ${JSON.stringify(context)}`)
+export default async function start(context: vscode.ExtensionContext): Promise<void> {
+  console.log('start', context)
 
   // setup connection to workspace
-  await rootSetup(context)
+  await setWorkspaceRoot()
+  // set workspace context path
+  await setStorage(context.workspaceState)
+  // initiate the state machine
+  createStateMachine()
   return;
 
   // const modes = ['New']

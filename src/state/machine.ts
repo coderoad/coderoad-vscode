@@ -5,9 +5,7 @@ import actions from './actions'
 import guards from './guards'
 import initialContext from './context'
 
-// TODO: replace with API
-
-export const tutorialMachine = Machine<
+export const machine = Machine<
     CR.MachineContext,
     CR.MachineStateSchema,
     CR.MachineEvent
@@ -18,6 +16,7 @@ export const tutorialMachine = Machine<
         initial: 'Start',
         states: {
             Start: {
+                initial: 'Initial',
                 states: {
                     Initial: {
                         onEntry: 'start',
@@ -157,3 +156,5 @@ export const tutorialMachine = Machine<
         activities: {},
     },
 )
+
+export default machine

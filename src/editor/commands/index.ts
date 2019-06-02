@@ -1,13 +1,13 @@
 import * as vscode from 'vscode'
 
 // import runTest from './runTest'
-import tutorialLoad from './tutorialLoad'
+import start from './start'
 // import loadSolution from './loadSolution'
 // import quit from './quit'
 
 const COMMANDS = {
   // TUTORIAL_SETUP: 'coderoad.tutorial_setup',
-  TUTORIAL_LOAD: 'coderoad.tutorial_load',
+  START: 'coderoad.start',
   // RUN_TEST: 'coderoad.test_run',
   // LOAD_SOLUTION: 'coderoad.solution_load',
   // QUIT: 'coderoad.quit',
@@ -15,8 +15,9 @@ const COMMANDS = {
 
 export default (context: vscode.ExtensionContext): void => {
   const commands = {
-    [COMMANDS.TUTORIAL_LOAD](): void {
-      tutorialLoad(context)
+    [COMMANDS.START](): void {
+      console.log('TUTORIAL_START')
+      start(context)
     },
     // [COMMANDS.RUN_TEST]: runTest,
     // [COMMANDS.LOAD_SOLUTION]: loadSolution,
