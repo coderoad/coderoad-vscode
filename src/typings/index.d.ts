@@ -143,7 +143,7 @@ export interface MachineStateSchema {
         }
         Tutorial: {
             states: {
-                Initialize: {}
+                LoadNext: {}
                 Summary: {}
                 Level: {}
                 Stage: {

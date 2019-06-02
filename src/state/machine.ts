@@ -1,4 +1,4 @@
-import { Machine } from 'xstate'
+import { Machine, send } from 'xstate'
 import * as CR from 'typings'
 
 import actions from './actions'
@@ -43,28 +43,25 @@ export const tutorialMachine = Machine<
 
                     },
                     ContinueTutorial: {
-                        onEntry: 'loadTutorial',
+                        onEntry: 'tutorialLoad',
                         on: {
                             TUTORIAL_START: {
-                                target: 'Tutorial',
+                                target: 'Tutorial.LoadNext',
                             }
                         }
                     },
                 }
             },
             Tutorial: {
-                initial: 'Initialize',
+                initial: 'Summary',
                 states: {
-                    Initialize: {
+                    LoadNext: {
+                        onEntry: () => send('LOAD_NEXT'),
                         on: {
-                            TUTORIAL_LOADED: [
-                                {
-                                    target: 'Summary',
-                                    cond: 'hasNoProgress',
-                                },
+                            LOAD_NEXT: [
                                 {
                                     target: 'Level',
-                                    cond: 'hasNoLevelProgress',
+                                    cond: 'hasNoNextLevelProgress',
                                 },
                                 {
                                     target: 'Stage',
