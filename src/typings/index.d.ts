@@ -129,7 +129,7 @@ export interface MachineEvent {
 
 export interface MachineStateSchema {
     states: {
-        Start: {
+        SelectTutorial: {
             states: {
                 Initial: {}
                 NewTutorial: {

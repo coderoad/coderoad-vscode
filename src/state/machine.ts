@@ -13,13 +13,12 @@ export const machine = Machine<
     {
         id: 'tutorial',
         context: initialContext,
-        initial: 'Start',
+        initial: 'SelectTutorial',
         states: {
-            Start: {
+            SelectTutorial: {
                 initial: 'Initial',
                 states: {
                     Initial: {
-                        onEntry: 'start',
                         on: {
                             CONTINUE: 'ContinueTutorial',
                             NEW: 'NewTutorial',

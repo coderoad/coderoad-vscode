@@ -1,114 +1,45 @@
 import * as vscode from 'vscode'
-import * as CR from 'typings'
-
-import tutorialSetup from '../../services/tutorialSetup'
-import { isEmptyWorkspace, openReadme } from '../workspace'
 import { setWorkspaceRoot } from '../../services/node'
 import { setStorage } from '../../editor/storage'
-import createStateMachine from '../../state'
+import { activate as activateMachine, default as machine } from '../../state'
+import * as storage from '../../services/storage'
+import * as git from '../../services/git'
+import * as CR from 'typings'
 
-/*
-new
-if current workspace is empty, use it
-if not, open a new folder then start
-*/
-
-// async function continueTutorial() {
-//   // TODO: verify that tutorial is loaded in workspace
-//   // TODO: verify progress
-//   // TODO: verify setup
-//   await loadProgressPosition()
-//   await openReadme()
-// }
-
-async function newTutorial(tutorial: CR.Tutorial) {
-  // if workspace isn't empty, clear it out if given permission
-  const isEmpty: boolean = await isEmptyWorkspace()
-  if (!isEmpty) {
-    // eslint-disable-next-line
-    const options = ['Open a new folder', 'I\'ll clear the files and folders myself']
-    const shouldOpenFolder = await vscode.window.showQuickPick(options)
-    if (shouldOpenFolder === options[0]) {
-      await vscode.commands.executeCommand('vscode.openFolder')
-    }
-  }
-
-  await tutorialSetup(tutorial)
-  await openReadme()
+let initialTutorial: CR.Tutorial | undefined
+let initialProgress: CR.Progress = {
+    levels: {},
+    stages: {},
+    steps: {},
+    complete: false,
 }
 
-
 export default async function start(context: vscode.ExtensionContext): Promise<void> {
-  console.log('start', context)
+    console.log('TUTORIAL_START')
 
-  // setup connection to workspace
-  await setWorkspaceRoot()
-  // set workspace context path
-  await setStorage(context.workspaceState)
-  // initiate the state machine
-  createStateMachine()
-  return;
+    // setup connection to workspace
+    await setWorkspaceRoot()
+    // set workspace context path
+    await setStorage(context.workspaceState)
 
-  // const modes = ['New']
+    // initialize state machine
+    activateMachine()
 
-  // const canContinue = await validateCanContinue()
-  // if (canContinue) {
-  //   modes.push('Continue')
-  // }
+    console.log('ACTION: start')
 
-  // const selectedMode: string | undefined = await vscode.window.showQuickPick(modes)
-
-  // if (!selectedMode) {
-  //   throw new Error('No mode selected')
-  //   return
-  // }
-
-  // interface TutorialQuickPickItem extends vscode.QuickPickItem {
-  //   id: string
-  // }
-
-  // // load tutorial summaries
-  // const tutorialsData: { [id: string]: CR.TutorialSummary } = await api({
-  //   resource: 'getTutorialsSummary',
-  // })
-  // const selectableTutorials: TutorialQuickPickItem[] = Object.keys(tutorialsData).map(id => {
-  //   const tutorial = tutorialsData[id]
-  //   return {
-  //     label: tutorial.title,
-  //     description: tutorial.description,
-  //     // detail: '', // optional additional info
-  //     id,
-  //   }
-  // })
-  // const selectedTutorial: TutorialQuickPickItem | undefined = await vscode.window.showQuickPick(selectableTutorials)
-
-  // if (!selectedTutorial) {
-  //   throw new Error('No tutorial selected')
-  // }
-
-  // // load specific tutorial
-  // const tutorial: CR.Tutorial | undefined = await fetch({
-  //   resource: 'getTutorial',
-  //   params: { id: selectedTutorial.id },
-  // })
-
-  // if (!tutorial) {
-  //   throw new Error('No tutorial found')
-  // }
-
-  // switch (selectedMode) {
-  //   // new tutorial
-  //   case modes[0]:
-  //     await newTutorial(tutorial)
-  //     break
-  //   // continue
-  //   case modes[1]:
-  //     await continueTutorial()
-  //     break
-  // }
-
-  // // setup hook to run tests on save
-
-
-  // TODO: start
+    // verify that the user has a tutorial & progress
+    // verify git is setup with a coderoad remote
+    const [tutorial, progress, hasGit, hasGitRemote] = await Promise.all([
+        storage.getTutorial(),
+        storage.getProgress(),
+        git.gitVersion(),
+        git.gitCheckRemoteExists(),
+    ])
+    initialTutorial = tutorial
+    initialProgress = progress
+    const canContinue = !!(tutorial && progress && hasGit && hasGitRemote)
+    console.log('canContinue', canContinue)
+    // if a tutorial exists, "CONTINUE"
+    // otherwise start from "NEW"
+    machine.send(canContinue ? 'CONTINUE' : 'NEW')
 }

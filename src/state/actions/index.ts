@@ -1,4 +1,4 @@
-import { assign, send } from 'xstate'
+import { assign } from 'xstate'
 import * as CR from 'typings'
 import * as storage from '../../services/storage'
 import * as git from '../../services/git'
@@ -12,23 +12,6 @@ let initialProgress: CR.Progress = {
 }
 
 export default {
-    start: async () => {
-        console.log('ACTION: start')
-        // verify that the user has a tutorial & progress
-        // verify git is setup with a coderoad remote
-        const [tutorial, progress, hasGit, hasGitRemote] = await Promise.all([
-            storage.getTutorial(),
-            storage.getProgress(),
-            git.gitVersion(),
-            git.gitCheckRemoteExists(),
-        ])
-        initialTutorial = tutorial
-        initialProgress = progress
-        const canContinue = !!(tutorial && progress && hasGit && hasGitRemote)
-        // if a tutorial exists, "CONTINUE"
-        // otherwise start from "NEW"
-        send(canContinue ? 'CONTINUE' : 'NEW')
-    },
     tutorialLoad: assign({
         // load initial data, progress & position
         data(): CR.TutorialData {

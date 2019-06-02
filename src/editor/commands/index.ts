@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
+import start from './start'
 
 // import runTest from './runTest'
-import start from './start'
 // import loadSolution from './loadSolution'
 // import quit from './quit'
 
@@ -13,11 +13,11 @@ const COMMANDS = {
   // QUIT: 'coderoad.quit',
 }
 
+
 export default (context: vscode.ExtensionContext): void => {
   const commands = {
-    [COMMANDS.START](): void {
-      console.log('TUTORIAL_START')
-      start(context)
+    [COMMANDS.START]: async function startCommand(): Promise<void> {
+      return start(context)
     },
     // [COMMANDS.RUN_TEST]: runTest,
     // [COMMANDS.LOAD_SOLUTION]: loadSolution,
