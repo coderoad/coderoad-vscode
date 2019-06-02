@@ -1,5 +1,5 @@
 import * as CR from 'typings'
-import * as storage from '../storage'
+import * as storage from '../../services/storage'
 import { gitLoadCommits, gitClear } from '../../services/git'
 
 export default async function loadSolution(): Promise<void> {

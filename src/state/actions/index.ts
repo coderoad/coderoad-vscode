@@ -1,6 +1,6 @@
 import { assign, send } from 'xstate'
 import * as CR from 'typings'
-import * as storage from '../../editor/storage'
+import * as storage from '../../services/storage'
 import * as git from '../../services/git'
 
 let initialTutorial: CR.Tutorial | undefined

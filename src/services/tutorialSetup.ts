@@ -1,6 +1,6 @@
 import * as CR from 'typings'
 import * as position from '../services/position'
-import * as storage from '../editor/storage'
+import * as storage from '../services/storage'
 import { isEmptyWorkspace } from '../editor/workspace'
 import { gitLoadCommits, gitInitIfNotExists, gitSetupRemote } from '../services/git'
 
