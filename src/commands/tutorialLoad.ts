@@ -62,69 +62,72 @@ async function validateCanContinue(): Promise<boolean> {
 }
 
 export default async function tutorialLoad(context: vscode.ExtensionContext): Promise<void> {
+  console.log(`tutorialLoad ${JSON.stringify(context)}`)
+
   // setup connection to workspace
   await rootSetup(context)
+  return;
 
-  const modes = ['New']
+  // const modes = ['New']
 
-  const canContinue = await validateCanContinue()
-  if (canContinue) {
-    modes.push('Continue')
-  }
+  // const canContinue = await validateCanContinue()
+  // if (canContinue) {
+  //   modes.push('Continue')
+  // }
 
-  const selectedMode: string | undefined = await vscode.window.showQuickPick(modes)
+  // const selectedMode: string | undefined = await vscode.window.showQuickPick(modes)
 
-  if (!selectedMode) {
-    throw new Error('No mode selected')
-    return
-  }
+  // if (!selectedMode) {
+  //   throw new Error('No mode selected')
+  //   return
+  // }
 
-  interface TutorialQuickPickItem extends vscode.QuickPickItem {
-    id: string
-  }
+  // interface TutorialQuickPickItem extends vscode.QuickPickItem {
+  //   id: string
+  // }
 
-  // load tutorial summaries
-  const tutorialsData: { [id: string]: CR.TutorialSummary } = await fetch({
-    resource: 'getTutorialsSummary',
-  })
-  const selectableTutorials: TutorialQuickPickItem[] = Object.keys(tutorialsData).map(id => {
-    const tutorial = tutorialsData[id]
-    return {
-      label: tutorial.title,
-      description: tutorial.description,
-      // detail: '', // optional additional info
-      id,
-    }
-  })
-  const selectedTutorial: TutorialQuickPickItem | undefined = await vscode.window.showQuickPick(selectableTutorials)
+  // // load tutorial summaries
+  // const tutorialsData: { [id: string]: CR.TutorialSummary } = await fetch({
+  //   resource: 'getTutorialsSummary',
+  // })
+  // const selectableTutorials: TutorialQuickPickItem[] = Object.keys(tutorialsData).map(id => {
+  //   const tutorial = tutorialsData[id]
+  //   return {
+  //     label: tutorial.title,
+  //     description: tutorial.description,
+  //     // detail: '', // optional additional info
+  //     id,
+  //   }
+  // })
+  // const selectedTutorial: TutorialQuickPickItem | undefined = await vscode.window.showQuickPick(selectableTutorials)
 
-  if (!selectedTutorial) {
-    throw new Error('No tutorial selected')
-  }
+  // if (!selectedTutorial) {
+  //   throw new Error('No tutorial selected')
+  // }
 
-  // load specific tutorial
-  const tutorial: CR.Tutorial | undefined = await fetch({
-    resource: 'getTutorial',
-    params: { id: selectedTutorial.id },
-  })
+  // // load specific tutorial
+  // const tutorial: CR.Tutorial | undefined = await fetch({
+  //   resource: 'getTutorial',
+  //   params: { id: selectedTutorial.id },
+  // })
 
-  if (!tutorial) {
-    throw new Error('No tutorial found')
-  }
+  // if (!tutorial) {
+  //   throw new Error('No tutorial found')
+  // }
 
-  switch (selectedMode) {
-    // new tutorial
-    case modes[0]:
-      await newTutorial(tutorial)
-      break
-    // continue
-    case modes[1]:
-      await continueTutorial()
-      break
-  }
+  // switch (selectedMode) {
+  //   // new tutorial
+  //   case modes[0]:
+  //     await newTutorial(tutorial)
+  //     break
+  //   // continue
+  //   case modes[1]:
+  //     await continueTutorial()
+  //     break
+  // }
 
-  // setup hook to run tests on save
-  onSaveHook(tutorial.meta.languages)
+  // // setup hook to run tests on save
+  // onSaveHook(tutorial.meta.languages)
 
   // TODO: start
 }

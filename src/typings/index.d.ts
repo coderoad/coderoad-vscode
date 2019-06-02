@@ -104,3 +104,46 @@ export interface Action {
     payload?: any
     meta?: any
 }
+
+export interface MachineContext {
+    position: Position
+    data: {
+        summary: TutorialSummary
+        levels: {
+            [levelId: string]: TutorialLevel
+        }
+        stages: {
+            [stageId: string]: TutorialStage
+        }
+        steps: {
+            [stepId: string]: TutorialStep
+        }
+    }
+    progress: Progress
+}
+
+export interface MachineEvent {
+    type: string
+    payload?: any
+}
+
+export interface MachineStateSchema {
+    states: {
+        initial: {}
+        new: {}
+        continue: {}
+        loading: {}
+        summary: {}
+        level: {}
+        stage: {
+            states: {
+                stageNormal: {}
+                testRunning: {}
+                testPass: {}
+                testFail: {}
+                stageComplete: {}
+            }
+        }
+        complete: {}
+    }
+}

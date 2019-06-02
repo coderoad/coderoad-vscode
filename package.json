@@ -17,55 +17,11 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "coderoad.tutorial_setup",
-				"title": "Tutorial Setup",
-				"category": "CodeRoad"
-			},
-			{
 				"command": "coderoad.tutorial_load",
 				"title": "Load Tutorial",
 				"category": "CodeRoad"
-			},
-			{
-				"command": "coderoad.test_run",
-				"title": "Run Test",
-				"category": "CodeRoad"
-			},
-			{
-				"command": "coderoad.solution_load",
-				"title": "Load Solution",
-				"category": "CodeRoad"
 			}
-		],
-		"viewsContainers": {
-			"activitybar": [
-				{
-					"id": "coderoad-tutorial",
-					"title": "CodeRoad Tutorial",
-					"icon": "resources/icons/icon.svg"
-				}
-			]
-		},
-		"views": {
-			"coderoad-tutorial": [
-				{
-					"id": "progress",
-					"name": "Progress"
-				},
-				{
-					"id": "explanation",
-					"name": "Explanation"
-				},
-				{
-					"id": "instructions",
-					"name": "Instructions"
-				},
-				{
-					"id": "hints",
-					"name": "Hints"
-				}
-			]
-		}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
@@ -82,5 +38,8 @@
 		"tslint-config-prettier": "^1.18.0",
 		"typescript": "^3.3.1",
 		"vscode": "^1.1.28"
+	},
+	"dependencies": {
+		"xstate": "^4.6.0"
 	}
 }
