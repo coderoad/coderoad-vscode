@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"module": "commonjs",
 		"target": "es6",
-		"outDir": "out",
+		"outDir": "build",
 		"lib": [
 			"es6",
 			"dom"
@@ -28,7 +28,7 @@
 	"exclude": [
 		"node_modules",
 		".vscode-test",
-		"out",
+		"build",
 		"resources",
 		"web-app"
 	]

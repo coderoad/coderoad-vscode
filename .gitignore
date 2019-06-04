@@ -3,4 +3,7 @@ node_modules
 *.vsix
 
 # output directory
-out
+build
+web-app/build
+web-app/node_modules
+
