@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && cp -R ./build/ ../out/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -32,5 +32,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "typescript-eslint-parser": "^22.0.0"
   }
 }

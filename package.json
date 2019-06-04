@@ -24,10 +24,10 @@
 		]
 	},
 	"scripts": {
-		"vscode:prepublish": "npm run compile",
+		"vscode:prepublish": "npm run build",
 		"machine": "node ./out/state/index.js",
 		"build": "npm run compile && npm run build:web",
-		"build:web": "tsc -p web-app/ && cp -R web-app/build/ out/",
+		"build:web": "tsc -p web-app/tsconfig.json && cp -R web-app/build/ out/",
 		"compile": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
 		"postinstall": "node ./node_modules/vscode/bin/install",
