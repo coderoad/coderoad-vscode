@@ -19,13 +19,13 @@ export const machine = Machine<
                 initial: 'Initial',
                 states: {
                     Initial: {
+                        onEntry: ['createWebview'],
                         on: {
                             CONTINUE: 'ContinueTutorial',
                             NEW: 'NewTutorial',
                         },
                     },
                     NewTutorial: {
-                        onEntry: ['createWebview'],
                         initial: 'SelectTutorial',
                         states: {
                             SelectTutorial: {

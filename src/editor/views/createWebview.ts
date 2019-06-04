@@ -117,7 +117,7 @@ class ReactPanel {
 
 			<body>
 				<noscript>You need to enable JavaScript to run this app.</noscript>
-				<div id="root"></div>
+				<div id="root">Loading...</div>
 				
 				<script nonce="${nonce}" src="${scriptUri}"></script>
 			</body>
