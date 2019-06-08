@@ -7,3 +7,7 @@ build
 web-app/build/
 web-app/node_modules
 
+# boilerplate
+TODO.md
+vsc-extension-quickstart.md
+
