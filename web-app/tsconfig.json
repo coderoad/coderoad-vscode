@@ -3,7 +3,6 @@
     "target": "es5",
     "lib": [
       "dom",
-      "dom.iterable",
       "esnext"
     ],
     "allowJs": true,
@@ -17,9 +16,20 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "sourceMap": true,
+    "rootDir": "src",
+    "baseUrl": "src",
+    "outDir": "build"
   },
   "include": [
     "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "jest",
+    "public"
   ]
 }

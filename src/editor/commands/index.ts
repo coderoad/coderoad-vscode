@@ -22,9 +22,8 @@ export default (context: vscode.ExtensionContext): void => {
       return start(context)
     },
     [COMMANDS.OPEN_WEBVIEW]: () => {
-      console.log('webview createOrShow')
       ReactPanel.createOrShow(context.extensionPath);
-    }
+    },
     // [COMMANDS.RUN_TEST]: runTest,
     // [COMMANDS.LOAD_SOLUTION]: loadSolution,
     // [COMMANDS.QUIT]: () => quit(context.subscriptions),
