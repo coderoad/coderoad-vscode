@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "rootDirs": ["src", "stories"],
+    "baseUrl": "src",
+    "outDir": "build"
+  },
+  "include": [
+    "src",
+    "../src/typings"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "jest",
+    "public"
+  ]
+}
