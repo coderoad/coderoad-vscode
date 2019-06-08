@@ -1,16 +1,16 @@
 export interface TutorialLevel {
     stageList: string[]
-    content?: {
-        title?: string
-        text?: string
+    content: {
+        title: string
+        text: string
     }
 }
 
 export interface TutorialStage {
     stepList: string[]
-    content?: {
-        title?: string
-        text?: string
+    content: {
+        title: string
+        text: string
     }
 }
 

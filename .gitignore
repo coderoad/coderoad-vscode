@@ -4,6 +4,6 @@ node_modules
 
 # output directory
 build
-web-app/build
+web-app/build/
 web-app/node_modules
 

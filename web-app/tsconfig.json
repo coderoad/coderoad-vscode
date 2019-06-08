@@ -18,12 +18,13 @@
     "noEmit": true,
     "jsx": "preserve",
     "sourceMap": true,
-    "rootDir": "src",
+    "rootDirs": ["src", "stories"],
     "baseUrl": "src",
     "outDir": "build"
   },
   "include": [
-    "src"
+    "src",
+    "../src/typings"
   ],
   "exclude": [
     "node_modules",
