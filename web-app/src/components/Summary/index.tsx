@@ -1,8 +1,5 @@
 import * as React from 'react'
-import Button from '@alifd/next/lib/button'
-import '@alifd/next/lib/button/style'
-import Card from '@alifd/next/lib/card'
-import '@alifd/next/lib/card/style'
+import { Button, Card } from '@alifd/next'
 import CR from '../../../../src/typings'
 
 const styles = {

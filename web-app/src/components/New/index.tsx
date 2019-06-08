@@ -1,6 +1,5 @@
 import * as React from 'react'
-import Button from '@alifd/next/lib/button'
-import '@alifd/next/lib/button/style'
+import { Button } from '@alifd/next'
 
 interface Props {
   onNew(tutorialId: string): void

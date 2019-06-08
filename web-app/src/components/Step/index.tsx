@@ -1,6 +1,5 @@
 import * as React from 'react'
-import Checkbox from '@alifd/next/lib/checkbox'
-import '@alifd/next/lib/checkbox/style'
+import { Checkbox } from '@alifd/next'
 // import CC from '../../typings/client'
 import CR from '../../../../src/typings'
 

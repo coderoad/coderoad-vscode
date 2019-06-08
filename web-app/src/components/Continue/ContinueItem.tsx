@@ -1,8 +1,5 @@
 import * as React from 'react'
-import Button from '@alifd/next/lib/button'
-import '@alifd/next/lib/button/style'
-import '@alifd/next/lib/button/style'
-import Card from '@alifd/next/lib/card'
+import { Button, Card } from '@alifd/next'
 
 interface Props {
   title: string
