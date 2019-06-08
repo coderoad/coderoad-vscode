@@ -18,9 +18,9 @@ export default async function start(context: vscode.ExtensionContext): Promise<v
     console.log('TUTORIAL_START')
 
     // setup connection to workspace
-    await setWorkspaceRoot()
+    // await setWorkspaceRoot()
     // set workspace context path
-    await setStorage(context.workspaceState)
+    // await setStorage(context.workspaceState)
 
     // initialize state machine
     activateMachine()

@@ -1,3 +1,5 @@
+import { onReceive } from "state/message";
+
 export interface TutorialLevel {
     stageList: string[]
     content: {
@@ -159,4 +161,10 @@ export interface MachineStateSchema {
             }
         }
     }
+}
+
+export interface StateMachine {
+    activate(): void
+    deactivate(): void
+    onReceive(action: Action): void
 }
