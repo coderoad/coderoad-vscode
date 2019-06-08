@@ -26,16 +26,18 @@
 	"scripts": {
 		"vscode:prepublish": "npm run build",
 		"machine": "node ./out/state/index.js",
-		"build": "npm run compile",
-		"build:web": "tsc -p web-app/tsconfig.json && cp -R web-app/build/ build/ && cp web-app/public/webpackBuild.js build/webpackBuild.js",
+		"build": "concurrently \"npm run build:ext\" \"npm run build:web\"",
+		"build:ext": "npm run compile",
+		"build:web": "cd web-app && npm run build",
 		"compile": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
 		"postinstall": "node ./node_modules/vscode/bin/install",
-		"test": "npm run compile && node ./node_modules/vscode/bin/test"
+		"test": "npm run build && node ./node_modules/vscode/bin/test"
 	},
 	"devDependencies": {
 		"@types/mocha": "^5.2.7",
 		"@types/node": "^12.0.7",
+		"concurrently": "^4.1.0",
 		"prettier": "^1.18.2",
 		"tslint": "^5.17.0",
 		"tslint-config-prettier": "^1.18.0",

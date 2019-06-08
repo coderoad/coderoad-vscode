@@ -16,7 +16,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && cp -R ./build/ ../build/",
+    "build": "react-scripts build",
+    "postbuild": "cp -R ./build/ ../build/ && cp public/webpackBuild.js ../build/webpackBuild.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006",
