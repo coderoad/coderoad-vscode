@@ -2,7 +2,7 @@ import * as vscode from 'vscode'
 import { join } from 'path'
 import { setStorage } from '../storage'
 import ReactWebView from '../ReactWebView'
-import * as CR from '../../typings'
+import * as CR from 'typings'
 
 const COMMANDS = {
     START: 'coderoad.start',

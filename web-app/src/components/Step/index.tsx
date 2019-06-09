@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Checkbox } from '@alifd/next'
 // import CC from '../../typings/client'
-import CR from '../../../../src/typings'
+import CR from 'typings'
 
 const styles = {
   card: {

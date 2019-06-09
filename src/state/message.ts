@@ -1,5 +1,5 @@
 // import panel from '../views/Panel'
-import * as CR from '../typings'
+import * as CR from 'typings'
 
 export const onSend = (action: CR.Action) => {
   // if (!panel || !panel.currentPanel) {

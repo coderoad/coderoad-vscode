@@ -1,8 +1,10 @@
 {
+  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
     "target": "es5",
     "lib": [
       "dom",
+      "dom.iterable",
       "esnext"
     ],
     "allowJs": true,
@@ -16,21 +18,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve",
-    "sourceMap": true,
-    "rootDirs": ["src", "stories"],
-    "baseUrl": "src",
-    "outDir": "build"
+    "jsx": "preserve"
   },
   "include": [
-    "src",
-    "../src/typings"
-  ],
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "jest",
-    "public"
+    "src"
   ]
 }

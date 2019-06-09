@@ -1,5 +1,5 @@
 import * as React from 'react'
-import CR from '../../../../src/typings'
+import CR from 'typings'
 
 import ContinueItem from './ContinueItem'
 

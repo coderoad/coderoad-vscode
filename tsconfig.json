@@ -22,7 +22,7 @@
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
 		"paths": {
-			"typings": ["./typings/index.d.ts"],
+			"typings": ["../typings/index.d.ts"],
 		},
 	},
 	"exclude": [

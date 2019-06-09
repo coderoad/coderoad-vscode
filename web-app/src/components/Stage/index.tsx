@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Button, Card } from '@alifd/next'
-import CR from '../../../../src/typings'
+import CR from 'typings'
 
 import Step from '../Step'
 

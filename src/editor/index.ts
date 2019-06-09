@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import * as CR from '../typings'
+import * as CR from 'typings'
 import { createCommands } from './commands'
 
 interface Props {

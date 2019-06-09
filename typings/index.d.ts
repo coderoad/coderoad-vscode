@@ -1,5 +1,3 @@
-import { onReceive } from "state/message";
-
 export interface TutorialLevel {
     stageList: string[]
     content: {
