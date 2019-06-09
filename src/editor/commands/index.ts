@@ -2,11 +2,15 @@ import * as vscode from 'vscode'
 import { join } from 'path'
 import { setStorage } from '../storage'
 import ReactWebView from '../ReactWebView'
+import { isEmptyWorkspace } from '../workspace'
 import * as CR from 'typings'
+// TODO: replace with actual tutorial loading later
+import tutorial from '../../state/context/tutorials/basic'
 
 const COMMANDS = {
     START: 'coderoad.start',
     NEW_OR_CONTINUE: 'coderoad.new_or_continue',
+    TUTORIAL_LAUNCH: 'coderoad.tutorial_launch',
     OPEN_WEBVIEW: 'coderoad.open_webview',
     SEND_STATE: 'coderoad.send_state',
     SEND_DATA: 'coderoad.send_data',
@@ -20,12 +24,13 @@ interface CreateCommandProps {
     machine: CR.StateMachine,
     storage: any,
     git: any
+    position: any
 }
 
 // React panel webview
 let webview: any;
 
-export const createCommands = ({ context, machine, storage, git }: CreateCommandProps) => ({
+export const createCommands = ({ context, machine, storage, git, position }: CreateCommandProps) => ({
     // initialize
     [COMMANDS.START]: () => {
         // set local storage workspace
@@ -36,6 +41,11 @@ export const createCommands = ({ context, machine, storage, git }: CreateCommand
         console.log('webview', webview.panel.webview.postMessage)
         machine.activate()
     },
+    // open React webview
+    [COMMANDS.OPEN_WEBVIEW]: (column: number = vscode.ViewColumn.One) => {
+        webview.createOrShow(column);
+    },
+    // launch with continue or new
     [COMMANDS.NEW_OR_CONTINUE]: async () => {
         // verify that the user has a tutorial & progress
         // verify git is setup with a coderoad remote
@@ -51,9 +61,24 @@ export const createCommands = ({ context, machine, storage, git }: CreateCommand
         // otherwise start from 'NEW'
         machine.send(canContinue ? 'CONTINUE' : 'NEW')
     },
-    // open React webview
-    [COMMANDS.OPEN_WEBVIEW]: (column: number = vscode.ViewColumn.One) => {
-        webview.createOrShow(column);
+    // launch a new tutorial
+    [COMMANDS.TUTORIAL_LAUNCH]: async () => {
+        console.log('launch tutorial')
+
+        await isEmptyWorkspace()
+
+        await git.gitInitIfNotExists()
+
+        // TODO: use actual tutorial repo
+        await Promise.all([git.gitSetupRemote(tutorial.meta.repo), storage.setTutorial(tutorial), storage.resetProgress()])
+
+        // TODO: refactor to allow client to call initialization
+        const pos: CR.Position = await position.getInitial(tutorial)
+
+        // eslint-disable-next-line
+        const { steps } = tutorial.data
+        const { setup } = steps[pos.stepId].actions
+        await git.gitLoadCommits(setup)
     },
     // open a file
     [COMMANDS.OPEN_FILE]: async (relativeFilePath: string) => {

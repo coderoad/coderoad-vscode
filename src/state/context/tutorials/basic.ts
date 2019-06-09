@@ -4,7 +4,7 @@ const basic: CR.Tutorial = {
   id: 'tutorialId',
   meta: {
     version: '0.1.0',
-    repo: 'https://github.com/ShMcK/coderoad-vscode.git',
+    repo: 'https://github.com/ShMcK/coderoad-tutorial-basic.git',
     createdBy: 'shmck',
     createdAt: 'Sat, 11 May 2019 18:25:24 GMT',
     updatedBy: 'shmck',

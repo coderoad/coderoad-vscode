@@ -3,6 +3,7 @@ import * as CR from 'typings'
 import { createCommands } from './commands'
 import * as storage from '../services/storage'
 import * as git from '../services/git'
+import * as position from '../services/position'
 
 interface Props {
     machine: CR.StateMachine,
@@ -33,6 +34,7 @@ class Editor {
             machine: this.machine,
             storage,
             git,
+            position,
         })
         for (const cmd in commands) {
             const command: vscode.Disposable = vscode.commands.registerCommand(cmd, commands[cmd])

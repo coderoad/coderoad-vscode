@@ -11,7 +11,17 @@ let initialProgress: CR.Progress = {
 }
 
 export default {
-    tutorialLoad: assign({
+    createWebview() {
+        console.log('execute coderoad.open_webview')
+        vscode.commands.executeCommand('coderoad.open_webview')
+    },
+    newOrContinue() {
+        vscode.commands.executeCommand('coderoad.new_or_continue')
+    },
+    tutorialLaunch() {
+        vscode.commands.executeCommand('coderoad.tutorial_launch')
+    },
+    tutorialContinue: assign({
         // load initial data, progress & position
         data(): CR.TutorialData {
             console.log('ACTION: tutorialLoad.data')
@@ -45,11 +55,4 @@ export default {
             return position
         }
     }),
-    createWebview() {
-        console.log('execute coderoad.open_webview')
-        vscode.commands.executeCommand('coderoad.open_webview')
-    },
-    newOrContinue() {
-        vscode.commands.executeCommand('coderoad.new_or_continue')
-    }
 }

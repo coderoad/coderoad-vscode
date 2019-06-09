@@ -40,6 +40,7 @@ export const machine = Machine<
                                 },
                             },
                             InitializeTutorial: {
+                                onEntry: ['tutorialLaunch'],
                                 on: {
                                     TUTORIAL_LOADED: 'Tutorial'
                                 }
@@ -48,7 +49,7 @@ export const machine = Machine<
 
                     },
                     ContinueTutorial: {
-                        onEntry: 'tutorialLoad',
+                        onEntry: 'tutorialContinue',
                         on: {
                             TUTORIAL_START: {
                                 target: 'Tutorial.LoadNext',
