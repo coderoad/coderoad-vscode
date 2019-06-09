@@ -10,6 +10,7 @@ interface Props {
 }
 
 const ContinuePage = (props: Props) => {
+  // context
   return (
     <div>
       {props.tutorials.map((tutorial: CR.Tutorial) => (

@@ -6,6 +6,7 @@ interface Props {
 }
 
 const NewPage = (props: Props) => {
+  // context
   return (
     <div>
       <h2>Start a new Project</h2>
