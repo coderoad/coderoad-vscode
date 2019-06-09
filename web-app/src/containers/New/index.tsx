@@ -6,11 +6,18 @@ interface Props {
 }
 
 const NewPage = (props: Props) => {
+  const [tutorialList, setTutorialList] = React.useState([{ id: '1', title: 'Demo', description: 'A basic demo' }])
   // context
   return (
     <div>
       <h2>Start a new Project</h2>
-      <Button onClick={() => props.onNew('1')}>New</Button>
+      {tutorialList.map(tutorial => (
+        <div>
+          <h3>{tutorial.title}</h3>
+          <p>{tutorial.description}</p>
+          <Button onClick={() => props.onNew(tutorial.id)}>Start</Button>
+        </div>
+      ))}
     </div>
   )
 }
