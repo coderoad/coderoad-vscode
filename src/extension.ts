@@ -2,6 +2,7 @@ import { setWorkspaceRoot } from './services/node'
 import StateMachine from './state'
 import Editor from './editor'
 
+
 // state machine that governs application logic
 export const machine = new StateMachine()
 

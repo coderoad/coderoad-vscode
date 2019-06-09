@@ -1,6 +1,8 @@
 import * as vscode from 'vscode'
 import * as CR from 'typings'
 import { createCommands } from './commands'
+import * as storage from '../services/storage'
+import * as git from '../services/git'
 
 interface Props {
     machine: CR.StateMachine,
@@ -29,6 +31,8 @@ class Editor {
         const commands = createCommands({
             context: this.context,
             machine: this.machine,
+            storage,
+            git,
         })
         for (const cmd in commands) {
             const command: vscode.Disposable = vscode.commands.registerCommand(cmd, commands[cmd])
@@ -52,6 +56,11 @@ class Editor {
         }
         // shut down state machine
         this.machine.deactivate()
+    }
+
+    // execute vscode command
+    public dispatch = (type: string, payload: any) => {
+        vscode.commands.executeCommand(type, payload)
     }
 }
 

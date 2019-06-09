@@ -41,7 +41,7 @@ export async function gitLoadCommits(actions: CR.TutorialAction): Promise<void> 
 
   if (files) {
     for (const filePath of files) {
-      vscode.commands.executeCommand('coderoad.open_webview', filePath)
+      vscode.commands.executeCommand('coderoad.open_file', filePath)
     }
   }
 }

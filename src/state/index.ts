@@ -1,6 +1,7 @@
 import { interpret, Interpreter } from 'xstate'
-import * as CR from '../typings'
+import * as CR from 'typings'
 import machine from './machine'
+import * as vscode from 'vscode'
 
 // machine interpreter
 // https://xstate.js.org/docs/guides/interpretation.html
@@ -17,9 +18,11 @@ class StateMachine {
         this.service = interpret(machine, this.machineOptions)
             // logging
             .onTransition(state => {
+                console.log('onTransition', state.changed)
                 if (state.changed) {
                     console.log('next state')
                     console.log(state.value)
+                    vscode.commands.executeCommand('coderoad.send_state', state.value)
                 }
             })
     }
@@ -29,6 +32,11 @@ class StateMachine {
     }
     deactivate() {
         this.service.stop()
+    }
+    send(action: string | CR.Action) {
+        console.log('machine.send')
+        console.log(action)
+        this.service.send(action)
     }
     onReceive(action: CR.Action) {
         console.log('RECEIVED ACTION')

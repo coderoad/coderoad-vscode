@@ -2,27 +2,10 @@ import * as vscode from 'vscode'
 import * as CR from 'typings'
 import * as path from 'path'
 
-function getNonce(): string {
-    let text = ''
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    for (let i = 0; i < 32; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length))
-    }
-    return text
-}
-
-// TODO: move column into createOrShow
-
-
 /**
  * Manages React webview panels
  */
 class ReactWebView {
-    /**
-     * Track the currently panel. Only allow a single panel to exist at a time.
-     */
-    public static currentPanel: ReactWebView | undefined = undefined
-
     // @ts-ignore
     private panel: vscode.WebviewPanel
     private extensionPath: string
@@ -32,53 +15,71 @@ class ReactWebView {
     public constructor(extensionPath: string, onReceive: any) {
         this.extensionPath = extensionPath
         this.onReceive = onReceive
+
+        // Create and show a new webview panel
+        this.panel = this.createWebviewPanel(vscode.ViewColumn.One)
+
+        // Set the webview's initial html content
+        this.panel.webview.html = this.getHtmlForWebview()
+
+        // Listen for when the panel is disposed
+        // This happens when the user closes the panel or when the panel is closed programatically
+        this.panel.onDidDispose(() => this.dispose(), null, this.disposables)
+
+        // Handle messages from the webview
+        this.panel.webview.onDidReceiveMessage(this.onReceive, null, this.disposables)
+        console.log('webview loaded')
     }
 
-    public async createOrShow(column: number = vscode.ViewColumn.One): Promise<void> {
+    public async createOrShow(column: number): Promise<void> {
         // If we already have a panel, show it.
         // Otherwise, create a new panel.
-        if (ReactWebView.currentPanel && ReactWebView.currentPanel.panel) {
-            ReactWebView.currentPanel.panel.reveal(column)
+        if (this.panel && this.panel.webview) {
+            console.log('reveal')
+            this.panel.reveal(column)
         } else {
-            const viewType = 'CodeRoad'
-            const title = 'CodeRoad'
-            const config = {
-                // Enable javascript in the webview
-                enableScripts: true,
+            console.log('make new panel')
+            this.panel = this.createWebviewPanel(column)
 
-                // And restric the webview to only loading content from our extension's `media` directory.
-                localResourceRoots: [vscode.Uri.file(path.join(this.extensionPath, 'build'))],
-
-                // prevents destroying the window when it is in the background
-                retainContextWhenHidden: true,
-            }
-            // Create and show a new webview panel
-            this.panel = vscode.window.createWebviewPanel(viewType, title, column, config)
-
-            // Set the webview's initial html content
-            this.panel.webview.html = this.getHtmlForWebview()
-
-            // Listen for when the panel is disposed
-            // This happens when the user closes the panel or when the panel is closed programatically
-            this.panel.onDidDispose(() => this.dispose(), null, this.disposables)
-
-            // Handle messages from the webview
-            this.panel.webview.onDidReceiveMessage(this.onReceive, null, this.disposables)
         }
     }
 
+    private createWebviewPanel(column: number): vscode.WebviewPanel {
+        const viewType = 'CodeRoad'
+        const title = 'CodeRoad'
+        const config = {
+            // Enable javascript in the webview
+            enableScripts: true,
+            // And restric the webview to only loading content from our extension's `media` directory.
+            localResourceRoots: [vscode.Uri.file(path.join(this.extensionPath, 'build'))],
+            // prevents destroying the window when it is in the background
+            retainContextWhenHidden: true,
+        }
+        return vscode.window.createWebviewPanel(viewType, title, column, config)
+    }
+
+    private getNonce(): string {
+        let text = ''
+        const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+        for (let i = 0; i < 32; i++) {
+            text += possible.charAt(Math.floor(Math.random() * possible.length))
+        }
+        return text
+    }
+
     public async postMessage(action: CR.Action): Promise<void> {
+        console.log('webview postMessage')
+        console.log(action)
         // Send a message to the webview webview.
         // You can send any JSON serializable data.
         const success = await this.panel.webview.postMessage(action)
         if (!success) {
             throw new Error(`Message post failure: ${JSON.stringify(action)}`)
         }
+        console.log('postMessage sent')
     }
 
     public dispose(): void {
-        ReactWebView.currentPanel = undefined
-
         // Clean up our resources
         this.panel.dispose()
 
@@ -108,9 +109,9 @@ class ReactWebView {
         const styleUri = stylePathOnDisk.with({ scheme: 'vscode-resource' })
 
         // Use a nonce to whitelist which scripts can be run
-        const nonce = getNonce()
-        const nonce2 = getNonce()
-        const nonce3 = getNonce()
+        const nonce = this.getNonce()
+        const nonce2 = this.getNonce()
+        const nonce3 = this.getNonce()
 
         return `<!DOCTYPE html>
 			<html lang="en">
