@@ -8,6 +8,15 @@ interface ReceivedEvent {
     data: CR.Action
 }
 
+declare var acquireVsCodeApi: any
+
+const vscode = acquireVsCodeApi()
+
+function send(event: string|CR.Action) {
+  return vscode.postMessage(event)
+}
+
+
 const Routes = () => {
     const [state, setState] = React.useState({ SelectTutorial: 'Initial' })
     const handleEvent = (event: ReceivedEvent): void => {
@@ -31,7 +40,7 @@ const Routes = () => {
     return (
       <div>
         <Cond state={state} path="SelectTutorial.NewTutorial">
-          <NewPage onNew={() => console.log('new!')} />
+          <NewPage onNew={() => send('TUTORIAL_START')} />
         </Cond>
         <Cond state={state} path="SelectTutorial.ContinueTutorial">
           <ContinuePage onContinue={() => console.log('continue!')} tutorials={[]} />

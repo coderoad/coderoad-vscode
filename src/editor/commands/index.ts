@@ -9,6 +9,7 @@ const COMMANDS = {
     NEW_OR_CONTINUE: 'coderoad.new_or_continue',
     OPEN_WEBVIEW: 'coderoad.open_webview',
     SEND_STATE: 'coderoad.send_state',
+    RECEIVE_ACTION: 'coderoad.receive_action',
     OPEN_FILE: 'coderoad.open_file',
     RUN_TEST: 'coderoad.test_run',
 }
@@ -22,13 +23,6 @@ interface CreateCommandProps {
 
 // React panel webview
 let webview: any;
-let initialTutorial: CR.Tutorial | undefined
-let initialProgress: CR.Progress = {
-    levels: {},
-    stages: {},
-    steps: {},
-    complete: false,
-}
 
 export const createCommands = ({ context, machine, storage, git }: CreateCommandProps) => ({
     // initialize
@@ -37,7 +31,7 @@ export const createCommands = ({ context, machine, storage, git }: CreateCommand
         setStorage(context.workspaceState)
 
         // activate machine
-        webview = new ReactWebView(context.extensionPath, machine.onReceive)
+        webview = new ReactWebView(context.extensionPath)
         console.log('webview', webview.panel.webview.postMessage)
         machine.activate()
     },
@@ -50,8 +44,6 @@ export const createCommands = ({ context, machine, storage, git }: CreateCommand
             git.gitVersion(),
             git.gitCheckRemoteExists(),
         ])
-        initialTutorial = tutorial
-        initialProgress = progress
         const canContinue = !!(tutorial && progress && hasGit && hasGitRemote)
         console.log('canContinue', canContinue)
         // if a tutorial exists, 'CONTINUE'
@@ -85,6 +77,8 @@ export const createCommands = ({ context, machine, storage, git }: CreateCommand
         //     throw new Error('No valid panel available')
         // }
         webview.postMessage({ type: 'SET_STATE', payload })
-
+    },
+    [COMMANDS.RECEIVE_ACTION]: (action: string | CR.Action) => {
+        machine.onReceive(action)
     }
 })

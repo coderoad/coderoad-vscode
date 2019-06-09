@@ -168,5 +168,5 @@ export interface StateMachine {
     activate(): void
     deactivate(): void
     send(action: string | Action): void
-    onReceive(action: Action): void
+    onReceive(action: string | Action): void
 }

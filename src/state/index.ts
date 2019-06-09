@@ -38,9 +38,9 @@ class StateMachine {
         console.log(action)
         this.service.send(action)
     }
-    onReceive(action: CR.Action) {
-        console.log('RECEIVED ACTION')
+    onReceive(action: string | CR.Action) {
         console.log(action)
+        this.service.send(action)
     }
 }
 

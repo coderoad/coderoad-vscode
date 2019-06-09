@@ -12,9 +12,8 @@ class ReactWebView {
     private disposables: vscode.Disposable[] = []
     private onReceive: any // TODO: properly type
 
-    public constructor(extensionPath: string, onReceive: any) {
+    public constructor(extensionPath: string) {
         this.extensionPath = extensionPath
-        this.onReceive = onReceive
 
         // Create and show a new webview panel
         this.panel = this.createWebviewPanel(vscode.ViewColumn.One)
@@ -27,7 +26,8 @@ class ReactWebView {
         this.panel.onDidDispose(() => this.dispose(), null, this.disposables)
 
         // Handle messages from the webview
-        this.panel.webview.onDidReceiveMessage(this.onReceive, null, this.disposables)
+        const onReceive = (action: string | CR.Action) => vscode.commands.executeCommand('coderoad.receive_action', action)
+        this.panel.webview.onDidReceiveMessage(onReceive, null, this.disposables)
         console.log('webview loaded')
     }
 
