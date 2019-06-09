@@ -8,7 +8,6 @@ interface ReceivedEvent {
 const Routes = () => {
     const [state, setState] = React.useState({ SelectTutorial: 'Initial' })
     const handleEvent = (event: ReceivedEvent): void => {
-        console.log('--- HANDLE EVENT ---')
         const message = event.data
         console.log(`RECEIVED: ${JSON.stringify(message)}`)
         // messages from core

@@ -54,8 +54,8 @@ export const createCommands = ({ context, machine, storage, git }: CreateCommand
         initialProgress = progress
         const canContinue = !!(tutorial && progress && hasGit && hasGitRemote)
         console.log('canContinue', canContinue)
-        // if a tutorial exists, "CONTINUE"
-        // otherwise start from "NEW"
+        // if a tutorial exists, 'CONTINUE'
+        // otherwise start from 'NEW'
         machine.send(canContinue ? 'CONTINUE' : 'NEW')
     },
     // open React webview
@@ -78,15 +78,13 @@ export const createCommands = ({ context, machine, storage, git }: CreateCommand
         }
     },
     // send messages to webview
-    [COMMANDS.SEND_STATE]: (action: CR.Action) => {
-        console.log(`SEND ${JSON.stringify(action)}`)
-        console.log('webview')
-        console.log(webview)
+    [COMMANDS.SEND_STATE]: (payload: any) => {
+        console.log(`SEND ${JSON.stringify(payload)}`)
         // console.log(webview.currentPanel)
         // if (!webview || !webview.currentPanel) {
         //     throw new Error('No valid panel available')
         // }
-        webview.postMessage(action)
+        webview.postMessage({ type: 'SET_STATE', payload })
 
     }
 })
