@@ -9,6 +9,7 @@ const COMMANDS = {
     NEW_OR_CONTINUE: 'coderoad.new_or_continue',
     OPEN_WEBVIEW: 'coderoad.open_webview',
     SEND_STATE: 'coderoad.send_state',
+    SEND_DATA: 'coderoad.send_data',
     RECEIVE_ACTION: 'coderoad.receive_action',
     OPEN_FILE: 'coderoad.open_file',
     RUN_TEST: 'coderoad.test_run',
@@ -70,15 +71,14 @@ export const createCommands = ({ context, machine, storage, git }: CreateCommand
         }
     },
     // send messages to webview
-    [COMMANDS.SEND_STATE]: (payload: any) => {
-        console.log(`SEND ${JSON.stringify(payload)}`)
-        // console.log(webview.currentPanel)
-        // if (!webview || !webview.currentPanel) {
-        //     throw new Error('No valid panel available')
-        // }
+    [COMMANDS.SEND_STATE]: (payload: { data: any, state: any }) => {
         webview.postMessage({ type: 'SET_STATE', payload })
     },
+    [COMMANDS.SEND_DATA]: (payload: { data: any }) => {
+        webview.postMessage({ type: 'SET_DATA', payload })
+    },
     [COMMANDS.RECEIVE_ACTION]: (action: string | CR.Action) => {
+        console.log('onReceiveAction', action)
         machine.onReceive(action)
     }
 })

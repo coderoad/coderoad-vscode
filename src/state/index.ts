@@ -18,11 +18,13 @@ class StateMachine {
         this.service = interpret(machine, this.machineOptions)
             // logging
             .onTransition(state => {
-                console.log('onTransition', state.changed)
+                console.log('onTransition', state)
                 if (state.changed) {
                     console.log('next state')
                     console.log(state.value)
-                    vscode.commands.executeCommand('coderoad.send_state', state.value)
+                    vscode.commands.executeCommand('coderoad.send_state', { state: state.value, data: state.context })
+                } else {
+                    vscode.commands.executeCommand('coderoad.send_data', { data: state.context })
                 }
             })
     }
