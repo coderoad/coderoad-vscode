@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "baseUrl": "src",
+        "rootDirs": [
+            "src",
+            "stories"
+        ],
+        "paths": {
+            "typings": [
+                "../../typings/index.d.ts"
+            ],
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "build",
+        "scripts",
+        "jest",
+        "public"
+    ]
+}

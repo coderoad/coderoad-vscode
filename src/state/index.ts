@@ -1,31 +1,49 @@
-import { interpret } from 'xstate'
+import { interpret, Interpreter } from 'xstate'
+import * as CR from 'typings'
 import machine from './machine'
+import * as vscode from 'vscode'
 
-const machineOptions = {
-    logger: console.log,
-    devTools: true,
-    deferEvents: true,
-    execute: true
-}
 // machine interpreter
 // https://xstate.js.org/docs/guides/interpretation.html
-const service = interpret(machine, machineOptions)
-    // logging
-    .onTransition(state => {
-        console.log('state', state)
-        if (state.changed) {
-            console.log('transition')
-            console.log(state.value)
-        }
-    })
 
-export function activate() {
-    // initialize
-    service.start()
+class StateMachine {
+    private machineOptions = {
+        logger: console.log,
+        devTools: true,
+        deferEvents: true,
+        execute: true
+    }
+    private service: Interpreter<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>
+    constructor() {
+        this.service = interpret(machine, this.machineOptions)
+            // logging
+            .onTransition(state => {
+                console.log('onTransition', state)
+                if (state.changed) {
+                    console.log('next state')
+                    console.log(state.value)
+                    vscode.commands.executeCommand('coderoad.send_state', { state: state.value, data: state.context })
+                } else {
+                    vscode.commands.executeCommand('coderoad.send_data', { data: state.context })
+                }
+            })
+    }
+    activate() {
+        // initialize
+        this.service.start()
+    }
+    deactivate() {
+        this.service.stop()
+    }
+    send(action: string | CR.Action) {
+        console.log('machine.send')
+        console.log(action)
+        this.service.send(action)
+    }
+    onReceive(action: string | CR.Action) {
+        console.log(action)
+        this.service.send(action)
+    }
 }
 
-export function deactivate() {
-    service.stop()
-}
-
-export default service
+export default StateMachine

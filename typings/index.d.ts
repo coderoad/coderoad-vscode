@@ -1,3 +1,5 @@
+import { send } from "xstate";
+
 export interface TutorialLevel {
     stageList: string[]
     content: {
@@ -132,6 +134,7 @@ export interface MachineStateSchema {
         SelectTutorial: {
             states: {
                 Initial: {}
+                Startup: {}
                 NewTutorial: {
                     states: {
                         SelectTutorial: {}
@@ -159,4 +162,11 @@ export interface MachineStateSchema {
             }
         }
     }
+}
+
+export interface StateMachine {
+    activate(): void
+    deactivate(): void
+    send(action: string | Action): void
+    onReceive(action: string | Action): void
 }

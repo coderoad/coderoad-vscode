@@ -1,5 +1,6 @@
+import * as vscode from 'vscode'
 import * as CR from 'typings'
-import { exec, exists, openFile } from '../node'
+import { exec, exists } from '../node'
 
 const gitOrigin = 'coderoad'
 
@@ -40,7 +41,7 @@ export async function gitLoadCommits(actions: CR.TutorialAction): Promise<void> 
 
   if (files) {
     for (const filePath of files) {
-      openFile(filePath)
+      vscode.commands.executeCommand('coderoad.open_file', filePath)
     }
   }
 }

@@ -48,5 +48,8 @@ export default {
     createWebview() {
         console.log('execute coderoad.open_webview')
         vscode.commands.executeCommand('coderoad.open_webview')
+    },
+    newOrContinue() {
+        vscode.commands.executeCommand('coderoad.new_or_continue')
     }
 }

@@ -16,10 +16,16 @@ export const machine = Machine<
         initial: 'SelectTutorial',
         states: {
             SelectTutorial: {
+                onEntry: ['createWebview'],
                 initial: 'Initial',
                 states: {
                     Initial: {
-                        onEntry: ['createWebview'],
+                        after: {
+                            1000: 'Startup'
+                        }
+                    },
+                    Startup: {
+                        onEntry: ['newOrContinue'],
                         on: {
                             CONTINUE: 'ContinueTutorial',
                             NEW: 'NewTutorial',
