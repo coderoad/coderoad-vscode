@@ -1,5 +1,8 @@
 import * as React from 'react'
 import * as CR from 'typings'
+import NewPage from './components/New'
+import ContinuePage from './components/Continue'
+import Cond from './components/Cond'
 
 interface ReceivedEvent {
     data: CR.Action
@@ -24,8 +27,16 @@ const Routes = () => {
             window.removeEventListener(listener, handleEvent)
         }
     })
+
     return (
-        <div>State: {JSON.stringify(state)}</div>
+      <div>
+        <Cond state={state} path="SelectTutorial.NewTutorial">
+          <NewPage onNew={() => console.log('new!')} />
+        </Cond>
+        <Cond state={state} path="SelectTutorial.ContinueTutorial">
+          <ContinuePage onContinue={() => console.log('continue!')} tutorials={[]} />
+        </Cond>
+      </div>
     )
 }
 
