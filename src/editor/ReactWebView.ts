@@ -34,13 +34,7 @@ class ReactWebView {
         this.onReceive = onReceive
     }
 
-    public async createOrShow(extensionPath: string, column: number = vscode.ViewColumn.One): Promise<void> {
-        const hasActiveEditor = vscode.window.activeTextEditor
-
-        if (!hasActiveEditor) {
-            throw new Error('Should have an open file on launch')
-        }
-
+    public async createOrShow(column: number = vscode.ViewColumn.One): Promise<void> {
         // If we already have a panel, show it.
         // Otherwise, create a new panel.
         if (ReactWebView.currentPanel && ReactWebView.currentPanel.panel) {

@@ -21,7 +21,7 @@ class Editor {
         this.machine = machine
     }
 
-    private commandStart() {
+    private commandStart = (): void => {
         // set workspace root
         const { rootPath } = vscode.workspace
         if (!rootPath) {
@@ -33,18 +33,24 @@ class Editor {
         setStorage(this.context.workspaceState)
 
         // activate machine
-        this.machine.activate()
         this.webview = new ReactWebView(this.context.extensionPath, this.machine.onReceive)
+        this.machine.activate()
+
+        console.log('command start webview')
+        console.log(this.webview)
     }
 
-    private activateCommands() {
-        const { COMMANDS } = this
+    private activateCommands = (): void => {
+        console.log('this.COMMANDS', this.COMMANDS)
         const commands = {
-            [COMMANDS.START]: () => {
+            [this.COMMANDS.START]: () => {
+                console.log('start')
                 this.commandStart()
             },
-            [COMMANDS.OPEN_WEBVIEW]: () => {
-                this.webview.createOrShow(this.context.extensionPath);
+            [this.COMMANDS.OPEN_WEBVIEW]: () => {
+                console.log('open webview')
+                console.log(this.webview)
+                this.webview.createOrShow();
             },
         }
         for (const cmd in commands) {
@@ -52,7 +58,7 @@ class Editor {
             this.context.subscriptions.push(command)
         }
     }
-    public activate(context: vscode.ExtensionContext): void {
+    public activate = (context: vscode.ExtensionContext): void => {
         console.log('ACTIVATE!')
         this.context = context
         // commands
@@ -61,7 +67,7 @@ class Editor {
         // setup tasks or views here
 
     }
-    public deactivate(): void {
+    public deactivate = (): void => {
         console.log('DEACTIVATE!')
         // cleanup subscriptions/tasks
         for (const disposable of this.context.subscriptions) {
