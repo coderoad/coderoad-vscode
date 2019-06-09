@@ -2,9 +2,10 @@ import * as React from 'react'
 import * as CR from 'typings'
 import { send } from './utils/vscode'
 
-import NewPage from './components/New'
-import ContinuePage from './components/Continue'
 import Cond from './components/Cond'
+import NewPage from './containers/New'
+import ContinuePage from './containers/Continue'
+
 
 interface ReceivedEvent {
     data: CR.Action
