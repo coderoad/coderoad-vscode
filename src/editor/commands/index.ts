@@ -1,38 +1,47 @@
-// import * as vscode from 'vscode'
-// import start from './start'
-// // import ReactPanel from '../views/createWebview'
+import * as vscode from 'vscode'
+import { join } from 'path'
+import { setStorage } from '../storage'
+import ReactWebView from '../ReactWebView'
+import * as CR from '../../typings'
 
-// import runTest from './runTest'
-// // import loadSolution from './loadSolution'
-// // import quit from './quit'
+const COMMANDS = {
+    START: 'coderoad.start',
+    OPEN_WEBVIEW: 'coderoad.open_webview',
+    OPEN_FILE: 'coderoad.open_file',
+    RUN_TEST: 'coderoad.test_run',
+}
 
-// const COMMANDS = {
-//   // TUTORIAL_SETUP: 'coderoad.tutorial_setup',
-//   START: 'coderoad.start',
-//   OPEN_WEBVIEW: 'coderoad.open_webview',
-//   RUN_TEST: 'coderoad.test_run',
-//   // LOAD_SOLUTION: 'coderoad.solution_load',
-//   // QUIT: 'coderoad.quit',
-// }
+interface CreateCommandProps {
+    context: vscode.ExtensionContext,
+    machine: CR.StateMachine
+}
 
+// React panel webview
+let webview: any;
 
-// export default (context: vscode.ExtensionContext): void => {
-//   const commands = {
-//     [COMMANDS.START]: () => {
-//       start(context)
-//     },
-//     [COMMANDS.OPEN_WEBVIEW]: () => {
-//       // ReactPanel.createOrShow(context.extensionPath);
-//     },
-//     [COMMANDS.RUN_TEST]: () => {
-//       runTest()
-//     },
-//     // [COMMANDS.LOAD_SOLUTION]: loadSolution,
-//     // [COMMANDS.QUIT]: () => quit(context.subscriptions),
-//   }
+export const createCommands = ({ context, machine }: CreateCommandProps) => ({
+    [COMMANDS.START]: () => {
+        // set local storage workspace
+        setStorage(context.workspaceState)
 
-//   for (const cmd in commands) {
-//     const command: vscode.Disposable = vscode.commands.registerCommand(cmd, commands[cmd])
-//     context.subscriptions.push(command)
-//   }
-// }
+        // activate machine
+        webview = new ReactWebView(context.extensionPath, machine.onReceive)
+        machine.activate()
+    },
+    [COMMANDS.OPEN_WEBVIEW]: () => {
+        webview.createOrShow();
+    },
+    [COMMANDS.OPEN_FILE]: async (relativeFilePath: string) => {
+        try {
+            const workspaceRoot = vscode.workspace.rootPath
+            if (!workspaceRoot) {
+                throw new Error('No workspace root path')
+            }
+            const absoluteFilePath = join(workspaceRoot, relativeFilePath)
+            const doc = await vscode.workspace.openTextDocument(absoluteFilePath)
+            await vscode.window.showTextDocument(doc, vscode.ViewColumn.One)
+        } catch (error) {
+            console.log(`Failed to open file ${relativeFilePath}`, error)
+        }
+    }
+})

@@ -1,11 +1,15 @@
+import { setWorkspaceRoot } from './services/node'
 import StateMachine from './state'
 import Editor from './editor'
 
 // state machine that governs application logic
-const Machine = new StateMachine()
+export const machine = new StateMachine()
+
 // vscode editor
-const VSCodeEditor = new Editor(Machine)
+export const editor = new Editor({
+    machine,
+    setWorkspaceRoot,
+})
 
-export const activate = VSCodeEditor.activate
-export const deactivate = VSCodeEditor.deactivate
-
+export const activate = editor.activate
+export const deactivate = editor.deactivate

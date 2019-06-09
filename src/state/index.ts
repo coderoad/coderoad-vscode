@@ -17,9 +17,8 @@ class StateMachine {
         this.service = interpret(machine, this.machineOptions)
             // logging
             .onTransition(state => {
-                console.log('state', state)
                 if (state.changed) {
-                    console.log('transition')
+                    console.log('next state')
                     console.log(state.value)
                 }
             })

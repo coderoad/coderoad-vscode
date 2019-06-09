@@ -1,58 +1,35 @@
 import * as vscode from 'vscode'
 import * as CR from '../typings'
-import { setStorage } from './storage'
-import ReactWebView from './ReactWebView'
+import { createCommands } from './commands'
+
+interface Props {
+    machine: CR.StateMachine,
+    setWorkspaceRoot(rootPath: string): void
+}
 
 class Editor {
     // extension context set on activation
     // @ts-ignore
     private context: vscode.ExtensionContext
-    private workspaceRoot: string | undefined
     private machine: CR.StateMachine
-    private webview: any
 
-    private COMMANDS = {
-        START: 'coderoad.start',
-        OPEN_WEBVIEW: 'coderoad.open_webview',
-        RUN_TEST: 'coderoad.test_run',
-    }
-
-    constructor(machine: CR.StateMachine) {
+    constructor({ machine, setWorkspaceRoot }: Props) {
         this.machine = machine
-    }
 
-    private commandStart = (): void => {
-        // set workspace root
-        const { rootPath } = vscode.workspace
+        // set workspace root for node executions
+        const { workspace } = vscode
+        const { rootPath } = workspace
         if (!rootPath) {
             throw new Error('Requires a workspace. Please open a folder')
         }
-        this.workspaceRoot = rootPath
-
-        // set local storage workspace
-        setStorage(this.context.workspaceState)
-
-        // activate machine
-        this.webview = new ReactWebView(this.context.extensionPath, this.machine.onReceive)
-        this.machine.activate()
-
-        console.log('command start webview')
-        console.log(this.webview)
+        setWorkspaceRoot(rootPath)
     }
 
     private activateCommands = (): void => {
-        console.log('this.COMMANDS', this.COMMANDS)
-        const commands = {
-            [this.COMMANDS.START]: () => {
-                console.log('start')
-                this.commandStart()
-            },
-            [this.COMMANDS.OPEN_WEBVIEW]: () => {
-                console.log('open webview')
-                console.log(this.webview)
-                this.webview.createOrShow();
-            },
-        }
+        const commands = createCommands({
+            context: this.context,
+            machine: this.machine,
+        })
         for (const cmd in commands) {
             const command: vscode.Disposable = vscode.commands.registerCommand(cmd, commands[cmd])
             this.context.subscriptions.push(command)
