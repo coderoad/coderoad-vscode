@@ -8,7 +8,7 @@
 			"dom"
 		],
 		"sourceMap": true,
-		"rootDir": "src",
+		"rootDirs": ["src", "tutorials"],
 		"baseUrl": "src",
 		"strict": true,   /* enable all strict type-checking options */
 		/* Additional Checks */
@@ -23,6 +23,9 @@
 		"emitDecoratorMetadata": true,
 		"paths": {
 			"typings": ["../typings/index.d.ts"],
+			"tutorials/basic": [
+				"../tutorials/basic.ts"
+			]
 		},
 	},
 	"exclude": [

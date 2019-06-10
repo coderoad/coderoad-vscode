@@ -1,28 +1,33 @@
 import * as React from 'react'
-import CR from 'typings'
-
-import ContinueItem from './ContinueItem'
+import { send } from '../../utils/vscode'
+import DataContext from '../../utils/DataContext'
+import { Button, Card } from '@alifd/next'
 
 interface Props {
-  tutorials: CR.Tutorial[]
-  onContinue(tutorialId: string): void
-  // onReset(): void
+  onContinue(): void
 }
 
-const ContinuePage = (props: Props) => {
+export const ContinuePage = (props: Props) => {
   // context
+  const { data } = React.useContext(DataContext)
   return (
     <div>
-      {props.tutorials.map((tutorial: CR.Tutorial) => (
-        <ContinueItem
-          key={tutorial.id}
-          onContinue={() => props.onContinue(tutorial.id)}
-          title={tutorial.data.summary.title}
-          description={tutorial.data.summary.description}
-        />
-      ))}
+      <h3>Continue</h3>
+      <Card showTitleBullet={false} contentHeight="auto">
+        <div>
+          <h2>{data.summary.title}</h2>
+          <p>{data.summary.description}</p>
+          <Button onClick={props.onContinue}>Resume</Button>
+        </div>
+      </Card>
     </div>
   )
 }
 
-export default ContinuePage
+export default () => (
+  <ContinuePage
+    onContinue={() => {
+      send('TUTORIAL_START')
+    }}
+  />
+)
