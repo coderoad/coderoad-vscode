@@ -9,7 +9,6 @@ import tutorial from '../../state/context/tutorials/basic'
 
 const COMMANDS = {
     START: 'coderoad.start',
-    NEW_OR_CONTINUE: 'coderoad.new_or_continue',
     TUTORIAL_LAUNCH: 'coderoad.tutorial_launch',
     OPEN_WEBVIEW: 'coderoad.open_webview',
     SEND_STATE: 'coderoad.send_state',
@@ -45,23 +44,8 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
     [COMMANDS.OPEN_WEBVIEW]: (column: number = vscode.ViewColumn.One) => {
         webview.createOrShow(column);
     },
-    // launch with continue or new
-    [COMMANDS.NEW_OR_CONTINUE]: async () => {
-        // verify that the user has a tutorial & progress
-        // verify git is setup with a coderoad remote
-        const [tutorial, progress, hasGit, hasGitRemote] = await Promise.all([
-            storage.getTutorial(),
-            storage.getProgress(),
-            git.gitVersion(),
-            git.gitCheckRemoteExists(),
-        ])
-        const canContinue = !!(tutorial && progress && hasGit && hasGitRemote)
-        console.log('canContinue', canContinue)
-        // if a tutorial exists, 'CONTINUE'
-        // otherwise start from 'NEW'
-        machine.send(canContinue ? 'CONTINUE' : 'NEW')
-    },
     // launch a new tutorial
+    // NOTE: may be better to move into action as logic is primarily non-vscode
     [COMMANDS.TUTORIAL_LAUNCH]: async () => {
         console.log('launch tutorial')
 

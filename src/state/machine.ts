@@ -49,7 +49,7 @@ export const machine = Machine<
 
                     },
                     ContinueTutorial: {
-                        onEntry: 'tutorialContinue',
+                        onEntry: ['tutorialContinue'],
                         on: {
                             TUTORIAL_START: {
                                 target: 'Tutorial.LoadNext',

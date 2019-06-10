@@ -15,7 +15,7 @@ const Routes = ({ state }: Props) => {
     return (
       <div>
         <Cond state={state} path="SelectTutorial.Startup">
-          <div style={{ backgroundColor: 'red' }}>
+          <div>
             <h3>Starting...</h3>
           </div>
         </Cond>
@@ -23,7 +23,7 @@ const Routes = ({ state }: Props) => {
           <NewPage />
         </Cond>
         <Cond state={state} path="SelectTutorial.ContinueTutorial">
-          <ContinuePage />
+            <ContinuePage />
         </Cond>
         <Cond state={state} path="Tutorial">
           <TutorialPage />
