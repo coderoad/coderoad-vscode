@@ -1,9 +1,16 @@
 export function stateMatch(state: any, statePath: string) {
     let current = state
     let paths = statePath.split('.')
+    let complete = false
     try {
         for (const p of paths) {
-            current = current[p]
+            if (p === current && !complete) {
+                // handle strings
+                complete = true
+            } else {
+                // handle objects
+                current = current[p]
+            }
         }
     } catch (error) {
         return false

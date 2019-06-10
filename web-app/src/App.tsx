@@ -3,30 +3,11 @@ import * as CR from 'typings'
 
 import Debugger from './components/Debugger'
 import Routes from './Routes'
+import DataContext, { initialState, initialData} from './utils/DataContext'
 
 interface ReceivedEvent {
     data: CR.Action
 }
-
-const initialState = { SelectTutorial: 'Initial '}
-const initialData: CR.MachineContext = {
-  position: { levelId: '', stageId: '', stepId: '' },
-  data: {
-    summary: {
-      title: '',
-      description: '',
-      levelList: [],
-    },
-    levels: {},
-    stages: {},
-    steps: {},
-  },
-  progress: { levels: {}, stages: {}, steps: {}, complete: false },
-}
-
-const DataContext = React.createContext({ state: initialState, ...initialData })
-
-
 
 const App = () => {
     const [state, setState] = React.useState(initialState)

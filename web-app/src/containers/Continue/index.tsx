@@ -9,10 +9,11 @@ interface Props {
   // onReset(): void
 }
 
-const ContinuePage = (props: Props) => {
+export const ContinuePage = (props: Props) => {
   // context
   return (
     <div>
+      <h3>Continue</h3>
       {props.tutorials.map((tutorial: CR.Tutorial) => (
         <ContinueItem
           key={tutorial.id}
@@ -25,4 +26,4 @@ const ContinuePage = (props: Props) => {
   )
 }
 
-export default ContinuePage
+export default () => <ContinuePage tutorials={[]} onContinue={(id: string) => console.log(id)}/>
