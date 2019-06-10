@@ -24,4 +24,10 @@ export const ContinuePage = (props: Props) => {
   )
 }
 
-export default () => <ContinuePage onContinue={() => { send('TUTORIAL_START') }} />
+export default () => (
+  <ContinuePage
+    onContinue={() => {
+      send('TUTORIAL_START')
+    }}
+  />
+)

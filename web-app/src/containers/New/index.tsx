@@ -26,8 +26,8 @@ export const NewPage = (props: Props) => {
           ))}
         </div>
       </Cond>
-      <Cond state={state} path='SelectTutorial.NewTutorial.InitializeTutorial'>
-            <div>Initializing tutorial...</div>
+      <Cond state={state} path="SelectTutorial.NewTutorial.InitializeTutorial">
+        <div>Initializing tutorial...</div>
       </Cond>
     </div>
   )
