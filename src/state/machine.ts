@@ -11,7 +11,7 @@ export const machine = Machine<
     CR.MachineEvent
 >(
     {
-        id: 'tutorial',
+        id: 'root',
         context: initialContext,
         initial: 'SelectTutorial',
         states: {
@@ -42,7 +42,7 @@ export const machine = Machine<
                             InitializeTutorial: {
                                 onEntry: ['tutorialLaunch'],
                                 on: {
-                                    TUTORIAL_LOADED: 'Tutorial'
+                                    TUTORIAL_LOADED: '#tutorial'
                                 }
                             },
                         }
@@ -50,18 +50,18 @@ export const machine = Machine<
                     ContinueTutorial: {
                         onEntry: ['tutorialContinue'],
                         on: {
-                            TUTORIAL_START: {
-                                target: 'Tutorial.LoadNext',
-                            }
+                            TUTORIAL_START: '#tutorial-load-next'
                         }
                     },
                 }
             },
             Tutorial: {
+                id: 'tutorial',
                 initial: 'Summary',
                 states: {
                     LoadNext: {
-                        onEntry: () => send('LOAD_NEXT'),
+                        id: 'tutorial-load-next',
+                        // onEntry: () => send('LOAD_NEXT'),
                         on: {
                             LOAD_NEXT: [
                                 {
@@ -144,7 +144,7 @@ export const machine = Machine<
                                             cond: 'hasNextLevel',
                                         },
                                         {
-                                            target: 'EndTutorial',
+                                            target: '#root.Tutorial.EndTutorial',
                                         },
                                     ],
                                 },
