@@ -61,7 +61,7 @@ export const machine = Machine<
                 states: {
                     LoadNext: {
                         id: 'tutorial-load-next',
-                        // onEntry: () => send('LOAD_NEXT'),
+                        // onEntry: [() => send('LOAD_NEXT')],
                         on: {
                             LOAD_NEXT: [
                                 {

@@ -86,6 +86,6 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
     },
     [COMMANDS.RECEIVE_ACTION]: (action: string | CR.Action) => {
         console.log('onReceiveAction', action)
-        machine.onReceive(action)
+        machine.send(action)
     }
 })
