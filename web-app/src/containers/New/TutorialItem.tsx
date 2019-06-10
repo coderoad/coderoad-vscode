@@ -7,7 +7,7 @@ interface Props {
   onContinue(): void
 }
 
-const ContinueItem = (props: Props) => {
+const TutorialItem = (props: Props) => {
   return (
     <Card showTitleBullet={false} contentHeight="auto">
       <div>
@@ -19,4 +19,4 @@ const ContinueItem = (props: Props) => {
   )
 }
 
-export default ContinueItem
+export default TutorialItem

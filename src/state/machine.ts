@@ -46,7 +46,6 @@ export const machine = Machine<
                                 }
                             },
                         }
-
                     },
                     ContinueTutorial: {
                         onEntry: ['tutorialContinue'],
