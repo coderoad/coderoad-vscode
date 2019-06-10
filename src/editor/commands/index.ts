@@ -4,8 +4,6 @@ import { setStorage } from '../storage'
 import ReactWebView from '../ReactWebView'
 import { isEmptyWorkspace } from '../workspace'
 import * as CR from 'typings'
-// TODO: replace with actual tutorial loading later
-import tutorial from '../../state/context/tutorials/basic'
 
 const COMMANDS = {
     START: 'coderoad.start',
@@ -46,7 +44,7 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
     },
     // launch a new tutorial
     // NOTE: may be better to move into action as logic is primarily non-vscode
-    [COMMANDS.TUTORIAL_LAUNCH]: async () => {
+    [COMMANDS.TUTORIAL_LAUNCH]: async (tutorial: CR.Tutorial) => {
         console.log('launch tutorial')
 
         await isEmptyWorkspace()

@@ -1,6 +1,7 @@
 import { assign } from 'xstate'
 // NOTE: codesmell - importing machine
 import { machine } from '../../extension'
+import api from '../../services/api'
 import * as CR from 'typings'
 import * as vscode from 'vscode'
 import * as storage from '../../services/storage'
@@ -37,8 +38,10 @@ export default {
 
         machine.send(canContinue ? 'CONTINUE' : 'NEW')
     },
-    tutorialLaunch() {
-        vscode.commands.executeCommand('coderoad.tutorial_launch')
+    async tutorialLaunch() {
+        // TODO: add selection of tutorial id
+        const tutorial: CR.Tutorial = await api({ resource: 'getTutorial', params: { id: '1' } })
+        vscode.commands.executeCommand('coderoad.tutorial_launch', tutorial)
     },
     tutorialContinue: assign({
         // load initial data, progress & position
