@@ -10,7 +10,7 @@ interface Props {
 
 export const NewPage = (props: Props) => {
   const { state } = React.useContext(DataContext)
-  const [tutorialList, setTutorialList] = React.useState([{ id: '1', title: 'Demo', description: 'A basic demo' }])
+  const [tutorialList] = React.useState([{ id: '1', title: 'Demo', description: 'A basic demo' }])
   // context
   return (
     <div>

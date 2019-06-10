@@ -1,4 +1,4 @@
-import basicTutorialData from 'tutorials/basic'
+import basicTutorialData from '../../tutorials/basic'
 import * as CR from 'typings'
 
 const tutorialContext: CR.MachineContext = {

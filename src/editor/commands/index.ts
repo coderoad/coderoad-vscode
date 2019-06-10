@@ -85,7 +85,6 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
         webview.postMessage({ type: 'SET_DATA', payload })
     },
     [COMMANDS.RECEIVE_ACTION]: (action: string | CR.Action) => {
-        console.log('onReceiveAction', action)
         machine.send(action)
     }
 })
