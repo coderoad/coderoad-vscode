@@ -1,7 +1,7 @@
 import * as CR from 'typings'
 
 const basic: CR.Tutorial = {
-  id: 'tutorialId',
+  id: '1',
   meta: {
     version: '0.1.0',
     repo: 'https://github.com/ShMcK/coderoad-tutorial-basic.git',

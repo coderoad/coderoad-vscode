@@ -7,8 +7,8 @@ import * as vscode from 'vscode'
 import * as storage from '../../services/storage'
 import * as git from '../../services/git'
 
-let initialTutorial: CR.Tutorial | undefined
-let initialProgress: CR.Progress = {
+let currentTutorial: CR.Tutorial | undefined
+let currentProgress: CR.Progress = {
     levels: {},
     stages: {},
     steps: {},
@@ -32,8 +32,8 @@ export default {
         const canContinue = !!(tutorial && progress && hasGit && hasGitRemote)
 
         if (canContinue) {
-            initialTutorial = tutorial
-            initialProgress = progress
+            currentTutorial = tutorial
+            currentProgress = progress
         }
 
         machine.send(canContinue ? 'CONTINUE' : 'NEW')
@@ -41,28 +41,33 @@ export default {
     async tutorialLaunch() {
         // TODO: add selection of tutorial id
         const tutorial: CR.Tutorial = await api({ resource: 'getTutorial', params: { id: '1' } })
+        console.log('api')
+        console.log(tutorial)
         vscode.commands.executeCommand('coderoad.tutorial_launch', tutorial)
+    },
+    tutorialSetup() {
+        vscode.commands.executeCommand('coderoad.tutorial_setup', currentTutorial)
     },
     tutorialContinue: assign({
         // load initial data, progress & position
         data(): CR.TutorialData {
             console.log('ACTION: tutorialLoad.data')
-            if (!initialTutorial) {
+            if (!currentTutorial) {
                 throw new Error('No Tutorial loaded')
             }
-            return initialTutorial.data
+            return currentTutorial.data
 
         },
         progress(): CR.Progress {
             console.log('ACTION: tutorialLoad.progress')
-            return initialProgress
+            return currentProgress
         },
         position() {
             console.log('ACTION: tutorialLoad.position')
-            if (!initialTutorial) {
+            if (!currentTutorial) {
                 throw new Error('No Tutorial loaded')
             }
-            const { data } = initialTutorial
+            const { data } = currentTutorial
 
             const levelId = data.summary.levelList[0]
             const stageId = data.levels[levelId].stageList[0]

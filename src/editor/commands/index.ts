@@ -4,16 +4,18 @@ import { setStorage } from '../storage'
 import ReactWebView from '../ReactWebView'
 import { isEmptyWorkspace } from '../workspace'
 import * as CR from 'typings'
+import runTest from './runTest'
 
 const COMMANDS = {
     START: 'coderoad.start',
     TUTORIAL_LAUNCH: 'coderoad.tutorial_launch',
+    TUTORIAL_SETUP: 'coderoad.tutorial_setup',
     OPEN_WEBVIEW: 'coderoad.open_webview',
     SEND_STATE: 'coderoad.send_state',
     SEND_DATA: 'coderoad.send_data',
     RECEIVE_ACTION: 'coderoad.receive_action',
     OPEN_FILE: 'coderoad.open_file',
-    RUN_TEST: 'coderoad.test_run',
+    RUN_TEST: 'coderoad.run_test',
 }
 
 interface CreateCommandProps {
@@ -62,6 +64,19 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
         const { setup } = steps[pos.stepId].actions
         await git.gitLoadCommits(setup)
     },
+    [COMMANDS.TUTORIAL_SETUP]: async (tutorial: CR.Tutorial) => {
+        console.log('tutorial setup', tutorial)
+        // setup onSave hook
+        const languageIds = tutorial.meta.languages
+        console.log(`languageIds: ${languageIds.join(', ')}`)
+        vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
+            console.log('save document', document)
+            if (languageIds.includes(document.languageId) && document.uri.scheme === 'file') {
+                // do work
+                vscode.commands.executeCommand('coderoad.run_test')
+            }
+        })
+    },
     // open a file
     [COMMANDS.OPEN_FILE]: async (relativeFilePath: string) => {
         console.log(`OPEN_FILE ${JSON.stringify(relativeFilePath)}`)
@@ -85,6 +100,10 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
         webview.postMessage({ type: 'SET_DATA', payload })
     },
     [COMMANDS.RECEIVE_ACTION]: (action: string | CR.Action) => {
+        // send received actions from web-app into state machine
         machine.send(action)
+    },
+    [COMMANDS.RUN_TEST]: () => {
+        runTest()
     }
 })

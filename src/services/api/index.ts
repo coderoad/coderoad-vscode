@@ -9,7 +9,7 @@ interface Options {
 }
 
 const tutorialsData: { [key: string]: CR.Tutorial } = {
-  tutorialId: basicTutorial,
+  [basicTutorial.id]: basicTutorial,
 }
 
 // TODO: replace with fetch resource

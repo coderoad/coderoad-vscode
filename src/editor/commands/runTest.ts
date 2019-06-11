@@ -1,4 +1,4 @@
-import { getOutputChannel } from '../channel'
+import * as vscode from 'vscode'
 import { exec } from '../../services/node'
 import * as storage from '../../services/storage'
 import * as testResult from '../../services/testResult'
@@ -10,6 +10,15 @@ let currentId = 0
 // NOTE: may be possible to kill child process early
 const shouldExitEarly = (processId: number): boolean => {
   return currentId !== processId
+}
+
+let _channel: vscode.OutputChannel
+
+const getOutputChannel = (name: string): vscode.OutputChannel => {
+  if (!_channel) {
+    _channel = vscode.window.createOutputChannel(name)
+  }
+  return _channel
 }
 
 export default async function runTest(): Promise<void> {
