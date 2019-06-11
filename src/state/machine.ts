@@ -1,4 +1,4 @@
-import { Machine, send } from 'xstate'
+import { Machine } from 'xstate'
 import * as CR from 'typings'
 
 import actions from './actions'
@@ -61,7 +61,7 @@ export const machine = Machine<
                 states: {
                     LoadNext: {
                         id: 'tutorial-load-next',
-                        // onEntry: [() => send('LOAD_NEXT')],
+                        onEntry: ['tutorialLoadNext'],
                         on: {
                             LOAD_NEXT: [
                                 {

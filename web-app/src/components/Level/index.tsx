@@ -13,14 +13,14 @@ const styles = {
 
 interface Props {
   level: CR.TutorialLevel
-  onStageSelect(stageId: string): void
+  onNext(): void
   onBack(): void
   stages: {
     [stageId: string]: any // CC.StageWithStatus
   }
 }
 
-const Level = ({ level, stages, onStageSelect, onBack }: Props) => {
+const Level = ({ level, stages, onNext, onBack }: Props) => {
   const { title, text } = level.content
   return (
     <Card style={styles.card} title={title} showTitleBullet={false} contentHeight="auto">
@@ -33,7 +33,7 @@ const Level = ({ level, stages, onStageSelect, onBack }: Props) => {
             <div key={stageId} style={unavailable ? styles.disabled : {}}>
               <h3>{stage.content.title}</h3>
               <p>{stage.content.text}</p>
-              {stage.status.active && <Button onClick={() => onStageSelect(stageId)}>Continue</Button>}
+              {stage.status.active && <Button onClick={onNext}>Continue</Button>}
               {stage.status.complete && <div>Complete</div>}
             </div>
           )

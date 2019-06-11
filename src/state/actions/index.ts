@@ -77,4 +77,7 @@ export default {
             return position
         }
     }),
+    tutorialLoadNext() {
+        machine.send('LOAD_NEXT')
+    }
 }

@@ -24,7 +24,7 @@ const Routes = ({ state }: Props) => {
         <ContinuePage />
       </Cond>
       <Cond state={state} path="Tutorial">
-        <TutorialPage />
+        <TutorialPage state={state} />
       </Cond>
     </div>
   )
