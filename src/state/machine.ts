@@ -21,7 +21,7 @@ export const machine = Machine<
                 states: {
                     Initial: {
                         after: {
-                            1000: 'Startup'
+                            2000: 'Startup'
                         }
                     },
                     Startup: {
@@ -50,7 +50,7 @@ export const machine = Machine<
                     ContinueTutorial: {
                         onEntry: ['tutorialContinue'],
                         on: {
-                            TUTORIAL_START: '#tutorial-load-next'
+                            TUTORIAL_START: '#tutorial-load-next-stage'
                         }
                     },
                 }
@@ -60,8 +60,8 @@ export const machine = Machine<
                 initial: 'Summary',
                 onEntry: ['tutorialSetup'],
                 states: {
-                    LoadNext: {
-                        id: 'tutorial-load-next',
+                    LoadNextStage: {
+                        id: 'tutorial-load-next-stage',
                         onEntry: ['tutorialLoadNext'],
                         on: {
                             LOAD_NEXT: [
@@ -101,8 +101,9 @@ export const machine = Machine<
                                 },
                             },
                             TestRunning: {
+                                onEntry: ['testStart'],
                                 on: {
-                                    TEST_SUCCESS: [
+                                    TEST_PASS: [
                                         {
                                             target: 'StageComplete',
                                             cond: 'tasksComplete',
@@ -111,29 +112,35 @@ export const machine = Machine<
                                             target: 'TestPass',
                                         },
                                     ],
-                                    TEST_FAILURE: 'TestFail',
+                                    TEST_FAIL: 'TestFail',
                                 },
                             },
                             TestPass: {
-                                onEntry: ['stepComplete'],
+                                onEntry: ['testPass', 'stepComplete'],
+                                after: {
+                                    0: {
+                                        target: 'StepNext',
+                                        cond: 'hasNextStep',
+                                    }
+                                },
                                 on: {
-                                    NEXT: [
-                                        {
-                                            target: 'StageNormal',
-                                            cond: 'hasNextStep',
-                                        },
-                                        {
-                                            target: 'StageComplete',
-                                        },
-                                    ],
+                                    NEXT: 'StageComplete',
                                 },
                             },
                             TestFail: {
-                                on: {
-                                    RETURN: 'StageNormal',
+                                onEntry: ['testFail'],
+                                after: {
+                                    0: 'StageNormal'
                                 },
                             },
+                            StepNext: {
+                                onEntry: ['stepLoadNext'],
+                                after: {
+                                    0: 'StageNormal'
+                                }
+                            },
                             StageComplete: {
+                                onEntry: 'stageComplete',
                                 on: {
                                     NEXT: [
                                         {

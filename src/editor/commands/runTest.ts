@@ -1,7 +1,6 @@
 import * as vscode from 'vscode'
 import { exec } from '../../services/node'
 import * as storage from '../../services/storage'
-import * as testResult from '../../services/testResult'
 
 // ensure only latest run_test action is taken
 let currentId = 0
@@ -21,7 +20,12 @@ const getOutputChannel = (name: string): vscode.OutputChannel => {
   return _channel
 }
 
-export default async function runTest(): Promise<void> {
+interface Props {
+  onSuccess(): void,
+  onFail(): void
+}
+
+export default async function runTest({ onSuccess, onFail }: Props): Promise<void> {
   // increment process id
   let processId = ++currentId
 
@@ -73,8 +77,8 @@ export default async function runTest(): Promise<void> {
               // exit early
               return
             }
-            // @ts-ignore
-            testResult.onSuccess(position)
+            console.log('call onSuccess')
+            onSuccess()
           } else {
             console.log('NOT SUCCESS?')
           }
@@ -118,7 +122,8 @@ export default async function runTest(): Promise<void> {
               return
             }
             console.log('ERROR', firstError.message)
-            testResult.onFailure()
+            console.log('call onFail')
+            onFail()
           } else {
             console.error('NOTE: PARSER DID NOT WORK FOR ', line)
           }

@@ -52,7 +52,7 @@ interface ProgressUpdate {
     }
 }
 
-export async function updateProgress(record: ProgressUpdate): Promise<void> {
+export async function setProgress(record: ProgressUpdate): Promise<void> {
     const progress = await getProgress()
     if (record.levels) {
         progress.levels = {
