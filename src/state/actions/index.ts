@@ -87,5 +87,59 @@ export default {
     },
     testStart() {
         vscode.commands.executeCommand('coderoad.run_test')
-    }
+    },
+    // @ts-ignore
+    stepComplete: assign({
+        progress: (context: CR.MachineContext): CR.Progress => {
+            const nextProgress = {
+                ...context.progress,
+                steps: {
+                    ...context.progress.steps,
+                    [context.position.stepId]: true,
+                }
+            }
+            storage.setProgress(nextProgress)
+            return nextProgress
+        }
+    }),
+    // @ts-ignore
+    stageComplete: assign({
+        progress: (context: CR.MachineContext): CR.Progress => {
+            const nextProgress = {
+                ...context.progress,
+                stages: {
+                    ...context.progress.stages,
+                    [context.position.stageId]: true,
+                }
+            }
+            storage.setProgress(nextProgress)
+            return nextProgress
+        }
+    }),
+    // @ts-ignore
+    levelComplete: assign({
+        progress: (context: CR.MachineContext): CR.Progress => {
+            const nextProgress = {
+                ...context.progress,
+                levels: {
+                    ...context.progress.levels,
+                    [context.position.levelId]: true,
+                }
+            }
+            storage.setProgress(nextProgress)
+            return nextProgress
+
+        }
+    }),
+    // @ts-ignore
+    tutorialComplete: assign({
+        progress: (context: CR.MachineContext): CR.Progress => {
+            const nextProgress = {
+                ...context.progress,
+                complete: true,
+            }
+            storage.setProgress(nextProgress)
+            return nextProgress
+        }
+    }),
 }

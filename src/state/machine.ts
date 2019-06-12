@@ -135,6 +135,7 @@ export const machine = Machine<
                                 },
                             },
                             StageComplete: {
+                                onEntry: 'stageComplete',
                                 on: {
                                     NEXT: [
                                         {
