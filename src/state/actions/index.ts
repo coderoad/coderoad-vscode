@@ -89,7 +89,7 @@ export default {
         vscode.commands.executeCommand('coderoad.run_test')
     },
     testPass() {
-        vscode.window.showWarningMessage('FAIL')
+        vscode.window.showInformationMessage('PASS')
     },
     testFail() {
         vscode.window.showWarningMessage('FAIL')
@@ -148,4 +148,7 @@ export default {
             return nextProgress
         }
     }),
+    stepLoadNext() {
+        console.log("LOAD NEXT STEP")
+    }
 }

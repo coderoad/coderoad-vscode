@@ -50,7 +50,7 @@ export const machine = Machine<
                     ContinueTutorial: {
                         onEntry: ['tutorialContinue'],
                         on: {
-                            TUTORIAL_START: '#tutorial-load-next'
+                            TUTORIAL_START: '#tutorial-load-next-stage'
                         }
                     },
                 }
@@ -60,8 +60,8 @@ export const machine = Machine<
                 initial: 'Summary',
                 onEntry: ['tutorialSetup'],
                 states: {
-                    LoadNext: {
-                        id: 'tutorial-load-next',
+                    LoadNextStage: {
+                        id: 'tutorial-load-next-stage',
                         onEntry: ['tutorialLoadNext'],
                         on: {
                             LOAD_NEXT: [
@@ -117,16 +117,14 @@ export const machine = Machine<
                             },
                             TestPass: {
                                 onEntry: ['testPass', 'stepComplete'],
+                                after: {
+                                    0: {
+                                        target: 'StepNext',
+                                        cond: 'hasNextStep',
+                                    }
+                                },
                                 on: {
-                                    NEXT: [
-                                        {
-                                            target: 'StageNormal',
-                                            cond: 'hasNextStep',
-                                        },
-                                        {
-                                            target: 'StageComplete',
-                                        },
-                                    ],
+                                    NEXT: 'StageComplete',
                                 },
                             },
                             TestFail: {
@@ -134,6 +132,12 @@ export const machine = Machine<
                                 after: {
                                     0: 'StageNormal'
                                 },
+                            },
+                            StepNext: {
+                                onEntry: ['stepLoadNext'],
+                                after: {
+                                    0: 'StageNormal'
+                                }
                             },
                             StageComplete: {
                                 onEntry: 'stageComplete',
