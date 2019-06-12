@@ -116,7 +116,7 @@ export const machine = Machine<
                                 },
                             },
                             TestPass: {
-                                onEntry: ['stepComplete'],
+                                onEntry: ['testPass', 'stepComplete'],
                                 on: {
                                     NEXT: [
                                         {
@@ -130,6 +130,7 @@ export const machine = Machine<
                                 },
                             },
                             TestFail: {
+                                onEntry: ['testFail'],
                                 after: {
                                     0: 'StageNormal'
                                 },

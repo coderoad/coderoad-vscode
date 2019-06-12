@@ -88,6 +88,12 @@ export default {
     testStart() {
         vscode.commands.executeCommand('coderoad.run_test')
     },
+    testPass() {
+        vscode.window.showWarningMessage('FAIL')
+    },
+    testFail() {
+        vscode.window.showWarningMessage('FAIL')
+    },
     // @ts-ignore
     stepComplete: assign({
         progress: (context: CR.MachineContext): CR.Progress => {
