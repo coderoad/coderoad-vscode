@@ -73,7 +73,7 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
             console.log('save document', document)
             if (languageIds.includes(document.languageId) && document.uri.scheme === 'file') {
                 // do work
-                vscode.commands.executeCommand('coderoad.run_test')
+                machine.send('TEST_RUN')
             }
         })
     },
@@ -104,6 +104,9 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
         machine.send(action)
     },
     [COMMANDS.RUN_TEST]: () => {
-        runTest()
+        runTest({
+            onSuccess: () => machine.send('TEST_PASS'),
+            onFail: () => machine.send('TEST_FAIL')
+        })
     }
 })

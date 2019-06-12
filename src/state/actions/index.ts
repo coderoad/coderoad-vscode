@@ -84,5 +84,8 @@ export default {
     }),
     tutorialLoadNext() {
         machine.send('LOAD_NEXT')
+    },
+    testStart() {
+        vscode.commands.executeCommand('coderoad.run_test')
     }
 }

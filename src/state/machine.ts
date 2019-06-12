@@ -21,7 +21,7 @@ export const machine = Machine<
                 states: {
                     Initial: {
                         after: {
-                            1000: 'Startup'
+                            2000: 'Startup'
                         }
                     },
                     Startup: {
@@ -101,8 +101,9 @@ export const machine = Machine<
                                 },
                             },
                             TestRunning: {
+                                onEntry: ['testStart'],
                                 on: {
-                                    TEST_SUCCESS: [
+                                    TEST_PASS: [
                                         {
                                             target: 'StageComplete',
                                             cond: 'tasksComplete',
@@ -111,7 +112,7 @@ export const machine = Machine<
                                             target: 'TestPass',
                                         },
                                     ],
-                                    TEST_FAILURE: 'TestFail',
+                                    TEST_FAIL: 'TestFail',
                                 },
                             },
                             TestPass: {
@@ -129,8 +130,8 @@ export const machine = Machine<
                                 },
                             },
                             TestFail: {
-                                on: {
-                                    RETURN: 'StageNormal',
+                                after: {
+                                    0: 'StageNormal'
                                 },
                             },
                             StageComplete: {
