@@ -32,6 +32,7 @@ export default {
         const canContinue = !!(tutorial && progress && hasGit && hasGitRemote)
 
         if (canContinue) {
+            // continue
             currentTutorial = tutorial
             currentProgress = progress
         }
@@ -41,6 +42,7 @@ export default {
     async tutorialLaunch() {
         // TODO: add selection of tutorial id
         const tutorial: CR.Tutorial = await api({ resource: 'getTutorial', params: { id: '1' } })
+        currentTutorial = tutorial
         console.log('api')
         console.log(tutorial)
         vscode.commands.executeCommand('coderoad.tutorial_launch', tutorial)
@@ -151,5 +153,11 @@ export default {
     }),
     stepLoadNext() {
         console.log("LOAD NEXT STEP")
+    },
+    loadLevel() {
+        console.log('loadLevel')
+    },
+    loadStage() {
+        console.log('loadStage')
     }
 }
