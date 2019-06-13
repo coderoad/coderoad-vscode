@@ -164,9 +164,18 @@ export default {
             return nextProgress
         }
     }),
-    stepLoadNext() {
-        console.log("LOAD NEXT STEP")
-    },
+    stepLoadNext: assign({
+        position: (context: any) => {
+            const { data, position } = context
+            const { stepList } = data.stages[position.stageId]
+            const currentStepIndex = stepList.indexOf(position.stepId)
+            const nextStepId = stepList[currentStepIndex + 1]
+            return {
+                ...context.position,
+                stepId: nextStepId,
+            }
+        }
+    }),
     loadLevel() {
         console.log('loadLevel')
     },
