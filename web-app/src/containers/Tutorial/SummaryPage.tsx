@@ -9,7 +9,7 @@ interface PageProps {
 
 const SummaryPage = (props: PageProps) => {
   const { data } = React.useContext(DataContext)
-  return <Summary data={data} onNext={() => props.send('LOAD_NEXT')} />
+  return <Summary data={data} onNext={() => props.send('NEXT')} />
 }
 
 export default SummaryPage

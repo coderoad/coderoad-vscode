@@ -63,6 +63,7 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
         const { steps } = tutorial.data
         const { setup } = steps[pos.stepId].actions
         await git.gitLoadCommits(setup)
+        machine.send('TUTORIAL_LOADED')
     },
     [COMMANDS.TUTORIAL_SETUP]: async (tutorial: CR.Tutorial) => {
         console.log('tutorial setup', tutorial)

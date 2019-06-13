@@ -32,6 +32,7 @@ export default {
         const canContinue = !!(tutorial && progress && hasGit && hasGitRemote)
 
         if (canContinue) {
+            // continue
             currentTutorial = tutorial
             currentProgress = progress
         }
@@ -41,6 +42,7 @@ export default {
     async tutorialLaunch() {
         // TODO: add selection of tutorial id
         const tutorial: CR.Tutorial = await api({ resource: 'getTutorial', params: { id: '1' } })
+        currentTutorial = tutorial
         console.log('api')
         console.log(tutorial)
         vscode.commands.executeCommand('coderoad.tutorial_launch', tutorial)
@@ -49,6 +51,19 @@ export default {
         vscode.commands.executeCommand('coderoad.tutorial_setup', currentTutorial)
         vscode.commands.executeCommand('coderoad.open_webview', vscode.ViewColumn.Two)
     },
+    initializeNewTutorial: assign({
+        position: (context: any): CR.Position => {
+            const { data } = context
+            const levelId = data.summary.levelList[0]
+            const stageId = data.levels[levelId].stageList[0]
+            const stepId = data.stages[stageId].stepList[0]
+            return {
+                levelId,
+                stageId,
+                stepId
+            }
+        }
+    }),
     tutorialContinue: assign({
         // load initial data, progress & position
         data(): CR.TutorialData {
@@ -149,7 +164,22 @@ export default {
             return nextProgress
         }
     }),
-    stepLoadNext() {
-        console.log("LOAD NEXT STEP")
+    stepLoadNext: assign({
+        position: (context: any) => {
+            const { data, position } = context
+            const { stepList } = data.stages[position.stageId]
+            const currentStepIndex = stepList.indexOf(position.stepId)
+            const nextStepId = stepList[currentStepIndex + 1]
+            return {
+                ...context.position,
+                stepId: nextStepId,
+            }
+        }
+    }),
+    loadLevel() {
+        console.log('loadLevel')
+    },
+    loadStage() {
+        console.log('loadStage')
     }
 }
