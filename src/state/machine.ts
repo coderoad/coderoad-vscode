@@ -50,7 +50,7 @@ export const machine = Machine<
                     ContinueTutorial: {
                         onEntry: ['tutorialContinue'],
                         on: {
-                            TUTORIAL_START: '#tutorial-load-next-stage'
+                            TUTORIAL_START: '#tutorial-load-next'
                         }
                     },
                 }
@@ -60,18 +60,22 @@ export const machine = Machine<
                 initial: 'Summary',
                 onEntry: ['tutorialSetup'],
                 states: {
-                    LoadNextStage: {
-                        id: 'tutorial-load-next-stage',
+                    LoadNext: {
+                        id: 'tutorial-load-next',
                         onEntry: ['tutorialLoadNext'],
                         on: {
                             LOAD_NEXT: [
                                 {
-                                    target: 'Level',
-                                    cond: 'hasNoNextLevelProgress',
+                                    target: 'Stage',
+                                    cond: 'hasNextStage',
                                 },
                                 {
-                                    target: 'Stage',
+                                    target: 'Level',
+                                    cond: 'hasNextLevel'
                                 },
+                                {
+                                    target: '#end-tutorial'
+                                }
                             ],
                         },
                     },
@@ -90,9 +94,9 @@ export const machine = Machine<
                     },
                     Stage: {
                         onEntry: ['loadStage'],
-                        initial: 'StageNormal',
+                        initial: 'Normal',
                         states: {
-                            StageNormal: {
+                            Normal: {
                                 on: {
                                     TEST_RUN: 'TestRunning',
                                     STEP_SOLUTION_LOAD: {
@@ -103,22 +107,14 @@ export const machine = Machine<
                             TestRunning: {
                                 onEntry: ['testStart'],
                                 on: {
-                                    TEST_PASS: [
-                                        {
-                                            target: 'StageComplete',
-                                            cond: 'tasksComplete',
-                                        },
-                                        {
-                                            target: 'TestPass',
-                                        },
-                                    ],
+                                    TEST_PASS: 'TestPass',
                                     TEST_FAIL: 'TestFail',
                                 },
                             },
                             TestPass: {
                                 onEntry: ['testPass', 'stepComplete'],
                                 after: {
-                                    0: {
+                                    1000: {
                                         target: 'StepNext',
                                         cond: 'hasNextStep',
                                     }
@@ -130,36 +126,27 @@ export const machine = Machine<
                             TestFail: {
                                 onEntry: ['testFail'],
                                 after: {
-                                    0: 'StageNormal'
+                                    0: 'Normal'
                                 },
                             },
                             StepNext: {
                                 onEntry: ['stepLoadNext'],
                                 after: {
-                                    0: 'StageNormal'
+                                    0: 'Normal'
                                 }
                             },
                             StageComplete: {
                                 onEntry: 'stageComplete',
                                 on: {
-                                    NEXT: [
-                                        {
-                                            target: 'Stage',
-                                            cond: 'hasNextStage',
-                                        },
-                                        {
-                                            target: 'Level',
-                                            cond: 'hasNextLevel',
-                                        },
-                                        {
-                                            target: '#root.Tutorial.EndTutorial',
-                                        },
-                                    ],
+                                    NEXT: '#tutorial-load-next',
                                 },
                             },
                         },
                     },
-                    EndTutorial: {},
+                    EndTutorial: {
+                        id: 'end-tutorial',
+                        type: 'final'
+                    },
                 }
             }
         }

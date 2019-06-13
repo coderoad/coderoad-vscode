@@ -146,12 +146,12 @@ export interface MachineStateSchema {
         }
         Tutorial: {
             states: {
-                LoadNextStage: {}
                 Summary: {}
+                LoadNext: {}
                 Level: {}
                 Stage: {
                     states: {
-                        StageNormal: {}
+                        Normal: {}
                         TestRunning: {}
                         TestPass: {}
                         TestFail: {}

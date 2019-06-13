@@ -47,6 +47,7 @@ export default {
     },
     tutorialSetup() {
         vscode.commands.executeCommand('coderoad.tutorial_setup', currentTutorial)
+        vscode.commands.executeCommand('coderoad.open_webview', vscode.ViewColumn.Two)
     },
     tutorialContinue: assign({
         // load initial data, progress & position
