@@ -51,6 +51,19 @@ export default {
         vscode.commands.executeCommand('coderoad.tutorial_setup', currentTutorial)
         vscode.commands.executeCommand('coderoad.open_webview', vscode.ViewColumn.Two)
     },
+    initializeNewTutorial: assign({
+        position: (context: any): CR.Position => {
+            const { data } = context
+            const levelId = data.summary.levelList[0]
+            const stageId = data.levels[levelId].stageList[0]
+            const stepId = data.stages[stageId].stepList[0]
+            return {
+                levelId,
+                stageId,
+                stepId
+            }
+        }
+    }),
     tutorialContinue: assign({
         // load initial data, progress & position
         data(): CR.TutorialData {

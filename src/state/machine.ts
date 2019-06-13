@@ -57,9 +57,15 @@ export const machine = Machine<
             },
             Tutorial: {
                 id: 'tutorial',
-                initial: 'Summary',
+                initial: 'Initialize',
                 onEntry: ['tutorialSetup'],
                 states: {
+                    Initialize: {
+                        onEntry: ['initializeNewTutorial'],
+                        after: {
+                            0: 'Summary'
+                        }
+                    },
                     LoadNext: {
                         id: 'tutorial-load-next',
                         onEntry: ['tutorialLoadNext'],

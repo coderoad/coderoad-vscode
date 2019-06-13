@@ -146,6 +146,7 @@ export interface MachineStateSchema {
         }
         Tutorial: {
             states: {
+                Initialize: {}
                 Summary: {}
                 LoadNext: {}
                 Level: {}
