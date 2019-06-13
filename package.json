@@ -1,6 +1,6 @@
 {
 	"name": "coderoad-vscode",
-	"displayName": "coderoad-vscode",
+	"displayName": "CodeRoad",
 	"description": "Interactive tutorials in your editor",
 	"version": "0.0.1",
 	"engines": {
@@ -9,7 +9,23 @@
 	"categories": [
 		"Other"
 	],
-	"publisher": "Shawn McKay <shawn.j.mckay@gmail.com>",
+	"publisher": "Shawn McKay",
+	"author": {
+		"name": "Shawn McKay <shawn.j.mckay@gmail.com>"
+	},
+	"bugs": {
+		"url": "https://github.com/shmck/coderoad-vscode/issues",
+		"email": "shawn.j.mckay@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/shmck/coderoad-vscode.git"
+	},
+	"homepage": "https://github.com/shmck/coderoad-vscode/README.md",
+	"galleryBanner": {
+		"color": "#C80000",
+		"theme": "dark"
+	},
 	"activationEvents": [
 		"onCommand:coderoad.start"
 	],
@@ -47,5 +63,6 @@
 	},
 	"dependencies": {
 		"xstate": "^4.6.1"
-	}
+	},
+	"license": "SEE LICENSE IN LICENSE.md"
 }
