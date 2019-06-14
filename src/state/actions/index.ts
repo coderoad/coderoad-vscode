@@ -83,19 +83,16 @@ export default {
             if (!currentTutorial) {
                 throw new Error('No Tutorial loaded')
             }
+
             const { data } = currentTutorial
-            const levelId = data.summary.levelList.find((id: string) => !currentProgress.levels[id])
-            if (!levelId) {
-                throw new Error('No level found on position load')
-            }
-            const stageId = data.levels[levelId].stageList.find((id: string) => !currentProgress.stages[id])
-            if (!stageId) {
-                throw new Error('No stage found on position load')
-            }
-            const stepId = data.stages[stageId].stepList.find((id: string) => !currentProgress.steps[id])
-            if (!stepId) {
-                throw new Error('No step found on position load')
-            }
+
+            const { levelList } = data.summary
+            // take next incomplete level or the final step
+            const levelId = levelList.find((id: string) => !currentProgress.levels[id]) || levelList[levelList.length - 1]
+            const { stageList } = data.levels[levelId]
+            const stageId = stageList.find((id: string) => !currentProgress.stages[id]) || stageList[stageList.length - 1]
+            const { stepList } = data.stages[stageId]
+            const stepId = stepList.find((id: string) => !currentProgress.steps[id]) || stepList[stepList.length - 1]
 
             const position = {
                 levelId,
@@ -181,7 +178,10 @@ export default {
             const { data, position } = context
             const { stepList } = data.stages[position.stageId]
             const currentStepIndex = stepList.indexOf(position.stepId)
-            const nextStepId = stepList[currentStepIndex + 1]
+
+            const nextStepId = (currentStepIndex < stepList.length)
+                ? stepList[currentStepIndex + 1]
+                : position.stepId
 
             const nextPosition = {
                 ...context.position,

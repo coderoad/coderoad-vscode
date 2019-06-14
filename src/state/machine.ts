@@ -126,6 +126,7 @@ export const machine = Machine<
                             },
                             TestPass: {
                                 onEntry: ['testPass', 'stepComplete'],
+                                onExit: ['stepLoadNext'],
                                 after: {
                                     1000: 'StepNext',
                                 },
@@ -138,7 +139,6 @@ export const machine = Machine<
                                 },
                             },
                             StepNext: {
-                                onEntry: ['stepLoadNext'],
                                 after: {
                                     0: [{
                                         target: 'Normal',
