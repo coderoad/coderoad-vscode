@@ -120,6 +120,7 @@ export default {
                     [context.position.stepId]: true,
                 }
             }
+            console.log('progress update', nextProgress)
             storage.setProgress(nextProgress)
             return nextProgress
         }
@@ -134,6 +135,7 @@ export default {
                     [context.position.stageId]: true,
                 }
             }
+            console.log('progress update', nextProgress)
             storage.setProgress(nextProgress)
             return nextProgress
         }
@@ -148,6 +150,7 @@ export default {
                     [context.position.levelId]: true,
                 }
             }
+            console.log('progress update', nextProgress)
             storage.setProgress(nextProgress)
             return nextProgress
 
@@ -160,20 +163,24 @@ export default {
                 ...context.progress,
                 complete: true,
             }
+            console.log('progress update', nextProgress)
             storage.setProgress(nextProgress)
             return nextProgress
         }
     }),
     stepLoadNext: assign({
-        position: (context: any) => {
+        position: (context: any): CR.Position => {
             const { data, position } = context
             const { stepList } = data.stages[position.stageId]
             const currentStepIndex = stepList.indexOf(position.stepId)
             const nextStepId = stepList[currentStepIndex + 1]
-            return {
+
+            const nextPosition = {
                 ...context.position,
                 stepId: nextStepId,
             }
+            console.log('position update', nextPosition)
+            return nextPosition
         }
     }),
     loadLevel() {
