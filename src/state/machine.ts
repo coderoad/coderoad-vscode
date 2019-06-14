@@ -75,9 +75,8 @@ export const machine = Machine<
                     },
                     LoadNext: {
                         id: 'tutorial-load-next',
-                        onEntry: ['tutorialLoadNext'],
-                        on: {
-                            LOAD_NEXT: [
+                        after: {
+                            0: [
                                 {
                                     target: 'Stage',
                                     cond: 'hasNextStage',
@@ -152,7 +151,7 @@ export const machine = Machine<
                             StageComplete: {
                                 onEntry: 'stageComplete',
                                 on: {
-                                    NEXT: '#tutorial-load-next',
+                                    STAGE_NEXT: '#tutorial-load-next',
                                 },
                             },
                         },

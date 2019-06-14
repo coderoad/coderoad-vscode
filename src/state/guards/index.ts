@@ -5,11 +5,14 @@ export default {
         const { data, position, progress } = context
         const steps = data.stages[position.stageId].stepList
         // isn't final step yet
+        let hasNext
         if (steps[steps.length - 1] !== position.stepId) {
-            return true
+            hasNext = true
         }
         // final step is not yet complete
-        return !progress.steps[position.stepId]
+        hasNext = !progress.steps[position.stepId]
+        console.log('GUARD: hasNextStep', hasNext)
+        return hasNext
     },
     hasNextStage: (context: CR.MachineContext): boolean => {
         const { data, position } = context
