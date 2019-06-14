@@ -113,57 +113,26 @@ export default {
         vscode.window.showWarningMessage('FAIL')
     },
     // @ts-ignore
-    stepComplete: assign({
+    progressUpdate: assign({
         progress: (context: CR.MachineContext): CR.Progress => {
-            const nextProgress = {
-                ...context.progress,
-                steps: {
-                    ...context.progress.steps,
-                    [context.position.stepId]: true,
-                }
-            }
-            console.log('progress update', nextProgress)
-            storage.setProgress(nextProgress)
-            return nextProgress
-        }
-    }),
-    // @ts-ignore
-    stageComplete: assign({
-        progress: (context: CR.MachineContext): CR.Progress => {
-            const nextProgress = {
-                ...context.progress,
-                stages: {
-                    ...context.progress.stages,
-                    [context.position.stageId]: true,
-                }
-            }
-            console.log('progress update', nextProgress)
-            storage.setProgress(nextProgress)
-            return nextProgress
-        }
-    }),
-    // @ts-ignore
-    levelComplete: assign({
-        progress: (context: CR.MachineContext): CR.Progress => {
-            const nextProgress = {
-                ...context.progress,
-                levels: {
-                    ...context.progress.levels,
-                    [context.position.levelId]: true,
-                }
-            }
-            console.log('progress update', nextProgress)
-            storage.setProgress(nextProgress)
-            return nextProgress
+            const { progress, position, data } = context
+            const nextProgress = progress
 
-        }
-    }),
-    // @ts-ignore
-    tutorialComplete: assign({
-        progress: (context: CR.MachineContext): CR.Progress => {
-            const nextProgress = {
-                ...context.progress,
-                complete: true,
+            nextProgress.steps[position.stepId] = true
+            const { stepList } = data.stages[position.stageId]
+            const stageComplete = stepList[stepList.length - 1] === position.stepId
+            if (stageComplete) {
+                nextProgress.stages[position.stageId] = true
+                const { stageList } = data.levels[position.levelId]
+                const levelComplete = stageList[stageList.length - 1] === position.stageId
+                if (levelComplete) {
+                    nextProgress.levels[position.levelId] = true
+                    const { levelList } = data.summary
+                    const tutorialComplete = levelList[levelList.length - 1] === position.levelId
+                    if (tutorialComplete) {
+                        nextProgress.complete = true
+                    }
+                }
             }
             console.log('progress update', nextProgress)
             storage.setProgress(nextProgress)

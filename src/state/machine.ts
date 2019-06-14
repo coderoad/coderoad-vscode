@@ -124,7 +124,7 @@ export const machine = Machine<
                                 },
                             },
                             TestPass: {
-                                onEntry: ['testPass', 'stepComplete'],
+                                onEntry: ['testPass', 'progressUpdate'],
                                 onExit: ['stepLoadNext'],
                                 after: {
                                     1000: 'StepNext',
@@ -149,7 +149,6 @@ export const machine = Machine<
                                 },
                             },
                             StageComplete: {
-                                onEntry: 'stageComplete',
                                 on: {
                                     STAGE_NEXT: '#tutorial-load-next',
                                 },
