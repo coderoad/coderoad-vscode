@@ -78,23 +78,31 @@ export default {
             console.log('ACTION: tutorialLoad.progress')
             return currentProgress
         },
-        position() {
+        position(context: any): CR.Position {
             console.log('ACTION: tutorialLoad.position')
             if (!currentTutorial) {
                 throw new Error('No Tutorial loaded')
             }
             const { data } = currentTutorial
-
-            const levelId = data.summary.levelList[0]
-            const stageId = data.levels[levelId].stageList[0]
-            const stepId = data.stages[stageId].stepList[0]
+            const levelId = data.summary.levelList.find((id: string) => !currentProgress.levels[id])
+            if (!levelId) {
+                throw new Error('No level found on position load')
+            }
+            const stageId = data.levels[levelId].stageList.find((id: string) => !currentProgress.stages[id])
+            if (!stageId) {
+                throw new Error('No stage found on position load')
+            }
+            const stepId = data.stages[stageId].stepList.find((id: string) => !currentProgress.steps[id])
+            if (!stepId) {
+                throw new Error('No step found on position load')
+            }
 
             const position = {
                 levelId,
                 stageId,
-                stepId,
+                stepId
             }
-
+            console.log('position', position)
             return position
         }
     }),
