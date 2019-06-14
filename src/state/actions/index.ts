@@ -196,5 +196,10 @@ export default {
     },
     loadStage() {
         console.log('loadStage')
+    },
+    stepLoadCommits(context: CR.MachineContext): void {
+        const { data, position } = context
+        const { setup } = data.steps[position.stepId].actions
+        git.gitLoadCommits(setup)
     }
 }
