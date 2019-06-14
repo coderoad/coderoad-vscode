@@ -143,6 +143,7 @@ export const machine = Machine<
                                     0: [{
                                         target: 'Normal',
                                         cond: 'hasNextStep',
+                                        actions: ['stepLoadCommits']
                                     }, {
                                         target: 'StageComplete'
                                     }]
