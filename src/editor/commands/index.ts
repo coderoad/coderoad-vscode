@@ -43,6 +43,9 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
     // open React webview
     [COMMANDS.OPEN_WEBVIEW]: (column: number = vscode.ViewColumn.One) => {
         webview.createOrShow(column);
+        setTimeout(() => {
+            machine.send('WEBVIEW_INITIALIZED')
+        }, 2000)
     },
     // launch a new tutorial
     // NOTE: may be better to move into action as logic is primarily non-vscode

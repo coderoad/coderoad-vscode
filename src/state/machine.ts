@@ -20,8 +20,8 @@ export const machine = Machine<
                 initial: 'Initial',
                 states: {
                     Initial: {
-                        after: {
-                            2000: 'Startup'
+                        on: {
+                            WEBVIEW_INITIALIZED: 'Startup'
                         }
                     },
                     Startup: {
@@ -50,7 +50,7 @@ export const machine = Machine<
                     ContinueTutorial: {
                         onEntry: ['tutorialContinue'],
                         on: {
-                            TUTORIAL_START: '#tutorial-load-next'
+                            TUTORIAL_START: '#tutorial-load-current'
                         }
                     },
                 }
@@ -65,6 +65,13 @@ export const machine = Machine<
                         after: {
                             0: 'Summary'
                         }
+                    },
+                    LoadCurrent: {
+                        id: 'tutorial-load-current',
+                        // TODO: verify current is not complete
+                        after: {
+                            0: 'Stage'
+                        },
                     },
                     LoadNext: {
                         id: 'tutorial-load-next',
@@ -120,14 +127,9 @@ export const machine = Machine<
                             TestPass: {
                                 onEntry: ['testPass', 'stepComplete'],
                                 after: {
-                                    1000: {
-                                        target: 'StepNext',
-                                        cond: 'hasNextStep',
-                                    }
+                                    1000: 'StepNext',
                                 },
-                                on: {
-                                    NEXT: 'StageComplete',
-                                },
+
                             },
                             TestFail: {
                                 onEntry: ['testFail'],
@@ -138,8 +140,14 @@ export const machine = Machine<
                             StepNext: {
                                 onEntry: ['stepLoadNext'],
                                 after: {
-                                    0: 'Normal'
-                                }
+                                    0: [{
+                                        target: 'Normal',
+                                        cond: 'hasNextStep',
+                                        actions: ['stepLoadCommits']
+                                    }, {
+                                        target: 'StageComplete'
+                                    }]
+                                },
                             },
                             StageComplete: {
                                 onEntry: 'stageComplete',

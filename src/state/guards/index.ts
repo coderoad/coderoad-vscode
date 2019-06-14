@@ -2,11 +2,14 @@ import * as CR from 'typings'
 
 export default {
     hasNextStep: (context: CR.MachineContext): boolean => {
-        const { data, position } = context
+        const { data, position, progress } = context
         const steps = data.stages[position.stageId].stepList
-        const hasNext = steps[steps.length - 1] !== position.stepId
-        console.log('GUARD: hasNextStep', hasNext)
-        return hasNext
+        // isn't final step yet
+        if (steps[steps.length - 1] !== position.stepId) {
+            return true
+        }
+        // final step is not yet complete
+        return !progress.steps[position.stepId]
     },
     hasNextStage: (context: CR.MachineContext): boolean => {
         const { data, position } = context
