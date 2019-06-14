@@ -31,7 +31,7 @@ class ReactWebView {
         console.log('webview loaded')
     }
 
-    public async createOrShow(column: number): Promise<void> {
+    public createOrShow(column: number): void {
         // If we already have a panel, show it.
         // Otherwise, create a new panel.
         if (this.panel && this.panel.webview) {
@@ -40,7 +40,6 @@ class ReactWebView {
         } else {
             console.log('make new panel')
             this.panel = this.createWebviewPanel(column)
-
         }
     }
 
