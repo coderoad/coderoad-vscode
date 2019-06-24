@@ -16,6 +16,9 @@ const COMMANDS = {
     RECEIVE_ACTION: 'coderoad.receive_action',
     OPEN_FILE: 'coderoad.open_file',
     RUN_TEST: 'coderoad.run_test',
+    TEST_PASS: 'coderoad.test_pass',
+    TEST_FAIL: 'coderoad.test_fail',
+    SET_LAYOUT: 'coderoad.set_layout',
 }
 
 interface CreateCommandProps {
@@ -41,8 +44,12 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
         machine.activate()
     },
     // open React webview
-    [COMMANDS.OPEN_WEBVIEW]: (column: number = vscode.ViewColumn.One) => {
+    [COMMANDS.OPEN_WEBVIEW]: (column: number = vscode.ViewColumn.Two) => {
+        // setup 1x1 horizontal layout
+        vscode.commands.executeCommand('vscode.setEditorLayout', { orientation: 0, groups: [{ groups: [{}], size: 0.6 }, { groups: [{}], size: 0.4 }] })
         webview.createOrShow(column);
+        // NOTE: createOrShow and layout command cannot be async
+        // this creates an async issue where the webview cannot detect when it has been initialized
         setTimeout(() => {
             machine.send('WEBVIEW_INITIALIZED')
         }, 2000)
@@ -112,5 +119,15 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
             onSuccess: () => machine.send('TEST_PASS'),
             onFail: () => machine.send('TEST_FAIL')
         })
-    }
+    },
+    [COMMANDS.TEST_PASS]: () => {
+        vscode.window.showInformationMessage('PASS')
+    },
+    [COMMANDS.TEST_FAIL]: () => {
+        vscode.window.showWarningMessage('FAIL')
+    },
+    [COMMANDS.SET_LAYOUT]: () => {
+        console.log('setLayout')
+        vscode.commands.executeCommand('vscode.setEditorLayout', { orientation: 0, groups: [{ groups: [{}], size: 0.6 }, { groups: [{}], size: 0.4 }] })
+    },
 })

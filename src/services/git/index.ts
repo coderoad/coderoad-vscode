@@ -1,4 +1,3 @@
-import * as vscode from 'vscode'
 import * as CR from 'typings'
 import { exec, exists } from '../node'
 
@@ -9,7 +8,7 @@ const gitOrigin = 'coderoad'
     MULTIPLE git cherry-pick %COMMIT_START%..%COMMIT_END%
     if shell, run shell
 */
-export async function gitLoadCommits(actions: CR.TutorialAction): Promise<void> {
+export async function gitLoadCommits(actions: CR.TutorialAction, dispatch: CR.EditorDispatch): Promise<void> {
   const { commits, commands, files } = actions
 
   console.log('commits to load', commits)
@@ -41,7 +40,7 @@ export async function gitLoadCommits(actions: CR.TutorialAction): Promise<void> 
 
   if (files) {
     for (const filePath of files) {
-      vscode.commands.executeCommand('coderoad.open_file', filePath)
+      dispatch('coderoad.open_file', filePath)
     }
   }
 }

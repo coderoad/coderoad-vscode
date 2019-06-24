@@ -1,10 +1,13 @@
 import { interpret, Interpreter } from 'xstate'
 import * as CR from 'typings'
-import machine from './machine'
-import * as vscode from 'vscode'
+import createMachine from './machine'
 
 // machine interpreter
 // https://xstate.js.org/docs/guides/interpretation.html
+
+interface Props {
+    dispatch: CR.EditorDispatch
+}
 
 class StateMachine {
     private machineOptions = {
@@ -14,7 +17,8 @@ class StateMachine {
         execute: true
     }
     private service: Interpreter<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>
-    constructor() {
+    constructor({ dispatch }: Props) {
+        const machine = createMachine(dispatch)
         this.service = interpret(machine, this.machineOptions)
             // logging
             .onTransition(state => {
@@ -22,9 +26,9 @@ class StateMachine {
                 if (state.changed) {
                     console.log('next state')
                     console.log(state.value)
-                    vscode.commands.executeCommand('coderoad.send_state', { state: state.value, data: state.context })
+                    dispatch('coderoad.send_state', { state: state.value, data: state.context })
                 } else {
-                    vscode.commands.executeCommand('coderoad.send_data', { data: state.context })
+                    dispatch('coderoad.send_data', { data: state.context })
                 }
             })
     }

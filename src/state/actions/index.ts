@@ -3,7 +3,6 @@ import { assign } from 'xstate'
 import { machine } from '../../extension'
 import api from '../../services/api'
 import * as CR from 'typings'
-import * as vscode from 'vscode'
 import * as storage from '../../services/storage'
 import * as git from '../../services/git'
 
@@ -15,10 +14,10 @@ let currentProgress: CR.Progress = {
     complete: false,
 }
 
-export default {
+export default (dispatch: CR.EditorDispatch) => ({
     createWebview() {
         console.log('execute coderoad.open_webview')
-        vscode.commands.executeCommand('coderoad.open_webview')
+        dispatch('coderoad.open_webview')
     },
     async newOrContinue() {
         // verify that the user has a tutorial & progress
@@ -45,11 +44,11 @@ export default {
         currentTutorial = tutorial
         console.log('api')
         console.log(tutorial)
-        vscode.commands.executeCommand('coderoad.tutorial_launch', tutorial)
+        dispatch('coderoad.tutorial_launch', tutorial)
     },
     tutorialSetup() {
-        vscode.commands.executeCommand('coderoad.tutorial_setup', currentTutorial)
-        vscode.commands.executeCommand('coderoad.open_webview', vscode.ViewColumn.Two)
+        dispatch('coderoad.tutorial_setup', currentTutorial)
+        dispatch('coderoad.open_webview', 2)
     },
     initializeNewTutorial: assign({
         position: (context: any): CR.Position => {
@@ -104,13 +103,13 @@ export default {
         }
     }),
     testStart() {
-        vscode.commands.executeCommand('coderoad.run_test')
+        dispatch('coderoad.run_test')
     },
     testPass() {
-        vscode.window.showInformationMessage('PASS')
+        dispatch('coderoad.test_pass')
     },
     testFail() {
-        vscode.window.showWarningMessage('FAIL')
+        dispatch('coderoad.test_fail')
     },
     // @ts-ignore
     progressUpdate: assign({
@@ -166,6 +165,6 @@ export default {
     stepLoadCommits(context: CR.MachineContext): void {
         const { data, position } = context
         const { setup } = data.steps[position.stepId].actions
-        git.gitLoadCommits(setup)
+        git.gitLoadCommits(setup, dispatch)
     }
-}
+})

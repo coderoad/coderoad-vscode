@@ -172,3 +172,5 @@ export interface StateMachine {
     deactivate(): void
     send(action: string | Action): void
 }
+
+export type EditorDispatch = (type: string, payload?: any) => void
