@@ -1,11 +1,11 @@
 import { Machine } from 'xstate'
 import * as CR from 'typings'
 
-import actions from './actions'
+import createActions from './actions'
 import guards from './guards'
 import initialContext from './context'
 
-export const machine = Machine<
+export const machine = (dispatch: CR.EditorDispatch) => Machine<
     CR.MachineContext,
     CR.MachineStateSchema,
     CR.MachineEvent
@@ -164,7 +164,7 @@ export const machine = Machine<
         }
     },
     {
-        actions,
+        actions: createActions(dispatch),
         guards,
         activities: {},
     },

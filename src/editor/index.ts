@@ -61,7 +61,7 @@ class Editor {
     }
 
     // execute vscode command
-    public dispatch = (type: string, payload: any) => {
+    public dispatch = (type: string, payload?: any) => {
         vscode.commands.executeCommand(type, payload)
     }
 }

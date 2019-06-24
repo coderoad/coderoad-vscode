@@ -2,7 +2,7 @@ import * as CR from 'typings'
 import * as storage from '../../services/storage'
 import { gitLoadCommits, gitClear } from '../../services/git'
 
-export default async function loadSolution(): Promise<void> {
+export default async function loadSolution(dispatch: CR.EditorDispatch): Promise<void> {
   const [position, tutorial]: [CR.Position, CR.Tutorial | undefined] = await Promise.all([
     storage.getPosition(),
     storage.getTutorial(),
@@ -17,5 +17,5 @@ export default async function loadSolution(): Promise<void> {
   const { solution } = tutorial.data.steps[position.stepId].actions
 
   await gitClear()
-  await gitLoadCommits(solution)
+  await gitLoadCommits(solution, dispatch)
 }
