@@ -36,6 +36,11 @@
 				"command": "coderoad.start",
 				"title": "Start",
 				"category": "CodeRoad"
+			},
+			{
+				"command": "coderoad.set_layout",
+				"title": "Set Layout",
+				"category": "CodeRoad"
 			}
 		]
 	},
@@ -53,16 +58,16 @@
 	},
 	"devDependencies": {
 		"@types/mocha": "^5.2.7",
-		"@types/node": "^12.0.7",
-		"concurrently": "^4.1.0",
+		"@types/node": "^12.0.12",
+		"concurrently": "^4.1.1",
 		"prettier": "^1.18.2",
-		"tslint": "^5.17.0",
+		"tslint": "^5.18.0",
 		"tslint-config-prettier": "^1.18.0",
-		"typescript": "^3.5.1"
+		"typescript": "^3.5.2"
 	},
 	"dependencies": {
-		"xstate": "^4.6.1",
-		"vscode": "^1.1.28"
+		"vscode": "^1.1.35",
+		"xstate": "^4.6.4"
 	},
 	"license": "SEE LICENSE IN LICENSE.md"
 }
