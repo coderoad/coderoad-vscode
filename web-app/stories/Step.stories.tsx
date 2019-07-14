@@ -38,6 +38,8 @@ Headers can be added:
 ### h3
 #### h4
 ##### h5
+
+Emojis: :) :| :(
 `,
       })}
       status={object('status', {
