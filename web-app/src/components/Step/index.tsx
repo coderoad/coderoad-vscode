@@ -1,8 +1,8 @@
-import * as React from 'react'
-import Markdown from '../Markdown'
 import { Checkbox } from '@alifd/next'
+import * as React from 'react'
 // import CC from '../../typings/client'
 import CR from 'typings'
+import Markdown from '../Markdown'
 
 const styles = {
   card: {
