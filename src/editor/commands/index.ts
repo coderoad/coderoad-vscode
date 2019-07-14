@@ -35,6 +35,10 @@ let webview: any
 export const createCommands = ({ context, machine, storage, git, position }: CreateCommandProps) => ({
   // initialize
   [COMMANDS.START]: () => {
+    if (webview) {
+      console.log('CodeRoad already loaded')
+      return
+    }
     // set local storage workspace
     setStorage(context.workspaceState)
 

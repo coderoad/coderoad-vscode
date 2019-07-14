@@ -14,6 +14,7 @@ const App = () => {
   const [state, setState] = React.useState(initialState)
   const [data, setData]: [CR.MachineContext, (data: CR.MachineContext) => void] = React.useState(initialData)
 
+  // update state based on response from editor
   const handleEvent = (event: ReceivedEvent): void => {
     const message = event.data
     console.log('RECEIVED')
