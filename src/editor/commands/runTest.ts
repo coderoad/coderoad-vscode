@@ -21,7 +21,7 @@ const getOutputChannel = (name: string): vscode.OutputChannel => {
 }
 
 interface Props {
-  onSuccess(): void,
+  onSuccess(): void
   onFail(): void
 }
 

@@ -58,16 +58,16 @@
 	},
 	"devDependencies": {
 		"@types/mocha": "^5.2.7",
-		"@types/node": "^12.0.12",
+		"@types/node": "^12.6.2",
 		"concurrently": "^4.1.1",
 		"prettier": "^1.18.2",
 		"tslint": "^5.18.0",
 		"tslint-config-prettier": "^1.18.0",
-		"typescript": "^3.5.2"
+		"typescript": "^3.5.3"
 	},
 	"dependencies": {
 		"vscode": "^1.1.35",
-		"xstate": "^4.6.4"
+		"xstate": "^4.6.7"
 	},
 	"license": "SEE LICENSE IN LICENSE.md"
 }

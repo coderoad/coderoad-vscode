@@ -14,7 +14,6 @@ const tutorialsData: { [key: string]: CR.Tutorial } = {
 
 // TODO: replace with fetch resource
 export default async function fetch(options: Options): Promise<any> {
-  console.log('options', options)
   switch (options.resource) {
     case 'getTutorialsSummary':
       // list of ids with summaries

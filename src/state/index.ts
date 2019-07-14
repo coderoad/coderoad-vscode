@@ -6,42 +6,42 @@ import createMachine from './machine'
 // https://xstate.js.org/docs/guides/interpretation.html
 
 interface Props {
-    dispatch: CR.EditorDispatch
+  dispatch: CR.EditorDispatch
 }
 
 class StateMachine {
-    private machineOptions = {
-        logger: console.log,
-        devTools: true,
-        deferEvents: true,
-        execute: true
-    }
-    private service: Interpreter<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>
-    constructor({ dispatch }: Props) {
-        const machine = createMachine(dispatch)
-        this.service = interpret(machine, this.machineOptions)
-            // logging
-            .onTransition(state => {
-                console.log('onTransition', state)
-                if (state.changed) {
-                    console.log('next state')
-                    console.log(state.value)
-                    dispatch('coderoad.send_state', { state: state.value, data: state.context })
-                } else {
-                    dispatch('coderoad.send_data', { data: state.context })
-                }
-            })
-    }
-    activate() {
-        // initialize
-        this.service.start()
-    }
-    deactivate() {
-        this.service.stop()
-    }
-    send(action: string | CR.Action) {
-        this.service.send(action)
-    }
+  private machineOptions = {
+    logger: console.log,
+    devTools: true,
+    deferEvents: true,
+    execute: true,
+  }
+  private service: Interpreter<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>
+  constructor({ dispatch }: Props) {
+    const machine = createMachine(dispatch)
+    this.service = interpret(machine, this.machineOptions)
+      // logging
+      .onTransition(state => {
+        console.log('onTransition', state)
+        if (state.changed) {
+          console.log('next state')
+          console.log(state.value)
+          dispatch('coderoad.send_state', { state: state.value, data: state.context })
+        } else {
+          dispatch('coderoad.send_data', { data: state.context })
+        }
+      })
+  }
+  activate() {
+    // initialize
+    this.service.start()
+  }
+  deactivate() {
+    this.service.stop()
+  }
+  send(action: string | CR.Action) {
+    this.service.send(action)
+  }
 }
 
 export default StateMachine

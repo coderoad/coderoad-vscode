@@ -6,64 +6,63 @@ import * as git from '../services/git'
 import * as position from '../services/position'
 
 interface Props {
-    machine: CR.StateMachine,
-    setWorkspaceRoot(rootPath: string): void
+  machine: CR.StateMachine
+  setWorkspaceRoot(rootPath: string): void
 }
 
 class Editor {
-    // extension context set on activation
-    // @ts-ignore
-    private context: vscode.ExtensionContext
-    private machine: CR.StateMachine
+  // extension context set on activation
+  // @ts-ignore
+  private context: vscode.ExtensionContext
+  private machine: CR.StateMachine
 
-    constructor({ machine, setWorkspaceRoot }: Props) {
-        this.machine = machine
+  constructor({ machine, setWorkspaceRoot }: Props) {
+    this.machine = machine
 
-        // set workspace root for node executions
-        const { workspace } = vscode
-        const { rootPath } = workspace
-        if (!rootPath) {
-            throw new Error('Requires a workspace. Please open a folder')
-        }
-        setWorkspaceRoot(rootPath)
+    // set workspace root for node executions
+    const { workspace } = vscode
+    const { rootPath } = workspace
+    if (!rootPath) {
+      throw new Error('Requires a workspace. Please open a folder')
     }
+    setWorkspaceRoot(rootPath)
+  }
 
-    private activateCommands = (): void => {
-        const commands = createCommands({
-            context: this.context,
-            machine: this.machine,
-            storage,
-            git,
-            position,
-        })
-        for (const cmd in commands) {
-            const command: vscode.Disposable = vscode.commands.registerCommand(cmd, commands[cmd])
-            this.context.subscriptions.push(command)
-        }
+  private activateCommands = (): void => {
+    const commands = createCommands({
+      context: this.context,
+      machine: this.machine,
+      storage,
+      git,
+      position,
+    })
+    for (const cmd in commands) {
+      const command: vscode.Disposable = vscode.commands.registerCommand(cmd, commands[cmd])
+      this.context.subscriptions.push(command)
     }
-    public activate = (context: vscode.ExtensionContext): void => {
-        console.log('ACTIVATE!')
-        this.context = context
-        // commands
-        this.activateCommands()
+  }
+  public activate = (context: vscode.ExtensionContext): void => {
+    console.log('ACTIVATE!')
+    this.context = context
+    // commands
+    this.activateCommands()
 
-        // setup tasks or views here
+    // setup tasks or views here
+  }
+  public deactivate = (): void => {
+    console.log('DEACTIVATE!')
+    // cleanup subscriptions/tasks
+    for (const disposable of this.context.subscriptions) {
+      disposable.dispose()
+    }
+    // shut down state machine
+    this.machine.deactivate()
+  }
 
-    }
-    public deactivate = (): void => {
-        console.log('DEACTIVATE!')
-        // cleanup subscriptions/tasks
-        for (const disposable of this.context.subscriptions) {
-            disposable.dispose()
-        }
-        // shut down state machine
-        this.machine.deactivate()
-    }
-
-    // execute vscode command
-    public dispatch = (type: string, payload?: any) => {
-        vscode.commands.executeCommand(type, payload)
-    }
+  // execute vscode command
+  public dispatch = (type: string, payload?: any) => {
+    vscode.commands.executeCommand(type, payload)
+  }
 }
 
 export default Editor

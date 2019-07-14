@@ -25,7 +25,7 @@ const StagePage = (props: PageProps) => {
       ...data.steps[stepId],
       status: {
         // flag progressed steps as complete
-        complete: progress.stages[stageId] || false,
+        complete: progress.steps[stepId] || false,
         // set active step to active
         active: position.stepId === stepId,
       },

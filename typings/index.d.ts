@@ -1,176 +1,176 @@
-import { send } from "xstate";
+import { send } from 'xstate'
 
 export interface TutorialLevel {
-    stageList: string[]
-    content: {
-        title: string
-        text: string
-    }
+  stageList: string[]
+  content: {
+    title: string
+    text: string
+  }
 }
 
 export interface TutorialStage {
-    stepList: string[]
-    content: {
-        title: string
-        text: string
-    }
+  stepList: string[]
+  content: {
+    title: string
+    text: string
+  }
 }
 
 export interface TutorialHint {
-    text: string
-    displayed?: boolean
+  text: string
+  displayed?: boolean
 }
 
 export interface TutorialAction {
-    commits: string[]
-    commands?: string[]
-    files?: string[]
+  commits: string[]
+  commands?: string[]
+  files?: string[]
 }
 
 export interface TutorialStepContent {
-    text: string
-    title?: string
+  text: string
+  title?: string
 }
 
 export interface TutorialStep {
-    content: TutorialStepContent
-    actions: {
-        setup: TutorialAction
-        solution: TutorialAction
-    }
-    hints?: TutorialHint[]
+  content: TutorialStepContent
+  actions: {
+    setup: TutorialAction
+    solution: TutorialAction
+  }
+  hints?: TutorialHint[]
 }
 
 export interface TutorialData {
-    summary: TutorialSummary
-    levels: {
-        [levelId: string]: TutorialLevel
-    }
-    stages: {
-        [stageId: string]: TutorialStage
-    }
-    steps: {
-        [stepId: string]: TutorialStep
-    }
+  summary: TutorialSummary
+  levels: {
+    [levelId: string]: TutorialLevel
+  }
+  stages: {
+    [stageId: string]: TutorialStage
+  }
+  steps: {
+    [stepId: string]: TutorialStep
+  }
 }
 
 export interface TutorialMeta {
-    version: string
-    repo: string
-    createdBy: string
-    createdAt: string
-    updatedBy: string
-    updatedAt: string
-    contributors: string[]
-    languages: string[]
-    testRunner: string
+  version: string
+  repo: string
+  createdBy: string
+  createdAt: string
+  updatedBy: string
+  updatedAt: string
+  contributors: string[]
+  languages: string[]
+  testRunner: string
 }
 
 export interface TutorialSummary {
-    title: string
-    description: string
-    levelList: string[]
+  title: string
+  description: string
+  levelList: string[]
 }
 
 export interface Tutorial {
-    id: string
-    meta: TutorialMeta
-    data: TutorialData
+  id: string
+  meta: TutorialMeta
+  data: TutorialData
 }
 
 export interface Progress {
-    levels: {
-        [levelId: string]: boolean
-    }
-    stages: {
-        [stageId: string]: boolean
-    }
-    steps: {
-        [stepId: string]: boolean
-    }
-    complete: boolean
+  levels: {
+    [levelId: string]: boolean
+  }
+  stages: {
+    [stageId: string]: boolean
+  }
+  steps: {
+    [stepId: string]: boolean
+  }
+  complete: boolean
 }
 
 // current tutorial position
 export interface Position {
-    levelId: string
-    stageId: string
-    stepId: string
-    complete?: boolean
+  levelId: string
+  stageId: string
+  stepId: string
+  complete?: boolean
 }
 
 // current tutorial state
 
 export interface Action {
-    type: string
-    payload?: any
-    meta?: any
+  type: string
+  payload?: any
+  meta?: any
 }
 
 export interface MachineContext {
-    position: Position
-    data: {
-        summary: TutorialSummary
-        levels: {
-            [levelId: string]: TutorialLevel
-        }
-        stages: {
-            [stageId: string]: TutorialStage
-        }
-        steps: {
-            [stepId: string]: TutorialStep
-        }
+  position: Position
+  data: {
+    summary: TutorialSummary
+    levels: {
+      [levelId: string]: TutorialLevel
     }
-    progress: Progress
+    stages: {
+      [stageId: string]: TutorialStage
+    }
+    steps: {
+      [stepId: string]: TutorialStep
+    }
+  }
+  progress: Progress
 }
 
 export interface MachineEvent {
-    type: string
-    payload?: any
+  type: string
+  payload?: any
 }
 
 export interface MachineStateSchema {
-    states: {
-        SelectTutorial: {
-            states: {
-                Initial: {}
-                Startup: {}
-                NewTutorial: {
-                    states: {
-                        SelectTutorial: {}
-                        InitializeTutorial: {}
-                    }
-                }
-                ContinueTutorial: {}
-            }
+  states: {
+    SelectTutorial: {
+      states: {
+        Initial: {}
+        Startup: {}
+        NewTutorial: {
+          states: {
+            SelectTutorial: {}
+            InitializeTutorial: {}
+          }
         }
-        Tutorial: {
-            states: {
-                Initialize: {}
-                Summary: {}
-                LoadCurrent: {}
-                LoadNext: {}
-                Level: {}
-                Stage: {
-                    states: {
-                        Normal: {}
-                        TestRunning: {}
-                        TestPass: {}
-                        TestFail: {}
-                        StepNext: {}
-                        StageComplete: {}
-                    }
-                }
-                EndTutorial: {}
-            }
-        }
+        ContinueTutorial: {}
+      }
     }
+    Tutorial: {
+      states: {
+        Initialize: {}
+        Summary: {}
+        LoadCurrent: {}
+        LoadNext: {}
+        Level: {}
+        Stage: {
+          states: {
+            Normal: {}
+            TestRunning: {}
+            TestPass: {}
+            TestFail: {}
+            StepNext: {}
+            StageComplete: {}
+          }
+        }
+        EndTutorial: {}
+      }
+    }
+  }
 }
 
 export interface StateMachine {
-    activate(): void
-    deactivate(): void
-    send(action: string | Action): void
+  activate(): void
+  deactivate(): void
+  send(action: string | Action): void
 }
 
 export type EditorDispatch = (type: string, payload?: any) => void

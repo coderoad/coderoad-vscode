@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 interface Props {
-    value: any
+  value: any
 }
 
 const Debugger = ({ value }: Props) => (
