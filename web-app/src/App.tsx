@@ -1,10 +1,10 @@
 import * as React from 'react'
 import * as CR from 'typings'
 
-import Debugger from './components/Debugger'
+// import Debugger from './components/Debugger'
 import Routes from './Routes'
+import DataContext, { initialData, initialState } from './utils/DataContext'
 import { send } from './utils/vscode'
-import DataContext, { initialState, initialData } from './utils/DataContext'
 
 interface ReceivedEvent {
   data: CR.Action

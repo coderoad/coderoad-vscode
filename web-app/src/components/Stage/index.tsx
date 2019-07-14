@@ -1,14 +1,23 @@
+import { Button } from '@alifd/next'
 import * as React from 'react'
-import { Button, Card } from '@alifd/next'
 import CR from 'typings'
 
+import Divider from '../Divider'
 import Markdown from '../Markdown'
 import Step from '../Step'
 
 const styles = {
   card: {
-    // width: '20rem',
+    padding: 0,
   },
+  content: {
+    padding: '0rem 1rem',
+    paddingBottom: '1rem',
+  },
+  options: {
+    padding: '0rem 1rem',
+  },
+  title: {},
 }
 
 interface Props {
@@ -16,27 +25,32 @@ interface Props {
   steps: {
     [stepId: string]: any // CC.Step
   }
-  onNextStage(): void
   complete: boolean
+  onNextStage(): void
 }
 
 const Stage = ({ stage, steps, onNextStage, complete }: Props) => {
   const { title, text } = stage.content
   return (
-    <Card style={styles.card} title={title} showTitleBullet={false} contentHeight="auto">
-      <Markdown>{text}</Markdown>
+    <div style={styles.card}>
+      <div style={styles.content}>
+        <h2 style={styles.title}>{title}</h2>
+        <Markdown>{text}</Markdown>
+      </div>
+      <Divider />
       <div>
         {stage.stepList.map((stepId: string) => {
           const step = steps[stepId]
           return <Step key={stepId} content={step.content} status={step.status} />
         })}
       </div>
+
       {complete && (
-        <div>
+        <div style={styles.options}>
           <Button onClick={onNextStage}>Continue</Button>
         </div>
       )}
-    </Card>
+    </div>
   )
 }
 
