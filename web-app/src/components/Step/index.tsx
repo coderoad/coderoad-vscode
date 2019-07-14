@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Markdown from '../Markdown'
 import { Checkbox } from '@alifd/next'
 // import CC from '../../typings/client'
 import CR from 'typings'
@@ -36,7 +37,9 @@ const Step = ({ content, status }: Props) => {
       <div style={styles.left}>
         <Checkbox checked={status.complete} />
       </div>
-      <div style={styles.right}>{content.text}</div>
+      <div style={styles.right}>
+        <Markdown>{content.text}</Markdown>
+      </div>
     </div>
   )
 }

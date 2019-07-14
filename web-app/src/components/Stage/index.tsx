@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Button, Card } from '@alifd/next'
 import CR from 'typings'
 
+import Markdown from '../Markdown'
 import Step from '../Step'
 
 const styles = {
@@ -23,7 +24,7 @@ const Stage = ({ stage, steps, onNextStage, complete }: Props) => {
   const { title, text } = stage.content
   return (
     <Card style={styles.card} title={title} showTitleBullet={false} contentHeight="auto">
-      <p>{text}</p>
+      <Markdown>{text}</Markdown>
       <div>
         {stage.stepList.map((stepId: string) => {
           const step = steps[stepId]

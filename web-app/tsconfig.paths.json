@@ -1,21 +1,11 @@
 {
-    "compilerOptions": {
-        "baseUrl": "src",
-        "rootDirs": [
-            "src",
-            "stories"
-        ],
-        "paths": {
-            "typings": [
-                "../../typings/index.d.ts"
-            ]
-        }
+  "compilerOptions": {
+    "baseUrl": "src",
+    "rootDirs": ["src", "stories"],
+    "paths": {
+      "typings": ["../../typings/index.d.ts"]
     },
-    "exclude": [
-        "node_modules",
-        "build",
-        "scripts",
-        "jest",
-        "public"
-    ]
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": ["node_modules", "build", "scripts", "jest", "public"]
 }
