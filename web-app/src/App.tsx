@@ -3,6 +3,7 @@ import * as CR from 'typings'
 
 import Debugger from './components/Debugger'
 import Routes from './Routes'
+import { send } from './utils/vscode'
 import DataContext, { initialState, initialData } from './utils/DataContext'
 
 interface ReceivedEvent {
@@ -35,6 +36,11 @@ const App = () => {
     }
   })
 
+  // trigger progress when webview loaded
+  React.useEffect(() => {
+    send('WEBVIEW_LOADED')
+  })
+
   const value = {
     state,
     position: data.position,
@@ -46,7 +52,7 @@ const App = () => {
   return (
     <DataContext.Provider value={value}>
       <div>
-        {/* <Debugger value={value} /> */}
+        <Debugger value={value} />
         <Routes state={state} />
       </div>
     </DataContext.Provider>

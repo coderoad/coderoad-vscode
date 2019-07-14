@@ -7,6 +7,7 @@ import * as path from 'path'
  */
 class ReactWebView {
   // @ts-ignore
+  public loaded: boolean
   private panel: vscode.WebviewPanel
   private extensionPath: string
   private disposables: vscode.Disposable[] = []
@@ -26,7 +27,14 @@ class ReactWebView {
     this.panel.onDidDispose(() => this.dispose(), null, this.disposables)
 
     // Handle messages from the webview
-    const onReceive = (action: string | CR.Action) => vscode.commands.executeCommand('coderoad.receive_action', action)
+    const onReceive = (action: string | CR.Action) => {
+      // await loading of webview in React before proceeding with loaded state
+      if (action === 'WEBVIEW_LOADED') {
+        this.loaded = true
+      } else {
+        vscode.commands.executeCommand('coderoad.receive_action', action)
+      }
+    }
     this.panel.webview.onDidReceiveMessage(onReceive, null, this.disposables)
 
     // update panel on changes
@@ -52,13 +60,23 @@ class ReactWebView {
     // TODO: prevent window from moving to the left when no windows remain on rights
   }
 
-  public createOrShow(column: number): void {
+  public createOrShow(column: number, callback?: () => void): void {
     // If we already have a panel, show it.
     // Otherwise, create a new panel.
     if (this.panel && this.panel.webview) {
       this.panel.reveal(column)
     } else {
       this.panel = this.createWebviewPanel(column)
+    }
+    if (callback) {
+      // listen for when webview is loaded
+      // unfortunately there is no easy way of doing this
+      let webPanelListener = setInterval(() => {
+        if (this.loaded) {
+          setTimeout(callback)
+          clearInterval(webPanelListener)
+        }
+      }, 200)
     }
   }
 
