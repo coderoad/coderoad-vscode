@@ -3,6 +3,7 @@ import * as CR from 'typings'
 
 import Debugger from './components/Debugger'
 import Routes from './Routes'
+import { send } from './utils/vscode'
 import DataContext, { initialState, initialData } from './utils/DataContext'
 
 interface ReceivedEvent {
@@ -13,6 +14,7 @@ const App = () => {
   const [state, setState] = React.useState(initialState)
   const [data, setData]: [CR.MachineContext, (data: CR.MachineContext) => void] = React.useState(initialData)
 
+  // update state based on response from editor
   const handleEvent = (event: ReceivedEvent): void => {
     const message = event.data
     console.log('RECEIVED')
@@ -35,6 +37,11 @@ const App = () => {
     }
   })
 
+  // trigger progress when webview loaded
+  React.useEffect(() => {
+    send('WEBVIEW_LOADED')
+  })
+
   const value = {
     state,
     position: data.position,
@@ -46,7 +53,7 @@ const App = () => {
   return (
     <DataContext.Provider value={value}>
       <div>
-        <Debugger value={value} />
+        {/* <Debugger value={value} /> */}
         <Routes state={state} />
       </div>
     </DataContext.Provider>

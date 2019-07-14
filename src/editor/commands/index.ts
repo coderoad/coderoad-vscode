@@ -35,6 +35,10 @@ let webview: any
 export const createCommands = ({ context, machine, storage, git, position }: CreateCommandProps) => ({
   // initialize
   [COMMANDS.START]: () => {
+    if (webview) {
+      console.log('CodeRoad already loaded')
+      return
+    }
     // set local storage workspace
     setStorage(context.workspaceState)
 
@@ -50,12 +54,8 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
       orientation: 0,
       groups: [{ groups: [{}], size: 0.6 }, { groups: [{}], size: 0.4 }],
     })
-    webview.createOrShow(column)
-    // NOTE: createOrShow and layout command cannot be async
-    // this creates an async issue where the webview cannot detect when it has been initialized
-    setTimeout(() => {
-      machine.send('WEBVIEW_INITIALIZED')
-    }, 2000)
+    const callback = () => machine.send('WEBVIEW_INITIALIZED')
+    webview.createOrShow(column, callback)
   },
   // launch a new tutorial
   // NOTE: may be better to move into action as logic is primarily non-vscode
