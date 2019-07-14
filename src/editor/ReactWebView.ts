@@ -23,7 +23,7 @@ class ReactWebView {
 
     // Listen for when the panel is disposed
     // This happens when the user closes the panel or when the panel is closed programatically
-    // this.panel.onDidDispose(() => this.dispose(), null, this.disposables)
+    this.panel.onDidDispose(() => this.dispose(), null, this.disposables)
 
     // Handle messages from the webview
     const onReceive = (action: string | CR.Action) => vscode.commands.executeCommand('coderoad.receive_action', action)
@@ -37,15 +37,6 @@ class ReactWebView {
       })
       this.panel.reveal(vscode.ViewColumn.Two)
     }
-
-    this.panel.onDidDispose(() => {
-      updateWindows()
-    })
-
-    // this.panel.onDidChangeViewState(() => {
-    //     console.log('onDidChangeViewState')
-    //     updateWindows()
-    // })
 
     // prevents new panels from going ontop of coderoad panel
     vscode.window.onDidChangeActiveTextEditor(param => {
@@ -145,8 +136,8 @@ class ReactWebView {
                     <link rel="stylesheet" type="text/css" href="${styleUri}">
                     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src vscode-resource: https:; script-src 'nonce-${n1}' 'nonce-${n2}' 'nonce-${n3}'; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
                     <base href="${vscode.Uri.file(path.join(this.extensionPath, 'build')).with({
-                      scheme: 'vscode-resource',
-                    })}/">
+      scheme: 'vscode-resource',
+    })}/">
                     <style></style>
                 </head>
 
