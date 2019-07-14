@@ -5,5 +5,5 @@ declare var acquireVsCodeApi: any
 const vscode = acquireVsCodeApi()
 
 export function send(event: string | Action) {
-    return vscode.postMessage(event)
+  return vscode.postMessage(event)
 }

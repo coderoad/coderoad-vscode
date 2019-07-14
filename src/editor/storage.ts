@@ -15,4 +15,3 @@ export function get<T>(key: string): T | undefined {
 export function update<T>(key: string, value: string | Object): Thenable<void> {
   return storage.update(key, value)
 }
-

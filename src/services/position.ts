@@ -62,4 +62,4 @@ export async function loadProgressPosition() {
   storage.setPosition(position)
 }
 
-export async function getPrev(): Promise<void> { }
+export async function getPrev(): Promise<void> {}

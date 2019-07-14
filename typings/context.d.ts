@@ -1,21 +1,21 @@
 import * as CR from './index'
 
 export interface Step extends Exclude<CR.TutorialStep, 'actions'> {
-    status: {
-        complete: boolean
-        active: boolean
-    }
+  status: {
+    complete: boolean
+    active: boolean
+  }
 }
 
 export interface ReceivedEvent {
-    data: CR.Action
+  data: CR.Action
 }
 
 export interface StageStepStatus {
-    active: boolean
-    complete: boolean
+  active: boolean
+  complete: boolean
 }
 
 export interface StageWithStatus extends CR.TutorialStage {
-    status: StageStepStatus
+  status: StageStepStatus
 }
