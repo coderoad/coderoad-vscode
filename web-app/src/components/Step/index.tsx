@@ -14,7 +14,7 @@ const styles = {
     gridTemplateAreas: 'CheckboxMargin Content',
     gridTemplateColumns: '2rem 1fr',
     gridTemplateRows: '1fr',
-    margin: '1rem',
+    padding: '1rem',
   },
   left: {
     justifySelf: 'center',

@@ -1,5 +1,5 @@
+import { Button } from '@alifd/next'
 import * as React from 'react'
-import { Button, Card } from '@alifd/next'
 import CR from 'typings'
 
 import Markdown from '../Markdown'
@@ -7,8 +7,12 @@ import Step from '../Step'
 
 const styles = {
   card: {
-    // width: '20rem',
+    padding: 0,
   },
+  content: {
+    padding: '0rem 1rem',
+  },
+  title: {},
 }
 
 interface Props {
@@ -16,15 +20,18 @@ interface Props {
   steps: {
     [stepId: string]: any // CC.Step
   }
-  onNextStage(): void
   complete: boolean
+  onNextStage(): void
 }
 
 const Stage = ({ stage, steps, onNextStage, complete }: Props) => {
   const { title, text } = stage.content
   return (
-    <Card style={styles.card} title={title} showTitleBullet={false} contentHeight="auto">
-      <Markdown>{text}</Markdown>
+    <div style={styles.card}>
+      <div style={styles.content}>
+        <h2 style={styles.title}>{title}</h2>
+        <Markdown>{text}</Markdown>
+      </div>
       <div>
         {stage.stepList.map((stepId: string) => {
           const step = steps[stepId]
@@ -36,7 +43,7 @@ const Stage = ({ stage, steps, onNextStage, complete }: Props) => {
           <Button onClick={onNextStage}>Continue</Button>
         </div>
       )}
-    </Card>
+    </div>
   )
 }
 
