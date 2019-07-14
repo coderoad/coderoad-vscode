@@ -46,7 +46,7 @@ const App = () => {
   return (
     <DataContext.Provider value={value}>
       <div>
-        <Debugger value={value} />
+        {/* <Debugger value={value} /> */}
         <Routes state={state} />
       </div>
     </DataContext.Provider>
