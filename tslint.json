@@ -1,24 +1,15 @@
 {
-	"extends": [
-		"tslint:latest",
-		"tslint-config-prettier"
-	],
-	"rules": {
-		"no-string-throw": true,
-		"no-unused-expression": true,
-		"no-duplicate-variable": true,
-		"curly": true,
-		"class-name": true,
-		"semicolon": [
-			true,
-			"never"
-		],
-		"triple-equals": true,
-		"interface-name": [
-			true,
-			"never-prefix"
-		]
-	},
-	"defaultSeverity": "warning",
-	"no-submodule-imports": false,
+  "extends": ["tslint:latest", "tslint-config-prettier"],
+  "rules": {
+    "no-string-throw": true,
+    "no-unused-expression": true,
+    "no-duplicate-variable": true,
+    "curly": true,
+    "class-name": true,
+    "semicolon": [true, "never"],
+    "triple-equals": true,
+    "interface-name": [true, "never-prefix"]
+  },
+  "defaultSeverity": "warning",
+  "no-submodule-imports": false
 }

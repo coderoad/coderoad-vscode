@@ -2,6 +2,8 @@ import * as React from 'react'
 import { Button, Card } from '@alifd/next'
 import CR from 'typings'
 
+import Markdown from '../Markdown'
+
 const styles = {
   card: {
     // width: '20rem',
@@ -24,7 +26,7 @@ const Level = ({ level, stages, onNext, onBack }: Props) => {
   const { title, text } = level.content
   return (
     <Card style={styles.card} title={title} showTitleBullet={false} contentHeight="auto">
-      <p>{text}</p>
+      <Markdown>{text}</Markdown>
       <div>
         {level.stageList.map((stageId: string) => {
           const stage = stages[stageId]

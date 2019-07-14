@@ -1,7 +1,8 @@
-import * as React from 'react'
 import { Checkbox } from '@alifd/next'
+import * as React from 'react'
 // import CC from '../../typings/client'
 import CR from 'typings'
+import Markdown from '../Markdown'
 
 const styles = {
   card: {
@@ -36,7 +37,9 @@ const Step = ({ content, status }: Props) => {
       <div style={styles.left}>
         <Checkbox checked={status.complete} />
       </div>
-      <div style={styles.right}>{content.text}</div>
+      <div style={styles.right}>
+        <Markdown>{content.text}</Markdown>
+      </div>
     </div>
   )
 }

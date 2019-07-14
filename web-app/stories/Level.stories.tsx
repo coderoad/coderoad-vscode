@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { storiesOf } from '@storybook/react'
+import { object, withKnobs } from '@storybook/addon-knobs'
 import { linkTo } from '@storybook/addon-links'
-import { withKnobs, object } from '@storybook/addon-knobs'
+import { storiesOf } from '@storybook/react'
 import SideBarDecorator from './utils/SideBarDecorator'
 
 import Level from '../src/components/Level'
@@ -13,7 +13,7 @@ storiesOf('Tutorial SideBar', module)
   .addDecorator(withKnobs)
   .add('Level', () => (
     <Level
-      level={object('level', demo.data.levels['level1Id'])}
+      level={object('level', demo.data.levels.level1Id)}
       stages={object('stages', {
         stage1Id: {
           stepList: [],
