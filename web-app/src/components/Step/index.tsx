@@ -5,19 +5,24 @@ import CR from 'typings'
 import Markdown from '../Markdown'
 
 const styles = {
+  active: {
+    backgroundColor: '#e6f7ff',
+  },
   card: {
-    display: 'flex',
-    flexDirection: 'row' as 'row',
+    borderRadius: '0.3rem',
+    display: 'grid',
+    gridTemplateAreas: 'CheckboxMargin Content',
+    gridTemplateColumns: '2rem 1fr',
+    gridTemplateRows: '1fr',
     margin: '1rem',
   },
   left: {
-    width: '2rem',
+    justifySelf: 'center',
+    paddingTop: '0.8rem',
   },
   right: {
-    flex: 1,
-  },
-  active: {
-    backgroundColor: 'yellow',
+    padding: '0.2rem',
+    paddingTop: 0,
   },
 }
 
