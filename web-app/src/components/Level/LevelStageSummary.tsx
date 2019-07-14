@@ -5,22 +5,11 @@ import CC from '../../../../typings/context'
 import Markdown from '../Markdown'
 
 const styles = {
-  active: {
-    backgroundColor: '#e6f7ff',
-  },
   card: {
-    padding: '0.5rem 1rem',
-  },
-  completed: {
-    backgroundColor: '#f6ffed',
-  },
-  disabled: {
-    // backgroundColor: 'blue',
+    // padding: '0.5rem 1rem',
+    marginRight: '1.5rem',
   },
   options: {},
-  title: {
-    margin: 0,
-  },
 }
 
 interface Props {
@@ -30,20 +19,11 @@ interface Props {
 
 const LevelStageSummary = (props: Props) => {
   const { stage, onNext } = props
-  const { complete, active } = stage.status
-  const cardStyle = {
-    ...styles.card,
-    ...(active ? styles.active : styles.disabled),
-    ...(complete ? styles.completed : {}),
-  }
+  const { active } = stage.status
   return (
-    <div style={cardStyle}>
-      <h3 style={styles.title}>{stage.content.title}</h3>
+    <div style={styles.card}>
       <Markdown>{stage.content.text}</Markdown>
-      <div style={styles.options}>
-        {active && <Button onClick={onNext}>Continue</Button>}
-        {complete && <div>Complete</div>}
-      </div>
+      <div style={styles.options}>{active && <Button onClick={onNext}>Continue</Button>}</div>
     </div>
   )
 }

@@ -1,8 +1,7 @@
-import { Button } from '@alifd/next'
+import { Button, Step } from '@alifd/next'
 import * as React from 'react'
 import CR from 'typings'
-
-import Divider from '../Divider'
+3
 import Markdown from '../Markdown'
 import LevelStageSummary from './LevelStageSummary'
 
@@ -18,6 +17,9 @@ const styles = {
   options: {
     padding: '0rem 1rem',
   },
+  steps: {
+    padding: '1rem 0.5rem',
+  },
   title: {},
 }
 
@@ -31,19 +33,30 @@ interface Props {
 }
 
 const Level = ({ level, stages, onNext, onBack }: Props) => {
-  const { title, text } = level.content
+  const { content, stageList } = level
+  const { title, text } = content
+  const activeIndex = stageList.findIndex((stageId: string) => {
+    return stages[stageId].status.active
+  })
   return (
     <div style={styles.card}>
       <div style={styles.content}>
         <h2 style={styles.title}>{title}</h2>
         <Markdown>{text}</Markdown>
       </div>
-      <Divider />
-      <div style={styles.list}>
-        {level.stageList.map((stageId: string) => {
-          const stage = stages[stageId]
-          return <LevelStageSummary key={stageId} stage={stage} onNext={onNext} />
-        })}
+      <div style={styles.steps}>
+        <Step current={activeIndex} direction="ver" animation={false}>
+          {stageList.map((stageId: string, index: number) => {
+            const stage = stages[stageId]
+            return (
+              <Step.Item
+                key={stageId}
+                title={stage.content.title || `Stage ${index + 1}`}
+                content={<LevelStageSummary key={stageId} stage={stage} onNext={onNext} />}
+              />
+            )
+          })}
+        </Step>
       </div>
       <div style={styles.options}>
         <Button onClick={onBack}>Back</Button>
