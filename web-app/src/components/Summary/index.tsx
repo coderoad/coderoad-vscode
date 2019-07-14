@@ -1,4 +1,4 @@
-import { Button, Card } from '@alifd/next'
+import { Button } from '@alifd/next'
 import * as React from 'react'
 import CR from 'typings'
 

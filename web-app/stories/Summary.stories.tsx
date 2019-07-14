@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { storiesOf } from '@storybook/react'
+import { object, withKnobs } from '@storybook/addon-knobs'
 import { linkTo } from '@storybook/addon-links'
-import { withKnobs, object } from '@storybook/addon-knobs'
+import { storiesOf } from '@storybook/react'
 import SideBarDecorator from './utils/SideBarDecorator'
 
-import demo from './data/basic'
 import Summary from '../src/components/Summary'
+import demo from './data/basic'
 
 storiesOf('Tutorial SideBar', module)
   .addDecorator(SideBarDecorator)
@@ -14,9 +14,9 @@ storiesOf('Tutorial SideBar', module)
   .add('Summary', () => (
     <Summary
       data={object('data', {
-        summary: demo.data.summary,
         levels: demo.data.levels,
+        summary: demo.data.summary,
       })}
-      onLevelSelect={linkTo('Tutorial SideBar', 'Level')}
+      onNext={linkTo('Tutorial SideBar', 'Level')}
     />
   ))
