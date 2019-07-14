@@ -11,15 +11,12 @@ const gitOrigin = 'coderoad'
 export async function gitLoadCommits(actions: CR.TutorialAction, dispatch: CR.EditorDispatch): Promise<void> {
   const { commits, commands, files } = actions
 
-  console.log('commits to load', commits)
-
   for (const commit of commits) {
     const { stdout, stderr } = await exec(`git cherry-pick ${commit}`)
     if (stderr) {
       console.error(stderr)
       throw new Error('Error loading commit')
     }
-    console.log('add commit', stdout)
   }
 
   if (commands) {

@@ -23,7 +23,7 @@ class ReactWebView {
 
         // Listen for when the panel is disposed
         // This happens when the user closes the panel or when the panel is closed programatically
-        this.panel.onDidDispose(() => this.dispose(), null, this.disposables)
+        // this.panel.onDidDispose(() => this.dispose(), null, this.disposables)
 
         // Handle messages from the webview
         const onReceive = (action: string | CR.Action) => vscode.commands.executeCommand('coderoad.receive_action', action)
@@ -31,16 +31,27 @@ class ReactWebView {
 
         // update panel on changes
         const updateWindows = () => {
+
             vscode.commands.executeCommand('vscode.setEditorLayout', { orientation: 0, groups: [{ groups: [{}], size: 0.6 }, { groups: [{}], size: 0.4 }] })
             this.panel.reveal(vscode.ViewColumn.Two)
         }
+
+        this.panel.onDidDispose(() => {
+            updateWindows()
+        })
+
+        // this.panel.onDidChangeViewState(() => {
+        //     console.log('onDidChangeViewState')
+        //     updateWindows()
+        // })
+
         // prevents new panels from going ontop of coderoad panel
         vscode.window.onDidChangeActiveTextEditor((param) => {
             if (!param || param.viewColumn !== vscode.ViewColumn.Two) {
                 updateWindows()
             }
         })
-        // prevents moving coderoad panel on top of left panel
+        // // prevents moving coderoad panel on top of left panel
         vscode.window.onDidChangeVisibleTextEditors((param) => {
             updateWindows()
         })
@@ -52,10 +63,8 @@ class ReactWebView {
         // If we already have a panel, show it.
         // Otherwise, create a new panel.
         if (this.panel && this.panel.webview) {
-            console.log('reveal')
             this.panel.reveal(column)
         } else {
-            console.log('make new panel')
             this.panel = this.createWebviewPanel(column)
         }
     }
@@ -84,15 +93,12 @@ class ReactWebView {
     }
 
     public async postMessage(action: CR.Action): Promise<void> {
-        console.log('webview postMessage')
-        console.log(action)
         // Send a message to the webview webview.
         // You can send any JSON serializable data.
         const success = await this.panel.webview.postMessage(action)
         if (!success) {
             throw new Error(`Message post failure: ${JSON.stringify(action)}`)
         }
-        console.log('postMessage sent')
     }
 
     public dispose(): void {
@@ -125,31 +131,29 @@ class ReactWebView {
         const styleUri = stylePathOnDisk.with({ scheme: 'vscode-resource' })
 
         // Use a nonce to whitelist which scripts can be run
-        const nonce = this.getNonce()
-        const nonce2 = this.getNonce()
-        const nonce3 = this.getNonce()
+        const [n1, n2, n3] = [1, 2, 3].map(this.getNonce)
 
         return `<!DOCTYPE html>
 			<html lang="en">
-			<head>
-				<meta charset="utf-8">
-				<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-                <meta name="theme-color" content="#000000">
-                <title>React App</title>
-                <link rel="manifest" href="./manifest.json" />
-				<link rel="stylesheet" type="text/css" href="${styleUri}">
-				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src vscode-resource: https:; script-src 'nonce-${nonce}' 'nonce-${nonce2}' 'nonce-${nonce3}'; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
-                <base href="${vscode.Uri.file(path.join(this.extensionPath, 'build')).with({ scheme: 'vscode-resource' })}/">
-                <style></style>
-			</head>
+                <head>
+                    <meta charset="utf-8">
+                    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+                    <meta name="theme-color" content="#000000">
+                    <title>React App</title>
+                    <link rel="manifest" href="./manifest.json" />
+                    <link rel="stylesheet" type="text/css" href="${styleUri}">
+                    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src vscode-resource: https:; script-src 'nonce-${n1}' 'nonce-${n2}' 'nonce-${n3}'; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
+                    <base href="${vscode.Uri.file(path.join(this.extensionPath, 'build')).with({ scheme: 'vscode-resource' })}/">
+                    <style></style>
+                </head>
 
-			<body>
-				<noscript>You need to enable JavaScript to run this app.</noscript>
-                <div id="root">Loading...</div>
-                <script nonce=${nonce} src="./webpackBuild.js"></script>
-                <script nonce=${nonce2} src="${chunkUri}"></script>
-                <script nonce="${nonce3}" src="${scriptUri}"></script>
-			</body>
+                <body>
+                    <noscript>You need to enable JavaScript to run this app.</noscript>
+                    <div id="root">Loading...</div>
+                    <script nonce=${n1} src="./webpackBuild.js"></script>
+                    <script nonce=${n2} src="${chunkUri}"></script>
+                    <script nonce="${n3}" src="${scriptUri}"></script>
+                </body>
             </html>`
     }
 }

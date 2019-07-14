@@ -16,7 +16,6 @@ let currentProgress: CR.Progress = {
 
 export default (dispatch: CR.EditorDispatch) => ({
     createWebview() {
-        console.log('execute coderoad.open_webview')
         dispatch('coderoad.open_webview')
     },
     async newOrContinue() {
@@ -152,7 +151,7 @@ export default (dispatch: CR.EditorDispatch) => ({
                 ...context.position,
                 stepId: nextStepId,
             }
-            console.log('position update', nextPosition)
+
             return nextPosition
         }
     }),
