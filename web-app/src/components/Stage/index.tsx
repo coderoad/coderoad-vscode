@@ -1,10 +1,9 @@
-import { Button } from '@alifd/next'
+import { Button, Step } from '@alifd/next'
 import * as React from 'react'
 import CR from 'typings'
 
-import Divider from '../Divider'
 import Markdown from '../Markdown'
-import Step from '../Step'
+import StepDescription from './StepDescription'
 
 const styles = {
   card: {
@@ -16,6 +15,9 @@ const styles = {
   },
   options: {
     padding: '0rem 1rem',
+  },
+  steps: {
+    padding: '1rem 0rem',
   },
   title: {},
 }
@@ -30,19 +32,33 @@ interface Props {
 }
 
 const Stage = ({ stage, steps, onNextStage, complete }: Props) => {
-  const { title, text } = stage.content
+  const { stepList, content } = stage
+  const { title, text } = content
+  // grab the active step
+  const activeIndex = stepList.findIndex((stepId: string) => {
+    return steps[stepId].status.active
+  })
+  // only display up until the active step
+  const filteredStepList = stepList.slice(0, activeIndex + 1)
   return (
     <div style={styles.card}>
       <div style={styles.content}>
         <h2 style={styles.title}>{title}</h2>
         <Markdown>{text}</Markdown>
       </div>
-      <Divider />
-      <div>
-        {stage.stepList.map((stepId: string) => {
-          const step = steps[stepId]
-          return <Step key={stepId} content={step.content} status={step.status} />
-        })}
+      <div style={styles.steps}>
+        <Step current={activeIndex} direction="ver" shape="dot" animation>
+          {filteredStepList.map((stepId: string, index: number) => {
+            const step = steps[stepId]
+            return (
+              <Step.Item
+                key={stepId}
+                title={step.content.title || `Step ${index + 1}`}
+                content={<StepDescription content={step.content} status={step.status} />}
+              />
+            )
+          })}
+        </Step>
       </div>
 
       {complete && (
