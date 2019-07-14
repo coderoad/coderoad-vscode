@@ -27,8 +27,12 @@ storiesOf('Tutorial SideBar', module)
     <Step
       content={object('content', {
         text: `Markdown included \`code\`, *bold*, & _italics_.
-\`\`\`
+\`\`\`javascript
 var a = 12
+
+function example(a) {
+  return a + 1
+}
 \`\`\`
 
 Headers can be added:

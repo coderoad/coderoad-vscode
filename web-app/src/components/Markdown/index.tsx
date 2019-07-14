@@ -1,30 +1,24 @@
-import syntaxHighlighter from 'highlight.js'
 import MarkdownIt from 'markdown-it'
 // @ts-ignore no types for package
 import markdownEmoji from 'markdown-it-emoji'
+// @ts-ignore no types for package
+import prism from 'markdown-it-prism'
 import * as React from 'react'
 
-// syntax highlighting https://github.com/markdown-it/markdown-it
-const syntaxHighlight = (str: string, lang: string) => {
-  if (lang && syntaxHighlighter.getLanguage(lang)) {
-    try {
-      return syntaxHighlighter.highlight(lang, str).value
-    } catch (__) {
-      // ignore
-    }
-  }
-  return '' // use external default escaping
-}
+import './prism.css'
 
 // markdown highlighter instance
 const md = new MarkdownIt({
   breaks: true,
-  highlight: syntaxHighlight,
+  // highlight: syntaxHighlight,
   html: true,
   linkify: true,
 })
   // add emoji: https://github.com/markdown-it/markdown-it-emoji
   .use(markdownEmoji)
+  .use(prism, {
+    defaultLanguage: 'js',
+  })
 
 interface Props {
   children: string

@@ -4,9 +4,9 @@
   "private": true,
   "dependencies": {
     "@alifd/next": "^1.15.12",
-    "highlight.js": "^9.15.8",
     "markdown-it": "^9.0.1",
     "markdown-it-emoji": "^1.4.0",
+    "markdown-it-prism": "^2.0.2",
     "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
