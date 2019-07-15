@@ -1,6 +1,6 @@
-import * as vscode from 'vscode'
-import * as CR from 'typings'
 import * as path from 'path'
+import * as CR from 'typings'
+import * as vscode from 'vscode'
 
 /**
  * Manages React webview panels
@@ -71,12 +71,33 @@ class ReactWebView {
     if (callback) {
       // listen for when webview is loaded
       // unfortunately there is no easy way of doing this
-      let webPanelListener = setInterval(() => {
+      const webPanelListener = setInterval(() => {
         if (this.loaded) {
           setTimeout(callback)
           clearInterval(webPanelListener)
         }
       }, 200)
+    }
+  }
+
+  public async postMessage(action: CR.Action): Promise<void> {
+    // Send a message to the webview webview.
+    // You can send any JSON serializable data.
+    const success = await this.panel.webview.postMessage(action)
+    if (!success) {
+      throw new Error(`Message post failure: ${JSON.stringify(action)}`)
+    }
+  }
+
+  public dispose(): void {
+    // Clean up our resources
+    this.panel.dispose()
+
+    while (this.disposables.length) {
+      const x = this.disposables.pop()
+      if (x) {
+        x.dispose()
+      }
     }
   }
 
@@ -101,27 +122,6 @@ class ReactWebView {
       text += possible.charAt(Math.floor(Math.random() * possible.length))
     }
     return text
-  }
-
-  public async postMessage(action: CR.Action): Promise<void> {
-    // Send a message to the webview webview.
-    // You can send any JSON serializable data.
-    const success = await this.panel.webview.postMessage(action)
-    if (!success) {
-      throw new Error(`Message post failure: ${JSON.stringify(action)}`)
-    }
-  }
-
-  public dispose(): void {
-    // Clean up our resources
-    this.panel.dispose()
-
-    while (this.disposables.length) {
-      const x = this.disposables.pop()
-      if (x) {
-        x.dispose()
-      }
-    }
   }
 
   private getHtmlForWebview(): string {
@@ -151,6 +151,8 @@ class ReactWebView {
                     <meta name="theme-color" content="#000000">
                     <title>React App</title>
                     <link rel="manifest" href="./manifest.json" />
+                    <!-- TODO: load styles through package -->
+                    <link rel="stylesheet" href="https://unpkg.com/@alifd/next/dist/next.css" />
                     <link rel="stylesheet" type="text/css" href="${styleUri}">
                     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src vscode-resource: https:; script-src 'nonce-${n1}' 'nonce-${n2}' 'nonce-${n3}'; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
                     <base href="${vscode.Uri.file(path.join(this.extensionPath, 'build')).with({

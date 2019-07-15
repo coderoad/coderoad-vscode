@@ -1,4 +1,4 @@
-import '@alifd/next/dist/next.css'
+// import '@alifd/next/dist/next.css'
 import { configure } from '@storybook/react'
 import '../src/styles/index.css'
 

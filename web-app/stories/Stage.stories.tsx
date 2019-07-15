@@ -38,7 +38,7 @@ function someExample(a) {
             `,
           },
           hints: [],
-          status: { active: false, complete: true },
+          status: { active: true, complete: false },
         },
         step3Id: {
           content: {
@@ -46,7 +46,7 @@ function someExample(a) {
             text: 'Write a function `divide` that divides',
           },
           hints: [],
-          status: { active: true, complete: false },
+          status: { active: false, complete: false },
         },
       })}
       stage={object('stage', demo.data.stages.stage1Id)}
