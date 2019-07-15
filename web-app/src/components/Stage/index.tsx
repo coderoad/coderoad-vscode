@@ -38,8 +38,6 @@ const Stage = ({ stage, steps, onNextStage, complete }: Props) => {
   const activeIndex = stepList.findIndex((stepId: string) => {
     return steps[stepId].status.active
   })
-  // only display up until the active step
-  const filteredStepList = stepList.slice(0, activeIndex + 1)
   return (
     <div style={styles.card}>
       <div style={styles.content}>
@@ -48,7 +46,7 @@ const Stage = ({ stage, steps, onNextStage, complete }: Props) => {
       </div>
       <div style={styles.steps}>
         <Step current={activeIndex} direction="ver" shape="dot" animation readOnly>
-          {filteredStepList.map((stepId: string, index: number) => {
+          {stepList.map((stepId: string, index: number) => {
             const step = steps[stepId]
             return (
               <Step.Item

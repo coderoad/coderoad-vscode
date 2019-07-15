@@ -1,15 +1,17 @@
 {
   "extends": ["tslint:latest", "tslint-config-prettier"],
   "rules": {
-    "no-string-throw": true,
-    "no-unused-expression": true,
-    "no-duplicate-variable": true,
-    "curly": true,
     "class-name": true,
-    "semicolon": [true, "never"],
-    "triple-equals": true,
+    "curly": true,
     "interface-name": [true, "never-prefix"],
-    "object-literal-sort-keys": false
+    "no-string-throw": true,
+    "no-duplicate-variable": true,
+    "no-implicit-dependencies": false,
+    "no-unused-expression": true,
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "semicolon": [true, "never"],
+    "triple-equals": true
   },
   "defaultSeverity": "warning",
   "no-submodule-imports": false
