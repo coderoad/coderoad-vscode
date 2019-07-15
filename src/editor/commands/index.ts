@@ -1,9 +1,9 @@
-import * as vscode from 'vscode'
 import { join } from 'path'
-import { setStorage } from '../storage'
-import ReactWebView from '../ReactWebView'
-import { isEmptyWorkspace } from '../workspace'
 import * as CR from 'typings'
+import * as vscode from 'vscode'
+import ReactWebView from '../ReactWebView'
+import { setStorage } from '../storage'
+import { isEmptyWorkspace } from '../workspace'
 import runTest from './runTest'
 
 const COMMANDS = {
@@ -44,7 +44,6 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
 
     // activate machine
     webview = new ReactWebView(context.extensionPath)
-    console.log('webview', webview.panel.webview.postMessage)
     machine.activate()
   },
   // open React webview

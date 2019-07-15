@@ -1,19 +1,27 @@
 import * as React from 'react'
 
-import Loading from './components/Loading'
 import Cond from './components/Cond'
-import NewPage from './containers/New'
+import Loading from './components/Loading'
 import ContinuePage from './containers/Continue'
+import NewPage from './containers/New'
 import TutorialPage from './containers/Tutorial'
 
 interface Props {
   state: any
 }
 
+const styles = {
+  page: {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    backgroundColor: 'white',
+  },
+}
+
 const Routes = ({ state }: Props) => {
   // TODO: refactor cond to user <Router><Route> and accept first route as if/else if
   return (
-    <div>
+    <div style={styles.page}>
       <Cond state={state} path="SelectTutorial.Startup">
         <Loading />
       </Cond>
