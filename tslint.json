@@ -8,7 +8,8 @@
     "class-name": true,
     "semicolon": [true, "never"],
     "triple-equals": true,
-    "interface-name": [true, "never-prefix"]
+    "interface-name": [true, "never-prefix"],
+    "object-literal-sort-keys": false
   },
   "defaultSeverity": "warning",
   "no-submodule-imports": false
