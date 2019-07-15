@@ -47,7 +47,7 @@ const Stage = ({ stage, steps, onNextStage, complete }: Props) => {
         <Markdown>{text}</Markdown>
       </div>
       <div style={styles.steps}>
-        <Step current={activeIndex} direction="ver" shape="dot" animation>
+        <Step current={activeIndex} direction="ver" shape="dot" animation readOnly>
           {filteredStepList.map((stepId: string, index: number) => {
             const step = steps[stepId]
             return (

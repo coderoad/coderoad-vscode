@@ -23,7 +23,7 @@ storiesOf('Tutorial SideBar', module)
         stage1Id: {
           content: {
             text: 'some description',
-            title: 'Stage 1',
+            title: 'First',
           },
           status: {
             active: false,
@@ -34,7 +34,7 @@ storiesOf('Tutorial SideBar', module)
         stage2Id: {
           content: {
             text: 'some description',
-            title: 'Stage 2',
+            title: 'Second',
           },
           status: {
             active: true,
@@ -45,7 +45,7 @@ storiesOf('Tutorial SideBar', module)
         stage3Id: {
           content: {
             text: 'some description',
-            title: 'Stage 3',
+            title: 'Third',
           },
           status: {
             active: false,

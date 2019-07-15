@@ -1,7 +1,8 @@
 import { Button, Step } from '@alifd/next'
 import * as React from 'react'
 import CR from 'typings'
-3
+import CC from '../../../../typings/context'
+
 import Markdown from '../Markdown'
 import LevelStageSummary from './LevelStageSummary'
 
@@ -38,6 +39,7 @@ const Level = ({ level, stages, onNext, onBack }: Props) => {
   const activeIndex = stageList.findIndex((stageId: string) => {
     return stages[stageId].status.active
   })
+
   return (
     <div style={styles.card}>
       <div style={styles.content}>
@@ -47,12 +49,22 @@ const Level = ({ level, stages, onNext, onBack }: Props) => {
       <div style={styles.steps}>
         <Step current={activeIndex} direction="ver" animation={false}>
           {stageList.map((stageId: string, index: number) => {
-            const stage = stages[stageId]
+            const stage: CC.StageWithStatus = stages[stageId]
+            const { active } = stage.status
+            const clickHandler = active ? onNext : () => {}
+            // note - must add click handler to title, content & step.item
+            // as all are separted components
             return (
               <Step.Item
                 key={stageId}
-                title={stage.content.title || `Stage ${index + 1}`}
-                content={<LevelStageSummary key={stageId} stage={stage} onNext={onNext} />}
+                style={{ backgroundColor: 'blue' }}
+                title={
+                  <span className={active ? 'hover-select' : ''} onClick={clickHandler}>
+                    {stage.content.title || `Stage ${index + 1}`}
+                  </span>
+                }
+                content={<LevelStageSummary key={stageId} stage={stage} onNext={clickHandler} />}
+                onClick={clickHandler}
               />
             )
           })}
