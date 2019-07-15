@@ -41,7 +41,7 @@ const basic: CR.Tutorial = {
       step1Id: {
         content: {
           title: 'Sum',
-          text: 'Write a function that adds two numbers together',
+          text: 'Write a function `add` that adds two numbers together',
         },
         actions: {
           setup: {
@@ -58,7 +58,7 @@ const basic: CR.Tutorial = {
       step2Id: {
         content: {
           title: 'Multiply',
-          text: 'Write a function that multiplies two numbers together',
+          text: 'Write a function `multiply` that multiplies two numbers together',
         },
         actions: {
           setup: {
@@ -74,7 +74,7 @@ const basic: CR.Tutorial = {
       step3Id: {
         content: {
           title: 'Divide',
-          text: 'Write a function that divides',
+          text: 'Write a function `divide` that divides',
         },
         actions: {
           setup: {
