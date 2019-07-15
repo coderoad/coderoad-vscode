@@ -12,11 +12,15 @@ interface Props {
 
 const styles = {
   page: {
-    width: window.innerWidth,
-    height: window.innerHeight,
+    margin: 0,
+    width: window.innerWidth - 20, // 220
+    height: window.innerHeight - 20, // 655
     backgroundColor: 'white',
   },
 }
+
+console.log('page styles')
+console.log(JSON.stringify(styles.page))
 
 const Routes = ({ state }: Props) => {
   // TODO: refactor cond to user <Router><Route> and accept first route as if/else if
