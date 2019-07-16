@@ -17,8 +17,6 @@ const App = () => {
   // update state based on response from editor
   const handleEvent = (event: ReceivedEvent): void => {
     const message = event.data
-    console.log('RECEIVED')
-    console.log(message)
     // messages from core
     if (message.type === 'SET_STATE') {
       setState(message.payload.state)
