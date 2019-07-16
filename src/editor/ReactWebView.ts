@@ -47,13 +47,16 @@ class ReactWebView {
     }
 
     // prevents new panels from going ontop of coderoad panel
-    vscode.window.onDidChangeActiveTextEditor(param => {
-      if (!param || param.viewColumn !== vscode.ViewColumn.Two) {
+    vscode.window.onDidChangeActiveTextEditor((textEditor) => {
+      console.log('onDidChangeActiveTextEditor')
+      console.log(textEditor)
+      if (!textEditor || textEditor.viewColumn !== vscode.ViewColumn.Two) {
         updateWindows()
       }
     })
     // // prevents moving coderoad panel on top of left panel
-    vscode.window.onDidChangeVisibleTextEditors(param => {
+    vscode.window.onDidChangeVisibleTextEditors((textEditor) => {
+      console.log('onDidChangeVisibleTextEditors')
       updateWindows()
     })
 
@@ -144,29 +147,29 @@ class ReactWebView {
     const [n1, n2, n3] = [1, 2, 3].map(this.getNonce)
 
     return `<!DOCTYPE html>
-			<html lang="en">
+			<html lang='en'>
                 <head>
-                    <meta charset="utf-8">
-                    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-                    <meta name="theme-color" content="#000000">
+                    <meta charset='utf-8'>
+                    <meta name='viewport' content='width=device-width,initial-scale=1,shrink-to-fit=no'>
+                    <meta name='theme-color' content='#000000'>
                     <title>React App</title>
-                    <link rel="manifest" href="./manifest.json" />
+                    <link rel='manifest' href='./manifest.json' />
                     <!-- TODO: load styles through package -->
-                    <link rel="stylesheet" href="https://unpkg.com/@alifd/next/dist/next.css" />
-                    <link rel="stylesheet" type="text/css" href="${styleUri}">
-                    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src vscode-resource: https:; script-src 'nonce-${n1}' 'nonce-${n2}' 'nonce-${n3}'; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
-                    <base href="${vscode.Uri.file(path.join(this.extensionPath, 'build')).with({
+                    <link rel='stylesheet' href='https://unpkg.com/@alifd/next/dist/next.css' />
+                    <link rel='stylesheet' type='text/css' href='${styleUri}'>
+                    <meta http-equiv='Content-Security-Policy' content="font-src *; img-src vscode-resource: https:; script-src 'nonce-${n1}' 'nonce-${n2}' 'nonce-${n3}'; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
+                    <base href='${vscode.Uri.file(path.join(this.extensionPath, 'build')).with({
       scheme: 'vscode-resource',
-    })}/">
+    })}/'>
                     <style></style>
                 </head>
 
                 <body>
                     <noscript>You need to enable JavaScript to run this app.</noscript>
-                    <div id="root">Loading...</div>
-                    <script nonce=${n1} src="./webpackBuild.js"></script>
-                    <script nonce=${n2} src="${chunkUri}"></script>
-                    <script nonce="${n3}" src="${scriptUri}"></script>
+                    <div id='root'>Loading...</div>
+                    <script nonce=${n1} src='./webpackBuild.js'></script>
+                    <script nonce=${n2} src='${chunkUri}'></script>
+                    <script nonce='${n3}' src='${scriptUri}'></script>
                 </body>
             </html>`
   }
