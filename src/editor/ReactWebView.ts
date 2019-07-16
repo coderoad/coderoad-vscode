@@ -43,7 +43,6 @@ class ReactWebView {
         orientation: 0,
         groups: [{ groups: [{}], size: 0.6 }, { groups: [{}], size: 0.4 }],
       })
-      this.panel.reveal(vscode.ViewColumn.Two)
     }
 
     // prevents new panels from going ontop of coderoad panel
