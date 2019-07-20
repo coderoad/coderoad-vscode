@@ -75,6 +75,7 @@ class ReactWebView {
       // unfortunately there is no easy way of doing this
       const webPanelListener = setInterval(() => {
         if (this.loaded) {
+          // callback tells editor the webview has loaded
           setTimeout(callback)
           clearInterval(webPanelListener)
         }

@@ -27,20 +27,6 @@ class Editor {
     }
     setWorkspaceRoot(rootPath)
   }
-
-  private activateCommands = (): void => {
-    const commands = createCommands({
-      context: this.context,
-      machine: this.machine,
-      storage,
-      git,
-      position,
-    })
-    for (const cmd in commands) {
-      const command: vscode.Disposable = vscode.commands.registerCommand(cmd, commands[cmd])
-      this.context.subscriptions.push(command)
-    }
-  }
   public activate = (context: vscode.ExtensionContext): void => {
     console.log('ACTIVATE!')
     this.context = context
@@ -56,12 +42,27 @@ class Editor {
       disposable.dispose()
     }
     // shut down state machine
+    console.log('deactivate machine')
     this.machine.deactivate()
   }
 
   // execute vscode command
   public dispatch = (type: string, payload?: any) => {
     vscode.commands.executeCommand(type, payload)
+  }
+
+  private activateCommands = (): void => {
+    const commands = createCommands({
+      context: this.context,
+      machine: this.machine,
+      storage,
+      git,
+      position,
+    })
+    for (const cmd in commands) {
+      const command: vscode.Disposable = vscode.commands.registerCommand(cmd, commands[cmd])
+      this.context.subscriptions.push(command)
+    }
   }
 }
 

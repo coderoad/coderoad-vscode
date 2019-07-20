@@ -10,6 +10,7 @@ interface Props {
 }
 
 class StateMachine {
+  private dispatch: CR.EditorDispatch
   private machineOptions = {
     logger: console.log,
     devTools: true,
@@ -18,6 +19,7 @@ class StateMachine {
   }
   private service: Interpreter<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>
   constructor({ dispatch }: Props) {
+    this.dispatch = dispatch
     const machine = createMachine(dispatch)
     this.service = interpret(machine, this.machineOptions)
       // logging
@@ -32,14 +34,19 @@ class StateMachine {
         }
       })
   }
-  activate() {
+  public activate() {
     // initialize
     this.service.start()
   }
-  deactivate() {
+  public deactivate() {
     this.service.stop()
   }
-  send(action: string | CR.Action) {
+  public refresh() {
+    console.log('service refresh')
+    const { value, context } = this.service.state
+    this.dispatch('coderoad.send_state', { state: value, data: context })
+  }
+  public send(action: string | CR.Action) {
     this.service.send(action)
   }
 }

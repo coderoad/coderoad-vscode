@@ -12,6 +12,6 @@ export function get<T>(key: string): T | undefined {
   return storage.get(key)
 }
 
-export function update<T>(key: string, value: string | Object): Thenable<void> {
+export function update<T>(key: string, value: string | object): Thenable<void> {
   return storage.update(key, value)
 }
