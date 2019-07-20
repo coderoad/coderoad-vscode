@@ -43,7 +43,7 @@ export default (dispatch: CR.EditorDispatch) => ({
     currentTutorial = tutorial
     console.log('api')
     console.log(tutorial)
-    dispatch('coderoad.tutorial_launch', tutorial)
+    dispatch('coderoad.tutorial_launch', { tutorial, dispatch })
   },
   tutorialSetup() {
     dispatch('coderoad.tutorial_setup', currentTutorial)

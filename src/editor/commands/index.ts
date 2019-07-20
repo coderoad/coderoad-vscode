@@ -70,7 +70,7 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
     },
     // launch a new tutorial
     // NOTE: may be better to move into action as logic is primarily non-vscode
-    [COMMANDS.TUTORIAL_LAUNCH]: async (tutorial: CR.Tutorial) => {
+    [COMMANDS.TUTORIAL_LAUNCH]: async ({ tutorial, dispatch }: any) => {
       console.log('launch tutorial')
 
       await isEmptyWorkspace()
@@ -86,7 +86,7 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
       // eslint-disable-next-line
       const { steps } = tutorial.data
       const { setup } = steps[pos.stepId].actions
-      await git.gitLoadCommits(setup)
+      await git.gitLoadCommits(setup, dispatch)
       machine.send('TUTORIAL_LOADED')
     },
     [COMMANDS.TUTORIAL_SETUP]: async (tutorial: CR.Tutorial) => {
@@ -94,13 +94,13 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
       // setup onSave hook
       const languageIds = tutorial.meta.languages
       console.log(`languageIds: ${languageIds.join(', ')}`)
-      vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
-        console.log('save document', document)
-        if (languageIds.includes(document.languageId) && document.uri.scheme === 'file') {
-          // do work
-          machine.send('TEST_RUN')
-        }
-      })
+      // vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
+      //   console.log('save document', document)
+      //   if (languageIds.includes(document.languageId) && document.uri.scheme === 'file') {
+      //     // do work
+      //     machine.send('TEST_RUN')
+      //   }
+      // })
     },
     // open a file
     [COMMANDS.OPEN_FILE]: async (relativeFilePath: string) => {
