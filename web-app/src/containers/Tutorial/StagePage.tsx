@@ -3,14 +3,19 @@ import DataContext from '../../utils/DataContext'
 import Stage from '../../components/Stage'
 
 interface PageProps {
-  send(action: string): void
   state: any
+  send(action: string): void
 }
 
 const StagePage = (props: PageProps) => {
   const { position, data, progress } = React.useContext(DataContext)
   const { stageId } = position
   const stage = data.stages[stageId]
+
+  if (!stage) {
+    // may throw if no stage is supplied on restart
+    return <div>No Stage!</div>
+  }
 
   const stageComplete = progress.stages[stageId] || false
 

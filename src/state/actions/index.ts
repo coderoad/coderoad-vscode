@@ -47,7 +47,6 @@ export default (dispatch: CR.EditorDispatch) => ({
   },
   tutorialSetup() {
     dispatch('coderoad.tutorial_setup', currentTutorial)
-    dispatch('coderoad.open_webview', 2)
   },
   initializeNewTutorial: assign({
     position: (context: any): CR.Position => {
@@ -88,6 +87,8 @@ export default (dispatch: CR.EditorDispatch) => ({
       const levelId = levelList.find((id: string) => !currentProgress.levels[id]) || levelList[levelList.length - 1]
       const { stageList } = data.levels[levelId]
       const stageId = stageList.find((id: string) => !currentProgress.stages[id]) || stageList[stageList.length - 1]
+      console.log('position stepList')
+      console.log(data.stages[stageId])
       const { stepList } = data.stages[stageId]
       const stepId = stepList.find((id: string) => !currentProgress.steps[id]) || stepList[stepList.length - 1]
 
