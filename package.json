@@ -36,11 +36,6 @@
         "command": "coderoad.start",
         "title": "Start",
         "category": "CodeRoad"
-      },
-      {
-        "command": "coderoad.set_layout",
-        "title": "Set Layout",
-        "category": "CodeRoad"
       }
     ]
   },
