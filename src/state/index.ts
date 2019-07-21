@@ -10,36 +10,43 @@ interface Props {
 }
 
 class StateMachine {
+  private dispatch: CR.EditorDispatch
   private machineOptions = {
-    logger: console.log,
     devTools: true,
     deferEvents: true,
     execute: true,
   }
   private service: Interpreter<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>
   constructor({ dispatch }: Props) {
+    this.dispatch = dispatch
     const machine = createMachine(dispatch)
     this.service = interpret(machine, this.machineOptions)
       // logging
       .onTransition(state => {
-        console.log('onTransition', state)
+        // console.log('onTransition', state)
         if (state.changed) {
-          console.log('next state')
-          console.log(state.value)
+          // console.log('next state')
+          // console.log(state.value)
           dispatch('coderoad.send_state', { state: state.value, data: state.context })
         } else {
           dispatch('coderoad.send_data', { data: state.context })
         }
       })
   }
-  activate() {
+  public activate() {
     // initialize
     this.service.start()
   }
-  deactivate() {
+  public deactivate() {
     this.service.stop()
   }
-  send(action: string | CR.Action) {
+  public refresh() {
+    console.log('service refresh')
+    console.log(this.service.state)
+    const { value, context } = this.service.state
+    this.dispatch('coderoad.send_state', { state: value, data: context })
+  }
+  public send(action: string | CR.Action) {
     this.service.send(action)
   }
 }

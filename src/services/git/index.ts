@@ -128,7 +128,6 @@ export async function gitCheckRemoteExists(): Promise<boolean> {
     // TODO: improve the specificity of this regex
     return !!stdout.match(gitOrigin)
   } catch (error) {
-    console.warn(error)
     return false
   }
 }

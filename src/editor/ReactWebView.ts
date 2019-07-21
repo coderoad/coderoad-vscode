@@ -24,7 +24,7 @@ class ReactWebView {
 
     // Listen for when the panel is disposed
     // This happens when the user closes the panel or when the panel is closed programatically
-    this.panel.onDidDispose(() => this.dispose(), null, this.disposables)
+    this.panel.onDidDispose(this.dispose, this, this.disposables)
 
     // Handle messages from the webview
     const onReceive = (action: string | CR.Action) => {
@@ -75,6 +75,7 @@ class ReactWebView {
       // unfortunately there is no easy way of doing this
       const webPanelListener = setInterval(() => {
         if (this.loaded) {
+          // callback tells editor the webview has loaded
           setTimeout(callback)
           clearInterval(webPanelListener)
         }
@@ -91,16 +92,11 @@ class ReactWebView {
     }
   }
 
-  public dispose(): void {
+  private async dispose(): Promise<void> {
     // Clean up our resources
+    this.loaded = false
     this.panel.dispose()
-
-    while (this.disposables.length) {
-      const x = this.disposables.pop()
-      if (x) {
-        x.dispose()
-      }
-    }
+    Promise.all(this.disposables.map((x) => x.dispose()))
   }
 
   private createWebviewPanel(column: number): vscode.WebviewPanel {
@@ -153,14 +149,15 @@ class ReactWebView {
                     <meta name='theme-color' content='#000000'>
                     <title>React App</title>
                     <link rel='manifest' href='./manifest.json' />
+
                     <!-- TODO: load styles through package -->
                     <link rel='stylesheet' href='https://unpkg.com/@alifd/next/dist/next.css' />
                     <link rel='stylesheet' type='text/css' href='${styleUri}'>
+
                     <meta http-equiv='Content-Security-Policy' content="font-src *; img-src vscode-resource: https:; script-src 'nonce-${n1}' 'nonce-${n2}' 'nonce-${n3}'; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
                     <base href='${vscode.Uri.file(path.join(this.extensionPath, 'build')).with({
       scheme: 'vscode-resource',
     })}/'>
-                    <style></style>
                 </head>
 
                 <body>

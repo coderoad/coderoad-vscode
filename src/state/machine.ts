@@ -56,6 +56,9 @@ export const machine = (dispatch: CR.EditorDispatch) =>
           id: 'tutorial',
           initial: 'Initialize',
           onEntry: ['tutorialSetup'],
+          on: {
+            WEBVIEW_INITIALIZED: '#tutorial-load-current'
+          },
           states: {
             Initialize: {
               onEntry: ['initializeNewTutorial'],
