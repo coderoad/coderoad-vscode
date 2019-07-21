@@ -18,7 +18,6 @@ const COMMANDS = {
   RUN_TEST: 'coderoad.run_test',
   TEST_PASS: 'coderoad.test_pass',
   TEST_FAIL: 'coderoad.test_fail',
-  SET_LAYOUT: 'coderoad.set_layout',
 }
 
 interface CreateCommandProps {
@@ -29,6 +28,13 @@ interface CreateCommandProps {
   position: any
 }
 
+const resetLayout = () => {
+  vscode.commands.executeCommand('vscode.setEditorLayout', {
+    orientation: 0,
+    groups: [{ groups: [{}], size: 0.6 }, { groups: [{}], size: 0.4 }],
+  })
+}
+
 export const createCommands = ({ context, machine, storage, git, position }: CreateCommandProps) => {
   // React panel webview
   let webview: any
@@ -36,6 +42,7 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
   return {
     // initialize
     [COMMANDS.START]: () => {
+
       let webviewState: 'INITIALIZING' | 'RESTARTING'
       if (!webview) {
         webviewState = 'INITIALIZING'
@@ -64,10 +71,7 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
     // open React webview
     [COMMANDS.OPEN_WEBVIEW]: (column: number = vscode.ViewColumn.Two) => {
       // setup 1x1 horizontal layout
-      vscode.commands.executeCommand('vscode.setEditorLayout', {
-        orientation: 0,
-        groups: [{ groups: [{}], size: 0.6 }, { groups: [{}], size: 0.4 }],
-      })
+      resetLayout()
       const callback = () => {
         machine.send('WEBVIEW_INITIALIZED')
       }
@@ -118,6 +122,9 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
         const absoluteFilePath = join(workspaceRoot, relativeFilePath)
         const doc = await vscode.workspace.openTextDocument(absoluteFilePath)
         await vscode.window.showTextDocument(doc, vscode.ViewColumn.One)
+        // there are times when intialization leave the panel behind any files opened
+        // ensure the panel is redrawn on the right side first
+        webview.createOrShow(vscode.ViewColumn.Two)
       } catch (error) {
         console.log(`Failed to open file ${relativeFilePath}`, error)
       }
@@ -144,13 +151,6 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
     },
     [COMMANDS.TEST_FAIL]: () => {
       vscode.window.showWarningMessage('FAIL')
-    },
-    [COMMANDS.SET_LAYOUT]: () => {
-      console.log('setLayout')
-      vscode.commands.executeCommand('vscode.setEditorLayout', {
-        orientation: 0,
-        groups: [{ groups: [{}], size: 0.6 }, { groups: [{}], size: 0.4 }],
-      })
     },
   }
 }
