@@ -94,6 +94,7 @@ class ReactWebView {
 
   private async dispose(): Promise<void> {
     // Clean up our resources
+    this.loaded = false
     this.panel.dispose()
     Promise.all(this.disposables.map((x) => x.dispose()))
   }

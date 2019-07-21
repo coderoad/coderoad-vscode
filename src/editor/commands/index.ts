@@ -36,21 +36,26 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
   return {
     // initialize
     [COMMANDS.START]: () => {
-      // if (webview) {
-      //   console.log('CodeRoad already loaded')
-      //   return
-      // }
-      // set local storage workspace
+      let webviewState: 'INITIALIZING' | 'RESTARTING'
+      if (!webview) {
+        webviewState = 'INITIALIZING'
+      } else if (webview.loaded) {
+        // already loaded
+        vscode.window.showInformationMessage('CodeRoad already open')
+        return
+      } else {
+        webviewState = 'RESTARTING'
+      }
+
       setStorage(context.workspaceState)
 
-      const isInitialized = !!webview
       // activate machine
       webview = new ReactWebView(context.extensionPath)
-      if (!isInitialized) {
+      if (webviewState === 'INITIALIZING') {
         machine.activate()
-      } else {
+      } else if (webviewState === 'RESTARTING') {
         setTimeout(() => {
-          // unfortunate hack to make data update on new windows
+          // timeout hack to make data update on new windows
           // @ts-ignore
           machine.refresh()
         }, 1000)
