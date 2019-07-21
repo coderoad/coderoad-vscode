@@ -94,13 +94,13 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
       // setup onSave hook
       const languageIds = tutorial.meta.languages
       console.log(`languageIds: ${languageIds.join(', ')}`)
-      // vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
-      //   console.log('save document', document)
-      //   if (languageIds.includes(document.languageId) && document.uri.scheme === 'file') {
-      //     // do work
-      //     machine.send('TEST_RUN')
-      //   }
-      // })
+      vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
+        console.log('save document', document)
+        if (languageIds.includes(document.languageId) && document.uri.scheme === 'file') {
+          // do work
+          machine.send('TEST_RUN')
+        }
+      })
     },
     // open a file
     [COMMANDS.OPEN_FILE]: async (relativeFilePath: string) => {
