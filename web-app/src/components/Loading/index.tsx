@@ -1,7 +1,12 @@
 import * as React from 'react'
+import { Loading } from '@alifd/next'
 
-const Loading = () => {
-  return <div>Loading...</div>
+interface Props {
+  text: string
 }
 
-export default Loading
+const LoadingComponent = ({ text }: Props) => {
+  return <Loading tip={text} />
+}
+
+export default LoadingComponent

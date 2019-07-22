@@ -1,11 +1,13 @@
 import * as React from 'react'
 import { send } from '../../utils/vscode'
 
-import Cond from '../../components/Cond'
-import Loading from '../../components/Loading'
+import Router from '../../components/Router'
+import LoadingPage from '../LoadingPage'
 import SummaryPage from './SummaryPage'
 import LevelPage from './LevelPage'
 import StagePage from './StagePage'
+
+const { Route } = Router
 
 interface Props {
   state: any
@@ -13,20 +15,20 @@ interface Props {
 
 const Tutorial = (props: Props) => {
   return (
-    <div>
-      <Cond state={props.state} path="Tutorial.LoadNext">
-        <Loading />
-      </Cond>
-      <Cond state={props.state} path="Tutorial.Summary">
-        <SummaryPage state={props.state} send={send} />
-      </Cond>
-      <Cond state={props.state} path="Tutorial.Level">
-        <LevelPage state={props.state} send={send} />
-      </Cond>
-      <Cond state={props.state} path="Tutorial.Stage">
-        <StagePage state={props.state} send={send} />
-      </Cond>
-    </div>
+    <Router state={props.state}>
+      <Route path="Tutorial.LoadNext">
+        <LoadingPage text="Loading Tutorial..." />
+      </Route>
+      <Route path="Tutorial.Summary">
+        <SummaryPage send={send} />
+      </Route>
+      <Route path="Tutorial.Level">
+        <LevelPage send={send} />
+      </Route>
+      <Route path="Tutorial.Stage">
+        <StagePage send={send} />
+      </Route>
+    </Router>
   )
 }
 

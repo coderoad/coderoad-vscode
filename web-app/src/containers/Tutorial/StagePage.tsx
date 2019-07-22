@@ -3,7 +3,6 @@ import DataContext from '../../utils/DataContext'
 import Stage from '../../components/Stage'
 
 interface PageProps {
-  state: any
   send(action: string): void
 }
 

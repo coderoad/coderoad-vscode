@@ -4,7 +4,6 @@ import Level from '../../components/Level'
 
 interface LevelProps {
   send(action: string): void
-  state: any
 }
 
 const LevelPage = (props: LevelProps) => {
