@@ -1,8 +1,10 @@
 import * as React from 'react'
 import { Button } from '@alifd/next'
+
 import Cond from '../../components/Cond'
 import DataContext from '../../utils/DataContext'
 import { send } from '../../utils/vscode'
+import LoadingPage from '../../containers/LoadingPage'
 
 interface Props {
   onNew(tutorialId: string): void
@@ -27,7 +29,7 @@ export const NewPage = (props: Props) => {
         </div>
       </Cond>
       <Cond state={state} path="SelectTutorial.NewTutorial.InitializeTutorial">
-        <div>Initializing tutorial...</div>
+        <LoadingPage text="Launching Tutorial..." />
       </Cond>
     </div>
   )
