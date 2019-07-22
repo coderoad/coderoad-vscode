@@ -86,7 +86,7 @@ export const machine = (dispatch: CR.EditorDispatch) =>
                     cond: 'hasNextLevel',
                   },
                   {
-                    target: '#end-tutorial',
+                    target: '#completed-tutorial',
                   },
                 ],
               },
@@ -157,8 +157,8 @@ export const machine = (dispatch: CR.EditorDispatch) =>
                 },
               },
             },
-            EndTutorial: {
-              id: 'end-tutorial',
+            Completed: {
+              id: 'completed-tutorial',
               type: 'final',
             },
           },

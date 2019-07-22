@@ -6,6 +6,7 @@ import LoadingPage from '../LoadingPage'
 import SummaryPage from './SummaryPage'
 import LevelPage from './LevelPage'
 import StagePage from './StagePage'
+import CompletedPage from './CompletedPage'
 
 const { Route } = Router
 
@@ -27,6 +28,9 @@ const Tutorial = (props: Props) => {
       </Route>
       <Route path="Tutorial.Stage">
         <StagePage send={send} />
+      </Route>
+      <Route path="Tutorial.Completed">
+        <CompletedPage />
       </Route>
     </Router>
   )

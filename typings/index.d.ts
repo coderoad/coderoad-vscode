@@ -161,7 +161,7 @@ export interface MachineStateSchema {
             StageComplete: {}
           }
         }
-        EndTutorial: {}
+        Completed: {}
       }
     }
   }
