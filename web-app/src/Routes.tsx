@@ -39,7 +39,6 @@ const Routes = ({ state }: Props) => {
     }
   })
 
-  // TODO: refactor cond to user <Router><Route> and accept first route as if/else if
   return (
     <div style={{ ...styles.page, ...dimensions }}>
       <Router state={state}>

@@ -4,7 +4,6 @@ import Summary from '../../components/Summary'
 
 interface PageProps {
   send(action: string): void
-  state: any
 }
 
 const SummaryPage = (props: PageProps) => {

@@ -20,13 +20,13 @@ const Tutorial = (props: Props) => {
         <LoadingPage text="Loading Tutorial..." />
       </Route>
       <Route path="Tutorial.Summary">
-        <SummaryPage state={props.state} send={send} />
+        <SummaryPage send={send} />
       </Route>
       <Route path="Tutorial.Level">
-        <LevelPage state={props.state} send={send} />
+        <LevelPage send={send} />
       </Route>
       <Route path="Tutorial.Stage">
-        <StagePage state={props.state} send={send} />
+        <StagePage send={send} />
       </Route>
     </Router>
   )
