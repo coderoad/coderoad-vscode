@@ -71,10 +71,12 @@ export const machine = (dispatch: CR.EditorDispatch) =>
               after: {
                 0: [{
                   target: 'Stage',
+                  internal: true,
                   cond: 'hasNextStep',
                 },
                 {
                   target: 'Stage',
+                  internal: false,
                   cond: 'hasNextStage',
                 },
                 {
@@ -101,7 +103,7 @@ export const machine = (dispatch: CR.EditorDispatch) =>
               },
             },
             Stage: {
-              onEntry: ['loadStage'],
+              onEntry: ['loadStage', 'stepLoadCommits'],
               initial: 'Normal',
               states: {
                 Normal: {
