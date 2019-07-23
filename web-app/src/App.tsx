@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as CR from 'typings'
 
-// import Debugger from './components/Debugger'
+import Debugger from './components/Debugger'
 import Routes from './Routes'
 import DataContext, { initialData, initialState } from './utils/DataContext'
 import { send } from './utils/vscode'
@@ -9,6 +9,8 @@ import { send } from './utils/vscode'
 interface ReceivedEvent {
   data: CR.Action
 }
+
+const debug = false
 
 const App = () => {
   const [state, setState] = React.useState(initialState)
@@ -51,7 +53,7 @@ const App = () => {
   return (
     <DataContext.Provider value={value}>
       <div>
-        {/* <Debugger value={value} /> */}
+        {debug && <Debugger value={value} />}
         <Routes state={state} />
       </div>
     </DataContext.Provider>
