@@ -5,6 +5,21 @@ import createMachine from './machine'
 // machine interpreter
 // https://xstate.js.org/docs/guides/interpretation.html
 
+// convert state into a readable string
+const stateToString = (state: string | object, str: string = ''): string => {
+  if (typeof state === 'object') {
+    const keys = Object.keys(state)
+    if (keys && keys.length) {
+      const key = keys[0]
+      return stateToString(state[key], str.length ? `${str}.${key}` : key)
+    }
+    return str
+  } else if (typeof state === 'string') {
+    return state
+  }
+  return ''
+}
+
 interface Props {
   dispatch: CR.EditorDispatch
 }
@@ -23,10 +38,8 @@ class StateMachine {
     this.service = interpret(machine, this.machineOptions)
       // logging
       .onTransition(state => {
-        // console.log('onTransition', state)
         if (state.changed) {
-          // console.log('next state')
-          // console.log(state.value)
+          console.log(`STATE: ${stateToString(state.value)}`)
           dispatch('coderoad.send_state', { state: state.value, data: state.context })
         } else {
           dispatch('coderoad.send_data', { data: state.context })
