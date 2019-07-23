@@ -5,7 +5,8 @@ export default {
     const { data, position, progress } = context
     const steps = data.stages[position.stageId].stepList
     // isn't final step yet
-    const hasNext = !!position.stepId && (steps[steps.length - 1] !== position.stepId) || !progress.stages[position.stageId]
+    const stageIncomplete = !progress.stages[position.stageId]
+    const hasNext = stageIncomplete && (!!position.stepId && (steps[steps.length - 1] !== position.stepId))
     console.log('GUARD: hasNextStep', hasNext)
     return hasNext
   },

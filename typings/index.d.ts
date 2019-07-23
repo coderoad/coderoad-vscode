@@ -148,7 +148,6 @@ export interface MachineStateSchema {
       states: {
         Initialize: {}
         Summary: {}
-        LoadCurrent: {}
         LoadNext: {}
         Level: {}
         Stage: {
