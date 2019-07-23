@@ -36,6 +36,13 @@ const basic: CR.Tutorial = {
           text: 'A description of this stage',
         },
       },
+      stage2Id: {
+        stepList: ['1', '2'],
+        content: {
+          title: 'Second Stage',
+          text: 'Going into round 2'
+        }
+      }
     },
     steps: {
       step1Id: {
@@ -86,6 +93,36 @@ const basic: CR.Tutorial = {
           },
         },
         hints: [],
+      },
+      1: {
+        content: {
+          title: 'Modulo',
+          text: 'Modulo `%` it up'
+        },
+        actions: {
+          setup: {
+            commits: ['16d9699'],
+            files: [],
+          },
+          solution: {
+            commits: ['bbf8aa5']
+          }
+        }
+      },
+      2: {
+        content: {
+          title: 'Power',
+          text: 'Power up with `**` powers'
+        },
+        actions: {
+          setup: {
+            commits: ['683c8db'],
+            files: [],
+          },
+          solution: {
+            commits: ['deaf3a8']
+          }
+        }
       },
     },
   },
