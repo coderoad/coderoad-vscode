@@ -148,7 +148,6 @@ export interface MachineStateSchema {
       states: {
         Initialize: {}
         Summary: {}
-        LoadCurrent: {}
         LoadNext: {}
         Level: {}
         Stage: {
@@ -161,7 +160,7 @@ export interface MachineStateSchema {
             StageComplete: {}
           }
         }
-        EndTutorial: {}
+        Completed: {}
       }
     }
   }

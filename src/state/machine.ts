@@ -47,7 +47,7 @@ export const machine = (dispatch: CR.EditorDispatch) =>
             ContinueTutorial: {
               onEntry: ['tutorialContinue'],
               on: {
-                TUTORIAL_START: '#tutorial-load-current',
+                TUTORIAL_START: '#tutorial-load-next',
               },
             },
           },
@@ -57,7 +57,7 @@ export const machine = (dispatch: CR.EditorDispatch) =>
           initial: 'Initialize',
           onEntry: ['tutorialSetup'],
           on: {
-            WEBVIEW_INITIALIZED: '#tutorial-load-current'
+            WEBVIEW_INITIALIZED: '#tutorial-load-next'
           },
           states: {
             Initialize: {
@@ -66,28 +66,24 @@ export const machine = (dispatch: CR.EditorDispatch) =>
                 0: 'Summary',
               },
             },
-            LoadCurrent: {
-              id: 'tutorial-load-current',
-              // TODO: verify current is not complete
-              after: {
-                0: 'Stage',
-              },
-            },
             LoadNext: {
               id: 'tutorial-load-next',
               after: {
-                0: [
-                  {
-                    target: 'Stage',
-                    cond: 'hasNextStage',
-                  },
-                  {
-                    target: 'Level',
-                    cond: 'hasNextLevel',
-                  },
-                  {
-                    target: '#end-tutorial',
-                  },
+                0: [{
+                  target: 'Stage',
+                  cond: 'hasNextStep',
+                },
+                {
+                  target: 'Stage',
+                  cond: 'hasNextStage',
+                },
+                {
+                  target: 'Level',
+                  cond: 'hasNextLevel',
+                },
+                {
+                  target: '#completed-tutorial',
+                },
                 ],
               },
             },
@@ -157,8 +153,8 @@ export const machine = (dispatch: CR.EditorDispatch) =>
                 },
               },
             },
-            EndTutorial: {
-              id: 'end-tutorial',
+            Completed: {
+              id: 'completed-tutorial',
               type: 'final',
             },
           },
