@@ -10,8 +10,8 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
-    height: '100%',
+    width: window.innerWidth - 20,
+    height: window.innerHeight - 20,
   },
 }
 
