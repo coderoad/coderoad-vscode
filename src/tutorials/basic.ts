@@ -102,7 +102,7 @@ const basic: CR.Tutorial = {
         actions: {
           setup: {
             commits: ['16d9699'],
-            files: [],
+            files: ['src/modulo.js'],
           },
           solution: {
             commits: ['bbf8aa5']
@@ -117,7 +117,7 @@ const basic: CR.Tutorial = {
         actions: {
           setup: {
             commits: ['683c8db'],
-            files: [],
+            files: ['src/power.js'],
           },
           solution: {
             commits: ['deaf3a8']
