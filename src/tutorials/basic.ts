@@ -17,16 +17,23 @@ const basic: CR.Tutorial = {
     summary: {
       title: 'Basic Test',
       description: 'A basic coding skills example',
-      levelList: ['level1Id'],
+      levelList: ['level1Id', 'level2Id'],
     },
     levels: {
       level1Id: {
         stageList: ['stage1Id', 'stage2Id'],
         content: {
-          title: 'Sum Level',
+          title: 'Operators',
           text: 'A description of this stage',
         },
       },
+      level2Id: {
+        stageList: ['a'],
+        content: {
+          title: 'Logic',
+          text: 'Some basic logic in level 2'
+        }
+      }
     },
     stages: {
       stage1Id: {
@@ -42,7 +49,14 @@ const basic: CR.Tutorial = {
           title: 'Second Stage',
           text: 'Going into round 2'
         }
-      }
+      },
+      a: {
+        stepList: ['a1', 'a2'],
+        content: {
+          title: 'Part 1',
+          text: 'Going into round 1'
+        }
+      },
     },
     steps: {
       step1Id: {
@@ -121,6 +135,36 @@ const basic: CR.Tutorial = {
           },
           solution: {
             commits: ['deaf3a8']
+          }
+        }
+      },
+      a1: {
+        content: {
+          title: 'Hello',
+          text: 'Return the word "hello"'
+        },
+        actions: {
+          setup: {
+            commits: ['c539057'],
+            files: ['src/hello.js'],
+          },
+          solution: {
+            commits: ['ab7d57b']
+          }
+        }
+      },
+      a2: {
+        content: {
+          title: 'Bye',
+          text: 'Return the word "bye"'
+        },
+        actions: {
+          setup: {
+            commits: ['abe8404'],
+            files: ['src/hello.js'],
+          },
+          solution: {
+            commits: ['6f40d18']
           }
         }
       },
