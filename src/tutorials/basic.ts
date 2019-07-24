@@ -21,7 +21,7 @@ const basic: CR.Tutorial = {
     },
     levels: {
       level1Id: {
-        stageList: ['stage1Id'],
+        stageList: ['stage1Id', 'stage2Id'],
         content: {
           title: 'Sum Level',
           text: 'A description of this stage',
@@ -36,12 +36,19 @@ const basic: CR.Tutorial = {
           text: 'A description of this stage',
         },
       },
+      stage2Id: {
+        stepList: ['1', '2'],
+        content: {
+          title: 'Second Stage',
+          text: 'Going into round 2'
+        }
+      }
     },
     steps: {
       step1Id: {
         content: {
           title: 'Sum',
-          text: 'Write a function that adds two numbers together',
+          text: 'Write a function `add` that adds two numbers together',
         },
         actions: {
           setup: {
@@ -58,7 +65,7 @@ const basic: CR.Tutorial = {
       step2Id: {
         content: {
           title: 'Multiply',
-          text: 'Write a function that multiplies two numbers together',
+          text: 'Write a function `multiply` that multiplies two numbers together',
         },
         actions: {
           setup: {
@@ -74,7 +81,7 @@ const basic: CR.Tutorial = {
       step3Id: {
         content: {
           title: 'Divide',
-          text: 'Write a function that divides',
+          text: 'Write a function `divide` that divides',
         },
         actions: {
           setup: {
@@ -86,6 +93,36 @@ const basic: CR.Tutorial = {
           },
         },
         hints: [],
+      },
+      1: {
+        content: {
+          title: 'Modulo',
+          text: 'Modulo `%` it up'
+        },
+        actions: {
+          setup: {
+            commits: ['16d9699'],
+            files: ['src/modulo.js'],
+          },
+          solution: {
+            commits: ['bbf8aa5']
+          }
+        }
+      },
+      2: {
+        content: {
+          title: 'Power',
+          text: 'Power up with `**` powers'
+        },
+        actions: {
+          setup: {
+            commits: ['683c8db'],
+            files: ['src/power.js'],
+          },
+          solution: {
+            commits: ['deaf3a8']
+          }
+        }
       },
     },
   },

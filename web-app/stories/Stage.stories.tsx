@@ -51,6 +51,6 @@ function someExample(a) {
       })}
       stage={object('stage', demo.data.stages.stage1Id)}
       complete={boolean('complete', false)}
-      onNextStage={action('onNextStage')}
+      onContinue={action('onContinue')}
     />
   ))

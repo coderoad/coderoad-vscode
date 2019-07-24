@@ -18,7 +18,7 @@ const StagePage = (props: PageProps) => {
 
   const stageComplete = progress.stages[stageId] || false
 
-  const onNextStage = (): void => {
+  const onContinue = (): void => {
     props.send('STAGE_NEXT')
   }
 
@@ -35,7 +35,7 @@ const StagePage = (props: PageProps) => {
       },
     }
   }
-  return <Stage stage={stage} steps={steps} onNextStage={onNextStage} complete={stageComplete} />
+  return <Stage stage={stage} steps={steps} onContinue={onContinue} complete={stageComplete} />
 }
 
 export default StagePage

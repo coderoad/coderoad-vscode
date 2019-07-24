@@ -101,7 +101,7 @@ export const machine = (dispatch: CR.EditorDispatch) =>
               },
             },
             Stage: {
-              onEntry: ['loadStage'],
+              onEntry: ['loadStage', 'stepLoadCommits'],
               initial: 'Normal',
               states: {
                 Normal: {
@@ -148,7 +148,10 @@ export const machine = (dispatch: CR.EditorDispatch) =>
                 },
                 StageComplete: {
                   on: {
-                    STAGE_NEXT: '#tutorial-load-next',
+                    STAGE_NEXT: {
+                      target: '#tutorial-load-next',
+                      actions: ['updatePosition'],
+                    },
                   },
                 },
               },
