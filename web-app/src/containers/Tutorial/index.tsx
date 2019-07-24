@@ -18,7 +18,7 @@ const Tutorial = (props: Props) => {
   return (
     <Router state={props.state}>
       <Route path="Tutorial.LoadNext">
-        <LoadingPage text="Loading Tutorial..." />
+        <LoadingPage text="Loading..." />
       </Route>
       <Route path="Tutorial.Summary">
         <SummaryPage send={send} />

@@ -28,10 +28,10 @@ interface Props {
     [stepId: string]: any // CC.Step
   }
   complete: boolean
-  onNextStage(): void
+  onContinue(): void
 }
 
-const Stage = ({ stage, steps, onNextStage, complete }: Props) => {
+const Stage = ({ stage, steps, onContinue, complete }: Props) => {
   const { stepList, content } = stage
   const { title, text } = content
   // grab the active step
@@ -61,7 +61,7 @@ const Stage = ({ stage, steps, onNextStage, complete }: Props) => {
 
       {complete && (
         <div style={styles.options}>
-          <Button onClick={onNextStage}>Continue</Button>
+          <Button onClick={onContinue}>Continue</Button>
         </div>
       )}
     </div>
