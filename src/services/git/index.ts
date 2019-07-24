@@ -3,19 +3,37 @@ import { exec, exists } from '../node'
 
 const gitOrigin = 'coderoad'
 
+const stashAllFiles = async () => {
+  console.log('stashAllFiles')
+  // stash files including untracked (eg. newly created file)
+  const { stdout, stderr } = await exec(`git stash --include-untracked`)
+  if (stderr) {
+    console.error(stderr)
+    throw new Error('Error stashing files')
+  }
+}
+
 /*
     SINGLE git cherry-pick %COMMIT%
     MULTIPLE git cherry-pick %COMMIT_START%..%COMMIT_END%
     if shell, run shell
+
+    if fails, will stash all
 */
 export async function gitLoadCommits(actions: CR.TutorialAction, dispatch: CR.EditorDispatch): Promise<void> {
   const { commits, commands, files } = actions
 
   for (const commit of commits) {
+    // pull a commit from tutorial repo
     const { stdout, stderr } = await exec(`git cherry-pick ${commit}`)
     if (stderr) {
-      console.error(stderr)
-      throw new Error('Error loading commit')
+      console.warn('cherry-pick failed')
+      // likely merge conflict with cherry-pick
+      await stashAllFiles()
+      const { stderr: secondFailure } = await exec(`git cherry-pick ${commit}`)
+      if (secondFailure) {
+        throw new Error('Error loading commit')
+      }
     }
   }
 
@@ -25,7 +43,6 @@ export async function gitLoadCommits(actions: CR.TutorialAction, dispatch: CR.Ed
       const { stdout, stderr } = await exec(command)
       if (stderr) {
         console.error(stderr)
-
         if (stderr.match(/node-gyp/)) {
           // ignored error
           throw new Error('Error running setup command')
