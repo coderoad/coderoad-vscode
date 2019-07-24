@@ -20,7 +20,8 @@
     "emitDecoratorMetadata": true,
     "paths": {
       "typings": ["../typings/index.d.ts"]
-    }
+    },
+    "allowJs": true
   },
   "exclude": ["node_modules", ".vscode-test", "build", "resources", "web-app"]
 }
