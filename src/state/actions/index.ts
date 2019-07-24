@@ -107,8 +107,9 @@ export default (dispatch: CR.EditorDispatch) => ({
   testStart() {
     dispatch('coderoad.run_test')
   },
-  testPass() {
+  testPass(context: CR.MachineContext): void {
     dispatch('coderoad.test_pass')
+    git.gitSaveCommit(context.position)
   },
   testFail() {
     dispatch('coderoad.test_fail')
