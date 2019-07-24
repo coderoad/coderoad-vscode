@@ -14,6 +14,24 @@ let currentProgress: CR.Progress = {
   complete: false,
 }
 
+const calculatePosition = ({ data, progress }: { data: CR.TutorialData, progress: CR.Progress }): CR.Position => {
+  const { levelList } = data.summary
+  // take next incomplete level or the final step
+  const levelId = levelList.find((id: string) => !progress.levels[id]) || levelList[levelList.length - 1]
+  const { stageList } = data.levels[levelId]
+  const stageId = stageList.find((id: string) => !progress.stages[id]) || stageList[stageList.length - 1]
+  const { stepList } = data.stages[stageId]
+  const stepId = stepList.find((id: string) => !progress.steps[id]) || stepList[stepList.length - 1]
+
+  const nextPosition: CR.Position = {
+    levelId,
+    stageId,
+    stepId,
+  }
+
+  return nextPosition
+}
+
 export default (dispatch: CR.EditorDispatch) => ({
   createWebview() {
     dispatch('coderoad.open_webview')
@@ -79,24 +97,9 @@ export default (dispatch: CR.EditorDispatch) => ({
       if (!currentTutorial) {
         throw new Error('No Tutorial loaded')
       }
-
       const { data } = currentTutorial
+      const position = calculatePosition({ data, progress: currentProgress })
 
-      const { levelList } = data.summary
-      // take next incomplete level or the final step
-      const levelId = levelList.find((id: string) => !currentProgress.levels[id]) || levelList[levelList.length - 1]
-      const { stageList } = data.levels[levelId]
-      const stageId = stageList.find((id: string) => !currentProgress.stages[id]) || stageList[stageList.length - 1]
-      console.log('position stepList')
-      console.log(data.stages[stageId])
-      const { stepList } = data.stages[stageId]
-      const stepId = stepList.find((id: string) => !currentProgress.steps[id]) || stepList[stepList.length - 1]
-
-      const position = {
-        levelId,
-        stageId,
-        stepId,
-      }
       console.log('position', position)
       return position
     },
@@ -113,6 +116,7 @@ export default (dispatch: CR.EditorDispatch) => ({
   // @ts-ignore
   progressUpdate: assign({
     progress: (context: CR.MachineContext): CR.Progress => {
+      console.log('progress update')
       const { progress, position, data } = context
       const nextProgress = progress
 
@@ -156,9 +160,23 @@ export default (dispatch: CR.EditorDispatch) => ({
   loadLevel() {
     console.log('loadLevel')
   },
-  loadStage() {
-    console.log('loadStage')
+  stageLoadNext(context: CR.MachineContext) {
+    console.log('stageLoadNext')
+    const { position } = context
+    console.log(position)
   },
+  loadStage(context: CR.MachineContext): void {
+    console.log('loadStage')
+    const { position } = context
+    console.log(position)
+  },
+  // @ts-ignore
+  updatePosition: assign({
+    position: (context: CR.MachineContext) => calculatePosition({
+      data: context.data,
+      progress: context.progress,
+    }),
+  }),
   stepLoadCommits(context: CR.MachineContext): void {
     const { data, position } = context
     const { setup } = data.steps[position.stepId].actions
