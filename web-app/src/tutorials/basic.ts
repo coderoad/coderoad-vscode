@@ -26,6 +26,12 @@ const basic: CR.Tutorial = {
           title: 'Operators',
           text: 'A description of this stage',
         },
+        actions: {
+          setup: {
+            commits: ['aab5f3d'],
+            commands: ['npm install'],
+          }
+        }
       },
       level2Id: {
         stageList: ['a'],
@@ -66,8 +72,7 @@ const basic: CR.Tutorial = {
         },
         actions: {
           setup: {
-            commits: ['aab5f3d', '8fa5ad5'],
-            commands: ['npm install'],
+            commits: ['8fa5ad5'],
             files: ['src/sum.js'],
           },
           solution: {
