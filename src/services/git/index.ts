@@ -13,28 +13,41 @@ const stashAllFiles = async () => {
   }
 }
 
+const cherryPickCommit = async (commit: string, count = 0): Promise<void> => {
+  if (count > 1) {
+    console.warn('cherry-pick failed')
+    return
+  }
+  try {
+    const { stdout } = await exec(`git cherry-pick ${commit}`)
+    if (!stdout) {
+      throw new Error('No cherry-pick output')
+    }
+  } catch (error) {
+    console.log('cherry-pick-commit failed')
+    // stash all files if cherry-pick fails
+    await stashAllFiles()
+    return cherryPickCommit(commit, ++count)
+  }
+}
+
+const errorMessages = {
+  js: {
+    'node-gyp': 'Error running npm setup command'
+  }
+}
+
 /*
     SINGLE git cherry-pick %COMMIT%
-    MULTIPLE git cherry-pick %COMMIT_START%..%COMMIT_END%
-    if shell, run shell
-
-    if fails, will stash all
+    if fails, will stash all and retry
 */
 export async function gitLoadCommits(actions: CR.TutorialAction, dispatch: CR.EditorDispatch): Promise<void> {
   const { commits, commands, files } = actions
 
   for (const commit of commits) {
     // pull a commit from tutorial repo
-    const { stdout, stderr } = await exec(`git cherry-pick ${commit}`)
-    if (stderr) {
-      console.warn('cherry-pick failed')
-      // likely merge conflict with cherry-pick
-      await stashAllFiles()
-      const { stderr: secondFailure } = await exec(`git cherry-pick ${commit}`)
-      if (secondFailure) {
-        throw new Error('Error loading commit')
-      }
-    }
+    console.log(`try cherry-pick ${commit}`)
+    await cherryPickCommit(commit)
   }
 
   if (commands) {
@@ -43,9 +56,12 @@ export async function gitLoadCommits(actions: CR.TutorialAction, dispatch: CR.Ed
       const { stdout, stderr } = await exec(command)
       if (stderr) {
         console.error(stderr)
-        if (stderr.match(/node-gyp/)) {
-          // ignored error
-          throw new Error('Error running setup command')
+        // langauge specific error messages from running commands
+        for (const message of Object.keys(errorMessages.js)) {
+          if (stderr.match(message)) {
+            // ignored error
+            throw new Error('Error running setup command')
+          }
         }
       }
       console.log(`run command: ${command}`, stdout)
