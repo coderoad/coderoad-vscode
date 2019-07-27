@@ -89,13 +89,6 @@ export const createCommands = ({ context, machine, storage, git, position }: Cre
       // TODO: use actual tutorial repo
       await Promise.all([git.gitSetupRemote(tutorial.meta.repo), storage.setTutorial(tutorial), storage.resetProgress()])
 
-      // TODO: refactor to allow client to call initialization
-      const pos: CR.Position = await position.getInitial(tutorial)
-
-      // eslint-disable-next-line
-      const { steps } = tutorial.data
-      const { setup } = steps[pos.stepId].actions
-      await git.gitLoadCommits(setup, dispatch)
       machine.send('TUTORIAL_LOADED')
     },
     [COMMANDS.TUTORIAL_SETUP]: async (tutorial: CR.Tutorial) => {

@@ -6,6 +6,9 @@ export interface TutorialLevel {
     title: string
     text: string
   }
+  actions?: {
+    setup: TutorialAction
+  }
 }
 
 export interface TutorialStage {
@@ -13,6 +16,9 @@ export interface TutorialStage {
   content: {
     title: string
     text: string
+  }
+  actions?: {
+    setup: TutorialAction
   }
 }
 
