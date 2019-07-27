@@ -66,12 +66,12 @@ const basic: CR.Tutorial = {
         },
         actions: {
           setup: {
-            commits: ['430500f', '8383061'],
+            commits: ['aab5f3d', '8fa5ad5'],
             commands: ['npm install'],
             files: ['src/sum.js'],
           },
           solution: {
-            commits: ['abbe136'],
+            commits: ['abe3123'],
           },
         },
         hints: [],
@@ -83,11 +83,11 @@ const basic: CR.Tutorial = {
         },
         actions: {
           setup: {
-            commits: ['9cbb518'],
+            commits: ['0e01df8'],
             files: ['src/multiply.js'],
           },
           solution: {
-            commits: ['5ae011f'],
+            commits: ['1b9a520'],
           },
         },
         hints: [],
@@ -99,11 +99,11 @@ const basic: CR.Tutorial = {
         },
         actions: {
           setup: {
-            commits: ['70c774c'],
+            commits: ['40802cf'],
             files: ['src/divide.js'],
           },
           solution: {
-            commits: ['3180bed'],
+            commits: ['b321a3d'],
           },
         },
         hints: [],
@@ -115,11 +115,11 @@ const basic: CR.Tutorial = {
         },
         actions: {
           setup: {
-            commits: ['16d9699'],
+            commits: ['4db40b4'],
             files: ['src/modulo.js'],
           },
           solution: {
-            commits: ['bbf8aa5']
+            commits: ['3580c9d']
           }
         }
       },
@@ -130,11 +130,11 @@ const basic: CR.Tutorial = {
         },
         actions: {
           setup: {
-            commits: ['683c8db'],
+            commits: ['abc1e2d'],
             files: ['src/power.js'],
           },
           solution: {
-            commits: ['deaf3a8']
+            commits: ['5d28c25']
           }
         }
       },
@@ -145,11 +145,11 @@ const basic: CR.Tutorial = {
         },
         actions: {
           setup: {
-            commits: ['c539057'],
+            commits: ['d2c5827'],
             files: ['src/hello.js'],
           },
           solution: {
-            commits: ['ab7d57b']
+            commits: ['f668bf7']
           }
         }
       },
@@ -160,11 +160,11 @@ const basic: CR.Tutorial = {
         },
         actions: {
           setup: {
-            commits: ['abe8404'],
+            commits: ['3aa0ccd'],
             files: ['src/hello.js'],
           },
           solution: {
-            commits: ['6f40d18']
+            commits: ['9897785']
           }
         }
       },

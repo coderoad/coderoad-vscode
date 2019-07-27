@@ -158,8 +158,17 @@ export default (dispatch: CR.EditorDispatch) => ({
       return nextPosition
     },
   }),
-  loadLevel() {
+  loadLevel(context: CR.MachineContext): void {
+    const { data, position } = context
     console.log('loadLevel')
+    console.log(position)
+    const { levels } = data
+    const level = levels[position.levelId]
+
+    // run level setup if it exists
+    if (level && level.actions && level.actions.setup) {
+      git.gitLoadCommits(level.actions.setup, dispatch)
+    }
   },
   stageLoadNext(context: CR.MachineContext) {
     console.log('stageLoadNext')
@@ -167,9 +176,16 @@ export default (dispatch: CR.EditorDispatch) => ({
     console.log(position)
   },
   loadStage(context: CR.MachineContext): void {
+    const { data, position } = context
     console.log('loadStage')
-    const { position } = context
     console.log(position)
+    const { stages } = data
+    const stage = stages[position.levelId]
+
+    // run level setup if it exists
+    if (stage && stage.actions && stage.actions.setup) {
+      git.gitLoadCommits(stage.actions.setup, dispatch)
+    }
   },
   // @ts-ignore
   updatePosition: assign({
