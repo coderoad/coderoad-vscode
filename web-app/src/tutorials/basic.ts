@@ -150,11 +150,11 @@ const basic: CR.Tutorial = {
         },
         actions: {
           setup: {
-            commits: ['d2c5827'],
-            files: ['src/hello.js'],
+            commits: ['2faa934'],
+            files: ['src/word.js'],
           },
           solution: {
-            commits: ['f668bf7']
+            commits: ['29f6b0d']
           }
         }
       },
@@ -165,11 +165,11 @@ const basic: CR.Tutorial = {
         },
         actions: {
           setup: {
-            commits: ['3aa0ccd'],
-            files: ['src/hello.js'],
+            commits: ['b1894dd'],
+            files: ['src/word.js'],
           },
           solution: {
-            commits: ['9897785']
+            commits: ['0e83af8']
           }
         }
       },
