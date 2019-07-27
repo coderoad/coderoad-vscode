@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@alifd/next": "^1.15.12",
+    "@alifd/next": "^1.16.4",
     "markdown-it": "^9.0.1",
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-prism": "^2.0.2",
@@ -37,11 +37,6 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "^24.0.15",
-    "@types/markdown-it": "0.0.8",
-    "@types/node": "^12.6.2",
-    "@types/react": "^16.8.23",
-    "@types/react-dom": "^16.8.4",
     "@babel/core": "^7.5.4",
     "@storybook/addon-actions": "^5.1.9",
     "@storybook/addon-knobs": "^5.1.9",
@@ -49,6 +44,11 @@
     "@storybook/addons": "^5.1.9",
     "@storybook/react": "^5.1.9",
     "@types/highlight.js": "^9.12.3",
+    "@types/jest": "^24.0.15",
+    "@types/markdown-it": "0.0.8",
+    "@types/node": "^12.6.8",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.5",
     "@types/storybook__react": "^4.0.2",
     "babel-loader": "^8.0.5",
     "babel-plugin-import": "^1.12.0",
