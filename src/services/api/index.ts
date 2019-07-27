@@ -17,7 +17,7 @@ export default async function fetch(options: Options): Promise<any> {
   switch (options.resource) {
     case 'getTutorialsSummary':
       // list of ids with summaries
-      let data: { [id: string]: CR.TutorialSummary } = {}
+      const data: { [id: string]: CR.TutorialSummary } = {}
       for (const tutorial of Object.values(tutorialsData)) {
         data[tutorial.id] = tutorial.data.summary
       }

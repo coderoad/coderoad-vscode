@@ -1,5 +1,6 @@
 import * as CR from 'typings'
 import { exec, exists } from '../node'
+import errorMessages from './errorMessages'
 
 const gitOrigin = 'coderoad'
 
@@ -31,11 +32,7 @@ const cherryPickCommit = async (commit: string, count = 0): Promise<void> => {
   }
 }
 
-const errorMessages = {
-  js: {
-    'node-gyp': 'Error running npm setup command'
-  }
-}
+
 
 /*
     SINGLE git cherry-pick %COMMIT%
