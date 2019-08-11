@@ -10,8 +10,6 @@ interface ReceivedEvent {
   data: CR.Action
 }
 
-const debug = false
-
 const App = () => {
   const [state, setState] = React.useState(initialState)
   const [data, setData]: [CR.MachineContext, (data: CR.MachineContext) => void] = React.useState(initialData)
@@ -53,7 +51,7 @@ const App = () => {
   return (
     <DataContext.Provider value={value}>
       <div>
-        {debug && <Debugger value={value} />}
+        {process.env.REACT_APP_DEBUG && <Debugger value={value} />}
         <Routes state={state} />
       </div>
     </DataContext.Provider>
