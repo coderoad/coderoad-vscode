@@ -1,6 +1,8 @@
 import * as React from 'react'
+import { ApolloProvider } from '@apollo/react-hooks'
 import * as CR from 'typings'
 
+import client from './services/apollo'
 import Debugger from './components/Debugger'
 import Routes from './Routes'
 import DataContext, { initialData, initialState } from './utils/DataContext'
@@ -49,12 +51,14 @@ const App = () => {
 
   // TODO: refactor cond to user <Router><Route> and accept first route as if/else if
   return (
-    <DataContext.Provider value={value}>
-      <div>
-        {process.env.REACT_APP_DEBUG && <Debugger value={value} />}
-        <Routes state={state} />
-      </div>
-    </DataContext.Provider>
+    <ApolloProvider client={client}>
+      <DataContext.Provider value={value}>
+        <div>
+          {process.env.REACT_APP_DEBUG && <Debugger value={value} />}
+          <Routes state={state} />
+        </div>
+      </DataContext.Provider>
+    </ApolloProvider>
   )
 }
 

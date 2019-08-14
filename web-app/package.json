@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@alifd/next": "^1.16.6",
+    "@apollo/react-hooks": "^3.0.0",
+    "apollo-boost": "^0.4.4",
+    "graphql": "^14.4.2",
     "markdown-it": "^9.1.0",
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-prism": "^2.0.2",
