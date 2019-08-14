@@ -1,0 +1,16 @@
+query getTutorial($tutorialId: ID!) {
+  tutorial(id: $tutorialId) {
+    id
+    testRunner
+    codingLanguage
+    repo {
+      uri
+      branch
+    }
+    latestVersion {
+      version
+      coderoadVersion
+      data
+    }
+  }
+}

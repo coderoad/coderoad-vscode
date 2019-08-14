@@ -52,6 +52,7 @@
     "test": "npm run build && node ./node_modules/vscode/bin/test"
   },
   "devDependencies": {
+    "@types/dotenv": "^6.1.1",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.7.1",
     "concurrently": "^4.1.1",
@@ -61,6 +62,8 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
+    "axios": "^0.19.0",
+    "dotenv": "^8.0.0",
     "vscode": "^1.1.36",
     "xstate": "^4.6.7"
   },

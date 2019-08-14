@@ -12,7 +12,7 @@ const tutorialsData: { [key: string]: CR.Tutorial } = {
   [basicTutorial.id]: basicTutorial,
 }
 
-// TODO: replace with fetch resource
+// TODO: replace with fetch resource in ./api.ts
 export default async function fetch(options: Options): Promise<any> {
   switch (options.resource) {
     case 'getTutorialsSummary':
