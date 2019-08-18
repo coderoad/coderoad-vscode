@@ -16,53 +16,65 @@ storiesOf('Tutorial SideBar', module)
   .add('Level', () => (
     <Level
       level={object('level', {
-        content: {
-          text: 'A description of this stage',
-          title: 'Sum Level',
-        },
-        stageList: ['stage1Id', 'stage2Id', 'stage3Id'],
-      })}
-      stages={object('stages', {
-        stage1Id: {
-          content: {
-            text: 'some description',
+        id: '1',
+        title: 'Sum Level',
+        text: 'A description of this stage',
+        stages: [
+          {
+            id: '1',
             title: 'First',
-          },
-          status: {
-            active: false,
-            complete: true,
-          },
-          stepList: [],
-        },
-        stage2Id: {
-          content: {
             text: 'some description',
+            status: 'COMPLETED',
+          },
+          {
+            id: '2',
             title: 'Second',
+            text: 'The second one',
+            status: 'ACTIVE',
           },
-          status: {
-            active: true,
-            complete: false,
-          },
-          stepList: [],
-        },
-        stage3Id: {
-          content: {
-            text: 'some description',
+          {
+            id: '3',
             title: 'Third',
+            text: 'The third one',
+            status: 'INCOMPLETE',
           },
-          status: {
-            active: false,
-            complete: false,
-          },
-          stepList: [],
-        },
+        ],
       })}
       onNext={linkTo('Tutorial SideBar', 'Stage')}
       onBack={linkTo('TUtorial SideBar', 'Summary')}
     />
   ))
   .add('Level Summary', () => {
-    return <LevelSummaryPage send={action('send')} levels={[]} />
+    return (
+      <LevelSummaryPage
+        send={action('send')}
+        level={{
+          id: '1',
+          title: 'Sum Level',
+          text: 'A description of this stage',
+          stages: [
+            {
+              id: '1',
+              title: 'First',
+              text: 'some description',
+              status: 'COMPLETE',
+            },
+            {
+              id: '2',
+              title: 'Second',
+              text: 'The second one',
+              status: 'ACTIVE',
+            },
+            {
+              id: '3',
+              title: 'Third',
+              text: 'The third one',
+              status: 'INCOMPLETE',
+            },
+          ],
+        }}
+      />
+    )
   })
   .addDecorator(apolloProvider)
   .add('Level Summary Container', () => {

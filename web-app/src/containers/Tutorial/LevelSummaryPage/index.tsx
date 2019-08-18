@@ -18,7 +18,6 @@ export const LevelSummaryPage = (props: LevelProps) => {
   const onBack = (): void => {
     props.send('BACK')
   }
-  console.log('props', props)
   return <Level level={props.level} onNext={onNext} onBack={onBack} />
 }
 
