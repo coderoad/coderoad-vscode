@@ -6,7 +6,7 @@ import queryTutorials from './queryTutorials'
 import { send } from 'utils/vscode'
 import LoadingPage from '../LoadingPage'
 import ErrorView from 'components/Error'
-import TutorialList from 'components/TutorialList'
+import TutorialList from './TutorialList'
 
 interface Props {
   tutorialList: T.Tutorial[]

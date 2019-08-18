@@ -4,8 +4,8 @@ import { action } from '@storybook/addon-actions'
 import * as T from '../../typings/graphql'
 import apolloProvider from './utils/ApolloDecorator'
 
-import TutorialList from '../src/components/TutorialList'
-import TutorialItem from '../src/components/TutorialList/TutorialItem'
+import TutorialList from '../src/containers/New/TutorialList'
+import TutorialItem from '../src/containers/New/TutorialList/TutorialItem'
 import NewContainer from '../src/containers/New'
 
 storiesOf('New', module)

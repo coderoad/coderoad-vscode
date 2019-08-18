@@ -5,7 +5,7 @@ import { object, withKnobs } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import SideBarDecorator from './utils/SideBarDecorator'
 
-import Stage from '../src/components/Stage'
+import Stage from '../src/containers/Tutorial/StagePage/Stage'
 import StageContainer from '../src/containers/Tutorial/StagePage'
 import ApolloDecorator from './utils/ApolloDecorator'
 

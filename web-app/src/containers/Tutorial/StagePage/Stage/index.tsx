@@ -2,7 +2,7 @@ import { Button, Step } from '@alifd/next'
 import * as React from 'react'
 import * as T from 'typings/graphql'
 
-import Markdown from '../Markdown'
+import Markdown from 'components/Markdown'
 import StepDescription from './StepDescription'
 
 const styles = {

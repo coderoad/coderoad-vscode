@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 
-import Stage from 'components/Stage'
 import ErrorView from 'components/Error'
+import Stage from './Stage'
 import queryStage from './queryStage'
 
 interface PageProps {

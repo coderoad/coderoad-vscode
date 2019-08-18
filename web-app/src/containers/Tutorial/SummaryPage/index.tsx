@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 
 import querySummary from './querySummary'
-import Summary from 'components/Summary'
+import Summary from './Summary'
 import ErrorView from 'components/Error'
 
 interface PageProps {

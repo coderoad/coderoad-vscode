@@ -7,7 +7,7 @@ import { storiesOf } from '@storybook/react'
 import SideBarDecorator from './utils/SideBarDecorator'
 
 import apolloProvider from './utils/ApolloDecorator'
-import Level from '../src/components/Level'
+import Level from '../src/containers/Tutorial/LevelPage/Level'
 import LevelSummaryPageContainer, { LevelSummaryPage } from '../src/containers/Tutorial/LevelPage'
 
 storiesOf('Tutorial SideBar', module)
