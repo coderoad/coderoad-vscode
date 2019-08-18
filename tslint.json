@@ -13,10 +13,11 @@
     "semicolon": [true, "never"],
     "triple-equals": true,
     "forin": false,
-    "no-console": false
+    "no-console": false,
+    "no-submodule-imports": false
   },
   "defaultSeverity": "warning",
-  "no-submodule-imports": false,
+
   "linterOptions": {
     "exclude": ["node_modules/**"]
   }

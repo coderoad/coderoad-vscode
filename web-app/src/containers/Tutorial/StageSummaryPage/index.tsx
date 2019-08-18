@@ -2,8 +2,8 @@ import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import * as T from 'typings/graphql'
 
-import Stage from '../../../components/Stage'
-import ErrorView from '../../../components/Error'
+import Stage from 'components/Stage'
+import ErrorView from 'components/Error'
 import queryStage from './queryStage'
 
 interface PageProps {

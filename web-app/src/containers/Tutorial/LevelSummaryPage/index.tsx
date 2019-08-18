@@ -2,8 +2,8 @@ import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import * as T from 'typings/graphql'
 
-import ErrorView from '../../../components/Error'
-import Level from '../../../components/Level'
+import ErrorView from 'components/Error'
+import Level from 'components/Level'
 import queryLevel from './queryLevel'
 
 interface LevelProps {

@@ -16,5 +16,8 @@ module.exports = ({ config }) => {
     },
   })
   config.resolve.extensions.push('.ts', '.tsx')
+
+  config.resolve.modules = ['node_modules', path.resolve(__dirname, '../src')]
+
   return config
 }

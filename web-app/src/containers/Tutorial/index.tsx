@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { send } from '../../utils/vscode'
+import { send } from 'utils/vscode'
 
-import Router from '../../components/Router'
+import Router from 'components/Router'
 import LoadingPage from '../LoadingPage'
 import SummaryPage from './SummaryPage'
 import LevelSummaryPage from './LevelSummaryPage'
-import StagePage from './StagePage'
+import StageSummaryPage from './StageSummaryPage'
 import CompletedPage from './CompletedPage'
 
 const { Route } = Router
@@ -27,7 +27,7 @@ const Tutorial = (props: Props) => {
         <LevelSummaryPage send={send} />
       </Route>
       <Route path="Tutorial.Stage">
-        <StagePage send={send} />
+        <StageSummaryPage send={send} />
       </Route>
       <Route path="Tutorial.Completed">
         <CompletedPage />

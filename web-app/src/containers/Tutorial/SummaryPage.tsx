@@ -1,6 +1,6 @@
 import * as React from 'react'
-import DataContext from '../../utils/DataContext'
-import Summary from '../../components/Summary'
+import DataContext from 'utils/DataContext'
+import Summary from 'components/Summary'
 
 interface PageProps {
   send(action: string): void

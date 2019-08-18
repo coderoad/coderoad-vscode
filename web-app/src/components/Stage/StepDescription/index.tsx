@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Markdown from '../../Markdown'
+import Markdown from 'components/Markdown'
 
 const styles = {
   // active: {

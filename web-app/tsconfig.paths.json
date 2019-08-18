@@ -3,8 +3,13 @@
     "baseUrl": "src",
     "rootDirs": ["src", "stories"],
     "paths": {
+      "components/*": ["./components/*"],
+      "containers/*": ["./containers/*"],
+      "services/*": ["./services/*"],
+      "styles/*": ["./styles/*"],
       "typings": ["../../typings/index.d.ts"],
-      "typings/graphql": ["../../typings/graphql.d.ts"]
+      "typings/graphql": ["../../typings/graphql.d.ts"],
+      "utils/*": ["./utils/*"]
     },
     "allowSyntheticDefaultImports": true
   },

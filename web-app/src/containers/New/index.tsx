@@ -3,10 +3,10 @@ import { useQuery } from '@apollo/react-hooks'
 import * as T from 'typings/graphql'
 
 import queryTutorials from './queryTutorials'
-import { send } from '../../utils/vscode'
+import { send } from 'utils/vscode'
 import LoadingPage from '../LoadingPage'
-import ErrorView from '../../components/Error'
-import TutorialList from '../../components/TutorialList'
+import ErrorView from 'components/Error'
+import TutorialList from 'components/TutorialList'
 
 interface Props {
   tutorialList: T.Tutorial[]
