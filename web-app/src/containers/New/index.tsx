@@ -1,53 +1,35 @@
 import * as React from 'react'
-import { Button } from '@alifd/next'
-
-import Cond from '../../components/Cond'
-import DataContext from '../../utils/DataContext'
-import { send } from '../../utils/vscode'
 import { useQuery } from '@apollo/react-hooks'
-import query from './query'
+import * as T from '../../../../typings/graphql'
 
-import LoadingPage from '../../containers/LoadingPage'
+import queryTutorials from './queryTutorials'
+import { send } from '../../utils/vscode'
+import TutorialList from '../../components/TutorialList'
 
 interface Props {
-  state: any
-  tutorialList: any[]
+  tutorialList: T.Tutorial[]
   onNew(tutorialId: string): void
 }
 
 export const NewPage = (props: Props) => (
   <div>
-    <Cond state={props.state} path="SelectTutorial.NewTutorial.SelectTutorial">
-      <div>
-        <h2>Start a new Project</h2>
-        {props.tutorialList.map(tutorial => (
-          <div>
-            <h3>{tutorial.title}</h3>
-            <p>{tutorial.description}</p>
-            <Button onClick={() => props.onNew(tutorial.id)}>Start</Button>
-          </div>
-        ))}
-      </div>
-    </Cond>
-    <Cond state={props.state} path="SelectTutorial.NewTutorial.InitializeTutorial">
-      <LoadingPage text="Launching Tutorial..." />
-    </Cond>
+    <h2>Start a new Project</h2>
+    <TutorialList tutorialList={props.tutorialList} onNew={props.onNew} />
   </div>
 )
 
-export default () => {
-  console.log('load new')
-  const { state } = React.useContext(DataContext)
-  const { data, loading, error } = useQuery(query)
-  const [tutorialList] = React.useState([{ id: '1', title: 'Demo', description: 'A basic demo' }])
+const NewPageContainer = () => {
+  const { data, loading, error } = useQuery(queryTutorials)
   console.log('data', data)
   if (loading) {
     return null
   }
 
   if (error) {
-    return <div>'Error'</div>
+    return <div>{JSON.stringify(error, null, 2)}</div>
   }
 
-  return <NewPage onNew={() => send('TUTORIAL_START')} state={state} tutorialList={tutorialList} />
+  return <NewPage onNew={() => send('TUTORIAL_START')} tutorialList={data.tutorials} />
 }
+
+export default NewPageContainer
