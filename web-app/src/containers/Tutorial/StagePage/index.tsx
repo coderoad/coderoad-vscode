@@ -18,7 +18,7 @@ const StageSummaryPageContainer = (props: PageProps) => {
     },
   })
   if (loading) {
-    return <div>Loading Levels...</div>
+    return <div>Loading Stage...</div>
   }
 
   if (error) {

@@ -1,6 +1,5 @@
 import { Button } from '@alifd/next'
 import * as React from 'react'
-import CR from 'typings'
 
 const styles = {
   card: {
@@ -16,23 +15,21 @@ const styles = {
 }
 
 interface Props {
-  data: CR.TutorialData
+  title: string
+  text: string
   onNext(): void
 }
 
-const Summary = ({ data, onNext }: Props) => {
-  const { summary } = data
-  return (
-    <div style={styles.card}>
-      <div style={styles.content}>
-        <h2 style={styles.title}>{summary.title}</h2>
-        <p>{summary.description}</p>
-      </div>
-      <div style={styles.options}>
-        <Button onClick={() => onNext()}>Continue</Button>
-      </div>
+const Summary = ({ title, text, onNext }: Props) => (
+  <div style={styles.card}>
+    <div style={styles.content}>
+      <h2 style={styles.title}>{title}</h2>
+      <p>{text}</p>
     </div>
-  )
-}
+    <div style={styles.options}>
+      <Button onClick={() => onNext()}>Continue</Button>
+    </div>
+  </div>
+)
 
 export default Summary
