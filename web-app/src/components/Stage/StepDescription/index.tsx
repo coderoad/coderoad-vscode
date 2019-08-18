@@ -1,5 +1,4 @@
 import * as React from 'react'
-import CR from 'typings'
 import Markdown from '../../Markdown'
 
 const styles = {
@@ -12,18 +11,17 @@ const styles = {
 }
 
 interface Props {
-  content: CR.TutorialStepContent
-  status: any // CC.StageStepStatus
+  text?: string | null
+  hide: boolean
 }
 
-const StepDescription = ({ content, status }: Props) => {
-  const hidden = !status.active && !status.complete
-  if (hidden) {
+const StepDescription = ({ text, hide }: Props) => {
+  if (hide) {
     return null
   }
   return (
     <div style={styles.card}>
-      <Markdown>{content.text}</Markdown>
+      <Markdown>{text || ''}</Markdown>
     </div>
   )
 }

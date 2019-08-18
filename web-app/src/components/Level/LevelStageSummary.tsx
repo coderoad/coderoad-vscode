@@ -1,6 +1,6 @@
 import { Icon } from '@alifd/next'
 import * as React from 'react'
-import * as T from '../../../../typings/graphql'
+import * as T from 'typings/graphql'
 
 import Markdown from '../Markdown'
 
