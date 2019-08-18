@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import * as T from '../../../../typings/graphql'
+import * as T from 'typings/graphql'
 
 import queryTutorials from './queryTutorials'
 import { send } from '../../utils/vscode'

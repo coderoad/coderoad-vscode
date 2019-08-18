@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import * as T from '../../../../typings/graphql'
+import * as T from 'typings/graphql'
 import TutorialItem from './TutorialItem'
 
 interface Props {

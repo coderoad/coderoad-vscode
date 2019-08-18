@@ -1,6 +1,6 @@
 import { Button, Step } from '@alifd/next'
 import * as React from 'react'
-import CR from 'typings'
+import * as T from 'typings/graphql'
 
 import Markdown from '../Markdown'
 import StepDescription from './StepDescription'
@@ -23,36 +23,39 @@ const styles = {
 }
 
 interface Props {
-  stage: CR.TutorialStage
-  steps: {
-    [stepId: string]: any // CC.Step
-  }
+  stage: T.Stage
   complete: boolean
   onContinue(): void
 }
 
-const Stage = ({ stage, steps, onContinue, complete }: Props) => {
-  const { stepList, content } = stage
-  const { title, text } = content
+const Stage = ({ stage, onContinue, complete }: Props) => {
+  if (!stage.steps) {
+    throw new Error('No Stage steps found')
+  }
+
   // grab the active step
-  const activeIndex = stepList.findIndex((stepId: string) => {
-    return steps[stepId].status.active
+  const activeIndex: number = stage.steps.findIndex((step: T.Step | null) => {
+    return step && step.status === 'ACTIVE'
   })
+
   return (
     <div style={styles.card}>
       <div style={styles.content}>
-        <h2 style={styles.title}>{title}</h2>
-        <Markdown>{text}</Markdown>
+        <h2 style={styles.title}>{stage.title}</h2>
+        <Markdown>{stage.text || ''}</Markdown>
       </div>
       <div style={styles.steps}>
         <Step current={activeIndex} direction="ver" shape="dot" animation readOnly>
-          {stepList.map((stepId: string, index: number) => {
-            const step = steps[stepId]
+          {stage.steps.map((step: T.Step | null, index: number) => {
+            if (!step) {
+              return null
+            }
+            const hide = status === 'INCOMPLETE'
             return (
               <Step.Item
-                key={stepId}
-                title={step.content.title || `Step ${index + 1}`}
-                content={<StepDescription content={step.content} status={step.status} />}
+                key={step.id}
+                title={step.title || `Step ${index + 1}`}
+                content={<StepDescription text={step.text} hide={hide} />}
               />
             )
           })}

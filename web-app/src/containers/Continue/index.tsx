@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { Button, Card } from '@alifd/next'
+import * as T from 'typings/graphql'
 
 import { send } from '../../utils/vscode'
 import LoadingPage from '../LoadingPage'
 import queryTutorial from './queryTutorial'
 import ErrorView from '../../components/Error'
-import * as T from '../../../../typings/graphql'
 
 interface Props {
   tutorial: T.Tutorial
