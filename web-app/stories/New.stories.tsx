@@ -33,6 +33,4 @@ storiesOf('New', module)
     return <TutorialList tutorialList={tutorialList} onNew={action('onNew')} />
   })
   .addDecorator(apolloProvider)
-  .add('Container', () => {
-    return <NewContainer />
-  })
+  .add('Container', () => <NewContainer />)

@@ -1,4 +1,7 @@
-query getTutorial($tutorialId: ID!) {
+import { gql } from 'apollo-boost'
+
+export default gql`
+  query getTutorial($tutorialId: ID!, $version: String) {
   tutorial(id: $tutorialId) {
     id
     title
@@ -15,9 +18,11 @@ query getTutorial($tutorialId: ID!) {
       owner
       name
     }
-    version {
+    version(version: $version) {
       version
       coderoadVersion
     }
   }
 }
+
+`
