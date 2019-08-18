@@ -4,7 +4,7 @@ import { send } from '../../utils/vscode'
 import Router from '../../components/Router'
 import LoadingPage from '../LoadingPage'
 import SummaryPage from './SummaryPage'
-import LevelPage from './LevelPage'
+import LevelSummaryPage from './LevelSummaryPage'
 import StagePage from './StagePage'
 import CompletedPage from './CompletedPage'
 
@@ -24,7 +24,7 @@ const Tutorial = (props: Props) => {
         <SummaryPage send={send} />
       </Route>
       <Route path="Tutorial.Level">
-        <LevelPage send={send} />
+        <LevelSummaryPage send={send} />
       </Route>
       <Route path="Tutorial.Stage">
         <StagePage send={send} />

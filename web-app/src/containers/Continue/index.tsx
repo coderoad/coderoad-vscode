@@ -5,6 +5,7 @@ import { Button, Card } from '@alifd/next'
 import { send } from '../../utils/vscode'
 import LoadingPage from '../LoadingPage'
 import queryTutorial from './queryTutorial'
+import ErrorView from '../../components/Error'
 import * as T from '../../../../typings/graphql'
 
 interface Props {
@@ -41,12 +42,7 @@ const ContinuePageContainer = () => {
   }
 
   if (error) {
-    return (
-      <div>
-        <h5>{error.message}</h5>
-        <p>{JSON.stringify(error, null, 2)}</p>
-      </div>
-    )
+    return <ErrorView error={error} />
   }
 
   return (
