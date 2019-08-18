@@ -65,6 +65,7 @@ export type Level = {
     text?: Maybe<Scalars['String']>,
     stages?: Maybe<Array<Maybe<Stage>>>,
     setup?: Maybe<StepActions>,
+    status?: 'INCOMPLETE' | 'COMPLETE' | 'ACTIVE',
 };
 
 export type Mutation = {
@@ -125,6 +126,7 @@ export type Stage = {
     text?: Maybe<Scalars['String']>,
     steps?: Maybe<Array<Maybe<Step>>>,
     setup?: Maybe<StepActions>,
+    status?: 'INCOMPLETE' | 'COMPLETE' | 'ACTIVE',
 };
 
 export type Step = {
@@ -134,6 +136,7 @@ export type Step = {
     text?: Maybe<Scalars['String']>,
     setup?: Maybe<StepActions>,
     solution?: Maybe<StepActions>,
+    status?: 'INCOMPLETE' | 'COMPLETE' | 'ACTIVE'
 };
 
 export type StepActions = {

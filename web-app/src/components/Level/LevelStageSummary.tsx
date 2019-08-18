@@ -1,6 +1,6 @@
 import { Icon } from '@alifd/next'
 import * as React from 'react'
-import CC from '../../../../typings/context'
+import * as T from '../../../../typings/graphql'
 
 import Markdown from '../Markdown'
 
@@ -24,17 +24,17 @@ const styles = {
 }
 
 interface Props {
-  stage: CC.StageWithStatus
+  stage: T.Stage
   onNext(): void
 }
 
 const LevelStageSummary = (props: Props) => {
   const { stage, onNext } = props
-  const { active } = stage.status
+  const active = stage.status === 'ACTIVE'
   return (
     <div style={styles.card} className={active ? 'hover-select' : ''} onClick={onNext}>
       <div style={styles.left}>
-        <Markdown>{stage.content.text}</Markdown>
+        <Markdown>{stage.text || ''}</Markdown>
       </div>
       <div style={styles.right}>{active && <Icon type="arrow-right" style={styles.continueIcon} />}</div>
     </div>

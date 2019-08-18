@@ -41,6 +41,21 @@ const client = new ApolloClient({
                 return null
             },
         },
+        Level: {
+            status() {
+                return 'INCOMPLETE'
+            }
+        },
+        Stage: {
+            status() {
+                return 'INCOMPLETE'
+            }
+        },
+        Step: {
+            status() {
+                return 'INCOMPLETE'
+            }
+        }
     },
 })
 

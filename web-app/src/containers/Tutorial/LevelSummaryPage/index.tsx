@@ -2,39 +2,24 @@ import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 
 import ErrorView from '../../../components/Error'
-// import Level from '../../../components/Level'
+import Level from '../../../components/Level'
 import * as T from '../../../../../typings/graphql'
-import queryLevels from './queryLevels'
+import queryLevel from './queryLevel'
 
 interface LevelProps {
-  levels: T.Level[]
+  level: T.Level
   send(action: string): void
 }
 
 export const LevelSummaryPage = (props: LevelProps) => {
-  // const { levelId } = position
-  // const level = data.levels[levelId]
-  // const onNext = (): void => {
-  //   props.send('NEXT')
-  // }
-  // const onBack = (): void => {
-  //   props.send('BACK')
-  // }
-
-  // const stages: { [stageId: string]: any } = {}
-  // for (const stageId of level.stageList) {
-  //   stages[stageId] = {
-  //     ...data.stages[stageId],
-  //     status: {
-  //       complete: progress.stages[stageId] || false,
-  //       active: position.stageId === stageId,
-  //     },
-  //   }
-  // }
-
-  return <div>LevelSummaryPage</div>
-
-  // return <Level level={level} stages={stages} onNext={onNext} onBack={onBack} />
+  const onNext = (): void => {
+    props.send('NEXT')
+  }
+  const onBack = (): void => {
+    props.send('BACK')
+  }
+  console.log('props', props)
+  return <Level level={props.level} onNext={onNext} onBack={onBack} />
 }
 
 interface ContainerProps {
@@ -42,7 +27,7 @@ interface ContainerProps {
 }
 
 const LevelSummaryPageContainer = (props: ContainerProps) => {
-  const { loading, error, data } = useQuery(queryLevels, {
+  const { loading, error, data } = useQuery(queryLevel, {
     variables: {
       tutorialId: '1',
       version: '0.1.0',
@@ -58,9 +43,9 @@ const LevelSummaryPageContainer = (props: ContainerProps) => {
     return <ErrorView error={error} />
   }
 
-  const { levels } = data.tutorial.version
+  const { level } = data.tutorial.version
 
-  return <LevelSummaryPage levels={levels} send={props.send} />
+  return <LevelSummaryPage level={level} send={props.send} />
 }
 
 export default LevelSummaryPageContainer
