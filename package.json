@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@types/dotenv": "^6.1.1",
+    "@types/graphql": "^14.2.3",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.7.1",
     "concurrently": "^4.1.1",
