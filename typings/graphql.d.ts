@@ -184,6 +184,9 @@ export type TutorialVersion = {
     publishedAt?: Maybe<Scalars['DateTime']>,
     publishedBy?: Maybe<User>,
     levels?: Maybe<Array<Maybe<Level>>>,
+    level?: Maybe<Level>,
+    stage?: Maybe<Stage>,
+    step?: Maybe<Step>,
 };
 
 
