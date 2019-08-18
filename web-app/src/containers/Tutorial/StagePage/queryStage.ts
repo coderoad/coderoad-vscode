@@ -12,6 +12,12 @@ export default gql`
           title
           text
           status @client
+          steps {
+            id
+            title
+            text
+            status @client
+          }
       }
     }
   }

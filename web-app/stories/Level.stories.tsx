@@ -8,7 +8,7 @@ import SideBarDecorator from './utils/SideBarDecorator'
 
 import apolloProvider from './utils/ApolloDecorator'
 import Level from '../src/components/Level'
-import LevelSummaryPageContainer, { LevelSummaryPage } from '../src/containers/Tutorial/LevelSummaryPage'
+import LevelSummaryPageContainer, { LevelSummaryPage } from '../src/containers/Tutorial/LevelPage'
 
 storiesOf('Tutorial SideBar', module)
   .addDecorator(SideBarDecorator)

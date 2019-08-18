@@ -4,8 +4,8 @@ import { send } from 'utils/vscode'
 import Router from 'components/Router'
 import LoadingPage from '../LoadingPage'
 import SummaryPage from './SummaryPage'
-import LevelSummaryPage from './LevelSummaryPage'
-import StageSummaryPage from './StageSummaryPage'
+import LevelSummaryPage from './LevelPage'
+import StageSummaryPage from './StagePage'
 import CompletedPage from './CompletedPage'
 
 const { Route } = Router

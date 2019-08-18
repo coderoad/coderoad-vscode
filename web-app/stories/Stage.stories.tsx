@@ -6,6 +6,8 @@ import { storiesOf } from '@storybook/react'
 import SideBarDecorator from './utils/SideBarDecorator'
 
 import Stage from '../src/components/Stage'
+import StageContainer from '../src/containers/Tutorial/StagePage'
+import ApolloDecorator from './utils/ApolloDecorator'
 
 storiesOf('Tutorial SideBar', module)
   .addDecorator(SideBarDecorator)
@@ -47,3 +49,5 @@ storiesOf('Tutorial SideBar', module)
       onContinue={action('onContinue')}
     />
   ))
+  .addDecorator(ApolloDecorator)
+  .add('Stage Summary Container', () => <StageContainer send={action('send')} />)
