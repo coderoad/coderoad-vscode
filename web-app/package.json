@@ -2,6 +2,29 @@
   "name": "coderoad-app",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "build": "react-scripts build",
+    "postbuild": "cp -R ./build/ ../build/ && cp public/webpackBuild.js ../build/webpackBuild.js",
+    "build-storybook": "build-storybook",
+    "start": "react-scripts start",
+    "storybook": "start-storybook -p 6006",
+    "test": "react-scripts test"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
   "dependencies": {
     "@alifd/next": "^1.16.7",
     "@apollo/react-hooks": "^3.0.1",
@@ -15,29 +38,6 @@
     "react-dom": "^16.9.0",
     "react-scripts": "3.0.1",
     "typescript": "^3.5.3"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "postbuild": "cp -R ./build/ ../build/ && cp public/webpackBuild.js ../build/webpackBuild.js",
-    "test": "react-scripts test",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "devDependencies": {
     "@babel/core": "^7.5.4",
@@ -53,7 +53,6 @@
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.8.5",
     "@types/storybook__react": "^4.0.2",
-    "apollo-storybook-react": "^0.2.1",
     "babel-loader": "^8.0.5",
     "babel-plugin-import": "^1.12.0",
     "node-sass": "^4.12.0",
