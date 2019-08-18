@@ -7,7 +7,7 @@ export default gql`
       title
       text
       codingLanguage
-      latestVersion {
+      version {
         version
         coderoadVersion
       }

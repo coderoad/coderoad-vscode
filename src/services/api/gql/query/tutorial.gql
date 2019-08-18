@@ -7,7 +7,7 @@ query getTutorial($tutorialId: ID!) {
       uri
       branch
     }
-    latestVersion {
+    version {
       version
       coderoadVersion
       data

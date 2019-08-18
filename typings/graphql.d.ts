@@ -158,7 +158,7 @@ export type Tutorial = {
     text?: Maybe<Scalars['String']>,
     releasedAt?: Maybe<Scalars['DateTime']>,
     releasedBy?: Maybe<User>,
-    latestVersion?: Maybe<TutorialVersion>,
+    version?: Maybe<TutorialVersion>,
     versions?: Maybe<Array<Maybe<TutorialVersion>>>,
 };
 
