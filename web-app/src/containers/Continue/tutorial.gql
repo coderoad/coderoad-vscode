@@ -18,7 +18,6 @@ query getTutorial($tutorialId: ID!) {
     version {
       version
       coderoadVersion
-      data
     }
   }
 }
