@@ -2,7 +2,7 @@ import { Icon } from '@alifd/next'
 import * as React from 'react'
 import * as T from 'typings/graphql'
 
-import Markdown from 'components/Markdown'
+import Markdown from '../../../../components/Markdown'
 
 const styles = {
   card: {

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 
-import ErrorView from 'components/Error'
+import ErrorView from '../../../components/Error'
 import Stage from './Stage'
 import queryStage from './queryStage'
 

@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/react-hooks'
 
 import querySummary from './querySummary'
 import Summary from './Summary'
-import ErrorView from 'components/Error'
+import ErrorView from '../../../components/Error'
 
 interface PageProps {
   send(action: string): void

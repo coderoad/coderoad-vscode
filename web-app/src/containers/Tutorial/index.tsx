@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { send } from 'utils/vscode'
+import { send } from '../../utils/vscode'
 
-import Router from 'components/Router'
+import Router from '../../components/Router'
 import LoadingPage from '../LoadingPage'
 import SummaryPage from './SummaryPage'
 import LevelSummaryPage from './LevelPage'
