@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { ApolloProvider } from '@apollo/react-hooks'
+import { ApolloProvider, useMutation } from '@apollo/react-hooks'
 import * as CR from 'typings'
 
 import client from './services/apollo'
+import { SET_STATUS } from './services/apollo/mutations'
 import Debugger from './components/Debugger'
 import Routes from './Routes'
-import DataContext, { initialData, initialState } from './utils/DataContext'
 import { send } from './utils/vscode'
 
 interface ReceivedEvent {
@@ -13,18 +13,29 @@ interface ReceivedEvent {
 }
 
 const App = () => {
+  const initialState = { SelectTutorial: 'Initial ' }
+
+  // set state machine state
   const [state, setState] = React.useState(initialState)
-  const [data, setData]: [CR.MachineContext, (data: CR.MachineContext) => void] = React.useState(initialData)
+
+  // update level/stage/step status based on user progress & position
+  // TODO: model server more effeciently
+  const [setStatus] = useMutation(SET_STATUS)
 
   // update state based on response from editor
   const handleEvent = (event: ReceivedEvent): void => {
     const message = event.data
     // messages from core
+    const { progress, position } = message.payload.data
+
     if (message.type === 'SET_STATE') {
+      // SET_STATE - set state machine state
       setState(message.payload.state)
-      setData(message.payload.data)
+
+      setStatus({ variables: { progress, position } })
     } else if (message.type === 'SET_DATA') {
-      setData(message.payload.data)
+      // SET_DATA - set state machine context
+      setStatus({ variables: { progress, position } })
     }
   }
 
@@ -44,20 +55,15 @@ const App = () => {
 
   const value = {
     state,
-    position: data.position,
-    data: data.data,
-    progress: data.progress,
   }
 
   // TODO: refactor cond to user <Router><Route> and accept first route as if/else if
   return (
     <ApolloProvider client={client}>
-      <DataContext.Provider value={value}>
-        <div>
-          {process.env.REACT_APP_DEBUG && <Debugger value={value} />}
-          <Routes state={state} />
-        </div>
-      </DataContext.Provider>
+      <div>
+        {process.env.REACT_APP_DEBUG && <Debugger value={value} />}
+        <Routes state={state} />
+      </div>
     </ApolloProvider>
   )
 }

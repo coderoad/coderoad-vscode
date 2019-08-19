@@ -14,8 +14,8 @@ const TutorialList = (props: Props) => (
       <TutorialItem
         key={tutorial.id}
         onNew={() => props.onNew(tutorial.id)}
-        title={tutorial.title}
-        text={tutorial.text}
+        title={tutorial.title || ''}
+        text={tutorial.text || ''}
       />
     ))}
   </div>
