@@ -25,7 +25,7 @@ const Loading = () => <LoadingPage text="Loading tutorials" />
 const NewPageContainer = () => {
   const { data, loading, error } = useQuery(queryTutorials)
   if (loading) {
-    return Loading
+    return <Loading />
   }
 
   if (error) {

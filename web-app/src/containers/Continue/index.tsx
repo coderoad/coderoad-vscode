@@ -38,7 +38,7 @@ const ContinuePageContainer = () => {
   })
 
   if (loading) {
-    return Loading
+    return <Loading />
   }
 
   if (error) {

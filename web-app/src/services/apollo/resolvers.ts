@@ -1,6 +1,6 @@
 const resolvers = {
     Mutation: {
-        setStatus: (_root, variables, { cache, getCacheKey }) => {
+        setStatus: (_root: any, variables: any, { cache, getCacheKey }: any) => {
             // TODO: optimize status setting to act on diffs
 
             // set local cache
