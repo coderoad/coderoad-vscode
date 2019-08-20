@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "axios": "^0.19.0",
-    "dotenv": "^8.0.0",
+    "dotenv": "^8.1.0",
     "graphql": "^14.4.2",
     "vscode": "^1.1.36",
     "xstate": "^4.6.7"
@@ -39,8 +39,8 @@
     "@types/dotenv": "^6.1.1",
     "@types/graphql": "^14.2.3",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.1",
-    "concurrently": "^4.1.1",
+    "@types/node": "^12.7.2",
+    "concurrently": "^4.1.2",
     "prettier": "^1.18.2",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
