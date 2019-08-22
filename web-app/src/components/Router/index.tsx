@@ -15,7 +15,7 @@ const Router = ({ state, children }: Props) => {
       return child.props.children
     }
   }
-  console.warn(`No Route matches for ${state}`)
+  console.warn(`No Route matches for ${JSON.stringify(state)}`)
   return null
 }
 
