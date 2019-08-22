@@ -37,7 +37,7 @@ const Routes = ({ state }: Props) => {
     return () => {
       clearInterval(dimensionsInterval)
     }
-  })
+  }, [])
 
   return (
     <div style={{ ...styles.page, ...dimensions }}>

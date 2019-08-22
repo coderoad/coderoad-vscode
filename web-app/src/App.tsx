@@ -46,16 +46,18 @@ const App = () => {
     return () => {
       window.removeEventListener(listener, handleEvent)
     }
-  })
+  }, [])
 
   // trigger progress when webview loaded
   React.useEffect(() => {
     send('WEBVIEW_LOADED')
-  })
+  }, [])
 
   const value = {
     state,
-  }
+	}
+
+	console.log(client)
 
   // TODO: refactor cond to user <Router><Route> and accept first route as if/else if
   return (
