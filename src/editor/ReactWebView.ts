@@ -128,15 +128,17 @@ class ReactWebView {
 
 		const manifest = require(path.join(this.extensionPath, 'build', 'asset-manifest.json'))
 
-		const mainStyle = manifest.files['main.css']
-		const stylePathOnDisk = vscode.Uri.file(path.join(this.extensionPath, 'build', mainStyle))
-		const styleUri = stylePathOnDisk.with({scheme: 'vscode-resource'})
-
 		const getSrc = (manifestName: string): any => {
 			const file = manifest.files[manifestName]
 			const uriPath = vscode.Uri.file(path.join(this.extensionPath, 'build', file))
 			return uriPath.with({scheme: 'vscode-resource'})
 		}
+
+		const styles = [
+			'main.css',
+			// get style chunk
+			Object.keys(manifest.files).find(f => f.match(/^static\/css\/.+\.css$/)) || ''
+		].map(style => getSrc(style))
 
 		// map over scripts
 		const scripts = [{
@@ -146,8 +148,8 @@ class ReactWebView {
 		}, {
 			manifest: 'main.js',
 		}, {
-			// grab first file that matches chunk
-			manifest: Object.keys(manifest.files).filter(f => f.match(/^static\/js\/.+\.js$/))[0],
+			// get js chunk
+			manifest: Object.keys(manifest.files).find(f => f.match(/^static\/js\/.+\.js$/)),
 		}].map(script => ({
 			nonce: getNonce(),
 			src: script.manifest ? getSrc(script.manifest) : script.file
@@ -165,7 +167,7 @@ class ReactWebView {
 
 						<!-- TODO: load styles through package -->
 						<!-- <link rel='stylesheet' href='https://unpkg.com/@alifd/next/dist/next.css' /> -->
-						<!-- <link rel='stylesheet' type='text/css' href='${styleUri}'> -->
+						${styles.map(styleUri => `<link rel='stylesheet' type='text/css' href='${styleUri}'>`).join('\n')}
 
 						<meta http-equiv='Content-Security-Policy' content="font-src *; img-src vscode-resource: https:; script-src ${scripts.map(script => `'nonce-${script.nonce}'`).join(' ')}; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
 						<base href='${buildUri}/'>
