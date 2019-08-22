@@ -137,7 +137,7 @@ class ReactWebView {
 		const styles = [
 			'main.css',
 			// get style chunk
-			Object.keys(manifest.files).find(f => f.match(/^static\/css\/.+\.css$/)) || ''
+			// Object.keys(manifest.files).find(f => f.match(/^static\/css\/.+\.css$/)) || ''
 		].map(style => getSrc(style))
 
 		// map over scripts
@@ -165,8 +165,7 @@ class ReactWebView {
 						<title>React App</title>
 						<link rel='manifest' href='./manifest.json' />
 
-						<!-- TODO: load styles through package -->
-						<!-- <link rel='stylesheet' href='https://unpkg.com/@alifd/next/dist/next.css' /> -->
+						<link rel='stylesheet' href='https://unpkg.com/@alifd/next/dist/next.css' />
 						${styles.map(styleUri => `<link rel='stylesheet' type='text/css' href='${styleUri}'>`).join('\n')}
 
 						<meta http-equiv='Content-Security-Policy' content="font-src *; img-src vscode-resource: https:; script-src ${scripts.map(script => `'nonce-${script.nonce}'`).join(' ')}; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
@@ -179,8 +178,6 @@ class ReactWebView {
 						${scripts.map(s => `<script nonce='${s.nonce}' src='${s.src}'></script>`).join('\n')}
 				</body>
 		</html>`
-
-		console.log(indexHtml)
 
 		return indexHtml
 	}
