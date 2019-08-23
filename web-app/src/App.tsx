@@ -57,8 +57,6 @@ const App = () => {
     state,
 	}
 
-	console.log(client)
-
   // TODO: refactor cond to user <Router><Route> and accept first route as if/else if
   return (
     <ApolloProvider client={client}>

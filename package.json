@@ -29,9 +29,10 @@
     "watch": "tsc -watch -p ./"
   },
   "dependencies": {
-    "axios": "^0.19.0",
     "dotenv": "^8.1.0",
     "graphql": "^14.4.2",
+    "graphql-request": "^1.8.2",
+    "graphql-tag": "^2.10.1",
     "vscode": "^1.1.36",
     "xstate": "^4.6.7"
   },

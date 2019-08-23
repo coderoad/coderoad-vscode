@@ -1,31 +1,17 @@
-import * as CR from 'typings'
+import * as dotenv from 'dotenv'
+import {GraphQLClient} from 'graphql-request'
 
-// temporary tutorials
-import basicTutorial from '../../tutorials/basic'
+dotenv.config()
 
-interface Options {
-  resource: string
-  params?: any
-}
+const url: string = process.env.API_URL || ''
+const token: string = process.env.API_AUTH_TOKEN || '' // dev only
 
-const tutorialsData: { [key: string]: CR.Tutorial } = {
-  [basicTutorial.id]: basicTutorial,
-}
+// ... or create a GraphQL client instance to send requests
+const client: GraphQLClient = new GraphQLClient(url, {
+	headers: {
+		'Content-Type': 'application/graphql',
+		'Authorization': token
+	}
+})
 
-// TODO: replace with fetch resource in ./api.ts
-export default async function fetch(options: Options): Promise<any> {
-  switch (options.resource) {
-    case 'getTutorialsSummary':
-      // list of ids with summaries
-      const data: { [id: string]: CR.TutorialSummary } = {}
-      for (const tutorial of Object.values(tutorialsData)) {
-        data[tutorial.id] = tutorial.data.summary
-      }
-      return data
-    case 'getTutorial':
-      // specific tutorial by id
-      return tutorialsData[options.params.id]
-    default:
-      throw new Error('Resource not found')
-  }
-}
+export default client

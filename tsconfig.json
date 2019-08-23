@@ -19,7 +19,9 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "paths": {
-      "typings": ["../typings/index.d.ts"]
+      "typings": ["../typings/index.d.ts"],
+      "typings/graphql": ["../typings/graphql.d.ts"],
+      "@gql/*": ["services/api/gql/*"]
     },
     "allowJs": true
   },
