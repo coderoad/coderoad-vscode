@@ -96,14 +96,16 @@ export const createCommands = ({context, machine, storage, git, position}: Creat
 
 			machine.send('TUTORIAL_LOADED')
 		},
-		[COMMANDS.TUTORIAL_SETUP]: async (tutorial: CR.Tutorial) => {
+		[COMMANDS.TUTORIAL_SETUP]: async (tutorial: G.Tutorial) => {
+
+			// TODO: allow multiple coding languages in a tutorial
 			console.log('tutorial setup', tutorial)
 			// setup onSave hook
-			const languageIds = tutorial.meta.languages
-			console.log(`languageIds: ${languageIds.join(', ')}`)
+			const languageId = tutorial.codingLanguage
+			// console.log(`languageIds: ${languageIds.join(', ')}`)
 			vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
 				console.log('save document', document)
-				if (languageIds.includes(document.languageId) && document.uri.scheme === 'file') {
+				if (document.uri.scheme === 'file' && languageId === document.languageId) {
 					// do work
 					machine.send('TEST_RUN')
 				}
