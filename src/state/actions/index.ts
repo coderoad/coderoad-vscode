@@ -1,15 +1,13 @@
 import {assign} from 'xstate'
 // NOTE: codesmell - importing machine
 import {machine} from '../../extension'
-import api from '../../services/api'
+import {TutorialModel} from '../../services/tutorial'
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import tutorialQuery from '@gql/tutorial'
 import * as storage from '../../services/storage'
 import * as git from '../../services/git'
 
-let currentTutorial: G.Tutorial | undefined
-let currentProgress: CR.Progress = {
+const currentProgress: CR.Progress = {
 	levels: {},
 	stages: {},
 	steps: {},
@@ -34,39 +32,37 @@ const calculatePosition = ({data, progress}: {data: CR.TutorialData, progress: C
 	return nextPosition
 }
 
-export default (dispatch: CR.EditorDispatch) => ({
+export default (dispatch: CR.EditorDispatch, tutorialModel: TutorialModel) => ({
 	createWebview() {
 		dispatch('coderoad.open_webview')
 	},
 	async newOrContinue() {
-		// verify that the user has a tutorial & progress
+		// verify that the user has an existing tutorial to continue
+		const hasExistingTutorial: boolean = await tutorialModel.hasExisting()
+
 		// verify git is setup with a coderoad remote
-		const [tutorial, progress, hasGit, hasGitRemote] = await Promise.all([
-			storage.getTutorial(),
-			storage.getProgress(),
+		const [hasGit, hasGitRemote] = await Promise.all([
 			git.gitVersion(),
 			git.gitCheckRemoteExists(),
 		])
-		const canContinue = !!(tutorial && progress && hasGit && hasGitRemote)
 
-		if (canContinue) {
-			// continue
-			currentTutorial = tutorial
-			currentProgress = progress
-		}
+		const canContinue = !!(hasExistingTutorial && hasGit && hasGitRemote)
+
+		// TODO: may need to clean up git remote if no existing tutorial
 
 		machine.send(canContinue ? 'CONTINUE' : 'NEW')
 	},
 	async tutorialLaunch() {
-		const tutorial: G.Tutorial = await api.request(tutorialQuery, {
-			tutorialId: '1', // TODO: add selection of tutorial id
-		})
-		currentTutorial = tutorial
-		console.log(tutorial)
-		dispatch('coderoad.tutorial_launch', tutorial)
+		const tutorialId: string = '1'
+		// TODO: load tutorialId
+		await tutorialModel.load(tutorialId)
+		const repo: G.TutorialRepo = tutorialModel.repo
+
+		dispatch('coderoad.tutorial_launch', repo)
 	},
 	tutorialSetup() {
-		dispatch('coderoad.tutorial_setup', currentTutorial)
+		const codingLanguage: G.EnumCodingLanguage = tutorialModel.config.codingLanguage
+		dispatch('coderoad.tutorial_setup', codingLanguage)
 	},
 	initializeNewTutorial: assign({
 		position: (context: any): CR.Position => {

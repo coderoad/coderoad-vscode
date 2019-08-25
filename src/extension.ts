@@ -1,10 +1,10 @@
 import * as vscode from 'vscode'
 import {setWorkspaceRoot} from './services/node'
-import Tutorial from './services/tutorial'
+import Tutorial, {TutorialModel} from './services/tutorial'
 import StateMachine from './state'
 import Editor from './editor'
 
-export const tutorial = new Tutorial()
+export const tutorial: TutorialModel = new Tutorial()
 // state machine that governs application logic
 export const machine = new StateMachine({dispatch: vscode.commands.executeCommand, tutorial})
 

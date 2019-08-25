@@ -1,5 +1,5 @@
 import {interpret, Interpreter} from 'xstate'
-import Tutorial from '../services/tutorial'
+import {TutorialModel} from '../services/tutorial'
 import * as CR from 'typings'
 import createMachine from './machine'
 
@@ -23,12 +23,11 @@ const stateToString = (state: string | object, str: string = ''): string => {
 
 interface Props {
 	dispatch: CR.EditorDispatch
-	tutorial: Tutorial
+	tutorial: TutorialModel
 }
 
 class StateMachine {
 	private dispatch: CR.EditorDispatch
-	private tutorial: Tutorial
 	private machineOptions = {
 		devTools: true,
 		deferEvents: true,
@@ -37,8 +36,7 @@ class StateMachine {
 	private service: Interpreter<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>
 	constructor({dispatch, tutorial}: Props) {
 		this.dispatch = dispatch
-		this.tutorial = tutorial
-		const machine = createMachine(dispatch)
+		const machine = createMachine(dispatch, tutorial)
 		this.service = interpret(machine, this.machineOptions)
 			// logging
 			.onTransition(state => {

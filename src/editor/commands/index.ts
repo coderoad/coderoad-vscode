@@ -22,11 +22,9 @@ const COMMANDS = {
 }
 
 interface CreateCommandProps {
-	context: vscode.ExtensionContext
+	vscodeExt: vscode.ExtensionContext
 	machine: CR.StateMachine
-	storage: any
 	git: any
-	position: any
 }
 
 const resetLayout = () => {
@@ -36,7 +34,7 @@ const resetLayout = () => {
 	})
 }
 
-export const createCommands = ({context, machine, storage, git, position}: CreateCommandProps) => {
+export const createCommands = ({vscodeExt, machine, git}: CreateCommandProps) => {
 	// React panel webview
 	let webview: any
 
@@ -55,10 +53,10 @@ export const createCommands = ({context, machine, storage, git, position}: Creat
 				webviewState = 'RESTARTING'
 			}
 
-			setStorage(context.workspaceState)
+			setStorage(vscodeExt.workspaceState)
 
 			// activate machine
-			webview = new ReactWebView(context.extensionPath)
+			webview = new ReactWebView(vscodeExt.extensionPath)
 			if (webviewState === 'INITIALIZING') {
 				machine.activate()
 			} else if (webviewState === 'RESTARTING') {
@@ -80,32 +78,30 @@ export const createCommands = ({context, machine, storage, git, position}: Creat
 		},
 		// launch a new tutorial
 		// NOTE: may be better to move into action as logic is primarily non-vscode
-		[COMMANDS.TUTORIAL_LAUNCH]: async (tutorial: G.Tutorial) => {
+		[COMMANDS.TUTORIAL_LAUNCH]: async (repo: G.TutorialRepo) => {
 			console.log('launch tutorial')
 
 			await isEmptyWorkspace()
 
 			await git.gitInitIfNotExists()
 
-			if (!tutorial.repo || !tutorial.repo.uri) {
+			if (!repo || !repo.uri) {
 				throw new Error('Tutorial repo uri not found')
 			}
 
-			// TODO: use actual tutorial repo
-			await Promise.all([git.gitSetupRemote(tutorial.repo.uri), storage.setTutorial(tutorial), storage.resetProgress()])
+			await git.gitSetupRemote(repo.uri)
 
 			machine.send('TUTORIAL_LOADED')
 		},
-		[COMMANDS.TUTORIAL_SETUP]: async (tutorial: G.Tutorial) => {
+		[COMMANDS.TUTORIAL_SETUP]: async (codingLanguage: G.EnumCodingLanguage) => {
 
 			// TODO: allow multiple coding languages in a tutorial
-			console.log('tutorial setup', tutorial)
+
 			// setup onSave hook
-			const languageId = tutorial.codingLanguage
 			// console.log(`languageIds: ${languageIds.join(', ')}`)
 			vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
 				console.log('save document', document)
-				if (document.uri.scheme === 'file' && languageId === document.languageId) {
+				if (document.uri.scheme === 'file' && codingLanguage === document.languageId) {
 					// do work
 					machine.send('TEST_RUN')
 				}

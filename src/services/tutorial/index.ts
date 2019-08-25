@@ -1,17 +1,37 @@
 import * as G from 'typings/graphql'
 import * as CR from 'typings'
+import * as storage from '../storage'
+import api from '../api'
+import tutorialQuery from '@gql/tutorial'
+import {timingSafeEqual} from 'crypto'
 
 interface TutorialConfig {
 	codingLanguage: G.EnumCodingLanguage
 	testRunner: G.EnumTestRunner
 }
 
-class Tutorial {
+export interface TutorialModel {
+	repo: G.TutorialRepo
+	config: TutorialConfig
+	version: G.TutorialVersion
+	position: CR.Position
+	progress: CR.Progress
+	init(tutorial: G.Tutorial): void
+	load(tutorialId: string): void
+	level(levelId: string): G.Level | null
+	stage(stageId: string): G.Stage | null
+	step(stepId: string): G.Step | null
+	updateProgress(): {position: CR.Position, progress: CR.Progress}
+	nextPosition(): CR.Position
+	hasExisting(): Promise<boolean>
+}
+
+class Tutorial implements TutorialModel {
 	public repo: G.TutorialRepo
 	public config: TutorialConfig
-	private version: G.TutorialVersion
-	private position: CR.Position
-	private progress: CR.Progress
+	public version: G.TutorialVersion
+	public position: CR.Position
+	public progress: CR.Progress
 
 	constructor() {
 		// initialize types, will be assigned when tutorial is selected
@@ -20,6 +40,16 @@ class Tutorial {
 		this.version = {} as G.TutorialVersion
 		this.position = {} as CR.Position
 		this.progress = {} as CR.Progress
+
+		Promise.all([
+			storage.getTutorial(),
+			storage.getProgress(),
+		]).then((data) => {
+			const [tutorial, progress] = data
+			console.log('load continue tutorial')
+			console.log(tutorial, progress)
+		})
+
 	}
 
 	public init = (tutorial: G.Tutorial) => {
@@ -44,10 +74,35 @@ class Tutorial {
 			complete: false,
 		}
 
-		// set position, progress, tutorial locally
+		// set tutorial, position, progress locally
+		// TODO: base position off of progress
+		Promise.all([
+			storage.setTutorial(tutorial),
+			storage.setPosition(this.position),
+			storage.setProgress(this.progress)
+		])
 	}
-	public load = (tutorial: G.Tutorial) => {
+
+	public async hasExisting(): Promise<boolean> {
+		const [tutorial, progress] = await Promise.all([
+			storage.getTutorial(),
+			storage.getProgress(),
+		])
+
+		return !!(tutorial && progress)
+	}
+
+	public async load(tutorialId: string) {
 		// TODO: load from localStorage
+		const tutorial: G.Tutorial | null = await api.request(tutorialQuery, {
+			tutorialId, // TODO: add selection of tutorial id
+		})
+
+		if (!tutorial) {
+			throw new Error(`Tutorial ${tutorialId} not found`)
+		}
+
+		await this.init(tutorial)
 	}
 	public level = (levelId: string): G.Level | null => {
 		const level: G.Level | undefined = this.version.levels.find((l: G.Level) => l.id === levelId)
