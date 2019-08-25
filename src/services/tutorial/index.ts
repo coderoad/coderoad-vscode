@@ -62,7 +62,7 @@ class Tutorial implements TutorialModel {
 	}
 
 	public setClientDispatch(editorDispatch: CR.EditorDispatch) {
-		this.clientDispatch = ({progress, position}: PositionProgress) => editorDispatch('SEND_DATA', {progress, position})
+		this.clientDispatch = ({progress, position}: PositionProgress) => editorDispatch('coderoad.send_data', {progress, position})
 	}
 
 	public init = (tutorial: G.Tutorial) => {
@@ -112,7 +112,7 @@ class Tutorial implements TutorialModel {
 
 	public async load(tutorialId: string) {
 		// TODO: load from localStorage
-		const tutorial: G.Tutorial | null = await api.request(tutorialQuery, {
+		const {tutorial}: {tutorial: G.Tutorial | null} = await api.request(tutorialQuery, {
 			tutorialId, // TODO: add selection of tutorial id
 		})
 

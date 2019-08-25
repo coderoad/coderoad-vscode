@@ -1,6 +1,4 @@
-import gql from 'graphql-tag'
-
-const getTutorial = gql`
+const getTutorial = `
 	query getTutorial($tutorialId: ID!) {
 		tutorial(id: $tutorialId) {
 			id
