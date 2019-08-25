@@ -135,6 +135,7 @@ export const createCommands = ({vscodeExt, machine, git}: CreateCommandProps) =>
 		},
 		[COMMANDS.RECEIVE_ACTION]: (action: string | CR.Action) => {
 			// send received actions from web-app into state machine
+			console.log('receive action', action)
 			machine.send(action)
 		},
 		[COMMANDS.RUN_TEST]: () => {

@@ -21,7 +21,6 @@ class ReactWebView {
 	private panel: vscode.WebviewPanel
 	private extensionPath: string
 	private disposables: vscode.Disposable[] = []
-	private onReceive: any // TODO: properly type
 
 	public constructor(extensionPath: string) {
 		this.extensionPath = extensionPath
@@ -42,6 +41,7 @@ class ReactWebView {
 			if (action === 'WEBVIEW_LOADED') {
 				this.loaded = true
 			} else {
+				console.log('onReceive', action)
 				vscode.commands.executeCommand('coderoad.receive_action', action)
 			}
 		}
@@ -56,7 +56,7 @@ class ReactWebView {
 		}
 
 		// prevents new panels from going ontop of coderoad panel
-		vscode.window.onDidChangeActiveTextEditor((textEditor) => {
+		vscode.window.onDidChangeActiveTextEditor((textEditor?: vscode.TextEditor) => {
 			console.log('onDidChangeActiveTextEditor')
 			console.log(textEditor)
 			if (!textEditor || textEditor.viewColumn !== vscode.ViewColumn.Two) {
@@ -64,7 +64,7 @@ class ReactWebView {
 			}
 		})
 		// // prevents moving coderoad panel on top of left panel
-		vscode.window.onDidChangeVisibleTextEditors((textEditor) => {
+		vscode.window.onDidChangeVisibleTextEditors((textEditor: vscode.TextEditor[]) => {
 			console.log('onDidChangeVisibleTextEditors')
 			updateWindows()
 		})
