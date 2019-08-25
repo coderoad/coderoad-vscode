@@ -14,7 +14,8 @@
     "triple-equals": true,
     "forin": false,
     "no-console": false,
-    "no-submodule-imports": false
+    "no-submodule-imports": false,
+    "no-object-literal-type-assertion": false
   },
   "defaultSeverity": "warning",
 

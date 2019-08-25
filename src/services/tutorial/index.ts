@@ -1,20 +1,34 @@
 import * as G from 'typings/graphql'
 import * as CR from 'typings'
 
+interface TutorialConfig {
+	codingLanguage: G.EnumCodingLanguage
+	testRunner: G.EnumTestRunner
+}
+
 class Tutorial {
 	public repo: G.TutorialRepo
-	public config: {codingLanguage: G.EnumCodingLanguage, testRunner: G.EnumTestRunner}
+	public config: TutorialConfig
 	private version: G.TutorialVersion
 	private position: CR.Position
 	private progress: CR.Progress
 
-	constructor(tutorial: G.Tutorial) {
+	constructor() {
+		// initialize types, will be assigned when tutorial is selected
+		this.repo = {} as G.TutorialRepo
+		this.config = {} as TutorialConfig
+		this.version = {} as G.TutorialVersion
+		this.position = {} as CR.Position
+		this.progress = {} as CR.Progress
+	}
+
+	public init = (tutorial: G.Tutorial) => {
 		this.repo = tutorial.repo
 		this.config = {
 			codingLanguage: tutorial.codingLanguage,
 			testRunner: tutorial.testRunner,
 		}
-		// TODO: allow specific version, currently defaults to latest
+		// version containing level data
 		this.version = tutorial.version
 		// set initial position
 		this.position = {
@@ -29,9 +43,11 @@ class Tutorial {
 			steps: {},
 			complete: false,
 		}
+
+		// set position, progress, tutorial locally
 	}
-	public load = () => {
-		// 
+	public load = (tutorial: G.Tutorial) => {
+		// TODO: load from localStorage
 	}
 	public level = (levelId: string): G.Level | null => {
 		const level: G.Level | undefined = this.version.levels.find((l: G.Level) => l.id === levelId)
