@@ -14,6 +14,10 @@ export const editor = new Editor({
 	setWorkspaceRoot,
 })
 
+// TODO: refactor tutorial & editor relationships
+// code here is a bit smelly
+tutorial.setClientDispatch(editor.dispatch)
+
 // activate run on vscode extension initialization
 export const activate = editor.activate
 

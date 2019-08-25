@@ -42,9 +42,7 @@ class StateMachine {
 			.onTransition(state => {
 				if (state.changed) {
 					console.log(`STATE: ${stateToString(state.value)}`)
-					dispatch('coderoad.send_state', {state: state.value, data: state.context})
-				} else {
-					dispatch('coderoad.send_data', {data: state.context})
+					dispatch('coderoad.send_state', {state: state.value})
 				}
 			})
 	}
@@ -58,8 +56,8 @@ class StateMachine {
 	public refresh() {
 		console.log('service refresh')
 		console.log(this.service.state)
-		const {value, context} = this.service.state
-		this.dispatch('coderoad.send_state', {state: value, data: context})
+		const {value} = this.service.state
+		this.dispatch('coderoad.send_state', {state: value})
 	}
 	public send(action: string | CR.Action) {
 		this.service.send(action)

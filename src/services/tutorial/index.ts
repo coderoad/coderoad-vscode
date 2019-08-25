@@ -9,6 +9,11 @@ interface TutorialConfig {
 	testRunner: G.EnumTestRunner
 }
 
+interface PositionProgress {
+	position: CR.Position
+	progress: CR.Progress
+}
+
 export interface TutorialModel {
 	repo: G.TutorialRepo
 	config: TutorialConfig
@@ -20,9 +25,10 @@ export interface TutorialModel {
 	level(levelId?: string): G.Level
 	stage(stageId?: string): G.Stage
 	step(stepId?: string): G.Step
-	updateProgress(): {position: CR.Position, progress: CR.Progress}
+	updateProgress(): PositionProgress
 	nextPosition(): CR.Position
 	hasExisting(): Promise<boolean>
+	setClientDispatch(editorDispatch: CR.EditorDispatch): void
 }
 
 class Tutorial implements TutorialModel {
@@ -31,9 +37,13 @@ class Tutorial implements TutorialModel {
 	public version: G.TutorialVersion
 	public position: CR.Position
 	public progress: CR.Progress
+	private clientDispatch: (props: PositionProgress) => void
 
 	constructor() {
 		// initialize types, will be assigned when tutorial is selected
+		this.clientDispatch = (props: PositionProgress) => {
+			throw new Error('Tutorial client dispatch yet initialized')
+		}
 		this.repo = {} as G.TutorialRepo
 		this.config = {} as TutorialConfig
 		this.version = {} as G.TutorialVersion
@@ -49,6 +59,10 @@ class Tutorial implements TutorialModel {
 		// 	console.log(tutorial, progress)
 		// })
 
+	}
+
+	public setClientDispatch(editorDispatch: CR.EditorDispatch) {
+		this.clientDispatch = ({progress, position}: PositionProgress) => editorDispatch('SEND_DATA', {progress, position})
 	}
 
 	public init = (tutorial: G.Tutorial) => {
@@ -72,6 +86,11 @@ class Tutorial implements TutorialModel {
 			steps: {},
 			complete: false,
 		}
+
+		this.clientDispatch({
+			position: this.position,
+			progress: this.progress
+		})
 
 		// set tutorial, position, progress locally
 		// TODO: base position off of progress

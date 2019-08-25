@@ -28,15 +28,14 @@ const App = () => {
 		const handleEvent = (event: ReceivedEvent): void => {
 			const message = event.data
 			// messages from core
-			const { progress, position } = message.payload.data
 	
 			if (message.type === 'SET_STATE') {
 				// SET_STATE - set state machine state
 				setState(message.payload.state)
-	
-				setStatus({ variables: { progress, position } })
+
 			} else if (message.type === 'SET_DATA') {
 				// SET_DATA - set state machine context
+				const { progress, position } = message.payload.data
 				setStatus({ variables: { progress, position } })
 			}
 		}
