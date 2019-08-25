@@ -1,17 +1,22 @@
-import * as CR from 'typings'
 import * as vscode from 'vscode'
 
-let storage: vscode.Memento
-
-// storage must be set initially
-export function setStorage(workspaceState: vscode.Memento): void {
-  storage = workspaceState
+class Storage {
+	private storage: vscode.Memento
+	constructor() {
+		this.storage = {} as vscode.Memento
+	}
+	public init = (storage: vscode.Memento): void => {
+		console.log('setStorage workspace')
+		this.storage = storage
+	}
+	public get = <T>(key: string): T | undefined => {
+		console.log(`called get ${key}`)
+		return this.storage.get(key)
+	}
+	public update = <T>(key: string, value: string | object): Thenable<void> => {
+		console.log(`called update on ${key}`)
+		return this.storage.update(key, value)
+	}
 }
 
-export function get<T>(key: string): T | undefined {
-  return storage.get(key)
-}
-
-export function update<T>(key: string, value: string | object): Thenable<void> {
-  return storage.update(key, value)
-}
+export default new Storage()

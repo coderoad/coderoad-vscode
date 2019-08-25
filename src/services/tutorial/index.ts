@@ -2,8 +2,7 @@ import * as G from 'typings/graphql'
 import * as CR from 'typings'
 import * as storage from '../storage'
 import api from '../api'
-import tutorialQuery from '@gql/tutorial'
-import {timingSafeEqual} from 'crypto'
+import tutorialQuery from '../../services/api/gql/getTutorial'
 
 interface TutorialConfig {
 	codingLanguage: G.EnumCodingLanguage
@@ -41,14 +40,14 @@ class Tutorial implements TutorialModel {
 		this.position = {} as CR.Position
 		this.progress = {} as CR.Progress
 
-		Promise.all([
-			storage.getTutorial(),
-			storage.getProgress(),
-		]).then((data) => {
-			const [tutorial, progress] = data
-			console.log('load continue tutorial')
-			console.log(tutorial, progress)
-		})
+		// Promise.all([
+		// 	storage.getTutorial(),
+		// 	storage.getProgress(),
+		// ]).then((data) => {
+		// 	const [tutorial, progress] = data
+		// 	console.log('load continue tutorial')
+		// 	console.log(tutorial, progress)
+		// })
 
 	}
 

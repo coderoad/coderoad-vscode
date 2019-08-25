@@ -3,7 +3,7 @@ import * as CR from 'typings'
 import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
 import ReactWebView from '../ReactWebView'
-import {setStorage} from '../storage'
+import storage from '../storage'
 import {isEmptyWorkspace} from '../workspace'
 import runTest from './runTest'
 
@@ -53,7 +53,8 @@ export const createCommands = ({vscodeExt, machine, git}: CreateCommandProps) =>
 				webviewState = 'RESTARTING'
 			}
 
-			setStorage(vscodeExt.workspaceState)
+			// ini
+			storage.init(vscodeExt.workspaceState)
 
 			// activate machine
 			webview = new ReactWebView(vscodeExt.extensionPath)

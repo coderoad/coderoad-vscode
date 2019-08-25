@@ -1,6 +1,6 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import * as storage from '../editor/storage'
+import storage from '../editor/storage'
 
 // TUTORIAL
 const STORE_TUTORIAL = 'coderoad:tutorial'
