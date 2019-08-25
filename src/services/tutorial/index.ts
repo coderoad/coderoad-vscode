@@ -18,9 +18,9 @@ export interface TutorialModel {
 	progress: CR.Progress
 	init(tutorial: G.Tutorial): void
 	load(tutorialId: string): void
-	level(levelId: string): G.Level | null
-	stage(stageId: string): G.Stage | null
-	step(stepId: string): G.Step | null
+	level(levelId?: string): G.Level
+	stage(stageId?: string): G.Stage
+	step(stepId?: string): G.Step
 	updateProgress(): {position: CR.Position, progress: CR.Progress}
 	nextPosition(): CR.Position
 	hasExisting(): Promise<boolean>
@@ -104,35 +104,26 @@ class Tutorial implements TutorialModel {
 
 		await this.init(tutorial)
 	}
-	public level = (levelId: string): G.Level | null => {
-		const level: G.Level | undefined = this.version.levels.find((l: G.Level) => l.id === levelId)
+	public level = (levelId: string): G.Level => {
+		const level: G.Level | undefined = this.version.levels.find((l: G.Level) => l.id === levelId || this.position.levelId)
 		if (!level) {
-			console.warn(`LevelId not found: ${levelId}`)
-			return null
+			throw new Error('Level not found')
 		}
 		return level
 	}
-	public stage = (stageId: string): G.Stage | null => {
-		const level: G.Level | null = this.level(this.position.levelId)
-		if (!level) {
-			return null
-		}
-		const stage: G.Stage | undefined = level.stages.find((s: G.Stage) => s.id === stageId)
+	public stage = (stageId?: string): G.Stage => {
+		const level: G.Level = this.level(this.position.levelId)
+		const stage: G.Stage | undefined = level.stages.find((s: G.Stage) => s.id === stageId || this.position.stageId)
 		if (!stage) {
-			console.warn(`StageId not found: ${stageId}`)
-			return null
+			throw new Error('Stage not found')
 		}
 		return stage
 	}
-	public step = (stepId: string): G.Step | null => {
-		const stage: G.Stage | null = this.stage(this.position.stageId)
-		if (!stage) {
-			return null
-		}
-		const step: G.Step | undefined = stage.steps.find((s: G.Step) => s.id === stepId)
+	public step = (stepId?: string): G.Step => {
+		const stage: G.Stage = this.stage(this.position.stageId)
+		const step: G.Step | undefined = stage.steps.find((s: G.Step) => s.id === stepId || this.position.stepId)
 		if (!step) {
-			console.warn(`StepId not found: ${stepId}`)
-			return null
+			throw new Error('Step not found')
 		}
 		return step
 	}

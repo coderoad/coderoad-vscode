@@ -3,10 +3,10 @@ import * as CR from 'typings'
 import {TutorialModel} from '../services/tutorial'
 
 import createActions from './actions'
-import guards from './guards'
+import createGuards from './guards'
 
-export const machine = (dispatch: CR.EditorDispatch, tutorial: TutorialModel) =>
-	Machine<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>(
+export const machine = (editorDispatch: CR.EditorDispatch, tutorialModel: TutorialModel) =>
+	Machine<{}, CR.MachineStateSchema, CR.MachineEvent>(
 		{
 			id: 'root',
 			initial: 'SelectTutorial',
@@ -164,8 +164,8 @@ export const machine = (dispatch: CR.EditorDispatch, tutorial: TutorialModel) =>
 			},
 		},
 		{
-			actions: createActions(dispatch, tutorial),
-			guards,
+			actions: createActions(editorDispatch, tutorialModel),
+			guards: createGuards(tutorialModel),
 			activities: {},
 		},
 	)

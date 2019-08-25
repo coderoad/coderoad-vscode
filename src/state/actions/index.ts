@@ -4,37 +4,12 @@ import {machine} from '../../extension'
 import {TutorialModel} from '../../services/tutorial'
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import * as storage from '../../services/storage'
 import * as git from '../../services/git'
 
-const currentProgress: CR.Progress = {
-	levels: {},
-	stages: {},
-	steps: {},
-	complete: false,
-}
 
-const calculatePosition = ({data, progress}: {data: CR.TutorialData, progress: CR.Progress}): CR.Position => {
-	const {levelList} = data.summary
-	// take next incomplete level or the final step
-	const levelId = levelList.find((id: string) => !progress.levels[id]) || levelList[levelList.length - 1]
-	const {stageList} = data.levels[levelId]
-	const stageId = stageList.find((id: string) => !progress.stages[id]) || stageList[stageList.length - 1]
-	const {stepList} = data.stages[stageId]
-	const stepId = stepList.find((id: string) => !progress.steps[id]) || stepList[stepList.length - 1]
-
-	const nextPosition: CR.Position = {
-		levelId,
-		stageId,
-		stepId,
-	}
-
-	return nextPosition
-}
-
-export default (dispatch: CR.EditorDispatch, tutorialModel: TutorialModel) => ({
+export default (editorDispatch: CR.EditorDispatch, tutorialModel: TutorialModel) => ({
 	createWebview() {
-		dispatch('coderoad.open_webview')
+		editorDispatch('coderoad.open_webview')
 	},
 	async newOrContinue() {
 		// verify that the user has an existing tutorial to continue
@@ -58,143 +33,138 @@ export default (dispatch: CR.EditorDispatch, tutorialModel: TutorialModel) => ({
 		await tutorialModel.load(tutorialId)
 		const repo: G.TutorialRepo = tutorialModel.repo
 
-		dispatch('coderoad.tutorial_launch', repo)
+		editorDispatch('coderoad.tutorial_launch', repo)
 	},
 	tutorialSetup() {
 		const codingLanguage: G.EnumCodingLanguage = tutorialModel.config.codingLanguage
-		dispatch('coderoad.tutorial_setup', codingLanguage)
+		editorDispatch('coderoad.tutorial_setup', codingLanguage)
 	},
-	initializeNewTutorial: assign({
-		position: (context: any): CR.Position => {
-			const {data} = context
-			const levelId = data.summary.levelList[0]
-			const stageId = data.levels[levelId].stageList[0]
-			const stepId = data.stages[stageId].stepList[0]
-			return {
-				levelId,
-				stageId,
-				stepId,
-			}
-		},
-	}),
-	tutorialContinue: assign({
-		// load initial data, progress & position
-		data(): CR.TutorialData {
-			console.log('ACTION: tutorialLoad.data')
-			if (!currentTutorial) {
-				throw new Error('No Tutorial loaded')
-			}
-			return currentTutorial.data
-		},
-		progress(): CR.Progress {
-			console.log('ACTION: tutorialLoad.progress')
-			return currentProgress
-		},
-		position(context: any): CR.Position {
-			console.log('ACTION: tutorialLoad.position')
-			if (!currentTutorial) {
-				throw new Error('No Tutorial loaded')
-			}
-			const {data} = currentTutorial
-			const position = calculatePosition({data, progress: currentProgress})
+	// initializeNewTutorial: assign({
+	// 	position: (context: any): CR.Position => {
+	// 		const {data} = context
+	// 		const levelId = data.summary.levelList[0]
+	// 		const stageId = data.levels[levelId].stageList[0]
+	// 		const stepId = data.stages[stageId].stepList[0]
+	// 		return {
+	// 			levelId,
+	// 			stageId,
+	// 			stepId,
+	// 		}
+	// 	},
+	// }),
+	// tutorialContinue: assign({
+	// 	// load initial data, progress & position
+	// 	data(): CR.TutorialData {
+	// 		console.log('ACTION: tutorialLoad.data')
+	// 		if (!currentTutorial) {
+	// 			throw new Error('No Tutorial loaded')
+	// 		}
+	// 		return currentTutorial.data
+	// 	},
+	// 	progress(): CR.Progress {
+	// 		console.log('ACTION: tutorialLoad.progress')
+	// 		return currentProgress
+	// 	},
+	// 	position(context: any): CR.Position {
+	// 		console.log('ACTION: tutorialLoad.position')
+	// 		if (!currentTutorial) {
+	// 			throw new Error('No Tutorial loaded')
+	// 		}
+	// 		const {data} = currentTutorial
+	// 		const position = calculatePosition({data, progress: currentProgress})
 
-			console.log('position', position)
-			return position
-		},
-	}),
+	// 		console.log('position', position)
+	// 		return position
+	// 	},
+	// }),
 	testStart() {
-		dispatch('coderoad.run_test')
+		editorDispatch('coderoad.run_test')
 	},
-	testPass(context: CR.MachineContext): void {
-		dispatch('coderoad.test_pass')
-		git.gitSaveCommit(context.position)
+	testPass(): void {
+		editorDispatch('coderoad.test_pass')
+		git.gitSaveCommit(tutorialModel.position)
 	},
 	testFail() {
-		dispatch('coderoad.test_fail')
+		editorDispatch('coderoad.test_fail')
 	},
 	// @ts-ignore
-	progressUpdate: assign({
-		progress: (context: CR.MachineContext): CR.Progress => {
-			console.log('progress update')
-			const {progress, position, data} = context
-			const nextProgress = progress
+	progressUpdate() {
+		tutorialModel.updateProgress()
+		tutorialModel.nextPosition()
+	},
 
-			nextProgress.steps[position.stepId] = true
-			const {stepList} = data.stages[position.stageId]
-			const stageComplete = stepList[stepList.length - 1] === position.stepId
-			if (stageComplete) {
-				nextProgress.stages[position.stageId] = true
-				const {stageList} = data.levels[position.levelId]
-				const levelComplete = stageList[stageList.length - 1] === position.stageId
-				if (levelComplete) {
-					nextProgress.levels[position.levelId] = true
-					const {levelList} = data.summary
-					const tutorialComplete = levelList[levelList.length - 1] === position.levelId
-					if (tutorialComplete) {
-						nextProgress.complete = true
-					}
-				}
-			}
-			console.log('progress update', nextProgress)
-			storage.setProgress(nextProgress)
-			return nextProgress
-		},
-	}),
-	stepLoadNext: assign({
-		position: (context: any): CR.Position => {
-			const {data, position} = context
-			const {stepList} = data.stages[position.stageId]
-			const currentStepIndex = stepList.indexOf(position.stepId)
+	// assign({
+	// 	progress: (): CR.Progress => {
 
-			const nextStepId = currentStepIndex < stepList.length ? stepList[currentStepIndex + 1] : position.stepId
+	// 		console.log('progress update')
+	// 		const {progress, position, data} = context
+	// 		const nextProgress = progress
 
-			const nextPosition = {
-				...context.position,
-				stepId: nextStepId,
-			}
+	// 		nextProgress.steps[position.stepId] = true
+	// 		const {stepList} = data.stages[position.stageId]
+	// 		const stageComplete = stepList[stepList.length - 1] === position.stepId
+	// 		if (stageComplete) {
+	// 			nextProgress.stages[position.stageId] = true
+	// 			const {stageList} = data.levels[position.levelId]
+	// 			const levelComplete = stageList[stageList.length - 1] === position.stageId
+	// 			if (levelComplete) {
+	// 				nextProgress.levels[position.levelId] = true
+	// 				const {levelList} = data.summary
+	// 				const tutorialComplete = levelList[levelList.length - 1] === position.levelId
+	// 				if (tutorialComplete) {
+	// 					nextProgress.complete = true
+	// 				}
+	// 			}
+	// 		}
+	// 		console.log('progress update', nextProgress)
+	// 		storage.setProgress(nextProgress)
+	// 		return nextProgress
+	// 	},
+	// }),
+	// stepLoadNext: assign({
+	// 	position: (context: any): CR.Position => {
+	// 		const {data, position} = context
+	// 		const {stepList} = data.stages[position.stageId]
+	// 		const currentStepIndex = stepList.indexOf(position.stepId)
 
-			return nextPosition
-		},
-	}),
-	loadLevel(context: CR.MachineContext): void {
-		const {data, position} = context
-		console.log('loadLevel')
-		console.log(position)
-		const {levels} = data
-		const level = levels[position.levelId]
+	// 		const nextStepId = currentStepIndex < stepList.length ? stepList[currentStepIndex + 1] : position.stepId
 
+	// 		const nextPosition = {
+	// 			...context.position,
+	// 			stepId: nextStepId,
+	// 		}
+
+	// 		return nextPosition
+	// 	},
+	// }),
+	loadLevel(): void {
+		const level: G.Level = tutorialModel.level()
 		// run level setup if it exists
-		if (level && level.actions && level.actions.setup) {
-			git.gitLoadCommits(level.actions.setup, dispatch)
+		if (level && level.setup) {
+			git.gitLoadCommits(level.setup, editorDispatch)
 		}
 	},
-	stageLoadNext(context: CR.MachineContext) {
+	stageLoadNext() {
 		console.log('stageLoadNext')
-		const {position} = context
-		console.log(position)
+		tutorialModel.nextPosition()
 	},
-	loadStage(context: CR.MachineContext): void {
-		const {data, position} = context
-		console.log('loadStage')
-		console.log(position)
-		const {stages} = data
-		const stage = stages[position.levelId]
+	loadStage(): void {
+		const stage: G.Stage = tutorialModel.stage()
 
 		// run level setup if it exists
-		if (stage && stage.actions && stage.actions.setup) {
-			git.gitLoadCommits(stage.actions.setup, dispatch)
+		if (stage && stage.setup) {
+			git.gitLoadCommits(stage.setup, editorDispatch)
 		}
 	},
 	// @ts-ignore
-	updatePosition: assign({
-		position: (context: CR.MachineContext) => calculatePosition({
-			data: context.data,
-			progress: context.progress,
-		}),
-	}),
-	stepLoadCommits(context: CR.MachineContext): void {
-		const {data, position} = context
-		const {setup} = data.steps[position.stepId].actions
-		git.gitLoadCommits(setup, dispatch)
+	// updatePosition: assign({
+	// 	position: () => calculatePosition({
+	// 		data: context.data,
+	// 		progress: context.progress,
+	// 	}),
+	// }),
+	stepLoadCommits(): void {
+		const step: G.Step = tutorialModel.step()
+		git.gitLoadCommits(step.setup, editorDispatch)
 	},
 })

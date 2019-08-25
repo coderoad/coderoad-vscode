@@ -1,9 +1,10 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
+import {TutorialModel} from '../../services/tutorial'
 import * as storage from '../../services/storage'
 import {gitLoadCommits, gitClear} from '../../services/git'
 
-export default async function loadSolution(dispatch: CR.EditorDispatch): Promise<void> {
+export default async function loadSolution(dispatch: CR.EditorDispatch, tutorialModel: TutorialModel): Promise<void> {
 	const [position, tutorial]: [CR.Position, G.Tutorial | undefined] = await Promise.all([
 		storage.getPosition(),
 		storage.getTutorial(),
@@ -16,17 +17,10 @@ export default async function loadSolution(dispatch: CR.EditorDispatch): Promise
 	}
 	// eslint-disable-next-line
 
-	try {
-		const solution = tutorial.version
-			.levels.find((l: G.Level) => l.id === position.levelId)
-			.stages.find((s: G.Stage) => s.id === position.stageId)
-			.steps.find((s: G.Step) => s.id === position.stepId)
-			.solution
+	const step = tutorialModel.step()
+	const solution = step.solution
 
-		await gitClear()
-		await gitLoadCommits(solution, dispatch)
-	} catch (error) {
-		throw new Error(error)
-	}
+	await gitClear()
+	await gitLoadCommits(solution, dispatch)
 
 }

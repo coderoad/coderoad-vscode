@@ -69,6 +69,7 @@ export type Level = {
 	stage?: Maybe<Stage>,
 	stages: Array<Stage>,
 	setup?: Maybe<StepActions>,
+	status: string
 };
 
 
@@ -135,6 +136,7 @@ export type Stage = {
 	step?: Maybe<Step>,
 	steps: Array<Step>,
 	setup?: Maybe<StepActions>,
+	status: string
 };
 
 
@@ -149,6 +151,7 @@ export type Step = {
 	text: Scalars['String'],
 	setup: StepActions,
 	solution: StepActions,
+	status: string
 };
 
 export type StepActions = {
@@ -555,9 +558,10 @@ export interface IntrospectionResultData {
 	};
 }
 
+// @ts-ignore
 const result: IntrospectionResultData = {
-	"__schema": {
-		"types": []
+	__schema: {
+		types: []
 	}
 };
 

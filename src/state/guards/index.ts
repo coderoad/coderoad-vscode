@@ -1,31 +1,41 @@
 import * as CR from 'typings'
+import {TutorialModel} from '../../services/tutorial'
 
-export default {
-  hasNextStep: (context: CR.MachineContext): boolean => {
-    const { data, position, progress } = context
-    const steps = data.stages[position.stageId].stepList
-    const stageIncomplete = !progress.stages[position.stageId]
-    const isNotFinalStep = (!!position.stepId && (steps[steps.length - 1] !== position.stepId))
-    const hasNext = stageIncomplete || isNotFinalStep
-    console.log('GUARD: hasNextStep', hasNext)
-    return hasNext
-  },
-  hasNextStage: (context: CR.MachineContext): boolean => {
-    const { data, position, progress } = context
-    const stages = data.levels[position.levelId].stageList
-    const stageComplete = progress.stages[position.stageId]
-    const isNotFinalStage = !!position.stageId && stages[stages.length - 1] !== position.stageId
-    const hasNext = stageComplete && isNotFinalStage
-    console.log('GUARD: hasNextStage', hasNext)
-    return hasNext
-  },
-  hasNextLevel: (context: CR.MachineContext): boolean => {
-    const { data, position, progress } = context
-    const levels = data.summary.levelList
-    const levelComplete = progress.levels[position.levelId]
-    const isNotFinalLevel = !!position.levelId && levels[levels.length - 1] !== position.levelId
-    const hasNext = levelComplete && isNotFinalLevel
-    console.log('GUARD: hasNextLevel', hasNext)
-    return hasNext
-  },
-}
+
+// TODO: refactor into a single calculation
+export default (tutorialModel: TutorialModel) => ({
+	hasNextStep: (): boolean => {
+
+		const nextPosition: CR.Position = tutorialModel.nextPosition()
+
+		const sameStage = nextPosition.stageId === tutorialModel.position.stageId
+		const sameStep = nextPosition.stepId === tutorialModel.position.stepId
+
+		const hasNext: boolean = sameStage && sameStep
+
+		console.log('GUARD: hasNextStep', hasNext)
+		return hasNext
+	},
+	hasNextStage: (): boolean => {
+		const nextPosition: CR.Position = tutorialModel.nextPosition()
+
+		const sameLevel = nextPosition.levelId === tutorialModel.position.levelId
+		const sameStage = nextPosition.stageId === tutorialModel.position.stageId
+
+		const hasNext: boolean = sameLevel && sameStage
+
+		console.log('GUARD: hasNextStage', hasNext)
+		return hasNext
+	},
+	hasNextLevel: (): boolean => {
+		const nextPosition: CR.Position = tutorialModel.nextPosition()
+
+		const sameLevel = nextPosition.levelId === tutorialModel.position.levelId
+
+		const hasNext: boolean = sameLevel
+
+		// TODO: ensure this accounts for end
+		console.log('GUARD: hasNextLevel', hasNext)
+		return hasNext
+	},
+})

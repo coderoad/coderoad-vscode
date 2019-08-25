@@ -16,31 +16,31 @@ const App = () => {
   const initialState = { SelectTutorial: 'Initial ' }
 
   // set state machine state
-  const [state, setState] = React.useState(initialState)
-
-  // update level/stage/step status based on user progress & position
-  // TODO: model server more effeciently
-  const [setStatus] = useMutation(SET_STATUS)
-
-  // update state based on response from editor
-  const handleEvent = (event: ReceivedEvent): void => {
-    const message = event.data
-    // messages from core
-    const { progress, position } = message.payload.data
-
-    if (message.type === 'SET_STATE') {
-      // SET_STATE - set state machine state
-      setState(message.payload.state)
-
-      setStatus({ variables: { progress, position } })
-    } else if (message.type === 'SET_DATA') {
-      // SET_DATA - set state machine context
-      setStatus({ variables: { progress, position } })
-    }
-  }
+	const [state, setState] = React.useState(initialState)
+	
+	// update level/stage/step status based on user progress & position
+		// TODO: model server more effeciently
+		const [setStatus] = useMutation(SET_STATUS)
 
   // event bus listener
   React.useEffect(() => {
+		// update state based on response from editor
+		const handleEvent = (event: ReceivedEvent): void => {
+			const message = event.data
+			// messages from core
+			const { progress, position } = message.payload.data
+	
+			if (message.type === 'SET_STATE') {
+				// SET_STATE - set state machine state
+				setState(message.payload.state)
+	
+				setStatus({ variables: { progress, position } })
+			} else if (message.type === 'SET_DATA') {
+				// SET_DATA - set state machine context
+				setStatus({ variables: { progress, position } })
+			}
+		}
+
     const listener = 'message'
     window.addEventListener(listener, handleEvent)
     return () => {

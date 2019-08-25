@@ -114,9 +114,7 @@ export interface Action {
 	meta?: any
 }
 
-export interface MachineContext {
-	tutorial: TutorialModel
-}
+export interface MachineContext {}
 
 export interface MachineEvent {
 	type: string

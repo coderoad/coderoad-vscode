@@ -33,7 +33,7 @@ class StateMachine {
 		deferEvents: true,
 		execute: true,
 	}
-	private service: Interpreter<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>
+	private service: Interpreter<{}, CR.MachineStateSchema, CR.MachineEvent>
 	constructor({dispatch, tutorial}: Props) {
 		this.dispatch = dispatch
 		const machine = createMachine(dispatch, tutorial)
