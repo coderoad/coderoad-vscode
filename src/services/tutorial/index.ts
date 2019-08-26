@@ -9,7 +9,8 @@ interface TutorialConfig {
 	testRunner: G.EnumTestRunner
 }
 
-interface PositionProgress {
+interface MessageData {
+	tutorial?: {id: string}
 	position: CR.Position
 	progress: CR.Progress
 }
@@ -20,12 +21,11 @@ export interface TutorialModel {
 	version: G.TutorialVersion
 	position: CR.Position
 	progress: CR.Progress
-	init(tutorial: G.Tutorial): void
-	load(tutorialId: string): void
+	launch(tutorialId: string): void
 	level(levelId?: string): G.Level
 	stage(stageId?: string): G.Stage
 	step(stepId?: string): G.Step
-	updateProgress(): PositionProgress
+	updateProgress(): void
 	nextPosition(): CR.Position
 	hasExisting(): Promise<boolean>
 	setClientDispatch(editorDispatch: CR.EditorDispatch): void
@@ -37,11 +37,11 @@ class Tutorial implements TutorialModel {
 	public version: G.TutorialVersion
 	public position: CR.Position
 	public progress: CR.Progress
-	private clientDispatch: (props: PositionProgress) => void
+	private clientDispatch: (props: MessageData) => void
 
 	constructor() {
 		// initialize types, will be assigned when tutorial is selected
-		this.clientDispatch = (props: PositionProgress) => {
+		this.clientDispatch = (props: MessageData) => {
 			throw new Error('Tutorial client dispatch yet initialized')
 		}
 		this.repo = {} as G.TutorialRepo
@@ -62,10 +62,18 @@ class Tutorial implements TutorialModel {
 	}
 
 	public setClientDispatch(editorDispatch: CR.EditorDispatch) {
-		this.clientDispatch = ({progress, position}: PositionProgress) => editorDispatch('coderoad.send_data', {progress, position})
+		this.clientDispatch = ({progress, position}: MessageData) => editorDispatch('coderoad.send_data', {progress, position})
 	}
 
-	public init = (tutorial: G.Tutorial) => {
+	public async launch(tutorialId: string) {
+		const {tutorial}: {tutorial: G.Tutorial | null} = await api.request(tutorialQuery, {
+			tutorialId, // TODO: add selection of tutorial id
+		})
+
+		if (!tutorial) {
+			throw new Error(`Tutorial ${tutorialId} not found`)
+		}
+
 		this.repo = tutorial.repo
 		this.config = {
 			codingLanguage: tutorial.codingLanguage,
@@ -90,6 +98,7 @@ class Tutorial implements TutorialModel {
 		console.log('this.position', JSON.stringify(this.position))
 
 		this.clientDispatch({
+			tutorial: {id: tutorial.id},
 			position: this.position,
 			progress: this.progress
 		})
@@ -110,19 +119,6 @@ class Tutorial implements TutorialModel {
 		])
 
 		return !!(tutorial && progress)
-	}
-
-	public async load(tutorialId: string) {
-		// TODO: load from localStorage
-		const {tutorial}: {tutorial: G.Tutorial | null} = await api.request(tutorialQuery, {
-			tutorialId, // TODO: add selection of tutorial id
-		})
-
-		if (!tutorial) {
-			throw new Error(`Tutorial ${tutorialId} not found`)
-		}
-
-		await this.init(tutorial)
 	}
 	public level = (levelId: string): G.Level => {
 		const level: G.Level | undefined = this.version.levels.find((l: G.Level) => l.id === levelId || this.position.levelId)
@@ -147,15 +143,16 @@ class Tutorial implements TutorialModel {
 		}
 		return step
 	}
-	public updateProgress = (): {position: CR.Position, progress: CR.Progress} => {
+	public updateProgress = () => {
 		const {levelId, stageId, stepId} = this.position
 		this.progress.levels[levelId] = true
 		this.progress.stages[stageId] = true
 		this.progress.steps[stepId] = true
-		return {
-			position: this.position,
+
+		this.clientDispatch({
 			progress: this.progress,
-		}
+			position: this.position, // TODO: calculate next position
+		})
 	}
 	public nextPosition = (): CR.Position => {
 		const {levelId, stageId, stepId} = this.position

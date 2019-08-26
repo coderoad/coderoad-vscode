@@ -4,13 +4,12 @@ import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
 import ReactWebView from '../ReactWebView'
 import storage from '../storage'
-import {isEmptyWorkspace} from '../workspace'
 import runTest from './runTest'
+import {isEmptyWorkspace} from '../workspace'
 
 const COMMANDS = {
 	START: 'coderoad.start',
-	TUTORIAL_LAUNCH: 'coderoad.tutorial_launch',
-	TUTORIAL_SETUP: 'coderoad.tutorial_setup',
+	TEST_RUNNER_SETUP: 'coderoad.test_runner_setup',
 	OPEN_WEBVIEW: 'coderoad.open_webview',
 	SEND_STATE: 'coderoad.send_state',
 	SEND_DATA: 'coderoad.send_data',
@@ -24,7 +23,6 @@ const COMMANDS = {
 interface CreateCommandProps {
 	vscodeExt: vscode.ExtensionContext
 	machine: CR.StateMachine
-	git: any
 }
 
 const resetLayout = () => {
@@ -34,13 +32,15 @@ const resetLayout = () => {
 	})
 }
 
-export const createCommands = ({vscodeExt, machine, git}: CreateCommandProps) => {
+export const createCommands = ({vscodeExt, machine}: CreateCommandProps) => {
 	// React panel webview
 	let webview: any
 
 	return {
 		// initialize
-		[COMMANDS.START]: () => {
+		[COMMANDS.START]: async () => {
+
+			await isEmptyWorkspace()
 
 			let webviewState: 'INITIALIZING' | 'RESTARTING'
 			if (!webview) {
@@ -77,24 +77,7 @@ export const createCommands = ({vscodeExt, machine, git}: CreateCommandProps) =>
 			}
 			webview.createOrShow(column, callback)
 		},
-		// launch a new tutorial
-		// NOTE: may be better to move into action as logic is primarily non-vscode
-		[COMMANDS.TUTORIAL_LAUNCH]: async (repo: G.TutorialRepo) => {
-			console.log('launch tutorial')
-
-			await isEmptyWorkspace()
-
-			await git.gitInitIfNotExists()
-
-			if (!repo || !repo.uri) {
-				throw new Error('Tutorial repo uri not found')
-			}
-
-			await git.gitSetupRemote(repo.uri)
-
-			machine.send('TUTORIAL_LOADED')
-		},
-		[COMMANDS.TUTORIAL_SETUP]: async (codingLanguage: G.EnumCodingLanguage) => {
+		[COMMANDS.TEST_RUNNER_SETUP]: async (codingLanguage: G.EnumCodingLanguage) => {
 
 			// TODO: allow multiple coding languages in a tutorial
 

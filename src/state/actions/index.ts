@@ -1,4 +1,3 @@
-import {assign} from 'xstate'
 // NOTE: codesmell - importing machine
 import {machine} from '../../extension'
 import {TutorialModel} from '../../services/tutorial'
@@ -30,17 +29,32 @@ export default (editorDispatch: CR.EditorDispatch, tutorialModel: TutorialModel)
 	async tutorialLaunch() {
 		const tutorialId: string = '1'
 		// TODO: load tutorialId
-		await tutorialModel.load(tutorialId)
+		await tutorialModel.launch(tutorialId)
+
+		// git setup
 		const repo: G.TutorialRepo = tutorialModel.repo
 
-		editorDispatch('coderoad.tutorial_launch', repo)
+		console.log('launch tutorial')
+
+		await git.gitInitIfNotExists()
+
+		if (!repo || !repo.uri) {
+			throw new Error('Tutorial repo uri not found')
+		}
+
+		await git.gitSetupRemote(repo.uri)
+
+		machine.send('TUTORIAL_LOADED')
 	},
-	tutorialSetup() {
+	testRunnerSetup() {
 		const codingLanguage: G.EnumCodingLanguage = tutorialModel.config.codingLanguage
-		editorDispatch('coderoad.tutorial_setup', codingLanguage)
+		editorDispatch('coderoad.test_runner_setup', codingLanguage)
 	},
 	initializeNewTutorial: () => {
 		console.log('initializeNewTutorial')
+	},
+	tutorialContinue() {
+		console.log('tutorial continue')
 	},
 	// tutorialContinue: assign({
 	// 	// load initial data, progress & position

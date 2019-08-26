@@ -17,7 +17,10 @@ const App = () => {
 
   // set state machine state
 	const [state, setState] = React.useState(initialState)
-	const [debuggerInfo, setDebuggerInfo] = React.useState({})
+	const [debuggerInfo, setDebuggerInfo] = React.useState({
+		progress: { levels: {}, stages: {}, steps: {}, complete: false},
+		position: { levelId: '', stageId: '', stepId: ''},
+	})
 	
 	// update level/stage/step status based on user progress & position
 		// TODO: model server more effeciently
@@ -38,6 +41,7 @@ const App = () => {
 				// SET_DATA - set state machine context
 				const { progress, position } = message.payload.data
 				if (process.env.REACT_APP_DEBUG) {
+					console.log(`Position: ${position.levelId}/${position.stageId}/${position.stepId}`)
 					setDebuggerInfo({ progress, position })
 				}
 				setStatus({ variables: { progress, position } })
@@ -56,15 +60,11 @@ const App = () => {
     send('WEBVIEW_LOADED')
   }, [])
 
-  const value = {
-    state,
-	}
-
   // TODO: refactor cond to user <Router><Route> and accept first route as if/else if
   return (
     <ApolloProvider client={client}>
       <div>
-        {process.env.REACT_APP_DEBUG && <Debugger value={{ ...value, debuggerInfo }} />}
+        {process.env.REACT_APP_DEBUG && <Debugger state={state} {...debuggerInfo} />}
         <Routes state={state} />
       </div>
     </ApolloProvider>

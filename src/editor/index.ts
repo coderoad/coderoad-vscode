@@ -1,7 +1,6 @@
 import * as vscode from 'vscode'
 import * as CR from 'typings'
 import {createCommands} from './commands'
-import * as git from '../services/git'
 
 interface Props {
 	machine: CR.StateMachine
@@ -53,7 +52,6 @@ class Editor {
 		const commands = createCommands({
 			vscodeExt: this.vscodeExt,
 			machine: this.machine,
-			git,
 		})
 		for (const cmd in commands) {
 			const command: vscode.Disposable = vscode.commands.registerCommand(cmd, commands[cmd])

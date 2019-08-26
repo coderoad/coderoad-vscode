@@ -54,7 +54,7 @@ export const machine = (editorDispatch: CR.EditorDispatch, tutorialModel: Tutori
 				Tutorial: {
 					id: 'tutorial',
 					initial: 'Initialize',
-					onEntry: ['tutorialSetup'],
+					onEntry: ['testRunnerSetup'],
 					on: {
 						WEBVIEW_INITIALIZED: '#tutorial-load-next'
 					},

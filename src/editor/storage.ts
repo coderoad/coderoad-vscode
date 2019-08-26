@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 
-class Storage {
+class EditorStorage {
 	private storage: vscode.Memento
 	constructor() {
 		this.storage = {} as vscode.Memento
@@ -19,4 +19,4 @@ class Storage {
 	}
 }
 
-export default new Storage()
+export default new EditorStorage()
