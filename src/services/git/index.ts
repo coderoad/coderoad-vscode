@@ -42,6 +42,10 @@ const cherryPickCommit = async (commit: string, count = 0): Promise<void> => {
 export async function gitLoadCommits(actions: G.StepActions, editorDispatch: CR.EditorDispatch): Promise<void> {
 	const {commits, commands, files} = actions
 
+	console.log(`load commits: ${commits.join(', ')}`)
+	console.log(`commands: ${commands.join(', ')}`)
+	console.log(`files ${files.join(', s')}`)
+
 	for (const commit of commits) {
 		// pull a commit from tutorial repo
 		console.log(`try cherry-pick ${commit}`)

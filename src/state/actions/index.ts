@@ -39,19 +39,9 @@ export default (editorDispatch: CR.EditorDispatch, tutorialModel: TutorialModel)
 		const codingLanguage: G.EnumCodingLanguage = tutorialModel.config.codingLanguage
 		editorDispatch('coderoad.tutorial_setup', codingLanguage)
 	},
-	// initializeNewTutorial: assign({
-	// 	position: (context: any): CR.Position => {
-	// 		const {data} = context
-	// 		const levelId = data.summary.levelList[0]
-	// 		const stageId = data.levels[levelId].stageList[0]
-	// 		const stepId = data.stages[stageId].stepList[0]
-	// 		return {
-	// 			levelId,
-	// 			stageId,
-	// 			stepId,
-	// 		}
-	// 	},
-	// }),
+	initializeNewTutorial: () => {
+		console.log('initializeNewTutorial')
+	},
 	// tutorialContinue: assign({
 	// 	// load initial data, progress & position
 	// 	data(): CR.TutorialData {

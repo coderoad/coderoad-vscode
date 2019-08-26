@@ -1,10 +1,14 @@
 import * as React from 'react'
+import { send } from './utils/vscode'
 
 import Router from './components/Router'
 import LoadingPage from './containers/LoadingPage'
 import ContinuePage from './containers/Continue'
 import NewPage from './containers/New'
-import TutorialPage from './containers/Tutorial'
+import SummaryPage from './containers/Tutorial/SummaryPage'
+import LevelSummaryPage from './containers/Tutorial/LevelPage'
+import StageSummaryPage from './containers/Tutorial/StagePage'
+import CompletedPage from './containers/Tutorial/CompletedPage'
 
 const { Route } = Router
 
@@ -54,10 +58,25 @@ const Routes = ({ state }: Props) => {
         <Route path="SelectTutorial.ContinueTutorial">
           <ContinuePage />
         </Route>
-        <Route path="Tutorial">
-          <TutorialPage state={state} />
+				<Route path="Tutorial.Initialize">
+          <LoadingPage text="Initializing..." />
         </Route>
-      </Router>
+				<Route path="Tutorial.LoadNext">
+        	<LoadingPage text="Loading..." />
+				</Route>
+				<Route path="Tutorial.Summary">
+					<SummaryPage send={send} />
+				</Route>
+				<Route path="Tutorial.Level">
+					<LevelSummaryPage send={send} />
+				</Route>
+				<Route path="Tutorial.Stage">
+					<StageSummaryPage send={send} />
+				</Route>
+				<Route path="Tutorial.Completed">
+					<CompletedPage />
+				</Route>
+			</Router>
     </div>
   )
 }

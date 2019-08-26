@@ -87,6 +87,8 @@ class Tutorial implements TutorialModel {
 			complete: false,
 		}
 
+		console.log('this.position', JSON.stringify(this.position))
+
 		this.clientDispatch({
 			position: this.position,
 			progress: this.progress

@@ -13,10 +13,11 @@ interface ReceivedEvent {
 }
 
 const App = () => {
-  const initialState = { SelectTutorial: 'Initial ' }
+  const initialState = { SelectTutorial: 'Initial' }
 
   // set state machine state
 	const [state, setState] = React.useState(initialState)
+	const [debuggerInfo, setDebuggerInfo] = React.useState({})
 	
 	// update level/stage/step status based on user progress & position
 		// TODO: model server more effeciently
@@ -36,6 +37,9 @@ const App = () => {
 			} else if (message.type === 'SET_DATA') {
 				// SET_DATA - set state machine context
 				const { progress, position } = message.payload.data
+				if (process.env.REACT_APP_DEBUG) {
+					setDebuggerInfo({ progress, position })
+				}
 				setStatus({ variables: { progress, position } })
 			}
 		}
@@ -60,7 +64,7 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <div>
-        {process.env.REACT_APP_DEBUG && <Debugger value={value} />}
+        {process.env.REACT_APP_DEBUG && <Debugger value={{ ...value, debuggerInfo }} />}
         <Routes state={state} />
       </div>
     </ApolloProvider>
