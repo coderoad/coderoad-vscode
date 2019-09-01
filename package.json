@@ -24,7 +24,8 @@
     "postinstall": "node ./node_modules/vscode/bin/install",
     "machine": "node ./out/state/index.js",
     "storybook": "cd web-app && npm run storybook",
-    "test": "npm run build && node ./node_modules/vscode/bin/test",
+    "test:ext": "npm run build && node ./node_modules/vscode/bin/test",
+    "test": "jest",
     "vscode:prepublish": "npm run build",
     "watch": "tsc -watch -p ./"
   },
@@ -39,10 +40,13 @@
   "devDependencies": {
     "@types/dotenv": "^6.1.1",
     "@types/graphql": "^14.5.0",
+    "@types/jest": "^24.0.18",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.7.2",
     "concurrently": "^4.1.2",
+    "jest": "^24.9.0",
     "prettier": "^1.18.2",
+    "ts-jest": "^24.0.2",
     "tslint": "^5.19.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.3"
