@@ -46,16 +46,16 @@ const Routes = ({ state }: Props) => {
   return (
     <div style={{ ...styles.page, ...dimensions }}>
       <Router state={state}>
-        <Route path="SelectTutorial.Startup">
+        <Route path="Start.Startup">
           <LoadingPage text="Launching..." />
         </Route>
-        <Route path="SelectTutorial.NewTutorial.InitializeTutorial">
+        <Route path="Start.NewTutorial.InitializeTutorial">
           <LoadingPage text="Launching Tutorial..." />
         </Route>
-        <Route path="SelectTutorial.NewTutorial.SelectTutorial">
+        <Route path="Start.NewTutorial.SelectTutorial">
           <NewPage />
         </Route>
-        <Route path="SelectTutorial.ContinueTutorial">
+        <Route path="Start.ContinueTutorial">
           <ContinuePage />
         </Route>
 				<Route path="Tutorial.Initialize">

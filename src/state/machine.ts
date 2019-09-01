@@ -9,9 +9,9 @@ export const machine = (tutorialModel: TutorialModel, editorDispatch: CR.EditorD
 	Machine<{}, CR.MachineStateSchema, CR.MachineEvent>(
 		{
 			id: 'root',
-			initial: 'SelectTutorial',
+			initial: 'Start',
 			states: {
-				SelectTutorial: {
+				Start: {
 					onEntry: ['createWebview'],
 					initial: 'Initial',
 					states: {

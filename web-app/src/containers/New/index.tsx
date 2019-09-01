@@ -34,7 +34,7 @@ const NewPageContainer = () => {
 
   return (
     <React.Suspense fallback={Loading}>
-      <NewPage onNew={() => send('TUTORIAL_START')} tutorialList={data.tutorials} />
+    	<NewPage onNew={() => send('TUTORIAL_START')} tutorialList={data.tutorials} />
     </React.Suspense>
   )
 }
