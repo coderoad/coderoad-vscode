@@ -1,6 +1,7 @@
 import * as path from 'path'
 import * as CR from 'typings'
 import * as vscode from 'vscode'
+import {tutorialModel} from '../extension'
 
 const getNonce = (): string => {
 	let text = ''
@@ -44,6 +45,10 @@ class ReactWebView {
 				case 'TUTORIAL_START':
 					console.log('TUTORIAL_START called')
 					console.log(action)
+					if (typeof action === 'string' || !action.payload || !action.payload.id) {
+						throw new Error('No tutorial id on tutorial start action')
+					}
+					tutorialModel.launch(action.payload.id)
 					break
 				// add other cases
 				default:

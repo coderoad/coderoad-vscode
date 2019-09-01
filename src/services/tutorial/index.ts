@@ -1,6 +1,7 @@
 import * as G from 'typings/graphql'
 import * as CR from 'typings'
 import * as git from '../../services/git'
+import {machine} from '../../extension'
 import * as storage from '../storage'
 import api from '../api'
 import tutorialQuery from '../../services/api/gql/getTutorial'
@@ -60,12 +61,15 @@ class Tutorial implements TutorialModel {
 		// })
 
 	}
-	public async launch(tutorialId: string) {
+	public launch = async (tutorialId: string) => {
 		console.log('launch tutorial')
+		machine.send('TUTORIAL_START')
 
 		const {tutorial}: {tutorial: G.Tutorial | null} = await api.request(tutorialQuery, {
 			tutorialId, // TODO: add selection of tutorial id
 		})
+
+		console.log('tutorial', tutorial)
 
 		if (!tutorial) {
 			throw new Error(`Tutorial ${tutorialId} not found`)
@@ -83,6 +87,8 @@ class Tutorial implements TutorialModel {
 		}
 		// version containing level data
 		this.version = tutorial.version
+		console.log('version', this.version)
+
 		// set initial position
 		this.position = {
 			levelId: this.version.levels[0].id,
@@ -112,7 +118,9 @@ class Tutorial implements TutorialModel {
 			storage.setPosition(this.position),
 			storage.setProgress(this.progress)
 		])
-		// machine.send('TUTORIAL_LOADED')
+
+		console.log('tutorial loaded')
+		machine.send('TUTORIAL_LOADED')
 	}
 
 	public async hasExisting(): Promise<boolean> {

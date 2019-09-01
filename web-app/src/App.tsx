@@ -4,6 +4,7 @@ import * as CR from 'typings'
 
 import client from './services/apollo'
 import { SET_STATUS } from './services/apollo/mutations'
+import currentTutorial from './services/current'
 import Debugger from './components/Debugger'
 import Routes from './Routes'
 import { send } from './utils/vscode'
@@ -39,11 +40,15 @@ const App = () => {
 
 			} else if (message.type === 'SET_DATA') {
 				// SET_DATA - set state machine context
-				const { progress, position } = message.payload.data
+				console.log('DATA')
+				const { progress, position } = message.payload
 				if (process.env.REACT_APP_DEBUG) {
 					console.log(`Position: ${position.levelId}/${position.stageId}/${position.stepId}`)
 					setDebuggerInfo({ progress, position })
 				}
+				console.log('set currentTutorial')
+				currentTutorial.set({ position })
+				console.log('setStatus')
 				setStatus({ variables: { progress, position } })
 			}
 		}

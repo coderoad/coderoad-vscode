@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 
+import currentTutorial from '../../../services/current'
 import ErrorView from '../../../components/Error'
 import Stage from './Stage'
 import queryStage from './queryStage'
@@ -10,11 +11,12 @@ interface PageProps {
 }
 
 const StageSummaryPageContainer = (props: PageProps) => {
+	const { tutorialId, version, position: { stageId } } = currentTutorial.get()
   const { loading, error, data } = useQuery(queryStage, {
     variables: {
-      tutorialId: '1',
-      version: '0.1.0',
-      stageId: '1',
+      tutorialId,
+      version,
+      stageId,
     },
   })
   if (loading) {

@@ -2,6 +2,7 @@ import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import * as T from 'typings/graphql'
 
+import currentTutorial from '../../../services/current'
 import ErrorView from '../../../components/Error'
 import Level from './Level'
 import queryLevel from './queryLevel'
@@ -26,11 +27,12 @@ interface ContainerProps {
 }
 
 const LevelSummaryPageContainer = (props: ContainerProps) => {
+	const { tutorialId, version, position: { levelId } } = currentTutorial.get()
   const { loading, error, data } = useQuery(queryLevel, {
     variables: {
-      tutorialId: '1',
-      version: '0.1.0',
-      levelId: '1',
+      tutorialId,
+      version,
+      levelId,
     },
   })
 

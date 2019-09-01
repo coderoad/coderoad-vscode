@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/react-hooks'
 
 import querySummary from './querySummary'
 import Summary from './Summary'
+import currentTutorial from '../../../services/current'
 import ErrorView from '../../../components/Error'
 
 interface PageProps {
@@ -10,9 +11,10 @@ interface PageProps {
 }
 
 const SummaryPage = (props: PageProps) => {
+	const { tutorialId } = currentTutorial.get()
   const { loading, error, data } = useQuery(querySummary, {
     variables: {
-      tutorialId: '1',
+      tutorialId,
     },
   })
 
