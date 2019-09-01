@@ -170,7 +170,10 @@ interface MessageData {
 	progress: Progress
 }
 
-type MessageState = string
+interface MessageState {
+	state: string
+}
 
 
-export type EditorDispatch = (type: string, payload?: MessageData | MessageState) => void
+// todo: type each string param and payload
+export type EditorDispatch = (type: string, payload?: MessageData | MessageState | any) => void

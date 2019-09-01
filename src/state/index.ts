@@ -20,10 +20,9 @@ class StateMachine {
 
 		// format state as a string and send it to the client
 		this.syncState = (state: any): void => {
-			console.log(state)
-			const stateValue: CR.MessageState = stateToString(state.value)
+			const stateValue: string = stateToString(state.value)
 			console.log(`STATE: ${stateValue}`)
-			editorDispatch('coderoad.send_state', stateValue)
+			editorDispatch('coderoad.send_state', {state: stateValue})
 		}
 
 		// callback on all state changes

@@ -13,7 +13,7 @@ interface ReceivedEvent {
 }
 
 const App = () => {
-  const initialState = { SelectTutorial: 'Initial' }
+  const initialState = 'SelectTutorial.Initial'
 
   // set state machine state
 	const [state, setState] = React.useState(initialState)
