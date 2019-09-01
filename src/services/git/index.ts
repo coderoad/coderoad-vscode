@@ -58,7 +58,7 @@ export async function gitLoadCommits(actions: G.StepActions, editorDispatch: CR.
 			const {stdout, stderr} = await exec(command)
 			if (stderr) {
 				console.error(stderr)
-				// langauge specific error messages from running commands
+				// language specific error messages from running commands
 				for (const message of Object.keys(errorMessages.js)) {
 					if (stderr.match(message)) {
 						// ignored error

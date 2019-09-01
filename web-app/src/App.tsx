@@ -23,7 +23,7 @@ const App = () => {
 	})
 	
 	// update level/stage/step status based on user progress & position
-		// TODO: model server more effeciently
+		// TODO: model server more efficiently
 		const [setStatus] = useMutation(SET_STATUS)
 
   // event bus listener

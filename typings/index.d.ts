@@ -164,4 +164,13 @@ export interface StateMachine {
 	send(action: string | Action): void
 }
 
-export type EditorDispatch = (type: string, payload?: any) => void
+interface MessageData {
+	tutorial?: {id: string}
+	position: Position
+	progress: Progress
+}
+
+type MessageState = string
+
+
+export type EditorDispatch = (type: string, payload?: MessageData | MessageState) => void

@@ -1,4 +1,3 @@
-// NOTE: codesmell - importing machine
 import {machine} from '../../extension'
 import {TutorialModel} from '../../services/tutorial'
 import * as CR from 'typings'
@@ -6,7 +5,7 @@ import * as G from 'typings/graphql'
 import * as git from '../../services/git'
 
 
-export default (editorDispatch: CR.EditorDispatch, tutorialModel: TutorialModel) => ({
+export default (tutorialModel: TutorialModel, editorDispatch: CR.EditorDispatch) => ({
 	createWebview() {
 		editorDispatch('coderoad.open_webview')
 	},

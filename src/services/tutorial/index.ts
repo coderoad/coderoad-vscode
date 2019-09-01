@@ -9,12 +9,6 @@ interface TutorialConfig {
 	testRunner: G.EnumTestRunner
 }
 
-interface MessageData {
-	tutorial?: {id: string}
-	position: CR.Position
-	progress: CR.Progress
-}
-
 export interface TutorialModel {
 	repo: G.TutorialRepo
 	config: TutorialConfig
@@ -28,7 +22,7 @@ export interface TutorialModel {
 	updateProgress(): void
 	nextPosition(): CR.Position
 	hasExisting(): Promise<boolean>
-	setClientDispatch(editorDispatch: CR.EditorDispatch): void
+	syncClient(): void
 }
 
 class Tutorial implements TutorialModel {
@@ -37,19 +31,21 @@ class Tutorial implements TutorialModel {
 	public version: G.TutorialVersion
 	public position: CR.Position
 	public progress: CR.Progress
-	private clientDispatch: (props: MessageData) => void
+	public syncClient: () => void
 
-	constructor() {
+	constructor(editorDispatch: CR.EditorDispatch) {
 		// initialize types, will be assigned when tutorial is selected
-		this.clientDispatch = (props: MessageData) => {
-			throw new Error('Tutorial client dispatch yet initialized')
-		}
+
 		this.repo = {} as G.TutorialRepo
 		this.config = {} as TutorialConfig
 		this.version = {} as G.TutorialVersion
 		this.position = {} as CR.Position
 		this.progress = {} as CR.Progress
-
+		this.syncClient = () => editorDispatch('coderoad.send_data', {
+			tutorial: {id: this.version.tutorialId},
+			progress: this.progress,
+			position: this.position,
+		})
 		// Promise.all([
 		// 	storage.getTutorial(),
 		// 	storage.getProgress(),
@@ -59,10 +55,6 @@ class Tutorial implements TutorialModel {
 		// 	console.log(tutorial, progress)
 		// })
 
-	}
-
-	public setClientDispatch(editorDispatch: CR.EditorDispatch) {
-		this.clientDispatch = ({progress, position}: MessageData) => editorDispatch('coderoad.send_data', {progress, position})
 	}
 
 	public async launch(tutorialId: string) {
@@ -97,11 +89,7 @@ class Tutorial implements TutorialModel {
 
 		console.log('this.position', JSON.stringify(this.position))
 
-		this.clientDispatch({
-			tutorial: {id: tutorial.id},
-			position: this.position,
-			progress: this.progress
-		})
+		this.syncClient()
 
 		// set tutorial, position, progress locally
 		// TODO: base position off of progress
@@ -149,10 +137,7 @@ class Tutorial implements TutorialModel {
 		this.progress.stages[stageId] = true
 		this.progress.steps[stepId] = true
 
-		this.clientDispatch({
-			progress: this.progress,
-			position: this.position, // TODO: calculate next position
-		})
+		this.syncClient()
 	}
 	public nextPosition = (): CR.Position => {
 		const {levelId, stageId, stepId} = this.position

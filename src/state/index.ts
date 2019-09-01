@@ -21,28 +21,31 @@ const stateToString = (state: string | object, str: string = ''): string => {
 	return ''
 }
 
-interface Props {
-	dispatch: CR.EditorDispatch
-	tutorial: TutorialModel
-}
 
 class StateMachine {
-	private dispatch: CR.EditorDispatch
 	private machineOptions = {
 		devTools: true,
 		deferEvents: true,
 		execute: true,
 	}
 	private service: Interpreter<{}, CR.MachineStateSchema, CR.MachineEvent>
-	constructor({dispatch, tutorial}: Props) {
-		this.dispatch = dispatch
-		const machine = createMachine(dispatch, tutorial)
+
+	constructor(tutorialModel: TutorialModel, editorDispatch: CR.EditorDispatch) {
+		const machine = createMachine(tutorialModel, editorDispatch)
+
+		// format state as a string and send it to the client
+		this.syncState = (state: any): void => {
+			const stateValue: CR.MessageState = stateToString(state.value)
+			console.log(`STATE: ${stateValue}`)
+			editorDispatch('send_data', stateValue)
+		}
+
+		// callback on all state changes
 		this.service = interpret(machine, this.machineOptions)
 			// logging
 			.onTransition(state => {
 				if (state.changed) {
-					console.log(`STATE: ${stateToString(state.value)}`)
-					dispatch('coderoad.send_state', {state: state.value})
+					this.syncState(state)
 				}
 			})
 	}
@@ -56,12 +59,14 @@ class StateMachine {
 	public refresh() {
 		console.log('service refresh')
 		console.log(this.service.state)
-		const {value} = this.service.state
-		this.dispatch('coderoad.send_state', {state: value})
+		this.syncState(this.service.state)
 	}
 	public send(action: string | CR.Action) {
 		this.service.send(action)
 	}
+	// @ts-ignore
+	private syncState(state: any): void
+
 }
 
 export default StateMachine

@@ -1,10 +1,13 @@
 import * as React from 'react'
 import Route from './Route'
-import { stateMatch } from '../Cond/utils/state'
 
 interface Props {
   state: string
   children: any
+}
+
+const stateMatch = (state: string, path: string) => {
+  return !!(new RegExp(`^${state}`).exec(path))
 }
 
 // router finds first state match of <Route path='' />

@@ -5,7 +5,7 @@ import {TutorialModel} from '../services/tutorial'
 import createActions from './actions'
 import createGuards from './guards'
 
-export const machine = (editorDispatch: CR.EditorDispatch, tutorialModel: TutorialModel) =>
+export const machine = (tutorialModel: TutorialModel, editorDispatch: CR.EditorDispatch) =>
 	Machine<{}, CR.MachineStateSchema, CR.MachineEvent>(
 		{
 			id: 'root',
@@ -164,7 +164,7 @@ export const machine = (editorDispatch: CR.EditorDispatch, tutorialModel: Tutori
 			},
 		},
 		{
-			actions: createActions(editorDispatch, tutorialModel),
+			actions: createActions(tutorialModel, editorDispatch),
 			guards: createGuards(tutorialModel),
 			activities: {},
 		},
