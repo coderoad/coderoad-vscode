@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import * as T from 'typings/graphql'
+import * as CR from 'typings'
 
 import queryTutorials from './queryTutorials'
 import { send } from '../../utils/vscode'
@@ -10,7 +11,7 @@ import TutorialList from './TutorialList'
 
 interface Props {
   tutorialList: T.Tutorial[]
-  onNew(tutorialId: string): void
+  onNew(action: CR.Action): void
 }
 
 export const NewPage = (props: Props) => (
@@ -34,7 +35,7 @@ const NewPageContainer = () => {
 
   return (
     <React.Suspense fallback={Loading}>
-    	<NewPage onNew={() => send('TUTORIAL_START')} tutorialList={data.tutorials} />
+    	<NewPage onNew={send} tutorialList={data.tutorials} />
     </React.Suspense>
   )
 }

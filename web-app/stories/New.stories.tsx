@@ -10,15 +10,15 @@ import NewContainer from '../src/containers/New'
 
 storiesOf('New', module)
   .add('Tutorial', () => {
-    const tutorial: T.Tutorial = {
+    const tutorial = {
       id: '1',
       title: 'Tutorial 1',
       text: 'The first one',
     }
-    return <TutorialItem onNew={action('onNew')} title={tutorial.title} text={tutorial.text} />
+    return <TutorialItem onSelect={action('onSelect')} title={tutorial.title} text={tutorial.text} />
   })
   .add('TutorialList', () => {
-    const tutorialList: T.Tutorial[] = [
+    const tutorialList = [
       {
         id: '1',
         title: 'Tutorial 1',

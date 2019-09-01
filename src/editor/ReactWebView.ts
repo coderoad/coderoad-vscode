@@ -12,9 +12,7 @@ const getNonce = (): string => {
 }
 
 
-/**
- * Manages React webview panels
- */
+// Manages webview panel
 class ReactWebView {
 	// @ts-ignore
 	public loaded: boolean
@@ -28,7 +26,7 @@ class ReactWebView {
 		// Create and show a new webview panel
 		this.panel = this.createWebviewPanel(vscode.ViewColumn.Two)
 
-		// Set the webview's initial html content
+		// Set the webview initial html content
 		this.panel.webview.html = this.getHtmlForWebview()
 
 		// Listen for when the panel is disposed
@@ -37,12 +35,21 @@ class ReactWebView {
 
 		// Handle messages from the webview
 		const onReceive = (action: string | CR.Action) => {
-			// await loading of webview in React before proceeding with loaded state
-			if (action === 'WEBVIEW_LOADED') {
-				this.loaded = true
-			} else {
-				console.log('onReceive', action)
-				vscode.commands.executeCommand('coderoad.receive_action', action)
+			const actionType: string = typeof action === 'string' ? action : action.type
+			switch (actionType) {
+				case 'WEBVIEW_LOADED':
+					// await loading of webview in React before proceeding with loaded state
+					this.loaded = true
+					break
+				case 'TUTORIAL_START':
+					console.log('TUTORIAL_START called')
+					console.log(action)
+					break
+				// add other cases
+				default:
+					// send to state machine
+					console.log('onReceive', action)
+					vscode.commands.executeCommand('coderoad.receive_machine_action', action)
 			}
 		}
 		this.panel.webview.onDidReceiveMessage(onReceive, null, this.disposables)
@@ -55,7 +62,7 @@ class ReactWebView {
 			})
 		}
 
-		// prevents new panels from going ontop of coderoad panel
+		// prevents new panels from going on top of coderoad panel
 		vscode.window.onDidChangeActiveTextEditor((textEditor?: vscode.TextEditor) => {
 			console.log('onDidChangeActiveTextEditor')
 			console.log(textEditor)
@@ -115,7 +122,7 @@ class ReactWebView {
 		const config = {
 			// Enable javascript in the webview
 			enableScripts: true,
-			// And restric the webview to only loading content from our extension's `media` directory.
+			// And restrict the webview to only loading content from our extension's `media` directory.
 			localResourceRoots: [vscode.Uri.file(path.join(this.extensionPath, 'build'))],
 			// prevents destroying the window when it is in the background
 			retainContextWhenHidden: true,

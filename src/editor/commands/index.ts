@@ -13,7 +13,7 @@ const COMMANDS = {
 	OPEN_WEBVIEW: 'coderoad.open_webview',
 	SEND_STATE: 'coderoad.send_state',
 	SEND_DATA: 'coderoad.send_data',
-	RECEIVE_ACTION: 'coderoad.receive_action',
+	RECEIVE_MACHINE_ACTION: 'coderoad.receive_machine_action',
 	OPEN_FILE: 'coderoad.open_file',
 	RUN_TEST: 'coderoad.run_test',
 	TEST_PASS: 'coderoad.test_pass',
@@ -102,7 +102,7 @@ export const createCommands = ({vscodeExt, machine}: CreateCommandProps) => {
 				const absoluteFilePath = join(workspaceRoot, relativeFilePath)
 				const doc = await vscode.workspace.openTextDocument(absoluteFilePath)
 				await vscode.window.showTextDocument(doc, vscode.ViewColumn.One)
-				// there are times when intialization leave the panel behind any files opened
+				// there are times when initialization leave the panel behind any files opened
 				// ensure the panel is redrawn on the right side first
 				webview.createOrShow(vscode.ViewColumn.Two)
 			} catch (error) {
@@ -116,7 +116,7 @@ export const createCommands = ({vscodeExt, machine}: CreateCommandProps) => {
 		[COMMANDS.SEND_DATA]: (payload: {data: any}) => {
 			webview.postMessage({type: 'SET_DATA', payload})
 		},
-		[COMMANDS.RECEIVE_ACTION]: (action: string | CR.Action) => {
+		[COMMANDS.RECEIVE_MACHINE_ACTION]: (action: string | CR.Action) => {
 			// send received actions from web-app into state machine
 			console.log('receive action', action)
 			machine.send(action)

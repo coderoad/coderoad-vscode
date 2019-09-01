@@ -1,5 +1,6 @@
 import * as G from 'typings/graphql'
 import * as CR from 'typings'
+import * as git from '../../services/git'
 import * as storage from '../storage'
 import api from '../api'
 import tutorialQuery from '../../services/api/gql/getTutorial'
@@ -23,6 +24,7 @@ export interface TutorialModel {
 	nextPosition(): CR.Position
 	hasExisting(): Promise<boolean>
 	syncClient(): void
+	triggerCurrent(type: 'STEP' | 'STAGE' | 'LEVEL'): void
 }
 
 class Tutorial implements TutorialModel {
@@ -32,6 +34,7 @@ class Tutorial implements TutorialModel {
 	public position: CR.Position
 	public progress: CR.Progress
 	public syncClient: () => void
+	public openFile: (file: string) => void
 
 	constructor(editorDispatch: CR.EditorDispatch) {
 		// initialize types, will be assigned when tutorial is selected
@@ -46,6 +49,7 @@ class Tutorial implements TutorialModel {
 			progress: this.progress,
 			position: this.position,
 		})
+		this.openFile = (file: string) => editorDispatch('coderoad.open_file', file)
 		// Promise.all([
 		// 	storage.getTutorial(),
 		// 	storage.getProgress(),
@@ -56,8 +60,9 @@ class Tutorial implements TutorialModel {
 		// })
 
 	}
-
 	public async launch(tutorialId: string) {
+		console.log('launch tutorial')
+
 		const {tutorial}: {tutorial: G.Tutorial | null} = await api.request(tutorialQuery, {
 			tutorialId, // TODO: add selection of tutorial id
 		})
@@ -67,6 +72,11 @@ class Tutorial implements TutorialModel {
 		}
 
 		this.repo = tutorial.repo
+
+		if (!this.repo || !this.repo.uri) {
+			throw new Error('Tutorial repo uri not found')
+		}
+
 		this.config = {
 			codingLanguage: tutorial.codingLanguage,
 			testRunner: tutorial.testRunner,
@@ -87,9 +97,13 @@ class Tutorial implements TutorialModel {
 			complete: false,
 		}
 
+		// setup git, git remote
+		await git.gitInitIfNotExists()
+		await git.gitSetupRemote(this.repo.uri)
+
 		console.log('this.position', JSON.stringify(this.position))
 
-		this.syncClient()
+		await this.syncClient()
 
 		// set tutorial, position, progress locally
 		// TODO: base position off of progress
@@ -98,6 +112,7 @@ class Tutorial implements TutorialModel {
 			storage.setPosition(this.position),
 			storage.setProgress(this.progress)
 		])
+		// machine.send('TUTORIAL_LOADED')
 	}
 
 	public async hasExisting(): Promise<boolean> {
@@ -106,9 +121,18 @@ class Tutorial implements TutorialModel {
 			storage.getProgress(),
 		])
 
-		return !!(tutorial && progress)
+		// verify git is setup with a coderoad remote
+		const [hasGit, hasGitRemote] = await Promise.all([
+			git.gitVersion(),
+			git.gitCheckRemoteExists(),
+		])
+		// TODO: may need to clean up git remote if no existing tutorial
+
+		const canContinue = !!(tutorial && progress && hasGit && hasGitRemote)
+
+		return canContinue
 	}
-	public level = (levelId: string): G.Level => {
+	public level = (levelId?: string): G.Level => {
 		const level: G.Level | undefined = this.version.levels.find((l: G.Level) => l.id === levelId || this.position.levelId)
 		if (!level) {
 			throw new Error('Level not found')
@@ -130,6 +154,27 @@ class Tutorial implements TutorialModel {
 			throw new Error('Step not found')
 		}
 		return step
+	}
+	public triggerCurrent = (type: 'STEP' | 'STAGE' | 'LEVEL') => {
+		let target: G.Step | G.Stage | G.Level | null = null
+		switch (type) {
+			case 'STEP':
+				target = this.step()
+				break
+			case 'STAGE':
+				target = this.stage()
+				break
+			case 'LEVEL':
+				target = this.level()
+				break
+			default:
+				throw new Error(`Type ${type} not found`)
+		}
+		if (!target || !target.setup) {
+			// no stepAction
+			return
+		}
+		git.gitLoadCommits(target.setup, this.openFile)
 	}
 	public updateProgress = () => {
 		const {levelId, stageId, stepId} = this.position

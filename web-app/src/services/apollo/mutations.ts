@@ -1,7 +1,7 @@
-import { gql } from 'apollo-boost'
+import {gql} from 'apollo-boost'
 
 export const SET_STATUS = gql`
-  mutation ToggleTodo($progress: Progress!, $position: Position) {
+  mutation SetStatus($progress: Progress!, $position: Position) {
     setStatus(progress: $progress, position: $position) @client
   }
 `

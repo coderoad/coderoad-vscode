@@ -39,7 +39,7 @@ const cherryPickCommit = async (commit: string, count = 0): Promise<void> => {
     SINGLE git cherry-pick %COMMIT%
     if fails, will stash all and retry
 */
-export async function gitLoadCommits(actions: G.StepActions, editorDispatch: CR.EditorDispatch): Promise<void> {
+export async function gitLoadCommits(actions: G.StepActions, openFile: (file: string) => void): Promise<void> {
 	const {commits, commands, files} = actions
 
 	console.log(`load commits: ${commits.join(', ')}`)
@@ -72,7 +72,7 @@ export async function gitLoadCommits(actions: G.StepActions, editorDispatch: CR.
 
 	if (files) {
 		for (const filePath of files) {
-			editorDispatch('coderoad.open_file', filePath)
+			openFile(filePath)
 		}
 	}
 }

@@ -2,7 +2,6 @@ import {machine} from '../../extension'
 import {TutorialModel} from '../../services/tutorial'
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import * as git from '../../services/git'
 
 
 export default (tutorialModel: TutorialModel, editorDispatch: CR.EditorDispatch) => ({
@@ -12,38 +11,7 @@ export default (tutorialModel: TutorialModel, editorDispatch: CR.EditorDispatch)
 	async newOrContinue() {
 		// verify that the user has an existing tutorial to continue
 		const hasExistingTutorial: boolean = await tutorialModel.hasExisting()
-
-		// verify git is setup with a coderoad remote
-		const [hasGit, hasGitRemote] = await Promise.all([
-			git.gitVersion(),
-			git.gitCheckRemoteExists(),
-		])
-
-		const canContinue = !!(hasExistingTutorial && hasGit && hasGitRemote)
-
-		// TODO: may need to clean up git remote if no existing tutorial
-
-		machine.send(canContinue ? 'CONTINUE' : 'NEW')
-	},
-	async tutorialLaunch() {
-		const tutorialId: string = '1'
-		// TODO: load tutorialId
-		await tutorialModel.launch(tutorialId)
-
-		// git setup
-		const repo: G.TutorialRepo = tutorialModel.repo
-
-		console.log('launch tutorial')
-
-		await git.gitInitIfNotExists()
-
-		if (!repo || !repo.uri) {
-			throw new Error('Tutorial repo uri not found')
-		}
-
-		await git.gitSetupRemote(repo.uri)
-
-		machine.send('TUTORIAL_LOADED')
+		machine.send(hasExistingTutorial ? 'CONTINUE' : 'NEW')
 	},
 	testRunnerSetup() {
 		const codingLanguage: G.EnumCodingLanguage = tutorialModel.config.codingLanguage
@@ -85,7 +53,7 @@ export default (tutorialModel: TutorialModel, editorDispatch: CR.EditorDispatch)
 	},
 	testPass(): void {
 		editorDispatch('coderoad.test_pass')
-		git.gitSaveCommit(tutorialModel.position)
+		// git.gitSaveCommit(tutorialModel.position)
 	},
 	testFail() {
 		editorDispatch('coderoad.test_fail')
@@ -141,23 +109,14 @@ export default (tutorialModel: TutorialModel, editorDispatch: CR.EditorDispatch)
 	// 	},
 	// }),
 	loadLevel(): void {
-		const level: G.Level = tutorialModel.level()
-		// run level setup if it exists
-		if (level && level.setup) {
-			git.gitLoadCommits(level.setup, editorDispatch)
-		}
+		tutorialModel.triggerCurrent('LEVEL')
 	},
 	stageLoadNext() {
 		console.log('stageLoadNext')
 		tutorialModel.nextPosition()
 	},
 	loadStage(): void {
-		const stage: G.Stage = tutorialModel.stage()
-
-		// run level setup if it exists
-		if (stage && stage.setup) {
-			git.gitLoadCommits(stage.setup, editorDispatch)
-		}
+		tutorialModel.triggerCurrent('STAGE')
 	},
 	// @ts-ignore
 	// updatePosition: assign({
@@ -167,7 +126,6 @@ export default (tutorialModel: TutorialModel, editorDispatch: CR.EditorDispatch)
 	// 	}),
 	// }),
 	stepLoadCommits(): void {
-		const step: G.Step = tutorialModel.step()
-		git.gitLoadCommits(step.setup, editorDispatch)
+		tutorialModel.triggerCurrent('STEP')
 	},
 })
