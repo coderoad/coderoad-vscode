@@ -2,25 +2,10 @@ import {interpret, Interpreter} from 'xstate'
 import {TutorialModel} from '../services/tutorial'
 import * as CR from 'typings'
 import createMachine from './machine'
+import stateToString from './utils/stateToString'
 
 // machine interpreter
 // https://xstate.js.org/docs/guides/interpretation.html
-
-// convert state into a readable string
-const stateToString = (state: string | object, str: string = ''): string => {
-	if (typeof state === 'object') {
-		const keys = Object.keys(state)
-		if (keys && keys.length) {
-			const key = keys[0]
-			return stateToString(state[key], str.length ? `${str}.${key}` : key)
-		}
-		return str
-	} else if (typeof state === 'string') {
-		return state
-	}
-	return ''
-}
-
 
 class StateMachine {
 	private machineOptions = {
@@ -35,9 +20,10 @@ class StateMachine {
 
 		// format state as a string and send it to the client
 		this.syncState = (state: any): void => {
+			console.log(state)
 			const stateValue: CR.MessageState = stateToString(state.value)
 			console.log(`STATE: ${stateValue}`)
-			editorDispatch('send_data', stateValue)
+			editorDispatch('coderoad.send_state', stateValue)
 		}
 
 		// callback on all state changes
