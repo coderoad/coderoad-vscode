@@ -26,5 +26,5 @@
     },
     "allowJs": true
   },
-  "exclude": ["node_modules", ".vscode-test", "build", "resources", "web-app"]
+  "exclude": ["node_modules", ".vscode-test", "build", "resources", "web-app", "*.js", "*.test.ts"]
 }
