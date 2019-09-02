@@ -5,6 +5,7 @@ import machine from '../../services/state/machine'
 
 import Route from './Route'
 import debuggerWrapper from '../Debugger/debuggerWrapper'
+import channel from '../../services/channel'
 import messageBusReceiver from '../../services/channel/receiver'
 
 interface Props {
@@ -20,6 +21,8 @@ const Router = ({ children }: Props): React.ReactElement<CloneElementProps>|null
 	const [state, send] = useMachine(machine, {
 		logger: console.log.bind('XSTATE:')
 	})
+
+	channel.setMachineSend(send)
 
 	// event bus listener
   React.useEffect(messageBusReceiver, [])

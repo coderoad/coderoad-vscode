@@ -1,5 +1,5 @@
 import {Action} from 'typings'
-import {receive} from './index'
+import channel from './index'
 
 const createReceiveEvent = (action: Action) => ({
 	data: action
@@ -17,7 +17,7 @@ window.acquireVsCodeApi = () => ({
 					const receiveAction: Action = {
 						type: 'TUTORIAL_LOADED'
 					}
-					receive(createReceiveEvent(receiveAction))
+					channel.receive(createReceiveEvent(receiveAction))
 				}, 1000)
 			default:
 				console.warn(`${action.type} not found in post message mock`)
