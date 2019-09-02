@@ -3,10 +3,10 @@ import channel from '../../channel'
 // import {machine} from '../../extension'
 // import {cache} from '../../services/apollo'
 // import {editorDispatch} from '../../services/vscode'
-// import * as CR from 'typings'
+import * as CR from 'typings'
 // import * as G from 'typings/graphql'
 // import tutorialConfig from '../../services/apollo/queries/tutorialConfig'
-
+import contextActions from './context'
 
 export default {
 	newOrContinue: send((context): 'NEW' | 'CONTINUE' => {
@@ -25,7 +25,11 @@ export default {
 				}
 			}
 		})
-	}
+	},
+	testRunnerSetup(context: CR.MachineContext) {
+		console.log('test runner setup', context)
+	},
+	...contextActions,
 }
 
 // export default {

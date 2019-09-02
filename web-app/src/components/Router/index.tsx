@@ -13,6 +13,7 @@ interface Props {
 }
 
 interface CloneElementProps {
+	context: CR.MachineContext
 	send(action: CR.Action): void
 }
 
@@ -22,6 +23,8 @@ const Router = ({ children }: Props): React.ReactElement<CloneElementProps>|null
 		logger: console.log.bind('XSTATE:')
 	})
 
+	console.log('state', state)
+
 	channel.setMachineSend(send)
 
 	// event bus listener
@@ -30,7 +33,7 @@ const Router = ({ children }: Props): React.ReactElement<CloneElementProps>|null
   const childArray = React.Children.toArray(children)
   for (const child of childArray) {
     if (state.matches(child.props.path)) {
-			const element = React.cloneElement<CloneElementProps>(child.props.children, { send })
+			const element = React.cloneElement<CloneElementProps>(child.props.children, { send, context: state.context })
       return debuggerWrapper(element, state)
     }
   }

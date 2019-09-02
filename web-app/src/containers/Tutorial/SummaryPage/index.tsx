@@ -1,20 +1,23 @@
 import * as React from 'react'
+import * as CR from 'typings'
 import { useQuery } from '@apollo/react-hooks'
 
 import querySummary from './querySummary'
 import Summary from './Summary'
-import currentTutorial from '../../../services/current'
 import ErrorView from '../../../components/Error'
 
 interface PageProps {
-  send(action: string): void
+	context: CR.MachineContext
+	send(action: CR.Action): void
 }
 
 const SummaryPage = (props: PageProps) => {
-	const { tutorialId } = currentTutorial.get()
+	const { tutorial } = props.context
   const { loading, error, data } = useQuery(querySummary, {
+		fetchPolicy: 'network-only', // for debugging purposes
     variables: {
-      tutorialId,
+			tutorialId: tutorial.id,
+			version: tutorial.version.version,
     },
   })
 
@@ -26,8 +29,14 @@ const SummaryPage = (props: PageProps) => {
     return <ErrorView error={error} />
   }
 
-  const { title, text } = data.tutorial
-  const onNext = () => props.send('NEXT')
+  const onNext = () => props.send({
+		type: 'LOAD_TUTORIAL',
+		payload: {
+			tutorial: data.tutorial,
+		}
+	})
+
+	const { title, text } = data.tutorial
 
   return <Summary title={title} text={text} onNext={onNext} />
 }

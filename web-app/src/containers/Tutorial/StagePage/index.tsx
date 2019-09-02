@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as CR from 'typings'
 import { useQuery } from '@apollo/react-hooks'
 
 import currentTutorial from '../../../services/current'
@@ -7,6 +8,7 @@ import Stage from './Stage'
 import queryStage from './queryStage'
 
 interface PageProps {
+	context: CR.MachineContext,
   send(action: string): void
 }
 

@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost'
+import {gql} from 'apollo-boost'
 
 export default gql`
   query getLevel($tutorialId: ID!, $version: String, $levelId: ID!) {

@@ -10,13 +10,12 @@ import TutorialList from './TutorialList'
 
 interface Props {
   tutorialList: T.Tutorial[]
-  onNew(action: CR.Action): void
 }
 
 export const NewPage = (props: Props) => (
   <div>
     <h2>Start a New Tutorial</h2>
-    <TutorialList tutorialList={props.tutorialList} onNew={props.onNew} />
+    <TutorialList tutorialList={props.tutorialList} />
   </div>
 )
 
@@ -38,7 +37,7 @@ const NewPageContainer = (props: ContainerProps) => {
 
   return (
     <React.Suspense fallback={Loading}>
-    	<NewPage onNew={props.send} tutorialList={data.tutorials} />
+    	<NewPage tutorialList={data.tutorials} />
     </React.Suspense>
   )
 }

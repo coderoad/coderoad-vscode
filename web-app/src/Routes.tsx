@@ -1,6 +1,6 @@
 import * as React from 'react'
 // import { editorDispatch } from './services/vscode'
-
+import * as CR from 'typings'
 import Router from './components/Router'
 import LoadingPage from './containers/LoadingPage'
 import ContinuePage from './containers/Continue'
@@ -63,13 +63,13 @@ const Routes = () => {
         	<LoadingPage text="Loading..." />
 				</Route>
 				<Route path="Tutorial.Summary">
-					<SummaryPage send={tempSend}/>
+					<SummaryPage send={tempSend} context={{} as CR.MachineContext}/>
 				</Route>
 				<Route path="Tutorial.Level">
-					<LevelSummaryPage send={tempSend} />
+					<LevelSummaryPage send={tempSend} context={{} as CR.MachineContext}/>
 				</Route>
 				<Route path="Tutorial.Stage">
-					<StageSummaryPage send={tempSend} />
+					<StageSummaryPage send={tempSend} context={{} as CR.MachineContext}/>
 				</Route>
 				<Route path="Tutorial.Completed">
 					<CompletedPage />

@@ -4,10 +4,20 @@ import * as CR from 'typings'
 import actions from './actions'
 import guards from './guards'
 
-export const machine = Machine<{}, CR.MachineStateSchema, CR.MachineEvent>(
+export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>(
 	{
 		id: 'root',
 		initial: 'Start',
+		context: {
+			tutorial: null,
+			position: {levelId: '', stageId: '', stepId: ''},
+			progress: {
+				levels: {},
+				stages: {},
+				steps: {},
+				complete: false
+			}
+		},
 		states: {
 			Start: {
 				initial: 'Startup',
@@ -24,7 +34,10 @@ export const machine = Machine<{}, CR.MachineStateSchema, CR.MachineEvent>(
 						states: {
 							SelectTutorial: {
 								on: {
-									TUTORIAL_START: 'InitializeTutorial',
+									TUTORIAL_START: {
+										target: 'InitializeTutorial',
+										actions: ['setTutorial'],
+									},
 								},
 							},
 							InitializeTutorial: {
@@ -47,9 +60,9 @@ export const machine = Machine<{}, CR.MachineStateSchema, CR.MachineEvent>(
 				id: 'tutorial',
 				initial: 'Initialize',
 				onEntry: ['testRunnerSetup'],
-				on: {
-					WEBVIEW_INITIALIZED: '#tutorial-load-next'
-				},
+				// on: {
+				// 	WEBVIEW_INITIALIZED: '#tutorial-load-next'
+				// },
 				states: {
 					Initialize: {
 						onEntry: ['initializeNewTutorial'],
@@ -81,7 +94,10 @@ export const machine = Machine<{}, CR.MachineStateSchema, CR.MachineEvent>(
 
 					Summary: {
 						on: {
-							NEXT: 'Level',
+							LOAD_TUTORIAL: {
+								target: 'Level',
+								actions: ['initPosition', 'setTutorial']
+							}
 						},
 					},
 					Level: {

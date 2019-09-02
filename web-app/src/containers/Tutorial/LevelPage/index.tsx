@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
+import * as CR from 'typings'
 import * as G from 'typings/graphql'
 
 import currentTutorial from '../../../services/current'
@@ -23,17 +24,18 @@ export const LevelSummaryPage = (props: LevelProps) => {
 }
 
 interface ContainerProps {
-  send(action: string): void
+	context: CR.MachineContext
+	send(action: string): void
 }
 
 const LevelSummaryPageContainer = (props: ContainerProps) => {
-	const { tutorialId, version, position, progress } = currentTutorial.get()
-
 	console.log('load level summary')
+	const { tutorial, position, progress } = props.context
+
   const { loading, error, data } = useQuery(queryLevel, {
     variables: {
-      tutorialId,
-      version,
+      tutorialId: tutorial.id,
+      version: tutorial.version.version,
       levelId: position.levelId,
     },
 	})

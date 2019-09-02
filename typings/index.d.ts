@@ -114,7 +114,11 @@ export interface Action {
 	meta?: any
 }
 
-export interface MachineContext {}
+export interface MachineContext {
+	tutorial: G.Tutorial | null,
+	position: CR.Position,
+	progress: CR.Progress,
+}
 
 export interface MachineEvent {
 	type: string
