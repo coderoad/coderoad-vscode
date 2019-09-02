@@ -125,7 +125,6 @@ export interface MachineStateSchema {
 	states: {
 		Start: {
 			states: {
-				Initial: {}
 				Startup: {}
 				NewTutorial: {
 					states: {

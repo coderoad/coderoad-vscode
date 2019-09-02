@@ -1,3 +1,4 @@
+import {send} from 'xstate'
 // import {machine} from '../../extension'
 // import {cache} from '../../services/apollo'
 // import {editorDispatch} from '../../services/vscode'
@@ -6,7 +7,16 @@
 // import tutorialConfig from '../../services/apollo/queries/tutorialConfig'
 
 
-export default {}
+export default {
+	async newOrContinue() {
+		console.log('new or continue')
+		// verify that the user has an existing tutorial to continue
+
+		// TODO: verify continue or new
+		const hasExistingTutorial: boolean = false
+		send(hasExistingTutorial ? 'CONTINUE' : 'NEW')
+	},
+}
 
 // export default {
 // 	async newOrContinue() {

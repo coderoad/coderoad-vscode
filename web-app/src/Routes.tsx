@@ -12,10 +12,6 @@ import CompletedPage from './containers/Tutorial/CompletedPage'
 
 const { Route } = Router
 
-interface Props {
-  state: any
-}
-
 const styles = {
   page: {
     margin: 0,
@@ -23,7 +19,7 @@ const styles = {
   },
 }
 
-const Routes = ({ state }: Props) => {
+const Routes = () => {
   const [dimensions, setDimensions] = React.useState({
     width: window.innerWidth - 20,
     height: window.innerHeight - 20,
@@ -45,10 +41,7 @@ const Routes = ({ state }: Props) => {
 
   return (
     <div style={{ ...styles.page, ...dimensions }}>
-      <Router state={state}>
-				<Route path="Start.Initial">
-					<div>Initial</div>
-				</Route>
+      <Router>
         <Route path="Start.Startup">
           <LoadingPage text="Launching..." />
         </Route>
