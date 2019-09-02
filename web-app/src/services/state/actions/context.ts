@@ -117,4 +117,25 @@ export default {
 			return progress
 		},
 	}),
+	// @ts-ignore
+	reset: assign({
+		tutorial() {
+			return null
+		},
+		progress(): CR.Progress {
+			return {
+				levels: {},
+				stages: {},
+				steps: {},
+				complete: false
+			}
+		},
+		position(): CR.Position {
+			return {
+				levelId: '',
+				stageId: '',
+				stepId: ''
+			}
+		}
+	})
 }
