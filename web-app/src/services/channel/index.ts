@@ -1,9 +1,11 @@
 import {Action} from 'typings'
+import {send as stateMachineSend} from 'xstate'
 
 declare var acquireVsCodeApi: any
 
 // @ts-ignore
 if (!window.acquireVsCodeApi) {
+	// @ts-ignore
 	require('./mock')
 }
 
@@ -22,9 +24,23 @@ interface ReceivedEvent {
 // Receive from Editor
 export const receive = (event: ReceivedEvent): void => {
 
-	const message = event.data
-	console.log('message', message)
+	const action = event.data
+
+	// @ts-ignore // ignore browser events from plugins
+	if (action.source) {return }
+
+	console.log('receive action', action)
 	// messages from core
+	switch (action.type) {
+		case 'TUTORIAL_LOADED':
+			// send action to state machine
+			stateMachineSend('TUTORIAL_LOADED')
+			console.log(stateMachineSend)
+			console.log('send action to state machine')
+			return
+		default:
+			console.warn(`Unknown received action ${action.type}`, action)
+	}
 
 	// if (message.type === 'SET_DATA') {
 	// 	// SET_DATA - set state machine context

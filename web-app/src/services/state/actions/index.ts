@@ -1,4 +1,5 @@
 import {send} from 'xstate'
+import * as channel from '../../channel'
 // import {machine} from '../../extension'
 // import {cache} from '../../services/apollo'
 // import {editorDispatch} from '../../services/vscode'
@@ -16,7 +17,14 @@ export default {
 		return hasExistingTutorial ? 'CONTINUE' : 'NEW'
 	}),
 	tutorialStart() {
-		console.log('start')
+		channel.send({
+			type: 'TUTORIAL_START',
+			payload: {
+				tutorial: {
+					id: 'some-tutorial-id'
+				}
+			}
+		})
 	}
 }
 

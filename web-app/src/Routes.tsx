@@ -22,27 +22,27 @@ const styles = {
 const tempSend = (action: any) => console.log('sent')
 
 const Routes = () => {
-  const [dimensions, setDimensions] = React.useState({
-    width: window.innerWidth - 20,
-    height: window.innerHeight - 20,
-  })
+  // const [dimensions, setDimensions] = React.useState({
+  //   width: window.innerWidth - 20,
+  //   height: window.innerHeight - 20,
+  // })
 
-  // solution for windows getting off size
-  // without adding multiple listeners
-  React.useEffect(() => {
-    const dimensionsInterval = setInterval(() => {
-      setDimensions({
-        width: window.innerWidth - 20,
-        height: window.innerHeight - 20,
-      })
-    }, 5000)
-    return () => {
-      clearInterval(dimensionsInterval)
-    }
-  }, [])
+  // // solution for windows getting off size
+  // // without adding multiple listeners
+  // React.useEffect(() => {
+  //   const dimensionsInterval = setInterval(() => {
+  //     setDimensions({
+  //       width: window.innerWidth - 20,
+  //       height: window.innerHeight - 20,
+  //     })
+  //   }, 5000)
+  //   return () => {
+  //     clearInterval(dimensionsInterval)
+  //   }
+  // }, [])
 
   return (
-    <div style={{ ...styles.page, ...dimensions }}>
+    <div style={{ ...styles.page }}>
       <Router>
         <Route path="Start.Startup">
           <LoadingPage text="Launching..." />

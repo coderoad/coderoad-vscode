@@ -2,23 +2,13 @@ import * as React from 'react'
 import * as CR from 'typings'
 import { useMachine } from '@xstate/react'
 import machine from '../../services/state/machine'
-import Debugger from '../Debugger'
+
 import Route from './Route'
-import stateToString from './stateToString'
+import debuggerWrapper from '../Debugger/debuggerWrapper'
+import messageBusReceiver from '../../services/channel/receiver'
 
 interface Props {
   children: any
-}
-
-const wrapDebugger = (element: React.ReactElement, state: any) => {
-	if (process.env.REACT_APP_DEBUG) {
-		return (
-			<Debugger state={stateToString(state.value)}>
-				{element}
-			</Debugger>
-		)
-	}
-	return element
 }
 
 interface CloneElementProps {
@@ -27,13 +17,18 @@ interface CloneElementProps {
 
 // router finds first state match of <Route path='' />
 const Router = ({ children }: Props): React.ReactElement<CloneElementProps>|null => {
-	const [state, send] = useMachine(machine)
+	const [state, send] = useMachine(machine, {
+		logger: console.log.bind('XSTATE:')
+	})
+
+	// event bus listener
+  React.useEffect(messageBusReceiver, [])
 
   const childArray = React.Children.toArray(children)
   for (const child of childArray) {
     if (state.matches(child.props.path)) {
 			const element = React.cloneElement<CloneElementProps>(child.props.children, { send })
-      return wrapDebugger(element, state)
+      return debuggerWrapper(element, state)
     }
   }
   console.warn(`No Route matches for ${JSON.stringify(state)}`)

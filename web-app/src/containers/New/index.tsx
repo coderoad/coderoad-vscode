@@ -27,7 +27,6 @@ interface ContainerProps {
 }
 
 const NewPageContainer = (props: ContainerProps) => {
-	console.log('props', props)
   const { data, loading, error } = useQuery(queryTutorials)
   if (loading) {
     return <Loading />
