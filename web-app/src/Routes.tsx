@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { editorDispatch } from './services/vscode'
+// import { editorDispatch } from './services/vscode'
 
 import Router from './components/Router'
 import LoadingPage from './containers/LoadingPage'
@@ -18,6 +18,8 @@ const styles = {
     backgroundColor: 'white',
   },
 }
+
+const tempSend = (action: any) => console.log('sent')
 
 const Routes = () => {
   const [dimensions, setDimensions] = React.useState({
@@ -46,7 +48,7 @@ const Routes = () => {
           <LoadingPage text="Launching..." />
         </Route>
 				<Route path="Start.NewTutorial.SelectTutorial">
-          <NewPage />
+          <NewPage send={tempSend}/>
         </Route>
         <Route path="Start.NewTutorial.InitializeTutorial">
           <LoadingPage text="Launching Tutorial..." />
@@ -61,13 +63,13 @@ const Routes = () => {
         	<LoadingPage text="Loading..." />
 				</Route>
 				<Route path="Tutorial.Summary">
-					<SummaryPage send={editorDispatch} />
+					<SummaryPage send={tempSend}/>
 				</Route>
 				<Route path="Tutorial.Level">
-					<LevelSummaryPage send={editorDispatch} />
+					<LevelSummaryPage send={tempSend} />
 				</Route>
 				<Route path="Tutorial.Stage">
-					<StageSummaryPage send={editorDispatch} />
+					<StageSummaryPage send={tempSend} />
 				</Route>
 				<Route path="Tutorial.Completed">
 					<CompletedPage />

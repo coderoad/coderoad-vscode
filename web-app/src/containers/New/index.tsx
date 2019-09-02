@@ -23,7 +23,7 @@ export const NewPage = (props: Props) => (
 const Loading = () => <LoadingPage text="Loading tutorials" />
 
 interface ContainerProps {
-	send?(action: CR.Action): void
+	send(action: CR.Action): void
 }
 
 const NewPageContainer = (props: ContainerProps) => {
@@ -36,14 +36,10 @@ const NewPageContainer = (props: ContainerProps) => {
   if (error) {
     return <ErrorView error={error} />
 	}
-	
-	// TODO: cleanup React.cloneElement props issue
-	const sendFallback = (action: CR.Action) => console.log('Cannot send')
-	const send = props.send || sendFallback
 
   return (
     <React.Suspense fallback={Loading}>
-    	<NewPage onNew={send} tutorialList={data.tutorials} />
+    	<NewPage onNew={props.send} tutorialList={data.tutorials} />
     </React.Suspense>
   )
 }
