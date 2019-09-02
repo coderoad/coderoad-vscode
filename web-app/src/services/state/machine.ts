@@ -77,10 +77,12 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 							{
 								target: 'Stage',
 								cond: 'hasNextStage',
+								actions: ['updateStagePosition']
 							},
 							{
 								target: 'Level',
 								cond: 'hasNextLevel',
+								actions: ['updateLevelPosition']
 							},
 							{
 								target: '#completed-tutorial',
@@ -130,7 +132,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 								},
 							},
 							TestPass: {
-								onExit: ['stepLoadNext'],
+								onExit: ['updateStepPosition'],
 								after: {
 									1000: 'StepNext',
 								},
@@ -158,10 +160,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 							},
 							StageComplete: {
 								on: {
-									STAGE_NEXT: {
-										target: '#tutorial-load-next',
-										actions: ['updatePosition'],
-									},
+									STAGE_NEXT: '#tutorial-load-next',
 								},
 							},
 						},

@@ -27,6 +27,70 @@ export default {
 		},
 	}),
 	// @ts-ignore
+	updateStepPosition: assign({
+		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
+			const position: CR.Position = context.position
+			// merge in the updated position
+			// sent with the test to ensure consistency
+			const steps: G.Step[] = context.tutorial.version
+				.levels.find((l: G.Level) => l.id === position.levelId)
+				.stages.find((s: G.Stage) => s.id === position.stageId)
+				.steps
+
+			const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
+			const step: G.Step = steps[stepIndex + 1]
+
+			console.log('step load next', step.id, position.stepId)
+
+			return {
+				...position,
+				stepId: step.id
+			}
+		},
+	}),
+	// @ts-ignore
+	updateStagePosition: assign({
+		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
+			const position: CR.Position = context.position
+			// merge in the updated position
+			// sent with the test to ensure consistency
+			const stages: G.Stage[] = context.tutorial.version
+				.levels.find((l: G.Level) => l.id === position.levelId)
+				.stages
+
+			const stageIndex = stages.findIndex((s: G.Stage) => s.id === position.stageId)
+			const stage: G.Stage = stages[stageIndex + 1]
+
+			console.log('stage load next', stage.id, position.stageId)
+
+			return {
+				...position,
+				stageId: stage.id,
+				stepId: stage.steps[0].id,
+			}
+		},
+	}),
+	// @ts-ignore
+	updateLevelPosition: assign({
+		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
+			const position: CR.Position = context.position
+			// merge in the updated position
+			// sent with the test to ensure consistency
+			const levels: G.Level[] = context.tutorial.version.levels
+
+			const levelIndex = levels.findIndex((l: G.Level) => l.id === position.levelId)
+			const level: G.Level = levels[levelIndex + 1]
+
+			console.log('level load next', level.id, position.levelId)
+
+			return {
+				levelId: level.id,
+				stageId: level.stages[0].id,
+				stepId: level.stages[0].steps[0].id,
+			}
+		},
+	}),
+	// @ts-ignore
 	updateStepProgress: assign({
 		progress: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
 			// update progress by tracking completed
@@ -53,27 +117,4 @@ export default {
 			return progress
 		},
 	}),
-	// @ts-ignore
-	stepLoadNext: assign({
-		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
-			const position: CR.Position = context.position
-			// merge in the updated position
-			// sent with the test to ensure consistency
-			const steps: G.Step[] = context.tutorial.version
-				.levels.find((l: G.Level) => l.id === position.levelId)
-				.stages.find((s: G.Stage) => s.id === position.stageId)
-				.steps
-
-			const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
-			console.log('step index', stepIndex)
-			const step: G.Step = steps[stepIndex + 1]
-
-			console.log('step load next', step.id, position.stepId)
-
-			return {
-				...position,
-				stepId: step.id
-			}
-		},
-	})
 }
