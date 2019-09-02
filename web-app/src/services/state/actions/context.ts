@@ -42,13 +42,23 @@ export default {
 	// @ts-ignore
 	stepLoadNext: assign({
 		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
-			const currentPosition: CR.Position = context.position
+			const position: CR.Position = context.position
 			// merge in the updated position
 			// sent with the test to ensure consistency
-			console.log('should calculate next step')
+			const steps: G.Step[] = context.tutorial.version
+				.levels.find((l: G.Level) => l.id === position.levelId)
+				.stages.find((s: G.Stage) => s.id === position.stageId)
+				.steps
+
+			const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
+			console.log('step index', stepIndex)
+			const step: G.Step = steps[stepIndex + 1]
+
+			console.log('step load next', step.id, position.stepId)
 
 			return {
-				...currentPosition,
+				...position,
+				stepId: step.id
 			}
 		},
 	})

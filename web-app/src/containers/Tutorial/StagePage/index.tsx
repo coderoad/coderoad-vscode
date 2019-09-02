@@ -12,7 +12,9 @@ interface PageProps {
 const StageSummaryPageContainer = (props: PageProps) => {
 	const { tutorial, position, progress } = props.context
 
-	const stage: G.Stage = tutorial.version.levels.find((l: G.Level) => l.id === position.levelId).stages.find((s: G.Stage) => s.id === position.stageId)
+	const stage: G.Stage = tutorial.version
+		.levels.find((l: G.Level) => l.id === position.levelId)
+		.stages.find((s: G.Stage) => s.id === position.stageId)
 	
   const onContinue = (): void => {
     props.send({
@@ -32,7 +34,7 @@ const StageSummaryPageContainer = (props: PageProps) => {
 		})
 	}
 
-	stage.steps.forEach((step: G.Step) => {
+	stage.steps.map((step: G.Step) => {
 		if (step.id === position.stepId) {
 			step.status = 'ACTIVE'
 		} else if (progress.steps[step.id]) {
@@ -46,3 +48,26 @@ const StageSummaryPageContainer = (props: PageProps) => {
 }
 
 export default StageSummaryPageContainer
+
+/*
+	const formattedStage = {
+		...stage,
+		steps: stage.steps.map((step: G.Step) => {
+		if (step.id === position.stepId) {
+			return {
+				...step,
+				status: 'ACTIVE'
+			}
+		} else if (progress.steps[step.id]) {
+			return {
+				...step,
+				status: 'COMPLETE'
+			}
+		} else {
+			return {
+				...step,
+				status: 'INCOMPLETE'
+			}
+		}
+	})
+	*/
