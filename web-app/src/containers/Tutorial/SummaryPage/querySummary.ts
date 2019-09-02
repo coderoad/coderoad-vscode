@@ -11,10 +11,34 @@ export default gql`
 				coderoadVersion
 				levels {
 					id
+					setup {
+						id
+						commands
+						commits
+						files
+					}
 					stages {
 						id
+						setup {
+							id
+							commands
+							commits
+							files
+						}
 						steps {
 							id
+							setup {
+								id
+								commands
+								commits
+								files
+							}
+							solution {
+								id
+								commands
+								commits
+								files
+							}
 						}
 					}
 				}

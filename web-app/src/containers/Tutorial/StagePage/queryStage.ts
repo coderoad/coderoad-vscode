@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost'
+import {gql} from 'apollo-boost'
 
 export default gql`
   query getStage($tutorialId: ID!, $version: String, $stageId: ID!) {
@@ -11,12 +11,28 @@ export default gql`
           id
           title
           text
-          status @client
+					setup {
+						id
+						commits
+						commands
+						files
+					}
           steps {
             id
             title
             text
-            status @client
+						setup {
+							id
+							commits
+							commands
+							files
+						}
+						solution {
+							id
+							commits
+							commands
+							files
+						}
           }
       }
     }

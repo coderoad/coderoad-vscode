@@ -3,7 +3,6 @@ import { useQuery } from '@apollo/react-hooks'
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
 
-import currentTutorial from '../../../services/current'
 import ErrorView from '../../../components/Error'
 import Level from './Level'
 import queryLevel from './queryLevel'
@@ -29,7 +28,6 @@ interface ContainerProps {
 }
 
 const LevelSummaryPageContainer = (props: ContainerProps) => {
-	console.log('load level summary')
 	const { tutorial, position, progress } = props.context
 
   const { loading, error, data } = useQuery(queryLevel, {
@@ -39,9 +37,6 @@ const LevelSummaryPageContainer = (props: ContainerProps) => {
       levelId: position.levelId,
     },
 	})
-	
-	console.log('load level data')
-	console.log(JSON.stringify(data))
 
   if (loading) {
     return <div>Loading Levels...</div>
@@ -62,9 +57,6 @@ const LevelSummaryPageContainer = (props: ContainerProps) => {
 			stage.status = 'INCOMPLETE'
 		}
 	})
-
-	console.log('check level')
-	console.log(JSON.stringify(level))
 
   return <LevelSummaryPage level={level} send={props.send} />
 }

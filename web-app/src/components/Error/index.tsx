@@ -21,8 +21,8 @@ const ErrorView = ({ error }: Props) => {
       <h1>Error</h1>
       {error.graphQLErrors && (
         <div>
-          {error.graphQLErrors.map(({ message, locations, path }: GraphQLError) => (
-            <h5>
+          {error.graphQLErrors.map(({ message, locations, path }: GraphQLError, index: number) => (
+            <h5 key={index}>
               <b>[GraphQL error]:</b> Message: {message}, Location: {locations}, Path: {path}
             </h5>
           ))}

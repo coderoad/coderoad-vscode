@@ -11,12 +11,22 @@ export default gql`
           id
           title
           text
-          status @client
+					setup {
+						id
+						commits
+						commands
+						files
+					}
           stages {
             id
             title
             text
-            status @client
+						setup {
+							id
+							commits
+							commands
+							files
+						}
           }
       }
     }
