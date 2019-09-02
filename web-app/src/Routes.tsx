@@ -54,7 +54,7 @@ const Routes = () => {
           <LoadingPage text="Launching Tutorial..." />
         </Route>
         <Route path="Start.ContinueTutorial">
-          <ContinuePage />
+          <ContinuePage context={{} as CR.MachineContext}/>
         </Route>
 				<Route path="Tutorial.Initialize">
           <LoadingPage text="Initializing..." />

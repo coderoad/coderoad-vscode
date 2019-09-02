@@ -1,11 +1,11 @@
 import {send} from 'xstate'
-import channel from '../../channel'
 // import {machine} from '../../extension'
 // import {cache} from '../../services/apollo'
 // import {editorDispatch} from '../../services/vscode'
 import * as CR from 'typings'
 // import * as G from 'typings/graphql'
 // import tutorialConfig from '../../services/apollo/queries/tutorialConfig'
+import editorActions from './editor'
 import contextActions from './context'
 
 export default {
@@ -16,19 +16,7 @@ export default {
 		const hasExistingTutorial: boolean = false
 		return hasExistingTutorial ? 'CONTINUE' : 'NEW'
 	}),
-	tutorialStart() {
-		channel.editorSend({
-			type: 'TUTORIAL_START',
-			payload: {
-				tutorial: {
-					id: 'some-tutorial-id'
-				}
-			}
-		})
-	},
-	testRunnerSetup(context: CR.MachineContext) {
-		console.log('test runner setup', context)
-	},
+	...editorActions,
 	...contextActions,
 }
 

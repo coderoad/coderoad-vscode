@@ -9,7 +9,7 @@ import queryStage from './queryStage'
 
 interface PageProps {
 	context: CR.MachineContext,
-  send(action: string): void
+  send(action: CR.Action): void
 }
 
 const StageSummaryPageContainer = (props: PageProps) => {
@@ -31,6 +31,24 @@ const StageSummaryPageContainer = (props: PageProps) => {
 
 	const { stage } = data.tutorial.version
 	
+  const onContinue = (): void => {
+    props.send({
+			type: 'STAGE_NEXT',
+			payload: {
+				stageId: position.stageId,
+			}
+		})
+	}
+	
+	const onSave =(): void => {
+		props.send({
+			type: 'TEST_RUNNING',
+			payload: {
+				stepId: position.stepId,
+			}
+		})
+	}
+
 	stage.steps.forEach((step: G.Step) => {
 		if (step.id === position.stepId) {
 			step.status = 'ACTIVE'
@@ -41,11 +59,7 @@ const StageSummaryPageContainer = (props: PageProps) => {
 		}
 	})
 
-  const onContinue = (): void => {
-    props.send('STAGE_NEXT')
-  }
-
-  return <Stage stage={stage} onContinue={onContinue} />
+  return <Stage stage={stage} onContinue={onContinue} onSave={onSave}/>
 }
 
 export default StageSummaryPageContainer

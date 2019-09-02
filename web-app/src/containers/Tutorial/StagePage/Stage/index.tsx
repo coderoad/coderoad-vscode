@@ -24,10 +24,11 @@ const styles = {
 
 interface Props {
   stage: T.Stage
-  onContinue(): void
+	onContinue(): void
+	onSave(): void
 }
 
-const Stage = ({ stage, onContinue }: Props) => {
+const Stage = ({ stage, onContinue, onSave }: Props) => {
   if (!stage.steps) {
     throw new Error('No Stage steps found')
   }
@@ -61,11 +62,15 @@ const Stage = ({ stage, onContinue }: Props) => {
         </Step>
       </div>
 
-      {stage.status === 'COMPLETE' && (
+      {stage.status === 'COMPLETE' ? (
         <div style={styles.options}>
           <Button onClick={onContinue}>Continue</Button>
         </div>
-      )}
+      ) : (
+				<div style={styles.options}>
+          <Button onClick={onSave}>Save</Button>
+        </div>
+			)}
     </div>
   )
 }

@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { Button, Card } from '@alifd/next'
+import * as CR from 'typings'
 import * as T from 'typings/graphql'
 
-import currentTutorial from '../../services/current'
 // import { editorDispatch } from '../../services/vscode'
 import LoadingPage from '../LoadingPage'
 import queryTutorial from './queryTutorial'
@@ -29,13 +29,18 @@ export const ContinuePage = (props: Props) => (
 
 const Loading = () => <LoadingPage text="Loading tutorials" />
 
-const ContinuePageContainer = () => {
+interface ContainerProps {
+	context: CR.MachineContext
+}
+
+const ContinuePageContainer = ({ context }: ContainerProps) => {
 	// TODO: load specific tutorialId
-	const { tutorialId, version } = currentTutorial.get()
+	const { tutorial } = context
+	// const { tutorialId, version } = currentTutorial.get()
   const { data, loading, error } = useQuery(queryTutorial, {
     variables: {
-      tutorialId,
-      version,
+      tutorialId: tutorial.id,
+      version: tutorial.version.version,
     },
   })
 

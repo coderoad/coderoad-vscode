@@ -60,9 +60,6 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 				id: 'tutorial',
 				initial: 'Initialize',
 				onEntry: ['testRunnerSetup'],
-				// on: {
-				// 	WEBVIEW_INITIALIZED: '#tutorial-load-next'
-				// },
 				states: {
 					Initialize: {
 						onEntry: ['initializeNewTutorial'],
@@ -127,7 +124,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 								},
 							},
 							TestPass: {
-								onEntry: ['testPass', 'progressUpdate'],
+								onEntry: ['testPass'],
 								onExit: ['stepLoadNext'],
 								after: {
 									1000: 'StepNext',

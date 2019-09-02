@@ -25,5 +25,29 @@ export default {
 
 			return position
 		},
+	}),
+	// @ts-ignore
+	testPass: assign({
+		progress: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
+			// update progress by tracking completed
+			const currentProgress: CR.Progress = context.progress
+			const stepId = event.payload.stepId
+
+			currentProgress.steps[stepId] = true
+
+			return currentProgress
+		},
+	}),
+	// @ts-ignore
+	stepLoadNext: assign({
+		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
+			const currentPosition: CR.Position = context.position
+			// merge in the updated position
+			// sent with the test to ensure consistency
+			return {
+				...currentPosition,
+				...event.payload.nextPosition,
+			}
+		},
 	})
 }
