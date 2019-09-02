@@ -1,4 +1,4 @@
-import { Button, Step } from '@alifd/next'
+import { Step } from '@alifd/next'
 import * as React from 'react'
 import * as T from 'typings/graphql'
 
@@ -26,10 +26,9 @@ const styles = {
 interface Props {
   level: T.Level
   onNext(): void
-  onBack(): void
 }
 
-const Level = ({ level, onNext, onBack }: Props) => {
+const Level = ({ level, onNext }: Props) => {
   if (!level || !level.stages) {
     throw new Error('No level stages found')
   }
@@ -53,7 +52,7 @@ const Level = ({ level, onNext, onBack }: Props) => {
                   /* empty */
                 }
             // note - must add click handler to title, content & step.item
-            // as all are separted components
+            // as all are separated components
             return (
               <Step.Item
                 key={stage.id}
@@ -69,9 +68,6 @@ const Level = ({ level, onNext, onBack }: Props) => {
             )
           })}
         </Step>
-      </div>
-      <div style={styles.options}>
-        <Button onClick={onBack}>Back</Button>
       </div>
     </div>
   )

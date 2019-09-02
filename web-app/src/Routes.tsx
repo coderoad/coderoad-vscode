@@ -72,7 +72,7 @@ const Routes = () => {
 					<StageSummaryPage send={tempSend} context={{} as CR.MachineContext}/>
 				</Route>
 				<Route path="Tutorial.Completed">
-					<CompletedPage />
+					<CompletedPage send={tempSend} context={{} as CR.MachineContext}/>
 				</Route>
 			</Router>
     </div>

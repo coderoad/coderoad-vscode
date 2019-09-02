@@ -5,7 +5,7 @@ import * as G from 'typings/graphql'
 import Stage from './Stage'
 
 interface PageProps {
-	context: CR.MachineContext,
+	context: CR.MachineContext
   send(action: CR.Action): void
 }
 

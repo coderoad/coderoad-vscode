@@ -13,10 +13,7 @@ export const LevelSummaryPage = (props: LevelProps) => {
   const onNext = (): void => {
     props.send('NEXT')
   }
-  const onBack = (): void => {
-    props.send('BACK')
-  }
-  return <Level level={props.level} onNext={onNext} onBack={onBack} />
+  return <Level level={props.level} onNext={onNext}  />
 }
 
 interface ContainerProps {

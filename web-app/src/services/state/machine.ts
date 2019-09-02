@@ -30,6 +30,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 						},
 					},
 					NewTutorial: {
+						id: 'start-new-tutorial',
 						initial: 'SelectTutorial',
 						states: {
 							SelectTutorial: {
@@ -167,7 +168,9 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 					},
 					Completed: {
 						id: 'completed-tutorial',
-						type: 'final',
+						on: {
+							SELECT_TUTORIAL: '#start-new-tutorial'
+						}
 					},
 				},
 			},
