@@ -60,7 +60,6 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 			Tutorial: {
 				id: 'tutorial',
 				initial: 'Initialize',
-				onEntry: ['testRunnerSetup'],
 				states: {
 					Initialize: {
 						onEntry: ['initializeNewTutorial'],
@@ -96,7 +95,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 						on: {
 							LOAD_TUTORIAL: {
 								target: 'Level',
-								actions: ['initPosition', 'setTutorial']
+								actions: ['tutorialConfig', 'initPosition', 'setTutorial']
 							}
 						},
 					},

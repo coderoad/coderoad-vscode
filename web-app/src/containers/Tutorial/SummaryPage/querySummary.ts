@@ -6,6 +6,11 @@ export default gql`
 			id
 			title
 			text
+			codingLanguage
+			testRunner
+			repo {
+				uri
+			}
 			version(version: $version) {
 				version
 				coderoadVersion

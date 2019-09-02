@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost'
+import {gql} from 'apollo-boost'
 
 export default gql`
   query getTutorial($tutorialId: ID!, $version: String) {
@@ -12,6 +12,7 @@ export default gql`
     }
     createdAt
     codingLanguage
+		testRunner
     repo {
       uri
       branch
