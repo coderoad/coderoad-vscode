@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as CR from 'typings'
+// import * as CR from 'typings'
 
 interface Props {
 	state: string
