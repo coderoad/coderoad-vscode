@@ -1,11 +1,14 @@
 import {assign} from 'xstate'
 import * as G from 'typings/graphql'
 import * as CR from 'typings'
+import * as storage from './storage'
 
 export default {
 	setTutorial: assign({
 		tutorial: (context: CR.MachineContext, event: CR.MachineEvent): any => {
-			return event.payload.tutorial
+			const {tutorial} = event.payload
+			storage.tutorial.set(tutorial)
+			return tutorial
 		},
 	}),
 	// @ts-ignore
@@ -22,6 +25,8 @@ export default {
 				stageId: version.levels[0].stages[0].id,
 				stepId: version.levels[0].stages[0].steps[0].id,
 			}
+
+			storage.position.set(position)
 
 			return position
 		},
@@ -42,10 +47,14 @@ export default {
 
 			console.log('step load next', step.id, position.stepId)
 
-			return {
+			const nextPosition: CR.Position = {
 				...position,
 				stepId: step.id
 			}
+
+			storage.position.set(nextPosition)
+
+			return nextPosition
 		},
 	}),
 	// @ts-ignore
@@ -63,11 +72,15 @@ export default {
 
 			console.log('stage load next', stage.id, position.stageId)
 
-			return {
+			const nextPosition: CR.Position = {
 				...position,
 				stageId: stage.id,
 				stepId: stage.steps[0].id,
 			}
+
+			storage.position.set(nextPosition)
+
+			return nextPosition
 		},
 	}),
 	// @ts-ignore
@@ -83,11 +96,15 @@ export default {
 
 			console.log('level load next', level.id, position.levelId)
 
-			return {
+			const nextPosition: CR.Position = {
 				levelId: level.id,
 				stageId: level.stages[0].id,
 				stepId: level.stages[0].steps[0].id,
 			}
+
+			storage.position.set(nextPosition)
+
+			return nextPosition
 		},
 	}),
 	// @ts-ignore
@@ -99,6 +116,8 @@ export default {
 			console.log('step progress update', stepId)
 
 			currentProgress.steps[stepId] = true
+
+			storage.progress.set(currentProgress)
 
 			return currentProgress
 		},
@@ -114,28 +133,35 @@ export default {
 
 			progress.stages[stageId] = true
 
+			storage.progress.set(progress)
+
 			return progress
 		},
 	}),
 	// @ts-ignore
 	reset: assign({
 		tutorial() {
+			storage.tutorial.set(null)
 			return null
 		},
 		progress(): CR.Progress {
-			return {
+			const progress: CR.Progress = {
 				levels: {},
 				stages: {},
 				steps: {},
 				complete: false
 			}
+			storage.progress.set(progress)
+			return progress
 		},
 		position(): CR.Position {
-			return {
+			const position: CR.Position = {
 				levelId: '',
 				stageId: '',
 				stepId: ''
 			}
+			storage.position.set(position)
+			return position
 		}
 	})
 }
