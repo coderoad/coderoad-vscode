@@ -31,12 +31,26 @@ export default {
 		progress: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
 			// update progress by tracking completed
 			const currentProgress: CR.Progress = context.progress
-			console.log('progress update', event.payload)
 			const stepId = event.payload.stepId
+			console.log('step progress update', stepId)
 
 			currentProgress.steps[stepId] = true
 
 			return currentProgress
+		},
+	}),
+	// @ts-ignore
+	updateStageProgress: assign({
+		progress: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
+			// update progress by tracking completed
+			const {progress, position} = context
+
+			const stageId: string = position.stageId
+			console.log('stage progress update', stageId)
+
+			progress.stages[stageId] = true
+
+			return progress
 		},
 	}),
 	// @ts-ignore

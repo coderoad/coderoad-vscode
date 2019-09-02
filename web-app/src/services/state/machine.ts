@@ -151,6 +151,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 										},
 										{
 											target: 'StageComplete',
+											actions: ['updateStageProgress']
 										},
 									],
 								},

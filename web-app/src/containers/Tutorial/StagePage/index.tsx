@@ -34,15 +34,16 @@ const StageSummaryPageContainer = (props: PageProps) => {
 		})
 	}
 
-	stage.steps.map((step: G.Step) => {
-		if (step.id === position.stepId) {
-			step.status = 'ACTIVE'
-		} else if (progress.steps[step.id]) {
+	stage.steps.forEach((step: G.Step) => {
+		if (progress.steps[step.id]) {
 			step.status = 'COMPLETE'
+		} else if (step.id === position.stepId) {
+			step.status = 'ACTIVE'
 		} else {
 			step.status = 'INCOMPLETE'
 		}
 	})
+	stage.status = progress.stages[position.stageId] ? 'COMPLETE' : 'ACTIVE' 
 
   return <Stage stage={stage} onContinue={onContinue} onSave={onSave}/>
 }

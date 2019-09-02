@@ -12,7 +12,9 @@ export default {
 			.steps
 
 		// TODO: verify not -1
-		return !(steps.findIndex((s: G.Step) => s.id === position.stepId) === steps.length - 1)
+		const hasNextStep = !(steps.findIndex((s: G.Step) => s.id === position.stepId) === steps.length - 1)
+		console.log(hasNextStep, steps, position.stepId)
+		return hasNextStep
 	},
 	hasNextStage: (context: CR.MachineContext): boolean => {
 		const {tutorial, position} = context
