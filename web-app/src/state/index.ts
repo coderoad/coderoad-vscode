@@ -1,7 +1,6 @@
 import {interpret, Interpreter} from 'xstate'
-import {TutorialModel} from '../services/tutorial'
 import * as CR from 'typings'
-import createMachine from './machine'
+import machine from './machine'
 import stateToString from './utils/stateToString'
 
 // machine interpreter
@@ -15,14 +14,12 @@ class StateMachine {
 	}
 	private service: Interpreter<{}, CR.MachineStateSchema, CR.MachineEvent>
 
-	constructor(tutorialModel: TutorialModel, editorDispatch: CR.EditorDispatch) {
-		const machine = createMachine(tutorialModel, editorDispatch)
-
+	constructor() {
 		// format state as a string and send it to the client
 		this.syncState = (state: any): void => {
 			const stateValue: string = stateToString(state.value)
 			console.log(`STATE: ${stateValue}`)
-			editorDispatch('coderoad.send_state', {state: stateValue})
+			// editorDispatch('coderoad.send_state', {state: stateValue})
 		}
 
 		// callback on all state changes
@@ -54,4 +51,4 @@ class StateMachine {
 
 }
 
-export default StateMachine
+export default new StateMachine()

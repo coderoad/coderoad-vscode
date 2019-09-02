@@ -4,7 +4,7 @@ import { Button, Card } from '@alifd/next'
 import * as T from 'typings/graphql'
 
 import currentTutorial from '../../services/current'
-import { send } from '../../utils/vscode'
+// import { editorDispatch } from '../../utils/vscode'
 import LoadingPage from '../LoadingPage'
 import queryTutorial from './queryTutorial'
 import ErrorView from '../../components/Error'
@@ -51,7 +51,7 @@ const ContinuePageContainer = () => {
     <ContinuePage
       tutorial={data.tutorial}
       onContinue={() => {
-        send('TUTORIAL_START')
+        console.log('TUTORIAL_START')
       }}
     />
   )

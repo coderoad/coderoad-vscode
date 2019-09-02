@@ -6,7 +6,6 @@ import client from './services/apollo'
 import currentTutorial from './services/current'
 import Debugger from './components/Debugger'
 import Routes from './Routes'
-import { send } from './utils/vscode'
 
 interface ReceivedEvent {
   data: CR.Action
@@ -55,9 +54,9 @@ const App = () => {
   }, [])
 
   // trigger progress when webview loaded
-  React.useEffect(() => {
-    send('WEBVIEW_LOADED')
-  }, [])
+  // React.useEffect(() => {
+  //   editorDispatch('WEBVIEW_LOADED')
+  // }, [])
 
   // TODO: refactor cond to user <Router><Route> and accept first route as if/else if
   return (

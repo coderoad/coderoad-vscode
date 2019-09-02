@@ -4,7 +4,7 @@ import * as T from 'typings/graphql'
 import * as CR from 'typings'
 
 import queryTutorials from './queryTutorials'
-import { send } from '../../utils/vscode'
+import { editorDispatch } from '../../utils/vscode'
 import LoadingPage from '../LoadingPage'
 import ErrorView from '../../components/Error'
 import TutorialList from './TutorialList'
@@ -35,7 +35,7 @@ const NewPageContainer = () => {
 
   return (
     <React.Suspense fallback={Loading}>
-    	<NewPage onNew={send} tutorialList={data.tutorials} />
+    	<NewPage onNew={editorDispatch} tutorialList={data.tutorials} />
     </React.Suspense>
   )
 }

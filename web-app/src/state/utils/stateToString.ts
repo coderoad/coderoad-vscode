@@ -3,6 +3,7 @@ const stateToString = (state: string | object, str: string = ''): string => {
 		const keys = Object.keys(state)
 		if (keys && keys.length) {
 			const key = keys[0]
+			// @ts-ignore
 			return stateToString(state[key], str.length ? `${str}.${key}` : key)
 		}
 		return str

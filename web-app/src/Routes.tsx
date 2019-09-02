@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { send } from './utils/vscode'
+import { editorDispatch } from './utils/vscode'
 
 import Router from './components/Router'
 import LoadingPage from './containers/LoadingPage'
@@ -65,13 +65,13 @@ const Routes = ({ state }: Props) => {
         	<LoadingPage text="Loading..." />
 				</Route>
 				<Route path="Tutorial.Summary">
-					<SummaryPage send={send} />
+					<SummaryPage send={editorDispatch} />
 				</Route>
 				<Route path="Tutorial.Level">
-					<LevelSummaryPage send={send} />
+					<LevelSummaryPage send={editorDispatch} />
 				</Route>
 				<Route path="Tutorial.Stage">
-					<StageSummaryPage send={send} />
+					<StageSummaryPage send={editorDispatch} />
 				</Route>
 				<Route path="Tutorial.Completed">
 					<CompletedPage />
