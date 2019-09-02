@@ -10,7 +10,6 @@ export const machine = Machine<{}, CR.MachineStateSchema, CR.MachineEvent>(
 		initial: 'Start',
 		states: {
 			Start: {
-				onEntry: ['createWebview'],
 				initial: 'Initial',
 				states: {
 					Initial: {

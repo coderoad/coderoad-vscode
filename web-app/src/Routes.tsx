@@ -46,6 +46,9 @@ const Routes = ({ state }: Props) => {
   return (
     <div style={{ ...styles.page, ...dimensions }}>
       <Router state={state}>
+				<Route path="Start.Initial">
+					<div>Initial</div>
+				</Route>
         <Route path="Start.Startup">
           <LoadingPage text="Launching..." />
         </Route>

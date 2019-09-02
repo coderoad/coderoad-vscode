@@ -9,9 +9,6 @@
 export default {}
 
 // export default {
-// 	createWebview() {
-// 		editorDispatch('coderoad.open_webview')
-// 	},
 // 	async newOrContinue() {
 // 		// verify that the user has an existing tutorial to continue
 // 		// const hasExistingTutorial: boolean = await tutorialModel.hasExisting()
