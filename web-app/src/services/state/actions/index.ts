@@ -1,6 +1,6 @@
 // import {machine} from '../../extension'
 // import {cache} from '../../services/apollo'
-// import {editorDispatch} from '../../utils/vscode'
+// import {editorDispatch} from '../../services/vscode'
 // import * as CR from 'typings'
 // import * as G from 'typings/graphql'
 // import tutorialConfig from '../../services/apollo/queries/tutorialConfig'

@@ -4,7 +4,7 @@ import * as T from 'typings/graphql'
 import * as CR from 'typings'
 
 import queryTutorials from './queryTutorials'
-import { editorDispatch } from '../../utils/vscode'
+import { editorDispatch } from '../../services/vscode'
 import LoadingPage from '../LoadingPage'
 import ErrorView from '../../components/Error'
 import TutorialList from './TutorialList'

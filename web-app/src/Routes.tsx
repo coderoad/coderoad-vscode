@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { editorDispatch } from './utils/vscode'
+import { editorDispatch } from './services/vscode'
 
 import Router from './components/Router'
 import LoadingPage from './containers/LoadingPage'

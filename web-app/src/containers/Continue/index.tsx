@@ -4,7 +4,7 @@ import { Button, Card } from '@alifd/next'
 import * as T from 'typings/graphql'
 
 import currentTutorial from '../../services/current'
-// import { editorDispatch } from '../../utils/vscode'
+// import { editorDispatch } from '../../services/vscode'
 import LoadingPage from '../LoadingPage'
 import queryTutorial from './queryTutorial'
 import ErrorView from '../../components/Error'
