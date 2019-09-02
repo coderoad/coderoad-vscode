@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/react-hooks'
 import { Button, Card } from '@alifd/next'
 import * as T from 'typings/graphql'
 
+import currentTutorial from '../../services/current'
 import { send } from '../../utils/vscode'
 import LoadingPage from '../LoadingPage'
 import queryTutorial from './queryTutorial'
@@ -29,11 +30,12 @@ export const ContinuePage = (props: Props) => (
 const Loading = () => <LoadingPage text="Loading tutorials" />
 
 const ContinuePageContainer = () => {
-  // TODO: load specific tutorialId
+	// TODO: load specific tutorialId
+	const { tutorialId, version } = currentTutorial.get()
   const { data, loading, error } = useQuery(queryTutorial, {
     variables: {
-      tutorialId: 1,
-      version: '0.1.0',
+      tutorialId,
+      version,
     },
   })
 

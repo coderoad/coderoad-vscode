@@ -22,7 +22,6 @@ const COMMANDS = {
 
 interface CreateCommandProps {
 	vscodeExt: vscode.ExtensionContext
-	machine: CR.StateMachine
 }
 
 const resetLayout = () => {
@@ -32,7 +31,7 @@ const resetLayout = () => {
 	})
 }
 
-export const createCommands = ({vscodeExt, machine}: CreateCommandProps) => {
+export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 	// React panel webview
 	let webview: any
 
@@ -59,7 +58,7 @@ export const createCommands = ({vscodeExt, machine}: CreateCommandProps) => {
 			// activate machine
 			webview = new ReactWebView(vscodeExt.extensionPath)
 			if (webviewState === 'INITIALIZING') {
-				machine.activate()
+				// machine.activate()
 			} else if (webviewState === 'RESTARTING') {
 				setTimeout(() => {
 					// timeout hack to make data update on new windows
@@ -73,7 +72,7 @@ export const createCommands = ({vscodeExt, machine}: CreateCommandProps) => {
 			// setup 1x1 horizontal layout
 			resetLayout()
 			const callback = () => {
-				machine.send('WEBVIEW_INITIALIZED')
+				// machine.send('WEBVIEW_INITIALIZED')
 			}
 			webview.createOrShow(column, callback)
 		},
@@ -87,7 +86,7 @@ export const createCommands = ({vscodeExt, machine}: CreateCommandProps) => {
 				console.log('save document', document)
 				if (document.uri.scheme === 'file' && codingLanguage === document.languageId) {
 					// do work
-					machine.send('TEST_RUN')
+					// machine.send('TEST_RUN')
 				}
 			})
 		},
@@ -119,13 +118,13 @@ export const createCommands = ({vscodeExt, machine}: CreateCommandProps) => {
 		[COMMANDS.RECEIVE_MACHINE_ACTION]: (action: string | CR.Action) => {
 			// send received actions from web-app into state machine
 			console.log('receive action', action)
-			machine.send(action)
+			// machine.send(action)
 		},
 		[COMMANDS.RUN_TEST]: () => {
-			runTest({
-				onSuccess: () => machine.send('TEST_PASS'),
-				onFail: () => machine.send('TEST_FAIL'),
-			})
+			// runTest({
+			// onSuccess: () => machine.send('TEST_PASS'),
+			// onFail: () => machine.send('TEST_FAIL'),
+			// })
 		},
 		[COMMANDS.TEST_PASS]: () => {
 			vscode.window.showInformationMessage('PASS')

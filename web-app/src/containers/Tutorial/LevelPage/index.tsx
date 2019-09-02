@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import * as T from 'typings/graphql'
+import * as G from 'typings/graphql'
 
 import currentTutorial from '../../../services/current'
 import ErrorView from '../../../components/Error'
@@ -8,7 +8,7 @@ import Level from './Level'
 import queryLevel from './queryLevel'
 
 interface LevelProps {
-  level: T.Level
+  level: G.Level
   send(action: string): void
 }
 
@@ -27,14 +27,19 @@ interface ContainerProps {
 }
 
 const LevelSummaryPageContainer = (props: ContainerProps) => {
-	const { tutorialId, version, position: { levelId } } = currentTutorial.get()
+	const { tutorialId, version, position, progress } = currentTutorial.get()
+
+	console.log('load level summary')
   const { loading, error, data } = useQuery(queryLevel, {
     variables: {
       tutorialId,
       version,
-      levelId,
+      levelId: position.levelId,
     },
-  })
+	})
+	
+	console.log('load level data')
+	console.log(JSON.stringify(data))
 
   if (loading) {
     return <div>Loading Levels...</div>
@@ -44,7 +49,20 @@ const LevelSummaryPageContainer = (props: ContainerProps) => {
     return <ErrorView error={error} />
   }
 
-  const { level } = data.tutorial.version
+	const { level } = data.tutorial.version
+	
+	level.stages.forEach((stage: G.Stage) => {
+		if (stage.id === position.stageId) {
+			stage.status = 'ACTIVE'
+		} else if (progress.stages[stage.id]) {
+			stage.status = 'COMPLETE'
+		} else {
+			stage.status = 'INCOMPLETE'
+		}
+	})
+
+	console.log('check level')
+	console.log(JSON.stringify(level))
 
   return <LevelSummaryPage level={level} send={props.send} />
 }

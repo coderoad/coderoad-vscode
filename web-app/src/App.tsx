@@ -1,9 +1,8 @@
 import * as React from 'react'
-import { ApolloProvider, useMutation } from '@apollo/react-hooks'
+import { ApolloProvider } from '@apollo/react-hooks'
 import * as CR from 'typings'
 
 import client from './services/apollo'
-import { SET_STATUS } from './services/apollo/mutations'
 import currentTutorial from './services/current'
 import Debugger from './components/Debugger'
 import Routes from './Routes'
@@ -22,10 +21,6 @@ const App = () => {
 		progress: { levels: {}, stages: {}, steps: {}, complete: false},
 		position: { levelId: '', stageId: '', stepId: ''},
 	})
-	
-	// update level/stage/step status based on user progress & position
-		// TODO: model server more efficiently
-		const [setStatus] = useMutation(SET_STATUS)
 
   // event bus listener
   React.useEffect(() => {
@@ -40,16 +35,15 @@ const App = () => {
 
 			} else if (message.type === 'SET_DATA') {
 				// SET_DATA - set state machine context
-				console.log('DATA')
+				console.log('SET_DATA updated')
 				const { progress, position } = message.payload
 				if (process.env.REACT_APP_DEBUG) {
 					console.log(`Position: ${position.levelId}/${position.stageId}/${position.stepId}`)
 					setDebuggerInfo({ progress, position })
 				}
 				console.log('set currentTutorial')
-				currentTutorial.set({ position })
-				console.log('setStatus')
-				setStatus({ variables: { progress, position } })
+				currentTutorial.set({ position, progress })
+
 			}
 		}
 

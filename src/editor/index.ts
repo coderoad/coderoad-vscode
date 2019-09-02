@@ -1,20 +1,13 @@
 import * as vscode from 'vscode'
-import * as CR from 'typings'
+import {setWorkspaceRoot} from './services/node'
 import {createCommands} from './commands'
-
-interface Props {
-	machine: CR.StateMachine
-	setWorkspaceRoot(rootPath: string): void
-}
 
 class Editor {
 	// extension context set on activation
 	// @ts-ignore
 	private vscodeExt: vscode.ExtensionContext
-	private machine: CR.StateMachine
 
-	constructor({machine, setWorkspaceRoot}: Props) {
-		this.machine = machine
+	constructor() {
 
 		// set workspace root for node executions
 		const {workspace} = vscode
@@ -40,7 +33,6 @@ class Editor {
 		}
 		// shut down state machine
 		console.log('deactivate machine')
-		this.machine.deactivate()
 	}
 
 	// execute vscode command
@@ -51,7 +43,6 @@ class Editor {
 	private activateCommands = (): void => {
 		const commands = createCommands({
 			vscodeExt: this.vscodeExt,
-			machine: this.machine,
 		})
 		for (const cmd in commands) {
 			const command: vscode.Disposable = vscode.commands.registerCommand(cmd, commands[cmd])

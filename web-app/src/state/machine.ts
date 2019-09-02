@@ -36,7 +36,6 @@ export const machine = (tutorialModel: TutorialModel, editorDispatch: CR.EditorD
 									},
 								},
 								InitializeTutorial: {
-									onEntry: ['tutorialLaunch'],
 									on: {
 										TUTORIAL_LOADED: '#tutorial',
 									},

@@ -3,8 +3,6 @@ import * as CR from 'typings'
 import * as git from '../../services/git'
 import {machine} from '../../extension'
 import * as storage from '../storage'
-import api from '../api'
-import tutorialQuery from '../../services/api/gql/getTutorial'
 
 interface TutorialConfig {
 	codingLanguage: G.EnumCodingLanguage
@@ -17,15 +15,12 @@ export interface TutorialModel {
 	version: G.TutorialVersion
 	position: CR.Position
 	progress: CR.Progress
-	launch(tutorialId: string): void
-	level(levelId?: string): G.Level
-	stage(stageId?: string): G.Stage
-	step(stepId?: string): G.Step
+	launch(tutorial: G.Tutorial): void
 	updateProgress(): void
 	nextPosition(): CR.Position
 	hasExisting(): Promise<boolean>
 	syncClient(): void
-	triggerCurrent(type: 'STEP' | 'STAGE' | 'LEVEL'): void
+	triggerCurrent(stepActions: G.StepActions): void
 }
 
 class Tutorial implements TutorialModel {
@@ -51,29 +46,12 @@ class Tutorial implements TutorialModel {
 			position: this.position,
 		})
 		this.openFile = (file: string) => editorDispatch('coderoad.open_file', file)
-		// Promise.all([
-		// 	storage.getTutorial(),
-		// 	storage.getProgress(),
-		// ]).then((data) => {
-		// 	const [tutorial, progress] = data
-		// 	console.log('load continue tutorial')
-		// 	console.log(tutorial, progress)
-		// })
-
 	}
-	public launch = async (tutorialId: string) => {
+	public launch = async (tutorial: G.Tutorial) => {
 		console.log('launch tutorial')
 		machine.send('TUTORIAL_START')
 
-		const {tutorial}: {tutorial: G.Tutorial | null} = await api.request(tutorialQuery, {
-			tutorialId, // TODO: add selection of tutorial id
-		})
-
 		console.log('tutorial', tutorial)
-
-		if (!tutorial) {
-			throw new Error(`Tutorial ${tutorialId} not found`)
-		}
 
 		this.repo = tutorial.repo
 
@@ -81,10 +59,14 @@ class Tutorial implements TutorialModel {
 			throw new Error('Tutorial repo uri not found')
 		}
 
+		await git.gitInitIfNotExists()
+		await git.gitSetupRemote(this.repo.uri)
+
 		this.config = {
 			codingLanguage: tutorial.codingLanguage,
 			testRunner: tutorial.testRunner,
 		}
+
 		// version containing level data
 		this.version = tutorial.version
 		console.log('version', this.version)
@@ -104,10 +86,7 @@ class Tutorial implements TutorialModel {
 		}
 
 		// setup git, git remote
-		await git.gitInitIfNotExists()
-		await git.gitSetupRemote(this.repo.uri)
 
-		console.log('this.position', JSON.stringify(this.position))
 
 		await this.syncClient()
 
@@ -140,49 +119,8 @@ class Tutorial implements TutorialModel {
 
 		return canContinue
 	}
-	public level = (levelId?: string): G.Level => {
-		const level: G.Level | undefined = this.version.levels.find((l: G.Level) => l.id === levelId || this.position.levelId)
-		if (!level) {
-			throw new Error('Level not found')
-		}
-		return level
-	}
-	public stage = (stageId?: string): G.Stage => {
-		const level: G.Level = this.level(this.position.levelId)
-		const stage: G.Stage | undefined = level.stages.find((s: G.Stage) => s.id === stageId || this.position.stageId)
-		if (!stage) {
-			throw new Error('Stage not found')
-		}
-		return stage
-	}
-	public step = (stepId?: string): G.Step => {
-		const stage: G.Stage = this.stage(this.position.stageId)
-		const step: G.Step | undefined = stage.steps.find((s: G.Step) => s.id === stepId || this.position.stepId)
-		if (!step) {
-			throw new Error('Step not found')
-		}
-		return step
-	}
-	public triggerCurrent = (type: 'STEP' | 'STAGE' | 'LEVEL') => {
-		let target: G.Step | G.Stage | G.Level | null = null
-		switch (type) {
-			case 'STEP':
-				target = this.step()
-				break
-			case 'STAGE':
-				target = this.stage()
-				break
-			case 'LEVEL':
-				target = this.level()
-				break
-			default:
-				throw new Error(`Type ${type} not found`)
-		}
-		if (!target || !target.setup) {
-			// no stepAction
-			return
-		}
-		git.gitLoadCommits(target.setup, this.openFile)
+	public triggerCurrent = (stepActions: G.StepActions) => {
+		git.gitLoadCommits(stepActions, this.openFile)
 	}
 	public updateProgress = () => {
 		const {levelId, stageId, stepId} = this.position
