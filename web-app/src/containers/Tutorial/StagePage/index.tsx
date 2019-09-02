@@ -45,6 +45,8 @@ const StageSummaryPageContainer = (props: PageProps) => {
 	})
 	stage.status = progress.stages[position.stageId] ? 'COMPLETE' : 'ACTIVE' 
 
+	console.log('stage.status', stage.status)
+
   return <Stage stage={stage} onContinue={onContinue} onSave={onSave}/>
 }
 

@@ -12,9 +12,7 @@ export default {
 			.steps
 
 		// TODO: verify not -1
-		const hasNextStep = !(steps.findIndex((s: G.Step) => s.id === position.stepId) === steps.length - 1)
-		console.log(hasNextStep, steps, position.stepId)
-		return hasNextStep
+		return !(steps[steps.length - 1].id === position.stepId)
 	},
 	hasNextStage: (context: CR.MachineContext): boolean => {
 		const {tutorial, position} = context
@@ -24,7 +22,7 @@ export default {
 			.stages
 
 		// TODO: verify not -1
-		return !(stages.findIndex((s: G.Stage) => s.id === position.stageId) === stages.length - 1)
+		return !(stages[stages.length - 1].id === position.stageId)
 	},
 	hasNextLevel: (context: CR.MachineContext): boolean => {
 		const {tutorial, position} = context
@@ -32,6 +30,6 @@ export default {
 		const levels: G.Level[] = tutorial.version.levels
 
 		// TODO: verify not -1
-		return !(levels.findIndex((l: G.Level) => l.id === position.levelId) === levels.length - 1)
+		return !(levels[levels.length - 1].id === position.levelId)
 	},
 }

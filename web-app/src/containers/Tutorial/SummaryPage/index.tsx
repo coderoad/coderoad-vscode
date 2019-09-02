@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as CR from 'typings'
 import { useQuery } from '@apollo/react-hooks'
 
-import querySummary from './querySummary'
+import queryTutorial from './queryTutorial'
 import Summary from './Summary'
 import ErrorView from '../../../components/Error'
 
@@ -13,7 +13,7 @@ interface PageProps {
 
 const SummaryPage = (props: PageProps) => {
 	const { tutorial } = props.context
-  const { loading, error, data } = useQuery(querySummary, {
+  const { loading, error, data } = useQuery(queryTutorial, {
 		fetchPolicy: 'network-only', // for debugging purposes
     variables: {
 			tutorialId: tutorial.id,

@@ -1,7 +1,7 @@
 import {gql} from 'apollo-boost'
 
 export default gql`
-  query getSummary($tutorialId: ID!, $version: String) {
+  query getTutorial($tutorialId: ID!, $version: String) {
 		tutorial(id: $tutorialId) {
 			id
 			title
@@ -16,6 +16,8 @@ export default gql`
 				coderoadVersion
 				levels {
 					id
+					title
+					text
 					setup {
 						id
 						commands
@@ -24,6 +26,8 @@ export default gql`
 					}
 					stages {
 						id
+						title
+						text
 						setup {
 							id
 							commands
@@ -32,6 +36,8 @@ export default gql`
 						}
 						steps {
 							id
+							title
+							text
 							setup {
 								id
 								commands
