@@ -45,11 +45,11 @@ const Routes = () => {
         <Route path="Start.Startup">
           <LoadingPage text="Launching..." />
         </Route>
+				<Route path="Start.NewTutorial.SelectTutorial">
+          <NewPage />
+        </Route>
         <Route path="Start.NewTutorial.InitializeTutorial">
           <LoadingPage text="Launching Tutorial..." />
-        </Route>
-        <Route path="Start.NewTutorial.SelectTutorial">
-          <NewPage />
         </Route>
         <Route path="Start.ContinueTutorial">
           <ContinuePage />

@@ -8,14 +8,16 @@ import {send} from 'xstate'
 
 
 export default {
-	async newOrContinue() {
+	newOrContinue: send((context): 'NEW' | 'CONTINUE' => {
 		console.log('new or continue')
-		// verify that the user has an existing tutorial to continue
 
-		// TODO: verify continue or new
+		// TODO: verify that the user has an existing tutorial to continue
 		const hasExistingTutorial: boolean = false
-		send(hasExistingTutorial ? 'CONTINUE' : 'NEW')
-	},
+		return hasExistingTutorial ? 'CONTINUE' : 'NEW'
+	}),
+	tutorialStart() {
+		console.log('start')
+	}
 }
 
 // export default {
@@ -30,9 +32,19 @@ export default {
 // 		// const codingLanguage: G.EnumCodingLanguage = result.data.codingLanguage
 // 		// editorDispatch('coderoad.test_runner_setup', codingLanguage)
 // 	},
-// 	initializeNewTutorial: () => {
-// 		console.log('initializeNewTutorial')
+// initializeNewTutorial: assign({
+// 	position: (context: any): CR.Position => {
+// 		const { tutorial } = context
+// 		const levelId = data.summary.levelList[0]
+// 		const stageId = data.levels[levelId].stageList[0]
+// 		const stepId = data.stages[stageId].stepList[0]
+// 		return {
+// 			levelId,
+// 			stageId,
+// 			stepId,
+// 		}
 // 	},
+// })
 // 	tutorialContinue() {
 // 		console.log('tutorial continue')
 // 	},

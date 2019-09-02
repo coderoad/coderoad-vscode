@@ -28,6 +28,7 @@ export const machine = Machine<{}, CR.MachineStateSchema, CR.MachineEvent>(
 								},
 							},
 							InitializeTutorial: {
+								onEntry: ['tutorialStart'],
 								on: {
 									TUTORIAL_LOADED: '#tutorial',
 								},
