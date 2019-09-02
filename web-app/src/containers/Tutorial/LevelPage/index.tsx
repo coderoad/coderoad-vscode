@@ -1,11 +1,8 @@
 import * as React from 'react'
-import { useQuery } from '@apollo/react-hooks'
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
 
-import ErrorView from '../../../components/Error'
 import Level from './Level'
-import queryLevel from './queryLevel'
 
 interface LevelProps {
   level: G.Level
@@ -30,23 +27,7 @@ interface ContainerProps {
 const LevelSummaryPageContainer = (props: ContainerProps) => {
 	const { tutorial, position, progress } = props.context
 
-  const { loading, error, data } = useQuery(queryLevel, {
-    variables: {
-      tutorialId: tutorial.id,
-      version: tutorial.version.version,
-      levelId: position.levelId,
-    },
-	})
-
-  if (loading) {
-    return <div>Loading Levels...</div>
-  }
-
-  if (error) {
-    return <ErrorView error={error} />
-  }
-
-	const { level } = data.tutorial.version
+	const level: G.Level = tutorial.version.levels.find((l: G.Level) => l.id === position.levelId)
 	
 	level.stages.forEach((stage: G.Stage) => {
 		if (stage.id === position.stageId) {

@@ -15,7 +15,14 @@ export default {
 	testRunnerSetup(context: CR.MachineContext) {
 		console.log('test runner setup', context)
 	},
-	testStart() {
+	testStart(context: CR.MachineContext, event: CR.MachineEvent) {
 		console.log('test start')
+		const {stepId} = event.payload
+		channel.editorSend({
+			type: 'TEST_RUN',
+			payload: {
+				stepId,
+			}
+		})
 	}
 }

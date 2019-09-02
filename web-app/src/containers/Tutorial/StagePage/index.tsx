@@ -1,11 +1,8 @@
 import * as React from 'react'
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import { useQuery } from '@apollo/react-hooks'
 
-import ErrorView from '../../../components/Error'
 import Stage from './Stage'
-import queryStage from './queryStage'
 
 interface PageProps {
 	context: CR.MachineContext,
@@ -14,22 +11,8 @@ interface PageProps {
 
 const StageSummaryPageContainer = (props: PageProps) => {
 	const { tutorial, position, progress } = props.context
-  const { loading, error, data } = useQuery(queryStage, {
-    variables: {
-      tutorialId: tutorial.id,
-      version: tutorial.version.version,
-      stageId: position.stageId,
-    },
-  })
-  if (loading) {
-    return <div>Loading Stage...</div>
-  }
 
-  if (error) {
-    return <ErrorView error={error} />
-  }
-
-	const { stage } = data.tutorial.version
+	const stage: G.Stage = tutorial.version.levels.find((l: G.Level) => l.id === position.levelId).stages.find((s: G.Stage) => s.id === position.stageId)
 	
   const onContinue = (): void => {
     props.send({
@@ -42,7 +25,7 @@ const StageSummaryPageContainer = (props: PageProps) => {
 	
 	const onSave =(): void => {
 		props.send({
-			type: 'TEST_RUNNING',
+			type: 'TEST_RUN',
 			payload: {
 				stepId: position.stepId,
 			}

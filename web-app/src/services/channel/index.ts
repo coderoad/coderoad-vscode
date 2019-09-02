@@ -38,6 +38,10 @@ class Channel {
 				this.machineSend('TUTORIAL_LOADED')
 				console.log('send action to state machine')
 				return
+			case 'TEST_PASS':
+				this.machineSend(action)
+				console.log('test passed')
+				return
 			default:
 				console.warn(`Unknown received action ${action.type}`, action)
 		}

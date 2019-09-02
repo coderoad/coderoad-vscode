@@ -19,6 +19,14 @@ window.acquireVsCodeApi = () => ({
 					}
 					channel.receive(createReceiveEvent(receiveAction))
 				}, 1000)
+			case 'TEST_RUN':
+				return setTimeout(() => {
+					const receiveAction: Action = {
+						type: 'TEST_PASS',
+						payload: action.payload,
+					}
+					channel.receive(createReceiveEvent(receiveAction))
+				})
 			default:
 				console.warn(`${action.type} not found in post message mock`)
 		}

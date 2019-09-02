@@ -110,7 +110,10 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 						states: {
 							Normal: {
 								on: {
-									TEST_RUN: 'TestRunning',
+									TEST_RUN: {
+										target: 'TestRunning',
+										actions: 'testStart',
+									},
 									STEP_SOLUTION_LOAD: {
 										actions: ['callSolution'],
 									},
@@ -119,12 +122,14 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 							TestRunning: {
 								onEntry: ['testStart'],
 								on: {
-									TEST_PASS: 'TestPass',
+									TEST_PASS: {
+										target: 'TestPass',
+										actions: ['updateStepProgress']
+									},
 									TEST_FAIL: 'TestFail',
 								},
 							},
 							TestPass: {
-								onEntry: ['testPass'],
 								onExit: ['stepLoadNext'],
 								after: {
 									1000: 'StepNext',

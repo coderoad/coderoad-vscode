@@ -27,10 +27,11 @@ export default {
 		},
 	}),
 	// @ts-ignore
-	testPass: assign({
+	updateStepProgress: assign({
 		progress: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
 			// update progress by tracking completed
 			const currentProgress: CR.Progress = context.progress
+			console.log('progress update', event.payload)
 			const stepId = event.payload.stepId
 
 			currentProgress.steps[stepId] = true
@@ -44,9 +45,10 @@ export default {
 			const currentPosition: CR.Position = context.position
 			// merge in the updated position
 			// sent with the test to ensure consistency
+			console.log('should calculate next step')
+
 			return {
 				...currentPosition,
-				...event.payload.nextPosition,
 			}
 		},
 	})
