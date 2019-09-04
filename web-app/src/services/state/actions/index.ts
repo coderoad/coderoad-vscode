@@ -63,9 +63,7 @@ export default {
 // 		// tutorialModel.updateProgress()
 // 		// tutorialModel.nextPosition()
 // 	},
-// 	loadLevel(): void {
-// 		// tutorialModel.triggerCurrent('LEVEL')
-// 	},
+
 // 	stageLoadNext() {
 // 		console.log('stageLoadNext')
 // 		// tutorialModel.nextPosition()

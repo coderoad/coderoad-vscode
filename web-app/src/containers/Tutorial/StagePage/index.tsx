@@ -45,32 +45,7 @@ const StageSummaryPageContainer = (props: PageProps) => {
 	})
 	stage.status = progress.stages[position.stageId] ? 'COMPLETE' : 'ACTIVE' 
 
-	console.log('stage.status', stage.status)
-
   return <Stage stage={stage} onContinue={onContinue} onSave={onSave}/>
 }
 
 export default StageSummaryPageContainer
-
-/*
-	const formattedStage = {
-		...stage,
-		steps: stage.steps.map((step: G.Step) => {
-		if (step.id === position.stepId) {
-			return {
-				...step,
-				status: 'ACTIVE'
-			}
-		} else if (progress.steps[step.id]) {
-			return {
-				...step,
-				status: 'COMPLETE'
-			}
-		} else {
-			return {
-				...step,
-				status: 'INCOMPLETE'
-			}
-		}
-	})
-	*/

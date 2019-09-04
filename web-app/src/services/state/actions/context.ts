@@ -1,4 +1,4 @@
-import {assign} from 'xstate'
+import {assign, send} from 'xstate'
 import * as G from 'typings/graphql'
 import * as CR from 'typings'
 import * as storage from './storage'
@@ -42,10 +42,15 @@ export default {
 				.stages.find((s: G.Stage) => s.id === position.stageId)
 				.steps
 
-			const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
-			const step: G.Step = steps[stepIndex + 1]
 
-			console.log('step load next', step.id, position.stepId)
+			// final step but not completed
+			if (steps[steps.length - 1].id === position.stepId) {
+				return position
+			}
+
+			const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
+
+			const step: G.Step = steps[stepIndex + 1]
 
 			const nextPosition: CR.Position = {
 				...position,
@@ -137,6 +142,82 @@ export default {
 
 			return progress
 		},
+	}),
+	// @ts-ignore
+	updatePosition: assign({
+		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
+			console.log('updatePosition event', event)
+			const {position} = event.payload
+			return position
+		}
+	}),
+	loadNext: send((context: CR.MachineContext): CR.Action => {
+		const {tutorial, position, progress} = context
+
+		// has next step?
+		const levels: G.Level[] = tutorial.version.levels
+		const level: G.Level | undefined = levels.find((l: G.Level) => l.id === position.levelId)
+		if (!level) {
+			throw new Error('No Level found')
+		}
+		const stages: G.Stage[] = level.stages
+		const stage: G.Stage | undefined = stages.find((s: G.Stage) => s.id === position.stageId)
+		if (!stage) {
+			throw new Error('No Stage found')
+		}
+		const steps: G.Step[] = stage.steps
+
+		const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
+		const stepComplete = progress.steps[position.stepId]
+		const finalStep = (stepIndex > -1 && stepIndex === steps.length - 1)
+		const hasNextStep = (!finalStep && !stepComplete)
+
+
+		// NEXT STEP
+		if (hasNextStep) {
+			const nextPosition = {...position, stepId: steps[stepIndex + 1].id}
+			return {type: 'NEXT_STEP', payload: {position: nextPosition}}
+		}
+
+		// has next stage?
+
+		const stageIndex = stages.findIndex((s: G.Stage) => s.id === position.stageId)
+		const stageComplete = progress.stages[position.stageId]
+		const finalStage = (stageIndex > -1 && stageIndex === stages.length - 1)
+		const hasNextStage = (!finalStage)
+
+		// NEXT STAGE
+		if (hasNextStage) {
+			const nextStage = stages[stageIndex + 1]
+			const nextPosition = {
+				levelId: position.levelId,
+				stageId: nextStage.id,
+				stepId: nextStage.steps[0].id,
+			}
+			return {type: 'NEXT_STAGE', payload: {position: nextPosition}}
+		}
+
+		// has next level?
+
+		const levelIndex = levels.findIndex((l: G.Level) => l.id === position.levelId)
+		const levelComplete = progress.levels[position.levelId]
+		const finalLevel = (levelIndex > -1 && levelIndex === levels.length - 1)
+		const hasNextLevel = (!finalLevel)
+
+		// NEXT LEVEL
+		if (hasNextLevel) {
+			const nextLevel = levels[levelIndex + 1]
+			const nextStage = nextLevel.stages[0]
+			const nextPosition = {
+				levelId: nextLevel.id,
+				stageId: nextStage.id,
+				stepId: nextStage.steps[0].id,
+			}
+			return {type: 'NEXT_LEVEL', payload: {position: nextPosition}}
+		}
+
+		// COMPLETED
+		return {type: 'COMPLETED'}
 	}),
 	// @ts-ignore
 	reset: assign({
