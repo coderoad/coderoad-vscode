@@ -182,7 +182,6 @@ export default {
 		// has next stage?
 
 		const stageIndex = stages.findIndex((s: G.Stage) => s.id === position.stageId)
-		const stageComplete = progress.stages[position.stageId]
 		const finalStage = (stageIndex > -1 && stageIndex === stages.length - 1)
 		const hasNextStage = (!finalStage)
 
@@ -200,7 +199,6 @@ export default {
 		// has next level?
 
 		const levelIndex = levels.findIndex((l: G.Level) => l.id === position.levelId)
-		const levelComplete = progress.levels[position.levelId]
 		const finalLevel = (levelIndex > -1 && levelIndex === levels.length - 1)
 		const hasNextLevel = (!finalLevel)
 
