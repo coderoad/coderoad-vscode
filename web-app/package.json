@@ -26,9 +26,8 @@
     "extends": "react-app"
   },
   "dependencies": {
-    "@alifd/next": "^1.17.8",
+    "@alifd/next": "^1.17.9",
     "@apollo/react-hooks": "^3.0.1",
-    "@xstate/react": "^0.7.1",
     "apollo-boost": "^0.4.4",
     "graphql": "^14.5.4",
     "markdown-it": "^9.1.0",
@@ -52,13 +51,13 @@
     "@types/highlight.js": "^9.12.3",
     "@types/jest": "^24.0.18",
     "@types/markdown-it": "0.0.8",
-    "@types/node": "^12.7.3",
+    "@types/node": "^12.7.4",
     "@types/ramda": "^0.26.21",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
     "@types/storybook__react": "^4.0.2",
     "babel-loader": "^8.0.6",
-    "babel-plugin-import": "^1.12.0",
+    "babel-plugin-import": "^1.12.1",
     "node-sass": "^4.12.0",
     "sass-loader": "^7.3.1",
     "typescript-eslint-parser": "^22.0.0"
