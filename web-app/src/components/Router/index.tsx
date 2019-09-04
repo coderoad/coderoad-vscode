@@ -1,12 +1,15 @@
 import * as React from 'react'
 import * as CR from 'typings'
-import { useMachine } from '@xstate/react'
+import { useMachine } from '../../services/xstate-react'
 import machine from '../../services/state/machine'
 
 import Route from './Route'
 import debuggerWrapper from '../Debugger/debuggerWrapper'
 import channel from '../../services/channel'
 import messageBusReceiver from '../../services/channel/receiver'
+import actions from '../../services/state/actions'
+import guards from '../../services/state/guards'
+
 
 interface Props {
   children: any
@@ -20,10 +23,12 @@ interface CloneElementProps {
 // router finds first state match of <Route path='' />
 const Router = ({ children }: Props): React.ReactElement<CloneElementProps>|null => {
 	const [state, send] = useMachine(machine, {
-		logger: console.log.bind('XSTATE:')
+		actions,
+		guards,
+		interpreterOptions: {
+			logger: console.log.bind('XSTATE:')
+		}
 	})
-
-	console.log('state', state)
 
 	channel.setMachineSend(send)
 

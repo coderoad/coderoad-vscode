@@ -36,5 +36,14 @@ export default {
 				stepId,
 			}
 		})
-	}
+	},
+	loadLevel(): void {
+		// load step actions	
+	},
+	loadStage(): void {
+		// load step actions	
+	},
+	loadStep(): void {
+		// load step actions	
+	},
 }

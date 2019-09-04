@@ -1,9 +1,6 @@
 import {Machine} from 'xstate'
 import * as CR from 'typings'
 
-import actions from './actions'
-import guards from './guards'
-
 export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>(
 	{
 		id: 'root',
@@ -69,26 +66,22 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 					},
 					LoadNext: {
 						id: 'tutorial-load-next',
-						after: {
-							0: [{
+						onEntry: ['loadNext'],
+						on: {
+							NEXT_STEP: {
 								target: 'Stage',
-								cond: 'hasNextStep',
+								actions: ['updatePosition']
 							},
-							{
+							NEXT_STAGE: {
 								target: 'Stage',
-								cond: 'hasNextStage',
-								actions: ['updateStagePosition']
+								actions: ['updatePosition']
 							},
-							{
+							NEXT_LEVEL: {
 								target: 'Level',
-								cond: 'hasNextLevel',
-								actions: ['updateLevelPosition']
+								actions: ['updatePosition']
 							},
-							{
-								target: '#completed-tutorial',
-							},
-							],
-						},
+							COMPLETED: '#completed-tutorial'
+						}
 					},
 
 					Summary: {
@@ -107,7 +100,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 						},
 					},
 					Stage: {
-						onEntry: ['loadStage', 'stepLoadCommits'],
+						onEntry: ['loadStage'],
 						initial: 'Normal',
 						states: {
 							Normal: {
@@ -126,6 +119,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 								on: {
 									TEST_PASS: {
 										target: 'TestPass',
+										// TODO: combine updateStepProgress & updateStepPosition
 										actions: ['updateStepProgress']
 									},
 									TEST_FAIL: 'TestFail',
@@ -149,7 +143,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 										{
 											target: 'Normal',
 											cond: 'hasNextStep',
-											actions: ['stepLoadCommits'],
+											actions: ['loadStep'],
 										},
 										{
 											target: 'StageComplete',
@@ -177,12 +171,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 				},
 			},
 		},
-	},
-	{
-		actions,
-		guards,
-		activities: {},
-	},
+	}
 )
 
 export default machine
