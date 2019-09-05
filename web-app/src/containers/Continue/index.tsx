@@ -22,21 +22,15 @@ export const ContinuePage = (props: Props) => (
 )
 
 interface ContainerProps {
-	context: CR.MachineContext
+  context: CR.MachineContext
+  send(action: CR.Action | string): void
 }
 
-const ContinuePageContainer = ({ context }: ContainerProps) => {
-	// TODO: load specific tutorialId
-	const { tutorial } = context
+const ContinuePageContainer = ({ context, send }: ContainerProps) => {
+  // TODO: load specific tutorialId
+  const { tutorial } = context
 
-  return (
-    <ContinuePage
-      tutorial={tutorial}
-      onContinue={() => {
-        console.log('TUTORIAL_START')
-      }}
-    />
-  )
+  return <ContinuePage tutorial={tutorial} onContinue={() => send('TUTORIAL_START')} />
 }
 
 export default ContinuePageContainer

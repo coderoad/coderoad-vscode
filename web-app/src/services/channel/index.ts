@@ -30,7 +30,6 @@ class Channel {
 		// @ts-ignore // ignore browser events from plugins
 		if (action.source) {return }
 
-		console.log('receive action', action)
 		// messages from core
 		switch (action.type) {
 			case 'TUTORIAL_LOADED':

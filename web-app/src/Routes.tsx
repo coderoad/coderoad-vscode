@@ -47,34 +47,34 @@ const Routes = () => {
         <Route path="Start.Startup">
           <LoadingPage text="Launching..." />
         </Route>
-				<Route path="Start.NewTutorial.SelectTutorial">
-          <NewPage send={tempSend}/>
+        <Route path="Start.NewTutorial.SelectTutorial">
+          <NewPage send={tempSend} />
         </Route>
         <Route path="Start.NewTutorial.InitializeTutorial">
           <LoadingPage text="Launching Tutorial..." />
         </Route>
         <Route path="Start.ContinueTutorial">
-          <ContinuePage context={{} as CR.MachineContext}/>
+          <ContinuePage send={tempSend} context={{} as CR.MachineContext} />
         </Route>
-				<Route path="Tutorial.Initialize">
+        <Route path="Tutorial.Initialize">
           <LoadingPage text="Initializing..." />
         </Route>
-				<Route path="Tutorial.LoadNext">
-        	<LoadingPage text="Loading..." />
-				</Route>
-				<Route path="Tutorial.Summary">
-					<SummaryPage send={tempSend} context={{} as CR.MachineContext}/>
-				</Route>
-				<Route path="Tutorial.Level">
-					<LevelSummaryPage send={tempSend} context={{} as CR.MachineContext}/>
-				</Route>
-				<Route path="Tutorial.Stage">
-					<StageSummaryPage send={tempSend} context={{} as CR.MachineContext}/>
-				</Route>
-				<Route path="Tutorial.Completed">
-					<CompletedPage send={tempSend} context={{} as CR.MachineContext}/>
-				</Route>
-			</Router>
+        <Route path="Tutorial.LoadNext">
+          <LoadingPage text="Loading..." />
+        </Route>
+        <Route path="Tutorial.Summary">
+          <SummaryPage send={tempSend} context={{} as CR.MachineContext} />
+        </Route>
+        <Route path="Tutorial.Level">
+          <LevelSummaryPage send={tempSend} context={{} as CR.MachineContext} />
+        </Route>
+        <Route path="Tutorial.Stage">
+          <StageSummaryPage send={tempSend} context={{} as CR.MachineContext} />
+        </Route>
+        <Route path="Tutorial.Completed">
+          <CompletedPage send={tempSend} context={{} as CR.MachineContext} />
+        </Route>
+      </Router>
     </div>
   )
 }

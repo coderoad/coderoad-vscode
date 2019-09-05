@@ -52,9 +52,8 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 						},
 					},
 					ContinueTutorial: {
-						onEntry: ['tutorialContinue'],
 						on: {
-							TUTORIAL_START: '#tutorial-load-next',
+							TUTORIAL_START: '#tutorial-stage',
 						},
 					},
 				},
@@ -104,6 +103,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 						},
 					},
 					Stage: {
+						id: 'tutorial-stage',
 						onEntry: ['loadStage'],
 						initial: 'Normal',
 						states: {
