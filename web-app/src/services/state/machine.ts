@@ -138,19 +138,17 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 								},
 							},
 							StepNext: {
-								after: {
-									0: [
-										{
-											target: 'Normal',
-											cond: 'hasNextStep',
-											actions: ['loadStep'],
-										},
-										{
-											target: 'StageComplete',
-											actions: ['updateStageProgress']
-										},
-									],
-								},
+								onEntry: ['stepNext'],
+								on: {
+									LOAD_NEXT_STEP: {
+										target: 'Normal',
+										actions: ['loadStep']
+									},
+									STAGE_COMPLETE: {
+										target: "StageComplete",
+										actions: ['updateStageProgress']
+									}
+								}
 							},
 							StageComplete: {
 								on: {

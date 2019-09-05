@@ -2,19 +2,49 @@ import {send} from 'xstate'
 // import {machine} from '../../extension'
 // import {cache} from '../../services/apollo'
 // import {editorDispatch} from '../../services/vscode'
-// import * as CR from 'typings'
-// import * as G from 'typings/graphql'
+import * as CR from 'typings'
+import * as G from 'typings/graphql'
 // import tutorialConfig from '../../services/apollo/queries/tutorialConfig'
 import editorActions from './editor'
 import contextActions from './context'
 
 export default {
-	newOrContinue: send((context): 'NEW' | 'CONTINUE' => {
+	newOrContinue: send((context: CR.MachineContext): 'NEW' | 'CONTINUE' => {
 		console.log('new or continue')
 
 		// TODO: verify that the user has an existing tutorial to continue
 		const hasExistingTutorial: boolean = false
 		return hasExistingTutorial ? 'CONTINUE' : 'NEW'
+	}),
+	stepNext: send((context: CR.MachineContext): CR.Action => {
+		const {tutorial, position, progress} = context
+		// TODO: protect against errors
+		const steps: G.Step[] = tutorial.version
+			.levels.find((l: G.Level) => l.id === position.levelId)
+			.stages.find((s: G.Stage) => s.id === position.stageId)
+			.steps
+
+		// TODO: verify not -1
+		const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
+		const finalStep = stepIndex === steps.length - 1
+		const stepComplete = progress.steps[position.stepId]
+		// not final step, or final step but not complete
+		const hasNextStep = !finalStep || !stepComplete
+
+		if (hasNextStep) {
+			const nextStep = steps[stepIndex + 1]
+			return {
+				type: 'LOAD_NEXT_STEP',
+				payload: {
+					step: nextStep
+				}
+			}
+		} else {
+			return {
+				type: 'STAGE_COMPLETE'
+			}
+		}
+
 	}),
 	...editorActions,
 	...contextActions,

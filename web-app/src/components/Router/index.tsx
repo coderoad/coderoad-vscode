@@ -8,7 +8,6 @@ import debuggerWrapper from '../Debugger/debuggerWrapper'
 import channel from '../../services/channel'
 import messageBusReceiver from '../../services/channel/receiver'
 import actions from '../../services/state/actions'
-import guards from '../../services/state/guards'
 
 
 interface Props {
@@ -24,7 +23,6 @@ interface CloneElementProps {
 const Router = ({ children }: Props): React.ReactElement<CloneElementProps>|null => {
 	const [state, send] = useMachine(machine, {
 		actions,
-		guards,
 		interpreterOptions: {
 			logger: console.log.bind('XSTATE:')
 		}
