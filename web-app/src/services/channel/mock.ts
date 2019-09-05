@@ -26,7 +26,7 @@ window.acquireVsCodeApi = () => ({
 						payload: action.payload,
 					}
 					channel.receive(createReceiveEvent(receiveAction))
-				})
+				}, 1000)
 			default:
 				console.warn(`${action.type} not found in post message mock`)
 		}

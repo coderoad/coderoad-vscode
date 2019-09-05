@@ -217,6 +217,35 @@ export default {
 		// COMPLETED
 		return {type: 'COMPLETED'}
 	}),
+	stepNext: send((context: CR.MachineContext): CR.Action => {
+		const {tutorial, position, progress} = context
+		// TODO: protect against errors
+		const steps: G.Step[] = tutorial.version
+			.levels.find((l: G.Level) => l.id === position.levelId)
+			.stages.find((s: G.Stage) => s.id === position.stageId)
+			.steps
+
+		// TODO: verify not -1
+		const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
+		const finalStep = stepIndex === steps.length - 1
+		const stepComplete = progress.steps[position.stepId]
+		// not final step, or final step but not complete
+		const hasNextStep = !finalStep || !stepComplete
+
+		if (hasNextStep) {
+			const nextStep = steps[stepIndex + 1]
+			return {
+				type: 'LOAD_NEXT_STEP',
+				payload: {
+					step: nextStep
+				}
+			}
+		} else {
+			return {
+				type: 'STAGE_COMPLETE'
+			}
+		}
+	}),
 	// @ts-ignore
 	reset: assign({
 		tutorial() {

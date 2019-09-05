@@ -1,7 +1,14 @@
+import {send} from 'xstate'
 import * as CR from 'typings'
 import channel from '../../channel'
 
 export default {
+	newOrContinue: send((context: CR.MachineContext): 'NEW' | 'CONTINUE' => {
+		console.log('new or continue')
+		// TODO: verify that the user has an existing tutorial to continue
+		const hasExistingTutorial: boolean = false
+		return hasExistingTutorial ? 'CONTINUE' : 'NEW'
+	}),
 	tutorialStart() {
 		console.log('EDITOR: TUTORIAL_START')
 		channel.editorSend({

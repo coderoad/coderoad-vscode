@@ -89,7 +89,7 @@ export function useMachine<TContext, TEvent extends EventObject>(
 	// in one place -- this hook's caller.
 	useEffect(() => {
 		Object.assign(service.machine.options.actions, actions)
-	}, [actions])
+	}, [service.machine.options.actions, actions])
 
 	// Start service immediately (before mount) if specified in options
 	if (immediate) {
@@ -108,7 +108,7 @@ export function useMachine<TContext, TEvent extends EventObject>(
 			// Stop the service when the component unmounts
 			service.stop()
 		}
-	}, [])
+	}, [service])
 
 	return [current, service.send, service]
 }

@@ -59,7 +59,6 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 				initial: 'Initialize',
 				states: {
 					Initialize: {
-						onEntry: ['initializeNewTutorial'],
 						after: {
 							0: 'Summary',
 						},
@@ -159,6 +158,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 					},
 					Completed: {
 						id: 'completed-tutorial',
+						onEntry: ['syncCompleted'],
 						on: {
 							SELECT_TUTORIAL: {
 								target: '#start-new-tutorial',

@@ -43,7 +43,9 @@ class Channel {
 				console.log('test passed')
 				return
 			default:
-				console.warn(`Unknown received action ${action.type}`, action)
+				if (action.type) {
+					console.warn(`Unknown received action ${action.type}`, action)
+				}
 		}
 	}
 }
