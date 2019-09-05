@@ -1,5 +1,6 @@
 import {Machine} from 'xstate'
 import * as CR from 'typings'
+import * as invoke from './actions/invoke'
 
 export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>(
 	{
@@ -20,10 +21,14 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 				initial: 'Startup',
 				states: {
 					Startup: {
-						onEntry: ['newOrContinue'],
-						on: {
-							CONTINUE: 'ContinueTutorial',
-							NEW: 'NewTutorial',
+						invoke: {
+							id: 'newOrContinue',
+							src: invoke.newOrContinue,
+							onDone: {
+								target: 'ContinueTutorial',
+								actions: ['continueTutorial']
+							},
+							onError: 'NewTutorial'
 						},
 					},
 					NewTutorial: {
@@ -158,7 +163,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 					},
 					Completed: {
 						id: 'completed-tutorial',
-						onEntry: ['syncCompleted'],
+						onEntry: ['userTutorialComplete'],
 						on: {
 							SELECT_TUTORIAL: {
 								target: '#start-new-tutorial',

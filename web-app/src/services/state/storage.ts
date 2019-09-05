@@ -9,8 +9,8 @@ class Storage<T> {
 	constructor(key: string) {
 		this.key = key
 	}
-	public get = (key: string): T | null => {
-		const value = this.storage.getItem(this.key)
+	public get = async (): Promise<T | null> => {
+		const value = await this.storage.getItem(this.key)
 		if (value) {
 			return JSON.parse(value)
 		}

@@ -123,6 +123,7 @@ export interface MachineContext {
 export interface MachineEvent {
 	type: string
 	payload?: any
+	data?: any
 }
 
 export interface MachineStateSchema {

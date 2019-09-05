@@ -1,7 +1,7 @@
 import {assign, send} from 'xstate'
 import * as G from 'typings/graphql'
 import * as CR from 'typings'
-import * as storage from './storage'
+import * as storage from '../storage'
 
 export default {
 	setTutorial: assign({
@@ -10,6 +10,11 @@ export default {
 			storage.tutorial.set(tutorial)
 			return tutorial
 		},
+	}),
+	continueTutorial: assign({
+		tutorial: (context: CR.MachineContext, event: CR.MachineEvent) => event.data.payload.tutorial,
+		progress: (context: CR.MachineContext, event: CR.MachineEvent) => event.data.payload.progress,
+		position: (context: CR.MachineContext, event: CR.MachineEvent) => event.data.payload.position,
 	}),
 	// @ts-ignore
 	initPosition: assign({
