@@ -7,17 +7,21 @@ import Summary from './Summary'
 import ErrorView from '../../../components/Error'
 
 interface PageProps {
-	context: CR.MachineContext
-	send(action: CR.Action): void
+  context: CR.MachineContext
+  send(action: CR.Action): void
 }
 
 const SummaryPage = (props: PageProps) => {
-	const { tutorial } = props.context
+  const { tutorial } = props.context
+
+  if (!tutorial) {
+    throw new Error('Tutorial not found in summary page')
+  }
   const { loading, error, data } = useQuery(queryTutorial, {
-		fetchPolicy: 'network-only', // for debugging purposes
+    fetchPolicy: 'network-only', // for debugging purposes
     variables: {
-			tutorialId: tutorial.id,
-			version: tutorial.version.version,
+      tutorialId: tutorial.id,
+      version: tutorial.version.version,
     },
   })
 
@@ -29,14 +33,15 @@ const SummaryPage = (props: PageProps) => {
     return <ErrorView error={error} />
   }
 
-  const onNext = () => props.send({
-		type: 'LOAD_TUTORIAL',
-		payload: {
-			tutorial: data.tutorial,
-		}
-	})
+  const onNext = () =>
+    props.send({
+      type: 'LOAD_TUTORIAL',
+      payload: {
+        tutorial: data.tutorial,
+      },
+    })
 
-	const { title, text } = data.tutorial
+  const { title, text } = data.tutorial
 
   return <Summary title={title} text={text} onNext={onNext} />
 }

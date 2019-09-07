@@ -5,6 +5,9 @@ export default {
 	tutorialConfig(context: CR.MachineContext) {
 		// setup test runner and git
 		const {tutorial} = context
+		if (!tutorial) {
+			throw new Error('Invalid tutorial for tutorial config')
+		}
 		const payload = {
 			codingLanguage: tutorial.codingLanguage,
 			testRunner: tutorial.testRunner,

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import {setWorkspaceRoot} from './services/node'
+import {setWorkspaceRoot} from '../services/node'
 import {createCommands} from './commands'
 
 class Editor {

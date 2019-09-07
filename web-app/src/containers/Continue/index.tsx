@@ -27,8 +27,11 @@ interface ContainerProps {
 }
 
 const ContinuePageContainer = ({ context, send }: ContainerProps) => {
-  // TODO: load specific tutorialId
   const { tutorial } = context
+
+  if (!tutorial) {
+    throw new Error('Tutorial not found')
+  }
 
   return <ContinuePage tutorial={tutorial} onContinue={() => send('TUTORIAL_START')} />
 }

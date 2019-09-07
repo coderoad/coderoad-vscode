@@ -39,9 +39,14 @@ export default {
 	// @ts-ignore
 	updateStepPosition: assign({
 		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
-			const position: CR.Position = context.position
+			const {tutorial, position} = context
+
+			if (!tutorial) {
+				throw new Error('Tutorial not found when updating step position')
+			}
 			// merge in the updated position
 			// sent with the test to ensure consistency
+			// @ts-ignore
 			const steps: G.Step[] = context.tutorial.version
 				.levels.find((l: G.Level) => l.id === position.levelId)
 				.stages.find((s: G.Stage) => s.id === position.stageId)
@@ -70,10 +75,15 @@ export default {
 	// @ts-ignore
 	updateStagePosition: assign({
 		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
-			const position: CR.Position = context.position
+			const {tutorial, position} = context
+
+			if (!tutorial) {
+				throw new Error('Tutorial not found when updating stage position')
+			}
 			// merge in the updated position
 			// sent with the test to ensure consistency
-			const stages: G.Stage[] = context.tutorial.version
+			// @ts-ignore
+			const stages: G.Stage[] = tutorial.version
 				.levels.find((l: G.Level) => l.id === position.levelId)
 				.stages
 
@@ -94,10 +104,14 @@ export default {
 	// @ts-ignore
 	updateLevelPosition: assign({
 		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
-			const position: CR.Position = context.position
+			const {tutorial, position} = context
+
+			if (!tutorial) {
+				throw new Error('Tutorial not found when updating level position')
+			}
 			// merge in the updated position
 			// sent with the test to ensure consistency
-			const levels: G.Level[] = context.tutorial.version.levels
+			const levels: G.Level[] = tutorial.version.levels
 
 			const levelIndex = levels.findIndex((l: G.Level) => l.id === position.levelId)
 			const level: G.Level = levels[levelIndex + 1]
@@ -151,6 +165,10 @@ export default {
 	}),
 	loadNext: send((context: CR.MachineContext): CR.Action => {
 		const {tutorial, position, progress} = context
+
+		if (!tutorial) {
+			throw new Error('No tutorial found for loading next step')
+		}
 
 		// has next step?
 		const levels: G.Level[] = tutorial.version.levels
@@ -217,7 +235,13 @@ export default {
 	}),
 	stepNext: send((context: CR.MachineContext): CR.Action => {
 		const {tutorial, position, progress} = context
+
+		if (!tutorial || !tutorial.version) {
+			throw new Error('No tutorial found when loading next step')
+		}
+
 		// TODO: protect against errors
+		// @ts-ignore
 		const steps: G.Step[] = tutorial.version
 			.levels.find((l: G.Level) => l.id === position.levelId)
 			.stages.find((s: G.Stage) => s.id === position.stageId)
@@ -244,7 +268,6 @@ export default {
 			}
 		}
 	}),
-	// @ts-ignore
 	reset: assign({
 		tutorial() {
 			storage.tutorial.set(null)

@@ -41,6 +41,12 @@ class Channel {
 				this.machineSend(action)
 				console.log('test passed')
 				return
+			case 'TEST_FAIL':
+				this.machineSend(action)
+				return
+			case 'ACTIONS_LOADED':
+				console.log('ACTIONS_LOADED')
+				return
 			default:
 				if (action.type) {
 					console.warn(`Unknown received action ${action.type}`, action)

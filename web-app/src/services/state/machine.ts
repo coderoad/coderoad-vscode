@@ -1,6 +1,12 @@
-import {Machine} from 'xstate'
+import {Machine, MachineOptions} from 'xstate'
 import * as CR from 'typings'
+import actions from './actions'
 import * as invoke from './actions/invoke'
+
+const options: MachineOptions<CR.MachineContext, CR.MachineEvent> = {
+	// @ts-ignore
+	actions
+}
 
 export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>(
 	{
@@ -173,7 +179,6 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 				},
 			},
 		},
-	}
-)
+	}, options)
 
 export default machine

@@ -38,7 +38,7 @@ class Tutorial implements TutorialModel {
 	}
 	public launch = async (tutorial: G.Tutorial) => {
 		console.log('launch tutorial')
-		machine.send('TUTORIAL_START')
+		// machine.send('TUTORIAL_START')
 
 		console.log('tutorial', tutorial)
 

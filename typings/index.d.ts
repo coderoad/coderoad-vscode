@@ -1,5 +1,6 @@
 import {send} from 'xstate'
 import TutorialModel from '../src/services/tutorial'
+import * as G from './graphql'
 
 export interface TutorialLevel {
 	stageList: string[]
@@ -116,8 +117,8 @@ export interface Action {
 
 export interface MachineContext {
 	tutorial: G.Tutorial | null,
-	position: CR.Position,
-	progress: CR.Progress,
+	position: Position,
+	progress: Progress,
 }
 
 export interface MachineEvent {

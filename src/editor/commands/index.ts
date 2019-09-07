@@ -117,16 +117,16 @@ export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 			// machine.send(action)
 		},
 		[COMMANDS.RUN_TEST]: () => {
-			// runTest({
-			// onSuccess: () => machine.send('TEST_PASS'),
-			// onFail: () => machine.send('TEST_FAIL'),
-			// })
-		},
-		[COMMANDS.TEST_PASS]: () => {
-			vscode.window.showInformationMessage('PASS')
-		},
-		[COMMANDS.TEST_FAIL]: () => {
-			vscode.window.showWarningMessage('FAIL')
+			runTest({
+				onSuccess: () => {
+					console.log('TEST_PASS')
+					vscode.window.showInformationMessage('PASS')
+				},
+				onFail: () => {
+					console.log('TEST_FAIL')
+					vscode.window.showWarningMessage('FAIL')
+				}
+			})
 		},
 	}
 }
