@@ -38,13 +38,7 @@ class ReactWebView {
 		const onReceive = (action: string | CR.Action) => {
 			const actionType: string = typeof action === 'string' ? action : action.type
 			switch (actionType) {
-				case 'WEBVIEW_LOADED':
-					// await loading of webview in React before proceeding with loaded state
-					this.loaded = true
-					break
 				case 'TUTORIAL_START':
-					console.log('TUTORIAL_START called')
-					console.log(action)
 					if (typeof action === 'string' || !action.payload || !action.payload.id) {
 						throw new Error('No tutorial id on tutorial start action')
 					}

@@ -31,8 +31,6 @@ class Editor {
 		for (const disposable of this.vscodeExt.subscriptions) {
 			disposable.dispose()
 		}
-		// shut down state machine
-		console.log('deactivate machine')
 	}
 
 	// execute vscode command

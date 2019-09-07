@@ -3,7 +3,6 @@ import * as CR from 'typings'
 import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
 import ReactWebView from '../ReactWebView'
-import storage from '../storage'
 import runTest from './runTest'
 import {isEmptyWorkspace} from '../workspace'
 
@@ -51,9 +50,6 @@ export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 			} else {
 				webviewState = 'RESTARTING'
 			}
-
-			// ini
-			storage.init(vscodeExt.workspaceState)
 
 			// activate machine
 			webview = new ReactWebView(vscodeExt.extensionPath)

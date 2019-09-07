@@ -44,7 +44,6 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 								},
 							},
 							InitializeTutorial: {
-								onEntry: ['tutorialStart'],
 								on: {
 									TUTORIAL_LOADED: '#tutorial',
 								},

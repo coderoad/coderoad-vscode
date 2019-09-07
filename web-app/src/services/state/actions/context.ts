@@ -80,8 +80,6 @@ export default {
 			const stageIndex = stages.findIndex((s: G.Stage) => s.id === position.stageId)
 			const stage: G.Stage = stages[stageIndex + 1]
 
-			console.log('stage load next', stage.id, position.stageId)
-
 			const nextPosition: CR.Position = {
 				...position,
 				stageId: stage.id,
@@ -104,8 +102,6 @@ export default {
 			const levelIndex = levels.findIndex((l: G.Level) => l.id === position.levelId)
 			const level: G.Level = levels[levelIndex + 1]
 
-			console.log('level load next', level.id, position.levelId)
-
 			const nextPosition: CR.Position = {
 				levelId: level.id,
 				stageId: level.stages[0].id,
@@ -123,7 +119,6 @@ export default {
 			// update progress by tracking completed
 			const currentProgress: CR.Progress = context.progress
 			const stepId = event.payload.stepId
-			console.log('step progress update', stepId)
 
 			currentProgress.steps[stepId] = true
 
@@ -139,7 +134,6 @@ export default {
 			const {progress, position} = context
 
 			const stageId: string = position.stageId
-			console.log('stage progress update', stageId)
 
 			progress.stages[stageId] = true
 
@@ -151,7 +145,6 @@ export default {
 	// @ts-ignore
 	updatePosition: assign({
 		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
-			console.log('updatePosition event', event)
 			const {position} = event.payload
 			return position
 		}

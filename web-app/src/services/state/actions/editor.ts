@@ -2,17 +2,6 @@ import * as CR from 'typings'
 import channel from '../../channel'
 
 export default {
-	tutorialStart() {
-		console.log('EDITOR: TUTORIAL_START')
-		channel.editorSend({
-			type: 'TUTORIAL_START',
-			payload: {
-				tutorial: {
-					id: 'some-tutorial-id'
-				}
-			}
-		})
-	},
 	tutorialConfig(context: CR.MachineContext) {
 		// setup test runner and git
 		const {tutorial} = context
@@ -21,7 +10,7 @@ export default {
 			testRunner: tutorial.testRunner,
 			repo: tutorial.repo,
 		}
-		console.log('EDITOR: TUTORIAL_CONFIG')
+		console.log('EDITOR: TUTORIAL_CONFIG', payload)
 		channel.editorSend({
 			type: 'TUTORIAL_CONFIG',
 			payload,

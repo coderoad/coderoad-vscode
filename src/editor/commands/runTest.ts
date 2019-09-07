@@ -1,6 +1,5 @@
 import * as vscode from 'vscode'
 import {exec} from '../../services/node'
-import * as storage from '../../services/storage'
 
 // ensure only latest run_test action is taken
 let currentId = 0
@@ -51,7 +50,7 @@ export default async function runTest({onSuccess, onFail}: Props): Promise<void>
 	try {
 		// capture position early on test start
 		// in case position changes
-		const [position, {stdout}] = await Promise.all([storage.getPosition(), exec(commandLine)])
+		const {stdout} = await exec(commandLine)
 		if (shouldExitEarly(processId)) {
 			// exit early
 			return
