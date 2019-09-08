@@ -10,9 +10,6 @@ const COMMANDS = {
 	START: 'coderoad.start',
 	TEST_RUNNER_SETUP: 'coderoad.test_runner_setup',
 	OPEN_WEBVIEW: 'coderoad.open_webview',
-	SEND_STATE: 'coderoad.send_state',
-	SEND_DATA: 'coderoad.send_data',
-	RECEIVE_MACHINE_ACTION: 'coderoad.receive_machine_action',
 	OPEN_FILE: 'coderoad.open_file',
 	RUN_TEST: 'coderoad.run_test',
 	TEST_PASS: 'coderoad.test_pass',
@@ -100,18 +97,6 @@ export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 			} catch (error) {
 				console.log(`Failed to open file ${relativeFilePath}`, error)
 			}
-		},
-		// send messages to webview
-		[COMMANDS.SEND_STATE]: (payload: {data: any; state: any}) => {
-			webview.postMessage({type: 'SET_STATE', payload})
-		},
-		[COMMANDS.SEND_DATA]: (payload: {data: any}) => {
-			webview.postMessage({type: 'SET_DATA', payload})
-		},
-		[COMMANDS.RECEIVE_MACHINE_ACTION]: (action: string | CR.Action) => {
-			// send received actions from web-app into state machine
-			console.log('receive action', action)
-			// machine.send(action)
 		},
 		[COMMANDS.RUN_TEST]: () => {
 			runTest({

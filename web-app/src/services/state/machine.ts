@@ -58,6 +58,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 				initial: 'Initialize',
 				states: {
 					Initialize: {
+						onEntry: ['initializeTutorial'],
 						after: {
 							0: 'Summary',
 						},
@@ -104,10 +105,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 						states: {
 							Normal: {
 								on: {
-									TEST_RUN: {
-										target: 'TestRunning',
-										actions: 'testStart',
-									},
+									TEST_RUN: 'TestRunning',
 									STEP_SOLUTION_LOAD: {
 										actions: ['callSolution'],
 									},

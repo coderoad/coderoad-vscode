@@ -1,7 +1,6 @@
 import * as path from 'path'
-import * as CR from 'typings'
 import * as vscode from 'vscode'
-import {tutorialModel} from '../extension'
+import Channel, * as channel from './channel'
 
 const getNonce = (): string => {
 	let text = ''
@@ -17,9 +16,12 @@ const getNonce = (): string => {
 class ReactWebView {
 	// @ts-ignore
 	public loaded: boolean
+
+	public send: Channel['send']
 	private panel: vscode.WebviewPanel
 	private extensionPath: string
 	private disposables: vscode.Disposable[] = []
+	private channel: Channel
 
 	public constructor(extensionPath: string) {
 		this.extensionPath = extensionPath
@@ -34,24 +36,12 @@ class ReactWebView {
 		// This happens when the user closes the panel or when the panel is closed programatically
 		this.panel.onDidDispose(this.dispose, this, this.disposables)
 
+		this.channel = new Channel(this.panel.webview)
 		// Handle messages from the webview
-		const onReceive = (action: string | CR.Action) => {
-			const actionType: string = typeof action === 'string' ? action : action.type
-			switch (actionType) {
-				case 'TUTORIAL_START':
-					if (typeof action === 'string' || !action.payload || !action.payload.id) {
-						throw new Error('No tutorial id on tutorial start action')
-					}
-					tutorialModel.launch(action.payload.id)
-					break
-				// add other cases
-				default:
-					// send to state machine
-					console.log('onReceive', action)
-					vscode.commands.executeCommand('coderoad.receive_machine_action', action)
-			}
-		}
-		this.panel.webview.onDidReceiveMessage(onReceive, null, this.disposables)
+		const receive = this.channel.receive
+		this.panel.webview.onDidReceiveMessage(receive, null, this.disposables)
+		this.send = this.channel.send
+
 
 		// update panel on changes
 		const updateWindows = () => {
@@ -85,15 +75,6 @@ class ReactWebView {
 			this.panel.reveal(column)
 		} else {
 			this.panel = this.createWebviewPanel(column)
-		}
-	}
-
-	public async postMessage(action: CR.Action): Promise<void> {
-		// Send a message to the webview webview.
-		// You can send any JSON serializable data.
-		const success = await this.panel.webview.postMessage(action)
-		if (!success) {
-			throw new Error(`Message post failure: ${JSON.stringify(action)}`)
 		}
 	}
 
