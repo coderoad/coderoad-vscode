@@ -58,9 +58,14 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 				initial: 'Initialize',
 				states: {
 					Initialize: {
-						onEntry: ['initializeTutorial'],
-						after: {
-							0: 'Summary',
+						invoke: {
+							id: 'loadTutorial',
+							src: invoke.loadTutorial,
+							onDone: {
+								target: 'Summary',
+								actions: ['initializeTutorial']
+							},
+							onError: 'Initialize' // TODO: handle load tutorial error
 						},
 					},
 					LoadNext: {
@@ -87,7 +92,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 						on: {
 							LOAD_TUTORIAL: {
 								target: 'Level',
-								actions: ['tutorialConfig', 'initPosition', 'setTutorial']
+								actions: ['initPosition', 'setTutorial']
 							}
 						},
 					},

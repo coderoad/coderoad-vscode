@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as CR from 'typings'
 import { useQuery } from '@apollo/react-hooks'
 
-import queryTutorial from './queryTutorial'
+import queryTutorial from '../../../services/apollo/queries/tutorial'
 import Summary from './Summary'
 import ErrorView from '../../../components/Error'
 

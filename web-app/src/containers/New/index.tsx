@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/react-hooks'
 import * as T from 'typings/graphql'
 import * as CR from 'typings'
 
-import queryTutorials from './queryTutorials'
+import queryTutorials from '../../services/apollo/queries/tutorials'
 import LoadingPage from '../LoadingPage'
 import ErrorView from '../../components/Error'
 import TutorialList from './TutorialList'
@@ -22,7 +22,7 @@ export const NewPage = (props: Props) => (
 const Loading = () => <LoadingPage text="Loading tutorials" />
 
 interface ContainerProps {
-	send(action: CR.Action): void
+  send(action: CR.Action): void
 }
 
 const NewPageContainer = (props: ContainerProps) => {
@@ -33,11 +33,11 @@ const NewPageContainer = (props: ContainerProps) => {
 
   if (error) {
     return <ErrorView error={error} />
-	}
+  }
 
   return (
     <React.Suspense fallback={Loading}>
-    	<NewPage tutorialList={data.tutorials} />
+      <NewPage tutorialList={data.tutorials} />
     </React.Suspense>
   )
 }

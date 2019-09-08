@@ -3,9 +3,9 @@ import * as selectors from '../../selectors'
 import channel from '../../channel'
 
 export default {
-	initializeTutorial(context: CR.MachineContext) {
+	initializeTutorial(context: CR.MachineContext, event: CR.MachineEvent) {
 		// setup test runner and git
-		const {tutorial} = context
+		const {tutorial} = event.data.payload
 		if (!tutorial) {
 			throw new Error('Invalid tutorial for tutorial config')
 		}
