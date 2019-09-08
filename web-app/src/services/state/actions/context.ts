@@ -228,21 +228,12 @@ export default {
 			return null
 		},
 		progress(): CR.Progress {
-			const progress: CR.Progress = {
-				levels: {},
-				stages: {},
-				steps: {},
-				complete: false
-			}
+			const progress: CR.Progress = selectors.defaultProgress()
 			storage.progress.set(progress)
 			return progress
 		},
 		position(): CR.Position {
-			const position: CR.Position = {
-				levelId: '',
-				stageId: '',
-				stepId: ''
-			}
+			const position: CR.Position = selectors.defaultPosition()
 			storage.position.set(position)
 			return position
 		}

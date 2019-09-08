@@ -3,6 +3,12 @@ import * as G from 'typings/graphql'
 import * as CR from 'typings'
 import * as tutorial from './tutorial'
 
+export const defaultPosition = () => ({
+	levelId: '',
+	stageId: '',
+	stepId: ''
+})
+
 export const initialPosition = createSelector(
 	tutorial.currentVersion,
 	(version: G.TutorialVersion) => {
