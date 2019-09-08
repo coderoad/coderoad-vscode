@@ -2,6 +2,7 @@ import {assign, send} from 'xstate'
 import * as G from 'typings/graphql'
 import * as CR from 'typings'
 import * as storage from '../storage'
+import * as selectors from '../../selectors'
 
 export default {
 	setTutorial: assign({
@@ -39,19 +40,11 @@ export default {
 	// @ts-ignore
 	updateStepPosition: assign({
 		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
-			const {tutorial, position} = context
-
-			if (!tutorial) {
-				throw new Error('Tutorial not found when updating step position')
-			}
+			const {position} = context
 			// merge in the updated position
 			// sent with the test to ensure consistency
-			// @ts-ignore
-			const steps: G.Step[] = context.tutorial.version
-				.levels.find((l: G.Level) => l.id === position.levelId)
-				.stages.find((s: G.Stage) => s.id === position.stageId)
-				.steps
-
+			const stage: G.Stage = selectors.currentStage(context)
+			const steps: G.Step[] = stage.steps
 
 			// final step but not completed
 			if (steps[steps.length - 1].id === position.stepId) {
@@ -74,18 +67,11 @@ export default {
 	}),
 	// @ts-ignore
 	updateStagePosition: assign({
-		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
-			const {tutorial, position} = context
+		position: (context: CR.MachineContext): CR.Position => {
+			const {position} = context
 
-			if (!tutorial) {
-				throw new Error('Tutorial not found when updating stage position')
-			}
-			// merge in the updated position
-			// sent with the test to ensure consistency
-			// @ts-ignore
-			const stages: G.Stage[] = tutorial.version
-				.levels.find((l: G.Level) => l.id === position.levelId)
-				.stages
+			const level: G.Level = selectors.currentLevel(context)
+			const stages: G.Stage[] = level.stages
 
 			const stageIndex = stages.findIndex((s: G.Stage) => s.id === position.stageId)
 			const stage: G.Stage = stages[stageIndex + 1]
@@ -103,15 +89,12 @@ export default {
 	}),
 	// @ts-ignore
 	updateLevelPosition: assign({
-		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
-			const {tutorial, position} = context
-
-			if (!tutorial) {
-				throw new Error('Tutorial not found when updating level position')
-			}
+		position: (context: CR.MachineContext): CR.Position => {
+			const {position} = context
+			const version = selectors.currentVersion(context)
 			// merge in the updated position
 			// sent with the test to ensure consistency
-			const levels: G.Level[] = tutorial.version.levels
+			const levels: G.Level[] = version.levels
 
 			const levelIndex = levels.findIndex((l: G.Level) => l.id === position.levelId)
 			const level: G.Level = levels[levelIndex + 1]
@@ -164,23 +147,12 @@ export default {
 		}
 	}),
 	loadNext: send((context: CR.MachineContext): CR.Action => {
-		const {tutorial, position, progress} = context
+		const {position, progress} = context
 
-		if (!tutorial) {
-			throw new Error('No tutorial found for loading next step')
-		}
+		const version = selectors.currentVersion(context)
+		const level = selectors.currentLevel(context)
+		const stage = selectors.currentStage(context)
 
-		// has next step?
-		const levels: G.Level[] = tutorial.version.levels
-		const level: G.Level | undefined = levels.find((l: G.Level) => l.id === position.levelId)
-		if (!level) {
-			throw new Error('No Level found')
-		}
-		const stages: G.Stage[] = level.stages
-		const stage: G.Stage | undefined = stages.find((s: G.Stage) => s.id === position.stageId)
-		if (!stage) {
-			throw new Error('No Stage found')
-		}
 		const steps: G.Step[] = stage.steps
 
 		const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
@@ -197,6 +169,7 @@ export default {
 
 		// has next stage?
 
+		const {stages} = level
 		const stageIndex = stages.findIndex((s: G.Stage) => s.id === position.stageId)
 		const finalStage = (stageIndex > -1 && stageIndex === stages.length - 1)
 		const hasNextStage = (!finalStage)
@@ -214,6 +187,7 @@ export default {
 
 		// has next level?
 
+		const {levels} = version
 		const levelIndex = levels.findIndex((l: G.Level) => l.id === position.levelId)
 		const finalLevel = (levelIndex > -1 && levelIndex === levels.length - 1)
 		const hasNextLevel = (!finalLevel)
@@ -234,19 +208,11 @@ export default {
 		return {type: 'COMPLETED'}
 	}),
 	stepNext: send((context: CR.MachineContext): CR.Action => {
-		const {tutorial, position, progress} = context
+		const {position, progress} = context
 
-		if (!tutorial || !tutorial.version) {
-			throw new Error('No tutorial found when loading next step')
-		}
+		const stage: G.Stage = selectors.currentStage(context)
 
-		// TODO: protect against errors
-		// @ts-ignore
-		const steps: G.Step[] = tutorial.version
-			.levels.find((l: G.Level) => l.id === position.levelId)
-			.stages.find((s: G.Stage) => s.id === position.stageId)
-			.steps
-
+		const {steps} = stage
 		// TODO: verify not -1
 		const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
 		const finalStep = stepIndex === steps.length - 1

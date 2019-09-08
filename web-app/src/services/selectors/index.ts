@@ -2,21 +2,36 @@ import {MachineContext} from 'typings'
 import * as G from 'typings/graphql'
 import {createSelector} from 'reselect'
 
-export const currentLevel = ({tutorial, position}: MachineContext): G.Level => {
+export const currentTutorial = ({tutorial}: MachineContext): G.Tutorial => {
 	if (!tutorial) {
-		throw new Error('Tutorial not found when selecting level')
+		throw new Error('Tutorial not found')
 	}
-	// merge in the updated position
-	// sent with the test to ensure consistency
-	const levels: G.Level[] = tutorial.version.levels
-
-	const level: G.Level | undefined = levels.find((l: G.Level) => l.id === position.levelId)
-
-	if (!level) {
-		throw new Error('Level not found when selecting level')
-	}
-	return level
+	return tutorial
 }
+
+export const currentVersion = createSelector(
+	currentTutorial,
+	(tutorial: G.Tutorial) => {
+		if (!tutorial.version) {
+			throw new Error('Tutorial version not found')
+		}
+		return tutorial.version
+	})
+
+export const currentLevel = (context: MachineContext): G.Level => createSelector(
+	currentVersion,
+	(version: G.TutorialVersion): G.Level => {
+		// merge in the updated position
+		// sent with the test to ensure consistency
+		const levels: G.Level[] = version.levels
+
+		const level: G.Level | undefined = levels.find((l: G.Level) => l.id === context.position.levelId)
+
+		if (!level) {
+			throw new Error('Level not found when selecting level')
+		}
+		return level
+	})(context)
 
 export const currentStage = (context: MachineContext): G.Stage => createSelector(
 	currentLevel,
@@ -41,4 +56,3 @@ export const currentStep = (context: MachineContext): G.Step => createSelector(
 		return step
 	}
 )(context)
-
