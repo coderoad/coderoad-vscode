@@ -20,20 +20,8 @@ export default {
 	// @ts-ignore
 	initPosition: assign({
 		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
-			if (!event.payload.tutorial) {
-				throw new Error('Invalid tutorial')
-			}
-
-			const version: G.TutorialVersion = event.payload.tutorial.version
-
-			const position: CR.Position = {
-				levelId: version.levels[0].id,
-				stageId: version.levels[0].stages[0].id,
-				stepId: version.levels[0].stages[0].steps[0].id,
-			}
-
+			const position: CR.Position = selectors.initialPosition(event.payload)
 			storage.position.set(position)
-
 			return position
 		},
 	}),
