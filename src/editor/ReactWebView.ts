@@ -156,12 +156,13 @@ class ReactWebView {
 						<meta charset='utf-8'>
 						<meta name='viewport' content='width=device-width,initial-scale=1,shrink-to-fit=no'>
 						<meta name='theme-color' content='#000000'>
+						<meta http-equiv='Content-Security-Policy' content="font-src vscode-resource://*; img-src vscode-resource: https:; script-src ${scripts.map(script => `'nonce-${script.nonce}'`).join(' ')}; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
 						<title>React App</title>
-						<link rel='manifest' href='./manifest.json' />
 
+						<link rel='manifest' href='./manifest.json' />
 						<link rel='stylesheet' href='https://unpkg.com/@alifd/next/dist/next.css' />
 						${styles.map(styleUri => `<link rel='stylesheet' type='text/css' href='${styleUri}'>`).join('\n')}
-						<meta http-equiv='Content-Security-Policy' content="font-src *; img-src vscode-resource: https:; script-src ${scripts.map(script => `'nonce-${script.nonce}'`).join(' ')}; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
+						
 						<base href='${buildUri}/'>
 				</head>
 

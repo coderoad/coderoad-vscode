@@ -5,7 +5,16 @@ import * as G from 'typings/graphql'
 
 class Storage<T> {
 	private key: string
-	private storage = localStorage
+	// TODO: replace somehow with localStorage
+	// window.localStorage not working inside of vscode
+	private storage = {
+		getItem(key: string) {
+			return null
+		},
+		setItem(key: string, value: string) {
+			return
+		}
+	}
 	constructor(key: string) {
 		this.key = key
 	}
