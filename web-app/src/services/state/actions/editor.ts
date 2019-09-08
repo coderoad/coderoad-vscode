@@ -1,8 +1,9 @@
 import * as CR from 'typings'
+import * as selectors from '../../selectors'
 import channel from '../../channel'
 
 export default {
-	tutorialConfig(context: CR.MachineContext) {
+	initializeTutorial(context: CR.MachineContext) {
 		// setup test runner and git
 		const {tutorial} = context
 		if (!tutorial) {
@@ -29,13 +30,34 @@ export default {
 			}
 		})
 	},
-	loadLevel(): void {
-		// load step actions	
+	loadLevel(context: CR.MachineContext): void {
+		const level = selectors.currentLevel(context)
+		if (level.setup) {
+			// load step actions
+			channel.editorSend({
+				type: 'STEP_ACTIONS',
+				payload: level.setup,
+			})
+		}
 	},
-	loadStage(): void {
-		// load step actions	
+	loadStage(context: CR.MachineContext): void {
+		const stage = selectors.currentStage(context)
+		if (stage.setup) {
+			// load step actions	
+			channel.editorSend({
+				type: 'STEP_ACTIONS',
+				payload: stage.setup,
+			})
+		}
 	},
-	loadStep(): void {
-		// load step actions	
+	loadStep(context: CR.MachineContext): void {
+		const step = selectors.currentStep(context)
+		if (step.setup) {
+			// load step actions
+			channel.editorSend({
+				type: 'STEP_ACTIONS',
+				payload: step.setup,
+			})
+		}
 	},
 }
