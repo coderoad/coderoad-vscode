@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import {exec} from '../services/node'
+import node from '../services/node'
 
 // ensure only latest run_test action is taken
 let currentId = 0
@@ -50,7 +50,7 @@ export default async function runTest({onSuccess, onFail}: Props): Promise<void>
 	try {
 		// capture position early on test start
 		// in case position changes
-		const {stdout} = await exec(commandLine)
+		const {stdout} = await node.exec(commandLine)
 		if (shouldExitEarly(processId)) {
 			// exit early
 			return
@@ -98,7 +98,7 @@ export default async function runTest({onSuccess, onFail}: Props): Promise<void>
 			console.error('SOMETHING WENT WRONG WITH A PASSING TEST')
 		}
 		// test runner failed
-		const channel = getOutputChannel(outputChannelName)
+		channel = getOutputChannel(outputChannelName)
 
 		if (stdout) {
 			const lines = stdout.split(/\r{0,1}\n/)

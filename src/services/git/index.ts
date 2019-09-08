@@ -1,5 +1,5 @@
 import * as CR from 'typings'
-import {exec, exists} from '../node'
+import node from '../node'
 
 
 const gitOrigin = 'coderoad'
@@ -7,7 +7,7 @@ const gitOrigin = 'coderoad'
 const stashAllFiles = async () => {
 	console.log('stashAllFiles')
 	// stash files including untracked (eg. newly created file)
-	const {stdout, stderr} = await exec(`git stash --include-untracked`)
+	const {stdout, stderr} = await node.exec(`git stash --include-untracked`)
 	if (stderr) {
 		console.error(stderr)
 		throw new Error('Error stashing files')
@@ -20,7 +20,7 @@ const cherryPickCommit = async (commit: string, count = 0): Promise<void> => {
 		return
 	}
 	try {
-		const {stdout} = await exec(`git cherry-pick ${commit}`)
+		const {stdout} = await node.exec(`git cherry-pick ${commit}`)
 		if (!stdout) {
 			throw new Error('No cherry-pick output')
 		}
@@ -49,7 +49,7 @@ export function loadCommit(commit: string): Promise<void> {
 
 export async function saveCommit(position: CR.Position): Promise<void> {
 	const {levelId, stageId, stepId} = position
-	const {stdout, stderr} = await exec(`git commit -am 'completed ${levelId}/${stageId}/${stepId}'`)
+	const {stdout, stderr} = await node.exec(`git commit -am 'completed ${levelId}/${stageId}/${stepId}'`)
 	if (stderr) {
 		console.error(stderr)
 		throw new Error('Error saving progress to Git')
@@ -60,7 +60,7 @@ export async function saveCommit(position: CR.Position): Promise<void> {
 export async function clear(): Promise<void> {
 	try {
 		// commit progress to git
-		const {stderr} = await exec('git reset HEAD --hard && git clean -fd')
+		const {stderr} = await node.exec('git reset HEAD --hard && git clean -fd')
 		if (!stderr) {
 			return
 		}
@@ -72,7 +72,7 @@ export async function clear(): Promise<void> {
 }
 
 export async function version(): Promise<string | boolean> {
-	const {stdout, stderr} = await exec('git --version')
+	const {stdout, stderr} = await node.exec('git --version')
 	if (!stderr) {
 		const match = stdout.match(/^git version (\d+\.)?(\d+\.)?(\*|\d+)/)
 		if (match) {
@@ -85,7 +85,7 @@ export async function version(): Promise<string | boolean> {
 }
 
 async function init(): Promise<void> {
-	const {stderr} = await exec('git init')
+	const {stderr} = await node.exec('git init')
 	if (stderr) {
 		throw new Error('Error initializing Gits')
 	}
@@ -98,14 +98,14 @@ export async function initIfNotExists(): Promise<void> {
 		throw new Error('Git must be installed')
 	}
 
-	const hasGitInit = exists('.git')
+	const hasGitInit = node.exists('.git')
 	if (!hasGitInit) {
 		await init()
 	}
 }
 
 export async function addRemote(repo: string): Promise<void> {
-	const {stderr} = await exec(`git remote add ${gitOrigin} ${repo} && git fetch ${gitOrigin}`)
+	const {stderr} = await node.exec(`git remote add ${gitOrigin} ${repo} && git fetch ${gitOrigin}`)
 	if (stderr) {
 		const alreadyExists = stderr.match(`${gitOrigin} already exists.`)
 		const successfulNewBranch = stderr.match('new branch')
@@ -120,7 +120,7 @@ export async function addRemote(repo: string): Promise<void> {
 
 export async function checkRemoteExists(): Promise<boolean> {
 	try {
-		const {stdout, stderr} = await exec('git remote -v')
+		const {stdout, stderr} = await node.exec('git remote -v')
 		if (stderr) {
 			return false
 		}

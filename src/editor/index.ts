@@ -1,5 +1,4 @@
 import * as vscode from 'vscode'
-import {setWorkspaceRoot} from '../services/node'
 import {createCommands} from './commands'
 
 class Editor {
@@ -9,12 +8,10 @@ class Editor {
 
 	constructor() {
 		// set workspace root for node executions
-		const {workspace} = vscode
-		const {rootPath} = workspace
+		const rootPath = vscode.workspace.rootPath
 		if (!rootPath) {
 			throw new Error('Requires a workspace. Please open a folder')
 		}
-		setWorkspaceRoot(rootPath)
 	}
 	public activate = (vscodeExt: vscode.ExtensionContext): void => {
 		console.log('ACTIVATE!')

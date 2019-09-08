@@ -28,9 +28,11 @@ class Channel implements Channel {
 				tutorialConfig(action.payload)
 				return
 			case 'SETUP_ACTIONS':
+				console.log(action.payload)
 				setupActions(action.payload)
 				return
 			case 'SOLUTION_ACTIONS':
+				console.log(action.payload)
 				solutionActions(action.payload)
 				return
 			default:

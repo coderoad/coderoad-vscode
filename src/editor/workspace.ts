@@ -1,10 +1,10 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import * as vscode from 'vscode'
-import {exec, exists} from '../services/node'
+import node from '../services/node'
 
 export async function isEmptyWorkspace(): Promise<boolean> {
-	const {stdout, stderr} = await exec('ls')
+	const {stdout, stderr} = await node.exec('ls')
 	if (stderr) {
 		throw new Error('Error validating if project is empty')
 	}
@@ -13,7 +13,7 @@ export async function isEmptyWorkspace(): Promise<boolean> {
 
 // // TODO: workspace change listener
 export async function openReadme(): Promise<void> {
-	const {stderr} = await exec('ls')
+	const {stderr} = await node.exec('ls')
 	if (stderr) {
 		throw new Error('Error looking for initial file')
 	}
@@ -21,7 +21,7 @@ export async function openReadme(): Promise<void> {
 	const file = 'README.md'
 	const filePath = path.join(vscode.workspace.rootPath || '', file)
 	console.log('filePath', filePath)
-	const hasReadme = await exists(file)
+	const hasReadme = await node.exists(file)
 
 	if (!hasReadme) {
 		// add readme if none exists

@@ -2,7 +2,7 @@ import * as G from 'typings/graphql'
 import {join} from 'path'
 import * as vscode from 'vscode'
 import * as git from '../services/git'
-import {exec} from '../services/node'
+import node from '../services/node'
 
 interface ErrorMessageFilter {
 	[lang: string]: {
@@ -25,7 +25,7 @@ const setupActions = async ({commands, commits, files}: G.StepActions): Promise<
 
 	// run command
 	for (const command of commands) {
-		const {stdout, stderr} = await exec(command)
+		const {stdout, stderr} = await node.exec(command)
 		if (stderr) {
 			console.error(stderr)
 			// language specific error messages from running commands

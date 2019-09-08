@@ -1,3 +1,4 @@
+import * as G from 'typings/graphql'
 import * as CR from 'typings'
 import * as selectors from '../../selectors'
 import channel from '../../channel'
@@ -31,7 +32,7 @@ export default {
 		})
 	},
 	loadLevel(context: CR.MachineContext): void {
-		const level = selectors.currentLevel(context)
+		const level: G.Level = selectors.currentLevel(context)
 		if (level.setup) {
 			// load step actions
 			channel.editorSend({
@@ -41,7 +42,7 @@ export default {
 		}
 	},
 	loadStage(context: CR.MachineContext): void {
-		const stage = selectors.currentStage(context)
+		const stage: G.Stage = selectors.currentStage(context)
 		if (stage.setup) {
 			// load step actions	
 			channel.editorSend({
@@ -51,7 +52,7 @@ export default {
 		}
 	},
 	loadStep(context: CR.MachineContext): void {
-		const step = selectors.currentStep(context)
+		const step: G.Step = selectors.currentStep(context)
 		if (step.setup) {
 			// load step actions
 			channel.editorSend({

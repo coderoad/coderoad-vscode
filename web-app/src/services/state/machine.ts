@@ -105,7 +105,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 					},
 					Stage: {
 						id: 'tutorial-stage',
-						onEntry: ['loadStage'],
+						onEntry: ['loadStage', 'loadStep'],
 						initial: 'Normal',
 						states: {
 							Normal: {
