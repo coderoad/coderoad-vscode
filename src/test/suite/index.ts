@@ -1,31 +1,37 @@
 import * as path from 'path'
-// import * as glob from 'glob'
-import * as jest from 'jest'
+import * as Mocha from 'mocha'
+import * as glob from 'glob'
 
-export async function run(): Promise<void> {
+export function run(): Promise<void> {
+	// Create the mocha test
+	const mocha = new Mocha({
+		ui: 'tdd',
+	})
+	mocha.useColors(true)
 
-	const testDir = __dirname
+	const testsRoot = path.resolve(__dirname, '..')
 
-	const config = {
-		bail: false,
-		rootDir: testDir,
-		browser: false,
-		json: false,
-		useStderr: true,
-	}
-	// @ts-ignore
-	const {results} = await jest.runCLI(config, [testDir])
-		.catch((failure: any) => {
-			console.error(failure)
+	return new Promise((c, e) => {
+		glob('**/**.test.js', {cwd: testsRoot}, (err, files) => {
+			if (err) {
+				return e(err)
+			}
+
+			// Add files to the test suite
+			files.forEach(f => mocha.addFile(path.resolve(testsRoot, f)))
+
+			try {
+				// Run the mocha test
+				mocha.run(failures => {
+					if (failures > 0) {
+						e(new Error(`${failures} tests failed.`))
+					} else {
+						c()
+					}
+				})
+			} catch (err) {
+				e(err)
+			}
 		})
-
-	if (results.numFailedTests > 0) {
-		const failedTests = results.testResults.filter((t: any) => t.numFailingTests || t.numPendingTests)
-
-		failedTests.forEach(console.log)
-		throw new Error(' Test(s) failed')
-	}
-
-	console.log('--- JEST OUTPUT ---\n\n', JSON.stringify(results, null, 2))
-	console.log(`${results.numPassedTests} test(s) passed!`)
+	})
 }

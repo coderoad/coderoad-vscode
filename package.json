@@ -30,6 +30,7 @@
     "watch": "tsc -watch -p ./"
   },
   "dependencies": {
+    "@types/mocha": "^5.2.7",
     "dotenv": "^8.1.0",
     "graphql": "^14.5.4",
     "graphql-request": "^1.8.2",
@@ -38,16 +39,16 @@
     "xstate": "^4.6.7"
   },
   "devDependencies": {
+    "@types/assert": "^1.4.3",
     "@types/dotenv": "^6.1.1",
     "@types/glob": "^7.1.1",
     "@types/graphql": "^14.5.0",
-    "@types/jest": "^24.0.18",
     "@types/node": "^12.7.4",
+    "assert": "^2.0.0",
     "concurrently": "^4.1.2",
     "glob": "^7.1.4",
-    "jest": "^24.8.0",
+    "mocha": "^6.2.0",
     "prettier": "^1.18.2",
-    "ts-jest": "^24.0.2",
     "tslint": "^5.19.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.6.2",
