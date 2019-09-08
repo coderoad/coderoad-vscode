@@ -1,6 +1,8 @@
 import * as React from 'react'
 // import { editorDispatch } from './services/vscode'
 import * as CR from 'typings'
+import Workspace from './components/Workspace'
+
 import Router from './components/Router'
 import LoadingPage from './containers/LoadingPage'
 import ContinuePage from './containers/Continue'
@@ -12,37 +14,11 @@ import CompletedPage from './containers/Tutorial/CompletedPage'
 
 const { Route } = Router
 
-const styles = {
-  page: {
-    margin: 0,
-    backgroundColor: 'white',
-  },
-}
-
 const tempSend = (action: any) => console.log('sent')
 
 const Routes = () => {
-  // const [dimensions, setDimensions] = React.useState({
-  //   width: window.innerWidth - 20,
-  //   height: window.innerHeight - 20,
-  // })
-
-  // // solution for windows getting off size
-  // // without adding multiple listeners
-  // React.useEffect(() => {
-  //   const dimensionsInterval = setInterval(() => {
-  //     setDimensions({
-  //       width: window.innerWidth - 20,
-  //       height: window.innerHeight - 20,
-  //     })
-  //   }, 5000)
-  //   return () => {
-  //     clearInterval(dimensionsInterval)
-  //   }
-  // }, [])
-
   return (
-    <div style={{ ...styles.page }}>
+    <Workspace>
       <Router>
         <Route path="Start.Startup">
           <LoadingPage text="Launching..." />
@@ -72,7 +48,7 @@ const Routes = () => {
           <CompletedPage send={tempSend} context={{} as CR.MachineContext} />
         </Route>
       </Router>
-    </div>
+    </Workspace>
   )
 }
 
