@@ -1,7 +1,6 @@
-import * as G from 'typings/graphql'
 import * as CR from 'typings'
 import {exec, exists} from '../node'
-import errorMessages from './errorMessages'
+
 
 const gitOrigin = 'coderoad'
 
@@ -39,42 +38,8 @@ const cherryPickCommit = async (commit: string, count = 0): Promise<void> => {
     SINGLE git cherry-pick %COMMIT%
     if fails, will stash all and retry
 */
-export async function gitLoadCommits(actions: G.StepActions, openFile: (file: string) => void): Promise<void> {
-	const {commits, commands, files} = actions
-
-	console.log(`load commits: ${commits.join(', ')}`)
-	console.log(`commands: ${commands.join(', ')}`)
-	console.log(`files ${files.join(', s')}`)
-
-	for (const commit of commits) {
-		// pull a commit from tutorial repo
-		console.log(`try cherry-pick ${commit}`)
-		await cherryPickCommit(commit)
-	}
-
-	if (commands) {
-		// TODO: run shell as task
-		for (const command of commands) {
-			const {stdout, stderr} = await exec(command)
-			if (stderr) {
-				console.error(stderr)
-				// language specific error messages from running commands
-				for (const message of Object.keys(errorMessages.js)) {
-					if (stderr.match(message)) {
-						// ignored error
-						throw new Error('Error running setup command')
-					}
-				}
-			}
-			console.log(`run command: ${command}`, stdout)
-		}
-	}
-
-	if (files) {
-		for (const filePath of files) {
-			openFile(filePath)
-		}
-	}
+export function loadCommit(commit: string): Promise<void> {
+	return cherryPickCommit(commit)
 }
 
 /* 
@@ -82,7 +47,7 @@ export async function gitLoadCommits(actions: G.StepActions, openFile: (file: st
     git commit -am '${level}/${stage}/${step} complete'
 */
 
-export async function gitSaveCommit(position: CR.Position): Promise<void> {
+export async function saveCommit(position: CR.Position): Promise<void> {
 	const {levelId, stageId, stepId} = position
 	const {stdout, stderr} = await exec(`git commit -am 'completed ${levelId}/${stageId}/${stepId}'`)
 	if (stderr) {
@@ -92,7 +57,7 @@ export async function gitSaveCommit(position: CR.Position): Promise<void> {
 	console.log('save with commit & continue stdout', stdout)
 }
 
-export async function gitClear(): Promise<void> {
+export async function clear(): Promise<void> {
 	try {
 		// commit progress to git
 		const {stderr} = await exec('git reset HEAD --hard && git clean -fd')
@@ -106,7 +71,7 @@ export async function gitClear(): Promise<void> {
 	throw new Error('Error cleaning up current unsaved work')
 }
 
-export async function gitVersion(): Promise<string | boolean> {
+export async function version(): Promise<string | boolean> {
 	const {stdout, stderr} = await exec('git --version')
 	if (!stderr) {
 		const match = stdout.match(/^git version (\d+\.)?(\d+\.)?(\*|\d+)/)
@@ -119,15 +84,15 @@ export async function gitVersion(): Promise<string | boolean> {
 	throw new Error('Git not installed. Please install Git')
 }
 
-async function gitInit(): Promise<void> {
+async function init(): Promise<void> {
 	const {stderr} = await exec('git init')
 	if (stderr) {
 		throw new Error('Error initializing Gits')
 	}
 }
 
-export async function gitInitIfNotExists(): Promise<void> {
-	const hasGit = await gitVersion()
+export async function initIfNotExists(): Promise<void> {
+	const hasGit = await version()
 
 	if (!hasGit) {
 		throw new Error('Git must be installed')
@@ -135,11 +100,11 @@ export async function gitInitIfNotExists(): Promise<void> {
 
 	const hasGitInit = exists('.git')
 	if (!hasGitInit) {
-		await gitInit()
+		await init()
 	}
 }
 
-export async function gitAddRemote(repo: string): Promise<void> {
+export async function addRemote(repo: string): Promise<void> {
 	const {stderr} = await exec(`git remote add ${gitOrigin} ${repo} && git fetch ${gitOrigin}`)
 	if (stderr) {
 		const alreadyExists = stderr.match(`${gitOrigin} already exists.`)
@@ -153,7 +118,7 @@ export async function gitAddRemote(repo: string): Promise<void> {
 	}
 }
 
-export async function gitCheckRemoteExists(): Promise<boolean> {
+export async function checkRemoteExists(): Promise<boolean> {
 	try {
 		const {stdout, stderr} = await exec('git remote -v')
 		if (stderr) {
@@ -167,12 +132,12 @@ export async function gitCheckRemoteExists(): Promise<boolean> {
 	}
 }
 
-export async function gitSetupRemote(repo: string): Promise<void> {
+export async function setupRemote(repo: string): Promise<void> {
 	// check coderoad remote not taken
-	const hasRemote = await gitCheckRemoteExists()
+	const hasRemote = await checkRemoteExists()
 	// git remote add coderoad tutorial
 	// git fetch coderoad
 	if (!hasRemote) {
-		await gitAddRemote(repo)
+		await addRemote(repo)
 	}
 }

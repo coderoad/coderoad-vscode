@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as vscode from 'vscode'
-import Channel, * as channel from './channel'
+import Channel from '../Channel'
 
 const getNonce = (): string => {
 	let text = ''
@@ -33,7 +33,7 @@ class ReactWebView {
 		this.panel.webview.html = this.getHtmlForWebview()
 
 		// Listen for when the panel is disposed
-		// This happens when the user closes the panel or when the panel is closed programatically
+		// This happens when the user closes the panel or when the panel is closed programmatically
 		this.panel.onDidDispose(this.dispose, this, this.disposables)
 
 		this.channel = new Channel(this.panel.webview)

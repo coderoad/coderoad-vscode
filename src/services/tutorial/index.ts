@@ -48,8 +48,8 @@ class Tutorial implements TutorialModel {
 			throw new Error('Tutorial repo uri not found')
 		}
 
-		await git.gitInitIfNotExists()
-		await git.gitSetupRemote(this.repo.uri)
+		await git.initIfNotExists()
+		await git.setupRemote(this.repo.uri)
 
 		this.config = {
 			codingLanguage: tutorial.codingLanguage,
@@ -68,8 +68,8 @@ class Tutorial implements TutorialModel {
 
 		// verify git is setup with a coderoad remote
 		const [hasGit, hasGitRemote] = await Promise.all([
-			git.gitVersion(),
-			git.gitCheckRemoteExists(),
+			git.version(),
+			git.checkRemoteExists(),
 		])
 		// TODO: may need to clean up git remote if no existing tutorial
 
@@ -78,7 +78,7 @@ class Tutorial implements TutorialModel {
 		return canContinue
 	}
 	public triggerCurrent = (stepActions: G.StepActions) => {
-		git.gitLoadCommits(stepActions, this.openFile)
+		// git.loadCommits(stepActions, this.openFile)
 	}
 }
 

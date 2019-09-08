@@ -8,7 +8,6 @@ class Editor {
 	private vscodeExt: vscode.ExtensionContext
 
 	constructor() {
-
 		// set workspace root for node executions
 		const {workspace} = vscode
 		const {rootPath} = workspace
@@ -31,11 +30,6 @@ class Editor {
 		for (const disposable of this.vscodeExt.subscriptions) {
 			disposable.dispose()
 		}
-	}
-
-	// execute vscode command
-	public dispatch = (type: string, payload?: any) => {
-		vscode.commands.executeCommand(type, payload)
 	}
 
 	private activateCommands = (): void => {

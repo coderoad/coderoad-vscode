@@ -35,7 +35,7 @@ export default {
 		if (level.setup) {
 			// load step actions
 			channel.editorSend({
-				type: 'STEP_ACTIONS',
+				type: 'SETUP_ACTIONS',
 				payload: level.setup,
 			})
 		}
@@ -45,7 +45,7 @@ export default {
 		if (stage.setup) {
 			// load step actions	
 			channel.editorSend({
-				type: 'STEP_ACTIONS',
+				type: 'SETUP_ACTIONS',
 				payload: stage.setup,
 			})
 		}
@@ -55,7 +55,7 @@ export default {
 		if (step.setup) {
 			// load step actions
 			channel.editorSend({
-				type: 'STEP_ACTIONS',
+				type: 'SETUP_ACTIONS',
 				payload: step.setup,
 			})
 		}

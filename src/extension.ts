@@ -1,8 +1,8 @@
-import * as vscode from 'vscode'
-import Tutorial, {TutorialModel} from './services/tutorial'
+// import * as vscode from 'vscode'
+// import Tutorial, {TutorialModel} from './services/tutorial'
 import Editor from './editor'
 
-export const tutorialModel: TutorialModel = new Tutorial(vscode.commands.executeCommand)
+// export const tutorialModel: TutorialModel = new Tutorial(vscode.commands.executeCommand)
 
 // vscode editor
 export const editor = new Editor()

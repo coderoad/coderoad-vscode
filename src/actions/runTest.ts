@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import {exec} from '../../services/node'
+import {exec} from '../services/node'
 
 // ensure only latest run_test action is taken
 let currentId = 0
