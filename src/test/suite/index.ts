@@ -8,16 +8,24 @@ export async function run(): Promise<void> {
 
 	const config = {
 		bail: false,
-		// rootDir: testDir,
+		rootDir: testDir,
 		browser: false,
 		json: false,
 		useStderr: true,
 	}
 	// @ts-ignore
-	const result = await jest.runCLI(config, [testDir])
+	const {results} = await jest.runCLI(config, [testDir])
 		.catch((failure: any) => {
 			console.error(failure)
 		})
 
-	console.log('--- JEST OUTPUT ---\n\n', JSON.stringify(result.results, null, 2))
+	if (results.numFailedTests > 0) {
+		const failedTests = results.testResults.filter((t: any) => t.numFailingTests || t.numPendingTests)
+
+		failedTests.forEach(console.log)
+		throw new Error(' Test(s) failed')
+	}
+
+	console.log('--- JEST OUTPUT ---\n\n', JSON.stringify(results, null, 2))
+	console.log(`${results.numPassedTests} test(s) passed!`)
 }

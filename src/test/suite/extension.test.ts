@@ -4,11 +4,8 @@
 // import * as vscode from 'vscode'
 // import * as myExtension from '../../extension'
 
-console.log('running extension.test.js')
-
 describe('Extension tests', () => {
 	test('Some test', () => {
-		console.log('some test ran!')
 		expect(2).toBe(2)
 	})
 })

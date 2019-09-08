@@ -21,10 +21,11 @@ async function main() {
 	// Download VS Code, unzip it and run the integration test
 	await runTests(config)
 		.catch((err: Error) => {
-			console.error('Failed to run tests')
 			console.error(err)
 			process.exit(1)
 		})
+
+	process.exit(0)
 }
 
 main()
