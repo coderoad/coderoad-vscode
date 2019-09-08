@@ -47,11 +47,8 @@ const Routes = () => {
         <Route path="Start.Startup">
           <LoadingPage text="Launching..." />
         </Route>
-        <Route path="Start.NewTutorial.SelectTutorial">
+        <Route path="Start.SelectTutorial">
           <NewPage send={tempSend} />
-        </Route>
-        <Route path="Start.NewTutorial.InitializeTutorial">
-          <LoadingPage text="Launching Tutorial..." />
         </Route>
         <Route path="Start.ContinueTutorial">
           <ContinuePage send={tempSend} context={{} as CR.MachineContext} />

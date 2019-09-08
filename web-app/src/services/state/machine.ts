@@ -34,31 +34,21 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 								target: 'ContinueTutorial',
 								actions: ['continueTutorial']
 							},
-							onError: 'NewTutorial'
+							onError: 'SelectTutorial'
 						},
 					},
-					NewTutorial: {
+					SelectTutorial: {
 						id: 'start-new-tutorial',
-						initial: 'SelectTutorial',
-						states: {
-							SelectTutorial: {
-								on: {
-									TUTORIAL_START: {
-										target: 'InitializeTutorial',
-										actions: ['setTutorial'],
-									},
-								},
-							},
-							InitializeTutorial: {
-								on: {
-									TUTORIAL_LOADED: '#tutorial',
-								},
+						on: {
+							TUTORIAL_START: {
+								target: '#tutorial',
+								actions: ['setTutorial'],
 							},
 						},
 					},
 					ContinueTutorial: {
 						on: {
-							TUTORIAL_START: '#tutorial-stage',
+							TUTORIAL_START: '#tutorial',
 						},
 					},
 				},

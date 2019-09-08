@@ -132,12 +132,7 @@ export interface MachineStateSchema {
 		Start: {
 			states: {
 				Startup: {}
-				NewTutorial: {
-					states: {
-						SelectTutorial: {}
-						InitializeTutorial: {}
-					}
-				}
+				SelectTutorial: {}
 				ContinueTutorial: {}
 			}
 		}
