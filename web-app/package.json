@@ -38,6 +38,7 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-scripts": "^3.1.1",
+    "reselect": "^4.0.0",
     "typescript": "^3.6.2",
     "xstate": "^4.6.7"
   },
