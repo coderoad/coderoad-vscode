@@ -37,6 +37,7 @@ export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 	return {
 		// initialize
 		[COMMANDS.START]: async () => {
+			console.log('start')
 
 			await isEmptyWorkspace()
 
@@ -53,24 +54,13 @@ export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 
 			// activate machine
 			webview = new ReactWebView(vscodeExt.extensionPath)
-			if (webviewState === 'INITIALIZING') {
-				// machine.activate()
-			} else if (webviewState === 'RESTARTING') {
-				setTimeout(() => {
-					// timeout hack to make data update on new windows
-					// @ts-ignore
-					machine.refresh()
-				}, 1000)
-			}
 		},
 		// open React webview
 		[COMMANDS.OPEN_WEBVIEW]: (column: number = vscode.ViewColumn.Two) => {
+			console.log('open webview')
 			// setup 1x1 horizontal layout
 			resetLayout()
-			const callback = () => {
-				// machine.send('WEBVIEW_INITIALIZED')
-			}
-			webview.createOrShow(column, callback)
+			webview.createOrShow(column)
 		},
 		[COMMANDS.TEST_RUNNER_SETUP]: async (codingLanguage: G.EnumCodingLanguage) => {
 
@@ -90,6 +80,13 @@ export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 		[COMMANDS.OPEN_FILE]: async (relativeFilePath: string) => {
 			console.log(`OPEN_FILE ${JSON.stringify(relativeFilePath)}`)
 			try {
+				// TODO: reenable after testing
+				// const workspaceRoots: vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders
+				// if (!workspaceRoots || !workspaceRoots.length) {
+				// 	throw new Error('No workspace root path')
+				// }
+				// const rootWorkspace: vscode.WorkspaceFolder = workspaceRoots[0]
+				// const absoluteFilePath = join(rootWorkspace.uri.path, relativeFilePath)
 				const workspaceRoot = vscode.workspace.rootPath
 				if (!workspaceRoot) {
 					throw new Error('No workspace root path')

@@ -78,24 +78,13 @@ class ReactWebView {
 		// TODO: prevent window from moving to the left when no windows remain on rights
 	}
 
-	public createOrShow(column: number, callback?: () => void): void {
+	public createOrShow(column: number): void {
 		// If we already have a panel, show it.
 		// Otherwise, create a new panel.
 		if (this.panel && this.panel.webview) {
 			this.panel.reveal(column)
 		} else {
 			this.panel = this.createWebviewPanel(column)
-		}
-		if (callback) {
-			// listen for when webview is loaded
-			// unfortunately there is no easy way of doing this
-			const webPanelListener = setInterval(() => {
-				if (this.loaded) {
-					// callback tells editor the webview has loaded
-					setTimeout(callback)
-					clearInterval(webPanelListener)
-				}
-			}, 200)
 		}
 	}
 
@@ -143,7 +132,7 @@ class ReactWebView {
 		const styles = [
 			'main.css',
 			// get style chunk
-			// Object.keys(manifest.files).find(f => f.match(/^static\/css\/.+\.css$/)) || ''
+			Object.keys(manifest.files).find(f => f.match(/^static\/css\/.+\.css$/)) || ''
 		].map(style => getSrc(style))
 
 		// map over scripts
@@ -161,7 +150,6 @@ class ReactWebView {
 			src: script.manifest ? getSrc(script.manifest) : script.file
 		}))
 
-
 		const indexHtml = `<!DOCTYPE html>
 			<html lang='en'>
 				<head>
@@ -173,14 +161,13 @@ class ReactWebView {
 
 						<link rel='stylesheet' href='https://unpkg.com/@alifd/next/dist/next.css' />
 						${styles.map(styleUri => `<link rel='stylesheet' type='text/css' href='${styleUri}'>`).join('\n')}
-
 						<meta http-equiv='Content-Security-Policy' content="font-src *; img-src vscode-resource: https:; script-src ${scripts.map(script => `'nonce-${script.nonce}'`).join(' ')}; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
 						<base href='${buildUri}/'>
 				</head>
 
 				<body>
 						<noscript>You need to enable JavaScript to run this app.</noscript>
-						<div id='root'>Loading...</div>
+						<div id='root' style='background-color:white; padding: 1rem;'>Loading...</div>
 						${scripts.map(s => `<script nonce='${s.nonce}' src='${s.src}'></script>`).join('\n')}
 				</body>
 		</html>`
