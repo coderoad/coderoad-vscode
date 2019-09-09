@@ -7,6 +7,7 @@ const COMMANDS = {
 	START: 'coderoad.start',
 	OPEN_WEBVIEW: 'coderoad.open_webview',
 	RUN_TEST: 'coderoad.run_test',
+	SET_CURRENT_STEP: 'coderoad.set_current_step',
 }
 
 interface CreateCommandProps {
@@ -16,7 +17,7 @@ interface CreateCommandProps {
 export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 	// React panel webview
 	let webview: any
-
+	let currentStepId = ''
 	return {
 		// initialize
 		[COMMANDS.START]: async () => {
@@ -52,26 +53,32 @@ export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 
 			webview.createOrShow(column)
 		},
-		[COMMANDS.RUN_TEST]: ({stepId}: {stepId: string}) => {
-			console.log('run test webview', Object.keys(webview))
+		[COMMANDS.SET_CURRENT_STEP]: ({stepId}: {stepId: string}) => {
+			// NOTE: as async, may sometimes be inaccurate
+			// set from last setup stepAction
+			currentStepId = stepId
+		},
+		[COMMANDS.RUN_TEST]: (current: {stepId: string} | undefined) => {
+			// use stepId from client, or last set stepId
+			const payload = {stepId: current ? current.stepId : currentStepId}
 			runTest({
 				onSuccess: () => {
 					console.log('COMMAND TEST_PASS')
-					webview.send({type: 'TEST_PASS', payload: {stepId}})
+					webview.send({type: 'TEST_PASS', payload})
 					vscode.window.showInformationMessage('PASS')
 				},
 				onFail: () => {
 					console.log('COMMAND TEST_FAIL')
-					webview.send({type: 'TEST_FAIL', payload: {stepId}})
+					webview.send({type: 'TEST_FAIL', payload})
 					vscode.window.showWarningMessage('FAIL')
 				},
 				onError: () => {
 					console.log('COMMAND TEST_ERROR')
-					webview.send({type: 'TEST_ERROR', payload: [stepId]})
+					webview.send({type: 'TEST_ERROR', payload})
 				},
 				onRun: () => {
 					console.log('COMMAND TEST_RUN')
-					webview.send({type: 'TEST_RUN', payload: {stepId}})
+					webview.send({type: 'TEST_RUN', payload})
 				}
 			})
 		},

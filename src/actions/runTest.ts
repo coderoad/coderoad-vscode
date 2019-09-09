@@ -139,9 +139,6 @@ async function runTest({onSuccess, onFail, onRun, onError}: Props): Promise<void
 			channel.show(false)
 			channel.appendLine(stderr)
 		}
-		// if (err.stdout) {
-		// 	channel.appendLine(err.stdout);
-		// }
 	}
 }
 
