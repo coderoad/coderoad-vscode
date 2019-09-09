@@ -1,27 +1,72 @@
 import {assign, send} from 'xstate'
 import * as G from 'typings/graphql'
 import * as CR from 'typings'
-import * as storage from '../storage'
 import * as selectors from '../../selectors'
 
 export default {
+	continueTutorial: (context: CR.MachineContext, event: CR.MachineEvent) => {
+
+		const {tutorial, stepProgress} = event.data.payload
+
+		const progress: CR.Progress = {
+			steps: stepProgress,
+			stages: {},
+			levels: {},
+			complete: false
+		}
+
+		const position: CR.Position = {
+			stepId: '',
+			stageId: '',
+			levelId: '',
+		}
+
+		// calculate progress from tutorial & stepProgress
+		for (const level of tutorial.version.levels) {
+			for (const stage of level.stages) {
+				// set stage progress
+				const stageComplete: boolean = stage.steps.every((step: G.Step) => {
+					return stepProgress[step.id]
+				})
+				if (stageComplete) {
+					progress.stages[stage.id] = true
+				} else if (!position.stageId.length) {
+					// set stage amd step position
+					position.stageId = stage.id
+					position.stepId = stage.steps.find((step: G.Step) => !stepProgress[step.id]).id
+				}
+			}
+			// set level progress
+			const levelComplete: boolean = level.stages.every((stage: G.Stage) => {
+				return progress.stages[stage.id]
+			})
+			if (levelComplete) {
+				progress.levels[level.id] = true
+			} else if (!position.levelId.length) {
+				position.levelId = level.id
+			}
+		}
+		// set tutorial progress
+		progress.complete = tutorial.version.levels.every((level: G.Level) => {
+			return progress.levels[level.id]
+		})
+
+		return assign({
+			tutorial,
+			progress,
+			position,
+		})
+	},
 	setTutorial: assign({
 		tutorial: (context: CR.MachineContext, event: CR.MachineEvent): any => {
 			const {tutorial} = event.payload
-			storage.tutorial.set(tutorial)
 			return tutorial
 		},
-	}),
-	continueTutorial: assign({
-		tutorial: (context: CR.MachineContext, event: CR.MachineEvent) => event.data.payload.tutorial,
-		progress: (context: CR.MachineContext, event: CR.MachineEvent) => event.data.payload.progress,
-		position: (context: CR.MachineContext, event: CR.MachineEvent) => event.data.payload.position,
 	}),
 	// @ts-ignore
 	initPosition: assign({
 		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
 			const position: CR.Position = selectors.initialPosition(event.payload)
-			storage.position.set(position)
 			return position
 		},
 	}),
@@ -51,8 +96,6 @@ export default {
 				stepId: step.id
 			}
 
-			storage.position.set(nextPosition)
-
 			return nextPosition
 		},
 	}),
@@ -72,8 +115,6 @@ export default {
 				stageId: stage.id,
 				stepId: stage.steps[0].id,
 			}
-
-			storage.position.set(nextPosition)
 
 			return nextPosition
 		},
@@ -96,8 +137,6 @@ export default {
 				stepId: level.stages[0].steps[0].id,
 			}
 
-			storage.position.set(nextPosition)
-
 			return nextPosition
 		},
 	}),
@@ -111,8 +150,6 @@ export default {
 
 			currentProgress.steps[stepId] = true
 
-			storage.progress.set(currentProgress)
-
 			return currentProgress
 		},
 	}),
@@ -125,8 +162,6 @@ export default {
 			const stageId: string = position.stageId
 
 			progress.stages[stageId] = true
-
-			storage.progress.set(progress)
 
 			return progress
 		},
@@ -228,17 +263,14 @@ export default {
 	}),
 	reset: assign({
 		tutorial() {
-			storage.tutorial.set(null)
 			return null
 		},
 		progress(): CR.Progress {
 			const progress: CR.Progress = selectors.defaultProgress()
-			storage.progress.set(progress)
 			return progress
 		},
 		position(): CR.Position {
 			const position: CR.Position = selectors.defaultPosition()
-			storage.position.set(position)
 			return position
 		}
 	})

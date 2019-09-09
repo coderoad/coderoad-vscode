@@ -15,7 +15,7 @@ const Workspace = ({ children }: Props) => {
   // solution for windows getting off size
   React.useEffect(() => {
     setDimensions(resize())
-  }, [window.innerHeight, window.innerHeight])
+  }, [])
 
   const styles = {
     page: {

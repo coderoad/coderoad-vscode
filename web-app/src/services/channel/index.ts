@@ -37,6 +37,12 @@ class Channel {
 				this.machineSend('TUTORIAL_LOADED')
 				console.log('send action to state machine')
 				return
+			case 'NEW_TUTORIAL':
+				this.machineSend(action)
+				return
+			case 'CONTINUE_TUTORIAL':
+				this.machineSend(action)
+				return
 			case 'TEST_PASS':
 				// { type: 'TEST_PASS', payload: { stepId: string }}
 				this.machineSend(action)

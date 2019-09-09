@@ -1,6 +1,5 @@
 import * as CR from 'typings'
 import * as vscode from 'vscode'
-import * as storage from './services/storage'
 
 import tutorialConfig from './actions/tutorialConfig'
 import setupActions from './actions/setupActions'
@@ -11,10 +10,20 @@ interface Channel {
 	send(action: CR.Action): Promise<void>
 }
 
+interface ChannelProps {
+	postMessage: (action: CR.Action) => Thenable<boolean>
+	storage: {
+		tutorial: any
+		stepProgress: any
+	}
+}
+
 class Channel implements Channel {
 	private postMessage: (action: CR.Action) => Thenable<boolean>
-	constructor(postMessage: (action: CR.Action) => Thenable<boolean>) {
+	private storage: any
+	constructor({postMessage, storage}: ChannelProps) {
 		this.postMessage = postMessage
+		this.storage = storage
 	}
 
 	// receive from webview
@@ -24,19 +33,29 @@ class Channel implements Channel {
 		switch (actionType) {
 			// continue from tutorial from local storage
 			case 'TUTORIAL_LOAD_STORED':
-				const tutorial = storage.tutorial.get()
-				const stepProgress = storage.stepProgress.get()
-				this.send({type: 'TUTORIAL_LOADED', payload: {tutorial, stepProgress}})
+				const tutorial = this.storage.tutorial.get()
+				const stepProgress = this.storage.stepProgress.get()
+
+				console.log('looking at stored')
+				console.log(JSON.stringify(tutorial))
+				console.log(JSON.stringify(stepProgress))
+
+				if (tutorial && tutorial.id) {
+					this.send({type: 'CONTINUE_TUTORIAL', payload: {tutorial, stepProgress}})
+				} else {
+					this.send({type: 'NEW_TUTORIAL'})
+				}
+
 				return
 			// clear tutorial local storage
 			case 'TUTORIAL_CLEAR':
-				storage.tutorial.set(null)
-				storage.stepProgress.set({})
+				this.storage.tutorial.set(null)
+				this.storage.stepProgress.set({})
 				return
 			// configure test runner, language, git
 			case 'TUTORIAL_CONFIG':
 				tutorialConfig(action.payload)
-				storage.tutorial.set(action.payload)
+				this.storage.tutorial.set(action.payload)
 				return
 			// run unit tests on step
 			case 'TEST_RUN':

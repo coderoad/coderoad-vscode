@@ -25,16 +25,17 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 		states: {
 			Start: {
 				initial: 'Startup',
+				onEntry: ['loadStoredTutorial'],
 				states: {
 					Startup: {
-						invoke: {
-							id: 'newOrContinue',
-							src: invoke.newOrContinue,
-							onDone: {
+						on: {
+							CONTINUE_TUTORIAL: {
 								target: 'ContinueTutorial',
-								actions: ['continueTutorial']
+								actions: ['continueTutorial'],
 							},
-							onError: 'SelectTutorial'
+							NEW_TUTORIAL: {
+								target: 'SelectTutorial'
+							}
 						},
 					},
 					SelectTutorial: {

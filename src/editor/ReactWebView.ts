@@ -12,6 +12,14 @@ const getNonce = (): string => {
 	return text
 }
 
+interface ReactWebViewProps {
+	extensionPath: string
+	storage: {
+		tutorial: any
+		stepProgress: any
+	}
+}
+
 
 // Manages webview panel
 class ReactWebView {
@@ -24,7 +32,7 @@ class ReactWebView {
 	private disposables: vscode.Disposable[] = []
 	private channel: Channel
 
-	public constructor(extensionPath: string) {
+	public constructor({extensionPath, storage}: ReactWebViewProps) {
 		this.extensionPath = extensionPath
 
 		// Create and show a new webview panel
@@ -37,8 +45,11 @@ class ReactWebView {
 		// This happens when the user closes the panel or when the panel is closed programmatically
 		this.panel.onDidDispose(this.dispose, this, this.disposables)
 
-		this.channel = new Channel((action: Action): Thenable<boolean> => {
-			return this.panel.webview.postMessage(action)
+		this.channel = new Channel({
+			storage,
+			postMessage: (action: Action): Thenable<boolean> => {
+				return this.panel.webview.postMessage(action)
+			}
 		})
 		// Handle messages from the webview
 		const receive = this.channel.receive

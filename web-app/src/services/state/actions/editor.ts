@@ -4,6 +4,11 @@ import * as selectors from '../../selectors'
 import channel from '../../channel'
 
 export default {
+	loadStoredTutorial() {
+		channel.editorSend({
+			type: 'TUTORIAL_LOAD_STORED',
+		})
+	},
 	initializeTutorial(context: CR.MachineContext, event: CR.MachineEvent) {
 		// setup test runner and git
 		const {tutorial} = event.data.payload

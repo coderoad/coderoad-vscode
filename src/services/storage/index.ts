@@ -1,19 +1,20 @@
-import * as G from 'typings/graphql'
+import * as vscode from 'vscode'
 
-// localStorage not available on client
+// NOTE: localStorage not available on client
 // must be stored in editor
+// https://github.com/Microsoft/vscode/issues/52246
 
+// storage is unfortunately bound to the vscode extension context
+// forcing it to be passed in through activation and down to other tools
 class Storage<T> {
 	private key: string
-	// TODO: replace somehow with localStorage
-	// window.localStorage not working inside of vscode
-	private storage = localStorage
-	constructor({key, value}: {key: string, value: T}) {
+	private storage: vscode.Memento
+	constructor({key, storage}: {key: string, storage: vscode.Memento}) {
+		this.storage = storage
 		this.key = key
-		this.set(value)
 	}
 	public get = async (): Promise<T | null> => {
-		const value = await this.storage.getItem(this.key)
+		const value: string | undefined = await this.storage.get(this.key)
 		if (value) {
 			return JSON.parse(value)
 		}
@@ -21,7 +22,7 @@ class Storage<T> {
 	}
 	public set = (value: T): void => {
 		const stringValue = JSON.stringify(value)
-		this.storage.setItem(this.key, stringValue)
+		this.storage.update(this.key, stringValue)
 	}
 	public update = async (value: T): Promise<void> => {
 		const current = await this.get()
@@ -32,11 +33,4 @@ class Storage<T> {
 	}
 }
 
-export const tutorial = new Storage<G.Tutorial | null>({
-	key: 'coderoad:tutorial',
-	value: null
-})
-export const stepProgress = new Storage<{[stepId: string]: boolean}>({
-	key: 'coderoad:progress',
-	value: {}
-})
+export default Storage

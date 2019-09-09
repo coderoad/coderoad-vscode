@@ -16,6 +16,7 @@ class Editor {
 	public activate = (vscodeExt: vscode.ExtensionContext): void => {
 		console.log('ACTIVATE!')
 		this.vscodeExt = vscodeExt
+
 		// commands
 		this.activateCommands()
 
