@@ -104,13 +104,10 @@ export default {
 	// @ts-ignore
 	updateStepProgress: assign({
 		progress: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
-
 			// update progress by tracking completed
 			const currentProgress: CR.Progress = context.progress
 
-			// TODO: should use event id, to verify not multiple successes jumping one
-			// const stepId = event.payload.stepId
-			const {stepId} = context.position
+			const {stepId} = event.payload
 
 			currentProgress.steps[stepId] = true
 

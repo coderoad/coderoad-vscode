@@ -22,7 +22,8 @@ class Channel implements Channel {
 		console.log('RECEIVED:', actionType)
 		switch (actionType) {
 			case 'TEST_RUN':
-				vscode.commands.executeCommand('coderoad.run_test')
+
+				vscode.commands.executeCommand('coderoad.run_test', action.payload)
 				return
 			case 'TUTORIAL_CONFIG':
 				tutorialConfig(action.payload)
