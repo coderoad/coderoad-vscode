@@ -124,6 +124,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 										actions: ['updateStepProgress']
 									},
 									TEST_FAIL: 'TestFail',
+									TEST_ERROR: 'Normal'
 								},
 							},
 							TestPass: {

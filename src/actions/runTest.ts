@@ -23,9 +23,10 @@ interface Props {
 	onSuccess(): void
 	onFail(): void
 	onRun(): void
+	onError(): void
 }
 
-async function runTest({onSuccess, onFail, onRun}: Props): Promise<void> {
+async function runTest({onSuccess, onFail, onRun, onError}: Props): Promise<void> {
 	// increment process id
 	const processId = ++currentId
 
@@ -99,6 +100,7 @@ async function runTest({onSuccess, onFail, onRun}: Props): Promise<void> {
 
 		if (!stdout) {
 			console.error('SOMETHING WENT WRONG WITH A PASSING TEST')
+			onError()
 		}
 		// test runner failed
 		channel = getOutputChannel(outputChannelName)

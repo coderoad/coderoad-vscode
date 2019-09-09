@@ -25,7 +25,6 @@ class Channel {
 		this.machineSend = send
 	}
 	public receive = (event: ReceivedEvent) => {
-		console.log('CLIENT RECEIVE')
 		const action = event.data
 
 		// @ts-ignore // ignore browser events from plugins
@@ -41,16 +40,20 @@ class Channel {
 			case 'TEST_PASS':
 				// { type: 'TEST_PASS', payload: { stepId: string }}
 				this.machineSend(action)
-				console.log('test passed')
 				return
 			case 'TEST_FAIL':
 				this.machineSend(action)
 				return
 			case 'TEST_RUN':
 				console.log('TEST_RUN')
+				this.machineSend(action)
+				return
+			case 'TEST_ERROR':
+				console.log('TEST_ERROR')
+				this.machineSend(action)
 				return
 			case 'ACTIONS_LOADED':
-				console.log('ACTIONS_LOADED')
+				// TODO: use this for verifying completion of stepActions
 				return
 			default:
 				if (action.type) {
