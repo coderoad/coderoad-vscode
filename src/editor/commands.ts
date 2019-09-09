@@ -52,22 +52,26 @@ export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 
 			webview.createOrShow(column)
 		},
-		[COMMANDS.RUN_TEST]: () => {
+		[COMMANDS.RUN_TEST]: ({stepId}: {stepId: string}) => {
 			console.log('run test webview', Object.keys(webview))
 			runTest({
 				onSuccess: () => {
 					console.log('COMMAND TEST_PASS')
-					webview.send({type: 'TEST_PASS'})
+					webview.send({type: 'TEST_PASS', payload: {stepId}})
 					vscode.window.showInformationMessage('PASS')
 				},
 				onFail: () => {
 					console.log('COMMAND TEST_FAIL')
-					webview.send({type: 'TEST_FAIL'})
+					webview.send({type: 'TEST_FAIL', payload: {stepId}})
 					vscode.window.showWarningMessage('FAIL')
+				},
+				onError: () => {
+					console.log('COMMAND TEST_ERROR')
+					webview.send({type: 'TEST_ERROR', payload: [stepId]})
 				},
 				onRun: () => {
 					console.log('COMMAND TEST_RUN')
-					webview.send({type: 'TEST_RUN'})
+					webview.send({type: 'TEST_RUN', payload: {stepId}})
 				}
 			})
 		},
