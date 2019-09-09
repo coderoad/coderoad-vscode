@@ -1,4 +1,5 @@
 import * as vscode from 'vscode'
+import * as storage from '../services/storage'
 import ReactWebView from './ReactWebView'
 import runTest from '../actions/runTest'
 import {isEmptyWorkspace} from './workspace'
@@ -64,20 +65,28 @@ export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 			runTest({
 				onSuccess: () => {
 					console.log('COMMAND TEST_PASS')
+					// send test pass message back to client
 					webview.send({type: 'TEST_PASS', payload})
+					// update local storage stepProgress
+					storage.stepProgress.update({
+						[payload.stepId]: true
+					})
 					vscode.window.showInformationMessage('PASS')
 				},
 				onFail: () => {
 					console.log('COMMAND TEST_FAIL')
+					// send test fail message back to client
 					webview.send({type: 'TEST_FAIL', payload})
 					vscode.window.showWarningMessage('FAIL')
 				},
 				onError: () => {
 					console.log('COMMAND TEST_ERROR')
+					// send test error message back to client
 					webview.send({type: 'TEST_ERROR', payload})
 				},
 				onRun: () => {
 					console.log('COMMAND TEST_RUN')
+					// send test run message back to client
 					webview.send({type: 'TEST_RUN', payload})
 				}
 			})
