@@ -57,7 +57,10 @@ export default {
 			// load step actions
 			channel.editorSend({
 				type: 'SETUP_ACTIONS',
-				payload: step.setup,
+				payload: {
+					stepId: step.id,
+					...step.setup,
+				}
 			})
 		}
 	},

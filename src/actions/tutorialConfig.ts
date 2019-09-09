@@ -9,18 +9,15 @@ const tutorialConfig = async (tutorial: G.Tutorial) => {
 	await git.setupRemote(tutorial.repo.uri)
 
 	// TODO: allow multiple coding languages in a tutorial
+	const language = tutorial.codingLanguage.toLowerCase()
 
 	// setup onSave hook
 	// console.log(`languageIds: ${languageIds.join(', ')}`)
 	vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
-		if (document.uri.scheme === 'file' && tutorial.codingLanguage === document.languageId) {
-			// do work
-			// TODO: resolve issue if client unaware or out of sync with running test
+		if (document.uri.scheme === 'file' && language === document.languageId) {
 			vscode.commands.executeCommand('coderoad.run_test')
 		}
 	})
-
-	console.log('configured')
 }
 
 export default tutorialConfig
