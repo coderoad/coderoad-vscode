@@ -6,7 +6,8 @@ import * as selectors from '../../selectors'
 export default {
 	continueTutorial: (context: CR.MachineContext, event: CR.MachineEvent) => {
 
-		const {tutorial, stepProgress} = event.data.payload
+		const {tutorial, stepProgress} = event.payload
+		// NOTE: tutorial does not contain levels/stages/steps etc.
 
 		const progress: CR.Progress = {
 			steps: stepProgress,

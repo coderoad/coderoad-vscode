@@ -16,6 +16,8 @@ export default {
 			throw new Error('Invalid tutorial for tutorial config')
 		}
 		const payload = {
+			id: tutorial.id,
+			version: tutorial.version.version,
 			codingLanguage: tutorial.codingLanguage,
 			testRunner: tutorial.testRunner,
 			repo: tutorial.repo,

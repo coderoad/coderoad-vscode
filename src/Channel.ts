@@ -6,7 +6,7 @@ import setupActions from './actions/setupActions'
 import solutionActions from './actions/solutionActions'
 
 interface Channel {
-	receive(action: CR.Action): void
+	receive(action: CR.Action): Promise<void>
 	send(action: CR.Action): Promise<void>
 }
 
@@ -27,14 +27,14 @@ class Channel implements Channel {
 	}
 
 	// receive from webview
-	public receive = (action: CR.Action) => {
+	public receive = async (action: CR.Action) => {
 		const actionType: string = typeof action === 'string' ? action : action.type
 		console.log('RECEIVED:', actionType)
 		switch (actionType) {
 			// continue from tutorial from local storage
 			case 'TUTORIAL_LOAD_STORED':
-				const tutorial = this.storage.tutorial.get()
-				const stepProgress = this.storage.stepProgress.get()
+				const tutorial = await this.storage.tutorial.get()
+				const stepProgress = await this.storage.stepProgress.get()
 
 				console.log('looking at stored')
 				console.log(JSON.stringify(tutorial))
