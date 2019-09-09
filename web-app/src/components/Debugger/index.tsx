@@ -1,15 +1,22 @@
 import * as React from 'react'
+import * as G from 'typings/graphql'
+import * as CR from 'typings'
 
 interface Props {
-  value: any
+	state: string
+	tutorial: G.Tutorial
+	position: CR.Position
+	progress: CR.Progress
+	children: React.ReactElement
 }
 
-const Debugger = ({ value }: Props) => (
+const Debugger = ({ state, children, position, progress, tutorial  }: Props) => (
   <div style={{ backgroundColor: '#FFFF99', color: 'black', padding: '.5rem' }}>
-    <h4>state: {JSON.stringify(value.state)}</h4>
-    <p style={{ backgroundColor: 'khaki', padding: '.5rem' }}>position: {JSON.stringify(value.position)}</p>
-    <p style={{ backgroundColor: 'moccasin', padding: '.5rem' }}>progress: {JSON.stringify(value.progress)}</p>
-    <p style={{ backgroundColor: 'papayawhip', padding: '.5rem' }}>data: {JSON.stringify(value.data)}</p>
+    <h4>state: {state}</h4>
+		<p>tutorial: {tutorial ? tutorial.id : 'none'}</p>
+    <p style={{ backgroundColor: 'khaki', padding: '.5rem' }}>position: {JSON.stringify(position)}</p>
+		<p style={{ backgroundColor: 'moccasin', padding: '.5rem' }}>progress: {JSON.stringify(progress)}</p>
+		{children}
   </div>
 )
 

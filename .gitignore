@@ -2,6 +2,10 @@ node_modules
 .vscode-test/
 *.vsix
 
+# local
+.env
+.env.local
+
 # output directory
 out
 build

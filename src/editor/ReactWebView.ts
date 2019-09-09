@@ -1,174 +1,165 @@
+import {Action} from 'typings'
 import * as path from 'path'
-import * as CR from 'typings'
 import * as vscode from 'vscode'
+import Channel from '../Channel'
 
-/**
- * Manages React webview panels
- */
+const getNonce = (): string => {
+	let text = ''
+	const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+	for (let i = 0; i < 32; i++) {
+		text += possible.charAt(Math.floor(Math.random() * possible.length))
+	}
+	return text
+}
+
+
+// Manages webview panel
 class ReactWebView {
-  // @ts-ignore
-  public loaded: boolean
-  private panel: vscode.WebviewPanel
-  private extensionPath: string
-  private disposables: vscode.Disposable[] = []
-  private onReceive: any // TODO: properly type
+	// @ts-ignore
+	public loaded: boolean
 
-  public constructor(extensionPath: string) {
-    this.extensionPath = extensionPath
+	public send: Channel['send']
+	private panel: vscode.WebviewPanel
+	private extensionPath: string
+	private disposables: vscode.Disposable[] = []
+	private channel: Channel
 
-    // Create and show a new webview panel
-    this.panel = this.createWebviewPanel(vscode.ViewColumn.Two)
+	public constructor(extensionPath: string) {
+		this.extensionPath = extensionPath
 
-    // Set the webview's initial html content
-    this.panel.webview.html = this.getHtmlForWebview()
+		// Create and show a new webview panel
+		this.panel = this.createWebviewPanel(vscode.ViewColumn.Two)
 
-    // Listen for when the panel is disposed
-    // This happens when the user closes the panel or when the panel is closed programatically
-    this.panel.onDidDispose(this.dispose, this, this.disposables)
+		// Set the webview initial html content
+		this.panel.webview.html = this.getHtmlForWebview()
 
-    // Handle messages from the webview
-    const onReceive = (action: string | CR.Action) => {
-      // await loading of webview in React before proceeding with loaded state
-      if (action === 'WEBVIEW_LOADED') {
-        this.loaded = true
-      } else {
-        vscode.commands.executeCommand('coderoad.receive_action', action)
-      }
-    }
-    this.panel.webview.onDidReceiveMessage(onReceive, null, this.disposables)
+		// Listen for when the panel is disposed
+		// This happens when the user closes the panel or when the panel is closed programmatically
+		this.panel.onDidDispose(this.dispose, this, this.disposables)
 
-    // update panel on changes
-    const updateWindows = () => {
-      vscode.commands.executeCommand('vscode.setEditorLayout', {
-        orientation: 0,
-        groups: [{ groups: [{}], size: 0.6 }, { groups: [{}], size: 0.4 }],
-      })
-    }
+		this.channel = new Channel((action: Action): Thenable<boolean> => {
+			return this.panel.webview.postMessage(action)
+		})
+		// Handle messages from the webview
+		const receive = this.channel.receive
+		this.panel.webview.onDidReceiveMessage(receive, null, this.disposables)
+		this.send = this.channel.send
 
-    // prevents new panels from going ontop of coderoad panel
-    vscode.window.onDidChangeActiveTextEditor((textEditor) => {
-      console.log('onDidChangeActiveTextEditor')
-      console.log(textEditor)
-      if (!textEditor || textEditor.viewColumn !== vscode.ViewColumn.Two) {
-        updateWindows()
-      }
-    })
-    // // prevents moving coderoad panel on top of left panel
-    vscode.window.onDidChangeVisibleTextEditors((textEditor) => {
-      console.log('onDidChangeVisibleTextEditors')
-      updateWindows()
-    })
 
-    // TODO: prevent window from moving to the left when no windows remain on rights
-  }
+		// update panel on changes
+		const updateWindows = () => {
+			vscode.commands.executeCommand('vscode.setEditorLayout', {
+				orientation: 0,
+				groups: [{groups: [{}], size: 0.6}, {groups: [{}], size: 0.4}],
+			})
+		}
 
-  public createOrShow(column: number, callback?: () => void): void {
-    // If we already have a panel, show it.
-    // Otherwise, create a new panel.
-    if (this.panel && this.panel.webview) {
-      this.panel.reveal(column)
-    } else {
-      this.panel = this.createWebviewPanel(column)
-    }
-    if (callback) {
-      // listen for when webview is loaded
-      // unfortunately there is no easy way of doing this
-      const webPanelListener = setInterval(() => {
-        if (this.loaded) {
-          // callback tells editor the webview has loaded
-          setTimeout(callback)
-          clearInterval(webPanelListener)
-        }
-      }, 200)
-    }
-  }
+		// prevents new panels from going on top of coderoad panel
+		vscode.window.onDidChangeActiveTextEditor((textEditor?: vscode.TextEditor) => {
+			console.log('onDidChangeActiveTextEditor')
+			console.log(textEditor)
+			if (!textEditor || textEditor.viewColumn !== vscode.ViewColumn.Two) {
+				updateWindows()
+			}
+		})
+		// // prevents moving coderoad panel on top of left panel
+		vscode.window.onDidChangeVisibleTextEditors((textEditor: vscode.TextEditor[]) => {
+			console.log('onDidChangeVisibleTextEditors')
+			updateWindows()
+		})
 
-  public async postMessage(action: CR.Action): Promise<void> {
-    // Send a message to the webview webview.
-    // You can send any JSON serializable data.
-    const success = await this.panel.webview.postMessage(action)
-    if (!success) {
-      throw new Error(`Message post failure: ${JSON.stringify(action)}`)
-    }
-  }
+		// TODO: prevent window from moving to the left when no windows remain on rights
+	}
 
-  private async dispose(): Promise<void> {
-    // Clean up our resources
-    this.loaded = false
-    this.panel.dispose()
-    Promise.all(this.disposables.map((x) => x.dispose()))
-  }
+	public createOrShow(column: number): void {
+		// If we already have a panel, show it.
+		// Otherwise, create a new panel.
+		if (this.panel && this.panel.webview) {
+			this.panel.reveal(column)
+		} else {
+			this.panel = this.createWebviewPanel(column)
+		}
+	}
 
-  private createWebviewPanel(column: number): vscode.WebviewPanel {
-    const viewType = 'CodeRoad'
-    const title = 'CodeRoad'
-    const config = {
-      // Enable javascript in the webview
-      enableScripts: true,
-      // And restric the webview to only loading content from our extension's `media` directory.
-      localResourceRoots: [vscode.Uri.file(path.join(this.extensionPath, 'build'))],
-      // prevents destroying the window when it is in the background
-      retainContextWhenHidden: true,
-    }
-    return vscode.window.createWebviewPanel(viewType, title, column, config)
-  }
+	private async dispose(): Promise<void> {
+		// Clean up our resources
+		this.loaded = false
+		this.panel.dispose()
+		Promise.all(this.disposables.map((x) => x.dispose()))
+	}
 
-  private getNonce(): string {
-    let text = ''
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    for (let i = 0; i < 32; i++) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length))
-    }
-    return text
-  }
+	private createWebviewPanel(column: number): vscode.WebviewPanel {
+		const viewType = 'CodeRoad'
+		const title = 'CodeRoad'
+		const config = {
+			// Enable javascript in the webview
+			enableScripts: true,
+			// And restrict the webview to only loading content from our extension's `media` directory.
+			localResourceRoots: [vscode.Uri.file(path.join(this.extensionPath, 'build'))],
+			// prevents destroying the window when it is in the background
+			retainContextWhenHidden: true,
+		}
+		return vscode.window.createWebviewPanel(viewType, title, column, config)
+	}
 
-  private getHtmlForWebview(): string {
-    // eslint-disable-next-line
-    const manifest = require(path.join(this.extensionPath, 'build', 'asset-manifest.json'))
-    const mainScript = manifest.files['main.js']
-    // grab first chunk
-    const chunk = Object.keys(manifest.files).filter(f => f.match(/^static\/js\/.+\.js$/))[0]
-    const chunkScript = manifest.files[chunk]
-    const mainStyle = manifest.files['main.css']
+	private getHtmlForWebview(): string {
+		const buildUri = vscode.Uri.file(path.join(this.extensionPath, 'build')).with({scheme: 'vscode-resource'})
 
-    const scriptPathOnDisk = vscode.Uri.file(path.join(this.extensionPath, 'build', mainScript))
-    const scriptUri = scriptPathOnDisk.with({ scheme: 'vscode-resource' })
-    const chunkPathOnDisk = vscode.Uri.file(path.join(this.extensionPath, 'build', chunkScript))
-    const chunkUri = chunkPathOnDisk.with({ scheme: 'vscode-resource' })
-    const stylePathOnDisk = vscode.Uri.file(path.join(this.extensionPath, 'build', mainStyle))
-    const styleUri = stylePathOnDisk.with({ scheme: 'vscode-resource' })
+		const manifest = require(path.join(this.extensionPath, 'build', 'asset-manifest.json'))
 
-    // Use a nonce to whitelist which scripts can be run
-    const [n1, n2, n3] = [1, 2, 3].map(this.getNonce)
+		const getSrc = (manifestName: string): any => {
+			const file = manifest.files[manifestName]
+			const uriPath = vscode.Uri.file(path.join(this.extensionPath, 'build', file))
+			return uriPath.with({scheme: 'vscode-resource'})
+		}
 
-    return `<!DOCTYPE html>
+		const styles = [
+			'main.css',
+			// get style chunk
+			Object.keys(manifest.files).find(f => f.match(/^static\/css\/.+\.css$/)) || ''
+		].map(style => getSrc(style))
+
+		// map over scripts
+		const scripts = [{
+			file: './webpackBuild.js',
+		}, {
+			manifest: 'runtime~main.js',
+		}, {
+			manifest: 'main.js',
+		}, {
+			// get js chunk
+			manifest: Object.keys(manifest.files).find(f => f.match(/^static\/js\/.+\.js$/)),
+		}].map(script => ({
+			nonce: getNonce(),
+			src: script.manifest ? getSrc(script.manifest) : script.file
+		}))
+
+		const indexHtml = `<!DOCTYPE html>
 			<html lang='en'>
-                <head>
-                    <meta charset='utf-8'>
-                    <meta name='viewport' content='width=device-width,initial-scale=1,shrink-to-fit=no'>
-                    <meta name='theme-color' content='#000000'>
-                    <title>React App</title>
-                    <link rel='manifest' href='./manifest.json' />
+				<head>
+						<meta charset='utf-8'>
+						<meta name='viewport' content='width=device-width,initial-scale=1,shrink-to-fit=no'>
+						<meta name='theme-color' content='#000000'>
+						<meta http-equiv='Content-Security-Policy' content="font-src vscode-resource://*; img-src vscode-resource: https:; script-src ${scripts.map(script => `'nonce-${script.nonce}'`).join(' ')}; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
+						<title>React App</title>
 
-                    <!-- TODO: load styles through package -->
-                    <link rel='stylesheet' href='https://unpkg.com/@alifd/next/dist/next.css' />
-                    <link rel='stylesheet' type='text/css' href='${styleUri}'>
+						<link rel='manifest' href='./manifest.json' />
+						<link rel='stylesheet' href='https://unpkg.com/@alifd/next/dist/next.css' />
+						${styles.map(styleUri => `<link rel='stylesheet' type='text/css' href='${styleUri}'>`).join('\n')}
+						
+						<base href='${buildUri}/'>
+				</head>
 
-                    <meta http-equiv='Content-Security-Policy' content="font-src *; img-src vscode-resource: https:; script-src 'nonce-${n1}' 'nonce-${n2}' 'nonce-${n3}'; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
-                    <base href='${vscode.Uri.file(path.join(this.extensionPath, 'build')).with({
-      scheme: 'vscode-resource',
-    })}/'>
-                </head>
+				<body>
+						<noscript>You need to enable JavaScript to run this app.</noscript>
+						<div id='root' style='background-color:white; padding: 1rem;'>Loading...</div>
+						${scripts.map(s => `<script nonce='${s.nonce}' src='${s.src}'></script>`).join('\n')}
+				</body>
+		</html>`
 
-                <body>
-                    <noscript>You need to enable JavaScript to run this app.</noscript>
-                    <div id='root'>Loading...</div>
-                    <script nonce=${n1} src='./webpackBuild.js'></script>
-                    <script nonce=${n2} src='${chunkUri}'></script>
-                    <script nonce='${n3}' src='${scriptUri}'></script>
-                </body>
-            </html>`
-  }
+		return indexHtml
+	}
+
 }
 
 export default ReactWebView

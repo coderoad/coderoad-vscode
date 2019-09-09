@@ -13,11 +13,13 @@
     "semicolon": [true, "never"],
     "triple-equals": true,
     "forin": false,
-    "no-console": false
+    "no-console": false,
+    "no-submodule-imports": false,
+    "no-object-literal-type-assertion": false
   },
   "defaultSeverity": "warning",
-  "no-submodule-imports": false,
+
   "linterOptions": {
-    "exclude": ["node_modules/**"]
+    "exclude": ["node_modules/**", "src/typings/graphql.d.ts"]
   }
 }

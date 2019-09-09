@@ -1,61 +1,53 @@
 import * as React from 'react'
+import * as CR from 'typings'
+import Workspace from './components/Workspace'
 
 import Router from './components/Router'
 import LoadingPage from './containers/LoadingPage'
 import ContinuePage from './containers/Continue'
 import NewPage from './containers/New'
-import TutorialPage from './containers/Tutorial'
+import SummaryPage from './containers/Tutorial/SummaryPage'
+import LevelSummaryPage from './containers/Tutorial/LevelPage'
+import StageSummaryPage from './containers/Tutorial/StagePage'
+import CompletedPage from './containers/Tutorial/CompletedPage'
 
 const { Route } = Router
 
-interface Props {
-  state: any
-}
+const tempSend = (action: any) => console.log('sent')
 
-const styles = {
-  page: {
-    margin: 0,
-    backgroundColor: 'white',
-  },
-}
-
-const Routes = ({ state }: Props) => {
-  const [dimensions, setDimensions] = React.useState({
-    width: window.innerWidth - 20,
-    height: window.innerHeight - 20,
-  })
-
-  // solution for windows getting off size
-  // without adding multiple listeners
-  React.useEffect(() => {
-    const dimensionsInterval = setInterval(() => {
-      setDimensions({
-        width: window.innerWidth - 20,
-        height: window.innerHeight - 20,
-      })
-    }, 5000)
-    return () => {
-      clearInterval(dimensionsInterval)
-    }
-  })
-
+const Routes = () => {
   return (
-    <div style={{ ...styles.page, ...dimensions }}>
-      <Router state={state}>
-        <Route path="SelectTutorial.Startup">
+    <Workspace>
+      <Router>
+        <Route path="Start.Startup">
           <LoadingPage text="Launching..." />
         </Route>
-        <Route path="SelectTutorial.NewTutorial">
-          <NewPage />
+        <Route path="Start.SelectTutorial">
+          <NewPage send={tempSend} />
         </Route>
-        <Route path="SelectTutorial.ContinueTutorial">
-          <ContinuePage />
+        <Route path="Start.ContinueTutorial">
+          <ContinuePage send={tempSend} context={{} as CR.MachineContext} />
         </Route>
-        <Route path="Tutorial">
-          <TutorialPage state={state} />
+        <Route path="Tutorial.Initialize">
+          <LoadingPage text="Initializing..." />
+        </Route>
+        <Route path="Tutorial.LoadNext">
+          <LoadingPage text="Loading..." />
+        </Route>
+        <Route path="Tutorial.Summary">
+          <SummaryPage send={tempSend} context={{} as CR.MachineContext} />
+        </Route>
+        <Route path="Tutorial.Level">
+          <LevelSummaryPage send={tempSend} context={{} as CR.MachineContext} />
+        </Route>
+        <Route path="Tutorial.Stage">
+          <StageSummaryPage send={tempSend} context={{} as CR.MachineContext} />
+        </Route>
+        <Route path="Tutorial.Completed">
+          <CompletedPage send={tempSend} context={{} as CR.MachineContext} />
         </Route>
       </Router>
-    </div>
+    </Workspace>
   )
 }
 

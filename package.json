@@ -1,18 +1,8 @@
 {
   "name": "coderoad-vscode",
-  "displayName": "CodeRoad",
-  "description": "Interactive tutorials in your editor",
   "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.34.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "publisher": "Shawn McKay",
-  "author": {
-    "name": "Shawn McKay <shawn.j.mckay@gmail.com>"
-  },
+  "description": "Interactive tutorials in your editor",
+  "homepage": "https://github.com/shmck/coderoad-vscode/README.md",
   "bugs": {
     "url": "https://github.com/shmck/coderoad-vscode/issues",
     "email": "shawn.j.mckay@gmail.com"
@@ -21,15 +11,58 @@
     "type": "git",
     "url": "https://github.com/shmck/coderoad-vscode.git"
   },
-  "homepage": "https://github.com/shmck/coderoad-vscode/README.md",
-  "galleryBanner": {
-    "color": "#C80000",
-    "theme": "dark"
+  "license": "SEE LICENSE IN LICENSE.md",
+  "author": {
+    "name": "Shawn McKay <shawn.j.mckay@gmail.com>"
+  },
+  "main": "./build/extension.js",
+  "scripts": {
+    "build": "rm -rf build && concurrently \"npm run build:ext\" \"npm run build:web\"",
+    "build:ext": "npm run compile",
+    "build:web": "cd web-app && npm run build",
+    "compile": "tsc -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "machine": "node ./out/state/index.js",
+    "storybook": "cd web-app && npm run storybook",
+    "test:ext": "node ./build/test/runTest.js",
+    "test": "jest",
+    "vscode:prepublish": "npm run build",
+    "watch": "tsc -watch -p ./"
+  },
+  "dependencies": {
+    "@types/mocha": "^5.2.7",
+    "dotenv": "^8.1.0",
+    "graphql": "^14.5.4",
+    "graphql-request": "^1.8.2",
+    "graphql-tag": "^2.10.1",
+    "vscode": "^1.1.36",
+    "xstate": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/assert": "^1.4.3",
+    "@types/dotenv": "^6.1.1",
+    "@types/glob": "^7.1.1",
+    "@types/graphql": "^14.5.0",
+    "@types/node": "^12.7.4",
+    "assert": "^2.0.0",
+    "concurrently": "^4.1.2",
+    "glob": "^7.1.4",
+    "mocha": "^6.2.0",
+    "prettier": "^1.18.2",
+    "tslint": "^5.19.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.6.2",
+    "vscode-test": "^1.2.0"
+  },
+  "engines": {
+    "vscode": "^1.34.0"
   },
   "activationEvents": [
     "onCommand:coderoad.start"
   ],
-  "main": "./build/extension.js",
+  "categories": [
+    "Other"
+  ],
   "contributes": {
     "commands": [
       {
@@ -39,30 +72,10 @@
       }
     ]
   },
-  "scripts": {
-    "vscode:prepublish": "npm run build",
-    "machine": "node ./out/state/index.js",
-    "build": "rm -rf build && concurrently \"npm run build:ext\" \"npm run build:web\"",
-    "build:ext": "npm run compile",
-    "build:web": "cd web-app && npm run build",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "storybook": "cd web-app && npm run storybook",
-    "test": "npm run build && node ./node_modules/vscode/bin/test"
+  "displayName": "CodeRoad",
+  "galleryBanner": {
+    "color": "#C80000",
+    "theme": "dark"
   },
-  "devDependencies": {
-    "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.1",
-    "concurrently": "^4.1.1",
-    "prettier": "^1.18.2",
-    "tslint": "^5.18.0",
-    "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.5.3"
-  },
-  "dependencies": {
-    "vscode": "^1.1.36",
-    "xstate": "^4.6.7"
-  },
-  "license": "SEE LICENSE IN LICENSE.md"
+  "publisher": "Shawn McKay"
 }

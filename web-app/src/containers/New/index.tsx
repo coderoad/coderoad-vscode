@@ -1,38 +1,45 @@
 import * as React from 'react'
-import { Button } from '@alifd/next'
+import { useQuery } from '@apollo/react-hooks'
+import * as T from 'typings/graphql'
+import * as CR from 'typings'
 
-import Cond from '../../components/Cond'
-import DataContext from '../../utils/DataContext'
-import { send } from '../../utils/vscode'
-import LoadingPage from '../../containers/LoadingPage'
+import queryTutorials from '../../services/apollo/queries/tutorials'
+import LoadingPage from '../LoadingPage'
+import ErrorView from '../../components/Error'
+import TutorialList from './TutorialList'
 
 interface Props {
-  onNew(tutorialId: string): void
+  tutorialList: T.Tutorial[]
 }
 
-export const NewPage = (props: Props) => {
-  const { state } = React.useContext(DataContext)
-  const [tutorialList] = React.useState([{ id: '1', title: 'Demo', description: 'A basic demo' }])
-  // context
+export const NewPage = (props: Props) => (
+  <div>
+    <h2>Start a New Tutorial</h2>
+    <TutorialList tutorialList={props.tutorialList} />
+  </div>
+)
+
+const Loading = () => <LoadingPage text="Loading tutorials" />
+
+interface ContainerProps {
+  send(action: CR.Action): void
+}
+
+const NewPageContainer = (props: ContainerProps) => {
+  const { data, loading, error } = useQuery(queryTutorials)
+  if (loading) {
+    return <Loading />
+  }
+
+  if (error) {
+    return <ErrorView error={error} />
+  }
+
   return (
-    <div>
-      <Cond state={state} path="SelectTutorial.NewTutorial.SelectTutorial">
-        <div>
-          <h2>Start a new Project</h2>
-          {tutorialList.map(tutorial => (
-            <div>
-              <h3>{tutorial.title}</h3>
-              <p>{tutorial.description}</p>
-              <Button onClick={() => props.onNew(tutorial.id)}>Start</Button>
-            </div>
-          ))}
-        </div>
-      </Cond>
-      <Cond state={state} path="SelectTutorial.NewTutorial.InitializeTutorial">
-        <LoadingPage text="Launching Tutorial..." />
-      </Cond>
-    </div>
+    <React.Suspense fallback={Loading}>
+      <NewPage tutorialList={data.tutorials} />
+    </React.Suspense>
   )
 }
 
-export default () => <NewPage onNew={() => send('TUTORIAL_START')} />
+export default NewPageContainer

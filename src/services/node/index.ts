@@ -1,26 +1,29 @@
 import * as fs from 'fs'
-import { join } from 'path'
-import { exec as cpExec } from 'child_process'
-import { promisify } from 'util'
+import {join} from 'path'
+import {exec as cpExec} from 'child_process'
+import {promisify} from 'util'
+import * as vscode from 'vscode'
 
 const asyncExec = promisify(cpExec)
 
-let workspaceRoot: string
+class Node {
+	private workspaceRoot: string
+	constructor() {
+		this.workspaceRoot = vscode.workspace.rootPath || ''
+		if (!this.workspaceRoot.length) {
+			throw new Error('Invalid workspaceRoot')
+		}
+		console.log(`workspaceRoot: ${this.workspaceRoot}`)
+	}
+	public exec = (cmd: string): Promise<{stdout: string; stderr: string}> => asyncExec(cmd, {
+		cwd: this.workspaceRoot,
+	})
 
-// set workspace root
-// other function will use this to target the correct cwd
-export function setWorkspaceRoot(rootPath: string): void {
-  workspaceRoot = rootPath
+	public exists = (...paths: string[]): boolean => fs.existsSync(join(this.workspaceRoot, ...paths))
 }
 
-export const exec = (cmd: string): Promise<{ stdout: string; stderr: string }> =>
-  asyncExec(cmd, {
-    cwd: workspaceRoot,
-  })
+export default new Node()
 
-// note: fs.exists is deprecated
-// collect all paths together
-export const exists = (...paths: string[]): boolean => fs.existsSync(join(workspaceRoot, ...paths))
 
 // export async function clear(): Promise<void> {
 //   // remove all files including ignored

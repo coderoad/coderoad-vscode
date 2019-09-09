@@ -2,27 +2,13 @@
   "name": "coderoad-app",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@alifd/next": "^1.16.6",
-    "markdown-it": "^9.1.0",
-    "markdown-it-emoji": "^1.4.0",
-    "markdown-it-prism": "^2.0.2",
-    "moment": "^2.24.0",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-scripts": "3.0.1",
-    "typescript": "^3.5.3"
-  },
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
     "postbuild": "cp -R ./build/ ../build/ && cp public/webpackBuild.js ../build/webpackBuild.js",
-    "test": "react-scripts test",
+    "build-storybook": "build-storybook",
+    "start": "react-scripts start",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "test": "react-scripts test"
   },
   "browserslist": {
     "production": [
@@ -36,24 +22,45 @@
       "last 1 safari version"
     ]
   },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "dependencies": {
+    "@alifd/next": "^1.17.10",
+    "@apollo/react-hooks": "^3.1.0",
+    "apollo-boost": "^0.4.4",
+    "graphql": "^14.5.4",
+    "markdown-it": "^9.1.0",
+    "markdown-it-emoji": "^1.4.0",
+    "markdown-it-prism": "^2.0.3",
+    "moment": "^2.24.0",
+    "ramda": "^0.26.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-scripts": "^3.1.1",
+    "reselect": "^4.0.0",
+    "typescript": "^3.6.2",
+    "xstate": "^4.6.7"
+  },
   "devDependencies": {
     "@babel/core": "^7.5.4",
-    "@storybook/addon-actions": "^5.1.10",
-    "@storybook/addon-knobs": "^5.1.10",
-    "@storybook/addon-links": "^5.1.10",
-    "@storybook/addons": "^5.1.10",
-    "@storybook/react": "^5.1.10",
+    "@storybook/addon-actions": "^5.1.11",
+    "@storybook/addon-knobs": "^5.1.11",
+    "@storybook/addon-links": "^5.1.11",
+    "@storybook/addons": "^5.1.11",
+    "@storybook/react": "^5.1.11",
     "@types/highlight.js": "^9.12.3",
-    "@types/jest": "^24.0.17",
+    "@types/jest": "^24.0.18",
     "@types/markdown-it": "0.0.8",
-    "@types/node": "^12.7.1",
-    "@types/react": "^16.9.1",
-    "@types/react-dom": "^16.8.5",
+    "@types/node": "^12.7.4",
+    "@types/ramda": "^0.26.21",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
     "@types/storybook__react": "^4.0.2",
-    "babel-loader": "^8.0.5",
-    "babel-plugin-import": "^1.12.0",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-import": "^1.12.1",
     "node-sass": "^4.12.0",
-    "sass-loader": "^7.2.0",
+    "sass-loader": "^8.0.0",
     "typescript-eslint-parser": "^22.0.0"
   }
 }

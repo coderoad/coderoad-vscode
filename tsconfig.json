@@ -19,9 +19,12 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "paths": {
-      "typings": ["../typings/index.d.ts"]
+      "typings": ["../typings/index.d.ts"],
+      "typings/graphql": ["../typings/graphql.d.ts"],
+      "@api": ["services/api/index"],
+      "@gql/*": ["services/api/gql/*"]
     },
     "allowJs": true
   },
-  "exclude": ["node_modules", ".vscode-test", "build", "resources", "web-app"]
+  "exclude": ["node_modules", ".vscode-test", "build", "resources", "web-app", "*.js", "*.test.ts"]
 }

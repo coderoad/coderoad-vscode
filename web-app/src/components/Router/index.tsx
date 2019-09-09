@@ -1,21 +1,43 @@
 import * as React from 'react'
+import * as CR from 'typings'
+import { useMachine } from '../../services/xstate-react'
+import machine from '../../services/state/machine'
+
 import Route from './Route'
-import { stateMatch } from '../Cond/utils/state'
+import debuggerWrapper from '../Debugger/debuggerWrapper'
+import channel from '../../services/channel'
+import messageBusReceiver from '../../services/channel/receiver'
 
 interface Props {
-  state: string
   children: any
 }
 
+interface CloneElementProps {
+  context: CR.MachineContext
+  send(action: CR.Action): void
+}
+
 // router finds first state match of <Route path='' />
-const Router = ({ state, children }: Props) => {
+const Router = ({ children }: Props): React.ReactElement<CloneElementProps> | null => {
+  const [state, send] = useMachine(machine, {
+    interpreterOptions: {
+      logger: console.log.bind('XSTATE:'),
+    },
+  })
+
+  channel.setMachineSend(send)
+
+  // event bus listener
+  React.useEffect(messageBusReceiver, [])
+
   const childArray = React.Children.toArray(children)
   for (const child of childArray) {
-    if (stateMatch(state, child.props.path)) {
-      return child.props.children
+    if (state.matches(child.props.path)) {
+      const element = React.cloneElement<CloneElementProps>(child.props.children, { send, context: state.context })
+      return debuggerWrapper(element, state)
     }
   }
-  console.warn(`No Route matches for ${state}`)
+  console.warn(`No Route matches for ${JSON.stringify(state)}`)
   return null
 }
 
