@@ -19,6 +19,8 @@ const tutorialConfig = async (tutorial: G.Tutorial) => {
 			vscode.commands.executeCommand('coderoad.run_test')
 		}
 	})
+
+	console.log('configured')
 }
 
 export default tutorialConfig

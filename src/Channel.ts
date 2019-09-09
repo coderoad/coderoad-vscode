@@ -12,8 +12,8 @@ interface Channel {
 
 class Channel implements Channel {
 	private postMessage: (action: CR.Action) => Thenable<boolean>
-	constructor(webview: vscode.Webview) {
-		this.postMessage = webview.postMessage
+	constructor(postMessage: (action: CR.Action) => Thenable<boolean>) {
+		this.postMessage = postMessage
 	}
 
 	// receive from webview

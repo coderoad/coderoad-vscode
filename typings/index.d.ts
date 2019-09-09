@@ -1,5 +1,4 @@
 import {send} from 'xstate'
-import TutorialModel from '../src/services/tutorial'
 import * as G from './graphql'
 
 export interface TutorialLevel {

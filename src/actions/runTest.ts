@@ -22,11 +22,14 @@ const getOutputChannel = (name: string): vscode.OutputChannel => {
 interface Props {
 	onSuccess(): void
 	onFail(): void
+	onRun(): void
 }
 
-export default async function runTest({onSuccess, onFail}: Props): Promise<void> {
+async function runTest({onSuccess, onFail, onRun}: Props): Promise<void> {
 	// increment process id
 	const processId = ++currentId
+
+	onRun()
 
 	const outputChannelName = 'Test Output'
 
@@ -139,3 +142,5 @@ export default async function runTest({onSuccess, onFail}: Props): Promise<void>
 		// }
 	}
 }
+
+export default runTest

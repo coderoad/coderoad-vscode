@@ -121,7 +121,6 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 								on: {
 									TEST_PASS: {
 										target: 'TestPass',
-										// TODO: combine updateStepProgress & updateStepPosition
 										actions: ['updateStepProgress']
 									},
 									TEST_FAIL: 'TestFail',

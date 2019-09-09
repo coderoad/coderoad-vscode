@@ -28,6 +28,9 @@ export default {
 	// @ts-ignore
 	updateStepPosition: assign({
 		position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
+
+			// TODO: calculate from progress
+
 			const {position} = context
 			// merge in the updated position
 			// sent with the test to ensure consistency
@@ -101,9 +104,13 @@ export default {
 	// @ts-ignore
 	updateStepProgress: assign({
 		progress: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
+
 			// update progress by tracking completed
 			const currentProgress: CR.Progress = context.progress
-			const stepId = event.payload.stepId
+
+			// TODO: should use event id, to verify not multiple successes jumping one
+			// const stepId = event.payload.stepId
+			const {stepId} = context.position
 
 			currentProgress.steps[stepId] = true
 

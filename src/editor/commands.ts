@@ -13,13 +13,6 @@ interface CreateCommandProps {
 	vscodeExt: vscode.ExtensionContext
 }
 
-const resetLayout = () => {
-	vscode.commands.executeCommand('vscode.setEditorLayout', {
-		orientation: 0,
-		groups: [{groups: [{}], size: 0.6}, {groups: [{}], size: 0.4}],
-	})
-}
-
 export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 	// React panel webview
 	let webview: any
@@ -50,18 +43,31 @@ export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 		[COMMANDS.OPEN_WEBVIEW]: (column: number = vscode.ViewColumn.Two) => {
 			console.log('open webview')
 			// setup 1x1 horizontal layout
-			resetLayout()
+
+			// reset layout
+			vscode.commands.executeCommand('vscode.setEditorLayout', {
+				orientation: 0,
+				groups: [{groups: [{}], size: 0.6}, {groups: [{}], size: 0.4}],
+			})
+
 			webview.createOrShow(column)
 		},
 		[COMMANDS.RUN_TEST]: () => {
+			console.log('run test webview', Object.keys(webview))
 			runTest({
 				onSuccess: () => {
-					console.log('TEST_PASS')
+					console.log('COMMAND TEST_PASS')
+					webview.send({type: 'TEST_PASS'})
 					vscode.window.showInformationMessage('PASS')
 				},
 				onFail: () => {
-					console.log('TEST_FAIL')
+					console.log('COMMAND TEST_FAIL')
+					webview.send({type: 'TEST_FAIL'})
 					vscode.window.showWarningMessage('FAIL')
+				},
+				onRun: () => {
+					console.log('COMMAND TEST_RUN')
+					webview.send({type: 'TEST_RUN'})
 				}
 			})
 		},

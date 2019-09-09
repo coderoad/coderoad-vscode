@@ -1,3 +1,4 @@
+import {Action} from 'typings'
 import * as path from 'path'
 import * as vscode from 'vscode'
 import Channel from '../Channel'
@@ -36,7 +37,9 @@ class ReactWebView {
 		// This happens when the user closes the panel or when the panel is closed programmatically
 		this.panel.onDidDispose(this.dispose, this, this.disposables)
 
-		this.channel = new Channel(this.panel.webview)
+		this.channel = new Channel((action: Action): Thenable<boolean> => {
+			return this.panel.webview.postMessage(action)
+		})
 		// Handle messages from the webview
 		const receive = this.channel.receive
 		this.panel.webview.onDidReceiveMessage(receive, null, this.disposables)

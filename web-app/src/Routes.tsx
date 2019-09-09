@@ -1,5 +1,4 @@
 import * as React from 'react'
-// import { editorDispatch } from './services/vscode'
 import * as CR from 'typings'
 import Workspace from './components/Workspace'
 
