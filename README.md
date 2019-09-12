@@ -22,7 +22,7 @@ Setup the web app environmental variables.
 
 ```
 REACT_APP_DEBUG=true # show/hide web debugger
-REACT_APP_GQL_URL=http://localhost:4000/graphql
+REACT_APP_GQL_URI=http://localhost:4000/graphql
 REACT_APP_GQL_AUTH_TOKEN={YOUR_API_AUTH_TOKEN}
 ```
 
