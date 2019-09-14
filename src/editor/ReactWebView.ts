@@ -14,10 +14,7 @@ const getNonce = (): string => {
 
 interface ReactWebViewProps {
 	extensionPath: string
-	storage: {
-		tutorial: any
-		stepProgress: any
-	}
+	workspaceState: vscode.Memento
 }
 
 
@@ -32,7 +29,7 @@ class ReactWebView {
 	private disposables: vscode.Disposable[] = []
 	private channel: Channel
 
-	public constructor({extensionPath, storage}: ReactWebViewProps) {
+	public constructor({extensionPath, workspaceState}: ReactWebViewProps) {
 		this.extensionPath = extensionPath
 
 		// Create and show a new webview panel
@@ -45,8 +42,9 @@ class ReactWebView {
 		// This happens when the user closes the panel or when the panel is closed programmatically
 		this.panel.onDidDispose(this.dispose, this, this.disposables)
 
+		// channel connects webview to the editor
 		this.channel = new Channel({
-			storage,
+			workspaceState,
 			postMessage: (action: Action): Thenable<boolean> => {
 				return this.panel.webview.postMessage(action)
 			}

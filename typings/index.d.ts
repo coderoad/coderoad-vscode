@@ -1,4 +1,5 @@
 import {send} from 'xstate'
+import Storage from '../src/services/storage'
 import * as G from './graphql'
 
 export interface TutorialLevel {
@@ -98,6 +99,10 @@ export interface Progress {
 	complete: boolean
 }
 
+export interface StepProgress {
+	[stepId: string]: boolean
+}
+
 // current tutorial position
 export interface Position {
 	levelId: string
@@ -176,3 +181,8 @@ interface MessageState {
 
 // todo: type each string param and payload
 export type EditorDispatch = (type: string, payload?: MessageData | MessageState | any) => void
+
+export interface EditorStorage {
+	currentTutorial: Storage<{id: string | null, version: string | null}>
+	stepProgress: Storage<StepProgress>
+}

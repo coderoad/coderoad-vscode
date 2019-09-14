@@ -9,9 +9,18 @@ import * as vscode from 'vscode'
 class Storage<T> {
 	private key: string
 	private storage: vscode.Memento
-	constructor({key, storage}: {key: string, storage: vscode.Memento}) {
+	constructor({key, storage, defaultValue}: {key: string, storage: vscode.Memento, defaultValue?: T}) {
 		this.storage = storage
 		this.key = key
+		// set default if none exists
+		if (!defaultValue) {
+			return
+		}
+		this.get().then((value: T | null) => {
+			if (!value) {
+				this.set(defaultValue)
+			}
+		})
 	}
 	public get = async (): Promise<T | null> => {
 		const value: string | undefined = await this.storage.get(this.key)

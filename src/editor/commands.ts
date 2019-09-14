@@ -1,6 +1,5 @@
-import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
-import Storage from '../services/storage'
+import {EditorStorage} from 'typings'
 import ReactWebView from './ReactWebView'
 import runTest from '../actions/runTest'
 import {isEmptyWorkspace} from './workspace'
@@ -13,24 +12,14 @@ const COMMANDS = {
 }
 
 interface CreateCommandProps {
-	vscodeExt: vscode.ExtensionContext
+	extensionPath: string
+	workspaceState: vscode.Memento
 }
 
-export const createCommands = ({vscodeExt}: CreateCommandProps) => {
+export const createCommands = ({extensionPath, workspaceState}: CreateCommandProps) => {
 	// React panel webview
 	let webview: any
 	let currentStepId = ''
-
-	const tutorial = new Storage<G.Tutorial | null>({
-		key: 'coderoad:tutorial',
-		storage: vscodeExt.workspaceState
-	})
-
-	const stepProgress = new Storage<{[stepId: string]: boolean}>({
-		key: 'coderoad:progress',
-		storage: vscodeExt.workspaceState
-	})
-
 
 	return {
 		// initialize
@@ -53,11 +42,8 @@ export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 
 			// activate machine
 			webview = new ReactWebView({
-				extensionPath: vscodeExt.extensionPath,
-				storage: {
-					tutorial,
-					stepProgress
-				}
+				extensionPath,
+				workspaceState,
 			})
 		},
 		// open React webview
@@ -86,10 +72,6 @@ export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 					console.log('COMMAND TEST_PASS')
 					// send test pass message back to client
 					webview.send({type: 'TEST_PASS', payload})
-					// update local storage stepProgress
-					stepProgress.update({
-						[payload.stepId]: true
-					})
 					vscode.window.showInformationMessage('PASS')
 				},
 				onFail: () => {

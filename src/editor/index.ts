@@ -31,9 +31,24 @@ class Editor {
 	}
 
 	private activateCommands = (): void => {
+		// NOTE: local storage must be bound to the vscodeExt.workspaceState
+
+		// store current tutorial id & version
+
+
+		// store step progress for current tutorial
+		// const stepProgress = new Storage<{[stepId: string]: boolean}>({
+		// 	key: 'coderoad:progress',
+		// 	storage: this.vscodeExt.workspaceState,
+		// 	defaultValue: {},
+		// })
+
 		const commands = createCommands({
-			vscodeExt: this.vscodeExt,
+			extensionPath: this.vscodeExt.extensionPath,
+			workspaceState: this.vscodeExt.workspaceState,
 		})
+
+		// register commands
 		for (const cmd in commands) {
 			const command: vscode.Disposable = vscode.commands.registerCommand(cmd, commands[cmd])
 			this.vscodeExt.subscriptions.push(command)
