@@ -3,6 +3,7 @@ import client from '../../apollo'
 import tutorialQuery from '../../apollo/queries/tutorial'
 
 export const loadTutorial = async (context: CR.MachineContext) => {
+
 	if (!context.tutorial) {
 		throw new Error('Tutorial not available to load')
 	}

@@ -4,60 +4,17 @@ import * as CR from 'typings'
 import * as selectors from '../../selectors'
 
 export default {
-	continueTutorial: (context: CR.MachineContext, event: CR.MachineEvent) => {
-
-		const {tutorial, stepProgress} = event.payload
-		// NOTE: tutorial does not contain levels/stages/steps etc.
-
-		const progress: CR.Progress = {
-			steps: stepProgress,
-			stages: {},
-			levels: {},
-			complete: false
-		}
-
-		const position: CR.Position = {
-			stepId: '',
-			stageId: '',
-			levelId: '',
-		}
-
-		// calculate progress from tutorial & stepProgress
-		for (const level of tutorial.version.levels) {
-			for (const stage of level.stages) {
-				// set stage progress
-				const stageComplete: boolean = stage.steps.every((step: G.Step) => {
-					return stepProgress[step.id]
-				})
-				if (stageComplete) {
-					progress.stages[stage.id] = true
-				} else if (!position.stageId.length) {
-					// set stage amd step position
-					position.stageId = stage.id
-					position.stepId = stage.steps.find((step: G.Step) => !stepProgress[step.id]).id
-				}
-			}
-			// set level progress
-			const levelComplete: boolean = level.stages.every((stage: G.Stage) => {
-				return progress.stages[stage.id]
-			})
-			if (levelComplete) {
-				progress.levels[level.id] = true
-			} else if (!position.levelId.length) {
-				position.levelId = level.id
-			}
-		}
-		// set tutorial progress
-		progress.complete = tutorial.version.levels.every((level: G.Level) => {
-			return progress.levels[level.id]
-		})
-
-		return assign({
-			tutorial,
-			progress,
-			position,
-		})
-	},
+	continueTutorial: assign({
+		tutorial: (context: CR.MachineContext, event: CR.MachineEvent) => {
+			return event.payload.tutorial
+		},
+		progress: (context: CR.MachineContext, event: CR.MachineEvent) => {
+			return event.payload.progress
+		},
+		position: (context: CR.MachineContext, event: CR.MachineEvent) => {
+			return event.payload.position
+		},
+	}),
 	setTutorial: assign({
 		tutorial: (context: CR.MachineContext, event: CR.MachineEvent): any => {
 			const {tutorial} = event.payload
@@ -144,6 +101,8 @@ export default {
 	// @ts-ignore
 	updateStepProgress: assign({
 		progress: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
+			console.log('updateStepProgress')
+			console.log(JSON.stringify(event))
 			// update progress by tracking completed
 			const currentProgress: CR.Progress = context.progress
 

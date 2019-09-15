@@ -6,7 +6,7 @@ import channel from '../../channel'
 export default {
 	loadStoredTutorial() {
 		channel.editorSend({
-			type: 'TUTORIAL_LOAD_STORED',
+			type: 'EDITOR_TUTORIAL_LOAD',
 		})
 	},
 	initializeTutorial(context: CR.MachineContext, event: CR.MachineEvent) {
@@ -15,17 +15,10 @@ export default {
 		if (!tutorial) {
 			throw new Error('Invalid tutorial for tutorial config')
 		}
-		const payload = {
-			id: tutorial.id,
-			version: tutorial.version.version,
-			codingLanguage: tutorial.codingLanguage,
-			testRunner: tutorial.testRunner,
-			repo: tutorial.repo,
-		}
-		console.log('EDITOR: TUTORIAL_CONFIG', payload)
+		console.log('EDITOR: TUTORIAL_CONFIG', tutorial)
 		channel.editorSend({
-			type: 'TUTORIAL_CONFIG',
-			payload,
+			type: 'EDITOR_TUTORIAL_CONFIG',
+			payload: {tutorial},
 		})
 	},
 	testStart(context: CR.MachineContext, event: CR.MachineEvent) {

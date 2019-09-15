@@ -181,8 +181,3 @@ interface MessageState {
 
 // todo: type each string param and payload
 export type EditorDispatch = (type: string, payload?: MessageData | MessageState | any) => void
-
-export interface EditorStorage {
-	currentTutorial: Storage<{id: string | null, version: string | null}>
-	stepProgress: Storage<StepProgress>
-}
