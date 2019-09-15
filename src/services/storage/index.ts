@@ -9,38 +9,36 @@ import * as vscode from 'vscode'
 class Storage<T> {
 	private key: string
 	private storage: vscode.Memento
-	constructor({key, storage, defaultValue}: {key: string, storage: vscode.Memento, defaultValue?: T}) {
+	private defaultValue: T
+	constructor({key, storage, defaultValue}: {key: string, storage: vscode.Memento, defaultValue: T}) {
 		this.storage = storage
 		this.key = key
-		// set default if none exists
-		if (!defaultValue) {
-			return
-		}
-		this.get().then((value: T | null) => {
-			if (!value) {
-				this.set(defaultValue)
-			}
-		})
+		this.defaultValue = defaultValue
 	}
-	public get = async (): Promise<T | null> => {
+	public get = async (): Promise<T> => {
 		const value: string | undefined = await this.storage.get(this.key)
-		// console.log(`STORAGE.get ${this.key} : ${JSON.stringify(value)}`)
+		console.log(`STORAGE.get ${this.key} : ${value}`)
 		if (value) {
 			return JSON.parse(value)
 		}
-		return null
+		return this.defaultValue
 	}
 	public set = (value: T): void => {
 		const stringValue = JSON.stringify(value)
-		// console.log(`STORAGE.set ${this.key} ${JSON.stringify(value)}`)
+		console.log(`STORAGE.set ${this.key} ${JSON.stringify(value)}`)
 		this.storage.update(this.key, stringValue)
 	}
 	public update = async (value: T): Promise<void> => {
 		const current = await this.get()
-		this.set({
+		const next = JSON.stringify({
 			...current,
 			...value,
 		})
+		console.log(`STORAGE.update ${this.key} ${next}`)
+		this.storage.update(this.key, next)
+	}
+	public reset = () => {
+		this.set(this.defaultValue)
 	}
 }
 

@@ -1,5 +1,4 @@
 import * as vscode from 'vscode'
-import {EditorStorage} from 'typings'
 import ReactWebView from './ReactWebView'
 import runTest from '../actions/runTest'
 import {isEmptyWorkspace} from './workspace'

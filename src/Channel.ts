@@ -1,10 +1,12 @@
 import * as CR from 'typings'
+import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
 
 import Storage from './services/storage'
 import tutorialConfig from './actions/tutorialConfig'
 import setupActions from './actions/setupActions'
 import solutionActions from './actions/solutionActions'
+
 
 interface Channel {
 	receive(action: CR.Action): Promise<void>
@@ -18,17 +20,25 @@ interface ChannelProps {
 
 class Channel implements Channel {
 	private postMessage: (action: CR.Action) => Thenable<boolean>
-	private currentTutorial: Storage<{id: string | null, version: string | null}>
-	private stepProgress: Storage<CR.StepProgress> | undefined
+	private currentTutorial: Storage<G.Tutorial | null>
+	private stepProgress: Storage<CR.StepProgress>
 	private workspaceState: vscode.Memento
 	constructor({postMessage, workspaceState}: ChannelProps) {
 		this.postMessage = postMessage
 		this.workspaceState = workspaceState
 
-		this.currentTutorial = new Storage<{id: string | null, version: string | null}>({
+		// local storage of current tutorial for continuing tutorials
+		this.currentTutorial = new Storage<G.Tutorial | null>({
 			key: 'coderoad:currentTutorial',
 			storage: workspaceState,
-			defaultValue: {id: null, version: null}
+			defaultValue: null,
+		})
+
+		// initialized for consistent typings. unused
+		this.stepProgress = new Storage<CR.StepProgress>({
+			key: 'coderoad:stepProgress',
+			storage: this.workspaceState,
+			defaultValue: {}
 		})
 	}
 
@@ -38,39 +48,94 @@ class Channel implements Channel {
 		console.log('RECEIVED:', actionType)
 		switch (actionType) {
 			// continue from tutorial from local storage
-			case 'TUTORIAL_LOAD_STORED':
-				const tutorial = await this.currentTutorial.get()
+			case 'EDITOR_TUTORIAL_LOAD':
+				const tutorial: G.Tutorial | null = await this.currentTutorial.get()
 
-				if (tutorial && tutorial.id && tutorial.version) {
-					this.stepProgress = new Storage<CR.StepProgress>({
-						key: `coderoad:stepProgress:${tutorial.id}:${tutorial.version}`,
-						storage: this.workspaceState,
-						defaultValue: {}
-					})
-					const stepProgress = await this.stepProgress.get()
-					console.log('looking at stored')
-					console.log(JSON.stringify(tutorial))
-					console.log(JSON.stringify(stepProgress))
-					// communicate to client the tutorial & stepProgress state
-					this.send({type: 'CONTINUE_TUTORIAL', payload: {tutorial, stepProgress}})
-				} else {
+				// new tutorial
+				if (!tutorial || !tutorial.id || !tutorial.version) {
 					this.send({type: 'NEW_TUTORIAL'})
+					return
 				}
+
+				// continue tutorial
+				// setup progress for specific tutorial
+				this.stepProgress = new Storage<CR.StepProgress>({
+					key: `coderoad:stepProgress:${tutorial.id}:${tutorial.version}`,
+					storage: this.workspaceState,
+					defaultValue: {}
+				})
+				const stepProgress = await this.stepProgress.get()
+				console.log('looking at stored')
+				console.log(JSON.stringify(tutorial))
+				console.log(JSON.stringify(stepProgress))
+				const progress: CR.Progress = {
+					steps: stepProgress,
+					stages: {},
+					levels: {},
+					complete: false
+				}
+
+				const position: CR.Position = {
+					stepId: '',
+					stageId: '',
+					levelId: '',
+				}
+
+				// calculate progress from tutorial & stepProgress
+				for (const level of tutorial.version.levels) {
+					for (const stage of level.stages) {
+						// set stage progress
+						const stageComplete: boolean = stage.steps.every((step: G.Step) => {
+							return stepProgress[step.id]
+						})
+						if (stageComplete) {
+							progress.stages[stage.id] = true
+						} else if (!position.stageId.length) {
+							// set stage amd step position
+							position.stageId = stage.id
+							// @ts-ignore
+							position.stepId = stage.steps.find((step: G.Step) => !stepProgress[step.id]).id
+						}
+					}
+					// set level progress
+					const levelComplete: boolean = level.stages.every((stage: G.Stage) => {
+						return progress.stages[stage.id]
+					})
+					if (levelComplete) {
+						progress.levels[level.id] = true
+					} else if (!position.levelId.length) {
+						position.levelId = level.id
+					}
+				}
+				// set tutorial progress
+				progress.complete = tutorial.version.levels.every((level: G.Level) => {
+					return progress.levels[level.id]
+				})
+				// communicate to client the tutorial & stepProgress state
+				this.send({type: 'CONTINUE_TUTORIAL', payload: {tutorial, progress, position}})
 
 				return
 			// clear tutorial local storage
 			case 'TUTORIAL_CLEAR':
-				this.currentTutorial.set({id: null, version: null})
+				this.currentTutorial.set(null)
 
 				// reset tutorial progress on clear
-				if (this.stepProgress) {
-					this.stepProgress.set({})
-				}
+				this.stepProgress.set({})
 				return
 			// configure test runner, language, git
-			case 'TUTORIAL_CONFIG':
-				tutorialConfig(action.payload)
-				this.currentTutorial.set(action.payload)
+			case 'EDITOR_TUTORIAL_CONFIG':
+				const tutorialInfo = action.payload.tutorial
+				console.log('tutorialConfig', JSON.stringify(tutorialInfo))
+				if (!this.stepProgress) {
+					// setup progress for new tutorials
+					this.stepProgress = new Storage<CR.StepProgress>({
+						key: `coderoad:stepProgress:${tutorialInfo.id}:${tutorialInfo.version.version}`,
+						storage: this.workspaceState,
+						defaultValue: {}
+					})
+				}
+				tutorialConfig(tutorialInfo)
+				this.currentTutorial.set(tutorialInfo)
 				return
 			// run unit tests on step
 			case 'TEST_RUN':
@@ -97,10 +162,9 @@ class Channel implements Channel {
 		switch (action.type) {
 			case 'TEST_PASS':
 				// update local storage stepProgress
-				// stepProgress.update({
-				// 	[action.payload.stepId]: true
-				// })
-				return
+				this.stepProgress.update({
+					[action.payload.stepId]: true
+				})
 		}
 
 		const success = await this.postMessage(action)
