@@ -49,7 +49,8 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 					},
 					ContinueTutorial: {
 						on: {
-							TUTORIAL_START: '#tutorial',
+							TUTORIAL_START: '#tutorial-load-next',
+							TUTORIAL_SELECT: 'SelectTutorial'
 						},
 					},
 				},

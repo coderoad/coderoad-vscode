@@ -6,6 +6,7 @@ import * as T from 'typings/graphql'
 interface Props {
   tutorial: T.Tutorial
   onContinue(): void
+  onNew(): void
 }
 
 export const ContinuePage = (props: Props) => (
@@ -16,6 +17,12 @@ export const ContinuePage = (props: Props) => (
         <h2>{props.tutorial.title}</h2>
         <p>{props.tutorial.text}</p>
         <Button onClick={props.onContinue}>Resume</Button>
+      </div>
+    </Card>
+    <Card showTitleBullet={false} contentHeight="auto">
+      <div>
+        <h2>Start a New Tutorial</h2>
+        <Button onClick={props.onNew}>Select New Tutorial</Button>
       </div>
     </Card>
   </div>
@@ -33,7 +40,9 @@ const ContinuePageContainer = ({ context, send }: ContainerProps) => {
     throw new Error('Tutorial not found')
   }
 
-  return <ContinuePage tutorial={tutorial} onContinue={() => send('TUTORIAL_START')} />
+  return (
+    <ContinuePage tutorial={tutorial} onContinue={() => send('TUTORIAL_START')} onNew={() => send('TUTORIAL_SELECT')} />
+  )
 }
 
 export default ContinuePageContainer
