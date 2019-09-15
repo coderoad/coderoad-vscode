@@ -6,6 +6,7 @@ import Storage from './services/storage'
 import tutorialConfig from './actions/tutorialConfig'
 import setupActions from './actions/setupActions'
 import solutionActions from './actions/solutionActions'
+import saveCommit from './actions/saveCommit'
 
 
 interface Channel {
@@ -165,6 +166,7 @@ class Channel implements Channel {
 				this.stepProgress.update({
 					[action.payload.stepId]: true
 				})
+				saveCommit()
 		}
 
 		const success = await this.postMessage(action)

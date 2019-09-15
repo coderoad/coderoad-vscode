@@ -47,9 +47,8 @@ export function loadCommit(commit: string): Promise<void> {
     git commit -am '${level}/${stage}/${step} complete'
 */
 
-export async function saveCommit(position: CR.Position): Promise<void> {
-	const {levelId, stageId, stepId} = position
-	const {stdout, stderr} = await node.exec(`git commit -am 'completed ${levelId}/${stageId}/${stepId}'`)
+export async function saveCommit(message: string): Promise<void> {
+	const {stdout, stderr} = await node.exec(`git commit -am '${message}'`)
 	if (stderr) {
 		console.error(stderr)
 		throw new Error('Error saving progress to Git')
