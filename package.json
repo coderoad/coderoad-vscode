@@ -32,9 +32,6 @@
   "dependencies": {
     "@types/mocha": "^5.2.7",
     "dotenv": "^8.1.0",
-    "graphql": "^14.5.4",
-    "graphql-request": "^1.8.2",
-    "graphql-tag": "^2.10.1",
     "vscode": "^1.1.36",
     "xstate": "^4.6.7"
   },
