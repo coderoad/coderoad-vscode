@@ -59,6 +59,8 @@ class Channel implements Channel {
 					return
 				}
 
+				const position = this.context.position.get()
+
 				// communicate to client the tutorial & stepProgress state
 				this.send({type: 'CONTINUE_TUTORIAL', payload: {tutorial, progress, position}})
 
