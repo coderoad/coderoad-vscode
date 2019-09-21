@@ -18,15 +18,14 @@ class Progress {
 	constructor() {
 		this.value = defaultValue
 	}
-	public setTutorial = (workspaceState: vscode.Memento, tutorial: G.Tutorial) => {
+	public setTutorial = async (workspaceState: vscode.Memento, tutorial: G.Tutorial): Promise<CR.Progress> => {
 		this.storage = new Storage<CR.Progress>({
 			key: `coderoad:progress:${tutorial.id}:${tutorial.version}`,
 			storage: workspaceState,
 			defaultValue,
 		})// set value from storage
-		this.storage.get().then((value: CR.Progress) => {
-			this.value = value
-		})
+		this.value = await this.storage.get()
+		return this.value
 	}
 	public get = () => {
 		return this.value
@@ -36,6 +35,11 @@ class Progress {
 		if (this.storage) {
 			this.storage.set(value)
 		}
+	}
+	public setStepComplete = (stepId: string) => {
+		const next = this.value
+		next.steps[stepId] = true
+		this.set(next)
 	}
 }
 

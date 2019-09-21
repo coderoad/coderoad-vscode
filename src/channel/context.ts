@@ -17,7 +17,7 @@ class Context {
 		this.position = new Position()
 		this.progress = new Progress()
 	}
-	setTutorial(tutorial: G.Tutorial, workspaceState: vscode.Memento) {
+	setTutorial(workspaceState: vscode.Memento, tutorial: G.Tutorial) {
 		this.tutorial.set(tutorial)
 		this.progress.setTutorial(workspaceState, tutorial)
 	}
