@@ -11,25 +11,20 @@ interface ErrorMessageFilter {
 }
 
 // TODO: should be loaded on startup based on language
-const errorMessageFilter: ErrorMessageFilter = {
-	js: {
+const commandErrorMessageFilter: ErrorMessageFilter = {
+	JAVASCRIPT: {
 		'node-gyp': 'Error running npm setup command'
 	}
 }
 
-const setupActions = async ({commands, commits, files}: G.StepActions): Promise<void> => {
-	// run commits
-	for (const commit of commits) {
-		await git.loadCommit(commit)
-	}
-
-	// run command
+const runCommands = async (commands: string[], language: string) => {
 	for (const command of commands) {
 		const {stdout, stderr} = await node.exec(command)
 		if (stderr) {
 			console.error(stderr)
 			// language specific error messages from running commands
-			for (const message of Object.keys(errorMessageFilter.js)) {
+			const filteredMessages = Object.keys(commandErrorMessageFilter[language])
+			for (const message of filteredMessages) {
 				if (stderr.match(message)) {
 					// ignored error
 					throw new Error('Error running setup command')
@@ -38,6 +33,17 @@ const setupActions = async ({commands, commits, files}: G.StepActions): Promise<
 		}
 		console.log(`run command: ${command}`, stdout)
 	}
+}
+
+
+const setupActions = async ({commands, commits, files}: G.StepActions): Promise<void> => {
+	// run commits
+	for (const commit of commits) {
+		await git.loadCommit(commit)
+	}
+
+	// run command
+
 
 	// open files
 	for (const filePath of files) {
