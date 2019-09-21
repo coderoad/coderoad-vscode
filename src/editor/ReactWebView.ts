@@ -1,7 +1,8 @@
 import {Action} from 'typings'
 import * as path from 'path'
 import * as vscode from 'vscode'
-import Channel from '../Channel'
+import {JSDOM} from 'jsdom'
+import Channel from '../channel'
 
 const getNonce = (): string => {
 	let text = ''
@@ -30,13 +31,14 @@ class ReactWebView {
 	private channel: Channel
 
 	public constructor({extensionPath, workspaceState}: ReactWebViewProps) {
+		console.log(`extPath ${extensionPath}`)
 		this.extensionPath = extensionPath
 
 		// Create and show a new webview panel
 		this.panel = this.createWebviewPanel(vscode.ViewColumn.Two)
 
 		// Set the webview initial html content
-		this.panel.webview.html = this.getHtmlForWebview()
+		this.getHtmlForWebview()
 
 		// Listen for when the panel is disposed
 		// This happens when the user closes the panel or when the panel is closed programmatically
@@ -65,15 +67,15 @@ class ReactWebView {
 
 		// prevents new panels from going on top of coderoad panel
 		vscode.window.onDidChangeActiveTextEditor((textEditor?: vscode.TextEditor) => {
-			console.log('onDidChangeActiveTextEditor')
-			console.log(textEditor)
+			// console.log('onDidChangeActiveTextEditor')
+			// console.log(textEditor)
 			if (!textEditor || textEditor.viewColumn !== vscode.ViewColumn.Two) {
 				updateWindows()
 			}
 		})
 		// // prevents moving coderoad panel on top of left panel
 		vscode.window.onDidChangeVisibleTextEditors((textEditor: vscode.TextEditor[]) => {
-			console.log('onDidChangeVisibleTextEditors')
+			// console.log('onDidChangeVisibleTextEditors')
 			updateWindows()
 		})
 
@@ -97,7 +99,7 @@ class ReactWebView {
 		Promise.all(this.disposables.map((x) => x.dispose()))
 	}
 
-	private createWebviewPanel(column: number): vscode.WebviewPanel {
+	private createWebviewPanel = (column: number): vscode.WebviewPanel => {
 		const viewType = 'CodeRoad'
 		const title = 'CodeRoad'
 		const config = {
@@ -111,62 +113,64 @@ class ReactWebView {
 		return vscode.window.createWebviewPanel(viewType, title, column, config)
 	}
 
-	private getHtmlForWebview(): string {
-		const buildUri = vscode.Uri.file(path.join(this.extensionPath, 'build')).with({scheme: 'vscode-resource'})
+	private getHtmlForWebview = async (): Promise<void> => {
+
+		const dom = await JSDOM.fromFile('./build/index.html')
+
+		const {document} = dom.window
+
+		const base: HTMLBaseElement = document.createElement('base')
+		base.href = vscode.Uri.file(path.join(this.extensionPath, 'build')).with({scheme: 'vscode-resource'}).path
+		document.head.appendChild(base)
 
 		const manifest = require(path.join(this.extensionPath, 'build', 'asset-manifest.json'))
 
-		const getSrc = (manifestName: string): any => {
-			const file = manifest.files[manifestName]
-			const uriPath = vscode.Uri.file(path.join(this.extensionPath, 'build', file))
-			return uriPath.with({scheme: 'vscode-resource'})
+		const nonces: string[] = []
+
+		const scripts: HTMLScriptElement[] = Array.from(document.getElementsByTagName('script'))
+		for (const script of scripts) {
+			const nonce: string = getNonce()
+			nonces.push(nonce)
+			script.nonce = nonce
+			const uriPath = vscode.Uri.file(path.join(this.extensionPath, 'build', script.src))
+			uriPath.with({scheme: 'vscode-resource'})
 		}
 
-		const styles = [
-			'main.css',
-			// get style chunk
-			Object.keys(manifest.files).find(f => f.match(/^static\/css\/.+\.css$/)) || ''
-		].map(style => getSrc(style))
+		// add run-time script from webpack
+		const runTimeScript = document.createElement('script')
+		runTimeScript.src = manifest.files['runtime-main.js']
+		runTimeScript.nonce = getNonce()
+		nonces.push(runTimeScript.nonce)
+		vscode.Uri.file(path.join(this.extensionPath, 'build', runTimeScript.src)).with({scheme: 'vscode-resource'})
+		document.body.appendChild(runTimeScript)
 
-		// map over scripts
-		const scripts = [{
-			file: './webpackBuild.js',
-		}, {
-			manifest: 'runtime~main.js',
-		}, {
-			manifest: 'main.js',
-		}, {
-			// get js chunk
-			manifest: Object.keys(manifest.files).find(f => f.match(/^static\/js\/.+\.js$/)),
-		}].map(script => ({
-			nonce: getNonce(),
-			src: script.manifest ? getSrc(script.manifest) : script.file
-		}))
+		const styles: HTMLLinkElement[] = Array.from(document.getElementsByTagName('link'))
+		for (const style of styles) {
+			if (style.href) {
+				const uriPath = vscode.Uri.file(path.join(this.extensionPath, 'build', style.href))
+				uriPath.with({scheme: 'vscode-resource'})
+			}
+		}
 
-		const indexHtml = `<!DOCTYPE html>
-			<html lang='en'>
-				<head>
-						<meta charset='utf-8'>
-						<meta name='viewport' content='width=device-width,initial-scale=1,shrink-to-fit=no'>
-						<meta name='theme-color' content='#000000'>
-						<meta http-equiv='Content-Security-Policy' content="font-src vscode-resource://*; img-src vscode-resource: https:; script-src ${scripts.map(script => `'nonce-${script.nonce}'`).join(' ')}; style-src vscode-resource: 'unsafe-inline' http: https: data:;">
-						<title>React App</title>
 
-						<link rel='manifest' href='./manifest.json' />
-						<link rel='stylesheet' href='https://unpkg.com/@alifd/next/dist/next.css' />
-						${styles.map(styleUri => `<link rel='stylesheet' type='text/css' href='${styleUri}'>`).join('\n')}
-						
-						<base href='${buildUri}/'>
-				</head>
+		// content security policy
+		const cspMeta: HTMLMetaElement = document.createElement('meta')
+		cspMeta.httpEquiv = 'Content-Security-Policy'
+		cspMeta.content = [
+			`default-src 'none';`,
+			'font-src vscode-resource://*;',
+			'img-src vscode-resource: https:;',
+			`script-src ${nonces.map(nonce => `'nonce-${nonce}'`).join(' ')};`,
+			`style-src 'unsafe-inline' vscode-resource: http: https: data:;`
+		].join(' ')
+		document.head.appendChild(cspMeta)
 
-				<body>
-						<noscript>You need to enable JavaScript to run this app.</noscript>
-						<div id='root' style='background-color:white; padding: 1rem;'>Loading...</div>
-						${scripts.map(s => `<script nonce='${s.nonce}' src='${s.src}'></script>`).join('\n')}
-				</body>
-		</html>`
 
-		return indexHtml
+		const html = dom.serialize()
+
+		console.log(html)
+
+		this.panel.webview.html = html
 	}
 
 }

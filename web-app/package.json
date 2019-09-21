@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "react-scripts build",
-    "postbuild": "cp -R ./build/ ../build/ && cp public/webpackBuild.js ../build/webpackBuild.js",
+    "postbuild": "cp -R ./build/ ../build/",
     "build-storybook": "build-storybook",
     "start": "react-scripts start",
     "storybook": "start-storybook -p 6006",
@@ -37,7 +37,6 @@
     "ramda": "^0.26.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-scripts": "^3.1.2",
     "reselect": "^4.0.0",
     "typescript": "^3.6.3",
     "xstate": "^4.6.7"
@@ -60,6 +59,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-import": "^1.12.1",
     "node-sass": "^4.12.0",
+    "react-scripts": "3.1.2",
     "sass-loader": "^8.0.0",
     "typescript-eslint-parser": "^22.0.0"
   }
