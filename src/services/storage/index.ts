@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 
-// NOTE: localStorage not available on client
-// must be stored in editor
+// NOTE: localStorage is not available on client
+// and must be stored in editor
 // https://github.com/Microsoft/vscode/issues/52246
 
 // storage is unfortunately bound to the vscode extension context
