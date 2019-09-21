@@ -26,10 +26,10 @@
     "extends": "react-app"
   },
   "dependencies": {
-    "@alifd/next": "^1.17.11",
+    "@alifd/next": "^1.17.12",
     "@apollo/react-hooks": "^3.1.1",
     "apollo-boost": "^0.4.4",
-    "graphql": "^14.5.6",
+    "graphql": "^14.5.7",
     "markdown-it": "^10.0.0",
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-prism": "^2.0.3",
@@ -37,7 +37,7 @@
     "ramda": "^0.26.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-scripts": "^3.1.1",
+    "react-scripts": "^3.1.2",
     "reselect": "^4.0.0",
     "typescript": "^3.6.3",
     "xstate": "^4.6.7"

@@ -40,15 +40,15 @@
     "@types/dotenv": "^6.1.1",
     "@types/glob": "^7.1.1",
     "@types/graphql": "^14.5.0",
-    "@types/node": "^12.7.4",
+    "@types/node": "^12.7.5",
     "assert": "^2.0.0",
     "concurrently": "^4.1.2",
     "glob": "^7.1.4",
     "mocha": "^6.2.0",
     "prettier": "^1.18.2",
-    "tslint": "^5.19.0",
+    "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.6.2",
+    "typescript": "^3.6.3",
     "vscode-test": "^1.2.0"
   },
   "engines": {
