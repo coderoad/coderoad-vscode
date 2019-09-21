@@ -38,11 +38,37 @@ class ReactWebView {
 		this.panel = this.createWebviewPanel(vscode.ViewColumn.Two)
 
 		// Set the webview initial html content
-		this.getHtmlForWebview()
+		this.render().then((html: string) => {
+			this.panel.webview.html = html
+			// Listen for when the panel is disposed
+			// This happens when the user closes the panel or when the panel is closed programmatically
+			this.panel.onDidDispose(this.dispose, this, this.disposables)
 
-		// Listen for when the panel is disposed
-		// This happens when the user closes the panel or when the panel is closed programmatically
-		this.panel.onDidDispose(this.dispose, this, this.disposables)
+
+			// update panel on changes
+			const updateWindows = () => {
+				vscode.commands.executeCommand('vscode.setEditorLayout', {
+					orientation: 0,
+					groups: [{groups: [{}], size: 0.6}, {groups: [{}], size: 0.4}],
+				})
+			}
+
+			// prevents new panels from going on top of coderoad panel
+			vscode.window.onDidChangeActiveTextEditor((textEditor?: vscode.TextEditor) => {
+				// console.log('onDidChangeActiveTextEditor')
+				// console.log(textEditor)
+				if (!textEditor || textEditor.viewColumn !== vscode.ViewColumn.Two) {
+					updateWindows()
+				}
+			})
+			// // prevents moving coderoad panel on top of left panel
+			vscode.window.onDidChangeVisibleTextEditors((textEditor: vscode.TextEditor[]) => {
+				// console.log('onDidChangeVisibleTextEditors')
+				updateWindows()
+			})
+
+			// TODO: prevent window from moving to the left when no windows remain on rights
+		})
 
 		// channel connects webview to the editor
 		this.channel = new Channel({
@@ -55,31 +81,6 @@ class ReactWebView {
 		const receive = this.channel.receive
 		this.panel.webview.onDidReceiveMessage(receive, null, this.disposables)
 		this.send = this.channel.send
-
-
-		// update panel on changes
-		const updateWindows = () => {
-			vscode.commands.executeCommand('vscode.setEditorLayout', {
-				orientation: 0,
-				groups: [{groups: [{}], size: 0.6}, {groups: [{}], size: 0.4}],
-			})
-		}
-
-		// prevents new panels from going on top of coderoad panel
-		vscode.window.onDidChangeActiveTextEditor((textEditor?: vscode.TextEditor) => {
-			// console.log('onDidChangeActiveTextEditor')
-			// console.log(textEditor)
-			if (!textEditor || textEditor.viewColumn !== vscode.ViewColumn.Two) {
-				updateWindows()
-			}
-		})
-		// // prevents moving coderoad panel on top of left panel
-		vscode.window.onDidChangeVisibleTextEditors((textEditor: vscode.TextEditor[]) => {
-			// console.log('onDidChangeVisibleTextEditors')
-			updateWindows()
-		})
-
-		// TODO: prevent window from moving to the left when no windows remain on rights
 	}
 
 	public createOrShow(column: number): void {
@@ -113,7 +114,7 @@ class ReactWebView {
 		return vscode.window.createWebviewPanel(viewType, title, column, config)
 	}
 
-	private getHtmlForWebview = async (): Promise<void> => {
+	private render = async (): Promise<string> => {
 
 		const dom = await JSDOM.fromFile('./build/index.html')
 
@@ -170,7 +171,7 @@ class ReactWebView {
 
 		console.log(html)
 
-		this.panel.webview.html = html
+		return html
 	}
 
 }
