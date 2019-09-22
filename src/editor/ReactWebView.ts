@@ -38,42 +38,42 @@ class ReactWebView {
 		this.panel = this.createWebviewPanel(vscode.ViewColumn.Two)
 
 		// Set the webview initial html content
-		this.render().then((html: string) => {
-			this.panel.webview.html = html
-			// Listen for when the panel is disposed
-			// This happens when the user closes the panel or when the panel is closed programmatically
-			this.panel.onDidDispose(this.dispose, this, this.disposables)
+		this.render()
+
+		// Listen for when the panel is disposed
+		// This happens when the user closes the panel or when the panel is closed programmatically
+		this.panel.onDidDispose(this.dispose, this, this.disposables)
 
 
-			// update panel on changes
-			const updateWindows = () => {
-				vscode.commands.executeCommand('vscode.setEditorLayout', {
-					orientation: 0,
-					groups: [{groups: [{}], size: 0.6}, {groups: [{}], size: 0.4}],
-				})
-			}
-
-			// prevents new panels from going on top of coderoad panel
-			vscode.window.onDidChangeActiveTextEditor((textEditor?: vscode.TextEditor) => {
-				// console.log('onDidChangeActiveTextEditor')
-				// console.log(textEditor)
-				if (!textEditor || textEditor.viewColumn !== vscode.ViewColumn.Two) {
-					updateWindows()
-				}
+		// update panel on changes
+		const updateWindows = () => {
+			vscode.commands.executeCommand('vscode.setEditorLayout', {
+				orientation: 0,
+				groups: [{groups: [{}], size: 0.6}, {groups: [{}], size: 0.4}],
 			})
-			// // prevents moving coderoad panel on top of left panel
-			vscode.window.onDidChangeVisibleTextEditors((textEditor: vscode.TextEditor[]) => {
-				// console.log('onDidChangeVisibleTextEditors')
+		}
+
+		// prevents new panels from going on top of coderoad panel
+		vscode.window.onDidChangeActiveTextEditor((textEditor?: vscode.TextEditor) => {
+			// console.log('onDidChangeActiveTextEditor')
+			// console.log(textEditor)
+			if (!textEditor || textEditor.viewColumn !== vscode.ViewColumn.Two) {
 				updateWindows()
-			})
-
-			// TODO: prevent window from moving to the left when no windows remain on rights
+			}
 		})
+		// // prevents moving coderoad panel on top of left panel
+		vscode.window.onDidChangeVisibleTextEditors((textEditor: vscode.TextEditor[]) => {
+			// console.log('onDidChangeVisibleTextEditors')
+			updateWindows()
+		})
+
+		// TODO: prevent window from moving to the left when no windows remain on rights
 
 		// channel connects webview to the editor
 		this.channel = new Channel({
 			workspaceState,
 			postMessage: (action: Action): Thenable<boolean> => {
+				console.log(`postMessage ${JSON.stringify(action)}`)
 				return this.panel.webview.postMessage(action)
 			}
 		})
@@ -114,42 +114,44 @@ class ReactWebView {
 		return vscode.window.createWebviewPanel(viewType, title, column, config)
 	}
 
-	private render = async (): Promise<string> => {
+	private render = async (): Promise<void> => {
 
-		const dom = await JSDOM.fromFile('./build/index.html')
-
+		const rootPath = path.join(this.extensionPath, 'build')
+		const dom = await JSDOM.fromFile(path.join(rootPath, 'index.html'))
 		const {document} = dom.window
 
 		const base: HTMLBaseElement = document.createElement('base')
-		base.href = vscode.Uri.file(path.join(this.extensionPath, 'build')).with({scheme: 'vscode-resource'}).path
+		base.href = vscode.Uri.file(rootPath).with({scheme: 'vscode-resource'}).toString() + '/'
 		document.head.appendChild(base)
 
-		const manifest = require(path.join(this.extensionPath, 'build', 'asset-manifest.json'))
+		const manifest = require(path.join(rootPath, 'asset-manifest.json'))
 
 		const nonces: string[] = []
 
+		const createUri = (filePath: string): string => vscode.Uri.file(filePath).with({scheme: 'vscode-resource'}).toString().replace(/^\/+/g, '').replace('/vscode-resource%3A', rootPath)
+
 		const scripts: HTMLScriptElement[] = Array.from(document.getElementsByTagName('script'))
 		for (const script of scripts) {
-			const nonce: string = getNonce()
-			nonces.push(nonce)
-			script.nonce = nonce
-			const uriPath = vscode.Uri.file(path.join(this.extensionPath, 'build', script.src))
-			uriPath.with({scheme: 'vscode-resource'})
+			if (script.src) {
+				const nonce: string = getNonce()
+				nonces.push(nonce)
+				script.nonce = nonce
+				script.src = createUri(script.src)
+			}
 		}
 
 		// add run-time script from webpack
 		const runTimeScript = document.createElement('script')
-		runTimeScript.src = manifest.files['runtime-main.js']
 		runTimeScript.nonce = getNonce()
 		nonces.push(runTimeScript.nonce)
-		vscode.Uri.file(path.join(this.extensionPath, 'build', runTimeScript.src)).with({scheme: 'vscode-resource'})
+		runTimeScript.src = createUri(path.join(rootPath, manifest.files['runtime~main.js']))
+
 		document.body.appendChild(runTimeScript)
 
 		const styles: HTMLLinkElement[] = Array.from(document.getElementsByTagName('link'))
 		for (const style of styles) {
 			if (style.href) {
-				const uriPath = vscode.Uri.file(path.join(this.extensionPath, 'build', style.href))
-				uriPath.with({scheme: 'vscode-resource'})
+				style.href = createUri(style.href)
 			}
 		}
 
@@ -166,12 +168,9 @@ class ReactWebView {
 		].join(' ')
 		document.head.appendChild(cspMeta)
 
-
 		const html = dom.serialize()
 
-		console.log(html)
-
-		return html
+		this.panel.webview.html = html
 	}
 
 }
