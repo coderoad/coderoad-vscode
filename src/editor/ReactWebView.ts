@@ -144,7 +144,7 @@ class ReactWebView {
 		const runTimeScript = document.createElement('script')
 		runTimeScript.nonce = getNonce()
 		nonces.push(runTimeScript.nonce)
-		runTimeScript.src = createUri(path.join(rootPath, manifest.files['runtime~main.js']))
+		runTimeScript.src = createUri(path.join(rootPath, manifest.files['runtime-main.js']))
 
 		document.body.appendChild(runTimeScript)
 
