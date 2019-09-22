@@ -115,21 +115,28 @@ class ReactWebView {
 	}
 
 	private render = async (): Promise<void> => {
-
+		// path to build directory
 		const rootPath = path.join(this.extensionPath, 'build')
+
+		// load copied index.html from web app build
 		const dom = await JSDOM.fromFile(path.join(rootPath, 'index.html'))
 		const {document} = dom.window
 
+		// set base href
 		const base: HTMLBaseElement = document.createElement('base')
 		base.href = vscode.Uri.file(rootPath).with({scheme: 'vscode-resource'}).toString() + '/'
 		document.head.appendChild(base)
 
-		const manifest = require(path.join(rootPath, 'asset-manifest.json'))
-
+		// used for CSP
 		const nonces: string[] = []
 
-		const createUri = (filePath: string): string => vscode.Uri.file(filePath).with({scheme: 'vscode-resource'}).toString().replace(/^\/+/g, '').replace('/vscode-resource%3A', rootPath)
+		// generate vscode-resource build path uri
+		const createUri = (filePath: string): string =>
+			vscode.Uri.file(filePath).with({scheme: 'vscode-resource'}).toString()
+				.replace(/^\/+/g, '') // remove leading '/'
+				.replace('/vscode-resource%3A', rootPath) // replace mangled resource path with root
 
+		// fix paths for scripts
 		const scripts: HTMLScriptElement[] = Array.from(document.getElementsByTagName('script'))
 		for (const script of scripts) {
 			if (script.src) {
@@ -144,10 +151,11 @@ class ReactWebView {
 		const runTimeScript = document.createElement('script')
 		runTimeScript.nonce = getNonce()
 		nonces.push(runTimeScript.nonce)
+		const manifest = require(path.join(rootPath, 'asset-manifest.json'))
 		runTimeScript.src = createUri(path.join(rootPath, manifest.files['runtime-main.js']))
-
 		document.body.appendChild(runTimeScript)
 
+		// fix paths for links
 		const styles: HTMLLinkElement[] = Array.from(document.getElementsByTagName('link'))
 		for (const style of styles) {
 			if (style.href) {
@@ -156,7 +164,7 @@ class ReactWebView {
 		}
 
 
-		// content security policy
+		// set CSP (content security policy) to grant permission to local files
 		const cspMeta: HTMLMetaElement = document.createElement('meta')
 		cspMeta.httpEquiv = 'Content-Security-Policy'
 		cspMeta.content = [
@@ -168,8 +176,10 @@ class ReactWebView {
 		].join(' ')
 		document.head.appendChild(cspMeta)
 
+		// stringify dom
 		const html = dom.serialize()
 
+		// set view
 		this.panel.webview.html = html
 	}
 
