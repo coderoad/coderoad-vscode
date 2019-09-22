@@ -4,7 +4,7 @@ import * as vscode from 'vscode'
 
 import Storage from '../../services/storage'
 
-const defaultValue = {
+const defaultValue: CR.Progress = {
 	levels: {},
 	stages: {},
 	steps: {},
@@ -24,7 +24,7 @@ class Progress {
 			storage: workspaceState,
 			defaultValue,
 		})// set value from storage
-		this.value = await this.storage.get()
+		this.value = await this.storage.get() || defaultValue
 		return this.value
 	}
 	public get = () => {

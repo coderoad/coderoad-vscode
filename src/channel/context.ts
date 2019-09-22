@@ -17,9 +17,11 @@ class Context {
 		this.position = new Position()
 		this.progress = new Progress()
 	}
-	setTutorial(workspaceState: vscode.Memento, tutorial: G.Tutorial) {
+	public setTutorial = async (workspaceState: vscode.Memento, tutorial: G.Tutorial): Promise<{progress: CR.Progress, position: CR.Position}> => {
 		this.tutorial.set(tutorial)
-		this.progress.setTutorial(workspaceState, tutorial)
+		const progress: CR.Progress = await this.progress.setTutorial(workspaceState, tutorial)
+		const position: CR.Position = this.position.setPositionFromProgress(tutorial, progress)
+		return {progress, position}
 	}
 }
 

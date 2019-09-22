@@ -49,15 +49,13 @@ class Channel implements Channel {
 				}
 
 				// set tutorial 
-				const progress: CR.Progress = await this.context.progress.setTutorial(this.workspaceState, tutorial)
+				const {position, progress} = await this.context.setTutorial(this.workspaceState, tutorial)
 
 				if (progress.complete) {
 					// tutorial is already complete
 					this.send({type: 'NEW_TUTORIAL'})
 					return
 				}
-
-				const position = this.context.position.get()
 
 				// communicate to client the tutorial & stepProgress state
 				this.send({type: 'CONTINUE_TUTORIAL', payload: {tutorial, progress, position}})
