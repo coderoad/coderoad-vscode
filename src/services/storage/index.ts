@@ -17,7 +17,7 @@ class Storage<T> {
 	}
 	public get = async (): Promise<T> => {
 		const value: string | undefined = await this.storage.get(this.key)
-		console.log(`STORAGE.get ${this.key} : ${value}`)
+		// console.log(`STORAGE.get ${this.key} : ${value}`)
 		if (value) {
 			return JSON.parse(value)
 		}
@@ -25,7 +25,7 @@ class Storage<T> {
 	}
 	public set = (value: T): void => {
 		const stringValue = JSON.stringify(value)
-		console.log(`STORAGE.set ${this.key} ${JSON.stringify(value)}`)
+		// console.log(`STORAGE.set ${this.key} ${JSON.stringify(value)}`)
 		this.storage.update(this.key, stringValue)
 	}
 	public update = async (value: T): Promise<void> => {
@@ -34,7 +34,7 @@ class Storage<T> {
 			...current,
 			...value,
 		})
-		console.log(`STORAGE.update ${this.key} ${next}`)
+		// console.log(`STORAGE.update ${this.key} ${next}`)
 		this.storage.update(this.key, next)
 	}
 	public reset = () => {

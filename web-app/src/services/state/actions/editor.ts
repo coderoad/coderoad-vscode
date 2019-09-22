@@ -5,6 +5,8 @@ import channel from '../../channel'
 
 export default {
 	loadStoredTutorial() {
+		// send message to editor to see if there is existing tutorial progress
+		// in local storage on the editor
 		channel.editorSend({
 			type: 'EDITOR_TUTORIAL_LOAD',
 		})

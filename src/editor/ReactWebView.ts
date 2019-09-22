@@ -168,7 +168,6 @@ class ReactWebView {
 		const cspMeta: HTMLMetaElement = document.createElement('meta')
 		cspMeta.httpEquiv = 'Content-Security-Policy'
 		cspMeta.content = [
-			`default-src 'none';`,
 			'font-src vscode-resource://*;',
 			'img-src vscode-resource: https:;',
 			`script-src ${nonces.map(nonce => `'nonce-${nonce}'`).join(' ')};`,

@@ -33,8 +33,10 @@ class Channel implements Channel {
 
 	// receive from webview
 	public receive = async (action: CR.Action) => {
+		// action may be an object.type or plain string
 		const actionType: string = typeof action === 'string' ? action : action.type
-		console.log('RECEIVED:', actionType)
+
+		console.log('EDITOR RECEIVED:', actionType)
 		switch (actionType) {
 			// continue from tutorial from local storage
 			case 'EDITOR_TUTORIAL_LOAD':
@@ -48,10 +50,6 @@ class Channel implements Channel {
 
 				// set tutorial 
 				const progress: CR.Progress = await this.context.progress.setTutorial(this.workspaceState, tutorial)
-
-				console.log('looking at stored')
-				console.log(JSON.stringify(tutorial))
-				console.log(JSON.stringify(progress))
 
 				if (progress.complete) {
 					// tutorial is already complete
@@ -73,7 +71,6 @@ class Channel implements Channel {
 			// configure test runner, language, git
 			case 'EDITOR_TUTORIAL_CONFIG':
 				const tutorialData = action.payload.tutorial
-				console.log('tutorialConfig', JSON.stringify(tutorialData))
 				this.context.setTutorial(this.workspaceState, tutorialData)
 				tutorialConfig(tutorialData)
 				return
