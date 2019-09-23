@@ -50,7 +50,10 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 					},
 					ContinueTutorial: {
 						on: {
-							TUTORIAL_START: '#tutorial-stage',
+							TUTORIAL_START: {
+								target: '#tutorial-stage',
+								actions: ['continueConfig'],
+							},
 							TUTORIAL_SELECT: 'SelectTutorial'
 						},
 					},
@@ -60,6 +63,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 				id: 'tutorial',
 				initial: 'Initialize',
 				states: {
+					// TODO: move Initialize into New Tutorial setup
 					Initialize: {
 						invoke: {
 							id: 'loadTutorial',

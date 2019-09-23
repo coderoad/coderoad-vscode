@@ -2,11 +2,19 @@ import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
 import * as git from '../services/git'
 
-const tutorialConfig = async (tutorial: G.Tutorial) => {
+interface TutorialConfigParams {
+	tutorial: G.Tutorial,
+	alreadyConfigured?: boolean
+}
 
-	// setup git, add remote
-	await git.initIfNotExists()
-	await git.setupRemote(tutorial.repo.uri)
+const tutorialConfig = async ({tutorial, alreadyConfigured}: TutorialConfigParams) => {
+	if (!alreadyConfigured) {
+		// setup git, add remote
+		await git.initIfNotExists()
+
+		// TODO: if remote not already set
+		await git.setupRemote(tutorial.repo.uri)
+	}
 
 	// TODO: allow multiple coding languages in a tutorial
 	const language = tutorial.codingLanguage.toLowerCase()
