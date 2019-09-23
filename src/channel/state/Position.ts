@@ -1,21 +1,26 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
 
+const defaultValue: CR.Position = {
+	levelId: '',
+	stageId: '',
+	stepId: '',
+}
+
 // position
 class Position {
 	private value: CR.Position
 	constructor() {
-		this.value = {
-			levelId: '',
-			stageId: '',
-			stepId: '',
-		}
+		this.value = defaultValue
 	}
 	public get = () => {
 		return this.value
 	}
 	public set = (value: CR.Position) => {
 		this.value = value
+	}
+	public reset = () => {
+		this.value = defaultValue
 	}
 	// calculate the current position based on the saved progress
 	public setPositionFromProgress = (tutorial: G.Tutorial, progress: CR.Progress): CR.Position => {

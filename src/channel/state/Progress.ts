@@ -32,10 +32,14 @@ class Progress {
 	}
 	public set = (value: CR.Progress) => {
 		this.value = value
-		if (this.storage) {
-			this.storage.set(value)
+		if (!this.storage) {
+			throw new Error('Tutorial storage not found')
 		}
+		this.storage.set(value)
 		return this.value
+	}
+	public reset = () => {
+		this.set(defaultValue)
 	}
 	public setStepComplete = (stepId: string): CR.Progress => {
 		const next = this.value

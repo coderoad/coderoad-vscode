@@ -23,6 +23,11 @@ class Context {
 		const position: CR.Position = this.position.setPositionFromProgress(tutorial, progress)
 		return {progress, position}
 	}
+	public reset = () => {
+		this.tutorial.reset()
+		this.progress.reset()
+		this.position.reset()
+	}
 }
 
 export default Context

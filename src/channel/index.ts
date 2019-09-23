@@ -64,13 +64,25 @@ class Channel implements Channel {
 			// clear tutorial local storage
 			case 'TUTORIAL_CLEAR':
 				// clear current progress/position/tutorial
-				this.context = new Context(this.workspaceState)
+				this.context.reset()
 				return
 			// configure test runner, language, git
 			case 'EDITOR_TUTORIAL_CONFIG':
 				const tutorialData = action.payload.tutorial
 				this.context.setTutorial(this.workspaceState, tutorialData)
-				tutorialConfig(tutorialData)
+				tutorialConfig({
+					tutorial: tutorialData
+				})
+				return
+			case 'EDITOR_TUTORIAL_CONTINUE_CONFIG':
+				const tutorialContinue: G.Tutorial | null = this.context.tutorial.get()
+				if (!tutorialContinue) {
+					throw new Error('Invalid tutorial to continue')
+				}
+				tutorialConfig({
+					tutorial: tutorialContinue,
+					alreadyConfigured: true
+				})
 				return
 			case 'EDITOR_SYNC_PROGRESS':
 				// sync client progress on server

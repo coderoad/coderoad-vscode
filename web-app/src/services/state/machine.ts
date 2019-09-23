@@ -35,11 +35,11 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 							},
 							NEW_TUTORIAL: {
 								target: 'SelectTutorial',
-								actions: ['clearStorage']
 							}
 						},
 					},
 					SelectTutorial: {
+						onEntry: ['clearStorage'],
 						id: 'start-new-tutorial',
 						on: {
 							TUTORIAL_START: {
@@ -50,7 +50,10 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 					},
 					ContinueTutorial: {
 						on: {
-							TUTORIAL_START: '#tutorial-stage',
+							TUTORIAL_START: {
+								target: '#tutorial-stage',
+								actions: ['continueConfig'],
+							},
 							TUTORIAL_SELECT: 'SelectTutorial'
 						},
 					},
@@ -60,6 +63,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 				id: 'tutorial',
 				initial: 'Initialize',
 				states: {
+					// TODO: move Initialize into New Tutorial setup
 					Initialize: {
 						invoke: {
 							id: 'loadTutorial',
@@ -155,6 +159,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 								}
 							},
 							StageComplete: {
+								onEntry: ['syncProgress'],
 								on: {
 									STAGE_NEXT: '#tutorial-load-next',
 								},
@@ -163,7 +168,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 					},
 					Completed: {
 						id: 'completed-tutorial',
-						onEntry: ['userTutorialComplete'],
+						onEntry: ['syncProgress', 'userTutorialComplete'],
 						on: {
 							SELECT_TUTORIAL: {
 								target: '#start-new-tutorial',

@@ -31,7 +31,6 @@ class ReactWebView {
 	private channel: Channel
 
 	public constructor({extensionPath, workspaceState}: ReactWebViewProps) {
-		console.log(`extPath ${extensionPath}`)
 		this.extensionPath = extensionPath
 
 		// Create and show a new webview panel
@@ -73,7 +72,7 @@ class ReactWebView {
 		this.channel = new Channel({
 			workspaceState,
 			postMessage: (action: Action): Thenable<boolean> => {
-				console.log(`postMessage ${JSON.stringify(action)}`)
+				// console.log(`postMessage ${JSON.stringify(action)}`)
 				return this.panel.webview.postMessage(action)
 			}
 		})

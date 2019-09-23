@@ -11,6 +11,7 @@ export default {
 			type: 'EDITOR_TUTORIAL_LOAD',
 		})
 	},
+	// TODO: syncProgress unused
 	syncProgress(context: CR.MachineContext) {
 		// sync progress in editor local storage for persistence
 		channel.editorSend({
@@ -23,6 +24,7 @@ export default {
 	initializeTutorial(context: CR.MachineContext, event: CR.MachineEvent) {
 		// setup test runner and git
 		const {tutorial} = event.data.payload
+
 		if (!tutorial) {
 			throw new Error('Invalid tutorial for tutorial config')
 		}
@@ -30,6 +32,11 @@ export default {
 		channel.editorSend({
 			type: 'EDITOR_TUTORIAL_CONFIG',
 			payload: {tutorial},
+		})
+	},
+	continueConfig() {
+		channel.editorSend({
+			type: 'EDITOR_TUTORIAL_CONTINUE_CONFIG',
 		})
 	},
 	testStart(context: CR.MachineContext, event: CR.MachineEvent) {
@@ -75,7 +82,7 @@ export default {
 			})
 		}
 	},
-	clearStorage() {
+	clearStorage(): void {
 		channel.editorSend({type: 'TUTORIAL_CLEAR'})
 	}
 }

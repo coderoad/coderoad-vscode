@@ -19,11 +19,13 @@ class Tutorial {
 			this.value = value
 		})
 	}
-	public get = () => {
-		return this.value
-	}
-	public set = (value: G.Tutorial) => {
+	public get = () => this.value
+	public set = (value: G.Tutorial | null) => {
 		this.value = value
+		this.storage.set(value)
+	}
+	public reset = () => {
+		this.set(null)
 	}
 }
 
