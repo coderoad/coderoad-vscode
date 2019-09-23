@@ -159,6 +159,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 								}
 							},
 							StageComplete: {
+								onEntry: ['syncProgress'],
 								on: {
 									STAGE_NEXT: '#tutorial-load-next',
 								},
@@ -167,7 +168,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 					},
 					Completed: {
 						id: 'completed-tutorial',
-						onEntry: ['userTutorialComplete'],
+						onEntry: ['syncProgress', 'userTutorialComplete'],
 						on: {
 							SELECT_TUTORIAL: {
 								target: '#start-new-tutorial',
