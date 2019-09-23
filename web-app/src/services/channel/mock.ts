@@ -9,7 +9,6 @@ const createReceiveEvent = (action: Action) => ({
 // @ts-ignore
 window.acquireVsCodeApi = () => ({
 	postMessage(action: Action) {
-		console.log('postMessage', action)
 
 		switch (action.type) {
 			case 'TUTORIAL_START':

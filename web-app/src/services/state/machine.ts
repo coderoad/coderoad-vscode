@@ -43,7 +43,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 						on: {
 							TUTORIAL_START: {
 								target: '#tutorial',
-								actions: ['setTutorial'],
+								actions: ['newTutorial'],
 							},
 						},
 					},
@@ -89,12 +89,11 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 							COMPLETED: '#completed-tutorial'
 						}
 					},
-
 					Summary: {
 						on: {
 							LOAD_TUTORIAL: {
 								target: 'Level',
-								actions: ['initPosition', 'setTutorial']
+								actions: ['initPosition', 'initTutorial']
 							}
 						},
 					},

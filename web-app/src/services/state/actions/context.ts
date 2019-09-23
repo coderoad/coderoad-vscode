@@ -15,10 +15,20 @@ export default {
 			return event.payload.position
 		},
 	}),
-	setTutorial: assign({
+	newTutorial: assign({
 		tutorial: (context: CR.MachineContext, event: CR.MachineEvent): any => {
-			const {tutorial} = event.payload
-			return tutorial
+			console.log('new tutorial event')
+			console.log(JSON.stringify(event))
+			return event.payload.tutorial
+		},
+		progress: (): CR.Progress => {
+			return {levels: {}, stages: {}, steps: {}, complete: false}
+		}
+	}),
+	initTutorial: assign({
+		// loads complete tutorial
+		tutorial: (context: CR.MachineContext, event: CR.MachineEvent): any => {
+			return event.payload.tutorial
 		},
 	}),
 	// @ts-ignore

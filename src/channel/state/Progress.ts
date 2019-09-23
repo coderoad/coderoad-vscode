@@ -35,11 +35,12 @@ class Progress {
 		if (this.storage) {
 			this.storage.set(value)
 		}
+		return this.value
 	}
-	public setStepComplete = (stepId: string) => {
+	public setStepComplete = (stepId: string): CR.Progress => {
 		const next = this.value
 		next.steps[stepId] = true
-		this.set(next)
+		return this.set(next)
 	}
 }
 
