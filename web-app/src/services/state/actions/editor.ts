@@ -75,4 +75,7 @@ export default {
 			})
 		}
 	},
+	clearStorage() {
+		channel.editorSend({type: 'TUTORIAL_CLEAR'})
+	}
 }

@@ -34,7 +34,8 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 								actions: ['continueTutorial'],
 							},
 							NEW_TUTORIAL: {
-								target: 'SelectTutorial'
+								target: 'SelectTutorial',
+								actions: ['clearStorage']
 							}
 						},
 					},
