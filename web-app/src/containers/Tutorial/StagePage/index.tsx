@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
+import * as selectors from '../../../services/selectors'
 
 import Stage from './Stage'
 
@@ -10,23 +11,9 @@ interface PageProps {
 }
 
 const StageSummaryPageContainer = (props: PageProps) => {
-  const { tutorial, position, progress } = props.context
+  const { position, progress } = props.context
 
-  if (!tutorial) {
-    throw new Error('Tutorial not found in StageSummaryPageContainer')
-  }
-
-  const level: G.Level | undefined = tutorial.version.levels.find((l: G.Level) => l.id === position.levelId)
-
-  if (!level) {
-    throw new Error('Level not found in StageSummaryPageContainer')
-  }
-
-  const stage: G.Stage | undefined = level.stages.find((s: G.Stage) => s.id === position.stageId)
-
-  if (!stage) {
-    throw new Error('Stage not found in StageSummaryPageContainer')
-  }
+  const stage: G.Stage = selectors.currentStage(props.context)
 
   const onContinue = (): void => {
     props.send({

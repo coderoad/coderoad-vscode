@@ -11,13 +11,15 @@ const COMMANDS = {
 }
 
 interface CreateCommandProps {
-	vscodeExt: vscode.ExtensionContext
+	extensionPath: string
+	workspaceState: vscode.Memento
 }
 
-export const createCommands = ({vscodeExt}: CreateCommandProps) => {
+export const createCommands = ({extensionPath, workspaceState}: CreateCommandProps) => {
 	// React panel webview
 	let webview: any
 	let currentStepId = ''
+
 	return {
 		// initialize
 		[COMMANDS.START]: async () => {
@@ -38,7 +40,10 @@ export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 			}
 
 			// activate machine
-			webview = new ReactWebView(vscodeExt.extensionPath)
+			webview = new ReactWebView({
+				extensionPath,
+				workspaceState,
+			})
 		},
 		// open React webview
 		[COMMANDS.OPEN_WEBVIEW]: (column: number = vscode.ViewColumn.Two) => {
@@ -64,20 +69,24 @@ export const createCommands = ({vscodeExt}: CreateCommandProps) => {
 			runTest({
 				onSuccess: () => {
 					console.log('COMMAND TEST_PASS')
+					// send test pass message back to client
 					webview.send({type: 'TEST_PASS', payload})
 					vscode.window.showInformationMessage('PASS')
 				},
 				onFail: () => {
 					console.log('COMMAND TEST_FAIL')
+					// send test fail message back to client
 					webview.send({type: 'TEST_FAIL', payload})
 					vscode.window.showWarningMessage('FAIL')
 				},
 				onError: () => {
 					console.log('COMMAND TEST_ERROR')
+					// send test error message back to client
 					webview.send({type: 'TEST_ERROR', payload})
 				},
 				onRun: () => {
 					console.log('COMMAND TEST_RUN')
+					// send test run message back to client
 					webview.send({type: 'TEST_RUN', payload})
 				}
 			})

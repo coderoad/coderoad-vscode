@@ -4,21 +4,32 @@ import * as selectors from '../../selectors'
 import channel from '../../channel'
 
 export default {
+	loadStoredTutorial() {
+		// send message to editor to see if there is existing tutorial progress
+		// in local storage on the editor
+		channel.editorSend({
+			type: 'EDITOR_TUTORIAL_LOAD',
+		})
+	},
+	syncProgress(context: CR.MachineContext) {
+		// sync progress in editor local storage for persistence
+		channel.editorSend({
+			type: 'EDITOR_SYNC_PROGRESS',
+			payload: {
+				progress: context.progress,
+			}
+		})
+	},
 	initializeTutorial(context: CR.MachineContext, event: CR.MachineEvent) {
 		// setup test runner and git
 		const {tutorial} = event.data.payload
 		if (!tutorial) {
 			throw new Error('Invalid tutorial for tutorial config')
 		}
-		const payload = {
-			codingLanguage: tutorial.codingLanguage,
-			testRunner: tutorial.testRunner,
-			repo: tutorial.repo,
-		}
-		console.log('EDITOR: TUTORIAL_CONFIG', payload)
+		console.log('EDITOR: TUTORIAL_CONFIG', tutorial)
 		channel.editorSend({
-			type: 'TUTORIAL_CONFIG',
-			payload,
+			type: 'EDITOR_TUTORIAL_CONFIG',
+			payload: {tutorial},
 		})
 	},
 	testStart(context: CR.MachineContext, event: CR.MachineEvent) {
@@ -64,4 +75,7 @@ export default {
 			})
 		}
 	},
+	clearStorage() {
+		channel.editorSend({type: 'TUTORIAL_CLEAR'})
+	}
 }

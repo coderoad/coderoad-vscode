@@ -1,4 +1,5 @@
 import {send} from 'xstate'
+import Storage from '../src/services/storage'
 import * as G from './graphql'
 
 export interface TutorialLevel {
@@ -96,6 +97,10 @@ export interface Progress {
 		[stepId: string]: boolean
 	}
 	complete: boolean
+}
+
+export interface StepProgress {
+	[stepId: string]: boolean
 }
 
 // current tutorial position

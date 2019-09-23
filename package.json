@@ -32,9 +32,7 @@
   "dependencies": {
     "@types/mocha": "^5.2.7",
     "dotenv": "^8.1.0",
-    "graphql": "^14.5.4",
-    "graphql-request": "^1.8.2",
-    "graphql-tag": "^2.10.1",
+    "jsdom": "^15.1.1",
     "vscode": "^1.1.36",
     "xstate": "^4.6.7"
   },
@@ -43,15 +41,16 @@
     "@types/dotenv": "^6.1.1",
     "@types/glob": "^7.1.1",
     "@types/graphql": "^14.5.0",
-    "@types/node": "^12.7.4",
+    "@types/jsdom": "^12.2.4",
+    "@types/node": "^12.7.5",
     "assert": "^2.0.0",
     "concurrently": "^4.1.2",
     "glob": "^7.1.4",
     "mocha": "^6.2.0",
     "prettier": "^1.18.2",
-    "tslint": "^5.19.0",
+    "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.6.2",
+    "typescript": "^3.6.3",
     "vscode-test": "^1.2.0"
   },
   "engines": {

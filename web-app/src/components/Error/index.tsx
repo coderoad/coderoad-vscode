@@ -15,7 +15,7 @@ interface Props {
 }
 
 const ErrorView = ({ error }: Props) => {
-	console.log(error)
+  console.log(error)
   return (
     <div style={styles.container}>
       <h1>Error</h1>

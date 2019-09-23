@@ -25,16 +25,18 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 		states: {
 			Start: {
 				initial: 'Startup',
+				onEntry: ['loadStoredTutorial'],
 				states: {
 					Startup: {
-						invoke: {
-							id: 'newOrContinue',
-							src: invoke.newOrContinue,
-							onDone: {
+						on: {
+							CONTINUE_TUTORIAL: {
 								target: 'ContinueTutorial',
-								actions: ['continueTutorial']
+								actions: ['continueTutorial'],
 							},
-							onError: 'SelectTutorial'
+							NEW_TUTORIAL: {
+								target: 'SelectTutorial',
+								actions: ['clearStorage']
+							}
 						},
 					},
 					SelectTutorial: {
@@ -42,13 +44,14 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 						on: {
 							TUTORIAL_START: {
 								target: '#tutorial',
-								actions: ['setTutorial'],
+								actions: ['newTutorial'],
 							},
 						},
 					},
 					ContinueTutorial: {
 						on: {
-							TUTORIAL_START: '#tutorial',
+							TUTORIAL_START: '#tutorial-stage',
+							TUTORIAL_SELECT: 'SelectTutorial'
 						},
 					},
 				},
@@ -87,12 +90,11 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 							COMPLETED: '#completed-tutorial'
 						}
 					},
-
 					Summary: {
 						on: {
 							LOAD_TUTORIAL: {
 								target: 'Level',
-								actions: ['initPosition', 'setTutorial']
+								actions: ['initPosition', 'initTutorial']
 							}
 						},
 					},
