@@ -64,7 +64,7 @@ class Channel implements Channel {
 			// clear tutorial local storage
 			case 'TUTORIAL_CLEAR':
 				// clear current progress/position/tutorial
-				this.context = new Context(this.workspaceState)
+				this.context.reset()
 				return
 			// configure test runner, language, git
 			case 'EDITOR_TUTORIAL_CONFIG':

@@ -75,7 +75,7 @@ export default {
 			})
 		}
 	},
-	clearStorage() {
+	clearStorage(): void {
 		channel.editorSend({type: 'TUTORIAL_CLEAR'})
 	}
 }

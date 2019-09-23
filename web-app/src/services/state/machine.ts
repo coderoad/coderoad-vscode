@@ -35,11 +35,11 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 							},
 							NEW_TUTORIAL: {
 								target: 'SelectTutorial',
-								actions: ['clearStorage']
 							}
 						},
 					},
 					SelectTutorial: {
+						onEntry: ['clearStorage'],
 						id: 'start-new-tutorial',
 						on: {
 							TUTORIAL_START: {
