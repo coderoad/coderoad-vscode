@@ -72,6 +72,11 @@ class Channel implements Channel {
 				this.context.setTutorial(this.workspaceState, tutorialData)
 				tutorialConfig(tutorialData)
 				return
+			case 'EDITOR_SYNC_PROGRESS':
+				// sync client progress on server
+				this.context.position.set(action.payload.position)
+				this.context.progress.set(action.payload.progress)
+				return
 			// run unit tests on step
 			case 'TEST_RUN':
 				vscode.commands.executeCommand('coderoad.run_test', action.payload)
@@ -97,7 +102,12 @@ class Channel implements Channel {
 		switch (action.type) {
 			case 'TEST_PASS':
 				// update local storage stepProgress
-				this.context.progress.setStepComplete(action.payload.stepId)
+				const progress = this.context.progress.setStepComplete(action.payload.stepId)
+				const tutorial = this.context.tutorial.get()
+				if (!tutorial) {
+					throw new Error('Error with current tutorial')
+				}
+				this.context.position.setPositionFromProgress(tutorial, progress)
 				saveCommit()
 		}
 

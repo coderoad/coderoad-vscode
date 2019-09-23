@@ -11,6 +11,15 @@ export default {
 			type: 'EDITOR_TUTORIAL_LOAD',
 		})
 	},
+	syncProgress(context: CR.MachineContext) {
+		// sync progress in editor local storage for persistence
+		channel.editorSend({
+			type: 'EDITOR_SYNC_PROGRESS',
+			payload: {
+				progress: context.progress,
+			}
+		})
+	},
 	initializeTutorial(context: CR.MachineContext, event: CR.MachineEvent) {
 		// setup test runner and git
 		const {tutorial} = event.data.payload
