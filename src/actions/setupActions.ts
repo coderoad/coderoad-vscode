@@ -36,7 +36,7 @@ const runCommands = async (commands: string[], language: string) => {
 }
 
 
-const setupActions = async ({commands, commits, files}: G.StepActions): Promise<void> => {
+const setupActions = async (workspaceRoot: vscode.WorkspaceFolder, {commands, commits, files}: G.StepActions): Promise<void> => {
 	// run commits
 	for (const commit of commits) {
 		await git.loadCommit(commit)
@@ -49,18 +49,7 @@ const setupActions = async ({commands, commits, files}: G.StepActions): Promise<
 	for (const filePath of files) {
 		console.log(`OPEN_FILE ${filePath}`)
 		try {
-			// TODO: re-enable after testing
-			// const workspaceRoots: vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders
-			// if (!workspaceRoots || !workspaceRoots.length) {
-			// 	throw new Error('No workspace root path')
-			// }
-			// const rootWorkspace: vscode.WorkspaceFolder = workspaceRoots[0]
-			// const absoluteFilePath = join(rootWorkspace.uri.path, relativeFilePath)
-			const workspaceRoot = vscode.workspace.rootPath
-			if (!workspaceRoot) {
-				throw new Error('No workspace root path')
-			}
-			const absoluteFilePath = join(workspaceRoot, filePath)
+			const absoluteFilePath = join(workspaceRoot.uri.path, filePath)
 			const doc = await vscode.workspace.openTextDocument(absoluteFilePath)
 			await vscode.window.showTextDocument(doc, vscode.ViewColumn.One)
 			// there are times when initialization leave the panel behind any files opened

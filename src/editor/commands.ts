@@ -1,7 +1,6 @@
 import * as vscode from 'vscode'
 import ReactWebView from './ReactWebView'
 import runTest from '../actions/runTest'
-import {isEmptyWorkspace} from './workspace'
 
 const COMMANDS = {
 	START: 'coderoad.start',
@@ -13,9 +12,10 @@ const COMMANDS = {
 interface CreateCommandProps {
 	extensionPath: string
 	workspaceState: vscode.Memento
+	workspaceRoot: vscode.WorkspaceFolder
 }
 
-export const createCommands = ({extensionPath, workspaceState}: CreateCommandProps) => {
+export const createCommands = ({extensionPath, workspaceState, workspaceRoot}: CreateCommandProps) => {
 	// React panel webview
 	let webview: any
 	let currentStepId = ''
@@ -26,7 +26,7 @@ export const createCommands = ({extensionPath, workspaceState}: CreateCommandPro
 			console.log('start')
 
 			// TODO: replace with a prompt to open a workspace
-			await isEmptyWorkspace()
+			// await isEmptyWorkspace()
 
 			let webviewState: 'INITIALIZING' | 'RESTARTING'
 			if (!webview) {
@@ -43,6 +43,7 @@ export const createCommands = ({extensionPath, workspaceState}: CreateCommandPro
 			webview = new ReactWebView({
 				extensionPath,
 				workspaceState,
+				workspaceRoot,
 			})
 		},
 		// open React webview

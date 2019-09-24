@@ -6,14 +6,8 @@ class Editor {
 	// @ts-ignore
 	private vscodeExt: vscode.ExtensionContext
 
-	constructor() {
-		// set workspace root for node executions
-		const rootPath = vscode.workspace.rootPath
-		if (!rootPath) {
-			throw new Error('Requires a workspace. Please open a folder')
-		}
-	}
 	public activate = (vscodeExt: vscode.ExtensionContext): void => {
+
 		console.log('ACTIVATE!')
 		this.vscodeExt = vscodeExt
 
@@ -31,21 +25,19 @@ class Editor {
 	}
 
 	private activateCommands = (): void => {
-		// NOTE: local storage must be bound to the vscodeExt.workspaceState
 
-		// store current tutorial id & version
-
-
-		// store step progress for current tutorial
-		// const stepProgress = new Storage<{[stepId: string]: boolean}>({
-		// 	key: 'coderoad:progress',
-		// 	storage: this.vscodeExt.workspaceState,
-		// 	defaultValue: {},
-		// })
+		// set workspace root for node executions
+		const workspaceRoots: vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders
+		if (!workspaceRoots || !workspaceRoots.length) {
+			throw new Error('No workspace root path')
+		}
+		const workspaceRoot: vscode.WorkspaceFolder = workspaceRoots[0]
 
 		const commands = createCommands({
 			extensionPath: this.vscodeExt.extensionPath,
+			// NOTE: local storage must be bound to the vscodeExt.workspaceState
 			workspaceState: this.vscodeExt.workspaceState,
+			workspaceRoot,
 		})
 
 		// register commands

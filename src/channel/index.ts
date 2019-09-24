@@ -17,16 +17,19 @@ interface Channel {
 interface ChannelProps {
 	postMessage: (action: CR.Action) => Thenable<boolean>
 	workspaceState: vscode.Memento
+	workspaceRoot: vscode.WorkspaceFolder
 }
 
 
 class Channel implements Channel {
 	private postMessage: (action: CR.Action) => Thenable<boolean>
 	private workspaceState: vscode.Memento
+	private workspaceRoot: vscode.WorkspaceFolder
 	private context: Context
-	constructor({postMessage, workspaceState}: ChannelProps) {
+	constructor({postMessage, workspaceState, workspaceRoot}: ChannelProps) {
 		// workspaceState used for local storage
 		this.workspaceState = workspaceState
+		this.workspaceRoot = workspaceRoot
 		this.postMessage = postMessage
 		this.context = new Context(workspaceState)
 	}
@@ -96,7 +99,7 @@ class Channel implements Channel {
 			// load step actions (git commits, commands, open files)
 			case 'SETUP_ACTIONS':
 				vscode.commands.executeCommand('coderoad.set_current_step', action.payload)
-				setupActions(action.payload)
+				setupActions(this.workspaceRoot, action.payload)
 				return
 			// load solution step actions (git commits, commands, open files)
 			case 'SOLUTION_ACTIONS':
