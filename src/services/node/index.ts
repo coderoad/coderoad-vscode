@@ -7,19 +7,21 @@ import * as vscode from 'vscode'
 const asyncExec = promisify(cpExec)
 
 class Node {
-	private workspaceRoot: string
+	private workspaceRootPath: string
 	constructor() {
-		this.workspaceRoot = vscode.workspace.rootPath || ''
-		if (!this.workspaceRoot.length) {
-			throw new Error('Invalid workspaceRoot')
+		// set workspace root for node executions
+		const workspaceRoots: vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders
+		if (!workspaceRoots || !workspaceRoots.length) {
+			throw new Error('No workspace root path')
 		}
-		console.log(`workspaceRoot: ${this.workspaceRoot}`)
+		const workspaceRoot: vscode.WorkspaceFolder = workspaceRoots[0]
+		this.workspaceRootPath = workspaceRoot.uri.path
 	}
 	public exec = (cmd: string): Promise<{stdout: string; stderr: string}> => asyncExec(cmd, {
-		cwd: this.workspaceRoot,
+		cwd: this.workspaceRootPath,
 	})
 
-	public exists = (...paths: string[]): boolean => fs.existsSync(join(this.workspaceRoot, ...paths))
+	public exists = (...paths: string[]): boolean => fs.existsSync(join(this.workspaceRootPath, ...paths))
 }
 
 export default new Node()

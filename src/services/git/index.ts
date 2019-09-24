@@ -1,4 +1,3 @@
-import * as CR from 'typings'
 import node from '../node'
 
 
