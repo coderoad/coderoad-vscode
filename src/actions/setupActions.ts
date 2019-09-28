@@ -17,7 +17,9 @@ const commandErrorMessageFilter: ErrorMessageFilter = {
 	}
 }
 
-const runCommands = async (commands: string[], language: string) => {
+
+// TODO: pass command and command name down for filtering. Eg. JAVASCRIPT, 'npm install'
+const runCommands = async (commands: string[], language: string = 'JAVASCRIPT') => {
 	for (const command of commands) {
 		const {stdout, stderr} = await node.exec(command)
 		if (stderr) {
@@ -43,13 +45,28 @@ const setupActions = async (workspaceRoot: vscode.WorkspaceFolder, {commands, co
 	}
 
 	// run command
-
+	await runCommands(commands)
 
 	// open files
 	for (const filePath of files) {
 		console.log(`OPEN_FILE ${filePath}`)
 		try {
-			const absoluteFilePath = join(workspaceRoot.uri.path, filePath)
+			// TODO: figure out why this does not work
+			// 	try {
+			// 		const absoluteFilePath = join(workspaceRoot.uri.path, filePath)
+			// 		const doc = await vscode.workspace.openTextDocument(absoluteFilePath)
+			// 		await vscode.window.showTextDocument(doc, vscode.ViewColumn.One)
+			// 		// there are times when initialization leave the panel behind any files opened
+			// 		// ensure the panel is redrawn on the right side first
+			// 		// webview.createOrShow(vscode.ViewColumn.Two)
+			// 	} catch (error) {
+			// 		console.log(`Failed to open file ${filePath}`, error)
+			// 	}
+			const wr = vscode.workspace.rootPath
+			if (!wr) {
+				throw new Error('No workspace root path')
+			}
+			const absoluteFilePath = join(wr, filePath)
 			const doc = await vscode.workspace.openTextDocument(absoluteFilePath)
 			await vscode.window.showTextDocument(doc, vscode.ViewColumn.One)
 			// there are times when initialization leave the panel behind any files opened
@@ -62,3 +79,5 @@ const setupActions = async (workspaceRoot: vscode.WorkspaceFolder, {commands, co
 }
 
 export default setupActions
+
+
