@@ -40,6 +40,9 @@ class Channel {
 			case 'NEW_TUTORIAL':
 				this.machineSend(action)
 				return
+			case 'TUTORIAL_CONFIGURED':
+				this.machineSend(action)
+				return
 			case 'CONTINUE_TUTORIAL':
 				this.machineSend(action)
 				return

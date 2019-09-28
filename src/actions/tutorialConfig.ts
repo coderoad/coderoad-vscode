@@ -5,15 +5,17 @@ import * as git from '../services/git'
 interface TutorialConfigParams {
 	tutorial: G.Tutorial,
 	alreadyConfigured?: boolean
+	onComplete?(): void
 }
 
-const tutorialConfig = async ({tutorial, alreadyConfigured}: TutorialConfigParams) => {
+const tutorialConfig = async ({tutorial, alreadyConfigured, onComplete}: TutorialConfigParams) => {
 	if (!alreadyConfigured) {
 		// setup git, add remote
 		await git.initIfNotExists()
 
 		// TODO: if remote not already set
 		await git.setupRemote(tutorial.repo.uri)
+		if (onComplete) {onComplete()}
 	}
 
 	// TODO: allow multiple coding languages in a tutorial

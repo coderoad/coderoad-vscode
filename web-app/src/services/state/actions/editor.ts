@@ -2,6 +2,8 @@ import * as G from 'typings/graphql'
 import * as CR from 'typings'
 import * as selectors from '../../selectors'
 import channel from '../../channel'
+import client from '../../apollo'
+import tutorialQuery from '../../apollo/queries/tutorial'
 
 export default {
 	loadStoredTutorial() {
@@ -23,16 +25,29 @@ export default {
 	},
 	initializeTutorial(context: CR.MachineContext, event: CR.MachineEvent) {
 		// setup test runner and git
-		const {tutorial} = event.data.payload
-
-		if (!tutorial) {
-			throw new Error('Invalid tutorial for tutorial config')
+		if (!context.tutorial) {
+			throw new Error('Tutorial not available to load')
 		}
-		console.log('EDITOR: TUTORIAL_CONFIG', tutorial)
-		channel.editorSend({
-			type: 'EDITOR_TUTORIAL_CONFIG',
-			payload: {tutorial},
+
+		client.query({
+			query: tutorialQuery,
+			variables: {
+				tutorialId: context.tutorial.id,
+				version: context.tutorial.version.version,
+			}
+		}).then((result) => {
+			if (!result || !result.data || !result.data.tutorial) {
+				return Promise.reject('No tutorial returned from tutorial config query')
+			}
+
+			channel.editorSend({
+				type: 'EDITOR_TUTORIAL_CONFIG',
+				payload: {tutorial: result.data.tutorial},
+			})
 		})
+			.catch((error: Error) => {
+				return Promise.reject(`Failed to load tutorial config ${error.message}`)
+			})
 	},
 	continueConfig() {
 		channel.editorSend({
