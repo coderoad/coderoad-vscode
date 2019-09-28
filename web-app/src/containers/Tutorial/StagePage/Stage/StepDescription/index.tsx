@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Markdown from '../../../../../components/Markdown'
+import { Button } from '@alifd/next'
 
 const styles = {
   // active: {
@@ -12,16 +13,18 @@ const styles = {
 
 interface Props {
   text?: string | null
-  hide: boolean
+  mode: 'INCOMPLETE' | 'ACTIVE' | 'COMPLETE'
+  onLoadSolution(): void
 }
 
-const StepDescription = ({ text, hide }: Props) => {
-  if (hide) {
+const StepDescription = ({ text, mode, onLoadSolution }: Props) => {
+  if (mode === 'INCOMPLETE') {
     return null
   }
   return (
     <div style={styles.card}>
       <Markdown>{text || ''}</Markdown>
+      {mode === 'ACTIVE' && <Button onClick={onLoadSolution}>Load Solution</Button>}
     </div>
   )
 }
