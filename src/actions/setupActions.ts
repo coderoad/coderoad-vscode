@@ -71,7 +71,7 @@ const setupActions = async (workspaceRoot: vscode.WorkspaceFolder, {commands, co
 			await vscode.window.showTextDocument(doc, vscode.ViewColumn.One)
 			// there are times when initialization leave the panel behind any files opened
 			// ensure the panel is redrawn on the right side first
-			// webview.createOrShow(vscode.ViewColumn.Two)
+			vscode.commands.executeCommand('coderoad.open_webview')
 		} catch (error) {
 			console.log(`Failed to open file ${filePath}`, error)
 		}

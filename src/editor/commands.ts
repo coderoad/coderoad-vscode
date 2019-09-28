@@ -48,7 +48,6 @@ export const createCommands = ({extensionPath, workspaceState, workspaceRoot}: C
 		},
 		// open React webview
 		[COMMANDS.OPEN_WEBVIEW]: (column: number = vscode.ViewColumn.Two) => {
-			console.log('open webview')
 			// setup 1x1 horizontal layout
 
 			// reset layout
