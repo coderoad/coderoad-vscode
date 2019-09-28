@@ -47,10 +47,7 @@ class ReactWebView {
 
 		// update panel on changes
 		const updateWindows = () => {
-			vscode.commands.executeCommand('vscode.setEditorLayout', {
-				orientation: 0,
-				groups: [{groups: [{}], size: 0.6}, {groups: [{}], size: 0.4}],
-			})
+			vscode.commands.executeCommand('coderoad.open_webview')
 		}
 
 		// prevents new panels from going on top of coderoad panel
