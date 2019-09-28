@@ -41,7 +41,13 @@ async function runTest({onSuccess, onFail, onRun, onError}: Props): Promise<void
 	// }
 
 	// TODO: verify test runner for args
-	const testArgs = ['--json']
+	// jest CLI docs https://jestjs.io/docs/en/cli
+	const testArgs = [
+		'--json',
+		'--env=node',
+		'--maxConcurrency=4',
+		'--maxWorkers=4'
+	]
 
 	// if .git repo, use --onlyChanged
 	// const hasGit = path.join('.git');
