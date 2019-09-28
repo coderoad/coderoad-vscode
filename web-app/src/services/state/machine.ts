@@ -1,7 +1,6 @@
 import {Machine, MachineOptions} from 'xstate'
 import * as CR from 'typings'
 import actions from './actions'
-import * as invoke from './actions/invoke'
 
 const options: MachineOptions<CR.MachineContext, CR.MachineEvent> = {
 	// @ts-ignore
@@ -65,15 +64,11 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 				states: {
 					// TODO: move Initialize into New Tutorial setup
 					Initialize: {
-						invoke: {
-							id: 'loadTutorial',
-							src: invoke.loadTutorial,
-							onDone: {
-								target: 'Summary',
-								actions: ['initializeTutorial']
-							},
-							onError: 'Initialize' // TODO: handle load tutorial error
-						},
+						onEntry: ['initializeTutorial'],
+						on: {
+							TUTORIAL_CONFIGURED: 'Summary',
+							// TUTORIAL_CONFIG_ERROR: 'Start' // TODO: should handle error
+						}
 					},
 					LoadNext: {
 						id: 'tutorial-load-next',

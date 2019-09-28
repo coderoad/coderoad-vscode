@@ -74,7 +74,9 @@ class Channel implements Channel {
 				const tutorialData = action.payload.tutorial
 				this.context.setTutorial(this.workspaceState, tutorialData)
 				tutorialConfig({
-					tutorial: tutorialData
+					tutorial: tutorialData,
+					// must await async git setup or commit loading fails
+					onComplete: () => this.send({type: 'TUTORIAL_CONFIGURED'})
 				})
 				return
 			case 'EDITOR_TUTORIAL_CONTINUE_CONFIG':
