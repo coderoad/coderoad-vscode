@@ -105,7 +105,7 @@ class Channel implements Channel {
 				return
 			// load solution step actions (git commits, commands, open files)
 			case 'SOLUTION_ACTIONS':
-				solutionActions(action.payload)
+				solutionActions(this.workspaceRoot, action.payload)
 				return
 
 			default:
