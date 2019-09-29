@@ -33,7 +33,7 @@ class Progress {
 	public set = (value: CR.Progress) => {
 		this.value = value
 		if (!this.storage) {
-			throw new Error('Tutorial storage not found')
+			return defaultValue
 		}
 		this.storage.set(value)
 		return this.value
