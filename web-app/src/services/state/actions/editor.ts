@@ -97,6 +97,17 @@ export default {
 			})
 		}
 	},
+	editorLoadSolution(context: CR.MachineContext): void {
+		const step: G.Step = selectors.currentStep(context)
+		// tell editor to load solution commit
+		channel.editorSend({
+			type: 'SOLUTION_ACTIONS',
+			payload: {
+				stepId: step.id,
+				...step.solution,
+			}
+		})
+	},
 	clearStorage(): void {
 		channel.editorSend({type: 'TUTORIAL_CLEAR'})
 	}

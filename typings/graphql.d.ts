@@ -136,7 +136,7 @@ export type Stage = {
 	step?: Maybe<Step>,
 	steps: Array<Step>,
 	setup?: Maybe<StepActions>,
-	status: string
+	status: 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE'
 };
 
 
@@ -151,8 +151,8 @@ export type Step = {
 	text: Scalars['String'],
 	setup: StepActions,
 	solution: StepActions,
-	status: string
-};
+	status: 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE'
+}
 
 export type StepActions = {
 	__typename?: 'StepActions',

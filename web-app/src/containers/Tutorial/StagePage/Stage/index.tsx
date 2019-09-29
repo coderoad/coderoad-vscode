@@ -24,11 +24,12 @@ const styles = {
 
 interface Props {
   stage: T.Stage
-	onContinue(): void
-	onSave(): void
+  onContinue(): void
+  onSave(): void
+  onLoadSolution(): void
 }
 
-const Stage = ({ stage, onContinue, onSave }: Props) => {
+const Stage = ({ stage, onContinue, onSave, onLoadSolution }: Props) => {
   if (!stage.steps) {
     throw new Error('No Stage steps found')
   }
@@ -50,12 +51,11 @@ const Stage = ({ stage, onContinue, onSave }: Props) => {
             if (!step) {
               return null
             }
-            const hide = step.status === 'INCOMPLETE'
             return (
               <Step.Item
                 key={step.id}
                 title={step.title || `Step ${index + 1}`}
-                content={<StepDescription text={step.text} hide={hide} />}
+                content={<StepDescription text={step.text} mode={step.status} onLoadSolution={onLoadSolution} />}
               />
             )
           })}
@@ -67,10 +67,10 @@ const Stage = ({ stage, onContinue, onSave }: Props) => {
           <Button onClick={onContinue}>Continue</Button>
         </div>
       ) : (
-				<div style={styles.options}>
+        <div style={styles.options}>
           <Button onClick={onSave}>Save</Button>
         </div>
-			)}
+      )}
     </div>
   )
 }

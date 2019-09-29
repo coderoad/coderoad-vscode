@@ -1,17 +1,11 @@
-// import * as CR from 'typings'
 import * as G from 'typings/graphql'
-// import {TutorialModel} from '../services/tutorial'
-// import {gitLoadCommits, gitClear} from '../services/git'
+import * as vscode from 'vscode'
+import * as git from '../services/git'
+import setupActions from './setupActions'
 
-const solutionActions = async (stepActions: G.StepActions): Promise<void> => {
-	// TODO: should load same as commits
-
-	// const step: G.Step = tutorialModel.step()
-	// const solution = step.solution
-
-	// await gitClear()
-	// await gitLoadCommits(solution, dispatch)
-
+const solutionActions = async (workspaceRoot: vscode.WorkspaceFolder, stepActions: G.StepActions): Promise<void> => {
+	await git.clear()
+	return setupActions(workspaceRoot, stepActions)
 }
 
 export default solutionActions

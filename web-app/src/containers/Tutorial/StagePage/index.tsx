@@ -33,6 +33,10 @@ const StageSummaryPageContainer = (props: PageProps) => {
     })
   }
 
+  const onLoadSolution = (): void => {
+    props.send({ type: 'STEP_SOLUTION_LOAD' })
+  }
+
   stage.steps.forEach((step: G.Step) => {
     if (progress.steps[step.id]) {
       step.status = 'COMPLETE'
@@ -44,7 +48,7 @@ const StageSummaryPageContainer = (props: PageProps) => {
   })
   stage.status = progress.stages[position.stageId] ? 'COMPLETE' : 'ACTIVE'
 
-  return <Stage stage={stage} onContinue={onContinue} onSave={onSave} />
+  return <Stage stage={stage} onContinue={onContinue} onSave={onSave} onLoadSolution={onLoadSolution} />
 }
 
 export default StageSummaryPageContainer

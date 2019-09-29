@@ -113,7 +113,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 								on: {
 									TEST_RUN: 'TestRunning',
 									STEP_SOLUTION_LOAD: {
-										actions: ['callSolution'],
+										actions: ['editorLoadSolution'],
 									},
 								},
 							},
