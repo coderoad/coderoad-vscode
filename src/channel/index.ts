@@ -105,7 +105,9 @@ class Channel implements Channel {
 				return
 			// load solution step actions (git commits, commands, open files)
 			case 'SOLUTION_ACTIONS':
-				solutionActions(this.workspaceRoot, action.payload)
+				await solutionActions(this.workspaceRoot, action.payload)
+				// run test following solution to update position
+				vscode.commands.executeCommand('coderoad.run_test', action.payload)
 				return
 
 			default:
