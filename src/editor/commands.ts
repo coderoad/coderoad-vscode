@@ -64,6 +64,7 @@ export const createCommands = ({extensionPath, workspaceState, workspaceRoot}: C
 			currentStepId = stepId
 		},
 		[COMMANDS.RUN_TEST]: (current: {stepId: string} | undefined) => {
+			console.log('-------- command.run_test ------ ')
 			// use stepId from client, or last set stepId
 			const payload = {stepId: current ? current.stepId : currentStepId}
 			runTest({
@@ -85,9 +86,9 @@ export const createCommands = ({extensionPath, workspaceState, workspaceRoot}: C
 					webview.send({type: 'TEST_ERROR', payload})
 				},
 				onRun: () => {
-					console.log('COMMAND TEST_RUN')
+					console.log('COMMAND TEST_RUNNING')
 					// send test run message back to client
-					webview.send({type: 'TEST_RUN', payload})
+					webview.send({type: 'TEST_RUNNING', payload})
 				}
 			})
 		},

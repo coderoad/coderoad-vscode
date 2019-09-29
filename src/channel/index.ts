@@ -94,10 +94,6 @@ class Channel implements Channel {
 				this.context.position.set(action.payload.position)
 				this.context.progress.set(action.payload.progress)
 				return
-			// run unit tests on step
-			case 'TEST_RUN':
-				vscode.commands.executeCommand('coderoad.run_test', action.payload)
-				return
 			// load step actions (git commits, commands, open files)
 			case 'SETUP_ACTIONS':
 				vscode.commands.executeCommand('coderoad.set_current_step', action.payload)

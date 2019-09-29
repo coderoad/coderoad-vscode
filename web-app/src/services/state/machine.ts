@@ -111,7 +111,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 						states: {
 							Normal: {
 								on: {
-									TEST_RUN: 'TestRunning',
+									TEST_RUNNING: 'TestRunning',
 									STEP_SOLUTION_LOAD: {
 										actions: ['editorLoadSolution'],
 									},

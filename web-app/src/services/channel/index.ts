@@ -53,8 +53,7 @@ class Channel {
 			case 'TEST_FAIL':
 				this.machineSend(action)
 				return
-			case 'TEST_RUN':
-				console.log('TEST_RUN')
+			case 'TEST_RUNNING':
 				this.machineSend(action)
 				return
 			case 'TEST_ERROR':

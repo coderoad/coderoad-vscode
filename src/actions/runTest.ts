@@ -27,6 +27,7 @@ interface Props {
 }
 
 async function runTest({onSuccess, onFail, onRun, onError}: Props): Promise<void> {
+	console.log('------------------- run test ------------------')
 	// increment process id
 	const processId = ++currentId
 
@@ -44,6 +45,7 @@ async function runTest({onSuccess, onFail, onRun, onError}: Props): Promise<void
 	// jest CLI docs https://jestjs.io/docs/en/cli
 	const testArgs = [
 		'--json',
+		'--onlyChanged',
 		'--env=node',
 		'--maxConcurrency=4',
 		'--maxWorkers=4'

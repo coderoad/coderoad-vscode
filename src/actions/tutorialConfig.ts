@@ -9,6 +9,7 @@ interface TutorialConfigParams {
 }
 
 const tutorialConfig = async ({tutorial, alreadyConfigured, onComplete}: TutorialConfigParams) => {
+	console.log('---------- tutorialConfig -----------')
 	if (!alreadyConfigured) {
 		// setup git, add remote
 		await git.initIfNotExists()
