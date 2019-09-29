@@ -54,7 +54,9 @@ class Position {
 		if (lastStepIndex >= steps.length) {
 			throw new Error('Error setting progress step')
 		}
-		const currentStep: G.Step = steps[lastStepIndex]
+		// handle position when last step is complete but "continue" not yet selected
+		const adjustedLastStepIndex = lastStepIndex === -1 ? steps.length - 1 : lastStepIndex
+		const currentStep: G.Step = steps[adjustedLastStepIndex]
 
 		this.value = {
 			levelId: currentLevel.id,
