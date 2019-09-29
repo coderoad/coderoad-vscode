@@ -18,13 +18,24 @@ interface Props {
 }
 
 const StepDescription = ({ text, mode, onLoadSolution }: Props) => {
+  const [loadedSolution, setLoadedSolution] = React.useState()
+
+  const onClickHandler = () => {
+    if (!loadedSolution) {
+      setLoadedSolution(true)
+      onLoadSolution()
+    }
+  }
+
   if (mode === 'INCOMPLETE') {
     return null
   }
+
+  const showLoadSolution = mode === 'ACTIVE' && !loadedSolution
   return (
     <div style={styles.card}>
       <Markdown>{text || ''}</Markdown>
-      {mode === 'ACTIVE' && <Button onClick={onLoadSolution}>Load Solution</Button>}
+      {showLoadSolution && <Button onClick={onClickHandler}>Load Solution</Button>}
     </div>
   )
 }
