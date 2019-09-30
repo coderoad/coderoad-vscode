@@ -47,16 +47,9 @@ export const createCommands = ({extensionPath, workspaceState, workspaceRoot}: C
 			})
 		},
 		// open React webview
-		[COMMANDS.OPEN_WEBVIEW]: (column: number = vscode.ViewColumn.Two) => {
+		[COMMANDS.OPEN_WEBVIEW]: () => {
 			// setup 1x1 horizontal layout
-
-			// reset layout
-			vscode.commands.executeCommand('vscode.setEditorLayout', {
-				orientation: 0,
-				groups: [{groups: [{}], size: 0.6}, {groups: [{}], size: 0.4}],
-			})
-
-			webview.createOrShow(column)
+			webview.createOrShow()
 		},
 		[COMMANDS.SET_CURRENT_STEP]: ({stepId}: {stepId: string}) => {
 			// NOTE: as async, may sometimes be inaccurate
