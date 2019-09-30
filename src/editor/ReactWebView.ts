@@ -81,8 +81,12 @@ class ReactWebView {
 		})
 		// If we already have a panel, show it.
 		// Otherwise, create a new panel.
+
 		if (this.panel && this.panel.webview) {
-			this.panel.reveal(vscode.ViewColumn.Two)
+			if (!this.loaded) {
+				this.panel.reveal(vscode.ViewColumn.Two)
+				this.loaded = true
+			}
 		} else {
 			this.panel = this.createWebviewPanel()
 		}
@@ -106,6 +110,7 @@ class ReactWebView {
 			// prevents destroying the window when it is in the background
 			retainContextWhenHidden: true,
 		}
+		this.loaded = true
 		return vscode.window.createWebviewPanel(viewType, title, vscode.ViewColumn.Two, config)
 	}
 
