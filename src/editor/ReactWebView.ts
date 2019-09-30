@@ -50,20 +50,12 @@ class ReactWebView {
 		// 	vscode.commands.executeCommand('coderoad.open_webview')
 		// }
 
-		// // prevents new panels from going on top of coderoad panel
-		vscode.window.onDidChangeActiveTextEditor((textEditor?: vscode.TextEditor) => {
-			console.log('onDidChangeActiveTextEditor')
-			console.log(textEditor)
-			// if (!textEditor || textEditor.viewColumn !== vscode.ViewColumn.Two) {
-			// 	updateWindows()
-			// }
-		})
 		// // // prevents moving coderoad panel on top of left panel
-		vscode.window.onDidChangeVisibleTextEditors((textEditor: vscode.TextEditor[]) => {
-			console.log('onDidChangeVisibleTextEditors')
-			console.log(textEditor)
-			// updateWindows()
-		})
+		// vscode.window.onDidChangeVisibleTextEditors((textEditors: vscode.TextEditor[]) => {
+		// 	console.log('onDidChangeVisibleTextEditors')
+		// 	console.log(textEditors)
+		// 	// updateWindows()
+		// })
 
 		// TODO: prevent window from moving to the left when no windows remain on rights
 
@@ -83,7 +75,6 @@ class ReactWebView {
 	}
 
 	public createOrShow(): void {
-		// reset layout
 		vscode.commands.executeCommand('vscode.setEditorLayout', {
 			orientation: 0,
 			groups: [{groups: [{}], size: 0.6}, {groups: [{}], size: 0.4}],
