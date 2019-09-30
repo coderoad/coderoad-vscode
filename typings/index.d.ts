@@ -148,6 +148,7 @@ export interface MachineStateSchema {
 				Level: {}
 				Stage: {
 					states: {
+						Load: {}
 						Normal: {}
 						TestRunning: {}
 						TestPass: {}
