@@ -35,7 +35,7 @@ class ReactWebView {
 		this.extensionPath = extensionPath
 
 		// Create and show a new webview panel
-		this.panel = this.createWebviewPanel(vscode.ViewColumn.Two)
+		this.panel = this.createWebviewPanel()
 
 		// Set the webview initial html content
 		this.render()
@@ -46,22 +46,23 @@ class ReactWebView {
 
 
 		// update panel on changes
-		const updateWindows = () => {
-			vscode.commands.executeCommand('coderoad.open_webview')
-		}
+		// const updateWindows = () => {
+		// 	vscode.commands.executeCommand('coderoad.open_webview')
+		// }
 
-		// prevents new panels from going on top of coderoad panel
+		// // prevents new panels from going on top of coderoad panel
 		vscode.window.onDidChangeActiveTextEditor((textEditor?: vscode.TextEditor) => {
-			// console.log('onDidChangeActiveTextEditor')
-			// console.log(textEditor)
-			if (!textEditor || textEditor.viewColumn !== vscode.ViewColumn.Two) {
-				updateWindows()
-			}
+			console.log('onDidChangeActiveTextEditor')
+			console.log(textEditor)
+			// if (!textEditor || textEditor.viewColumn !== vscode.ViewColumn.Two) {
+			// 	updateWindows()
+			// }
 		})
-		// // prevents moving coderoad panel on top of left panel
+		// // // prevents moving coderoad panel on top of left panel
 		vscode.window.onDidChangeVisibleTextEditors((textEditor: vscode.TextEditor[]) => {
-			// console.log('onDidChangeVisibleTextEditors')
-			updateWindows()
+			console.log('onDidChangeVisibleTextEditors')
+			console.log(textEditor)
+			// updateWindows()
 		})
 
 		// TODO: prevent window from moving to the left when no windows remain on rights
@@ -81,13 +82,18 @@ class ReactWebView {
 		this.send = this.channel.send
 	}
 
-	public createOrShow(column: number): void {
+	public createOrShow(): void {
+		// reset layout
+		vscode.commands.executeCommand('vscode.setEditorLayout', {
+			orientation: 0,
+			groups: [{groups: [{}], size: 0.6}, {groups: [{}], size: 0.4}],
+		})
 		// If we already have a panel, show it.
 		// Otherwise, create a new panel.
 		if (this.panel && this.panel.webview) {
-			this.panel.reveal(column)
+			this.panel.reveal(vscode.ViewColumn.Two)
 		} else {
-			this.panel = this.createWebviewPanel(column)
+			this.panel = this.createWebviewPanel()
 		}
 	}
 
@@ -98,7 +104,7 @@ class ReactWebView {
 		Promise.all(this.disposables.map((x) => x.dispose()))
 	}
 
-	private createWebviewPanel = (column: number): vscode.WebviewPanel => {
+	private createWebviewPanel = (): vscode.WebviewPanel => {
 		const viewType = 'CodeRoad'
 		const title = 'CodeRoad'
 		const config = {
@@ -109,7 +115,7 @@ class ReactWebView {
 			// prevents destroying the window when it is in the background
 			retainContextWhenHidden: true,
 		}
-		return vscode.window.createWebviewPanel(viewType, title, column, config)
+		return vscode.window.createWebviewPanel(viewType, title, vscode.ViewColumn.Two, config)
 	}
 
 	private render = async (): Promise<void> => {
