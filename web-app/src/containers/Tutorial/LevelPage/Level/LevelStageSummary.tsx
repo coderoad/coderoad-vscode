@@ -1,6 +1,6 @@
 import { Icon } from '@alifd/next'
 import * as React from 'react'
-import * as T from 'typings/graphql'
+import * as G from 'typings/graphql'
 
 import Markdown from '../../../../components/Markdown'
 
@@ -24,7 +24,7 @@ const styles = {
 }
 
 interface Props {
-  stage: T.Stage
+  stage: G.Stage
   onNext(): void
 }
 
@@ -36,7 +36,6 @@ const LevelStageSummary = (props: Props) => {
       <div style={styles.left}>
         <Markdown>{stage.text || ''}</Markdown>
       </div>
-      <div style={styles.right}>{active && <Icon type="arrow-right" style={styles.continueIcon} />}</div>
     </div>
   )
 }
