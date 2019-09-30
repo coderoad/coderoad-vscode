@@ -13,7 +13,7 @@
   //   }
   // ],
   "editor.codeActionsOnSave": {
-    "source.fixAll": true,
+    "source.fixAll": true
   },
   "tslint.enable": true,
   "[javascript]": {
@@ -31,5 +31,12 @@
     "out": true // set this to false to include "out" folder in search results
   },
   "prettier.eslintIntegration": true,
+
+  // styles
   "editor.formatOnSave": true,
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#000000",
+    "titleBar.activeBackground": "#000000",
+    "titleBar.activeForeground": "#FFFFFF"
+  }
 }
