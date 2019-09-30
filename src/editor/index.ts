@@ -8,7 +8,6 @@ class Editor {
 
 	public activate = (vscodeExt: vscode.ExtensionContext): void => {
 
-		console.log('ACTIVATE!')
 		this.vscodeExt = vscodeExt
 
 		// set out 60/40 layout
@@ -23,7 +22,6 @@ class Editor {
 		// setup tasks or views here
 	}
 	public deactivate = (): void => {
-		console.log('DEACTIVATE!')
 		// cleanup subscriptions/tasks
 		for (const disposable of this.vscodeExt.subscriptions) {
 			disposable.dispose()

@@ -54,16 +54,6 @@ export default {
 			type: 'EDITOR_TUTORIAL_CONTINUE_CONFIG',
 		})
 	},
-	// testStart(context: CR.MachineContext, event: CR.MachineEvent) {
-	// 	console.log('EDITOR: TEST_RUN')
-	// 	const {stepId} = event.payload
-	// 	// channel.editorSend({
-	// 	// 	type: 'TEST_RUN',
-	// 	// 	payload: {
-	// 	// 		stepId,
-	// 	// 	}
-	// 	// })
-	// },
 	loadLevel(context: CR.MachineContext): void {
 		const level: G.Level = selectors.currentLevel(context)
 		if (level.setup) {

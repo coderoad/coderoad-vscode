@@ -4,7 +4,6 @@ import node from '../node'
 const gitOrigin = 'coderoad'
 
 const stashAllFiles = async () => {
-	console.log('stashAllFiles')
 	// stash files including untracked (eg. newly created file)
 	const {stdout, stderr} = await node.exec(`git stash --include-untracked`)
 	if (stderr) {

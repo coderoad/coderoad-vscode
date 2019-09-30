@@ -23,8 +23,6 @@ export const createCommands = ({extensionPath, workspaceState, workspaceRoot}: C
 	return {
 		// initialize
 		[COMMANDS.START]: async () => {
-			console.log('start')
-
 			// TODO: replace with a prompt to open a workspace
 			// await isEmptyWorkspace()
 
@@ -62,13 +60,11 @@ export const createCommands = ({extensionPath, workspaceState, workspaceRoot}: C
 			const payload = {stepId: current ? current.stepId : currentStepId}
 			runTest({
 				onSuccess: () => {
-					console.log('COMMAND TEST_PASS')
 					// send test pass message back to client
 					webview.send({type: 'TEST_PASS', payload})
 					vscode.window.showInformationMessage('PASS')
 				},
 				onFail: () => {
-					console.log('COMMAND TEST_FAIL')
 					// send test fail message back to client
 					webview.send({type: 'TEST_FAIL', payload})
 					vscode.window.showWarningMessage('FAIL')
@@ -79,7 +75,6 @@ export const createCommands = ({extensionPath, workspaceState, workspaceRoot}: C
 					webview.send({type: 'TEST_ERROR', payload})
 				},
 				onRun: () => {
-					console.log('COMMAND TEST_RUNNING')
 					// send test run message back to client
 					webview.send({type: 'TEST_RUNNING', payload})
 				}

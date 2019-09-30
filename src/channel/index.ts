@@ -39,7 +39,7 @@ class Channel implements Channel {
 		// action may be an object.type or plain string
 		const actionType: string = typeof action === 'string' ? action : action.type
 
-		console.log('EDITOR RECEIVED:', actionType)
+		// console.log('EDITOR RECEIVED:', actionType)
 		switch (actionType) {
 			// continue from tutorial from local storage
 			case 'EDITOR_TUTORIAL_LOAD':

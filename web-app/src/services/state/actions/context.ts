@@ -17,8 +17,6 @@ export default {
 	}),
 	newTutorial: assign({
 		tutorial: (context: CR.MachineContext, event: CR.MachineEvent): any => {
-			console.log('new tutorial event')
-			console.log(JSON.stringify(event))
 			return event.payload.tutorial
 		},
 		progress: (): CR.Progress => {
@@ -111,8 +109,6 @@ export default {
 	// @ts-ignore
 	updateStepProgress: assign({
 		progress: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
-			console.log('updateStepProgress')
-			console.log(JSON.stringify(event))
 			// update progress by tracking completed
 			const currentProgress: CR.Progress = context.progress
 

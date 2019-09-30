@@ -70,7 +70,6 @@ async function runTest({onSuccess, onFail, onRun, onError}: Props): Promise<void
 
 		if (stdout) {
 			const lines = stdout.split(/\r{0,1}\n/)
-			console.log('SUCCESS LINES', lines)
 			for (const line of lines) {
 				if (line.length === 0) {
 					continue
@@ -79,16 +78,13 @@ async function runTest({onSuccess, onFail, onRun, onError}: Props): Promise<void
 				const regExp = /^{\"numFailedTestSuites/
 				const matches = regExp.exec(line)
 				if (matches && matches.length) {
-					console.log('MATCHES SUCCESS')
 					const result = JSON.parse(line)
 
 					if (result.success) {
-						console.log('SUCCESS')
 						if (shouldExitEarly(processId)) {
 							// exit early
 							return
 						}
-						console.log('call onSuccess')
 						onSuccess()
 					} else {
 						console.log('NOT SUCCESS?')
@@ -133,8 +129,6 @@ async function runTest({onSuccess, onFail, onRun, onError}: Props): Promise<void
 							// exit early
 							return
 						}
-						console.log('ERROR', firstError.message)
-						console.log('call onFail')
 						onFail()
 					} else {
 						console.error('NOTE: PARSER DID NOT WORK FOR ', line)

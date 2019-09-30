@@ -23,7 +23,6 @@ const tutorialConfig = async ({tutorial, alreadyConfigured, onComplete}: Tutoria
 	const language = tutorial.codingLanguage.toLowerCase()
 
 	// setup onSave hook
-	// console.log(`languageIds: ${languageIds.join(', ')}`)
 	vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
 		if (document.uri.scheme === 'file' && language === document.languageId) {
 			vscode.commands.executeCommand('coderoad.run_test')

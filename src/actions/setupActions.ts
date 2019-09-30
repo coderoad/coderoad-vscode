@@ -49,7 +49,6 @@ const setupActions = async (workspaceRoot: vscode.WorkspaceFolder, {commands, co
 
 	// open files
 	for (const filePath of files) {
-		console.log(`OPEN_FILE ${filePath}`)
 		try {
 			// TODO: figure out why this does not work
 			// 	try {
