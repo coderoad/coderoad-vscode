@@ -6,6 +6,11 @@ import client from '../../apollo'
 import tutorialQuery from '../../apollo/queries/tutorial'
 
 export default {
+	loadEnv() {
+		channel.editorSend({
+			type: 'ENV_GET'
+		})
+	},
 	loadStoredTutorial() {
 		// send message to editor to see if there is existing tutorial progress
 		// in local storage on the editor

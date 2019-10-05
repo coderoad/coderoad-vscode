@@ -15,7 +15,9 @@ class Channel {
 			require('./mock')
 		}
 
+		// Loads VSCode webview connection with editor
 		const editor = acquireVsCodeApi()
+
 		this.editorSend = editor.postMessage
 	}
 	public machineSend = (action: Action | string) => { /* */}
@@ -25,13 +27,19 @@ class Channel {
 		this.machineSend = send
 	}
 	public receive = (event: ReceivedEvent) => {
+		// NOTE: must call event.data, cannot destructure. VSCode acts odd
 		const action = event.data
 
 		// @ts-ignore // ignore browser events from plugins
 		if (action.source) {return }
+
 		console.log(`CLIENT RECEIVE: ${action.type}`, action)
+
 		// messages from core
 		switch (action.type) {
+			case 'ENV_LOAD':
+				this.machineSend(action)
+				return
 			case 'TUTORIAL_LOADED':
 				// send action to state machine
 				this.machineSend('TUTORIAL_LOADED')

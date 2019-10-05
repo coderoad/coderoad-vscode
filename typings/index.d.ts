@@ -119,7 +119,13 @@ export interface Action {
 	meta?: any
 }
 
+export interface Environment {
+	machineId: string
+	sessionId: string
+}
+
 export interface MachineContext {
+	env: Environment,
 	tutorial: G.Tutorial | null,
 	position: Position,
 	progress: Progress,
@@ -136,10 +142,11 @@ export interface MachineStateSchema {
 		Start: {
 			states: {
 				Startup: {}
+				NewOrContinue: {}
 				SelectTutorial: {}
 				ContinueTutorial: {}
-			}
-		}
+			},
+		},
 		Tutorial: {
 			states: {
 				Initialize: {}
