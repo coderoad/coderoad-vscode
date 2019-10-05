@@ -8,27 +8,15 @@ export type Scalars = {
 	Boolean: boolean,
 	Int: number,
 	Float: number,
-  /** 
- * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
-   * `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO
-   * 8601 standard for representation of dates and times using the Gregorian calendar.
- **/
 	DateTime: any,
-	/** Git commit hash */
 	Commit: any,
-	/** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
 	JSON: any,
-	/** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
 	JSONObject: any,
-	/** The `Upload` scalar type represents a file upload. */
-	Upload: any,
 };
 
 
-
-export enum CacheControlScope {
-	Public = 'PUBLIC',
-	Private = 'PRIVATE'
+export enum CodingLanguageEnum {
+	Javascript = 'JAVASCRIPT'
 }
 
 
@@ -36,19 +24,22 @@ export type CreateTokenInput = {
 	accessToken: Scalars['String'],
 };
 
-export type CreateTokenOutput = {
-	__typename?: 'CreateTokenOutput',
-	token: Scalars['String'],
+
+export enum EditorEnum {
+	Vscode = 'VSCODE'
+}
+
+export type EditorLoginInput = {
+	editor: EditorEnum,
+	machineId: Scalars['String'],
+	sessionId: Scalars['String'],
 };
 
-
-export enum EnumCodingLanguage {
-	Javascript = 'JAVASCRIPT'
-}
-
-export enum EnumTestRunner {
-	Jest = 'JEST'
-}
+export type EditorLoginOutput = {
+	__typename?: 'editorLoginOutput',
+	user: User,
+	token: Scalars['String'],
+};
 
 export type GithubUser = {
 	__typename?: 'GithubUser',
@@ -69,7 +60,7 @@ export type Level = {
 	stage?: Maybe<Stage>,
 	stages: Array<Stage>,
 	setup?: Maybe<StepActions>,
-	status: string
+	status: 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE',
 };
 
 
@@ -79,12 +70,12 @@ export type LevelStageArgs = {
 
 export type Mutation = {
 	__typename?: 'Mutation',
-	createToken?: Maybe<CreateTokenOutput>,
+	editorLogin?: Maybe<EditorLoginOutput>,
 };
 
 
-export type MutationCreateTokenArgs = {
-	input: CreateTokenInput
+export type MutationEditorLoginArgs = {
+	input: EditorLoginInput
 };
 
 export type Query = {
@@ -125,7 +116,7 @@ export type QueryStepActionsArgs = {
 
 export enum Role {
 	Admin = 'ADMIN',
-	User = 'USER'
+	EditorUser = 'EDITOR_USER'
 }
 
 export type Stage = {
@@ -136,7 +127,7 @@ export type Stage = {
 	step?: Maybe<Step>,
 	steps: Array<Step>,
 	setup?: Maybe<StepActions>,
-	status: 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE'
+	status: 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE',
 };
 
 
@@ -149,10 +140,10 @@ export type Step = {
 	id: Scalars['ID'],
 	title: Scalars['String'],
 	text: Scalars['String'],
-	setup: StepActions,
-	solution: StepActions,
-	status: 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE'
-}
+	setup?: Maybe<StepActions>,
+	solution?: Maybe<StepActions>,
+	status: 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE',
+};
 
 export type StepActions = {
 	__typename?: 'StepActions',
@@ -162,6 +153,10 @@ export type StepActions = {
 	commands: Array<Scalars['String']>,
 };
 
+export enum TestRunnerEnum {
+	Jest = 'JEST'
+}
+
 export type Tutorial = {
 	__typename?: 'Tutorial',
 	id: Scalars['ID'],
@@ -170,8 +165,8 @@ export type Tutorial = {
 	createdAt: Scalars['DateTime'],
 	updatedBy: User,
 	updatedAt: Scalars['DateTime'],
-	codingLanguage: EnumCodingLanguage,
-	testRunner: EnumTestRunner,
+	codingLanguage: CodingLanguageEnum,
+	testRunner: TestRunnerEnum,
 	title: Scalars['String'],
 	text: Scalars['String'],
 	releasedAt?: Maybe<Scalars['DateTime']>,
@@ -226,22 +221,23 @@ export type TutorialVersionStepArgs = {
 	stepId: Scalars['ID']
 };
 
-
 export type User = {
 	__typename?: 'User',
 	id: Scalars['ID'],
 	name?: Maybe<Scalars['String']>,
-	email: Scalars['String'],
+	email?: Maybe<Scalars['String']>,
 	location?: Maybe<Scalars['String']>,
 	avatarUrl?: Maybe<Scalars['String']>,
 	createdAt: Scalars['DateTime'],
 	updatedAt: Scalars['DateTime'],
 	githubUser?: Maybe<GithubUser>,
 };
+
 export type TutorialSummaryFragment = (
 	{__typename?: 'Tutorial'}
 	& Pick<Tutorial, 'title' | 'text'>
 );
+
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -321,8 +317,8 @@ export type ResolversTypes = {
 	User: ResolverTypeWrapper<User>,
 	DateTime: ResolverTypeWrapper<Scalars['DateTime']>,
 	GithubUser: ResolverTypeWrapper<GithubUser>,
-	EnumCodingLanguage: EnumCodingLanguage,
-	EnumTestRunner: EnumTestRunner,
+	CodingLanguageEnum: CodingLanguageEnum,
+	TestRunnerEnum: TestRunnerEnum,
 	TutorialVersion: ResolverTypeWrapper<TutorialVersion>,
 	Level: ResolverTypeWrapper<Level>,
 	Stage: ResolverTypeWrapper<Stage>,
@@ -331,14 +327,13 @@ export type ResolversTypes = {
 	Commit: ResolverTypeWrapper<Scalars['Commit']>,
 	Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
 	Mutation: ResolverTypeWrapper<{}>,
-	createTokenInput: CreateTokenInput,
-	CreateTokenOutput: ResolverTypeWrapper<CreateTokenOutput>,
-	CacheControlScope: CacheControlScope,
+	editorLoginInput: EditorLoginInput,
+	EditorEnum: EditorEnum,
+	editorLoginOutput: ResolverTypeWrapper<EditorLoginOutput>,
 	JSON: ResolverTypeWrapper<Scalars['JSON']>,
 	JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>,
 	Role: Role,
-	Upload: ResolverTypeWrapper<Scalars['Upload']>,
-	Int: ResolverTypeWrapper<Scalars['Int']>,
+	createTokenInput: CreateTokenInput,
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -351,8 +346,8 @@ export type ResolversParentTypes = {
 	User: User,
 	DateTime: Scalars['DateTime'],
 	GithubUser: GithubUser,
-	EnumCodingLanguage: EnumCodingLanguage,
-	EnumTestRunner: EnumTestRunner,
+	CodingLanguageEnum: CodingLanguageEnum,
+	TestRunnerEnum: TestRunnerEnum,
 	TutorialVersion: TutorialVersion,
 	Level: Level,
 	Stage: Stage,
@@ -361,34 +356,29 @@ export type ResolversParentTypes = {
 	Commit: Scalars['Commit'],
 	Boolean: Scalars['Boolean'],
 	Mutation: {},
-	createTokenInput: CreateTokenInput,
-	CreateTokenOutput: CreateTokenOutput,
-	CacheControlScope: CacheControlScope,
+	editorLoginInput: EditorLoginInput,
+	EditorEnum: EditorEnum,
+	editorLoginOutput: EditorLoginOutput,
 	JSON: Scalars['JSON'],
 	JSONObject: Scalars['JSONObject'],
 	Role: Role,
-	Upload: Scalars['Upload'],
-	Int: Scalars['Int'],
+	createTokenInput: CreateTokenInput,
 };
 
 export type AuthDirectiveResolver<Result, Parent, ContextType = any, Args = {requires?: Maybe<Maybe<Role>>}> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
-
-export type CacheControlDirectiveResolver<Result, Parent, ContextType = any, Args = {
-	maxAge?: Maybe<Maybe<Scalars['Int']>>,
-	scope?: Maybe<Maybe<CacheControlScope>>
-}> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export interface CommitScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Commit'], any> {
 	name: 'Commit'
 }
 
-export type CreateTokenOutputResolvers<ContextType = any, ParentType extends ResolversParentTypes['CreateTokenOutput'] = ResolversParentTypes['CreateTokenOutput']> = {
-	token?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-};
-
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
 	name: 'DateTime'
 }
+
+export type EditorLoginOutputResolvers<ContextType = any, ParentType extends ResolversParentTypes['editorLoginOutput'] = ResolversParentTypes['editorLoginOutput']> = {
+	user?: Resolver<ResolversTypes['User'], ParentType, ContextType>,
+	token?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+};
 
 export type GithubUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['GithubUser'] = ResolversParentTypes['GithubUser']> = {
 	id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
@@ -416,7 +406,7 @@ export type LevelResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-	createToken?: Resolver<Maybe<ResolversTypes['CreateTokenOutput']>, ParentType, ContextType, RequireFields<MutationCreateTokenArgs, 'input'>>,
+	editorLogin?: Resolver<Maybe<ResolversTypes['editorLoginOutput']>, ParentType, ContextType, RequireFields<MutationEditorLoginArgs, 'input'>>,
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -442,8 +432,8 @@ export type StepResolvers<ContextType = any, ParentType extends ResolversParentT
 	id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
 	title?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 	text?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-	setup?: Resolver<ResolversTypes['StepActions'], ParentType, ContextType>,
-	solution?: Resolver<ResolversTypes['StepActions'], ParentType, ContextType>,
+	setup?: Resolver<Maybe<ResolversTypes['StepActions']>, ParentType, ContextType>,
+	solution?: Resolver<Maybe<ResolversTypes['StepActions']>, ParentType, ContextType>,
 };
 
 export type StepActionsResolvers<ContextType = any, ParentType extends ResolversParentTypes['StepActions'] = ResolversParentTypes['StepActions']> = {
@@ -460,8 +450,8 @@ export type TutorialResolvers<ContextType = any, ParentType extends ResolversPar
 	createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>,
 	updatedBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>,
 	updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>,
-	codingLanguage?: Resolver<ResolversTypes['EnumCodingLanguage'], ParentType, ContextType>,
-	testRunner?: Resolver<ResolversTypes['EnumTestRunner'], ParentType, ContextType>,
+	codingLanguage?: Resolver<ResolversTypes['CodingLanguageEnum'], ParentType, ContextType>,
+	testRunner?: Resolver<ResolversTypes['TestRunnerEnum'], ParentType, ContextType>,
 	title?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 	text?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 	releasedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>,
@@ -494,14 +484,10 @@ export type TutorialVersionResolvers<ContextType = any, ParentType extends Resol
 	completed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
 };
 
-export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
-	name: 'Upload'
-}
-
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
 	id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
 	name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-	email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+	email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
 	location?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
 	avatarUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
 	createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>,
@@ -511,8 +497,8 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type Resolvers<ContextType = any> = {
 	Commit?: GraphQLScalarType,
-	CreateTokenOutput?: CreateTokenOutputResolvers<ContextType>,
 	DateTime?: GraphQLScalarType,
+	editorLoginOutput?: EditorLoginOutputResolvers<ContextType>,
 	GithubUser?: GithubUserResolvers<ContextType>,
 	JSON?: GraphQLScalarType,
 	JSONObject?: GraphQLScalarType,
@@ -525,7 +511,6 @@ export type Resolvers<ContextType = any> = {
 	Tutorial?: TutorialResolvers<ContextType>,
 	TutorialRepo?: TutorialRepoResolvers<ContextType>,
 	TutorialVersion?: TutorialVersionResolvers<ContextType>,
-	Upload?: GraphQLScalarType,
 	User?: UserResolvers<ContextType>,
 };
 
@@ -537,7 +522,6 @@ export type Resolvers<ContextType = any> = {
 export type IResolvers<ContextType = any> = Resolvers<ContextType>;
 export type DirectiveResolvers<ContextType = any> = {
 	auth?: AuthDirectiveResolver<any, any, ContextType>,
-	cacheControl?: CacheControlDirectiveResolver<any, any, ContextType>,
 };
 
 
@@ -546,6 +530,7 @@ export type DirectiveResolvers<ContextType = any> = {
 * Use "DirectiveResolvers" root object instead. If you wish to get "IDirectiveResolvers", add "typesPrefix: I" to your config.
 */
 export type IDirectiveResolvers<ContextType = any> = DirectiveResolvers<ContextType>;
+
 export interface IntrospectionResultData {
 	__schema: {
 		types: {
@@ -560,8 +545,8 @@ export interface IntrospectionResultData {
 
 // @ts-ignore
 const result: IntrospectionResultData = {
-	__schema: {
-		types: []
+	"__schema": {
+		"types": []
 	}
 };
 

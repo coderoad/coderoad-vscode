@@ -1,4 +1,3 @@
-import { Icon } from '@alifd/next'
 import * as React from 'react'
 import * as G from 'typings/graphql'
 
