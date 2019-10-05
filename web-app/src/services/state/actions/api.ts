@@ -2,10 +2,10 @@ import * as CR from 'typings'
 import client from '../../apollo'
 import authenticateMutation from '../../apollo/mutations/authenticate'
 import {setAuthToken} from '../../apollo/auth'
-import {send} from 'xstate'
+import channel from '../../../services/channel'
 
 export default {
-	authenticate: (async (context: CR.MachineContext): Promise<CR.Action> => {
+	authenticate: (async (context: CR.MachineContext): Promise<void> => {
 		const result = await client.mutate({
 			mutation: authenticateMutation,
 			variables: {
@@ -20,9 +20,10 @@ export default {
 			console.log('unauthenticated')
 		}
 		const {token} = result.data.editorLogin
-		console.log(token)
+		// add token to headers
 		setAuthToken(token)
-		return send({type: 'AUTHENTICATED'})
+		// pass authenticated action back to state machine
+		channel.receive({data: {type: 'AUTHENTICATED'}})
 	}),
 	userTutorialComplete(context: CR.MachineContext) {
 		console.log('should update user tutorial as complete')

@@ -38,38 +38,16 @@ class Channel {
 		// messages from core
 		switch (action.type) {
 			case 'ENV_LOAD':
-				this.machineSend(action)
-				return
+			case 'AUTHENTICATED':
 			case 'TUTORIAL_LOADED':
-				// send action to state machine
-				this.machineSend('TUTORIAL_LOADED')
-				console.log('send action to state machine')
-				return
 			case 'NEW_TUTORIAL':
-				this.machineSend(action)
-				return
 			case 'TUTORIAL_CONFIGURED':
-				this.machineSend(action)
-				return
 			case 'CONTINUE_TUTORIAL':
-				this.machineSend(action)
-				return
 			case 'TEST_PASS':
-				// { type: 'TEST_PASS', payload: { stepId: string }}
-				this.machineSend(action)
-				return
 			case 'TEST_FAIL':
-				this.machineSend(action)
-				return
 			case 'TEST_RUNNING':
-				this.machineSend(action)
-				return
 			case 'TEST_ERROR':
-				console.log('TEST_ERROR')
 				this.machineSend(action)
-				return
-			case 'ACTIONS_LOADED':
-				// TODO: use this for verifying completion of stepActions
 				return
 			default:
 				if (action.type) {
