@@ -32,7 +32,16 @@ const Router = ({ children }: Props): React.ReactElement<CloneElementProps> | nu
 
   const childArray = React.Children.toArray(children)
   for (const child of childArray) {
-    if (state.matches(child.props.path)) {
+    const { path } = child.props
+    let pathMatch
+    if (typeof path === 'string') {
+      pathMatch = state.matches(path)
+    } else if (Array.isArray(path)) {
+      pathMatch = path.some(p => state.matches(p))
+    } else {
+      throw new Error(`Invalid route path ${JSON.stringify(path)}`)
+    }
+    if (pathMatch) {
       const element = React.cloneElement<CloneElementProps>(child.props.children, { send, context: state.context })
       return debuggerWrapper(element, state)
     }

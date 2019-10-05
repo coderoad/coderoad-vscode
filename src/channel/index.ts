@@ -41,6 +41,17 @@ class Channel implements Channel {
 
 		// console.log('EDITOR RECEIVED:', actionType)
 		switch (actionType) {
+			case 'ENV_GET':
+				this.send({
+					type: 'ENV_LOAD',
+					payload: {
+						env: {
+							machineId: vscode.env.machineId,
+							sessionId: vscode.env.sessionId,
+						}
+					}
+				})
+				return
 			// continue from tutorial from local storage
 			case 'EDITOR_TUTORIAL_LOAD':
 				const tutorial: G.Tutorial | null = this.context.tutorial.get()
@@ -113,8 +124,10 @@ class Channel implements Channel {
 	}
 	// send to webview
 	public send = async (action: CR.Action) => {
-
-		switch (action.type) {
+		console.log(`EDITOR SEND ${action.type}`)
+		// action may be an object.type or plain string
+		const actionType: string = typeof action === 'string' ? action : action.type
+		switch (actionType) {
 			case 'TEST_PASS':
 				// update local storage stepProgress
 				const progress = this.context.progress.setStepComplete(action.payload.stepId)

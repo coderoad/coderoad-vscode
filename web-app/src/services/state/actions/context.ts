@@ -4,6 +4,11 @@ import * as CR from 'typings'
 import * as selectors from '../../selectors'
 
 export default {
+	setEnv: assign({
+		env: (context: CR.MachineContext, event: CR.MachineEvent) => {
+			return event.payload.env
+		}
+	}),
 	continueTutorial: assign({
 		tutorial: (context: CR.MachineContext, event: CR.MachineEvent) => {
 			return event.payload.tutorial
