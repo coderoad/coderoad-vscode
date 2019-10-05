@@ -12,7 +12,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 		id: 'root',
 		initial: 'Start',
 		context: {
-			env: {machineId: '', sessionId: ''},
+			env: {machineId: '', sessionId: '', token: ''},
 			tutorial: null,
 			position: {levelId: '', stageId: '', stepId: ''},
 			progress: {
@@ -30,10 +30,16 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 						onEntry: ['loadEnv'],
 						on: {
 							ENV_LOAD: {
-								target: 'NewOrContinue',
+								target: 'Authenticate',
 								actions: ['setEnv'],
 							}
 						}
+					},
+					Authenticate: {
+						onEntry: ['authenticate'],
+						on: {
+							AUTHENTICATED: 'NewOrContinue'
+						},
 					},
 					NewOrContinue: {
 						onEntry: ['loadStoredTutorial'],

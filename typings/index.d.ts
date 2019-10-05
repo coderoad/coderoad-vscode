@@ -122,6 +122,7 @@ export interface Action {
 export interface Environment {
 	machineId: string
 	sessionId: string
+	token: string
 }
 
 export interface MachineContext {
@@ -142,6 +143,7 @@ export interface MachineStateSchema {
 		Start: {
 			states: {
 				Startup: {}
+				Authenticate: {}
 				NewOrContinue: {}
 				SelectTutorial: {}
 				ContinueTutorial: {}

@@ -19,7 +19,7 @@ const Routes = () => {
   return (
     <Workspace>
       <Router>
-        <Route path={['Start.Startup', 'NewOrContinue']}>
+        <Route path={['Start.Startup', 'Start.Authenticate', 'Start.NewOrContinue']}>
           <LoadingPage text="Launching..." />
         </Route>
         <Route path="Start.SelectTutorial">
