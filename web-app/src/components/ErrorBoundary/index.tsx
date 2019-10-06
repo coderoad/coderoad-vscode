@@ -7,8 +7,8 @@ class ErrorBoundary extends React.Component {
     // Display fallback UI
     this.setState({ hasError: true })
     // You can also log the error to an error reporting service
-    console.error(error)
-    console.log(info)
+    console.error(JSON.stringify(error))
+    console.log(JSON.stringify(info))
   }
 
   public render() {
