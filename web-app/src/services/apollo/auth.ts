@@ -7,9 +7,11 @@ export const setAuthToken = (token: string | null) => {
 }
 
 export const authorizeHeaders = (operation: Operation) => {
-	operation.setContext({
-		headers: {
-			token: authToken
-		}
-	})
+	if (authToken) {
+		operation.setContext({
+			headers: {
+				'Authorization': authToken
+			}
+		})
+	}
 }

@@ -6,7 +6,10 @@ import * as selectors from '../../selectors'
 export default {
 	setEnv: assign({
 		env: (context: CR.MachineContext, event: CR.MachineEvent) => {
-			return event.payload.env
+			return {
+				...context.env,
+				...event.payload.env
+			}
 		}
 	}),
 	continueTutorial: assign({

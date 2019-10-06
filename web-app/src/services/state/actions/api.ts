@@ -6,6 +6,7 @@ import channel from '../../../services/channel'
 
 export default {
 	authenticate: (async (context: CR.MachineContext): Promise<void> => {
+
 		const result = await client.mutate({
 			mutation: authenticateMutation,
 			variables: {
@@ -15,9 +16,10 @@ export default {
 			}
 		})
 
+
 		if (!result || !result.data) {
 			// TODO: handle failed authentication
-			console.log('unauthenticated')
+			console.error('ERROR: Authentication failed')
 		}
 		const {token} = result.data.editorLogin
 		// add token to headers
