@@ -1,5 +1,5 @@
 {
-  "name": "coderoad-vscode",
+  "name": "coderoad",
   "version": "0.0.1",
   "description": "Interactive tutorials in your editor",
   "homepage": "https://github.com/shmck/coderoad-vscode/README.md",
@@ -24,16 +24,13 @@
     "postinstall": "node ./node_modules/vscode/bin/install",
     "machine": "node ./out/state/index.js",
     "storybook": "cd web-app && npm run storybook",
-    "test:ext": "node ./build/test/runTest.js",
     "test": "jest",
+    "test:ext": "node ./build/test/runTest.js",
     "vscode:prepublish": "npm run build",
     "watch": "tsc -watch -p ./"
   },
   "dependencies": {
-    "@types/mocha": "^5.2.7",
-    "dotenv": "^8.1.0",
     "jsdom": "^15.1.1",
-    "vscode": "^1.1.36",
     "xstate": "^4.6.7"
   },
   "devDependencies": {
@@ -42,15 +39,18 @@
     "@types/glob": "^7.1.1",
     "@types/graphql": "^14.5.0",
     "@types/jsdom": "^12.2.4",
-    "@types/node": "^12.7.11",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.7.12",
     "assert": "^2.0.0",
-    "concurrently": "^4.1.2",
+    "concurrently": "^5.0.0",
+    "dotenv": "^8.1.0",
     "glob": "^7.1.4",
     "mocha": "^6.2.1",
     "prettier": "^1.18.2",
     "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.6.3",
+    "typescript": "^3.6.4",
+    "vscode": "^1.1.36",
     "vscode-test": "^1.2.0"
   },
   "engines": {
@@ -76,5 +76,5 @@
     "color": "#C80000",
     "theme": "dark"
   },
-  "publisher": "Shawn McKay"
+  "publisher": "CodeRoad"
 }
