@@ -43,6 +43,7 @@ export default gql`
 							commits
 							commands
 							files
+							}
 						}
 					}
 				}
