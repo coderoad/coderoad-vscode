@@ -5,7 +5,6 @@ import * as tutorial from './tutorial'
 
 export const defaultPosition = () => ({
 	levelId: '',
-	stageId: '',
 	stepId: ''
 })
 
@@ -13,9 +12,8 @@ export const initialPosition = createSelector(
 	tutorial.currentVersion,
 	(version: G.TutorialVersion) => {
 		const position: CR.Position = {
-			levelId: version.levels[0].id,
-			stageId: version.levels[0].stages[0].id,
-			stepId: version.levels[0].stages[0].steps[0].id,
+			levelId: version.data.levels[0].id,
+			stepId: version.data.levels[0].steps[0].id,
 		}
 		return position
 	}

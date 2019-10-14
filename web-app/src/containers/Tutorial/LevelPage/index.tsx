@@ -28,7 +28,7 @@ const LevelSummaryPageContainer = (props: ContainerProps) => {
     throw new Error('Tutorial not found in LevelSummaryPageContainer')
   }
 
-  const level: G.Level | undefined = tutorial.version.levels.find((l: G.Level) => l.id === position.levelId)
+  const level: G.Level | undefined = tutorial.version.data.levels.find((l: G.Level) => l.id === position.levelId)
 
   if (!level) {
     throw new Error('Level not found in LevelSummaryPageContainer')

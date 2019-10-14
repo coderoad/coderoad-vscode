@@ -14,10 +14,9 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 		context: {
 			env: {machineId: '', sessionId: '', token: ''},
 			tutorial: null,
-			position: {levelId: '', stageId: '', stepId: ''},
+			position: {levelId: '', stepId: ''},
 			progress: {
 				levels: {},
-				stages: {},
 				steps: {},
 				complete: false
 			}
