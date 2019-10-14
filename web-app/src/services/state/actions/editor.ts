@@ -5,6 +5,15 @@ import channel from '../../channel'
 import client from '../../apollo'
 import tutorialQuery from '../../apollo/queries/tutorial'
 
+interface TutorialData {
+	tutorial: G.Tutorial
+}
+
+interface TutorialDataVariables {
+	tutorialId: string
+	version: string
+}
+
 export default {
 	loadEnv() {
 		channel.editorSend({
@@ -34,7 +43,7 @@ export default {
 			throw new Error('Tutorial not available to load')
 		}
 
-		client.query({
+		client.query<TutorialData, TutorialDataVariables>({
 			query: tutorialQuery,
 			variables: {
 				tutorialId: context.tutorial.id,

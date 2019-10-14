@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as G from 'typings/graphql'
 import * as CR from 'typings'
 import { useQuery } from '@apollo/react-hooks'
 
@@ -11,13 +12,22 @@ interface PageProps {
   send(action: CR.Action): void
 }
 
+interface TutorialData {
+  tutorial: G.Tutorial
+}
+
+interface TutorialDataVariables {
+  tutorialId: string
+  version: string
+}
+
 const SummaryPage = (props: PageProps) => {
   const { tutorial } = props.context
 
   if (!tutorial) {
     throw new Error('Tutorial not found in summary page')
   }
-  const { loading, error, data } = useQuery(queryTutorial, {
+  const { loading, error, data } = useQuery<TutorialData, TutorialDataVariables>(queryTutorial, {
     fetchPolicy: 'network-only', // for debugging purposes
     variables: {
       tutorialId: tutorial.id,
@@ -33,6 +43,10 @@ const SummaryPage = (props: PageProps) => {
     return <ErrorView error={error} />
   }
 
+  if (!data) {
+    return null
+  }
+
   const onNext = () =>
     props.send({
       type: 'LOAD_TUTORIAL',
@@ -41,9 +55,9 @@ const SummaryPage = (props: PageProps) => {
       },
     })
 
-  const { title, text } = data.tutorial
+  const { title, description } = data.tutorial.version.summary
 
-  return <Summary title={title} text={text} onNext={onNext} />
+  return <Summary title={title} description={description} onNext={onNext} />
 }
 
 export default SummaryPage

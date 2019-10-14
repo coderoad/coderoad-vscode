@@ -15,16 +15,17 @@ const tutorialConfig = async ({tutorial, alreadyConfigured, onComplete}: Tutoria
 		await git.initIfNotExists()
 
 		// TODO: if remote not already set
-		await git.setupRemote(tutorial.repo.uri)
+		await git.setupRemote(tutorial.version.data.config.repo.uri)
 		if (onComplete) {onComplete()}
 	}
 
 	// TODO: allow multiple coding languages in a tutorial
-	const language = tutorial.codingLanguage.toLowerCase()
+	const languages: G.CodingLanguage[] = tutorial.version.data.config.codingLanguages
 
 	// setup onSave hook
 	vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
-		if (document.uri.scheme === 'file' && language === document.languageId) {
+		// @ts-ignore // issue with GQL enums in TS
+		if (document.uri.scheme === 'file' && languages.includes(document.languageId.toUpperCase())) {
 			vscode.commands.executeCommand('coderoad.run_test')
 		}
 	})

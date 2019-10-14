@@ -82,7 +82,7 @@ class Channel implements Channel {
 				return
 			// configure test runner, language, git
 			case 'EDITOR_TUTORIAL_CONFIG':
-				const tutorialData = action.payload.tutorial
+				const tutorialData: G.Tutorial = action.payload.tutorial
 				this.context.setTutorial(this.workspaceState, tutorialData)
 				tutorialConfig({
 					tutorial: tutorialData,
