@@ -3,53 +3,46 @@ import {gql} from 'apollo-boost'
 export default gql`
   query getTutorial($tutorialId: ID!, $version: String) {
 		tutorial(id: $tutorialId) {
-			id
-			title
-			text
-			codingLanguage
-			testRunner
-			repo {
-				uri
+		id
+		version (version: $version) {
+			version
+			summary {
+				title
+				description
 			}
-			version(version: $version) {
-				version
-				coderoadVersion
-				levels {
-					id
-					title
-					text
+			data {
+				config {
+					testRunner
+					repo {
+						uri
+					}
+				}
+				init {
 					setup {
-						id
-						commands
 						commits
+						commands
+					}
+				}
+				levels {
+					title
+					description
+					setup {
+						commits
+						commands
 						files
 					}
-					stages {
-						id
+					steps {
 						title
-						text
+						description
 						setup {
-							id
-							commands
 							commits
+							commands
 							files
 						}
-						steps {
-							id
-							title
-							text
-							setup {
-								id
-								commands
-								commits
-								files
-							}
-							solution {
-								id
-								commands
-								commits
-								files
-							}
+						solution {
+							commits
+							commands
+							files
 						}
 					}
 				}
