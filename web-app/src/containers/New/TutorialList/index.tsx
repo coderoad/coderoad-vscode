@@ -1,15 +1,15 @@
 import * as React from 'react'
 
 import channel from '../../../services/channel'
-import * as T from 'typings/graphql'
+import * as G from 'typings/graphql'
 import TutorialItem from './TutorialItem'
 
 interface Props {
-  tutorialList: T.Tutorial[]
+  tutorialList: G.Tutorial[]
 }
 
 const TutorialList = (props: Props) => {
-  const onSelect = (tutorial: T.Tutorial) => {
+  const onSelect = (tutorial: G.Tutorial) => {
     channel.machineSend({
       type: 'TUTORIAL_START',
       payload: {
@@ -19,7 +19,7 @@ const TutorialList = (props: Props) => {
   }
   return (
     <div>
-      {props.tutorialList.map((tutorial: T.Tutorial) => (
+      {props.tutorialList.map((tutorial: G.Tutorial) => (
         <TutorialItem
           key={tutorial.id}
           onSelect={() => onSelect(tutorial)}

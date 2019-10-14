@@ -1,74 +1,71 @@
-import { Step } from '@alifd/next'
+import { Button, Step } from '@alifd/next'
 import * as React from 'react'
-import * as T from 'typings/graphql'
+import * as G from 'typings/graphql'
 
 import Markdown from '../../../../components/Markdown'
-import LevelStageSummary from './LevelStageSummary'
+import StepDescription from './StepDescription'
 
 const styles = {
-  card: {},
+  card: {
+    padding: 0,
+  },
   content: {
     padding: '0rem 1rem',
     paddingBottom: '1rem',
-  },
-  list: {
-    padding: '0rem',
   },
   options: {
     padding: '0rem 1rem',
   },
   steps: {
-    padding: '1rem 0.5rem',
+    padding: '1rem 0rem',
   },
   title: {},
 }
 
 interface Props {
-  level: T.Level
-  onNext(): void
+  level: G.Level
+  onContinue(): void
+  onLoadSolution(): void
 }
 
-const Level = ({ level, onNext }: Props) => {
-  if (!level || !level.stages) {
-    throw new Error('No level stages found')
+const Level = ({ level, onContinue, onLoadSolution }: Props) => {
+  if (!level.steps) {
+    throw new Error('No Stage steps found')
   }
-  const activeIndex = level.stages.findIndex((stage: T.Stage | null) => stage && stage.status === 'ACTIVE') || 0
+
+  // grab the active step
+  const activeIndex: number = level.steps.findIndex((step: G.Step | null) => {
+    return step && step.status === 'ACTIVE'
+  })
+
   return (
     <div style={styles.card}>
       <div style={styles.content}>
         <h2 style={styles.title}>{level.title}</h2>
-        <Markdown>{level.text || ''}</Markdown>
+        <Markdown>{level.description || ''}</Markdown>
       </div>
       <div style={styles.steps}>
-        <Step current={activeIndex} direction="ver" animation={false}>
-          {level.stages.map((stage: T.Stage | null, index: number) => {
-            if (!stage) {
+        <Step current={activeIndex} direction="ver" shape="dot" animation readOnly>
+          {level.steps.map((step: G.Step | null, index: number) => {
+            if (!step) {
               return null
             }
-            const active = stage.status === 'ACTIVE'
-            const clickHandler = active
-              ? onNext
-              : () => {
-                  /* empty */
-                }
-            // note - must add click handler to title, content & step.item
-            // as all are separated components
             return (
               <Step.Item
-                key={stage.id}
-                style={{ backgroundColor: 'blue' }}
-                title={
-                  <span className={active ? 'hover-select' : ''} onClick={clickHandler}>
-                    {stage.title || `Stage ${index + 1}`}
-                  </span>
-                }
-                content={<LevelStageSummary key={stage.id} stage={stage} onNext={clickHandler} />}
-                onClick={clickHandler}
+                key={step.id}
+                title={step.title || `Step ${index + 1}`}
+                content={<StepDescription text={step.description} mode={step.status} onLoadSolution={onLoadSolution} />}
               />
             )
           })}
         </Step>
       </div>
+
+      {level.status === 'COMPLETE' && (
+        <div style={styles.options}>
+          <Button onClick={onContinue}>Continue</Button>
+        </div>
+      )}
     </div>
   )
 }

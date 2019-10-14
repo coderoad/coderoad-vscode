@@ -42,7 +42,7 @@ export function loadCommit(commit: string): Promise<void> {
 
 /* 
     save commit
-    git commit -am '${level}/${stage}/${step} complete'
+    git commit -am '${level}/${step} complete'
 */
 
 export async function saveCommit(message: string): Promise<void> {

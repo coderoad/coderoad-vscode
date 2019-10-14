@@ -78,16 +78,6 @@ export default {
 			})
 		}
 	},
-	loadStage(context: CR.MachineContext): void {
-		const stage: G.Stage = selectors.currentStage(context)
-		if (stage.setup) {
-			// load step actions	
-			channel.editorSend({
-				type: 'SETUP_ACTIONS',
-				payload: stage.setup,
-			})
-		}
-	},
 	loadStep(context: CR.MachineContext): void {
 		const step: G.Step = selectors.currentStep(context)
 		if (step.setup) {

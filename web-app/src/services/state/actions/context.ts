@@ -53,8 +53,8 @@ export default {
 			const {position} = context
 			// merge in the updated position
 			// sent with the test to ensure consistency
-			const stage: G.Stage = selectors.currentStage(context)
-			const steps: G.Step[] = stage.steps
+			const level: G.Level = selectors.currentLevel(context)
+			const steps: G.Step[] = level.steps
 
 			// final step but not completed
 			if (steps[steps.length - 1].id === position.stepId) {
@@ -135,7 +135,11 @@ export default {
 
 		// has next level?
 
-		const levels = context?.tutorial?.version.data.levels ?? []
+		if (!context.tutorial) {
+			throw new Error('Tutorial not found')
+		}
+
+		const levels = context.tutorial.version.data.levels || []
 		const levelIndex = levels.findIndex((l: G.Level) => l.id === position.levelId)
 		const finalLevel = (levelIndex > -1 && levelIndex === levels.length - 1)
 		const hasNextLevel = (!finalLevel)
@@ -176,7 +180,7 @@ export default {
 			}
 		} else {
 			return {
-				type: 'STAGE_COMPLETE'
+				type: 'LEVEL_COMPLETE'
 			}
 		}
 	}),

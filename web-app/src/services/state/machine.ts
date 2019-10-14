@@ -65,7 +65,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 					ContinueTutorial: {
 						on: {
 							TUTORIAL_START: {
-								target: '#tutorial-stage',
+								target: '#tutorial-level',
 								actions: ['continueConfig'],
 							},
 							TUTORIAL_SELECT: 'SelectTutorial'
@@ -85,25 +85,6 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 							// TUTORIAL_CONFIG_ERROR: 'Start' // TODO: should handle error
 						}
 					},
-					LoadNext: {
-						id: 'tutorial-load-next',
-						onEntry: ['loadNext'],
-						on: {
-							NEXT_STEP: {
-								target: 'Stage',
-								actions: ['updatePosition']
-							},
-							NEXT_STAGE: {
-								target: 'Stage',
-								actions: ['updatePosition']
-							},
-							NEXT_LEVEL: {
-								target: 'Level',
-								actions: ['updatePosition']
-							},
-							COMPLETED: '#completed-tutorial'
-						}
-					},
 					Summary: {
 						on: {
 							LOAD_TUTORIAL: {
@@ -112,24 +93,32 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 							}
 						},
 					},
-					Level: {
-						onEntry: ['loadLevel'],
+					LoadNext: {
+						id: 'tutorial-load-next',
+						onEntry: ['loadNext'],
 						on: {
-							NEXT: 'Stage',
-							BACK: 'Summary',
-						},
+							NEXT_STEP: {
+								target: 'Level',
+								actions: ['updatePosition']
+							},
+							NEXT_LEVEL: {
+								target: 'Level', // TODO should return to levels summary page
+								actions: ['updatePosition']
+							},
+							COMPLETED: '#completed-tutorial'
+						}
 					},
-					Stage: {
+					Level: {
 						initial: 'Load',
 						states: {
 							Load: {
-								onEntry: ['loadStage', 'loadStep'],
+								onEntry: ['loadLevel', 'loadStep'],
 								after: {
 									0: 'Normal'
 								}
 							},
 							Normal: {
-								id: 'tutorial-stage',
+								id: 'tutorial-level',
 								on: {
 									TEST_RUNNING: 'TestRunning',
 									STEP_SOLUTION_LOAD: {
@@ -167,16 +156,16 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 										target: 'Normal',
 										actions: ['loadStep']
 									},
-									STAGE_COMPLETE: {
-										target: "StageComplete",
-										actions: ['updateStageProgress']
+									LEVEL_COMPLETE: {
+										target: "LevelComplete",
+										actions: ['updateLevelProgress']
 									}
 								}
 							},
-							StageComplete: {
+							LevelComplete: {
 								onEntry: ['syncProgress'],
 								on: {
-									STAGE_NEXT: '#tutorial-load-next',
+									LEVEL_NEXT: '#tutorial-load-next',
 								},
 							},
 						},

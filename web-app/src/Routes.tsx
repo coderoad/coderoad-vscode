@@ -8,7 +8,6 @@ import ContinuePage from './containers/Continue'
 import NewPage from './containers/New'
 import SummaryPage from './containers/Tutorial/SummaryPage'
 import LevelSummaryPage from './containers/Tutorial/LevelPage'
-import StageSummaryPage from './containers/Tutorial/StagePage'
 import CompletedPage from './containers/Tutorial/CompletedPage'
 
 const { Route } = Router
@@ -39,9 +38,6 @@ const Routes = () => {
         </Route>
         <Route path="Tutorial.Level">
           <LevelSummaryPage send={tempSend} context={{} as CR.MachineContext} />
-        </Route>
-        <Route path="Tutorial.Stage">
-          <StageSummaryPage send={tempSend} context={{} as CR.MachineContext} />
         </Route>
         <Route path="Tutorial.Completed">
           <CompletedPage send={tempSend} context={{} as CR.MachineContext} />

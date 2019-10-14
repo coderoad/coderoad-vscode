@@ -1,50 +1,45 @@
 import * as React from 'react'
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
+import * as selectors from '../../../services/selectors'
 
 import Level from './Level'
 
-interface LevelProps {
-  level: G.Level
-  send(action: string): void
-}
-
-export const LevelSummaryPage = (props: LevelProps) => {
-  const onNext = (): void => {
-    props.send('NEXT')
-  }
-  return <Level level={props.level} onNext={onNext} />
-}
-
-interface ContainerProps {
+interface PageProps {
   context: CR.MachineContext
-  send(action: string): void
+  send(action: CR.Action): void
 }
 
-const LevelSummaryPageContainer = (props: ContainerProps) => {
-  const { tutorial, position, progress } = props.context
+const LevelSummaryPageContainer = (props: PageProps) => {
+  const { position, progress } = props.context
 
-  if (!tutorial) {
-    throw new Error('Tutorial not found in LevelSummaryPageContainer')
+  const level: G.Level = selectors.currentLevel(props.context)
+
+  const onContinue = (): void => {
+    props.send({
+      type: 'LEVEL_NEXT',
+      payload: {
+        LevelId: position.levelId,
+      },
+    })
   }
 
-  const level: G.Level | undefined = tutorial.version.data.levels.find((l: G.Level) => l.id === position.levelId)
-
-  if (!level) {
-    throw new Error('Level not found in LevelSummaryPageContainer')
+  const onLoadSolution = (): void => {
+    props.send({ type: 'STEP_SOLUTION_LOAD' })
   }
 
-  level.stages.forEach((stage: G.Stage) => {
-    if (stage.id === position.stageId) {
-      stage.status = 'ACTIVE'
-    } else if (progress.stages[stage.id]) {
-      stage.status = 'COMPLETE'
+  level.steps.forEach((step: G.Step) => {
+    if (progress.steps[step.id]) {
+      step.status = 'COMPLETE'
+    } else if (step.id === position.stepId) {
+      step.status = 'ACTIVE'
     } else {
-      stage.status = 'INCOMPLETE'
+      step.status = 'INCOMPLETE'
     }
   })
+  level.status = progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE'
 
-  return <LevelSummaryPage level={level} send={props.send} />
+  return <Level level={level} onContinue={onContinue} onLoadSolution={onLoadSolution} />
 }
 
 export default LevelSummaryPageContainer
