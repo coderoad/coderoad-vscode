@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import * as T from 'typings/graphql'
+import * as G from 'typings/graphql'
 import * as CR from 'typings'
 
 import queryTutorials from '../../services/apollo/queries/tutorials'
@@ -9,7 +9,7 @@ import ErrorView from '../../components/Error'
 import TutorialList from './TutorialList'
 
 interface Props {
-  tutorialList: T.Tutorial[]
+  tutorialList: G.Tutorial[]
 }
 
 export const NewPage = (props: Props) => (
@@ -25,14 +25,22 @@ interface ContainerProps {
   send(action: CR.Action): void
 }
 
+interface TutorialsData {
+  tutorials: G.Tutorial[]
+}
+
 const NewPageContainer = (props: ContainerProps) => {
-  const { data, loading, error } = useQuery(queryTutorials)
+  const { data, loading, error } = useQuery<TutorialsData>(queryTutorials)
   if (loading) {
     return <Loading />
   }
 
   if (error) {
     return <ErrorView error={error} />
+  }
+
+  if (!data) {
+    return null
   }
 
   return (

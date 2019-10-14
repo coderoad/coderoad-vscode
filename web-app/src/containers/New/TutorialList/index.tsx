@@ -9,26 +9,26 @@ interface Props {
 }
 
 const TutorialList = (props: Props) => {
-	const onSelect = (tutorial: T.Tutorial) => {
-		channel.machineSend({
-			type: 'TUTORIAL_START',
-			payload: {
-				tutorial,
-			}
-		})
-	}
-	return (
-		<div>
-			{props.tutorialList.map((tutorial: T.Tutorial) => (
-				<TutorialItem
-					key={tutorial.id}
-					onSelect={() => onSelect(tutorial)}
-					title={tutorial.title || ''}
-					text={tutorial.text || ''}
-				/>
-			))}
-		</div>
-	)
+  const onSelect = (tutorial: T.Tutorial) => {
+    channel.machineSend({
+      type: 'TUTORIAL_START',
+      payload: {
+        tutorial,
+      },
+    })
+  }
+  return (
+    <div>
+      {props.tutorialList.map((tutorial: T.Tutorial) => (
+        <TutorialItem
+          key={tutorial.id}
+          onSelect={() => onSelect(tutorial)}
+          title={tutorial.version.summary.title || ''}
+          text={tutorial.version.summary.description || ''}
+        />
+      ))}
+    </div>
+  )
 }
 
 export default TutorialList
