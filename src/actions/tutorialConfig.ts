@@ -19,13 +19,13 @@ const tutorialConfig = async ({tutorial, alreadyConfigured, onComplete}: Tutoria
 		if (onComplete) {onComplete()}
 	}
 
-	// TODO: allow multiple coding languages in a tutorial
-	const languages: G.CodingLanguage[] = tutorial.version.data.config.codingLanguages
+	// allow multiple coding languages in a tutorial
+	const languages: string[] = tutorial.version.data.config.codingLanguages.map(lang => lang.toLowerCase())
 
 	// setup onSave hook
 	vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
 		// @ts-ignore // issue with GQL enums in TS
-		if (document.uri.scheme === 'file' && languages.includes(document.languageId.toUpperCase())) {
+		if (document.uri.scheme === 'file' && languages.includes(document.languageId)) {
 			vscode.commands.executeCommand('coderoad.run_test')
 		}
 	})

@@ -13,6 +13,7 @@ export default gql`
 			data {
 				config {
 					testRunner
+					codingLanguages
 					repo {
 						uri
 					}

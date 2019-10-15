@@ -16,10 +16,10 @@ class Storage<T> {
 		this.defaultValue = defaultValue
 	}
 	public get = async (): Promise<T> => {
-		const value: string | undefined = await this.storage.get(this.key)
-		if (value) {
-			return JSON.parse(value)
-		}
+		// const value: string | undefined = await this.storage.get(this.key)
+		// if (value) {
+		// 	return JSON.parse(value)
+		// }
 		return this.defaultValue
 	}
 	public set = (value: T): void => {

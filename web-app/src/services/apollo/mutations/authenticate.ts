@@ -4,7 +4,7 @@ export default gql`
   mutation Authenticate(
     $machineId: String!,
     $sessionId: String!,
-    $editor: EditorEnum!
+    $editor: Editor!
 	) {
 			editorLogin(input: {
 					machineId: $machineId,

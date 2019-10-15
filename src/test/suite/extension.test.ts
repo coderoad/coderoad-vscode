@@ -15,7 +15,6 @@ suite('Extension tests', () => {
 		await vscode.commands.executeCommand('coderoad.start')
 		await setTimeout(() => Promise.resolve(), 5000)
 		// const webview = vscode.window.activeTextEditor
-		// console.log(webview)
 		assert.equal(2, 2)
 	})
 
