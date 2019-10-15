@@ -94,6 +94,19 @@ export default {
 		},
 	}),
 	// @ts-ignore
+	updateLevelProgress: assign({
+		progress: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
+			// update progress by tracking completed
+			const {progress, position} = context
+
+			const levelId: string = position.levelId
+
+			progress.levels[levelId] = true
+
+			return progress
+		},
+	}),
+	// @ts-ignore
 	updateStepProgress: assign({
 		progress: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
 			// update progress by tracking completed
