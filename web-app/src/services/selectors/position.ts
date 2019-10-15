@@ -11,9 +11,10 @@ export const defaultPosition = () => ({
 export const initialPosition = createSelector(
 	tutorial.currentVersion,
 	(version: G.TutorialVersion) => {
+		const level = version.data.levels[0]
 		const position: CR.Position = {
-			levelId: version.data.levels[0].id,
-			stepId: version.data.levels[0].steps[0].id,
+			levelId: level.id,
+			stepId: level.steps[0].id,
 		}
 		return position
 	}

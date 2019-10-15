@@ -25,6 +25,7 @@ export default gql`
 					}
 				}
 				levels {
+					id
 					title
 					description
 					setup {
@@ -33,6 +34,7 @@ export default gql`
 						files
 					}
 					steps {
+						id
 						title
 						description
 						setup {
