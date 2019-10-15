@@ -40,8 +40,10 @@ const runCommands = async (commands: string[], language: string = 'JAVASCRIPT') 
 
 const setupActions = async (workspaceRoot: vscode.WorkspaceFolder, {commands, commits, files}: G.StepActions): Promise<void> => {
 	// run commits
-	for (const commit of commits) {
-		await git.loadCommit(commit)
+	if (commits) {
+		for (const commit of commits) {
+			await git.loadCommit(commit)
+		}
 	}
 
 	// run command
