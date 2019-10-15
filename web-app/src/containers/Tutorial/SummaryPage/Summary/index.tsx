@@ -16,15 +16,15 @@ const styles = {
 
 interface Props {
   title: string
-  text: string
+  description: string
   onNext(): void
 }
 
-const Summary = ({ title, text, onNext }: Props) => (
+const Summary = ({ title, description, onNext }: Props) => (
   <div style={styles.card}>
     <div style={styles.content}>
       <h2 style={styles.title}>{title}</h2>
-      <p>{text}</p>
+      <p>{description}</p>
     </div>
     <div style={styles.options}>
       <Button onClick={() => onNext()}>Continue</Button>

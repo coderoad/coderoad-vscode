@@ -15,7 +15,7 @@ export type Scalars = {
 };
 
 
-export enum CodingLanguageEnum {
+export enum CodingLanguage {
 	Javascript = 'JAVASCRIPT'
 }
 
@@ -24,13 +24,27 @@ export type CreateTokenInput = {
 	accessToken: Scalars['String'],
 };
 
+export type CreateTutorialSummaryInput = {
+	title: Scalars['String'],
+	description: Scalars['String'],
+};
 
-export enum EditorEnum {
+export type CreateTutorialVersionInput = {
+	data: Scalars['JSON'],
+};
+
+export type CreateTutorialVersionOutput = {
+	__typename?: 'createTutorialVersionOutput',
+	success?: Maybe<Scalars['Boolean']>,
+};
+
+
+export enum Editor {
 	Vscode = 'VSCODE'
 }
 
 export type EditorLoginInput = {
-	editor: EditorEnum,
+	editor: Editor,
 	machineId: Scalars['String'],
 	sessionId: Scalars['String'],
 };
@@ -41,6 +55,7 @@ export type EditorLoginOutput = {
 	token: Scalars['String'],
 };
 
+/** Information linked from a GitHub account */
 export type GithubUser = {
 	__typename?: 'GithubUser',
 	id: Scalars['ID'],
@@ -52,25 +67,23 @@ export type GithubUser = {
 
 
 
+/** Logical groupings of tasks */
 export type Level = {
 	__typename?: 'Level',
 	id: Scalars['ID'],
 	title: Scalars['String'],
-	text: Scalars['String'],
-	stage?: Maybe<Stage>,
-	stages: Array<Stage>,
+	description: Scalars['String'],
+	steps: Array<Step>,
 	setup?: Maybe<StepActions>,
 	status: 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE',
 };
 
-
-export type LevelStageArgs = {
-	stageId: Scalars['ID']
-};
-
 export type Mutation = {
 	__typename?: 'Mutation',
+	/** Login used from a coding editor */
 	editorLogin?: Maybe<EditorLoginOutput>,
+	/** Create a new tutorial */
+	createTutorialVersion?: Maybe<CreateTutorialVersionOutput>,
 };
 
 
@@ -78,39 +91,20 @@ export type MutationEditorLoginArgs = {
 	input: EditorLoginInput
 };
 
+
+export type MutationCreateTutorialVersionArgs = {
+	input: CreateTutorialVersionInput
+};
+
 export type Query = {
 	__typename?: 'Query',
 	tutorial?: Maybe<Tutorial>,
 	tutorials?: Maybe<Array<Maybe<Tutorial>>>,
-	user?: Maybe<User>,
-	level?: Maybe<Level>,
-	stage?: Maybe<Stage>,
-	step?: Maybe<Step>,
-	stepActions?: Maybe<StepActions>,
+	viewer?: Maybe<User>,
 };
 
 
 export type QueryTutorialArgs = {
-	id: Scalars['ID']
-};
-
-
-export type QueryLevelArgs = {
-	id: Scalars['ID']
-};
-
-
-export type QueryStageArgs = {
-	id: Scalars['ID']
-};
-
-
-export type QueryStepArgs = {
-	id: Scalars['ID']
-};
-
-
-export type QueryStepActionsArgs = {
 	id: Scalars['ID']
 };
 
@@ -119,108 +113,105 @@ export enum Role {
 	EditorUser = 'EDITOR_USER'
 }
 
-export type Stage = {
-	__typename?: 'Stage',
-	id: Scalars['ID'],
-	title: Scalars['String'],
-	text: Scalars['String'],
-	step?: Maybe<Step>,
-	steps: Array<Step>,
-	setup?: Maybe<StepActions>,
-	status: 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE',
-};
-
-
-export type StageStepArgs = {
-	stepId: Scalars['ID']
-};
-
+/** A level task */
 export type Step = {
 	__typename?: 'Step',
 	id: Scalars['ID'],
 	title: Scalars['String'],
-	text: Scalars['String'],
-	setup?: Maybe<StepActions>,
-	solution?: Maybe<StepActions>,
+	description: Scalars['String'],
+	setup: StepActions,
+	solution: StepActions,
 	status: 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE',
 };
 
+/** Load commits, open files or run commands */
 export type StepActions = {
 	__typename?: 'StepActions',
 	id: Scalars['ID'],
 	commits: Array<Scalars['Commit']>,
-	files: Array<Scalars['String']>,
-	commands: Array<Scalars['String']>,
+	files?: Maybe<Array<Scalars['String']>>,
+	commands?: Maybe<Array<Scalars['String']>>,
 };
 
-export enum TestRunnerEnum {
+export enum TestRunner {
 	Jest = 'JEST'
 }
 
+/** A tutorial for use in VSCode CodeRoad */
 export type Tutorial = {
 	__typename?: 'Tutorial',
 	id: Scalars['ID'],
-	repo: TutorialRepo,
 	createdBy: User,
 	createdAt: Scalars['DateTime'],
-	updatedBy: User,
-	updatedAt: Scalars['DateTime'],
-	codingLanguage: CodingLanguageEnum,
-	testRunner: TestRunnerEnum,
-	title: Scalars['String'],
-	text: Scalars['String'],
-	releasedAt?: Maybe<Scalars['DateTime']>,
-	releasedBy?: Maybe<User>,
 	version: TutorialVersion,
 	versions: Array<TutorialVersion>,
-	completed: Scalars['Boolean'],
+	completed?: Maybe<Scalars['Boolean']>,
 };
 
 
+/** A tutorial for use in VSCode CodeRoad */
 export type TutorialVersionArgs = {
 	version?: Maybe<Scalars['String']>
 };
 
-export type TutorialRepo = {
-	__typename?: 'TutorialRepo',
-	tutorialId: Scalars['ID'],
-	uri: Scalars['String'],
-	branch: Scalars['String'],
-	name: Scalars['String'],
-	owner: Scalars['String'],
+/** Configure environment in editor for git, testing & parsing files */
+export type TutorialConfig = {
+	__typename?: 'TutorialConfig',
+	testRunner: TestRunner,
+	codingLanguages: Array<CodingLanguage>,
+	repo: TutorialRepo,
 };
 
+/** Data for tutorial */
+export type TutorialData = {
+	__typename?: 'TutorialData',
+	config: TutorialConfig,
+	init?: Maybe<TutorialInit>,
+	levels: Array<Level>,
+};
+
+/** Data that loads on startup */
+export type TutorialInit = {
+	__typename?: 'TutorialInit',
+	setup?: Maybe<StepActions>,
+};
+
+/** Repo referenced by commmits in the tutorial */
+export type TutorialRepo = {
+	__typename?: 'TutorialRepo',
+	uri: Scalars['String'],
+	branch: Scalars['String'],
+	name?: Maybe<Scalars['String']>,
+	owner?: Maybe<Scalars['String']>,
+};
+
+/** Summary of tutorial used when selecting tutorial */
+export type TutorialSummary = {
+	__typename?: 'TutorialSummary',
+	title: Scalars['String'],
+	description: Scalars['String'],
+};
+
+/** A version of a tutorial */
 export type TutorialVersion = {
 	__typename?: 'TutorialVersion',
 	tutorialId: Scalars['ID'],
 	version: Scalars['String'],
-	coderoadVersion: Scalars['String'],
 	createdAt: Scalars['DateTime'],
 	createdBy: User,
+	updatedBy: User,
+	updatedAt: Scalars['DateTime'],
 	publishedAt?: Maybe<Scalars['DateTime']>,
 	publishedBy?: Maybe<User>,
-	level?: Maybe<Level>,
-	levels: Array<Level>,
-	stage?: Maybe<Stage>,
-	step?: Maybe<Step>,
-	completed: Scalars['Boolean'],
+	summary: TutorialSummary,
+	data: TutorialData,
+	completed?: Maybe<Scalars['Boolean']>,
 };
 
-
-export type TutorialVersionLevelArgs = {
-	levelId: Scalars['ID']
-};
-
-
-export type TutorialVersionStageArgs = {
-	stageId: Scalars['ID']
-};
-
-
-export type TutorialVersionStepArgs = {
-	stepId: Scalars['ID']
-};
-
+/** 
+ * Users is useful for tracking completion progress
+ * & credit for tutorial creation/contributions
+ **/
 export type User = {
 	__typename?: 'User',
 	id: Scalars['ID'],
@@ -233,10 +224,6 @@ export type User = {
 	githubUser?: Maybe<GithubUser>,
 };
 
-export type TutorialSummaryFragment = (
-	{__typename?: 'Tutorial'}
-	& Pick<Tutorial, 'title' | 'text'>
-);
 
 
 
@@ -312,28 +299,34 @@ export type ResolversTypes = {
 	Query: ResolverTypeWrapper<{}>,
 	ID: ResolverTypeWrapper<Scalars['ID']>,
 	Tutorial: ResolverTypeWrapper<Tutorial>,
-	TutorialRepo: ResolverTypeWrapper<TutorialRepo>,
-	String: ResolverTypeWrapper<Scalars['String']>,
 	User: ResolverTypeWrapper<User>,
+	String: ResolverTypeWrapper<Scalars['String']>,
 	DateTime: ResolverTypeWrapper<Scalars['DateTime']>,
 	GithubUser: ResolverTypeWrapper<GithubUser>,
-	CodingLanguageEnum: CodingLanguageEnum,
-	TestRunnerEnum: TestRunnerEnum,
 	TutorialVersion: ResolverTypeWrapper<TutorialVersion>,
-	Level: ResolverTypeWrapper<Level>,
-	Stage: ResolverTypeWrapper<Stage>,
-	Step: ResolverTypeWrapper<Step>,
+	TutorialSummary: ResolverTypeWrapper<TutorialSummary>,
+	TutorialData: ResolverTypeWrapper<TutorialData>,
+	TutorialConfig: ResolverTypeWrapper<TutorialConfig>,
+	TestRunner: TestRunner,
+	CodingLanguage: CodingLanguage,
+	TutorialRepo: ResolverTypeWrapper<TutorialRepo>,
+	TutorialInit: ResolverTypeWrapper<TutorialInit>,
 	StepActions: ResolverTypeWrapper<StepActions>,
 	Commit: ResolverTypeWrapper<Scalars['Commit']>,
+	Level: ResolverTypeWrapper<Level>,
+	Step: ResolverTypeWrapper<Step>,
 	Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
 	Mutation: ResolverTypeWrapper<{}>,
 	editorLoginInput: EditorLoginInput,
-	EditorEnum: EditorEnum,
+	Editor: Editor,
 	editorLoginOutput: ResolverTypeWrapper<EditorLoginOutput>,
+	createTutorialVersionInput: CreateTutorialVersionInput,
 	JSON: ResolverTypeWrapper<Scalars['JSON']>,
+	createTutorialVersionOutput: ResolverTypeWrapper<CreateTutorialVersionOutput>,
 	JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>,
 	Role: Role,
 	createTokenInput: CreateTokenInput,
+	createTutorialSummaryInput: CreateTutorialSummaryInput,
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -341,28 +334,34 @@ export type ResolversParentTypes = {
 	Query: {},
 	ID: Scalars['ID'],
 	Tutorial: Tutorial,
-	TutorialRepo: TutorialRepo,
-	String: Scalars['String'],
 	User: User,
+	String: Scalars['String'],
 	DateTime: Scalars['DateTime'],
 	GithubUser: GithubUser,
-	CodingLanguageEnum: CodingLanguageEnum,
-	TestRunnerEnum: TestRunnerEnum,
 	TutorialVersion: TutorialVersion,
-	Level: Level,
-	Stage: Stage,
-	Step: Step,
+	TutorialSummary: TutorialSummary,
+	TutorialData: TutorialData,
+	TutorialConfig: TutorialConfig,
+	TestRunner: TestRunner,
+	CodingLanguage: CodingLanguage,
+	TutorialRepo: TutorialRepo,
+	TutorialInit: TutorialInit,
 	StepActions: StepActions,
 	Commit: Scalars['Commit'],
+	Level: Level,
+	Step: Step,
 	Boolean: Scalars['Boolean'],
 	Mutation: {},
 	editorLoginInput: EditorLoginInput,
-	EditorEnum: EditorEnum,
+	Editor: Editor,
 	editorLoginOutput: EditorLoginOutput,
+	createTutorialVersionInput: CreateTutorialVersionInput,
 	JSON: Scalars['JSON'],
+	createTutorialVersionOutput: CreateTutorialVersionOutput,
 	JSONObject: Scalars['JSONObject'],
 	Role: Role,
 	createTokenInput: CreateTokenInput,
+	createTutorialSummaryInput: CreateTutorialSummaryInput,
 };
 
 export type AuthDirectiveResolver<Result, Parent, ContextType = any, Args = {requires?: Maybe<Maybe<Role>>}> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
@@ -370,6 +369,10 @@ export type AuthDirectiveResolver<Result, Parent, ContextType = any, Args = {req
 export interface CommitScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Commit'], any> {
 	name: 'Commit'
 }
+
+export type CreateTutorialVersionOutputResolvers<ContextType = any, ParentType extends ResolversParentTypes['createTutorialVersionOutput'] = ResolversParentTypes['createTutorialVersionOutput']> = {
+	success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
+};
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
 	name: 'DateTime'
@@ -399,89 +402,86 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
 export type LevelResolvers<ContextType = any, ParentType extends ResolversParentTypes['Level'] = ResolversParentTypes['Level']> = {
 	id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
 	title?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-	text?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-	stage?: Resolver<Maybe<ResolversTypes['Stage']>, ParentType, ContextType, RequireFields<LevelStageArgs, 'stageId'>>,
-	stages?: Resolver<Array<ResolversTypes['Stage']>, ParentType, ContextType>,
+	description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+	steps?: Resolver<Array<ResolversTypes['Step']>, ParentType, ContextType>,
 	setup?: Resolver<Maybe<ResolversTypes['StepActions']>, ParentType, ContextType>,
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
 	editorLogin?: Resolver<Maybe<ResolversTypes['editorLoginOutput']>, ParentType, ContextType, RequireFields<MutationEditorLoginArgs, 'input'>>,
+	createTutorialVersion?: Resolver<Maybe<ResolversTypes['createTutorialVersionOutput']>, ParentType, ContextType, RequireFields<MutationCreateTutorialVersionArgs, 'input'>>,
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
 	tutorial?: Resolver<Maybe<ResolversTypes['Tutorial']>, ParentType, ContextType, RequireFields<QueryTutorialArgs, 'id'>>,
 	tutorials?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tutorial']>>>, ParentType, ContextType>,
-	user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
-	level?: Resolver<Maybe<ResolversTypes['Level']>, ParentType, ContextType, RequireFields<QueryLevelArgs, 'id'>>,
-	stage?: Resolver<Maybe<ResolversTypes['Stage']>, ParentType, ContextType, RequireFields<QueryStageArgs, 'id'>>,
-	step?: Resolver<Maybe<ResolversTypes['Step']>, ParentType, ContextType, RequireFields<QueryStepArgs, 'id'>>,
-	stepActions?: Resolver<Maybe<ResolversTypes['StepActions']>, ParentType, ContextType, RequireFields<QueryStepActionsArgs, 'id'>>,
-};
-
-export type StageResolvers<ContextType = any, ParentType extends ResolversParentTypes['Stage'] = ResolversParentTypes['Stage']> = {
-	id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
-	title?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-	text?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-	step?: Resolver<Maybe<ResolversTypes['Step']>, ParentType, ContextType, RequireFields<StageStepArgs, 'stepId'>>,
-	steps?: Resolver<Array<ResolversTypes['Step']>, ParentType, ContextType>,
-	setup?: Resolver<Maybe<ResolversTypes['StepActions']>, ParentType, ContextType>,
+	viewer?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
 };
 
 export type StepResolvers<ContextType = any, ParentType extends ResolversParentTypes['Step'] = ResolversParentTypes['Step']> = {
 	id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
 	title?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-	text?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-	setup?: Resolver<Maybe<ResolversTypes['StepActions']>, ParentType, ContextType>,
-	solution?: Resolver<Maybe<ResolversTypes['StepActions']>, ParentType, ContextType>,
+	description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+	setup?: Resolver<ResolversTypes['StepActions'], ParentType, ContextType>,
+	solution?: Resolver<ResolversTypes['StepActions'], ParentType, ContextType>,
 };
 
 export type StepActionsResolvers<ContextType = any, ParentType extends ResolversParentTypes['StepActions'] = ResolversParentTypes['StepActions']> = {
 	id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
 	commits?: Resolver<Array<ResolversTypes['Commit']>, ParentType, ContextType>,
-	files?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>,
-	commands?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>,
+	files?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>,
+	commands?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>,
 };
 
 export type TutorialResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tutorial'] = ResolversParentTypes['Tutorial']> = {
 	id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
-	repo?: Resolver<ResolversTypes['TutorialRepo'], ParentType, ContextType>,
 	createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>,
 	createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>,
-	updatedBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>,
-	updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>,
-	codingLanguage?: Resolver<ResolversTypes['CodingLanguageEnum'], ParentType, ContextType>,
-	testRunner?: Resolver<ResolversTypes['TestRunnerEnum'], ParentType, ContextType>,
-	title?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-	text?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-	releasedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>,
-	releasedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
 	version?: Resolver<ResolversTypes['TutorialVersion'], ParentType, ContextType, TutorialVersionArgs>,
 	versions?: Resolver<Array<ResolversTypes['TutorialVersion']>, ParentType, ContextType>,
-	completed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+	completed?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
+};
+
+export type TutorialConfigResolvers<ContextType = any, ParentType extends ResolversParentTypes['TutorialConfig'] = ResolversParentTypes['TutorialConfig']> = {
+	testRunner?: Resolver<ResolversTypes['TestRunner'], ParentType, ContextType>,
+	codingLanguages?: Resolver<Array<ResolversTypes['CodingLanguage']>, ParentType, ContextType>,
+	repo?: Resolver<ResolversTypes['TutorialRepo'], ParentType, ContextType>,
+};
+
+export type TutorialDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['TutorialData'] = ResolversParentTypes['TutorialData']> = {
+	config?: Resolver<ResolversTypes['TutorialConfig'], ParentType, ContextType>,
+	init?: Resolver<Maybe<ResolversTypes['TutorialInit']>, ParentType, ContextType>,
+	levels?: Resolver<Array<ResolversTypes['Level']>, ParentType, ContextType>,
+};
+
+export type TutorialInitResolvers<ContextType = any, ParentType extends ResolversParentTypes['TutorialInit'] = ResolversParentTypes['TutorialInit']> = {
+	setup?: Resolver<Maybe<ResolversTypes['StepActions']>, ParentType, ContextType>,
 };
 
 export type TutorialRepoResolvers<ContextType = any, ParentType extends ResolversParentTypes['TutorialRepo'] = ResolversParentTypes['TutorialRepo']> = {
-	tutorialId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
 	uri?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 	branch?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-	name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-	owner?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+	name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+	owner?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+};
+
+export type TutorialSummaryResolvers<ContextType = any, ParentType extends ResolversParentTypes['TutorialSummary'] = ResolversParentTypes['TutorialSummary']> = {
+	title?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+	description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 };
 
 export type TutorialVersionResolvers<ContextType = any, ParentType extends ResolversParentTypes['TutorialVersion'] = ResolversParentTypes['TutorialVersion']> = {
 	tutorialId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
 	version?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-	coderoadVersion?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 	createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>,
 	createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>,
+	updatedBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>,
+	updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>,
 	publishedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>,
 	publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
-	level?: Resolver<Maybe<ResolversTypes['Level']>, ParentType, ContextType, RequireFields<TutorialVersionLevelArgs, 'levelId'>>,
-	levels?: Resolver<Array<ResolversTypes['Level']>, ParentType, ContextType>,
-	stage?: Resolver<Maybe<ResolversTypes['Stage']>, ParentType, ContextType, RequireFields<TutorialVersionStageArgs, 'stageId'>>,
-	step?: Resolver<Maybe<ResolversTypes['Step']>, ParentType, ContextType, RequireFields<TutorialVersionStepArgs, 'stepId'>>,
-	completed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+	summary?: Resolver<ResolversTypes['TutorialSummary'], ParentType, ContextType>,
+	data?: Resolver<ResolversTypes['TutorialData'], ParentType, ContextType>,
+	completed?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -497,6 +497,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type Resolvers<ContextType = any> = {
 	Commit?: GraphQLScalarType,
+	createTutorialVersionOutput?: CreateTutorialVersionOutputResolvers<ContextType>,
 	DateTime?: GraphQLScalarType,
 	editorLoginOutput?: EditorLoginOutputResolvers<ContextType>,
 	GithubUser?: GithubUserResolvers<ContextType>,
@@ -505,11 +506,14 @@ export type Resolvers<ContextType = any> = {
 	Level?: LevelResolvers<ContextType>,
 	Mutation?: MutationResolvers<ContextType>,
 	Query?: QueryResolvers<ContextType>,
-	Stage?: StageResolvers<ContextType>,
 	Step?: StepResolvers<ContextType>,
 	StepActions?: StepActionsResolvers<ContextType>,
 	Tutorial?: TutorialResolvers<ContextType>,
+	TutorialConfig?: TutorialConfigResolvers<ContextType>,
+	TutorialData?: TutorialDataResolvers<ContextType>,
+	TutorialInit?: TutorialInitResolvers<ContextType>,
 	TutorialRepo?: TutorialRepoResolvers<ContextType>,
+	TutorialSummary?: TutorialSummaryResolvers<ContextType>,
 	TutorialVersion?: TutorialVersionResolvers<ContextType>,
 	User?: UserResolvers<ContextType>,
 };
@@ -530,24 +534,3 @@ export type DirectiveResolvers<ContextType = any> = {
 * Use "DirectiveResolvers" root object instead. If you wish to get "IDirectiveResolvers", add "typesPrefix: I" to your config.
 */
 export type IDirectiveResolvers<ContextType = any> = DirectiveResolvers<ContextType>;
-
-export interface IntrospectionResultData {
-	__schema: {
-		types: {
-			kind: string;
-			name: string;
-			possibleTypes: {
-				name: string;
-			}[];
-		}[];
-	};
-}
-
-// @ts-ignore
-const result: IntrospectionResultData = {
-	"__schema": {
-		"types": []
-	}
-};
-
-export default result;

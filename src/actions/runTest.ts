@@ -1,6 +1,8 @@
 import * as vscode from 'vscode'
 import node from '../services/node'
 
+// TODO: use tap parser to make it easier to support other test runners
+
 // ensure only latest run_test action is taken
 let currentId = 0
 
@@ -35,12 +37,6 @@ async function runTest({onSuccess, onFail, onRun, onError}: Props): Promise<void
 
 	const outputChannelName = 'Test Output'
 
-	// TODO: validate test directory from package.json exists
-	// let testFile = path.join('test');
-	// if (!await exists(testFile)) {
-	// 	return emptyTasks;
-	// }
-
 	// TODO: verify test runner for args
 	// jest CLI docs https://jestjs.io/docs/en/cli
 	const testArgs = [
@@ -50,12 +46,6 @@ async function runTest({onSuccess, onFail, onRun, onError}: Props): Promise<void
 		'--maxConcurrency=4',
 		'--maxWorkers=4'
 	]
-
-	// if .git repo, use --onlyChanged
-	// const hasGit = path.join('.git');
-	// if (await exists(hasGit)) {
-	// 	testArgs.push('--onlyChanged')
-	// }
 
 	const commandLine = `npm test -- ${testArgs.join(' ')}`
 

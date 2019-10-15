@@ -3,7 +3,6 @@ import * as path from 'path'
 import {runTests} from 'vscode-test'
 
 async function main() {
-	console.log('__dirname', __dirname)
 	// The folder containing the Extension Manifest package.json
 	// Passed to `--extensionDevelopmentPath`
 	const extensionDevelopmentPath: string = path.resolve(__dirname, '../../')

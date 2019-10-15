@@ -6,7 +6,6 @@ import Storage from '../../services/storage'
 
 const defaultValue: CR.Progress = {
 	levels: {},
-	stages: {},
 	steps: {},
 	complete: false
 }

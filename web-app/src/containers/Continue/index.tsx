@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { Button, Card } from '@alifd/next'
 import * as CR from 'typings'
-import * as T from 'typings/graphql'
+import * as G from 'typings/graphql'
 
 interface Props {
-  tutorial: T.Tutorial
+  tutorial: G.Tutorial
   onContinue(): void
   onNew(): void
 }
@@ -14,8 +14,8 @@ export const ContinuePage = (props: Props) => (
     <h3>Continue</h3>
     <Card showTitleBullet={false} contentHeight="auto">
       <div>
-        <h2>{props.tutorial.title}</h2>
-        <p>{props.tutorial.text}</p>
+        <h2>{props.tutorial.version.summary.title}</h2>
+        <p>{props.tutorial.version.summary.description}</p>
         <Button onClick={props.onContinue}>Resume</Button>
       </div>
     </Card>

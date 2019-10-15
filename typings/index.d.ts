@@ -3,17 +3,6 @@ import Storage from '../src/services/storage'
 import * as G from './graphql'
 
 export interface TutorialLevel {
-	stageList: string[]
-	content: {
-		title: string
-		text: string
-	}
-	actions?: {
-		setup: TutorialAction
-	}
-}
-
-export interface TutorialStage {
 	stepList: string[]
 	content: {
 		title: string
@@ -54,9 +43,6 @@ export interface TutorialData {
 	levels: {
 		[levelId: string]: TutorialLevel
 	}
-	stages: {
-		[stageId: string]: TutorialStage
-	}
 	steps: {
 		[stepId: string]: TutorialStep
 	}
@@ -90,9 +76,6 @@ export interface Progress {
 	levels: {
 		[levelId: string]: boolean
 	}
-	stages: {
-		[stageId: string]: boolean
-	}
 	steps: {
 		[stepId: string]: boolean
 	}
@@ -106,7 +89,6 @@ export interface StepProgress {
 // current tutorial position
 export interface Position {
 	levelId: string
-	stageId: string
 	stepId: string
 	complete?: boolean
 }
@@ -154,8 +136,7 @@ export interface MachineStateSchema {
 				Initialize: {}
 				Summary: {}
 				LoadNext: {}
-				Level: {}
-				Stage: {
+				Level: {
 					states: {
 						Load: {}
 						Normal: {}
@@ -163,7 +144,7 @@ export interface MachineStateSchema {
 						TestPass: {}
 						TestFail: {}
 						StepNext: {}
-						StageComplete: {}
+						LevelComplete: {}
 					}
 				}
 				Completed: {}

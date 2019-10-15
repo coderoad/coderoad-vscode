@@ -3,7 +3,6 @@ import * as G from 'typings/graphql'
 
 const defaultValue: CR.Position = {
 	levelId: '',
-	stageId: '',
 	stepId: '',
 }
 
@@ -31,7 +30,11 @@ class Position {
 			return this.value
 		}
 
-		const {levels} = tutorial.version
+		if (!tutorial || !tutorial.version || !tutorial.version.data || !tutorial.version.data.levels) {
+			throw new Error('Error setting position from progress')
+		}
+
+		const {levels} = tutorial.version.data
 
 		const lastLevelIndex: number | undefined = levels.findIndex((l: G.Level) => !progress.levels[l.id])
 		// TODO: consider all levels complete as progress.complete
@@ -40,15 +43,7 @@ class Position {
 		}
 		const currentLevel: G.Level = levels[lastLevelIndex]
 
-		const {stages} = currentLevel
-
-		const lastStageIndex: number | undefined = stages.findIndex((s: G.Stage) => !progress.stages[s.id])
-		if (lastStageIndex >= stages.length) {
-			throw new Error('Error setting progress stage')
-		}
-		const currentStage: G.Stage = stages[lastStageIndex]
-
-		const {steps} = currentStage
+		const {steps} = currentLevel
 
 		const lastStepIndex: number | undefined = steps.findIndex((s: G.Step) => !progress.steps[s.id])
 		if (lastStepIndex >= steps.length) {
@@ -60,7 +55,6 @@ class Position {
 
 		this.value = {
 			levelId: currentLevel.id,
-			stageId: currentStage.id,
 			stepId: currentStep.id,
 		}
 		return this.value

@@ -82,21 +82,33 @@ class Channel implements Channel {
 				return
 			// configure test runner, language, git
 			case 'EDITOR_TUTORIAL_CONFIG':
-				const tutorialData = action.payload.tutorial
+				const tutorialData: G.Tutorial = action.payload.tutorial
+				// setup tutorial config (save listener, test runner, etc)
 				this.context.setTutorial(this.workspaceState, tutorialData)
-				tutorialConfig({
-					tutorial: tutorialData,
-					// must await async git setup or commit loading fails
-					onComplete: () => this.send({type: 'TUTORIAL_CONFIGURED'})
-				})
+
+				const data: G.TutorialData = tutorialData.version.data
+
+				await tutorialConfig({config: data.config})
+
+				// run init setup actions
+				if (data.init) {
+					const setup: G.StepActions | null | undefined = data.init.setup
+					if (setup) {
+						setupActions(this.workspaceRoot, setup)
+					}
+				}
+
+				// report back to the webview that setup is complete
+				this.send({type: 'TUTORIAL_CONFIGURED'})
 				return
 			case 'EDITOR_TUTORIAL_CONTINUE_CONFIG':
 				const tutorialContinue: G.Tutorial | null = this.context.tutorial.get()
 				if (!tutorialContinue) {
 					throw new Error('Invalid tutorial to continue')
 				}
+				const continueConfig: G.TutorialConfig = tutorialContinue.version.data.config
 				tutorialConfig({
-					tutorial: tutorialContinue,
+					config: continueConfig,
 					alreadyConfigured: true
 				})
 				return

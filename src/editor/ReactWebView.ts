@@ -52,8 +52,6 @@ class ReactWebView {
 
 		// // // prevents moving coderoad panel on top of left panel
 		// vscode.window.onDidChangeVisibleTextEditors((textEditors: vscode.TextEditor[]) => {
-		// 	console.log('onDidChangeVisibleTextEditors')
-		// 	console.log(textEditors)
 		// 	// updateWindows()
 		// })
 

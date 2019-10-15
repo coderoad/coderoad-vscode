@@ -23,17 +23,17 @@ const styles = {
 }
 
 interface Props {
-  stage: G.Stage
+  level: G.Level
   onNext(): void
 }
 
 const LevelStageSummary = (props: Props) => {
-  const { stage, onNext } = props
-  const active = stage.status === 'ACTIVE'
+  const { level, onNext } = props
+  const active = level.status === 'ACTIVE'
   return (
     <div style={styles.card} className={active ? 'hover-select' : ''} onClick={onNext}>
       <div style={styles.left}>
-        <Markdown>{stage.text || ''}</Markdown>
+        <Markdown>{level.description || ''}</Markdown>
       </div>
     </div>
   )
