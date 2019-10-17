@@ -15,9 +15,8 @@ export type Scalars = {
 };
 
 
-export enum CodingLanguage {
-	Javascript = 'JAVASCRIPT'
-}
+export type CodingLanguage =
+	'JAVASCRIPT';
 
 /** Commits from a Git Repo */
 export type Commit = {
@@ -46,9 +45,8 @@ export type CreateTutorialVersionOutput = {
 };
 
 
-export enum Editor {
-	Vscode = 'VSCODE'
-}
+export type Editor =
+	'VSCODE';
 
 export type EditorLoginInput = {
 	editor: Editor,
@@ -82,7 +80,7 @@ export type Level = {
 	description: Scalars['String'],
 	steps: Array<Step>,
 	setup?: Maybe<StepActions>,
-	status: 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE',
+	status: ProgressStatus,
 };
 
 export type Mutation = {
@@ -103,6 +101,11 @@ export type MutationCreateTutorialVersionArgs = {
 	input: CreateTutorialVersionInput
 };
 
+export type ProgressStatus =
+	'ACTIVE' |
+	'COMPLETE' |
+	'INCOMPLETE';
+
 export type Query = {
 	__typename?: 'Query',
 	tutorial?: Maybe<Tutorial>,
@@ -121,10 +124,9 @@ export type QueryCommitsArgs = {
 	input: TutorialRepoInput
 };
 
-export enum Role {
-	Admin = 'ADMIN',
-	EditorUser = 'EDITOR_USER'
-}
+export type Role =
+	'ADMIN' |
+	'EDITOR_USER';
 
 
 /** A level task */
@@ -135,7 +137,7 @@ export type Step = {
 	description: Scalars['String'],
 	setup: StepActions,
 	solution: StepActions,
-	status: 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE',
+	status: ProgressStatus,
 };
 
 /** Load commits, open files or run commands */
@@ -147,9 +149,8 @@ export type StepActions = {
 	commands?: Maybe<Array<Scalars['String']>>,
 };
 
-export enum TestRunner {
-	Jest = 'JEST'
-}
+export type TestRunner =
+	'JEST';
 
 /** A tutorial for use in VSCode CodeRoad */
 export type Tutorial = {
@@ -334,6 +335,7 @@ export type ResolversTypes = {
 	Sha1: ResolverTypeWrapper<Scalars['Sha1']>,
 	Level: ResolverTypeWrapper<Level>,
 	Step: ResolverTypeWrapper<Step>,
+	ProgressStatus: ProgressStatus,
 	Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
 	tutorialRepoInput: TutorialRepoInput,
 	Commit: ResolverTypeWrapper<Commit>,
@@ -371,6 +373,7 @@ export type ResolversParentTypes = {
 	Sha1: Scalars['Sha1'],
 	Level: Level,
 	Step: Step,
+	ProgressStatus: ProgressStatus,
 	Boolean: Scalars['Boolean'],
 	tutorialRepoInput: TutorialRepoInput,
 	Commit: Commit,
@@ -430,6 +433,7 @@ export type LevelResolvers<ContextType = any, ParentType extends ResolversParent
 	description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 	steps?: Resolver<Array<ResolversTypes['Step']>, ParentType, ContextType>,
 	setup?: Resolver<Maybe<ResolversTypes['StepActions']>, ParentType, ContextType>,
+	status?: Resolver<ResolversTypes['ProgressStatus'], ParentType, ContextType>,
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
@@ -454,6 +458,7 @@ export type StepResolvers<ContextType = any, ParentType extends ResolversParentT
 	description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 	setup?: Resolver<ResolversTypes['StepActions'], ParentType, ContextType>,
 	solution?: Resolver<ResolversTypes['StepActions'], ParentType, ContextType>,
+	status?: Resolver<ResolversTypes['ProgressStatus'], ParentType, ContextType>,
 };
 
 export type StepActionsResolvers<ContextType = any, ParentType extends ResolversParentTypes['StepActions'] = ResolversParentTypes['StepActions']> = {
@@ -565,3 +570,16 @@ export type DirectiveResolvers<ContextType = any> = {
 * Use "DirectiveResolvers" root object instead. If you wish to get "IDirectiveResolvers", add "typesPrefix: I" to your config.
 */
 export type IDirectiveResolvers<ContextType = any> = DirectiveResolvers<ContextType>;
+
+
+export interface IntrospectionResultData {
+	__schema: {
+		types: {
+			kind: string;
+			name: string;
+			possibleTypes: {
+				name: string;
+			}[];
+		}[];
+	};
+}
