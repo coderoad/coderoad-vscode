@@ -9,7 +9,7 @@ export type Scalars = {
 	Int: number,
 	Float: number,
 	DateTime: any,
-	Commit: any,
+	Sha1: any,
 	JSON: any,
 	JSONObject: any,
 };
@@ -19,6 +19,13 @@ export enum CodingLanguage {
 	Javascript = 'JAVASCRIPT'
 }
 
+/** Commits from a Git Repo */
+export type Commit = {
+	__typename?: 'Commit',
+	id: Scalars['Sha1'],
+	message?: Maybe<Scalars['String']>,
+	username?: Maybe<Scalars['String']>,
+};
 
 export type CreateTokenInput = {
 	accessToken: Scalars['String'],
@@ -101,6 +108,7 @@ export type Query = {
 	tutorial?: Maybe<Tutorial>,
 	tutorials?: Maybe<Array<Maybe<Tutorial>>>,
 	viewer?: Maybe<User>,
+	commits: Array<Maybe<Commit>>,
 };
 
 
@@ -108,10 +116,16 @@ export type QueryTutorialArgs = {
 	id: Scalars['ID']
 };
 
+
+export type QueryCommitsArgs = {
+	input: TutorialRepoInput
+};
+
 export enum Role {
 	Admin = 'ADMIN',
 	EditorUser = 'EDITOR_USER'
 }
+
 
 /** A level task */
 export type Step = {
@@ -128,7 +142,7 @@ export type Step = {
 export type StepActions = {
 	__typename?: 'StepActions',
 	id: Scalars['ID'],
-	commits: Array<Scalars['Commit']>,
+	commits: Array<Scalars['Sha1']>,
 	files?: Maybe<Array<Scalars['String']>>,
 	commands?: Maybe<Array<Scalars['String']>>,
 };
@@ -183,6 +197,11 @@ export type TutorialRepo = {
 	branch: Scalars['String'],
 	name?: Maybe<Scalars['String']>,
 	owner?: Maybe<Scalars['String']>,
+};
+
+export type TutorialRepoInput = {
+	uri: Scalars['String'],
+	branch: Scalars['String'],
 };
 
 /** Summary of tutorial used when selecting tutorial */
@@ -312,10 +331,12 @@ export type ResolversTypes = {
 	TutorialRepo: ResolverTypeWrapper<TutorialRepo>,
 	TutorialInit: ResolverTypeWrapper<TutorialInit>,
 	StepActions: ResolverTypeWrapper<StepActions>,
-	Commit: ResolverTypeWrapper<Scalars['Commit']>,
+	Sha1: ResolverTypeWrapper<Scalars['Sha1']>,
 	Level: ResolverTypeWrapper<Level>,
 	Step: ResolverTypeWrapper<Step>,
 	Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
+	tutorialRepoInput: TutorialRepoInput,
+	Commit: ResolverTypeWrapper<Commit>,
 	Mutation: ResolverTypeWrapper<{}>,
 	editorLoginInput: EditorLoginInput,
 	Editor: Editor,
@@ -347,10 +368,12 @@ export type ResolversParentTypes = {
 	TutorialRepo: TutorialRepo,
 	TutorialInit: TutorialInit,
 	StepActions: StepActions,
-	Commit: Scalars['Commit'],
+	Sha1: Scalars['Sha1'],
 	Level: Level,
 	Step: Step,
 	Boolean: Scalars['Boolean'],
+	tutorialRepoInput: TutorialRepoInput,
+	Commit: Commit,
 	Mutation: {},
 	editorLoginInput: EditorLoginInput,
 	Editor: Editor,
@@ -366,9 +389,11 @@ export type ResolversParentTypes = {
 
 export type AuthDirectiveResolver<Result, Parent, ContextType = any, Args = {requires?: Maybe<Maybe<Role>>}> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export interface CommitScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Commit'], any> {
-	name: 'Commit'
-}
+export type CommitResolvers<ContextType = any, ParentType extends ResolversParentTypes['Commit'] = ResolversParentTypes['Commit']> = {
+	id?: Resolver<ResolversTypes['Sha1'], ParentType, ContextType>,
+	message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+	username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+};
 
 export type CreateTutorialVersionOutputResolvers<ContextType = any, ParentType extends ResolversParentTypes['createTutorialVersionOutput'] = ResolversParentTypes['createTutorialVersionOutput']> = {
 	success?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
@@ -416,7 +441,12 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 	tutorial?: Resolver<Maybe<ResolversTypes['Tutorial']>, ParentType, ContextType, RequireFields<QueryTutorialArgs, 'id'>>,
 	tutorials?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tutorial']>>>, ParentType, ContextType>,
 	viewer?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
+	commits?: Resolver<Array<Maybe<ResolversTypes['Commit']>>, ParentType, ContextType, RequireFields<QueryCommitsArgs, 'input'>>,
 };
+
+export interface Sha1ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Sha1'], any> {
+	name: 'Sha1'
+}
 
 export type StepResolvers<ContextType = any, ParentType extends ResolversParentTypes['Step'] = ResolversParentTypes['Step']> = {
 	id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
@@ -428,7 +458,7 @@ export type StepResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type StepActionsResolvers<ContextType = any, ParentType extends ResolversParentTypes['StepActions'] = ResolversParentTypes['StepActions']> = {
 	id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
-	commits?: Resolver<Array<ResolversTypes['Commit']>, ParentType, ContextType>,
+	commits?: Resolver<Array<ResolversTypes['Sha1']>, ParentType, ContextType>,
 	files?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>,
 	commands?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>,
 };
@@ -496,7 +526,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type Resolvers<ContextType = any> = {
-	Commit?: GraphQLScalarType,
+	Commit?: CommitResolvers<ContextType>,
 	createTutorialVersionOutput?: CreateTutorialVersionOutputResolvers<ContextType>,
 	DateTime?: GraphQLScalarType,
 	editorLoginOutput?: EditorLoginOutputResolvers<ContextType>,
@@ -506,6 +536,7 @@ export type Resolvers<ContextType = any> = {
 	Level?: LevelResolvers<ContextType>,
 	Mutation?: MutationResolvers<ContextType>,
 	Query?: QueryResolvers<ContextType>,
+	Sha1?: GraphQLScalarType,
 	Step?: StepResolvers<ContextType>,
 	StepActions?: StepActionsResolvers<ContextType>,
 	Tutorial?: TutorialResolvers<ContextType>,

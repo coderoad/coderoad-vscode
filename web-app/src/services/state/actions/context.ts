@@ -129,7 +129,6 @@ export default {
 	loadNext: send((context: CR.MachineContext): CR.Action => {
 		const {position, progress} = context
 
-		const version = selectors.currentVersion(context)
 		const level = selectors.currentLevel(context)
 
 		const steps: G.Step[] = level.steps
