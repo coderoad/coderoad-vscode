@@ -2,18 +2,19 @@ import React from 'react'
 import * as G from '../../typings/graphql'
 
 import { action } from '@storybook/addon-actions'
-import { object, withKnobs } from '@storybook/addon-knobs'
+import { withKnobs } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
-import SideBarDecorator from './utils/SideBarDecorator'
 
+import SideBarDecorator from './utils/SideBarDecorator'
 import Level from '../src/containers/Tutorial/LevelPage/Level/index'
 
 storiesOf('Tutorial SideBar', module)
   .addDecorator(SideBarDecorator)
   .addDecorator(withKnobs)
   .add('Level', () => {
-    const level: G.Level = {
+    const level: G.Level & { index: number } = {
       id: 'L1',
+      index: 2,
       title: 'A Title',
       description: 'Some description',
       setup: null,

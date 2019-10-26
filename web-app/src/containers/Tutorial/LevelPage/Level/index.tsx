@@ -45,7 +45,7 @@ const styles = {
 }
 
 interface Props {
-  level: G.Level
+  level: G.Level & { index: number }
   onContinue(): void
   onLoadSolution(): void
 }
@@ -100,7 +100,11 @@ const Level = ({ level, onContinue, onLoadSolution }: Props) => {
         </div>
       )}
       <div>
-        <div style={styles.footer}>{level.title}</div>
+        <div style={styles.footer}>
+          <span>
+            {level.index.toString()}. {level.title}
+          </span>
+        </div>
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { select, boolean, text, withKnobs } from '@storybook/addon-knobs'
+import { action } from '@storybook/addon-actions'
+import { select, text, withKnobs } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import SideBarDecorator from './utils/SideBarDecorator'
 
@@ -12,20 +13,20 @@ const stepText =
 const paragraphText = `Markdown included \`code\`, *bold*, & _italics_.
   \`\`\`javascript
   var a = 12
-  
+
   function example(a) {
     return a + 1
   }
   \`\`\`
-  
+
   Headers can be added:
-  
+
   # h1
   ## h2
   ### h3
   #### h4
   ##### h5
-  
+
   Emojis: :) :| :(
   `
 
@@ -35,12 +36,14 @@ storiesOf('Tutorial SideBar', module)
   .add('Step Description', () => (
     <StepDescription
       text={text('text', stepText)}
-      mode={select('mode', { active: 'ACTIVE', complete: 'COMPLETE', incomplete: 'INCOMPLETE' }, 'active', 'step')}
+      mode={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'ACTIVE', 'step')}
+      onLoadSolution={action('onLoadSolution')}
     />
   ))
   .add('Step Markdown', () => (
     <StepDescription
       text={text('text', paragraphText)}
-      mode={select('mode', { active: 'ACTIVE', complete: 'COMPLETE', incomplete: 'INCOMPLETE' }, 'active', 'step')}
+      mode={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'ACTIVE', 'step')}
+      onLoadSolution={action('onLoadSolution')}
     />
   ))

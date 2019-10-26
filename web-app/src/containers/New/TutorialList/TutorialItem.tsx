@@ -3,14 +3,14 @@ import { Button } from '@alifd/next'
 
 interface Props {
   title?: string
-  text?: string
+  description?: string
   onSelect(): void
 }
 
 const TutorialItem = (props: Props) => (
   <div>
     <h3>{props.title || 'Title'}</h3>
-    <p>{props.text || 'Description'}</p>
+    <p>{props.description || 'Description'}</p>
     <Button onClick={props.onSelect}>Start</Button>
   </div>
 )
