@@ -24,7 +24,7 @@ const TutorialList = (props: Props) => {
           key={tutorial.id}
           onSelect={() => onSelect(tutorial)}
           title={tutorial.version.summary.title || ''}
-          text={tutorial.version.summary.description || ''}
+          description={tutorial.version.summary.description || ''}
         />
       ))}
     </div>

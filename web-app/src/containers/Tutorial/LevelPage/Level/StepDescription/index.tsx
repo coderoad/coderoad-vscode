@@ -7,7 +7,7 @@ const styles = {
   //   backgroundColor: '#e6f7ff',
   // },
   card: {
-    paddingRight: '1rem',
+    padding: '0 1rem 1rem 0.5rem',
   },
 }
 

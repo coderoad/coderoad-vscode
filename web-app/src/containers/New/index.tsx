@@ -4,20 +4,9 @@ import * as G from 'typings/graphql'
 import * as CR from 'typings'
 
 import queryTutorials from '../../services/apollo/queries/tutorials'
+import NewPage from './NewPage'
 import LoadingPage from '../LoadingPage'
 import ErrorView from '../../components/Error'
-import TutorialList from './TutorialList'
-
-interface Props {
-  tutorialList: G.Tutorial[]
-}
-
-export const NewPage = (props: Props) => (
-  <div>
-    <h2>Start a New Tutorial</h2>
-    <TutorialList tutorialList={props.tutorialList} />
-  </div>
-)
 
 const Loading = () => <LoadingPage text="Loading tutorials" />
 

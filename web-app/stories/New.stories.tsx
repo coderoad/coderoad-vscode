@@ -1,36 +1,42 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import * as T from '../../typings/graphql'
-import apolloProvider from './utils/ApolloDecorator'
 
+import SideBarDecorator from './utils/SideBarDecorator'
+import NewPage from '../src/containers/New/NewPage'
 import TutorialList from '../src/containers/New/TutorialList'
 import TutorialItem from '../src/containers/New/TutorialList/TutorialItem'
-import NewContainer from '../src/containers/New'
+
+const tutorialList = [
+  {
+    id: '1',
+    version: {
+      summary: {
+        title: 'Tutorial 1',
+        description: 'The first one',
+      },
+    },
+  },
+  {
+    id: '2',
+    version: {
+      summary: {
+        title: 'Tutorial 2',
+        description: 'The second one',
+      },
+    },
+  },
+]
 
 storiesOf('New', module)
-  .add('Tutorial', () => {
-    const tutorial = {
-      id: '1',
-      title: 'Tutorial 1',
-      text: 'The first one',
-    }
-    return <TutorialItem onSelect={action('onSelect')} title={tutorial.title} text={tutorial.text} />
+  .addDecorator(SideBarDecorator)
+  .add('New Page', () => {
+    return <NewPage tutorialList={tutorialList} />
   })
-  .add('TutorialList', () => {
-    const tutorialList = [
-      {
-        id: '1',
-        title: 'Tutorial 1',
-        text: 'The first one',
-      },
-      {
-        id: '2',
-        title: 'Tutorial 2',
-        text: 'The second one',
-      },
-    ]
-    return <TutorialList tutorialList={tutorialList} onNew={action('onNew')} />
+  .add('Tutorial List', () => {
+    return <TutorialList tutorialList={tutorialList} />
   })
-  .addDecorator(apolloProvider)
-  .add('Container', () => <NewContainer />)
+  .add('Tutorial Item', () => {
+    const tutorial = tutorialList[0]
+    return <TutorialItem onSelect={action('onSelect')} title={tutorial.title} description={tutorial.description} />
+  })

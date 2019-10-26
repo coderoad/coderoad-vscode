@@ -25,11 +25,13 @@ export const currentLevel = (context: MachineContext): G.Level => createSelector
 		// sent with the test to ensure consistency
 		const levels: G.Level[] = version.data.levels
 
-		const level: G.Level | undefined = levels.find((l: G.Level) => l.id === context.position.levelId)
-
-		if (!level) {
+		const levelIndex = levels.findIndex((l: G.Level) => l.id === context.position.levelId)
+		if (levelIndex < 0) {
 			throw new Error('Level not found when selecting level')
 		}
+		const level: G.Level = levels[levelIndex]
+		level.index = levelIndex
+
 		return level
 	})(context)
 

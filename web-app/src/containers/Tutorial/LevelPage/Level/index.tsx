@@ -9,6 +9,13 @@ const styles = {
   card: {
     padding: 0,
   },
+  header: {
+    height: '36px',
+    backgroundColor: '#EBEBEB',
+    fontSize: '16px',
+    lineHeight: '16px',
+    padding: '10px 1rem',
+  },
   content: {
     padding: '0rem 1rem',
     paddingBottom: '1rem',
@@ -17,9 +24,24 @@ const styles = {
     padding: '0rem 1rem',
   },
   steps: {
-    padding: '1rem 0rem',
+    padding: '1rem 16px',
   },
-  title: {},
+  title: {
+    fontSize: '1.2rem',
+    fontWeight: 'bold' as 'bold',
+    lineHeight: '1.2rem',
+  },
+  footer: {
+    height: '36px',
+    backgroundColor: 'black',
+    fontSize: '16px',
+    lineHeight: '16px',
+    padding: '10px 1rem',
+    color: 'white',
+    position: 'absolute' as 'absolute',
+    bottom: 0,
+    width: '100%',
+  },
 }
 
 interface Props {
@@ -40,25 +62,36 @@ const Level = ({ level, onContinue, onLoadSolution }: Props) => {
 
   return (
     <div style={styles.card}>
-      <div style={styles.content}>
-        <h2 style={styles.title}>{level.title}</h2>
-        <Markdown>{level.description || ''}</Markdown>
+      <div>
+        <div style={styles.header}>
+          <span>Learn</span>
+        </div>
+        <div style={styles.content}>
+          <h2 style={styles.title}>{level.title}</h2>
+          <Markdown>{level.description || ''}</Markdown>
+        </div>
       </div>
-      <div style={styles.steps}>
-        <Step current={activeIndex} direction="ver" shape="dot" animation readOnly>
-          {level.steps.map((step: G.Step | null, index: number) => {
-            if (!step) {
-              return null
-            }
-            return (
-              <Step.Item
-                key={step.id}
-                title={step.title || `Step ${index + 1}`}
-                content={<StepDescription text={step.description} mode={step.status} onLoadSolution={onLoadSolution} />}
-              />
-            )
-          })}
-        </Step>
+
+      <div>
+        <div style={styles.header}>Tasks</div>
+        <div style={styles.steps}>
+          <Step current={activeIndex} direction="ver" shape="dot" animation readOnly>
+            {level.steps.map((step: G.Step | null, index: number) => {
+              if (!step) {
+                return null
+              }
+              return (
+                <Step.Item
+                  key={step.id}
+                  title={step.title || `Step ${index + 1}`}
+                  content={
+                    <StepDescription text={step.description} mode={step.status} onLoadSolution={onLoadSolution} />
+                  }
+                />
+              )
+            })}
+          </Step>
+        </div>
       </div>
 
       {level.status === 'COMPLETE' && (
@@ -66,6 +99,13 @@ const Level = ({ level, onContinue, onLoadSolution }: Props) => {
           <Button onClick={onContinue}>Continue</Button>
         </div>
       )}
+      <div>
+        <div style={styles.footer}>
+          <span>
+            {level.index ? `${level.index.toString()}.` : ''} {level.title}
+          </span>
+        </div>
+      </div>
     </div>
   )
 }
