@@ -30,7 +30,7 @@ const paragraphText = `Markdown included \`code\`, *bold*, & _italics_.
   Emojis: :) :| :(
   `
 
-storiesOf('Tutorial SideBar', module)
+storiesOf('Level', module)
   .addDecorator(SideBarDecorator)
   .addDecorator(withKnobs)
   .add('Step Description', () => (

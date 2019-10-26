@@ -28,7 +28,7 @@ const tutorialList = [
   },
 ]
 
-storiesOf('New', module)
+storiesOf('Start', module)
   .addDecorator(SideBarDecorator)
   .add('New Page', () => {
     return <NewPage tutorialList={tutorialList} />

@@ -6,7 +6,7 @@ import Router from './components/Router'
 import LoadingPage from './containers/LoadingPage'
 import ContinuePage from './containers/Continue'
 import NewPage from './containers/New'
-import SummaryPage from './containers/Tutorial/SummaryPage'
+import OverviewPage from './containers/Overview'
 import LevelSummaryPage from './containers/Tutorial/LevelPage'
 import CompletedPage from './containers/Tutorial/CompletedPage'
 
@@ -34,7 +34,7 @@ const Routes = () => {
           <LoadingPage text="Loading..." />
         </Route>
         <Route path="Tutorial.Summary">
-          <SummaryPage send={tempSend} context={{} as CR.MachineContext} />
+          <OverviewPage send={tempSend} context={{} as CR.MachineContext} />
         </Route>
         <Route path="Tutorial.Level">
           <LevelSummaryPage send={tempSend} context={{} as CR.MachineContext} />
