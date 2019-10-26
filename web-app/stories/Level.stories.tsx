@@ -8,7 +8,7 @@ import { storiesOf } from '@storybook/react'
 import SideBarDecorator from './utils/SideBarDecorator'
 import Level from '../src/containers/Tutorial/LevelPage/Level/index'
 
-storiesOf('Tutorial SideBar', module)
+storiesOf('Level', module)
   .addDecorator(SideBarDecorator)
   .addDecorator(withKnobs)
   .add('Level', () => {

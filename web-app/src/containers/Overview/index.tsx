@@ -3,9 +3,9 @@ import * as G from 'typings/graphql'
 import * as CR from 'typings'
 import { useQuery } from '@apollo/react-hooks'
 
-import queryTutorial from '../../../services/apollo/queries/tutorial'
+import queryTutorial from '../../services/apollo/queries/tutorial'
 import Summary from './Summary'
-import ErrorView from '../../../components/Error'
+import ErrorView from '../../components/Error'
 
 interface PageProps {
   context: CR.MachineContext
