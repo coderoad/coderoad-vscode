@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { boolean, text, withKnobs } from '@storybook/addon-knobs'
+import { select, boolean, text, withKnobs } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import SideBarDecorator from './utils/SideBarDecorator'
 
-import Step from '../src/containers/Tutorial/LevelPage/Level/StepDescription'
+import StepDescription from '../src/containers/Tutorial/LevelPage/Level/StepDescription'
 
 const stepText =
   'This is a long paragraph of step text intended to wrap around the side after a short period of writing to demonstrate text wrap among other things'
@@ -32,6 +32,15 @@ const paragraphText = `Markdown included \`code\`, *bold*, & _italics_.
 storiesOf('Tutorial SideBar', module)
   .addDecorator(SideBarDecorator)
   .addDecorator(withKnobs)
-  .add('Step', () => <div>Step</div>)
-// .add('Step', () => <Step text={text('text', stepText)} hide={boolean('hide', false)} />)
-// .add('Step Markdown', () => <Step text={text('text', paragraphText)} hide={boolean('hide', false)} />)
+  .add('Step Description', () => (
+    <StepDescription
+      text={text('text', stepText)}
+      mode={select('mode', { active: 'ACTIVE', complete: 'COMPLETE', incomplete: 'INCOMPLETE' }, 'active', 'step')}
+    />
+  ))
+  .add('Step Markdown', () => (
+    <StepDescription
+      text={text('text', paragraphText)}
+      mode={select('mode', { active: 'ACTIVE', complete: 'COMPLETE', incomplete: 'INCOMPLETE' }, 'active', 'step')}
+    />
+  ))
