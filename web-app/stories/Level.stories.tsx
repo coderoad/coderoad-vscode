@@ -16,14 +16,15 @@ storiesOf('Level', module)
       id: 'L1',
       index: 2,
       title: 'A Title',
-      description: 'Some description',
+      description: 'A summary of the level',
+      content: 'Some content here in markdown',
       setup: null,
       status: 'ACTIVE',
       steps: [
         {
           id: 'L1:S1',
           title: 'First Step',
-          description: 'First step description',
+          content: 'First step description',
           setup: {
             id: 'L1:S1:SETUP',
             commits: ['abcdefg'],
@@ -37,7 +38,7 @@ storiesOf('Level', module)
         {
           id: 'L1:S2',
           title: 'Second Step',
-          description: 'Second step description',
+          content: 'Second step description',
           setup: {
             id: 'L1:S2:SETUP',
             commits: ['abcdefg'],
@@ -51,7 +52,7 @@ storiesOf('Level', module)
         {
           id: 'L1:S3',
           title: 'Third Step',
-          description: 'Third step description',
+          content: 'Third step description',
           setup: {
             id: 'L1:S3:SETUP',
             commits: ['abcdefg'],

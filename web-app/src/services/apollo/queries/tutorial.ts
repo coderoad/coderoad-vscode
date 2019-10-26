@@ -28,6 +28,7 @@ export default gql`
 					id
 					title
 					description
+					content
 					setup {
 						commits
 						commands
@@ -36,7 +37,7 @@ export default gql`
 					steps {
 						id
 						title
-						description
+						content
 						setup {
 							commits
 							commands
