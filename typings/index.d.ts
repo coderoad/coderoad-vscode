@@ -2,75 +2,7 @@ import {send} from 'xstate'
 import Storage from '../src/services/storage'
 import * as G from './graphql'
 
-export interface TutorialLevel {
-	stepList: string[]
-	content: {
-		title: string
-		text: string
-	}
-	actions?: {
-		setup: TutorialAction
-	}
-}
-
-export interface TutorialHint {
-	text: string
-	displayed?: boolean
-}
-
-export interface TutorialAction {
-	commits: string[]
-	commands?: string[]
-	files?: string[]
-}
-
-export interface TutorialStepContent {
-	text: string
-	title?: string
-}
-
-export interface TutorialStep {
-	content: TutorialStepContent
-	actions: {
-		setup: TutorialAction
-		solution: TutorialAction
-	}
-	hints?: TutorialHint[]
-}
-
-export interface TutorialData {
-	summary: TutorialSummary
-	levels: {
-		[levelId: string]: TutorialLevel
-	}
-	steps: {
-		[stepId: string]: TutorialStep
-	}
-}
-
-export interface TutorialMeta {
-	version: string
-	repo: string
-	createdBy: string
-	createdAt: string
-	updatedBy: string
-	updatedAt: string
-	contributors: string[]
-	languages: string[]
-	testRunner: string
-}
-
-export interface TutorialSummary {
-	title: string
-	description: string
-	levelList: string[]
-}
-
-export interface Tutorial {
-	id: string
-	meta: TutorialMeta
-	data: TutorialData
-}
+export type ProgressStatus = 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE'
 
 export interface Progress {
 	levels: {

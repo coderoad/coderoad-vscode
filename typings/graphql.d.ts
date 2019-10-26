@@ -76,12 +76,15 @@ export type GithubUser = {
 export type Level = {
 	__typename?: 'Level',
 	id: Scalars['ID'],
-	index?: number
 	title: Scalars['String'],
+	/** A summary of the level */
 	description: Scalars['String'],
+	/** The lesson content of the level, parsed as markdown */
+	content: Scalars['String'],
+	/** A set of tasks for users linked to unit tests */
 	steps: Array<Step>,
+	/** Actions run on level start up for configuring setup */
 	setup?: Maybe<StepActions>,
-	status: ProgressStatus,
 };
 
 export type Mutation = {
@@ -101,11 +104,6 @@ export type MutationEditorLoginArgs = {
 export type MutationCreateTutorialVersionArgs = {
 	input: CreateTutorialVersionInput
 };
-
-export type ProgressStatus =
-	'ACTIVE' |
-	'COMPLETE' |
-	'INCOMPLETE';
 
 export type Query = {
 	__typename?: 'Query',
@@ -135,10 +133,9 @@ export type Step = {
 	__typename?: 'Step',
 	id: Scalars['ID'],
 	title: Scalars['String'],
-	description: Scalars['String'],
+	content: Scalars['String'],
 	setup: StepActions,
 	solution: StepActions,
-	status: ProgressStatus,
 };
 
 /** Load commits, open files or run commands */
@@ -336,7 +333,6 @@ export type ResolversTypes = {
 	Sha1: ResolverTypeWrapper<Scalars['Sha1']>,
 	Level: ResolverTypeWrapper<Level>,
 	Step: ResolverTypeWrapper<Step>,
-	ProgressStatus: ProgressStatus,
 	Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
 	tutorialRepoInput: TutorialRepoInput,
 	Commit: ResolverTypeWrapper<Commit>,
@@ -374,7 +370,6 @@ export type ResolversParentTypes = {
 	Sha1: Scalars['Sha1'],
 	Level: Level,
 	Step: Step,
-	ProgressStatus: ProgressStatus,
 	Boolean: Scalars['Boolean'],
 	tutorialRepoInput: TutorialRepoInput,
 	Commit: Commit,
@@ -432,9 +427,9 @@ export type LevelResolvers<ContextType = any, ParentType extends ResolversParent
 	id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
 	title?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 	description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+	content?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 	steps?: Resolver<Array<ResolversTypes['Step']>, ParentType, ContextType>,
 	setup?: Resolver<Maybe<ResolversTypes['StepActions']>, ParentType, ContextType>,
-	status?: Resolver<ResolversTypes['ProgressStatus'], ParentType, ContextType>,
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
@@ -456,10 +451,9 @@ export interface Sha1ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 export type StepResolvers<ContextType = any, ParentType extends ResolversParentTypes['Step'] = ResolversParentTypes['Step']> = {
 	id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
 	title?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-	description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+	content?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 	setup?: Resolver<ResolversTypes['StepActions'], ParentType, ContextType>,
 	solution?: Resolver<ResolversTypes['StepActions'], ParentType, ContextType>,
-	status?: Resolver<ResolversTypes['ProgressStatus'], ParentType, ContextType>,
 };
 
 export type StepActionsResolvers<ContextType = any, ParentType extends ResolversParentTypes['StepActions'] = ResolversParentTypes['StepActions']> = {
@@ -584,4 +578,3 @@ export interface IntrospectionResultData {
 		}[];
 	};
 }
-

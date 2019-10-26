@@ -30,7 +30,6 @@ export const currentLevel = (context: MachineContext): G.Level => createSelector
 			throw new Error('Level not found when selecting level')
 		}
 		const level: G.Level = levels[levelIndex]
-		level.index = levelIndex
 
 		return level
 	})(context)

@@ -2,6 +2,8 @@ import * as React from 'react'
 import { Button } from '@alifd/next'
 import * as G from 'typings/graphql'
 
+import Markdown from '../../components/Markdown'
+
 const styles = {
   summary: {
     padding: '0rem 1rem 1rem 1rem',
@@ -55,7 +57,7 @@ const Summary = ({ title, description, levels, onNext }: Props) => (
     </div>
     <div style={styles.summary}>
       <h2 style={styles.title}>{title}</h2>
-      <p style={styles.description}>{description}</p>
+      <Markdown>{description}</Markdown>
     </div>
     <div>
       <div style={styles.header}>
