@@ -1,6 +1,7 @@
 import { Button, Step } from '@alifd/next'
 import * as React from 'react'
 import * as G from 'typings/graphql'
+import * as T from 'typings'
 
 import Markdown from '../../../../components/Markdown'
 import StepDescription from './StepDescription'
@@ -45,7 +46,7 @@ const styles = {
 }
 
 interface Props {
-  level: G.Level
+  level: G.Level & { status: T.ProgressStatus; index: number; steps: Array<G.Step & { status: T.ProgressStatus }> }
   onContinue(): void
   onLoadSolution(): void
 }
@@ -56,7 +57,7 @@ const Level = ({ level, onContinue, onLoadSolution }: Props) => {
   }
 
   // grab the active step
-  const activeIndex: number = level.steps.findIndex((step: G.Step | null) => {
+  const activeIndex: number = level.steps.findIndex((step: G.Step & { status: T.ProgressStatus } | null) => {
     return step && step.status === 'ACTIVE'
   })
 
@@ -76,7 +77,7 @@ const Level = ({ level, onContinue, onLoadSolution }: Props) => {
         <div style={styles.header}>Tasks</div>
         <div style={styles.steps}>
           <Step current={activeIndex} direction="ver" shape="dot" animation readOnly>
-            {level.steps.map((step: G.Step | null, index: number) => {
+            {level.steps.map((step: G.Step & { status: T.ProgressStatus } | null, index: number) => {
               if (!step) {
                 return null
               }
