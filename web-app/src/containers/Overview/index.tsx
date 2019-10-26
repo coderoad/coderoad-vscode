@@ -4,7 +4,7 @@ import * as CR from 'typings'
 import { useQuery } from '@apollo/react-hooks'
 
 import queryTutorial from '../../services/apollo/queries/tutorial'
-import Summary from './Summary'
+import OverviewPage from './OverviewPage'
 import ErrorView from '../../components/Error'
 
 interface PageProps {
@@ -21,14 +21,14 @@ interface TutorialDataVariables {
   version: string
 }
 
-const SummaryPage = (props: PageProps) => {
+const Overview = (props: PageProps) => {
   const { tutorial } = props.context
 
   if (!tutorial) {
     throw new Error('Tutorial not found in summary page')
   }
   const { loading, error, data } = useQuery<TutorialData, TutorialDataVariables>(queryTutorial, {
-    fetchPolicy: 'network-only', // for debugging purposes
+    fetchPolicy: 'network-only', // to ensure latest
     variables: {
       tutorialId: tutorial.id,
       version: tutorial.version.version,
@@ -56,8 +56,9 @@ const SummaryPage = (props: PageProps) => {
     })
 
   const { title, description } = data.tutorial.version.summary
+  const { levels } = data.tutorial.version.data
 
-  return <Summary title={title} description={description} onNext={onNext} />
+  return <OverviewPage title={title} description={description} levels={levels} onNext={onNext} />
 }
 
-export default SummaryPage
+export default Overview

@@ -31,6 +31,7 @@ const styles = {
     bottom: 0,
     height: '50px',
     padding: '1rem',
+    paddingRight: '2rem',
     backgroundColor: 'black',
     width: '100%',
   },
