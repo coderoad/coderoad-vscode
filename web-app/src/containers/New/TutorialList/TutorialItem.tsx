@@ -6,10 +6,10 @@ const styles = {
     cursor: 'pointer',
   },
   languages: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    display: 'flex' as 'flex',
+    flexDirection: 'row' as 'row',
+    alignItems: 'center' as 'center',
+    justifyContent: 'flex-end' as 'flex-end',
     width: '100%',
   },
   languageIcon: {
