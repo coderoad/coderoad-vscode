@@ -1,82 +1,67 @@
 import React from 'react'
+import * as G from '../../typings/graphql'
 
-import { object, withKnobs } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
-import { linkTo } from '@storybook/addon-links'
+import { object, withKnobs } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import SideBarDecorator from './utils/SideBarDecorator'
 
-import apolloProvider from './utils/ApolloDecorator'
-import Level from '../src/containers/Tutorial/LevelPage/Level'
-import LevelSummaryPageContainer, { LevelSummaryPage } from '../src/containers/Tutorial/LevelPage'
+import Level from '../src/containers/Tutorial/LevelPage/Level/index'
 
 storiesOf('Tutorial SideBar', module)
   .addDecorator(SideBarDecorator)
   .addDecorator(withKnobs)
-  .add('Level', () => (
-    <Level
-      level={object('level', {
-        id: '1',
-        title: 'Sum Level',
-        text: 'A description of this stage',
-        stages: [
-          {
-            id: '1',
-            title: 'First',
-            text: 'some description',
-            status: 'COMPLETED',
+  .add('Level', () => {
+    const level: G.Level = {
+      id: 'L1',
+      title: 'A Title',
+      description: 'Some description',
+      setup: null,
+      status: 'ACTIVE',
+      steps: [
+        {
+          id: 'L1:S1',
+          title: 'First Step',
+          description: 'First step description',
+          setup: {
+            id: 'L1:S1:SETUP',
+            commits: ['abcdefg'],
           },
-          {
-            id: '2',
-            title: 'Second',
-            text: 'The second one',
-            status: 'ACTIVE',
+          solution: {
+            id: 'L1:S1:SOLUTION',
+            commits: ['hijklmn'],
           },
-          {
-            id: '3',
-            title: 'Third',
-            text: 'The third one',
-            status: 'INCOMPLETE',
+          status: 'COMPLETE',
+        },
+        {
+          id: 'L1:S2',
+          title: 'Second Step',
+          description: 'Second step description',
+          setup: {
+            id: 'L1:S2:SETUP',
+            commits: ['abcdefg'],
           },
-        ],
-      })}
-      onNext={linkTo('Tutorial SideBar', 'Stage')}
-      onBack={linkTo('TUtorial SideBar', 'Summary')}
-    />
-  ))
-  .add('Level Summary', () => {
-    return (
-      <LevelSummaryPage
-        send={action('send')}
-        level={{
-          id: '1',
-          title: 'Sum Level',
-          text: 'A description of this stage',
-          stages: [
-            {
-              id: '1',
-              title: 'First',
-              text: 'some description',
-              status: 'COMPLETE',
-            },
-            {
-              id: '2',
-              title: 'Second',
-              text: 'The second one',
-              status: 'ACTIVE',
-            },
-            {
-              id: '3',
-              title: 'Third',
-              text: 'The third one',
-              status: 'INCOMPLETE',
-            },
-          ],
-        }}
-      />
-    )
-  })
-  .addDecorator(apolloProvider)
-  .add('Level Summary Container', () => {
-    return <LevelSummaryPageContainer send={action('send')} />
+          solution: {
+            id: 'L1:S2:SOLUTION',
+            commits: ['hijklmn'],
+          },
+          status: 'ACTIVE',
+        },
+        {
+          id: 'L1:S3',
+          title: 'Third Step',
+          description: 'Third step description',
+          setup: {
+            id: 'L1:S3:SETUP',
+            commits: ['abcdefg'],
+          },
+          solution: {
+            id: 'L1:S3:SOLUTION',
+            commits: ['hijklmn'],
+          },
+          status: 'INCOMPLETE',
+        },
+      ],
+    }
+    return <Level level={level} onContinue={action('onContinue')} onLoadSolution={action('onLoadSolution')} />
   })
