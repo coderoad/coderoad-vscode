@@ -30,7 +30,7 @@
     "watch": "tsc -watch -p ./"
   },
   "dependencies": {
-    "jsdom": "^15.1.1",
+    "jsdom": "^15.2.0",
     "xstate": "^4.6.7"
   },
   "devDependencies": {
@@ -40,16 +40,16 @@
     "@types/graphql": "^14.5.0",
     "@types/jsdom": "^12.2.4",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.12",
+    "@types/node": "^12.11.7",
     "assert": "^2.0.0",
     "concurrently": "^5.0.0",
-    "dotenv": "^8.1.0",
-    "glob": "^7.1.4",
-    "mocha": "^6.2.1",
+    "dotenv": "^8.2.0",
+    "glob": "^7.1.5",
+    "mocha": "^6.2.2",
     "prettier": "^1.18.2",
     "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.7.0-beta",
+    "typescript": "^3.7.1-rc",
     "vscode": "^1.1.36",
     "vscode-test": "^1.2.0"
   },
