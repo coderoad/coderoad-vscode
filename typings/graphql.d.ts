@@ -76,6 +76,7 @@ export type GithubUser = {
 export type Level = {
 	__typename?: 'Level',
 	id: Scalars['ID'],
+	index?: number
 	title: Scalars['String'],
 	description: Scalars['String'],
 	steps: Array<Step>,
