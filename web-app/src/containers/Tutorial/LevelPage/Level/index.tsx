@@ -68,7 +68,7 @@ const Level = ({ level, onContinue, onLoadSolution }: Props) => {
         </div>
         <div style={styles.content}>
           <h2 style={styles.title}>{level.title}</h2>
-          <Markdown>{level.description || ''}</Markdown>
+          <Markdown>{level.content || ''}</Markdown>
         </div>
       </div>
 
@@ -84,9 +84,7 @@ const Level = ({ level, onContinue, onLoadSolution }: Props) => {
                 <Step.Item
                   key={step.id}
                   title={step.title || `Step ${index + 1}`}
-                  content={
-                    <StepDescription text={step.description} mode={step.status} onLoadSolution={onLoadSolution} />
-                  }
+                  content={<StepDescription text={step.content} mode={step.status} onLoadSolution={onLoadSolution} />}
                 />
               )
             })}
