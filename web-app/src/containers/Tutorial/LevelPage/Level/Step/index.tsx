@@ -15,11 +15,11 @@ const styles = {
   card: {
     display: 'grid',
     gridTemplateColumns: '25px 1fr',
-    padding: '1rem 1rem 1rem 0.5rem',
-	},
-	content: {
-		margin: 0
-	}
+    padding: '1rem 1rem 1rem 0.2rem',
+  },
+  content: {
+    margin: 0,
+  },
 }
 
 const Step = (props: Props) => {
@@ -39,13 +39,13 @@ const Step = (props: Props) => {
         <Checkbox
           checked={props.status === 'COMPLETE'}
           indeterminate={false /* TODO: running */}
-          disabled={props.status !== 'COMPLETE' /* TODO: and not running */}
+          disabled={props.status !== 'INCOMPLETE' /* TODO: and not running */}
           onChange={() => {
             /* do nothing */
           }}
         />
       </div>
-      <div id='content'>
+      <div>
         <Markdown>{props.content || ''}</Markdown>
       </div>
       <div>{showLoadSolution && <Button onClick={onClickHandler}>Load Solution</Button>}</div>

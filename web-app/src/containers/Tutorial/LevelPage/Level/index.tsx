@@ -79,6 +79,7 @@ const Level = ({ level, onContinue, onLoadSolution }: Props) => {
 							order={index + 1}
 							status={step.status}
 							content={step.content}
+							onLoadSolution={onLoadSolution}
 						/>
 					})}
         </div>
