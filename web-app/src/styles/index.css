@@ -10,6 +10,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.hover-select:hover {
-  cursor: pointer;
+p {
+	margin: 0
 }
