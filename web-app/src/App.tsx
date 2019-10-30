@@ -5,6 +5,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 import client from './services/apollo'
 import Routes from './Routes'
 
+
 const App = () => (
   <ErrorBoundary>
     <ApolloProvider client={client}>
