@@ -1,10 +1,10 @@
-import { Button, Step } from '@alifd/next'
+import { Button } from '@alifd/next'
 import * as React from 'react'
 import * as G from 'typings/graphql'
 import * as T from 'typings'
 
+import Step from './Step'
 import Markdown from '../../../../components/Markdown'
-import StepDescription from './StepDescription'
 
 const styles = {
   card: {
@@ -56,11 +56,6 @@ const Level = ({ level, onContinue, onLoadSolution }: Props) => {
     throw new Error('No Stage steps found')
   }
 
-  // grab the active step
-  const activeIndex: number = level.steps.findIndex((step: G.Step & { status: T.ProgressStatus } | null) => {
-    return step && step.status === 'ACTIVE'
-  })
-
   return (
     <div style={styles.card}>
       <div>
@@ -76,20 +71,16 @@ const Level = ({ level, onContinue, onLoadSolution }: Props) => {
       <div>
         <div style={styles.header}>Tasks</div>
         <div style={styles.steps}>
-          <Step current={activeIndex} direction="ver" shape="dot" animation readOnly>
-            {level.steps.map((step: G.Step & { status: T.ProgressStatus } | null, index: number) => {
-              if (!step) {
-                return null
-              }
-              return (
-                <Step.Item
-                  key={step.id}
-                  title={step.title || `Step ${index + 1}`}
-                  content={<StepDescription text={step.content} mode={step.status} onLoadSolution={onLoadSolution} />}
-                />
-              )
-            })}
-          </Step>
+					{level.steps.map((step: G.Step & { status: T.ProgressStatus } | null, index: number) => {
+						if (!step) {
+							return null
+						}
+						return <Step
+							order={index + 1}
+							status={step.status}
+							content={step.content}
+						/>
+					})}
         </div>
       </div>
 
