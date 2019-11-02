@@ -37,10 +37,6 @@ const styles = {
     backgroundColor: 'black',
     width: '100%',
   },
-  startButton: {
-    backgroundColor: 'gold',
-    fontWeight: 'bold' as 'bold',
-  },
 }
 
 interface Props {
@@ -77,7 +73,7 @@ const Summary = ({ title, description, levels, onNext }: Props) => (
 
     <div style={styles.options}>
       {/* TODO: Add back button */}
-      <Button style={styles.startButton} onClick={() => onNext()}>
+      <Button type="primary" onClick={() => onNext()}>
         Start
       </Button>
     </div>

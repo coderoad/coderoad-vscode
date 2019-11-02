@@ -1,4 +1,3 @@
-import '@alifd/next/dist/next.css'
 import {configure, addParameters} from '@storybook/react'
 import '../src/styles/index.css'
 
