@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as T from 'typings'
-import { Button, Checkbox } from '@alifd/next'
-
+import { Button } from '@alifd/next'
+import Checkbox from '../../../../../components/Checkbox'
 import Markdown from '../../../../../components/Markdown'
 
 interface Props {
@@ -36,19 +36,18 @@ const Step = (props: Props) => {
   return (
     <div style={styles.card}>
       <div>
-        <Checkbox
-          checked={props.status === 'COMPLETE'}
-          indeterminate={false /* TODO: running */}
-          disabled={props.status !== 'INCOMPLETE' /* TODO: and not running */}
-          onChange={() => {
-            /* do nothing */
-          }}
-        />
+        <Checkbox status={props.status} />
       </div>
       <div>
         <Markdown>{props.content || ''}</Markdown>
       </div>
-      <div>{showLoadSolution && <Button onClick={onClickHandler}>Load Solution</Button>}</div>
+      <div>
+        {showLoadSolution && (
+          <Button type="normal" onClick={onClickHandler}>
+            Load Solution
+          </Button>
+        )}
+      </div>
     </div>
   )
 }
