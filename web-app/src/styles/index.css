@@ -1,3 +1,6 @@
+@import '~@alifd/next/dist/next.css';
+@import '~@alifd/theme-4/dist/next.css';
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
@@ -11,5 +14,5 @@ code {
 }
 
 p {
-	margin: 0
+  margin: 0;
 }
