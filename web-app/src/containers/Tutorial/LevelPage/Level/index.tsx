@@ -71,17 +71,20 @@ const Level = ({ level, onContinue, onLoadSolution }: Props) => {
       <div>
         <div style={styles.header}>Tasks</div>
         <div style={styles.steps}>
-					{level.steps.map((step: G.Step & { status: T.ProgressStatus } | null, index: number) => {
-						if (!step) {
-							return null
-						}
-						return <Step
-							order={index + 1}
-							status={step.status}
-							content={step.content}
-							onLoadSolution={onLoadSolution}
-						/>
-					})}
+          {level.steps.map((step: G.Step & { status: T.ProgressStatus } | null, index: number) => {
+            if (!step) {
+              return null
+            }
+            return (
+              <Step
+                key={step.id}
+                order={index + 1}
+                status={step.status}
+                content={step.content}
+                onLoadSolution={onLoadSolution}
+              />
+            )
+          })}
         </div>
       </div>
 
