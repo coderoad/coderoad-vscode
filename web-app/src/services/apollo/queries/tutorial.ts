@@ -36,7 +36,6 @@ export default gql`
 					}
 					steps {
 						id
-						title
 						content
 						setup {
 							commits
