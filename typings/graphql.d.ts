@@ -59,7 +59,10 @@ export type EditorLoginOutput = {
 
 export type FileFormat =
 	'JS' |
-	'JSON';
+	'JSON' |
+	'JSX' |
+	'TS' |
+	'TSX';
 
 /** Information linked from a GitHub account */
 export type GithubUser = {
@@ -474,7 +477,7 @@ export type TutorialResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type TutorialConfigResolvers<ContextType = any, ParentType extends ResolversParentTypes['TutorialConfig'] = ResolversParentTypes['TutorialConfig']> = {
 	testRunner?: Resolver<ResolversTypes['TestRunner'], ParentType, ContextType>,
-	FileFormat?: Resolver<Array<ResolversTypes['FileFormat']>, ParentType, ContextType>,
+	fileFormats?: Resolver<Array<ResolversTypes['FileFormat']>, ParentType, ContextType>,
 	repo?: Resolver<ResolversTypes['TutorialRepo'], ParentType, ContextType>,
 };
 
@@ -578,4 +581,3 @@ export interface IntrospectionResultData {
 		}[];
 	};
 }
-
