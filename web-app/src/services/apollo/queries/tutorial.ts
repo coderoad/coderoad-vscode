@@ -13,7 +13,7 @@ export default gql`
 			data {
 				config {
 					testRunner
-					codingLanguages
+					fileFormats
 					repo {
 						uri
 						branch
