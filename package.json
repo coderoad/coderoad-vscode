@@ -30,6 +30,7 @@
     "watch": "tsc -watch -p ./"
   },
   "dependencies": {
+    "@alifd/next": "^1.18.11",
     "@alifd/theme-4": "^0.2.0",
     "jsdom": "^15.2.0",
     "xstate": "^4.6.7"
@@ -40,6 +41,7 @@
     "@types/glob": "^7.1.1",
     "@types/graphql": "^14.5.0",
     "@types/jsdom": "^12.2.4",
+    "@types/markdown-it": "0.0.9",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.5",
     "assert": "^2.0.0",
