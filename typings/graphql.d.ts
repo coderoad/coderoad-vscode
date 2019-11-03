@@ -15,9 +15,6 @@ export type Scalars = {
 };
 
 
-export type CodingLanguage =
-	'JAVASCRIPT';
-
 /** Commits from a Git Repo */
 export type Commit = {
 	__typename?: 'Commit',
@@ -59,6 +56,10 @@ export type EditorLoginOutput = {
 	user: User,
 	token: Scalars['String'],
 };
+
+export type FileFormat =
+	'JS' |
+	'JSON';
 
 /** Information linked from a GitHub account */
 export type GithubUser = {
@@ -110,6 +111,7 @@ export type Query = {
 	tutorial?: Maybe<Tutorial>,
 	tutorials?: Maybe<Array<Maybe<Tutorial>>>,
 	viewer?: Maybe<User>,
+	/** TOOD: move inside of viewer */
 	commits: Array<Maybe<Commit>>,
 };
 
@@ -132,7 +134,6 @@ export type Role =
 export type Step = {
 	__typename?: 'Step',
 	id: Scalars['ID'],
-	title: Scalars['String'],
 	content: Scalars['String'],
 	setup: StepActions,
 	solution: StepActions,
@@ -171,7 +172,7 @@ export type TutorialVersionArgs = {
 export type TutorialConfig = {
 	__typename?: 'TutorialConfig',
 	testRunner: TestRunner,
-	codingLanguages: Array<CodingLanguage>,
+	fileFormats: Array<FileFormat>,
 	repo: TutorialRepo,
 };
 
@@ -326,7 +327,7 @@ export type ResolversTypes = {
 	TutorialData: ResolverTypeWrapper<TutorialData>,
 	TutorialConfig: ResolverTypeWrapper<TutorialConfig>,
 	TestRunner: TestRunner,
-	CodingLanguage: CodingLanguage,
+	FileFormat: FileFormat,
 	TutorialRepo: ResolverTypeWrapper<TutorialRepo>,
 	TutorialInit: ResolverTypeWrapper<TutorialInit>,
 	StepActions: ResolverTypeWrapper<StepActions>,
@@ -363,7 +364,7 @@ export type ResolversParentTypes = {
 	TutorialData: TutorialData,
 	TutorialConfig: TutorialConfig,
 	TestRunner: TestRunner,
-	CodingLanguage: CodingLanguage,
+	FileFormat: FileFormat,
 	TutorialRepo: TutorialRepo,
 	TutorialInit: TutorialInit,
 	StepActions: StepActions,
@@ -450,7 +451,6 @@ export interface Sha1ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export type StepResolvers<ContextType = any, ParentType extends ResolversParentTypes['Step'] = ResolversParentTypes['Step']> = {
 	id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
-	title?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 	content?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
 	setup?: Resolver<ResolversTypes['StepActions'], ParentType, ContextType>,
 	solution?: Resolver<ResolversTypes['StepActions'], ParentType, ContextType>,
@@ -474,7 +474,7 @@ export type TutorialResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type TutorialConfigResolvers<ContextType = any, ParentType extends ResolversParentTypes['TutorialConfig'] = ResolversParentTypes['TutorialConfig']> = {
 	testRunner?: Resolver<ResolversTypes['TestRunner'], ParentType, ContextType>,
-	codingLanguages?: Resolver<Array<ResolversTypes['CodingLanguage']>, ParentType, ContextType>,
+	FileFormat?: Resolver<Array<ResolversTypes['FileFormat']>, ParentType, ContextType>,
 	repo?: Resolver<ResolversTypes['TutorialRepo'], ParentType, ContextType>,
 };
 
@@ -578,3 +578,4 @@ export interface IntrospectionResultData {
 		}[];
 	};
 }
+

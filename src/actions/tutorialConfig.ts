@@ -17,13 +17,11 @@ const tutorialConfig = async ({config, alreadyConfigured, }: TutorialConfigParam
 		await git.setupRemote(config.repo.uri)
 	}
 
-	// allow multiple coding languages in a tutorial
-	const languages: string[] = config.codingLanguages.map((lang: G.CodingLanguage) => lang.toLowerCase())
-
 	// setup onSave hook
 	vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
-		// @ts-ignore // issue with GQL enums in TS
-		if (document.uri.scheme === 'file' && languages.includes(document.languageId)) {
+		const fileFormat: string = document.languageId.toUpperCase()
+		// @ts-ignore warning on enums when validating a file format match
+		if (document.uri.scheme === 'file' && config.fileFormats.includes(fileFormat)) {
 			vscode.commands.executeCommand('coderoad.run_test')
 		}
 	})
