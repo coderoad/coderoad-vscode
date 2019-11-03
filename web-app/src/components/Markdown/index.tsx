@@ -5,7 +5,8 @@ import markdownEmoji from 'markdown-it-emoji'
 import prism from 'markdown-it-prism'
 import * as React from 'react'
 
-import './prism.css'
+// load prism styles & language support
+import './prism'
 
 // markdown highlighter instance
 const md: MarkdownIt = new MarkdownIt({
