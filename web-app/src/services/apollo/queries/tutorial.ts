@@ -16,6 +16,7 @@ export default gql`
 					codingLanguages
 					repo {
 						uri
+						branch
 					}
 				}
 				init {
