@@ -40,6 +40,16 @@ This extension contributes the following settings:
 
 - `coderoad.start`: starts the extension
 
+## Support New Programming Languages
+
+In order to get the extension to support a new language, you'll need the following:
+
+1. Test runner and CLI command to run test runner
+2. Parser for test runner output (eg. TAP, JSON) that can determine if tests passed or return the failure message
+3. Load prism markdown highlighting styles
+
+TODO: A simple way to package all three together would be ideal.
+
 ## Known Issues
 
 There are no known issues at this time.
