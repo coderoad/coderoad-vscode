@@ -84,7 +84,7 @@ storiesOf('Level', module)
       steps: [
         {
           id: 'L1:S1',
-          content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
+          content: 'Should support markdown test\n ```shell\nnpn install some-packagen```\nwhew it works!',
           setup: { commits: ['a4679b1'], commands: [], files: ['package.json'] },
           solution: {
             commits: ['7c64508'],
