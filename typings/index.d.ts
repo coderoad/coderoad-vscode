@@ -1,4 +1,3 @@
-import {send} from 'xstate'
 import Storage from '../src/services/storage'
 import * as G from './graphql'
 
