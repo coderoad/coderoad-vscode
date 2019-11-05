@@ -54,7 +54,7 @@ export const createCommands = ({extensionPath, workspaceState, workspaceRoot}: C
 			// set from last setup stepAction
 			currentStepId = stepId
 		},
-		[COMMANDS.RUN_TEST]: (current: {stepId: string} | undefined) => {
+		[COMMANDS.RUN_TEST]: (current: {stepId: string} | undefined, onSuccess: () => void) => {
 			console.log('-------- command.run_test ------ ')
 			// use stepId from client, or last set stepId
 			const payload = {stepId: current ? current.stepId : currentStepId}
@@ -62,6 +62,7 @@ export const createCommands = ({extensionPath, workspaceState, workspaceRoot}: C
 				onSuccess: () => {
 					// send test pass message back to client
 					webview.send({type: 'TEST_PASS', payload})
+					onSuccess()
 					vscode.window.showInformationMessage('PASS')
 				},
 				onFail: () => {

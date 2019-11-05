@@ -40,6 +40,11 @@ const runCommands = async (commands: string[], language: string = 'JAVASCRIPT') 
 // collect active file watchers (listeners)
 const watchers: {[key: string]: vscode.FileSystemWatcher} = {}
 
+const disposeWatcher = (listener: string) => {
+	watchers[listener].dispose()
+	delete watchers[listener]
+}
+
 const setupActions = async (workspaceRoot: vscode.WorkspaceFolder, {commands, commits, files, listeners}: G.StepActions): Promise<void> => {
 	// run commits
 	if (commits) {
@@ -55,12 +60,17 @@ const setupActions = async (workspaceRoot: vscode.WorkspaceFolder, {commands, co
 				watchers[listener] = vscode.workspace.createFileSystemWatcher(listener)
 				watchers[listener].onDidChange(() => {
 					// trigger save
-					vscode.commands.executeCommand('coderoad.run_test')
-					// cleanup watcher
-					watchers[listener].dispose()
-					delete watchers[listener]
+					vscode.commands.executeCommand('coderoad.run_test', null, () => {
+						// cleanup watcher on success
+						disposeWatcher(listener)
+					})
 				})
 			}
+		}
+	} else {
+		// remove all watchers
+		for (const listener of Object.keys(watchers)) {
+			disposeWatcher(listener)
 		}
 	}
 
