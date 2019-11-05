@@ -17,21 +17,5 @@ function loadStories() {
 	req.keys().forEach(req)
 }
 
-// set viewport width
-// see https://www.npmjs.com/package/@storybook/addon-viewport
-addParameters({
-	viewport: {
-		viewports: {
-			name: 'SideMenu',
-			styles: {
-				width: 200,
-				height: window.innerHeight,
-			},
-			type: 'mobile'
-		},
-		defaultViewport: 'SideMenu',
-	},
-})
-
 configure(loadStories, module)
 

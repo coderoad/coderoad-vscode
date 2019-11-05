@@ -19,6 +19,7 @@ const Workspace = ({ children }: Props) => {
 
   const styles = {
     page: {
+			display: 'flex' as 'flex',
       margin: 0,
       backgroundColor: 'white',
     },
