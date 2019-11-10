@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Balloon } from '@alifd/next'
 import Button from '../Button'
-import Icon from '../Icon'
 
 const styles = {
   iconButton: {
@@ -10,9 +9,12 @@ const styles = {
     alignItems: 'center',
     width: 30,
     height: 30,
+    fontSize: 18,
+    color: 'grey',
   },
   balloonTitle: {
     marginTop: 0,
+    textAlign: 'center' as 'center',
   },
   balloonOptions: {
     display: 'flex',
@@ -33,15 +35,11 @@ const StepHelp = (props: Props) => {
       props.onLoadSolution()
     }
   }
-  const promptLeft = (
-    <Button style={styles.iconButton}>
-      <Icon type="prompt" role="button" />
-    </Button>
-  )
+  const promptLeft = <Button style={styles.iconButton}>i</Button>
   return (
-    <Balloon trigger={promptLeft} align="l" alignEdge triggerType="click" style={{ width: 300 }}>
+    <Balloon trigger={promptLeft} align="l" alignEdge triggerType="click" style={{ width: 150 }} closable={false}>
       <div>
-        <h4 style={styles.balloonTitle}>Stuck? Need help?</h4>
+        <h4 style={styles.balloonTitle}>Stuck?</h4>
         <div style={styles.balloonOptions}>
           <Button type="secondary" onClick={onClickHandler} disabled={loadedSolution}>
             Load Solution
