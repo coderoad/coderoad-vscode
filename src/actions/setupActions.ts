@@ -57,7 +57,13 @@ const setupActions = async (workspaceRoot: vscode.WorkspaceFolder, {commands, co
 	if (listeners) {
 		for (const listener of listeners) {
 			if (!watchers[listener]) {
-				watchers[listener] = vscode.workspace.createFileSystemWatcher(listener)
+				const pattern = new vscode.RelativePattern(
+					vscode.workspace.getWorkspaceFolder(workspaceRoot.uri)!,
+					listener
+				)
+				watchers[listener] = vscode.workspace.createFileSystemWatcher(
+					pattern
+				)
 				watchers[listener].onDidChange(() => {
 					// trigger save
 					vscode.commands.executeCommand('coderoad.run_test', null, () => {
