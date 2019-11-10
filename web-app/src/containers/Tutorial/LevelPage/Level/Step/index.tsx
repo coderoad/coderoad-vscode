@@ -1,8 +1,8 @@
 import * as React from 'react'
 import * as T from 'typings'
-import Button from '../../../../../components/Button'
 import Checkbox from '../../../../../components/Checkbox'
 import Markdown from '../../../../../components/Markdown'
+import StepHelp from '../../../../../components/StepHelp'
 
 interface Props {
   order: number
@@ -20,34 +20,32 @@ const styles = {
   content: {
     margin: 0,
   },
+  options: {
+    display: 'flex' as 'flex',
+    flexDirection: 'row' as 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center' as 'center',
+    padding: '0.5rem',
+  },
 }
 
 const Step = (props: Props) => {
-  // TODO: extract or replace load solution
-  const [loadedSolution, setLoadedSolution] = React.useState()
-  const onClickHandler = () => {
-    if (!loadedSolution) {
-      setLoadedSolution(true)
-      props.onLoadSolution()
-    }
-  }
-  const showLoadSolution = props.status === 'ACTIVE' && !loadedSolution
-
+  const showLoadSolution = props.status === 'ACTIVE'
   return (
-    <div style={styles.card}>
-      <div>
-        <Checkbox status={props.status} />
+    <div>
+      <div style={styles.card}>
+        <div>
+          <Checkbox status={props.status} />
+        </div>
+        <div>
+          <Markdown>{props.content || ''}</Markdown>
+        </div>
       </div>
-      <div>
-        <Markdown>{props.content || ''}</Markdown>
-      </div>
-      <div>
-        {showLoadSolution && (
-          <Button type="normal" onClick={onClickHandler}>
-            Load Solution
-          </Button>
-        )}
-      </div>
+      {showLoadSolution && (
+        <div style={styles.options}>
+          <StepHelp onLoadSolution={props.onLoadSolution} />
+        </div>
+      )}
     </div>
   )
 }
