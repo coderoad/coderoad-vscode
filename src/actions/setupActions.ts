@@ -37,12 +37,46 @@ const runCommands = async (commands: string[], language: string = 'JAVASCRIPT') 
 	}
 }
 
+// collect active file watchers (listeners)
+const watchers: {[key: string]: vscode.FileSystemWatcher} = {}
 
-const setupActions = async (workspaceRoot: vscode.WorkspaceFolder, {commands, commits, files}: G.StepActions): Promise<void> => {
+const disposeWatcher = (listener: string) => {
+	watchers[listener].dispose()
+	delete watchers[listener]
+}
+
+const setupActions = async (workspaceRoot: vscode.WorkspaceFolder, {commands, commits, files, listeners}: G.StepActions): Promise<void> => {
 	// run commits
 	if (commits) {
 		for (const commit of commits) {
 			await git.loadCommit(commit)
+		}
+	}
+
+	// run file watchers (listeners)
+	if (listeners) {
+		for (const listener of listeners) {
+			if (!watchers[listener]) {
+				const pattern = new vscode.RelativePattern(
+					vscode.workspace.getWorkspaceFolder(workspaceRoot.uri)!,
+					listener
+				)
+				watchers[listener] = vscode.workspace.createFileSystemWatcher(
+					pattern
+				)
+				watchers[listener].onDidChange(() => {
+					// trigger save
+					vscode.commands.executeCommand('coderoad.run_test', null, () => {
+						// cleanup watcher on success
+						disposeWatcher(listener)
+					})
+				})
+			}
+		}
+	} else {
+		// remove all watchers
+		for (const listener of Object.keys(watchers)) {
+			disposeWatcher(listener)
 		}
 	}
 

@@ -1,9 +1,9 @@
-import { Button } from '@alifd/next'
 import * as React from 'react'
 import * as G from 'typings/graphql'
 import * as T from 'typings'
 
 import Step from './Step'
+import Button from '../../../../components/Button'
 import Markdown from '../../../../components/Markdown'
 
 const styles = {
