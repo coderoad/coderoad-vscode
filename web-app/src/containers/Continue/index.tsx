@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { Button, Card } from '@alifd/next'
+import Button from '../../components/Button'
+import Card from '../../components/Card'
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
 
@@ -12,14 +13,14 @@ interface Props {
 export const ContinuePage = (props: Props) => (
   <div>
     <h3>Continue</h3>
-    <Card showTitleBullet={false} contentHeight="auto">
+    <Card>
       <div>
         <h2>{props.tutorial.version.summary.title}</h2>
         <p>{props.tutorial.version.summary.description}</p>
         <Button onClick={props.onContinue}>Resume</Button>
       </div>
     </Card>
-    <Card showTitleBullet={false} contentHeight="auto">
+    <Card>
       <div>
         <h2>Start a New Tutorial</h2>
         <Button onClick={props.onNew}>Select New Tutorial</Button>

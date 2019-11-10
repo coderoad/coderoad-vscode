@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { Button, Card } from '@alifd/next'
+import Button from '../../components/Button'
+import Card from '../../components/Card'
 
 interface Props {
   title: string
@@ -9,7 +10,7 @@ interface Props {
 
 const TutorialItem = (props: Props) => {
   return (
-    <Card showTitleBullet={false} contentHeight="auto">
+    <Card>
       <div>
         <h2>{props.title}</h2>
         <p>{props.description}</p>

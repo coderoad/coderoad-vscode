@@ -3,7 +3,7 @@ import * as G from 'typings/graphql'
 import client from '../../apollo'
 import authenticateMutation from '../../apollo/mutations/authenticate'
 import {setAuthToken} from '../../apollo/auth'
-import channel from '../../../services/channel'
+import channel from '../../channel'
 
 interface AuthenticateData {
 	editorLogin: {

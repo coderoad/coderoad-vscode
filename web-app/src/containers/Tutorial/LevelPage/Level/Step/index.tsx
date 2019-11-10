@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as T from 'typings'
-import { Button } from '@alifd/next'
+import Button from '../../../../../components/Button'
 import Checkbox from '../../../../../components/Checkbox'
 import Markdown from '../../../../../components/Markdown'
 
