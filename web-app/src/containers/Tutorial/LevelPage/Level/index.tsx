@@ -9,6 +9,7 @@ import Markdown from '../../../../components/Markdown'
 const styles = {
   card: {
     padding: 0,
+    width: '100%',
   },
   header: {
     height: '36px',

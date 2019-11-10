@@ -3,6 +3,9 @@ import * as G from 'typings/graphql'
 import TutorialList from './TutorialList'
 
 const styles = {
+  page: {
+    width: '100%',
+  },
   header: {
     height: '36px',
     backgroundColor: '#EBEBEB',
@@ -22,7 +25,7 @@ interface Props {
 }
 
 const NewPage = (props: Props) => (
-  <div>
+  <div style={styles.page}>
     <div style={styles.header}>
       <span>CodeRoad</span>
     </div>

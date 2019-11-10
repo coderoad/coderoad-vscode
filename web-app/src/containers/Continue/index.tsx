@@ -4,6 +4,12 @@ import Card from '../../components/Card'
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
 
+const styles = {
+  page: {
+    width: '100%',
+  },
+}
+
 interface Props {
   tutorial: G.Tutorial
   onContinue(): void
@@ -11,7 +17,7 @@ interface Props {
 }
 
 export const ContinuePage = (props: Props) => (
-  <div>
+  <div style={styles.page}>
     <h3>Continue</h3>
     <Card>
       <div>
