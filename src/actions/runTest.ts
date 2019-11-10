@@ -95,6 +95,7 @@ async function runTest({onSuccess, onFail, onRun, onError}: Props): Promise<void
 		if (!stdout) {
 			console.error('SOMETHING WENT WRONG WITH A PASSING TEST')
 			onError()
+			return
 		}
 		// test runner failed
 		channel = getOutputChannel(outputChannelName)
