@@ -5,6 +5,9 @@ import * as G from 'typings/graphql'
 import Markdown from '../../components/Markdown'
 
 const styles = {
+  page: {
+    width: '100%',
+  },
   summary: {
     padding: '0rem 1rem 1rem 1rem',
   },
@@ -47,7 +50,7 @@ interface Props {
 }
 
 const Summary = ({ title, description, levels, onNext }: Props) => (
-  <div>
+  <div style={styles.page}>
     <div style={styles.header}>
       <span>CodeRoad</span>
     </div>

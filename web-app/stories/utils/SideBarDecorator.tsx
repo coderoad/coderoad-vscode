@@ -4,9 +4,8 @@ const styles = {
   container: {
     position: 'relative' as 'relative',
     boxSizing: 'border-box' as 'border-box',
-    maxWidth: '20rem',
     borderRight: '2px solid black',
-    width: '20rem',
+    width: '100%',
     height: window.innerHeight,
   },
 }

@@ -5,8 +5,8 @@ interface Props {
 }
 
 const resize = () => ({
-  width: window.innerWidth - 20,
-  height: window.innerHeight - 20,
+  minWidth: window.innerWidth - 20,
+  minHeight: window.innerHeight - 20,
 })
 
 const Workspace = ({ children }: Props) => {
@@ -19,7 +19,7 @@ const Workspace = ({ children }: Props) => {
 
   const styles = {
     page: {
-			display: 'flex' as 'flex',
+      display: 'flex' as 'flex',
       margin: 0,
       backgroundColor: 'white',
     },

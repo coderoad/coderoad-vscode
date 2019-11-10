@@ -10,8 +10,6 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: window.innerWidth - 20,
-    height: window.innerHeight - 20,
   },
 }
 
