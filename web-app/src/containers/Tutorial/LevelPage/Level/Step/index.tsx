@@ -30,6 +30,10 @@ const styles = {
 }
 
 const Step = (props: Props) => {
+  const showStep = props.status !== 'INCOMPLETE'
+  if (!showStep) {
+    return null
+  }
   const showLoadSolution = props.status === 'ACTIVE'
   return (
     <div>
