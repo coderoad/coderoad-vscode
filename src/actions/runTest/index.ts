@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import node from '../services/node'
+import node from '../../services/node'
 
 // TODO: use tap parser to make it easier to support other test runners
 
@@ -21,31 +21,49 @@ const getOutputChannel = (name: string): vscode.OutputChannel => {
 	return channel
 }
 
-interface Props {
+interface Callbacks {
 	onSuccess(): void
 	onFail(): void
 	onRun(): void
 	onError(): void
 }
 
-async function runTest({onSuccess, onFail, onRun, onError}: Props): Promise<void> {
-	console.log('------------------- run test ------------------')
-	// increment process id
-	const processId = ++currentId
+interface TestRunnerConfig {
+	command: string
+	parser(output: string): boolean
+}
 
-	onRun()
+export const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
 
-	const outputChannelName = 'Test Output'
+	const outputChannelName = 'TEST_OUTPUT'
+
+	return {
+		run() {
+			console.log('------------------- run test ------------------')
+			const processId = ++currentId
+			callbacks.onRun()
+
+			try {
+				const {stdout} = await node.exec(config.command)
+			}
+		}
+	}
+}
+
+async function runTest({onSuccess, onFail, onRun, onError}: Callbacks): Promise<void> {
+
+
+
 
 	// TODO: verify test runner for args
 	// jest CLI docs https://jestjs.io/docs/en/cli
-	const testArgs = [
-		'--json',
-		'--onlyChanged',
-		'--env=node',
-		'--maxConcurrency=4',
-		'--maxWorkers=4'
-	]
+	// const testArgs = [
+	// 	'--json',
+	// 	'--onlyChanged',
+	// 	'--env=node',
+	// 	'--maxConcurrency=4',
+	// 	'--maxWorkers=4'
+	// ]
 
 	const commandLine = `npm test -- ${testArgs.join(' ')}`
 
@@ -61,23 +79,22 @@ async function runTest({onSuccess, onFail, onRun, onError}: Props): Promise<void
 		if (stdout) {
 			const lines = stdout.split(/\r{0,1}\n/)
 			for (const line of lines) {
-				if (line.length === 0) {
-					continue
-				}
+				if (line.length > 0) {
+					const regExp = /^{\"numFailedTestSuites/
+					const matches = regExp.exec(line)
+					if (matches && matches.length) {
+						const result = JSON.parse(line)
 
-				const regExp = /^{\"numFailedTestSuites/
-				const matches = regExp.exec(line)
-				if (matches && matches.length) {
-					const result = JSON.parse(line)
-
-					if (result.success) {
-						if (shouldExitEarly(processId)) {
-							// exit early
-							return
+						if (result.success) {
+							if (shouldExitEarly(processId)) {
+								// exit early
+								return
+							}
+							console.log('success!')
+							onSuccess()
+						} else {
+							console.log('NOT SUCCESS?')
 						}
-						onSuccess()
-					} else {
-						console.log('NOT SUCCESS?')
 					}
 				}
 			}
@@ -104,25 +121,23 @@ async function runTest({onSuccess, onFail, onRun, onError}: Props): Promise<void
 			const lines = stdout.split(/\r{0,1}\n/)
 
 			for (const line of lines) {
-				if (line.length === 0) {
-					continue
-				}
+				if (line.length > 0) {
+					const dataRegExp = /^{\"numFailedTestSuites"/
+					const matches = dataRegExp.exec(line)
 
-				const dataRegExp = /^{\"numFailedTestSuites"/
-				const matches = dataRegExp.exec(line)
+					if (matches && matches.length) {
+						const result = JSON.parse(line)
+						const firstError = result.testResults.find((t: any) => t.status === 'failed')
 
-				if (matches && matches.length) {
-					const result = JSON.parse(line)
-					const firstError = result.testResults.find((t: any) => t.status === 'failed')
-
-					if (firstError) {
-						if (shouldExitEarly(processId)) {
-							// exit early
-							return
+						if (firstError) {
+							if (shouldExitEarly(processId)) {
+								// exit early
+								return
+							}
+							onFail()
+						} else {
+							console.error('NOTE: PARSER DID NOT WORK FOR ', line)
 						}
-						onFail()
-					} else {
-						console.error('NOTE: PARSER DID NOT WORK FOR ', line)
 					}
 				}
 			}

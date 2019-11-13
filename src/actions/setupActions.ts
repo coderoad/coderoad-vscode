@@ -55,50 +55,51 @@ const setupActions = async (workspaceRoot: vscode.WorkspaceFolder, actions: G.St
 	}
 
 	// run file watchers (listeners)
-	// if (listeners) {
-	// 	console.log('listeners')
-	// 	for (const listener of listeners) {
-	// 		if (!watchers[listener]) {
-	// 			const pattern = new vscode.RelativePattern(
-	// 				vscode.workspace.getWorkspaceFolder(workspaceRoot.uri)!,
-	// 				listener
-	// 			)
-	// 			console.log(pattern)
-	// 			watchers[listener] = vscode.workspace.createFileSystemWatcher(
-	// 				pattern
-	// 			)
-	// 			watchers[listener].onDidChange(() => {
-	// 				console.log('onDidChange')
-	// 				// trigger save
-	// 				vscode.commands.executeCommand('coderoad.run_test', null, () => {
-	// 					// cleanup watcher on success
-	// 					disposeWatcher(listener)
-	// 				})
-	// 			})
-	// 			watchers[listener].onDidCreate(() => {
-	// 				console.log('onDidCreate')
-	// 				// trigger save
-	// 				vscode.commands.executeCommand('coderoad.run_test', null, () => {
-	// 					// cleanup watcher on success
-	// 					disposeWatcher(listener)
-	// 				})
-	// 			})
-	// 			watchers[listener].onDidDelete(() => {
-	// 				console.log('onDidDelete')
-	// 				// trigger save
-	// 				vscode.commands.executeCommand('coderoad.run_test', null, () => {
-	// 					// cleanup watcher on success
-	// 					disposeWatcher(listener)
-	// 				})
-	// 			})
-	// 		}
-	// 	}
-	// } else {
-	// 	// remove all watchers
-	// 	for (const listener of Object.keys(watchers)) {
-	// 		disposeWatcher(listener)
-	// 	}
-	// }
+	if (listeners) {
+		console.log('listeners')
+		for (const listener of listeners) {
+			if (!watchers[listener]) {
+				const pattern = new vscode.RelativePattern(
+					vscode.workspace.getWorkspaceFolder(workspaceRoot.uri)!,
+					listener
+				)
+				console.log(pattern)
+				const listen = vscode.workspace.createFileSystemWatcher(
+					pattern
+				)
+				watchers[listener] = listen
+				watchers[listener].onDidChange(() => {
+					console.log('onDidChange')
+					// trigger save
+					vscode.commands.executeCommand('coderoad.run_test', null, () => {
+						// cleanup watcher on success
+						disposeWatcher(listener)
+					})
+				})
+				watchers[listener].onDidCreate(() => {
+					console.log('onDidCreate')
+					// trigger save
+					vscode.commands.executeCommand('coderoad.run_test', null, () => {
+						// cleanup watcher on success
+						disposeWatcher(listener)
+					})
+				})
+				watchers[listener].onDidDelete(() => {
+					console.log('onDidDelete')
+					// trigger save
+					vscode.commands.executeCommand('coderoad.run_test', null, () => {
+						// cleanup watcher on success
+						disposeWatcher(listener)
+					})
+				})
+			}
+		}
+	} else {
+		// remove all watchers
+		for (const listener of Object.keys(watchers)) {
+			disposeWatcher(listener)
+		}
+	}
 
 	// run command
 	if (commands) {

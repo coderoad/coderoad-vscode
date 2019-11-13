@@ -134,8 +134,14 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
 										actions: ['updateStepProgress']
 									},
 									TEST_FAIL: 'TestFail',
-									TEST_ERROR: 'Normal'
+									TEST_ERROR: 'TestError'
 								},
+							},
+							TestError: {
+								onEntry: ['testFail'],
+								after: {
+									0: 'Normal'
+								}
 							},
 							TestPass: {
 								onExit: ['updateStepPosition'],
