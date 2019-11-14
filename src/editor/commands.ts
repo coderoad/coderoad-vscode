@@ -3,7 +3,7 @@ import * as vscode from 'vscode'
 import ReactWebView from './ReactWebView'
 import createTestRunner, {Payload} from '../services/testRunner'
 
-const COMMANDS = {
+export const COMMANDS = {
 	START: 'coderoad.start',
 	OPEN_WEBVIEW: 'coderoad.open_webview',
 	CONFIG_TEST_RUNNER: 'coderoad.config_test_runner',

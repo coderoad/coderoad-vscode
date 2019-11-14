@@ -22,7 +22,7 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
 
 	const outputChannelName = 'TEST_OUTPUT'
 
-	return async (payload: Payload, onSuccess?: () => void) => {
+	return async (payload: Payload, onSuccess?: () => void): Promise<void> => {
 		console.log('------------------- run test ------------------')
 
 		// track processId to prevent multiple 

@@ -1,4 +1,4 @@
-import TapParser from 'tap-parser'
+const TapParser = require('tap-parser')
 
 // https://github.com/tapjs/tap-parser#var-p--new-parseroptions-cb
 const options = {

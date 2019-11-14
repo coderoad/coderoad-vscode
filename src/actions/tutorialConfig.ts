@@ -2,6 +2,7 @@ import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
 import * as git from '../services/git'
 import languageMap from '../editor/languageMap'
+import {COMMANDS} from '../editor/commands'
 
 interface TutorialConfigParams {
 	config: G.TutorialConfig,
@@ -19,15 +20,17 @@ const tutorialConfig = async ({config, alreadyConfigured, }: TutorialConfigParam
 		await git.setupRemote(config.repo.uri)
 	}
 
-	vscode.commands.executeCommand('coderoad.config_test_runner', config.testRunner)
+	vscode.commands.executeCommand(COMMANDS.CONFIG_TEST_RUNNER, config.testRunner)
 
 	const fileFormats = config.testRunner.fileFormats
 
 	// verify if file test should run based on document saved
-	const shouldRun = (document: vscode.TextDocument): boolean => {
+	const shouldRunTest = (document: vscode.TextDocument): boolean => {
+		// must be a file
 		if (document.uri.scheme !== 'file') {
 			return false
 		}
+		// must configure with file formatss
 		if (fileFormats && fileFormats.length) {
 			const fileFormat: G.FileFormat = languageMap[document.languageId]
 			if (!fileFormats.includes(fileFormat)) {
@@ -39,7 +42,7 @@ const tutorialConfig = async ({config, alreadyConfigured, }: TutorialConfigParam
 
 	// setup onSave hook
 	vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
-		if (shouldRun(document)) {
+		if (shouldRunTest(document)) {
 			vscode.commands.executeCommand('coderoad.run_test')
 		}
 	})

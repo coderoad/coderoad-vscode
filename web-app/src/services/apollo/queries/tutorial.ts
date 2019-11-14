@@ -12,8 +12,10 @@ export default gql`
 			}
 			data {
 				config {
-					testRunner
-					fileFormats
+					testRunner {
+						command
+						fileFormats
+					}
 					repo {
 						uri
 						branch
