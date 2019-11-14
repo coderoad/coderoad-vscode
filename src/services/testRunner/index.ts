@@ -25,10 +25,6 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
 	return async (payload: Payload, onSuccess?: () => void): Promise<void> => {
 		console.log('------------------- run test ------------------')
 
-		// track processId to prevent multiple 
-		const processId = setLatestProcess()
-		if (!isLatestProcess(processId)) {return }
-
 		// flag as running
 		callbacks.onRun(payload)
 
@@ -41,7 +37,7 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
 		const {stdout, stderr} = result
 
 		// simple way to throttle requests
-		if (!stdout || !isLatestProcess(processId)) {return }
+		if (!stdout) {return }
 
 		if (stderr) {
 			callbacks.onError(payload)
@@ -54,8 +50,8 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
 		}
 
 		// pass or fail?
-		const {ok} = parser(stdout)
-		if (ok) {
+		const tap = parser(stdout)
+		if (tap.ok) {
 			callbacks.onSuccess(payload)
 			if (onSuccess) {onSuccess()}
 		} else {

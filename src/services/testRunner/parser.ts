@@ -1,10 +1,15 @@
-const TapParser = require('tap-parser')
-
-// https://github.com/tapjs/tap-parser#var-p--new-parseroptions-cb
-const options = {
-	bail: true,
+interface ParserOutput {
+	ok: boolean
 }
 
-const parser = new TapParser(options)
+const parser = (text: string): ParserOutput => {
+	const lines = text.split('\n')
+	for (const line of lines) {
+		if (line.match(/^not ok /)) {
+			return {ok: false}
+		}
+	}
+	return {ok: true}
+}
 
 export default parser

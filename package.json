@@ -30,8 +30,7 @@
     "watch": "tsc -watch -p ./"
   },
   "dependencies": {
-    "jsdom": "^15.2.1",
-    "tap-parser": "^10.0.1"
+    "jsdom": "^15.2.1"
   },
   "devDependencies": {
     "@types/assert": "^1.4.3",
