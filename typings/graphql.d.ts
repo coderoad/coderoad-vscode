@@ -136,8 +136,6 @@ export type StepActions = {
 	listeners?: Maybe<Array<Scalars['String']>>
 }
 
-export type TestRunner = 'JEST'
-
 /** A tutorial for use in VSCode CodeRoad */
 export type Tutorial = {
 	__typename?: 'Tutorial'
@@ -157,8 +155,7 @@ export type TutorialVersionArgs = {
 /** Configure environment in editor for git, testing & parsing files */
 export type TutorialConfig = {
 	__typename?: 'TutorialConfig'
-	testRunner: TestRunner
-	fileFormats: Array<FileFormat>
+	testRunner: TutorialTestRunner
 	repo: TutorialRepo
 }
 
@@ -195,6 +192,12 @@ export type TutorialSummary = {
 	__typename?: 'TutorialSummary'
 	title: Scalars['String']
 	description: Scalars['String']
+}
+
+export type TutorialTestRunner = {
+	__typename?: 'TutorialTestRunner'
+	command: Scalars['String']
+	fileFormats?: Maybe<Array<FileFormat>>
 }
 
 /** A version of a tutorial */
@@ -308,7 +311,7 @@ export type ResolversTypes = {
 	TutorialSummary: ResolverTypeWrapper<TutorialSummary>
 	TutorialData: ResolverTypeWrapper<TutorialData>
 	TutorialConfig: ResolverTypeWrapper<TutorialConfig>
-	TestRunner: TestRunner
+	TutorialTestRunner: ResolverTypeWrapper<TutorialTestRunner>
 	FileFormat: FileFormat
 	TutorialRepo: ResolverTypeWrapper<TutorialRepo>
 	TutorialInit: ResolverTypeWrapper<TutorialInit>
@@ -345,7 +348,7 @@ export type ResolversParentTypes = {
 	TutorialSummary: TutorialSummary
 	TutorialData: TutorialData
 	TutorialConfig: TutorialConfig
-	TestRunner: TestRunner
+	TutorialTestRunner: TutorialTestRunner
 	FileFormat: FileFormat
 	TutorialRepo: TutorialRepo
 	TutorialInit: TutorialInit
@@ -514,8 +517,7 @@ export type TutorialConfigResolvers<
 	ContextType = any,
 	ParentType extends ResolversParentTypes['TutorialConfig'] = ResolversParentTypes['TutorialConfig']
 	> = {
-		testRunner?: Resolver<ResolversTypes['TestRunner'], ParentType, ContextType>
-		fileFormats?: Resolver<Array<ResolversTypes['FileFormat']>, ParentType, ContextType>
+		testRunner?: Resolver<ResolversTypes['TutorialTestRunner'], ParentType, ContextType>
 		repo?: Resolver<ResolversTypes['TutorialRepo'], ParentType, ContextType>
 	}
 
@@ -551,6 +553,14 @@ export type TutorialSummaryResolvers<
 	> = {
 		title?: Resolver<ResolversTypes['String'], ParentType, ContextType>
 		description?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+	}
+
+export type TutorialTestRunnerResolvers<
+	ContextType = any,
+	ParentType extends ResolversParentTypes['TutorialTestRunner'] = ResolversParentTypes['TutorialTestRunner']
+	> = {
+		command?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+		fileFormats?: Resolver<Maybe<Array<ResolversTypes['FileFormat']>>, ParentType, ContextType>
 	}
 
 export type TutorialVersionResolvers<
@@ -604,6 +614,7 @@ export type Resolvers<ContextType = any> = {
 	TutorialInit?: TutorialInitResolvers<ContextType>
 	TutorialRepo?: TutorialRepoResolvers<ContextType>
 	TutorialSummary?: TutorialSummaryResolvers<ContextType>
+	TutorialTestRunner?: TutorialTestRunnerResolvers<ContextType>
 	TutorialVersion?: TutorialVersionResolvers<ContextType>
 	User?: UserResolvers<ContextType>
 }
@@ -634,3 +645,4 @@ export interface IntrospectionResultData {
 		}[]
 	}
 }
+

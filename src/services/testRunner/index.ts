@@ -1,29 +1,28 @@
 import node from '../../services/node'
-import {getOutputChannel} from './channel'
+import {getOutputChannel} from '../../editor/outputChannel'
+import parser from './parser'
 import {setLatestProcess, isLatestProcess} from './throttle'
 
-// TODO: use tap parser to make it easier to support other test runners
-// TODO: how to load test runner parser
-// TODO: where to instantiate test runner
-
+export interface Payload {
+	stepId: string
+}
 
 interface Callbacks {
-	onSuccess(): void
-	onFail(): void
-	onRun(): void
-	onError(): void
+	onSuccess(payload: Payload): void
+	onFail(payload: Payload): void
+	onRun(payload: Payload): void
+	onError(payload: Payload): void
 }
 
 interface TestRunnerConfig {
 	command: string
-	parser(output: string): Error | null
 }
 
-export const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
+const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
 
 	const outputChannelName = 'TEST_OUTPUT'
 
-	return async () => {
+	return async (payload: Payload, onSuccess?: () => void) => {
 		console.log('------------------- run test ------------------')
 
 		// track processId to prevent multiple 
@@ -31,7 +30,7 @@ export const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks)
 		if (!isLatestProcess(processId)) {return }
 
 		// flag as running
-		callbacks.onRun()
+		callbacks.onRun(payload)
 
 		let result: {stdout: string | undefined, stderr: string | undefined}
 		try {
@@ -45,7 +44,7 @@ export const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks)
 		if (!stdout || !isLatestProcess(processId)) {return }
 
 		if (stderr) {
-			callbacks.onError()
+			callbacks.onError(payload)
 
 			// open terminal with error string
 			const channel = getOutputChannel(outputChannelName)
@@ -55,15 +54,19 @@ export const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks)
 		}
 
 		// pass or fail?
-		const testsFailed = config.parser(stdout)
-		if (testsFailed === null) {
-			callbacks.onSuccess()
+		const {ok} = parser(stdout)
+		if (ok) {
+			callbacks.onSuccess(payload)
+			if (onSuccess) {onSuccess()}
 		} else {
+			// TODO: parse failure message
 			// open terminal with failed test string
-			const channel = getOutputChannel(outputChannelName)
-			channel.show(false)
-			channel.appendLine(testsFailed.message)
-			callbacks.onFail()
+			// const channel = getOutputChannel(outputChannelName)
+			// channel.show(false)
+			// channel.appendLine(testsFailed.message)
+			callbacks.onFail(payload)
 		}
 	}
 }
+
+export default createTestRunner

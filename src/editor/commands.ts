@@ -1,10 +1,12 @@
+import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
 import ReactWebView from './ReactWebView'
-import runTest from '../actions/runTest'
+import createTestRunner, {Payload} from '../services/testRunner'
 
 const COMMANDS = {
 	START: 'coderoad.start',
 	OPEN_WEBVIEW: 'coderoad.open_webview',
+	CONFIG_TEST_RUNNER: 'coderoad.config_test_runner',
 	RUN_TEST: 'coderoad.run_test',
 	SET_CURRENT_STEP: 'coderoad.set_current_step',
 }
@@ -19,6 +21,7 @@ export const createCommands = ({extensionPath, workspaceState, workspaceRoot}: C
 	// React panel webview
 	let webview: any
 	let currentStepId = ''
+	let testRunner: any
 
 	return {
 		// initialize
@@ -49,37 +52,38 @@ export const createCommands = ({extensionPath, workspaceState, workspaceRoot}: C
 			// setup 1x1 horizontal layout
 			webview.createOrShow()
 		},
-		[COMMANDS.SET_CURRENT_STEP]: ({stepId}: {stepId: string}) => {
-			// NOTE: as async, may sometimes be inaccurate
-			// set from last setup stepAction
-			currentStepId = stepId
-		},
-		[COMMANDS.RUN_TEST]: (current: {stepId: string} | undefined, onSuccess: () => void) => {
-			console.log('-------- command.run_test ------ ')
-			// use stepId from client, or last set stepId
-			const payload = {stepId: current ? current.stepId : currentStepId}
-			runTest({
-				onSuccess: () => {
+		[COMMANDS.CONFIG_TEST_RUNNER]: (config: G.TutorialTestRunner) => {
+			testRunner = createTestRunner(config, {
+				onSuccess: (payload: Payload) => {
 					// send test pass message back to client
-					webview.send({type: 'TEST_PASS', payload})
-					onSuccess()
 					vscode.window.showInformationMessage('PASS')
+					webview.send({type: 'TEST_PASS', payload})
 				},
-				onFail: () => {
+				onFail: (payload: Payload) => {
 					// send test fail message back to client
-					webview.send({type: 'TEST_FAIL', payload})
 					vscode.window.showWarningMessage('FAIL')
+					webview.send({type: 'TEST_FAIL', payload})
 				},
-				onError: () => {
-					console.log('COMMAND TEST_ERROR')
+				onError: (payload: Payload) => {
 					// send test error message back to client
 					webview.send({type: 'TEST_ERROR', payload})
 				},
-				onRun: () => {
+				onRun: (payload: Payload) => {
 					// send test run message back to client
 					webview.send({type: 'TEST_RUNNING', payload})
 				}
 			})
+		},
+		[COMMANDS.SET_CURRENT_STEP]: ({stepId}: Payload) => {
+			// NOTE: as async, may sometimes be inaccurate
+			// set from last setup stepAction
+			currentStepId = stepId
+		},
+		[COMMANDS.RUN_TEST]: (current: Payload | undefined, onSuccess: () => void) => {
+			console.log('-------- command.run_test ------ ')
+			// use stepId from client, or last set stepId
+			const payload: Payload = {stepId: current ? current.stepId : currentStepId}
+			testRunner(payload, onSuccess)
 		},
 	}
 }
