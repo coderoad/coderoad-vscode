@@ -29,7 +29,6 @@ class Editor {
 	}
 
 	private activateCommands = (): void => {
-
 		// set workspace root for node executions
 		const workspaceRoots: vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders
 		if (!workspaceRoots || !workspaceRoots.length) {

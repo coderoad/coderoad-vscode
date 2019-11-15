@@ -161,7 +161,6 @@ class ReactWebView {
 			}
 		}
 
-
 		// set CSP (content security policy) to grant permission to local files
 		const cspMeta: HTMLMetaElement = document.createElement('meta')
 		cspMeta.httpEquiv = 'Content-Security-Policy'
