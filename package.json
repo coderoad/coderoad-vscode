@@ -1,79 +1,79 @@
 {
-  "name": "coderoad",
-  "version": "0.0.1",
-  "description": "Interactive tutorials in your editor",
-  "homepage": "https://github.com/shmck/coderoad-vscode/README.md",
-  "bugs": {
-    "url": "https://github.com/shmck/coderoad-vscode/issues",
-    "email": "shawn.j.mckay@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/shmck/coderoad-vscode.git"
-  },
-  "license": "SEE LICENSE IN LICENSE.md",
-  "author": {
-    "name": "Shawn McKay <shawn.j.mckay@gmail.com>"
-  },
-  "main": "./build/extension.js",
-  "scripts": {
-    "build": "rm -rf build && concurrently \"npm run build:ext\" \"npm run build:web\"",
-    "build:ext": "npm run compile",
-    "build:web": "cd web-app && npm run build",
-    "compile": "tsc -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "machine": "node ./out/state/index.js",
-    "storybook": "cd web-app && npm run storybook",
-    "test": "jest",
-    "test:ext": "node ./build/test/runTest.js",
-    "vscode:prepublish": "npm run build",
-    "watch": "tsc -watch -p ./"
-  },
-  "dependencies": {
-    "jsdom": "^15.2.1"
-  },
-  "devDependencies": {
-    "@types/assert": "^1.4.3",
-    "@types/dotenv": "^8.2.0",
-    "@types/glob": "^7.1.1",
-    "@types/jsdom": "^12.2.4",
-    "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.7",
-    "assert": "^2.0.0",
-    "concurrently": "^5.0.0",
-    "dotenv": "^8.2.0",
-    "glob": "^7.1.6",
-    "graphql": "^14.5.8",
-    "mocha": "^6.2.2",
-    "prettier": "^1.19.1",
-    "tslint": "^5.20.1",
-    "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.7.2",
-    "vscode": "^1.1.36",
-    "vscode-test": "^1.2.3"
-  },
-  "engines": {
-    "vscode": "^1.34.0"
-  },
-  "activationEvents": [
-    "onCommand:coderoad.start"
-  ],
-  "categories": [
-    "Other"
-  ],
-  "contributes": {
-    "commands": [
-      {
-        "command": "coderoad.start",
-        "title": "Start",
-        "category": "CodeRoad"
-      }
-    ]
-  },
-  "displayName": "CodeRoad",
-  "galleryBanner": {
-    "color": "#C80000",
-    "theme": "dark"
-  },
-  "publisher": "CodeRoad"
+	"name": "coderoad",
+	"version": "0.1.0",
+	"description": "Interactive tutorials in your editor",
+	"homepage": "https://github.com/shmck/coderoad-vscode/README.md",
+	"bugs": {
+		"url": "https://github.com/shmck/coderoad-vscode/issues",
+		"email": "shawn.j.mckay@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/shmck/coderoad-vscode.git"
+	},
+	"license": "SEE LICENSE IN LICENSE.md",
+	"author": {
+		"name": "Shawn McKay <shawn.j.mckay@gmail.com>"
+	},
+	"main": "./build/extension.js",
+	"scripts": {
+		"build": "rm -rf build && concurrently \"npm run build:ext\" \"npm run build:web\"",
+		"build:ext": "npm run compile",
+		"build:web": "cd web-app && npm run build",
+		"compile": "tsc -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"machine": "node ./out/state/index.js",
+		"storybook": "cd web-app && npm run storybook",
+		"test": "jest",
+		"test:ext": "node ./build/test/runTest.js",
+		"vscode:prepublish": "npm run build",
+		"watch": "tsc -watch -p ./"
+	},
+	"dependencies": {
+		"jsdom": "^15.2.1"
+	},
+	"devDependencies": {
+		"@types/assert": "^1.4.3",
+		"@types/dotenv": "^8.2.0",
+		"@types/glob": "^7.1.1",
+		"@types/jsdom": "^12.2.4",
+		"@types/mocha": "^5.2.7",
+		"@types/node": "^12.12.7",
+		"assert": "^2.0.0",
+		"concurrently": "^5.0.0",
+		"dotenv": "^8.2.0",
+		"glob": "^7.1.6",
+		"graphql": "^14.5.8",
+		"mocha": "^6.2.2",
+		"prettier": "^1.19.1",
+		"tslint": "^5.20.1",
+		"tslint-config-prettier": "^1.18.0",
+		"typescript": "^3.7.2",
+		"vscode": "^1.1.36",
+		"vscode-test": "^1.2.3"
+	},
+	"engines": {
+		"vscode": "^1.40.0"
+	},
+	"activationEvents": [
+		"onCommand:coderoad.start"
+	],
+	"categories": [
+		"Other"
+	],
+	"contributes": {
+		"commands": [
+			{
+				"command": "coderoad.start",
+				"title": "Start",
+				"category": "CodeRoad"
+			}
+		]
+	},
+	"displayName": "CodeRoad",
+	"galleryBanner": {
+		"color": "#C80000",
+		"theme": "dark"
+	},
+	"publisher": "CodeRoad"
 }
