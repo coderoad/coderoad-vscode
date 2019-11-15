@@ -8,7 +8,7 @@ CodeRoad allows you to play interactive coding tutorials in your editor.
 
 Requires:
 
-- VSCode 1.34+
+- VSCode 1.40+
 - Git
 - Node 10+
 
@@ -40,15 +40,29 @@ This extension contributes the following settings:
 
 - `coderoad.start`: starts the extension
 
-## Support New Programming Languages
+## Supported Programming Languages
 
-In order to get the extension to support a new language, you'll need the following:
+To support a new programming language, the test runner needs to support a format called TAP (https://testanything.org/).
 
-1. Test runner and CLI command to run test runner
-2. Parser for test runner output (eg. TAP, JSON) that can determine if tests passed or return the failure message
-3. Load prism markdown highlighting styles
+Some test frameworks can be modified to use tap, see a list of TAP reporters: https://github.com/sindresorhus/awesome-tap#reporters.
 
-TODO: A simple way to package all three together would be ideal.
+### JavaScript
+
+##### Jest
+
+```json
+{
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest-tap-reporter": "1.9.0"
+  },
+  "jest": {
+    "reporters": ["jest-tap-reporter"]
+  }
+}
+```
 
 ## Known Issues
 
