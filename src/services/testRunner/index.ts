@@ -9,7 +9,7 @@ export interface Payload {
 
 interface Callbacks {
 	onSuccess(payload: Payload): void
-	onFail(payload: Payload): void
+	onFail(payload: Payload, message: string): void
 	onRun(payload: Payload): void
 	onError(payload: Payload): void
 }
@@ -55,12 +55,16 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
 			callbacks.onSuccess(payload)
 			if (onSuccess) {onSuccess()}
 		} else {
-			// TODO: parse failure message
+
+			// TODO: consider logging output to channel
 			// open terminal with failed test string
 			// const channel = getOutputChannel(outputChannelName)
 			// channel.show(false)
-			// channel.appendLine(testsFailed.message)
-			callbacks.onFail(payload)
+			// channel.appendLine(tap.message)
+
+
+			const message = tap.message ? tap.message : ''
+			callbacks.onFail(payload, message)
 		}
 	}
 }

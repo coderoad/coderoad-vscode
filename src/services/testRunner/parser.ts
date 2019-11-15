@@ -1,12 +1,15 @@
 interface ParserOutput {
 	ok: boolean
+	message?: string
 }
 
 const parser = (text: string): ParserOutput => {
 	const lines = text.split('\n')
 	for (const line of lines) {
-		if (line.match(/^not ok /)) {
-			return {ok: false}
+		// parse failed test
+		const match = line.match(/^not ok \d+ - (.+)+/)
+		if (!!match) {
+			return {ok: false, message: match[1]}
 		}
 	}
 	return {ok: true}
