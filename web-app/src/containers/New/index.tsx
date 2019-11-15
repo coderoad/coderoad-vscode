@@ -11,32 +11,32 @@ import ErrorView from '../../components/Error'
 const Loading = () => <LoadingPage text="Loading tutorials" />
 
 interface ContainerProps {
-  send(action: CR.Action): void
+	send(action: CR.Action): void
 }
 
 interface TutorialsData {
-  tutorials: G.Tutorial[]
+	tutorials: G.Tutorial[]
 }
 
 const NewPageContainer = (props: ContainerProps) => {
-  const { data, loading, error } = useQuery<TutorialsData>(queryTutorials)
-  if (loading) {
-    return <Loading />
-  }
+	const { data, loading, error } = useQuery<TutorialsData>(queryTutorials)
+	if (loading) {
+		return <Loading />
+	}
 
-  if (error) {
-    return <ErrorView error={error} />
-  }
+	if (error) {
+		return <ErrorView error={error} />
+	}
 
-  if (!data) {
-    return null
-  }
+	if (!data) {
+		return null
+	}
 
-  return (
-    <React.Suspense fallback={Loading}>
-      <NewPage tutorialList={data.tutorials} />
-    </React.Suspense>
-  )
+	return (
+		<React.Suspense fallback={Loading}>
+			<NewPage tutorialList={data.tutorials} />
+		</React.Suspense>
+	)
 }
 
 export default NewPageContainer

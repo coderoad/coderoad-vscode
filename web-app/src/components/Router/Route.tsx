@@ -1,6 +1,6 @@
 interface Props {
-  children: any
-  path: string | string[]
+	children: any
+	path: string | string[]
 }
 
 const Route = ({ children }: Props) => children

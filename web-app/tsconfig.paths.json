@@ -1,12 +1,12 @@
 {
-  "compilerOptions": {
-    "baseUrl": "src",
-    "rootDirs": ["src", "stories"],
-    "paths": {
-      "typings": ["../../typings/index.d.ts"],
-      "typings/graphql": ["../../typings/graphql.d.ts"]
-    },
-    "allowSyntheticDefaultImports": true
-  },
-  "exclude": ["node_modules", "build", "scripts", "jest", "public"]
+	"compilerOptions": {
+		"baseUrl": "src",
+		"rootDirs": ["src", "stories"],
+		"paths": {
+			"typings": ["../../typings/index.d.ts"],
+			"typings/graphql": ["../../typings/graphql.d.ts"]
+		},
+		"allowSyntheticDefaultImports": true
+	},
+	"exclude": ["node_modules", "build", "scripts", "jest", "public"]
 }

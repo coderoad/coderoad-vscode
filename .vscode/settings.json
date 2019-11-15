@@ -29,8 +29,7 @@
   },
   "search.exclude": {
     "out": true // set this to false to include "out" folder in search results
-  },
-  "prettier.eslintIntegration": true,
+	},
 
   // styles
   "editor.formatOnSave": true,
