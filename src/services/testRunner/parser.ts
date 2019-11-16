@@ -3,16 +3,27 @@ interface ParserOutput {
   message?: string
 }
 
+const fail = /^not ok \d+ .{1} (.+)+$/
+const ok = /^ok \d+ .{1} /
+
 const parser = (text: string): ParserOutput => {
   const lines = text.split('\n')
+  let hasPass = false
   for (const line of lines) {
-    // parse failed test
-    const match = line.match(/^not ok \d+ - (.+)+/)
-    if (!!match) {
-      return { ok: false, message: match[1] }
+    if (line.length) {
+      // parse failed test
+      const failRegex = fail.exec(line)
+      if (!!failRegex) {
+        return { ok: false, message: failRegex[1] }
+      }
+      if (!hasPass) {
+        if (!!ok.exec(line)) {
+          hasPass = true
+        }
+      }
     }
   }
-  return { ok: true }
+  return { ok: hasPass }
 }
 
 export default parser

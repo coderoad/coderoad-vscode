@@ -1,7 +1,7 @@
 import node from '../../services/node'
 import { getOutputChannel } from '../../editor/outputChannel'
 import parser from './parser'
-import { setLatestProcess, isLatestProcess } from './throttle'
+// import { setLatestProcess, isLatestProcess } from './throttle'
 
 export interface Payload {
   stepId: string
@@ -22,7 +22,7 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
   const outputChannelName = 'TEST_OUTPUT'
 
   return async (payload: Payload, onSuccess?: () => void): Promise<void> => {
-    console.log('------------------- run test ------------------')
+    console.log('------------------- RUN TEST -------------------')
 
     // flag as running
     callbacks.onRun(payload)
@@ -31,41 +31,36 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
     try {
       result = await node.exec(config.command)
     } catch (err) {
-      result = err
+      result = { stdout: err.stdout, stderr: err.stack }
     }
     const { stdout, stderr } = result
 
-    // simple way to throttle requests
-    if (!stdout) {
-      return
-    }
-
+    const tap = parser(stdout || '')
     if (stderr) {
-      callbacks.onError(payload)
-
-      // open terminal with error string
-      const channel = getOutputChannel(outputChannelName)
-      channel.show(false)
-      channel.appendLine(stderr)
-      return
+      // failures also trigger stderr
+      if (stdout && stdout.length && !tap.ok) {
+        const message = tap.message ? tap.message : ''
+        callbacks.onFail(payload, message)
+        return
+      } else {
+        callbacks.onError(payload)
+        // open terminal with error string
+        const channel = getOutputChannel(outputChannelName)
+        channel.show(false)
+        channel.appendLine(stderr)
+        return
+      }
     }
 
-    // pass or fail?
-    const tap = parser(stdout)
+    // success!
     if (tap.ok) {
       callbacks.onSuccess(payload)
       if (onSuccess) {
         onSuccess()
       }
     } else {
-      // TODO: consider logging output to channel
-      // open terminal with failed test string
-      // const channel = getOutputChannel(outputChannelName)
-      // channel.show(false)
-      // channel.appendLine(tap.message)
-
-      const message = tap.message ? tap.message : ''
-      callbacks.onFail(payload, message)
+      // should never get here
+      callbacks.onError(payload)
     }
   }
 }

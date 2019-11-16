@@ -18,6 +18,17 @@ ok 3 - Also passes
 `
     expect(parser(example).ok).toBe(false)
   })
+  test('should detect failure if no tests passed', () => {
+    const example = `
+# Starting...
+# 1 test suites found.
+
+#  FAIL  __tests__/sum.test.js
+
+not ok 1 ● sum › should add two numbers together
+`
+    expect(parser(example).ok).toBe(false)
+  })
   test('should return failure message', () => {
     const example = `
 1..4
