@@ -44,7 +44,7 @@ export default gql`
                 commits
                 commands
                 files
-                listeners
+                watchers
               }
               solution {
                 commits

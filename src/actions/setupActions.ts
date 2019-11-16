@@ -4,7 +4,7 @@ import * as git from '../services/git'
 import node from '../services/node'
 
 import openFiles from './utils/openFiles'
-import loadListeners from './utils/loadListeners'
+import loadWatchers from './utils/loadWatchers'
 
 const runCommands = async (commands: string[]) => {
   if (!commands.length) {
@@ -20,7 +20,7 @@ const runCommands = async (commands: string[]) => {
 }
 
 const setupActions = async (workspaceRoot: vscode.WorkspaceFolder, actions: G.StepActions): Promise<void> => {
-  const { commands, commits, files, listeners } = actions
+  const { commands, commits, files, watchers } = actions
 
   // 1. run commits
   if (commits) {
@@ -32,8 +32,8 @@ const setupActions = async (workspaceRoot: vscode.WorkspaceFolder, actions: G.St
   // 2. open files
   openFiles(files || [])
 
-  // 3. start file watchers (listeners)
-  loadListeners(listeners || [], workspaceRoot.uri)
+  // 3. start file watchers
+  loadWatchers(watchers || [], workspaceRoot.uri)
 
   // 4. run command
   await runCommands(commands || [])
