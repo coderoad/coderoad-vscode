@@ -29,9 +29,8 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
 
     let result: { stdout: string | undefined; stderr: string | undefined }
     try {
-      result = await node.exec('npm test')
+      result = await node.exec(config.command)
     } catch (err) {
-      console.log(err)
       result = { stdout: err.stdout, stderr: err.stack }
     }
     const { stdout, stderr } = result
