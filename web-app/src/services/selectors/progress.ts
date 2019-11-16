@@ -1,5 +1,5 @@
 export const defaultProgress = () => ({
-	levels: {},
-	steps: {},
-	complete: false
+  levels: {},
+  steps: {},
+  complete: false,
 })
