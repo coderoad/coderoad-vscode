@@ -3,21 +3,21 @@ import * as G from 'typings/graphql'
 const languageMap: {
   [lang: string]: G.FileFormat
 } = {
-  // go: 'GO',
+  go: 'GO',
   javascript: 'JS',
   javascriptreact: 'JSX',
   json: 'JSON',
-  // less: 'LESS',
-  // lua: 'LUA',
-  // php: 'PHP',
-  // python: 'PY',
-  // ruby: 'RB',
-  // sass: 'SASS',
-  // scss: 'SCSS',
-  // sql: 'SQL',
+  less: 'LESS',
+  lua: 'LUA',
+  php: 'PHP',
+  python: 'PY',
+  ruby: 'RB',
+  sass: 'SASS',
+  scss: 'SCSS',
+  sql: 'SQL',
   typescript: 'TS',
   typescriptreact: 'TSX',
-  // yaml: 'YAML'
+  yaml: 'YAML',
 }
 
 export default languageMap
