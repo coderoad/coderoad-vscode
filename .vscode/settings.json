@@ -15,5 +15,9 @@
 		"titleBar.activeBackground": "#000000",
 		"titleBar.activeForeground": "#FFFFFF"
 	},
-	"cSpell.ignoreWords": ["camelcase"]
+	"cSpell.ignoreWords": ["camelcase"],
+	"files.exclude": {
+		".vscode-test/**": true,
+		"*.vsix": true
+	}
 }
