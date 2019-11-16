@@ -8,57 +8,57 @@ import OverviewPage from './OverviewPage'
 import ErrorView from '../../components/Error'
 
 interface PageProps {
-	context: CR.MachineContext
-	send(action: CR.Action): void
+  context: CR.MachineContext
+  send(action: CR.Action): void
 }
 
 interface TutorialData {
-	tutorial: G.Tutorial
+  tutorial: G.Tutorial
 }
 
 interface TutorialDataVariables {
-	tutorialId: string
-	version: string
+  tutorialId: string
+  version: string
 }
 
 const Overview = (props: PageProps) => {
-	const { tutorial } = props.context
+  const { tutorial } = props.context
 
-	if (!tutorial) {
-		throw new Error('Tutorial not found in summary page')
-	}
-	const { loading, error, data } = useQuery<TutorialData, TutorialDataVariables>(queryTutorial, {
-		fetchPolicy: 'network-only', // to ensure latest
-		variables: {
-			tutorialId: tutorial.id,
-			version: tutorial.version.version,
-		},
-	})
+  if (!tutorial) {
+    throw new Error('Tutorial not found in summary page')
+  }
+  const { loading, error, data } = useQuery<TutorialData, TutorialDataVariables>(queryTutorial, {
+    fetchPolicy: 'network-only', // to ensure latest
+    variables: {
+      tutorialId: tutorial.id,
+      version: tutorial.version.version,
+    },
+  })
 
-	if (loading) {
-		return <div>Loading Summary...</div>
-	}
+  if (loading) {
+    return <div>Loading Summary...</div>
+  }
 
-	if (error) {
-		return <ErrorView error={error} />
-	}
+  if (error) {
+    return <ErrorView error={error} />
+  }
 
-	if (!data) {
-		return null
-	}
+  if (!data) {
+    return null
+  }
 
-	const onNext = () =>
-		props.send({
-			type: 'LOAD_TUTORIAL',
-			payload: {
-				tutorial: data.tutorial,
-			},
-		})
+  const onNext = () =>
+    props.send({
+      type: 'LOAD_TUTORIAL',
+      payload: {
+        tutorial: data.tutorial,
+      },
+    })
 
-	const { title, description } = data.tutorial.version.summary
-	const { levels } = data.tutorial.version.data
+  const { title, description } = data.tutorial.version.summary
+  const { levels } = data.tutorial.version.data
 
-	return <OverviewPage title={title} description={description} levels={levels} onNext={onNext} />
+  return <OverviewPage title={title} description={description} levels={levels} onNext={onNext} />
 }
 
 export default Overview

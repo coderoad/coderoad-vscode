@@ -35,7 +35,7 @@ storiesOf('Level', module)
   .addDecorator(withKnobs)
   .add('Step', () => (
     <Step
-			order={1}
+      order={1}
       content={text('text', stepText)}
       status={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'COMPLETE', 'step')}
       onLoadSolution={action('onLoadSolution')}
@@ -43,7 +43,7 @@ storiesOf('Level', module)
   ))
   .add('Step Markdown', () => (
     <Step
-			order={2}
+      order={2}
       content={text('text', paragraphText)}
       status={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'ACTIVE', 'step')}
       onLoadSolution={action('onLoadSolution')}

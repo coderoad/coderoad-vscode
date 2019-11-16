@@ -1,4 +1,4 @@
-import {gql} from 'apollo-boost'
+import { gql } from 'apollo-boost'
 
 export default gql`
   query getTutorials {
@@ -7,16 +7,16 @@ export default gql`
       version {
         version
         createdBy {
-            id
+          id
         }
         createdAt
         updatedBy {
-            id
+          id
         }
         updatedAt
         summary {
-            title
-            description
+          title
+          description
         }
       }
     }
