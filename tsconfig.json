@@ -1,30 +1,30 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es6",
-    "outDir": "build",
-    "lib": ["es6", "dom"],
-    "sourceMap": true,
-    "rootDir": "src",
-    "baseUrl": "src",
-    "strict": true /* enable all strict type-checking options */,
-    /* Additional Checks */
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": false,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "paths": {
-      "typings": ["../typings/index.d.ts"],
-      "typings/graphql": ["../typings/graphql.d.ts"],
-      "@api": ["services/api/index"],
-      "@gql/*": ["services/api/gql/*"]
-    },
-    "allowJs": true
-  },
-  "exclude": ["node_modules", ".vscode-test", "build", "resources", "web-app", "*.js", "*.test.ts"]
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "es2018",
+		"outDir": "build",
+		"lib": ["es2018", "dom"],
+		"sourceMap": true,
+		"rootDir": "src",
+		"baseUrl": "src",
+		"strict": true /* enable all strict type-checking options */,
+		/* Additional Checks */
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"suppressImplicitAnyIndexErrors": true,
+		"noUnusedLocals": false,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"paths": {
+			"typings": ["../typings/index.d.ts"],
+			"typings/graphql": ["../typings/graphql.d.ts"],
+			"@api": ["services/api/index"],
+			"@gql/*": ["services/api/gql/*"]
+		},
+		"allowJs": true
+	},
+	"exclude": ["node_modules", ".vscode-test", "build", "resources", "web-app", "*.js", "*.test.ts"]
 }
