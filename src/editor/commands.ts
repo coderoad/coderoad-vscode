@@ -61,7 +61,7 @@ export const createCommands = ({ extensionPath, workspaceState, workspaceRoot }:
         },
         onFail: (payload: Payload, message: string) => {
           // send test fail message back to client
-          vscode.window.showWarningMessage(`FAIL: ${message}`)
+          vscode.window.showWarningMessage(`FAIL ${message}`)
           webview.send({ type: 'TEST_FAIL', payload })
         },
         onError: (payload: Payload) => {
