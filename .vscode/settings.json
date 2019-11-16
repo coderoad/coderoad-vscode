@@ -2,12 +2,6 @@
 	"editor.formatOnSave": true,
 	"eslint.autoFixOnSave": true,
 	"eslint.validate": ["javascript", { "language": "typescript", "autoFix": true }],
-	"[javascript]": {
-		"editor.formatOnSave": false
-	},
-	"[typescript]": {
-		"editor.formatOnSave": false
-	},
 	// Turn off tsc task auto detection since we have the necessary tasks as npm scripts
 	"files.exclude": {
 		"build": false // set this to true to hide the "out" folder with the compiled JS files
@@ -21,7 +15,5 @@
 		"titleBar.activeBackground": "#000000",
 		"titleBar.activeForeground": "#FFFFFF"
 	},
-	"cSpell.ignoreWords": [
-		"camelcase"
-	]
+	"cSpell.ignoreWords": ["camelcase"]
 }
