@@ -72,7 +72,9 @@ storiesOf('Level', module)
 				},
 			],
 		}
-		return <Level level={level} onContinue={action('onContinue')} onLoadSolution={action('onLoadSolution')} />
+		return (
+			<Level level={level} onContinue={action('onContinue')} onLoadSolution={action('onLoadSolution')} processes={[]} />
+		)
 	})
 	.add('Level 2', () => {
 		const level = {
@@ -118,5 +120,17 @@ storiesOf('Level', module)
 			],
 			status: 'ACTIVE',
 		}
-		return <Level level={level} onContinue={action('onContinue')} onLoadSolution={action('onLoadSolution')} />
+		return (
+			<Level
+				level={level}
+				onContinue={action('onContinue')}
+				onLoadSolution={action('onLoadSolution')}
+				processes={[
+					{
+						title: 'npm install',
+						description: 'Installing dependencies',
+					},
+				]}
+			/>
+		)
 	})

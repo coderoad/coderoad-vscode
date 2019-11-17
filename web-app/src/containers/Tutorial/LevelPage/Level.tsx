@@ -5,6 +5,7 @@ import * as T from 'typings'
 import Step from './Step'
 import Button from '../../../components/Button'
 import Markdown from '../../../components/Markdown'
+import ProcessEvents from '../../../components/ProcessEvents'
 
 const styles = {
 	page: {
@@ -51,11 +52,12 @@ const styles = {
 
 interface Props {
 	level: G.Level & { status: T.ProgressStatus; index: number; steps: Array<G.Step & { status: T.ProgressStatus }> }
+	processes: T.ProcessEvent[]
 	onContinue(): void
 	onLoadSolution(): void
 }
 
-const Level = ({ level, onContinue, onLoadSolution }: Props) => {
+const Level = ({ level, onContinue, onLoadSolution, processes }: Props) => {
 	if (!level.steps) {
 		throw new Error('No Stage steps found')
 	}
@@ -92,17 +94,22 @@ const Level = ({ level, onContinue, onLoadSolution }: Props) => {
 				</div>
 			</div>
 
-			{level.status === 'COMPLETE' && (
-				<div style={styles.options}>
-					<Button onClick={onContinue}>Continue</Button>
-				</div>
-			)}
 			<div>
-				<div style={styles.footer}>
-					<span>
-						{typeof level.index === 'number' ? `${level.index + 1}. ` : ''}
-						{level.title}
-					</span>
+				{level.status === 'COMPLETE' && (
+					<div style={styles.options}>
+						<Button onClick={onContinue}>Continue</Button>
+					</div>
+				)}
+
+				<ProcessEvents processes={processes} />
+
+				<div>
+					<div style={styles.footer}>
+						<span>
+							{typeof level.index === 'number' ? `${level.index + 1}. ` : ''}
+							{level.title}
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>
