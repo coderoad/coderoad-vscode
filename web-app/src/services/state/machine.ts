@@ -77,10 +77,24 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
       Tutorial: {
         id: 'tutorial',
         initial: 'Initialize',
+        on: {
+          COMMAND_START: {
+            actions: ['commandStart'],
+          },
+          COMMAND_SUCCESS: {
+            actions: ['commandSuccess'],
+          },
+          COMMAND_FAIL: {
+            actions: ['commandFail'],
+          },
+          COMMAND_ERROR: {
+            actions: ['commandError'],
+          },
+        },
         states: {
           // TODO: move Initialize into New Tutorial setup
           Initialize: {
-            onEntry: ['initializeTutorial'],
+            onEntry: ['initializeTutsorial'],
             on: {
               TUTORIAL_CONFIGURED: 'Summary',
               // TUTORIAL_CONFIG_ERROR: 'Start' // TODO: should handle error
