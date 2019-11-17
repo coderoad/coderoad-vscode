@@ -148,7 +148,7 @@ export type StepActions = {
   commits: Array<Scalars['Sha1']>
   files?: Maybe<Array<Scalars['String']>>
   commands?: Maybe<Array<Scalars['String']>>
-  listeners?: Maybe<Array<Scalars['String']>>
+  watchers?: Maybe<Array<Scalars['String']>>
 }
 
 /** A tutorial for use in VSCode CodeRoad */
@@ -513,7 +513,7 @@ export type StepActionsResolvers<
   commits?: Resolver<Array<ResolversTypes['Sha1']>, ParentType, ContextType>
   files?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
   commands?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
-  listeners?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
+  watchers?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
 }
 
 export type TutorialResolvers<

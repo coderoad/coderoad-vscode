@@ -42,7 +42,7 @@ const tutorialConfig = async ({ config, alreadyConfigured }: TutorialConfigParam
   // setup onSave hook
   vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
     if (shouldRunTest(document)) {
-      vscode.commands.executeCommand('coderoad.run_test')
+      vscode.commands.executeCommand(COMMANDS.RUN_TEST)
     }
   })
 }

@@ -7,6 +7,7 @@ import tutorialConfig from '../actions/tutorialConfig'
 import setupActions from '../actions/setupActions'
 import solutionActions from '../actions/solutionActions'
 import saveCommit from '../actions/saveCommit'
+import { COMMANDS } from '../editor/commands'
 
 interface Channel {
   receive(action: CR.Action): Promise<void>
@@ -81,7 +82,7 @@ class Channel implements Channel {
       // configure test runner, language, git
       case 'EDITOR_TUTORIAL_CONFIG':
         const tutorialData: G.Tutorial = action.payload.tutorial
-        // setup tutorial config (save listener, test runner, etc)
+        // setup tutorial config (save watcher, test runner, etc)
         this.context.setTutorial(this.workspaceState, tutorialData)
 
         const data: G.TutorialData = tutorialData.version.data
@@ -117,14 +118,14 @@ class Channel implements Channel {
         return
       // load step actions (git commits, commands, open files)
       case 'SETUP_ACTIONS':
-        vscode.commands.executeCommand('coderoad.set_current_step', action.payload)
+        vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
         setupActions(this.workspaceRoot, action.payload)
         return
       // load solution step actions (git commits, commands, open files)
       case 'SOLUTION_ACTIONS':
         await solutionActions(this.workspaceRoot, action.payload)
         // run test following solution to update position
-        vscode.commands.executeCommand('coderoad.run_test', action.payload)
+        vscode.commands.executeCommand(COMMANDS.RUN_TEST, action.payload)
         return
 
       default:

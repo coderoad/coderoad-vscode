@@ -1,76 +1,76 @@
 {
-  "name": "coderoad-app",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "build": "react-scripts build",
-    "postbuild": "cp -R ./build/ ../build/",
-    "build-storybook": "build-storybook",
-    "start": "react-scripts start",
-    "storybook": "start-storybook -p 6006",
-    "test": "react-scripts test"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "dependencies": {
-    "@alifd/next": "^1.18.15",
-    "@alifd/theme-4": "^0.2.0",
-    "@apollo/react-hooks": "^3.1.3",
-    "apollo-boost": "^0.4.4",
-    "graphql": "^14.5.8",
-    "markdown-it": "^10.0.0",
-    "markdown-it-emoji": "^1.4.0",
-    "markdown-it-prism": "^2.0.3",
-    "moment": "^2.24.0",
-    "prismjs": "^1.17.1",
-    "ramda": "^0.26.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "reselect": "^4.0.0",
-    "typescript": "^3.7.2",
-    "xstate": "^4.6.7"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.5.4",
-    "@storybook/addon-actions": "^5.2.6",
-    "@storybook/addon-knobs": "^5.2.6",
-    "@storybook/addon-links": "^5.2.6",
-    "@storybook/addons": "^5.2.6",
-    "@storybook/react": "^5.2.6",
-    "@types/graphql": "^14.5.0",
-    "@types/highlight.js": "^9.12.3",
-    "@types/jest": "^24.0.23",
-    "@types/markdown-it": "0.0.9",
-    "@types/node": "^12.12.7",
-    "@types/prismjs": "^1.16.0",
-    "@types/ramda": "^0.26.34",
-    "@types/react": "^16.9.11",
-    "@types/react-dom": "^16.9.4",
-    "@types/storybook__react": "^4.0.2",
-    "@typescript-eslint/eslint-plugin": "^2.7.0",
-    "@typescript-eslint/parser": "^2.7.0",
-    "babel-loader": "8.0.5",
-    "babel-plugin-import": "^1.12.1",
-    "eslint": "^6.6.0",
-    "eslint-config-prettier": "^6.5.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "node-sass": "^4.13.0",
-    "prettier": "^1.19.1",
-    "react-scripts": "^3.2.0",
-    "sass-loader": "^8.0.0",
-    "typescript-eslint-parser": "^22.0.0"
-  }
+	"name": "coderoad-app",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"build": "react-scripts build",
+		"postbuild": "cp -R ./build/ ../build/",
+		"build-storybook": "build-storybook",
+		"start": "react-scripts start",
+		"storybook": "start-storybook -p 6006",
+		"test": "react-scripts test"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"eslintConfig": {
+		"extends": "react-app"
+	},
+	"dependencies": {
+		"@alifd/next": "^1.18.16",
+		"@alifd/theme-4": "^0.2.0",
+		"@apollo/react-hooks": "^3.1.3",
+		"apollo-boost": "^0.4.4",
+		"graphql": "^14.5.8",
+		"markdown-it": "^10.0.0",
+		"markdown-it-emoji": "^1.4.0",
+		"markdown-it-prism": "^2.0.3",
+		"moment": "^2.24.0",
+		"prismjs": "^1.17.1",
+		"ramda": "^0.26.1",
+		"react": "^16.12.0",
+		"react-dom": "^16.12.0",
+		"reselect": "^4.0.0",
+		"typescript": "^3.7.2",
+		"xstate": "^4.6.7"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.5.4",
+		"@storybook/addon-actions": "^5.2.6",
+		"@storybook/addon-knobs": "^5.2.6",
+		"@storybook/addon-links": "^5.2.6",
+		"@storybook/addons": "^5.2.6",
+		"@storybook/react": "^5.2.6",
+		"@types/graphql": "^14.5.0",
+		"@types/highlight.js": "^9.12.3",
+		"@types/jest": "^24.0.23",
+		"@types/markdown-it": "0.0.9",
+		"@types/node": "^12.12.8",
+		"@types/prismjs": "^1.16.0",
+		"@types/ramda": "^0.26.34",
+		"@types/react": "^16.9.11",
+		"@types/react-dom": "^16.9.4",
+		"@types/storybook__react": "^4.0.2",
+		"@typescript-eslint/eslint-plugin": "^2.7.0",
+		"@typescript-eslint/parser": "^2.7.0",
+		"babel-loader": "8.0.5",
+		"babel-plugin-import": "^1.12.1",
+		"eslint": "^6.6.0",
+		"eslint-config-prettier": "^6.5.0",
+		"eslint-plugin-prettier": "^3.1.1",
+		"node-sass": "^4.13.0",
+		"prettier": "^1.19.1",
+		"react-scripts": "^3.2.0",
+		"sass-loader": "^8.0.0",
+		"typescript-eslint-parser": "^22.0.0"
+	}
 }
