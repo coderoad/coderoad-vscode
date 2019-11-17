@@ -15,31 +15,12 @@ const styles = {
 }
 
 interface Props {
-	status: 'COMPLETE' | 'INCOMPLETE' | 'ACTIVE' | 'LOADING'
+	status: 'COMPLETE' | 'INCOMPLETE' | 'ACTIVE'
 }
 
 const Checkbox = (props: Props) => {
 	const onChange = () => {
 		/* read only */
-	}
-
-	if (props.status === 'LOADING') {
-		return (
-			<div style={styles.box}>
-				<input
-					ref={input => {
-						/* ref because unable to apply indeterminate on jsx */
-						if (input) {
-							input.indeterminate = true
-						}
-					}}
-					type="checkbox"
-					checked={false}
-					disabled={true}
-					onChange={onChange}
-				/>
-			</div>
-		)
 	}
 
 	const checked = props.status === 'COMPLETE'
