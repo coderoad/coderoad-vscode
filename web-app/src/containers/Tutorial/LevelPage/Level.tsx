@@ -3,8 +3,8 @@ import * as G from 'typings/graphql'
 import * as T from 'typings'
 
 import Step from './Step'
-import Button from '../../../../components/Button'
-import Markdown from '../../../../components/Markdown'
+import Button from '../../../components/Button'
+import Markdown from '../../../components/Markdown'
 
 const styles = {
 	card: {
