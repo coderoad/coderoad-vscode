@@ -1,7 +1,7 @@
 import node from '../../services/node'
 import { getOutputChannel } from '../../editor/outputChannel'
 import parser from './parser'
-// import { setLatestProcess, isLatestProcess } from './throttle'
+import { throttle, debounce } from './throttle'
 
 export interface Payload {
   stepId: string
@@ -22,6 +22,11 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
   const outputChannelName = 'TEST_OUTPUT'
 
   return async (payload: Payload, onSuccess?: () => void): Promise<void> => {
+    const startTime = throttle()
+    // throttle time early
+    if (!startTime) {
+      return
+    }
     console.log('------------------- RUN TEST -------------------')
 
     // flag as running
@@ -33,6 +38,14 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
     } catch (err) {
       result = { stdout: err.stdout, stderr: err.stack }
     }
+
+    // ignore output if not latest process
+    // this is a crappy version of debounce
+    if (!debounce(startTime)) {
+      return
+    }
+    console.log('----------------- PROCESS TEST -----------------')
+
     const { stdout, stderr } = result
 
     const tap = parser(stdout || '')
