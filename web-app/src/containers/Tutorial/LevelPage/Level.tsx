@@ -7,10 +7,14 @@ import Button from '../../../components/Button'
 import Markdown from '../../../components/Markdown'
 
 const styles = {
-	card: {
+	page: {
 		position: 'relative' as 'relative',
+		display: 'flex' as 'flex',
+		flexDirection: 'column' as 'column',
+		justifyContent: 'space-between',
 		padding: 0,
 		width: '100%',
+		height: '100%',
 	},
 	header: {
 		height: '36px',
@@ -41,8 +45,6 @@ const styles = {
 		lineHeight: '16px',
 		padding: '10px 1rem',
 		color: 'white',
-		position: 'absolute' as 'absolute',
-		bottom: 0,
 		width: '100%',
 	},
 }
@@ -59,7 +61,7 @@ const Level = ({ level, onContinue, onLoadSolution }: Props) => {
 	}
 
 	return (
-		<div style={styles.card}>
+		<div style={styles.page}>
 			<div>
 				<div style={styles.header}>
 					<span>Learn</span>

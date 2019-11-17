@@ -7,7 +7,11 @@ import Markdown from '../../components/Markdown'
 const styles = {
 	page: {
 		position: 'relative' as 'relative',
+		display: 'flex' as 'flex',
+		flexDirection: 'column' as 'column',
+		justifyContent: 'space-between',
 		width: '100%',
+		height: '100%',
 	},
 	summary: {
 		padding: '0rem 1rem 1rem 1rem',
@@ -33,8 +37,6 @@ const styles = {
 		flexDirection: 'row' as 'row',
 		alignItems: 'center' as 'center',
 		justifyContent: 'flex-end' as 'flex-end',
-		position: 'absolute' as 'absolute',
-		bottom: 0,
 		height: '50px',
 		padding: '1rem',
 		paddingRight: '2rem',
@@ -52,26 +54,28 @@ interface Props {
 
 const Summary = ({ title, description, levels, onNext }: Props) => (
 	<div style={styles.page}>
-		<div style={styles.header}>
-			<span>CodeRoad</span>
-		</div>
-		<div style={styles.summary}>
-			<h2 style={styles.title}>{title}</h2>
-			<Markdown>{description}</Markdown>
-		</div>
 		<div>
 			<div style={styles.header}>
-				<span>Levels</span>
+				<span>CodeRoad</span>
 			</div>
-			<div style={styles.levelList}>
-				{levels.map((level: G.Level, index: number) => (
-					<div key={index}>
-						<h4>
-							{index + 1}. {level.title}
-						</h4>
-						<div>{level.description}</div>
-					</div>
-				))}
+			<div style={styles.summary}>
+				<h2 style={styles.title}>{title}</h2>
+				<Markdown>{description}</Markdown>
+			</div>
+			<div>
+				<div style={styles.header}>
+					<span>Levels</span>
+				</div>
+				<div style={styles.levelList}>
+					{levels.map((level: G.Level, index: number) => (
+						<div key={index}>
+							<h4>
+								{index + 1}. {level.title}
+							</h4>
+							<div>{level.description}</div>
+						</div>
+					))}
+				</div>
 			</div>
 		</div>
 
