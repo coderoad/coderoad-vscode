@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import SideBarDecorator from './utils/SideBarDecorator'
 
-import Checkbox from '../src/components/Checkbox'
+import Processes from '../src/components/Processes'
 
 const styles = {
 	container: {
@@ -13,13 +13,17 @@ const styles = {
 
 storiesOf('Components', module)
 	.addDecorator(SideBarDecorator)
-	.add('Checkboxes', () => (
-		<div style={styles.container}>
-			<span>
-				<Checkbox status="COMPLETE" /> Checked
-			</span>
-			<span>
-				<Checkbox status="INCOMPLETE" /> Unchecked
-			</span>
-		</div>
+	.add('Processes', () => (
+		<Processes
+			processes={[
+				{
+					title: 'npm install',
+					description: 'CLI Setup running',
+				},
+				{
+					title: 'npm test',
+					description: 'Test running',
+				},
+			]}
+		/>
 	))
