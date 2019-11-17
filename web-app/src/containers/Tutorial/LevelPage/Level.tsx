@@ -100,7 +100,8 @@ const Level = ({ level, onContinue, onLoadSolution }: Props) => {
 			<div>
 				<div style={styles.footer}>
 					<span>
-						{level.index ? `${level.index.toString()}.` : ''} {level.title}
+						{typeof level.index === 'number' ? `${level.index + 1}. ` : ''}
+						{level.title}
 					</span>
 				</div>
 			</div>

@@ -21,7 +21,7 @@ storiesOf('Level', module)
 	.add('Level', () => {
 		const level = {
 			id: 'L1',
-			index: 2,
+			index: 0,
 			title: 'A Title',
 			description: 'A summary of the level',
 			content: 'Some content here in markdown',
@@ -77,6 +77,7 @@ storiesOf('Level', module)
 	.add('Level 2', () => {
 		const level = {
 			id: 'L1',
+			index: 1,
 			title: 'A Title',
 			description: 'A description',
 			content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
@@ -115,7 +116,6 @@ storiesOf('Level', module)
 					status: 'INCOMPLETE',
 				},
 			],
-			index: 0,
 			status: 'ACTIVE',
 		}
 		return <Level level={level} onContinue={action('onContinue')} onLoadSolution={action('onLoadSolution')} />
