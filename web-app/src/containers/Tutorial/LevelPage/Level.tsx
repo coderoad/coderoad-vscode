@@ -39,6 +39,9 @@ const styles = {
 		fontWeight: 'bold' as 'bold',
 		lineHeight: '1.2rem',
 	},
+	processes: {
+		padding: '0 1rem',
+	},
 	footer: {
 		height: '36px',
 		backgroundColor: 'black',
@@ -101,7 +104,11 @@ const Level = ({ level, onContinue, onLoadSolution, processes }: Props) => {
 					</div>
 				)}
 
-				<ProcessEvents processes={processes} />
+				{processes.length && (
+					<div style={styles.processes}>
+						<ProcessEvents processes={processes} />
+					</div>
+				)}
 
 				<div>
 					<div style={styles.footer}>

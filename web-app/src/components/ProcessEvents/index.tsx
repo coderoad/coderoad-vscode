@@ -20,9 +20,6 @@ const styles = {
 
 // display a list of active processes
 const ProcessEvents = (props: Props) => {
-	if (!props.processes.length) {
-		return null
-	}
 	return (
 		<div style={styles.container}>
 			{props.processes.map(process => (

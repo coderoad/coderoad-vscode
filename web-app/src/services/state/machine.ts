@@ -20,6 +20,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
         steps: {},
         complete: false,
       },
+      processes: [],
     },
     states: {
       Start: {

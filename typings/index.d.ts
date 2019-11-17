@@ -43,6 +43,7 @@ export interface MachineContext {
   tutorial: G.Tutorial | null
   position: Position
   progress: Progress
+  processes: ProcessEvent[]
 }
 
 export interface MachineEvent {
@@ -107,4 +108,5 @@ export type EditorDispatch = (type: string, payload?: MessageData | MessageState
 export interface ProcessEvent {
   title: string
   description: string
+  status: 'RUNNING' | 'SUCCESS' | 'FAIL' | 'ERROR'
 }
