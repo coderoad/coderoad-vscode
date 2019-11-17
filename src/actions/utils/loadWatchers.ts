@@ -29,19 +29,21 @@ const loadWatchers = (watchers: string[], workspaceUri: vscode.Uri) => {
         return
       }
 
-      const listener: chokidar.FSWatcher = chokidar.watch(watcher, {
+      const fsWatcher: chokidar.FSWatcher = chokidar.watch(watcher, {
         cwd: rootUri.uri.path,
         interval: 1000,
       })
 
-      listener.on('change', (path, event) => {
+      fsWatcher.on('change', (path, event) => {
         vscode.commands.executeCommand(COMMANDS.RUN_TEST, null, () => {
           // cleanup watcher on success
           disposeWatcher(watcher)
         })
       })
 
-      watcherObject[watcher] = listener
+      // key fs watcher on name
+      // to easily add/remove multiple watchers
+      watcherObject[watcher] = fsWatcher
     }
   }
 }
