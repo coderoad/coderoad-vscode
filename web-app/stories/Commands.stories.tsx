@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import SideBarDecorator from './utils/SideBarDecorator'
 
-import Processes from '../src/components/Processes'
+import ProcessEvents from '../src/components/ProcessEvents'
 
 const styles = {
 	container: {
@@ -14,7 +14,7 @@ const styles = {
 storiesOf('Components', module)
 	.addDecorator(SideBarDecorator)
 	.add('Processes', () => (
-		<Processes
+		<ProcessEvents
 			processes={[
 				{
 					title: 'npm install',
