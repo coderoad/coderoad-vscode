@@ -8,7 +8,7 @@ const runCommands = async (commands: string[], send: (action: T.Action) => void)
   for (const command of commands) {
     const process = {
       title: command,
-      description: 'Running process',
+      description: 'Running process...',
     }
     send({ type: 'COMMAND_START', payload: { process: { ...process, status: 'RUNNING' } } })
     let result: { stdout: string; stderr: string }

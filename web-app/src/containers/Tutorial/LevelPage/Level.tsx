@@ -104,7 +104,7 @@ const Level = ({ level, onContinue, onLoadSolution, processes }: Props) => {
 					</div>
 				)}
 
-				{processes.length && (
+				{processes.length > 0 && (
 					<div style={styles.processes}>
 						<ProcessEvents processes={processes} />
 					</div>
