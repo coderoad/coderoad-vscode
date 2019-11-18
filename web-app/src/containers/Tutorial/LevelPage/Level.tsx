@@ -12,10 +12,8 @@ const styles = {
 		position: 'relative' as 'relative',
 		display: 'flex' as 'flex',
 		flexDirection: 'column' as 'column',
-		justifyContent: 'space-between',
 		padding: 0,
 		width: '100%',
-		height: '100%',
 	},
 	header: {
 		height: '36px',
@@ -41,6 +39,8 @@ const styles = {
 	},
 	processes: {
 		padding: '0 1rem',
+		position: 'absolute' as 'absolute',
+		bottom: '36px',
 	},
 	footer: {
 		height: '36px',
@@ -48,6 +48,8 @@ const styles = {
 		fontSize: '16px',
 		lineHeight: '16px',
 		padding: '10px 1rem',
+		position: 'absolute' as 'absolute',
+		bottom: 0,
 		color: 'white',
 		width: '100%',
 	},

@@ -9,9 +9,7 @@ const styles = {
 		position: 'relative' as 'relative',
 		display: 'flex' as 'flex',
 		flexDirection: 'column' as 'column',
-		justifyContent: 'space-between',
 		width: '100%',
-		height: '100%',
 	},
 	summary: {
 		padding: '0rem 1rem 1rem 1rem',
@@ -33,6 +31,8 @@ const styles = {
 		padding: '0rem 1rem',
 	},
 	options: {
+		position: 'absolute' as 'absolute',
+		bottom: 0,
 		display: 'flex' as 'flex',
 		flexDirection: 'row' as 'row',
 		alignItems: 'center' as 'center',
