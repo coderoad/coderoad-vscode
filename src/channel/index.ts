@@ -93,7 +93,7 @@ class Channel implements Channel {
         if (data.init) {
           const setup: G.StepActions | null | undefined = data.init.setup
           if (setup) {
-            setupActions(this.workspaceRoot, setup)
+            setupActions(this.workspaceRoot, setup, this.send)
           }
         }
 
@@ -119,11 +119,11 @@ class Channel implements Channel {
       // load step actions (git commits, commands, open files)
       case 'SETUP_ACTIONS':
         vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
-        setupActions(this.workspaceRoot, action.payload)
+        setupActions(this.workspaceRoot, action.payload, this.send)
         return
       // load solution step actions (git commits, commands, open files)
       case 'SOLUTION_ACTIONS':
-        await solutionActions(this.workspaceRoot, action.payload)
+        await solutionActions(this.workspaceRoot, action.payload, this.send)
         // run test following solution to update position
         vscode.commands.executeCommand(COMMANDS.RUN_TEST, action.payload)
         return

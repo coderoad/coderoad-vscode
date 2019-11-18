@@ -20,6 +20,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
         steps: {},
         complete: false,
       },
+      processes: [],
     },
     states: {
       Start: {
@@ -76,6 +77,18 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
       Tutorial: {
         id: 'tutorial',
         initial: 'Initialize',
+        on: {
+          // track commands
+          COMMAND_START: {
+            actions: ['commandStart'],
+          },
+          COMMAND_SUCCESS: {
+            actions: ['commandSuccess'],
+          },
+          COMMAND_FAIL: {
+            actions: ['commandFail'],
+          },
+        },
         states: {
           // TODO: move Initialize into New Tutorial setup
           Initialize: {

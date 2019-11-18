@@ -20,8 +20,9 @@ class Channel {
 
     this.editorSend = editor.postMessage
   }
+
   public machineSend = (action: Action | string) => {
-    /* */
+    /* implemented by `setMachineSend` in router on startup */
   }
   public editorSend = (action: Action) => {
     /* */
@@ -53,6 +54,9 @@ class Channel {
       case 'TEST_FAIL':
       case 'TEST_RUNNING':
       case 'TEST_ERROR':
+      case 'COMMAND_START':
+      case 'COMMAND_SUCCESS':
+      case 'COMMAND_FAIL':
         this.machineSend(action)
         return
       default:
