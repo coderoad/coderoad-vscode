@@ -88,9 +88,6 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
           COMMAND_FAIL: {
             actions: ['commandFail'],
           },
-          COMMAND_ERROR: {
-            actions: ['commandError'],
-          },
         },
         states: {
           // TODO: move Initialize into New Tutorial setup

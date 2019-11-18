@@ -17,21 +17,14 @@ export default {
   commandSuccess: assign({
     processes: ({ processes }: T.MachineContext, event: T.MachineEvent): T.ProcessEvent[] => {
       const { process } = event.payload
-      return processes.filter(p => p.title === process.title)
+      return processes.filter(p => p.title !== process.title)
     },
   }),
   // @ts-ignore
   commandFail: assign({
     processes: ({ processes }: T.MachineContext, event: T.MachineEvent): T.ProcessEvent[] => {
       const { process } = event.payload
-      return processes.filter(p => p.title === process.title)
-    },
-  }),
-  // @ts-ignore
-  commandError: assign({
-    processes: ({ processes }: T.MachineContext, event: T.MachineEvent): T.ProcessEvent[] => {
-      const { process } = event.payload
-      return processes.filter(p => p.title === process.title)
+      return processes.filter(p => p.title !== process.title)
     },
   }),
 }

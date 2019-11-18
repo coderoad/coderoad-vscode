@@ -57,7 +57,6 @@ class Channel {
       case 'COMMAND_START':
       case 'COMMAND_SUCCESS':
       case 'COMMAND_FAIL':
-      case 'COMMAND_ERROR':
         this.machineSend(action)
         return
       default:
