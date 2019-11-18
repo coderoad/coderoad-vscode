@@ -7,8 +7,6 @@ interface ReceivedEvent {
 }
 
 class Channel {
-  editorSend: (action: Action) => void
-  machineSend: (action: Action | string) => void
   constructor() {
     // setup mock if browser only
     // @ts-ignore
@@ -21,9 +19,13 @@ class Channel {
     const editor = acquireVsCodeApi()
 
     this.editorSend = editor.postMessage
-    this.machineSend = () => {
-      /* machineSend is set asynchronously in the router. see "setMachineSend" */
-    }
+  }
+
+  public machineSend = (action: Action | string) => {
+    /* implemented by `setMachineSend` in router on startup */
+  }
+  public editorSend = (action: Action) => {
+    /* */
   }
 
   public setMachineSend = (send: any) => {
