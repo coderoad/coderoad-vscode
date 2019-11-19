@@ -211,7 +211,8 @@ storiesOf('Level', module)
 			id: 'L2',
 			title: 'TypeDefs & Resolvers',
 			description: 'Build endpoints for a User',
-			content: 'Something about typeDefs & resolvers',
+			content:
+				'TypeDefs & Resolvers are the building blocks of GraphQL.\nTypeDefs are the "what", they spell out the shape of the graph. Think of typeDefs like a blueprint.\nResolvers define the "how" and "where", as in how the data is put into the graph and where it comes from.\nNote that there are a few special typeDefs you should know about, but we can start with one: `Query`. `Query` is the entry point for requests.\n',
 			setup: {
 				commits: ['0d7543c'],
 				commands: ['npm install'],
@@ -219,7 +220,8 @@ storiesOf('Level', module)
 			steps: [
 				{
 					id: 'L2:S1',
-					content: 'Setup typeDefs for viewer',
+					content:
+						'Start by defining **typeDefs** for the current user, we can call the user `Viewer`.\n```\ntype Query {\n  viewer: User\n}\n```\nBut now you will have to define what `User` is below.\n```\ntype User {\n  id: ID!\n  firstName: String\n  lastName: String\n}\n```',
 					setup: {
 						files: ['src/typeDefs.ts'],
 						commits: ['76890db'],
@@ -230,7 +232,8 @@ storiesOf('Level', module)
 				},
 				{
 					id: 'L2:S2',
-					content: 'viewer resolvers',
+					content:
+						'Now that we have typeDefs for `Viewer` and `User` we can define the **resolvers**.\nNotice there is user data located in the `src/data/users.ts` file. Import it.\n```ts\nimport users from "./data/users"\n```\nJust to keep things simple, you can resolve the `viewer` as the user with an id of `1`.\n```ts\nviewer() {\n  return users.find(user => user.id === "1")\n}\n```\nRun the server and try your solution in the Playground to see if it worked. The query should look something like\n```\nquery {\n  viewer\n}\n```\nHow can it work without resolving the User?',
 					setup: {
 						files: ['src/resolvers.ts'],
 						commits: ['646f930'],
@@ -241,7 +244,8 @@ storiesOf('Level', module)
 				},
 				{
 					id: 'L2:S3',
-					content: 'User friends typeDefs',
+					content:
+						'In GraphQL we follow a process: typeDefs then resolvers. We can practice the pattern\nAdd a list of friends to the user typeDef.\n```\ntype User {\n  id: ID!\n  firstName: String\n  lastName: String\n  friends: [User]\n  }\n```\nNote that a typesDef can even call itself!',
 					setup: {
 						files: ['src/typeDefs.ts'],
 						commits: ['f00e6e6'],
@@ -252,7 +256,8 @@ storiesOf('Level', module)
 				},
 				{
 					id: 'L2:S3',
-					content: 'User friends resolver',
+					content:
+						'Next we can load the friends with resolvers. If you look in `src/data/users` you can see that users are stored as user ids.\n```json\n{\n  id: 1,\n  jsonfriends: [ "19", "22", "30" ]\n}\n```\nWe need to tell graphql to resolve the user ids on friends. We can use the first param passed into resolvers - often called **parent**. The parent `Viewer` passes params down to the child `User` which uses the ids to resolve the next users.\n```ts\nUser: {\n  friends(parent) {\n  const userFriends = parent.friends\n  return users.filter(user => userFriends.includes(user.id))\n  }\n}\n```',
 					setup: {
 						files: ['src/resolvers.ts'],
 						commits: ['932a621'],
