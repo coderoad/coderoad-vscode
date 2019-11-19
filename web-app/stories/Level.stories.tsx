@@ -94,31 +94,31 @@ storiesOf('Level', module)
 						commands: ['npm install'],
 						files: ['package.json'],
 					},
-					status: 'ACTIVE',
+					status: 'COMPLETE',
 				},
 				{
 					id: 'L1:S2',
 					content: 'Should support markdown test\n ```ts\nvar a = 1\n```\nwhew it works!',
 					setup: { commits: ['8a8a5cb'], commands: [], files: ['src/main.ts'] },
 					solution: { commits: ['c2f7973'], commands: [], files: ['src/main.ts'] },
-					status: 'INCOMPLETE',
+					status: 'COMPLETE',
 				},
 				{
 					id: 'L1:S3',
 					content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
 					setup: { commits: ['992bcb1'], commands: [], files: ['src/main.ts'] },
 					solution: { commits: ['1b92779'], commands: [], files: ['src/main.ts'] },
-					status: 'INCOMPLETE',
+					status: 'COMPLETE',
 				},
 				{
 					id: 'L1:S4',
 					content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
 					setup: { commits: ['be32adb'], commands: [], files: ['src/main.ts'] },
 					solution: { commits: ['7fe26cb'], commands: [], files: ['src/main.ts'] },
-					status: 'INCOMPLETE',
+					status: 'COMPLETE',
 				},
 			],
-			status: 'ACTIVE',
+			status: 'COMPLETE',
 		}
 		return (
 			<Level

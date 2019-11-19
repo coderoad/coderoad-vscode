@@ -9,10 +9,13 @@ import ProcessEvents from '../../../components/ProcessEvents'
 
 const styles = {
 	page: {
+		backgroundColor: 'white',
 		position: 'relative' as 'relative',
 		display: 'flex' as 'flex',
 		flexDirection: 'column' as 'column',
 		padding: 0,
+		paddingBottom: '36px',
+		height: 'auto',
 		width: '100%',
 	},
 	header: {
@@ -25,9 +28,6 @@ const styles = {
 	content: {
 		padding: '0rem 1rem',
 		paddingBottom: '1rem',
-	},
-	options: {
-		padding: '0rem 1rem',
 	},
 	tasks: {
 		paddingBottom: '5rem',
@@ -46,15 +46,20 @@ const styles = {
 		bottom: '36px',
 	},
 	footer: {
+		display: 'flex' as 'flex',
+		flexDirection: 'row' as 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
 		height: '36px',
 		backgroundColor: 'black',
 		fontSize: '16px',
 		lineHeight: '16px',
 		padding: '10px 1rem',
-		position: 'absolute' as 'absolute',
+		position: 'fixed' as 'fixed',
 		bottom: 0,
+		left: 0,
+		right: 0,
 		color: 'white',
-		width: '100%',
 	},
 }
 
@@ -72,14 +77,12 @@ const Level = ({ level, onContinue, onLoadSolution, processes }: Props) => {
 
 	return (
 		<div style={styles.page}>
-			<div>
-				<div style={styles.header}>
-					<span>Learn</span>
-				</div>
-				<div style={styles.content}>
-					<h2 style={styles.title}>{level.title}</h2>
-					<Markdown>{level.content || ''}</Markdown>
-				</div>
+			<div style={styles.header}>
+				<span>Learn</span>
+			</div>
+			<div style={styles.content}>
+				<h2 style={styles.title}>{level.title}</h2>
+				<Markdown>{level.content || ''}</Markdown>
 			</div>
 
 			<div style={styles.tasks}>
@@ -102,27 +105,24 @@ const Level = ({ level, onContinue, onLoadSolution, processes }: Props) => {
 				</div>
 			</div>
 
-			<div>
-				{level.status === 'COMPLETE' && (
-					<div style={styles.options}>
-						<Button onClick={onContinue}>Continue</Button>
-					</div>
-				)}
-
-				{processes.length > 0 && (
-					<div style={styles.processes}>
-						<ProcessEvents processes={processes} />
-					</div>
-				)}
-
-				<div>
-					<div style={styles.footer}>
-						<span>
-							{typeof level.index === 'number' ? `${level.index + 1}. ` : ''}
-							{level.title}
-						</span>
-					</div>
+			{processes.length > 0 && (
+				<div style={styles.processes}>
+					<ProcessEvents processes={processes} />
 				</div>
+			)}
+
+			<div style={styles.footer}>
+				<span>
+					{typeof level.index === 'number' ? `${level.index + 1}. ` : ''}
+					{level.title}
+				</span>
+				<span>
+					{level.status === 'COMPLETE' && (
+						<Button type="primary" onClick={onContinue}>
+							Continue
+						</Button>
+					)}
+				</span>
 			</div>
 		</div>
 	)
