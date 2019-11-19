@@ -29,6 +29,9 @@ const styles = {
 	options: {
 		padding: '0rem 1rem',
 	},
+	tasks: {
+		paddingBottom: '5rem',
+	},
 	steps: {
 		padding: '1rem 16px',
 	},
@@ -79,7 +82,7 @@ const Level = ({ level, onContinue, onLoadSolution, processes }: Props) => {
 				</div>
 			</div>
 
-			<div>
+			<div style={styles.tasks}>
 				<div style={styles.header}>Tasks</div>
 				<div style={styles.steps}>
 					{level.steps.map((step: (G.Step & { status: T.ProgressStatus }) | null, index: number) => {
