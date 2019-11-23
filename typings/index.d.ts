@@ -38,9 +38,14 @@ export interface Environment {
   token: string
 }
 
+export interface ErrorMessage {
+  title: string
+  description?: string
+}
+
 export interface MachineContext {
   env: Environment
-  error: string | null
+  error: ErrorMessage | null
   tutorial: G.Tutorial | null
   position: Position
   progress: Progress
