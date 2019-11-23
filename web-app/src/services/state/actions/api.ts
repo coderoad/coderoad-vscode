@@ -34,6 +34,7 @@ export default {
     if (!result || !result.data) {
       // TODO: handle failed authentication
       console.error('ERROR: Authentication failed')
+      channel.receive({ data: { type: 'ERROR', payload: { error: 'Authentication Failed' } } })
       return
     }
     const { token } = result.data.editorLogin

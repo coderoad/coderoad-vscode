@@ -40,6 +40,7 @@ export interface Environment {
 
 export interface MachineContext {
   env: Environment
+  error: string | null
   tutorial: G.Tutorial | null
   position: Position
   progress: Progress
