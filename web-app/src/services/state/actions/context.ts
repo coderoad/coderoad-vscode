@@ -211,4 +211,10 @@ export default {
       return position
     },
   }),
+  // @ts-ignore
+  setError: assign({
+    error: (context: CR.MachineContext, event: CR.MachineEvent): string | null => {
+      return event.payload.error
+    },
+  }),
 }

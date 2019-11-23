@@ -7,4 +7,4 @@ import LoadingPage from '../src/containers/LoadingPage'
 
 storiesOf('Components', module)
   .addDecorator(SideBarDecorator)
-  .add('Loading', () => <LoadingPage text="Content" />)
+  .add('Loading', () => <LoadingPage text="Content" context={{}} />)

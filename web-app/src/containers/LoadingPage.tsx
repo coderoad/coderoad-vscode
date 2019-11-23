@@ -1,24 +1,38 @@
 import * as React from 'react'
+import * as T from 'typings'
 import Loading from '../components/Loading'
+import Message from '../components/Message'
 
 interface Props {
-	text: string
+  text: string
+  context: T.MachineContext
 }
 
 const styles = {
-	page: {
-		position: 'relative' as 'relative',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-		width: '100%',
-	},
+  page: {
+    position: 'relative' as 'relative',
+    display: 'flex',
+    flexDirection: 'column' as 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
 }
 
-const LoadingPage = ({ text }: Props) => (
-	<div style={styles.page}>
-		<Loading text={text} />
-	</div>
-)
+const LoadingPage = ({ text, context }: Props) => {
+  const { error } = context
+  if (error) {
+    return (
+      <div style={styles.page}>
+        <Message type="error" title={error.title} description={error.description} />
+      </div>
+    )
+  }
+  return (
+    <div style={styles.page}>
+      <Loading text={text} />
+    </div>
+  )
+}
 
 export default LoadingPage

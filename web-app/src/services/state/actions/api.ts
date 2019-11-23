@@ -34,6 +34,11 @@ export default {
     if (!result || !result.data) {
       // TODO: handle failed authentication
       console.error('ERROR: Authentication failed')
+      const error = {
+        title: 'Authentication Failed',
+        description: 'You may not be connected to the internet. Connect and restart the application',
+      }
+      channel.receive({ data: { type: 'ERROR', payload: { error } } })
       return
     }
     const { token } = result.data.editorLogin

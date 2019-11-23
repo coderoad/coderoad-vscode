@@ -12,6 +12,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
     id: 'root',
     initial: 'Start',
     context: {
+      error: null,
       env: { machineId: '', sessionId: '', token: '' },
       tutorial: null,
       position: { levelId: '', stepId: '' },
@@ -21,6 +22,11 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
         complete: false,
       },
       processes: [],
+    },
+    on: {
+      ERROR: {
+        actions: ['setError'],
+      },
     },
     states: {
       Start: {
