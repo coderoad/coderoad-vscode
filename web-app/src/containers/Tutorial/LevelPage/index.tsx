@@ -50,7 +50,7 @@ const LevelSummaryPageContainer = (props: PageProps) => {
   }
 
   return (
-    <Level level={level} onContinue={onContinue} onLoadSolution={onLoadSolution} processes={processes} error={error} />
+    <Level level={level} onContinue={onContinue} onLoadSolution={onLoadSolution} processes={processes} />
   )
 }
 
