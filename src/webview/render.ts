@@ -18,7 +18,7 @@ async function render(panel: vscode.WebviewPanel, rootPath: string) {
 
   // set base href
   const base: HTMLBaseElement = document.createElement('base')
-  base.href = panel.webview.asWebviewUri(vscode.Uri.file(rootPath)).toString() + '/'
+  base.href = `vscode-resource:${rootPath}/`
 
   document.head.appendChild(base)
 
@@ -27,10 +27,11 @@ async function render(panel: vscode.WebviewPanel, rootPath: string) {
 
   // generate vscode-resource build path uri
   const createUri = (filePath: string): any => {
-    return panel.webview.asWebviewUri(vscode.Uri.file(filePath))
-    // .toString()
-    // .replace(/^\/+/g, '') // remove leading '/'
-    // .replace('/vscode-resource%3A', rootPath) // replace mangled resource path with root
+    return panel.webview
+      .asWebviewUri(vscode.Uri.file(filePath))
+      .toString()
+      .replace(/^\/+/g, '') // remove leading '/'
+      .replace('/vscode-resource%3A', rootPath) // replace mangled resource path with root
   }
 
   // fix paths for scripts
