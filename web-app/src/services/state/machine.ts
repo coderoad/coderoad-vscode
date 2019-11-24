@@ -23,11 +23,6 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
       },
       processes: [],
     },
-    on: {
-      ERROR: {
-        actions: ['setError'],
-      },
-    },
     states: {
       Start: {
         initial: 'Startup',
@@ -45,6 +40,9 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
             onEntry: ['authenticate'],
             on: {
               AUTHENTICATED: 'NewOrContinue',
+              ERROR: {
+                actions: ['setError'],
+              },
             },
           },
           NewOrContinue: {
@@ -93,6 +91,9 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
           },
           COMMAND_FAIL: {
             actions: ['commandFail'],
+          },
+          ERROR: {
+            actions: ['setError'],
           },
         },
         states: {
