@@ -18,22 +18,20 @@ async function render(panel: vscode.WebviewPanel, rootPath: string) {
 
   // set base href
   const base: HTMLBaseElement = document.createElement('base')
-  base.href =
-    vscode.Uri.file(rootPath)
-      .with({ scheme: 'vscode-resource' })
-      .toString() + '/'
+  base.href = panel.webview.asWebviewUri(vscode.Uri.file(rootPath)).toString() + '/'
+
   document.head.appendChild(base)
 
   // used for CSP
   const nonces: string[] = []
 
   // generate vscode-resource build path uri
-  const createUri = (filePath: string): string =>
-    vscode.Uri.file(filePath)
-      .with({ scheme: 'vscode-resource' })
-      .toString()
-      .replace(/^\/+/g, '') // remove leading '/'
-      .replace('/vscode-resource%3A', rootPath) // replace mangled resource path with root
+  const createUri = (filePath: string): any => {
+    return panel.webview.asWebviewUri(vscode.Uri.file(filePath))
+    // .toString()
+    // .replace(/^\/+/g, '') // remove leading '/'
+    // .replace('/vscode-resource%3A', rootPath) // replace mangled resource path with root
+  }
 
   // fix paths for scripts
   const scripts: HTMLScriptElement[] = Array.from(document.getElementsByTagName('script'))
@@ -75,6 +73,8 @@ async function render(panel: vscode.WebviewPanel, rootPath: string) {
 
   // stringify dom
   const html = dom.serialize()
+
+  console.log(html)
 
   // set view
   panel.webview.html = html
