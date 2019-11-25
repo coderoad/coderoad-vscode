@@ -39,7 +39,6 @@ class Channel implements Channel {
     const actionType: string = typeof action === 'string' ? action : action.type
     const onError = (error: T.ErrorMessage) => this.send({ type: 'ERROR', payload: { error } })
 
-    // console.log('EDITOR RECEIVED:', actionType)
     switch (actionType) {
       case 'ENV_GET':
         this.send({
@@ -139,7 +138,6 @@ class Channel implements Channel {
   }
   // send to webview
   public send = async (action: T.Action) => {
-    console.log(`EDITOR SEND ${action.type}`)
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
     switch (actionType) {

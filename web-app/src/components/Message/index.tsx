@@ -1,5 +1,4 @@
 import * as React from 'react'
-import * as T from 'typings'
 import { Message as AlifdMessage } from '@alifd/next'
 
 interface Props {

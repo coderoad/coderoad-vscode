@@ -40,8 +40,6 @@ class Channel {
       return
     }
 
-    console.log(`CLIENT RECEIVE: ${action.type}`, action)
-
     // messages from core
     switch (action.type) {
       case 'ENV_LOAD':

@@ -65,17 +65,15 @@ async function render(panel: vscode.WebviewPanel, rootPath: string) {
   const cspMeta: HTMLMetaElement = document.createElement('meta')
   cspMeta.httpEquiv = 'Content-Security-Policy'
   cspMeta.content = [
-    'font-src vscode-resource://*;',
-    'img-src vscode-resource: https:;',
+    `font-src ${panel.webview.cspSource} http: https: data:;`,
+    `img-src ${panel.webview.cspSource} https:;`,
     `script-src ${nonces.map(nonce => `'nonce-${nonce}'`).join(' ')};`,
-    `style-src vscode-resource: http: https: data:;`,
+    `style-src ${panel.webview.cspSource} https:;`,
   ].join(' ')
   document.head.appendChild(cspMeta)
 
   // stringify dom
   const html = dom.serialize()
-
-  console.log(html)
 
   // set view
   panel.webview.html = html

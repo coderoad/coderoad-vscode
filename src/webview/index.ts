@@ -40,7 +40,6 @@ const createReactWebView = ({ extensionPath, workspaceState, workspaceRoot }: Re
     workspaceState,
     workspaceRoot,
     postMessage: (action: Action): Thenable<boolean> => {
-      // console.log(`postMessage ${JSON.stringify(action)}`)
       return panel.webview.postMessage(action)
     },
   })
