@@ -81,7 +81,7 @@ export async function version(): Promise<string | boolean> {
 async function init(): Promise<void> {
   const { stderr } = await node.exec('git init')
   if (stderr) {
-    throw new Error('Error initializing Gits')
+    throw new Error('Error initializing Git')
   }
 }
 
@@ -133,5 +133,7 @@ export async function setupRemote(repo: string): Promise<void> {
   // git fetch coderoad
   if (!hasRemote) {
     await addRemote(repo)
+  } else {
+    throw new Error('A Remote is already configured')
   }
 }

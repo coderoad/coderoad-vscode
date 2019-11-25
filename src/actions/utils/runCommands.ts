@@ -19,7 +19,6 @@ const runCommands = async (commands: string[], send: (action: T.Action) => void)
       send({ type: 'COMMAND_FAIL', payload: { process: { ...process, status: 'FAIL' } } })
       return
     }
-    console.log(result.stdout)
     send({ type: 'COMMAND_SUCCESS', payload: { process: { ...process, status: 'SUCCESS' } } })
   }
 }

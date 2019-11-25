@@ -1,3 +1,4 @@
+import * as T from 'typings'
 import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
 import * as git from '../services/git'
@@ -10,13 +11,25 @@ interface TutorialConfigParams {
   onComplete?(): void
 }
 
-const tutorialConfig = async ({ config, alreadyConfigured }: TutorialConfigParams) => {
+const tutorialConfig = async (
+  { config, alreadyConfigured }: TutorialConfigParams,
+  onError: (msg: T.ErrorMessage) => void,
+) => {
   if (!alreadyConfigured) {
     // setup git, add remote
-    await git.initIfNotExists()
+    await git.initIfNotExists().catch(error => {
+      // failed to setup git
+      onError({
+        title: error.message,
+        description:
+          'Be sure you install Git. See the docs for help https://git-scm.com/book/en/v2/Getting-Started-Installing-Git',
+      })
+    })
 
     // TODO: if remote not already set
-    await git.setupRemote(config.repo.uri)
+    await git.setupRemote(config.repo.uri).catch(error => {
+      onError({ title: error.message, description: 'Remove your current Git project and restarting' })
+    })
   }
 
   vscode.commands.executeCommand(COMMANDS.CONFIG_TEST_RUNNER, config.testRunner)

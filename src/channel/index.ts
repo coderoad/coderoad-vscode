@@ -1,4 +1,4 @@
-import * as CR from 'typings'
+import * as T from 'typings'
 import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
 
@@ -10,18 +10,18 @@ import saveCommit from '../actions/saveCommit'
 import { COMMANDS } from '../editor/commands'
 
 interface Channel {
-  receive(action: CR.Action): Promise<void>
-  send(action: CR.Action): Promise<void>
+  receive(action: T.Action): Promise<void>
+  send(action: T.Action): Promise<void>
 }
 
 interface ChannelProps {
-  postMessage: (action: CR.Action) => Thenable<boolean>
+  postMessage: (action: T.Action) => Thenable<boolean>
   workspaceState: vscode.Memento
   workspaceRoot: vscode.WorkspaceFolder
 }
 
 class Channel implements Channel {
-  private postMessage: (action: CR.Action) => Thenable<boolean>
+  private postMessage: (action: T.Action) => Thenable<boolean>
   private workspaceState: vscode.Memento
   private workspaceRoot: vscode.WorkspaceFolder
   private context: Context
@@ -34,11 +34,11 @@ class Channel implements Channel {
   }
 
   // receive from webview
-  public receive = async (action: CR.Action) => {
+  public receive = async (action: T.Action) => {
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
+    const onError = (error: T.ErrorMessage) => this.send({ type: 'ERROR', payload: { error } })
 
-    // console.log('EDITOR RECEIVED:', actionType)
     switch (actionType) {
       case 'ENV_GET':
         this.send({
@@ -87,7 +87,7 @@ class Channel implements Channel {
 
         const data: G.TutorialData = tutorialData.version.data
 
-        await tutorialConfig({ config: data.config })
+        await tutorialConfig({ config: data.config }, onError)
 
         // run init setup actions
         if (data.init) {
@@ -106,10 +106,13 @@ class Channel implements Channel {
           throw new Error('Invalid tutorial to continue')
         }
         const continueConfig: G.TutorialConfig = tutorialContinue.version.data.config
-        tutorialConfig({
-          config: continueConfig,
-          alreadyConfigured: true,
-        })
+        tutorialConfig(
+          {
+            config: continueConfig,
+            alreadyConfigured: true,
+          },
+          onError,
+        )
         return
       case 'EDITOR_SYNC_PROGRESS':
         // sync client progress on server
@@ -134,8 +137,7 @@ class Channel implements Channel {
     }
   }
   // send to webview
-  public send = async (action: CR.Action) => {
-    console.log(`EDITOR SEND ${action.type}`)
+  public send = async (action: T.Action) => {
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
     switch (actionType) {

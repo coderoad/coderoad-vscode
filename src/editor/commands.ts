@@ -1,6 +1,6 @@
 import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
-import ReactWebView from './ReactWebView'
+import createWebView from '../webview'
 import createTestRunner, { Payload } from '../services/testRunner'
 
 export const COMMANDS = {
@@ -41,7 +41,7 @@ export const createCommands = ({ extensionPath, workspaceState, workspaceRoot }:
       }
 
       // activate machine
-      webview = new ReactWebView({
+      webview = createWebView({
         extensionPath,
         workspaceState,
         workspaceRoot,
