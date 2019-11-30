@@ -64,12 +64,13 @@ async function render(panel: vscode.WebviewPanel, rootPath: string) {
   // set CSP (content security policy) to grant permission to local files
   const cspMeta: HTMLMetaElement = document.createElement('meta')
   cspMeta.httpEquiv = 'Content-Security-Policy'
-  cspMeta.content = [
-    `font-src ${panel.webview.cspSource} http: https: data:;`,
-    `img-src ${panel.webview.cspSource} https:;`,
-    `script-src ${nonces.map(nonce => `'nonce-${nonce}'`).join(' ')};`,
-    `style-src ${panel.webview.cspSource} https:;`,
-  ].join(' ')
+  cspMeta.content =
+    [
+      `font-src ${panel.webview.cspSource} http: https: data:`,
+      `img-src ${panel.webview.cspSource} https:`,
+      `script-src ${nonces.map(nonce => `'nonce-${nonce}'`).join(' ')} data:`,
+      `style-src ${panel.webview.cspSource} https:`,
+    ].join('; ') + ';'
   document.head.appendChild(cspMeta)
 
   // stringify dom

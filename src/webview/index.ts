@@ -25,6 +25,8 @@ const createReactWebView = ({ extensionPath, workspaceState, workspaceRoot }: Re
       localResourceRoots: [vscode.Uri.file(path.join(extensionPath, 'build'))],
       // prevents destroying the window when it is in the background
       retainContextWhenHidden: true,
+      // allows scripts to load external resources (eg. markdown images, fonts)
+      enableCommandUris: true,
     }
     loaded = true
     return vscode.window.createWebviewPanel(viewType, title, vscode.ViewColumn.Two, config)
