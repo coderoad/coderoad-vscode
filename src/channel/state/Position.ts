@@ -36,7 +36,7 @@ class Position {
     const { levels } = tutorial.version.data
 
     const lastLevelIndex: number | undefined = levels.findIndex((l: G.Level) => !progress.levels[l.id])
-    // TODO consider all levels complete as progress.complete
+
     if (lastLevelIndex >= levels.length) {
       throw new Error('Error setting progress level')
     }
