@@ -113,10 +113,12 @@ class Channel implements Channel {
           },
           onError,
         )
+        // update the current stepId on startup
+        vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
         return
       // load step actions (git commits, commands, open files)
       case 'SETUP_ACTIONS':
-        vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
+        await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
         setupActions(this.workspaceRoot, action.payload, this.send)
         return
       // load solution step actions (git commits, commands, open files)

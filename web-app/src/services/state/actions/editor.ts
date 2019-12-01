@@ -55,9 +55,13 @@ export default {
         return Promise.reject(`Failed to load tutorial config ${error.message}`)
       })
   },
-  continueConfig() {
+  continueConfig(context: CR.MachineContext) {
     channel.editorSend({
       type: 'EDITOR_TUTORIAL_CONTINUE_CONFIG',
+      payload: {
+        // pass position because current stepId or first stepId will be empty
+        stepId: context.position.stepId,
+      },
     })
   },
   loadLevel(context: CR.MachineContext): void {

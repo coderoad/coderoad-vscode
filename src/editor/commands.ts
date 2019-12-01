@@ -81,7 +81,7 @@ export const createCommands = ({ extensionPath, workspaceState, workspaceRoot }:
     },
     [COMMANDS.RUN_TEST]: (current: Payload | undefined, onSuccess: () => void) => {
       // use stepId from client, or last set stepId
-      const payload: Payload = { stepId: current ? current.stepId : currentStepId }
+      const payload: Payload = { stepId: current && current.stepId.length ? current.stepId : currentStepId }
       testRunner(payload, onSuccess)
     },
   }
