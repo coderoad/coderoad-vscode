@@ -15,7 +15,7 @@ const { Route } = Router
 const tempSend = (action: any) => console.log('sent')
 
 const Routes = () => {
-  // TODO: refactor for typescript to understand send & context passed into React.cloneElement's
+  // TODO refactor for typescript to understand send & context passed into React.cloneElement's
   return (
     <Workspace>
       <Router>

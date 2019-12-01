@@ -97,12 +97,12 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
           },
         },
         states: {
-          // TODO: move Initialize into New Tutorial setup
+          // TODO move Initialize into New Tutorial setup
           Initialize: {
             onEntry: ['initializeTutorial'],
             on: {
               TUTORIAL_CONFIGURED: 'Summary',
-              // TUTORIAL_CONFIG_ERROR: 'Start' // TODO: should handle error
+              // TUTORIAL_CONFIG_ERROR: 'Start' // TODO should handle error
             },
           },
           Summary: {
@@ -189,7 +189,6 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
                 },
               },
               LevelComplete: {
-                onEntry: ['syncProgress'],
                 on: {
                   LEVEL_NEXT: '#tutorial-load-next',
                 },
@@ -198,7 +197,7 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
           },
           Completed: {
             id: 'completed-tutorial',
-            onEntry: ['syncProgress', 'userTutorialComplete'],
+            onEntry: ['userTutorialComplete'],
             on: {
               SELECT_TUTORIAL: {
                 target: '#start-new-tutorial',

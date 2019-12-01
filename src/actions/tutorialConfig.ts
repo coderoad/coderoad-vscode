@@ -26,7 +26,7 @@ const tutorialConfig = async (
       })
     })
 
-    // TODO: if remote not already set
+    // TODO if remote not already set
     await git.setupRemote(config.repo.uri).catch(error => {
       onError({ title: error.message, description: 'Remove your current Git project and restarting' })
     })

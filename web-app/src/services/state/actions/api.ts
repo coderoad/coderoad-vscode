@@ -32,7 +32,7 @@ export default {
       .catch(console.error)
 
     if (!result || !result.data) {
-      // TODO: handle failed authentication
+      // TODO handle failed authentication
       console.error('ERROR: Authentication failed')
       const error = {
         title: 'Authentication Failed',

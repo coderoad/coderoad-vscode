@@ -27,16 +27,6 @@ export default {
       type: 'EDITOR_TUTORIAL_LOAD',
     })
   },
-  // TODO: syncProgress unused
-  syncProgress(context: CR.MachineContext): void {
-    // sync progress in editor local storage for persistence
-    channel.editorSend({
-      type: 'EDITOR_SYNC_PROGRESS',
-      payload: {
-        progress: context.progress,
-      },
-    })
-  },
   initializeTutorial(context: CR.MachineContext, event: CR.MachineEvent) {
     // setup test runner and git
     if (!context.tutorial) {
@@ -65,9 +55,13 @@ export default {
         return Promise.reject(`Failed to load tutorial config ${error.message}`)
       })
   },
-  continueConfig() {
+  continueConfig(context: CR.MachineContext) {
     channel.editorSend({
       type: 'EDITOR_TUTORIAL_CONTINUE_CONFIG',
+      payload: {
+        // pass position because current stepId or first stepId will be empty
+        stepId: context.position.stepId,
+      },
     })
   },
   loadLevel(context: CR.MachineContext): void {

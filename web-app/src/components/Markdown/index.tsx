@@ -36,7 +36,7 @@ const Markdown = (props: Props) => {
 			<p>${props.children}</p>
 		</div>`
   }
-  // TODO: sanitize markdown or HTML
+  // TODO sanitize markdown or HTML
   return <div dangerouslySetInnerHTML={{ __html: html }} />
 }
 

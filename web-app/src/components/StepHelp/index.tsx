@@ -27,7 +27,7 @@ interface Props {
 }
 
 const StepHelp = (props: Props) => {
-  // TODO: extract or replace load solution
+  // TODO extract or replace load solution
   const [loadedSolution, setLoadedSolution] = React.useState()
   const onClickHandler = () => {
     if (!loadedSolution) {

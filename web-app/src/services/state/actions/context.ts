@@ -47,7 +47,7 @@ export default {
   // @ts-ignore
   updateStepPosition: assign({
     position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
-      // TODO: calculate from progress
+      // TODO calculate from progress
 
       const { position } = context
       // merge in the updated position
@@ -176,7 +176,7 @@ export default {
       const level: G.Level = selectors.currentLevel(context)
 
       const { steps } = level
-      // TODO: verify not -1
+      // TODO verify not -1
       const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
       const finalStep = stepIndex === steps.length - 1
       const stepComplete = progress.steps[position.stepId]

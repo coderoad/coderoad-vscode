@@ -12,7 +12,7 @@ interface ReactWebViewProps {
 
 const createReactWebView = ({ extensionPath, workspaceState, workspaceRoot }: ReactWebViewProps) => {
   let loaded = false
-  // TODO: add disposables
+  // TODO add disposables
   const disposables: vscode.Disposable[] = []
 
   function createWebViewPanel(): vscode.WebviewPanel {
