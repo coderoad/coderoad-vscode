@@ -26,7 +26,7 @@ export const createCommands = ({ extensionPath, workspaceState, workspaceRoot }:
   return {
     // initialize
     [COMMANDS.START]: async () => {
-      // TODO: replace with a prompt to open a workspace
+      // TODO replace with a prompt to open a workspace
       // await isEmptyWorkspace()
 
       let webviewState: 'INITIALIZING' | 'RESTARTING'
@@ -58,6 +58,7 @@ export const createCommands = ({ extensionPath, workspaceState, workspaceRoot }:
           // send test pass message back to client
           vscode.window.showInformationMessage('PASS')
           webview.send({ type: 'TEST_PASS', payload })
+          // update local storage
         },
         onFail: (payload: Payload, message: string) => {
           // send test fail message back to client
@@ -75,7 +76,6 @@ export const createCommands = ({ extensionPath, workspaceState, workspaceRoot }:
       })
     },
     [COMMANDS.SET_CURRENT_STEP]: ({ stepId }: Payload) => {
-      // NOTE: as async, may sometimes be inaccurate
       // set from last setup stepAction
       currentStepId = stepId
     },

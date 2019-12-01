@@ -13,9 +13,15 @@ class Position {
     this.value = defaultValue
   }
   public get = () => {
+    if (!this.value.levelId || !this.value.stepId) {
+      console.log('NO POSITION RETURNED')
+    }
+    console.log(this.value)
     return this.value
   }
   public set = (value: CR.Position) => {
+    console.log('--- position set')
+    console.log(value)
     this.value = value
   }
   public reset = () => {
@@ -23,8 +29,9 @@ class Position {
   }
   // calculate the current position based on the saved progress
   public setPositionFromProgress = (tutorial: G.Tutorial, progress: CR.Progress): CR.Position => {
+    console.log('--- set position from progress')
     // tutorial already completed
-    // TODO: handle start again?
+    // TODO handle start again?
     if (progress.complete) {
       return this.value
     }
@@ -36,7 +43,7 @@ class Position {
     const { levels } = tutorial.version.data
 
     const lastLevelIndex: number | undefined = levels.findIndex((l: G.Level) => !progress.levels[l.id])
-    // TODO: consider all levels complete as progress.complete
+    // TODO consider all levels complete as progress.complete
     if (lastLevelIndex >= levels.length) {
       throw new Error('Error setting progress level')
     }
@@ -56,6 +63,9 @@ class Position {
       levelId: currentLevel.id,
       stepId: currentStep.id,
     }
+
+    console.log('--- calculated set position from progress')
+    console.log(this.value)
     return this.value
   }
 }

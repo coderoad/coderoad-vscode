@@ -43,6 +43,9 @@ class Progress {
   public setStepComplete = (stepId: string): CR.Progress => {
     const next = this.value
     next.steps[stepId] = true
+
+    // TODO validate if progress is complete for a level or tutorial
+
     return this.set(next)
   }
 }

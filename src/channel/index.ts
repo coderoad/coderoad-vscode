@@ -114,11 +114,6 @@ class Channel implements Channel {
           onError,
         )
         return
-      case 'EDITOR_SYNC_PROGRESS':
-        // sync client progress on server
-        this.context.position.set(action.payload.position)
-        this.context.progress.set(action.payload.progress)
-        return
       // load step actions (git commits, commands, open files)
       case 'SETUP_ACTIONS':
         vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)

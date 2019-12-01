@@ -10,4 +10,4 @@ import 'prismjs/components/prism-javascript'
 import 'prismjs/components/prism-json'
 import 'prismjs/components/prism-sql'
 import 'prismjs/components/prism-typescript'
-// TODO: import all - current list only supports js related
+// TODO import all - current list only supports js related

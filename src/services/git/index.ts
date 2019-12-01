@@ -119,7 +119,7 @@ export async function checkRemoteExists(): Promise<boolean> {
       return false
     }
     // string match on remote output
-    // TODO: improve the specificity of this regex
+    // TODO improve the specificity of this regex
     return !!stdout.match(gitOrigin)
   } catch (error) {
     return false

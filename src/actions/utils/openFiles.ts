@@ -8,7 +8,7 @@ const openFiles = async (files: string[]) => {
   }
   for (const filePath of files) {
     try {
-      // TODO: figure out why this does not work
+      // TODO figure out why this does not work
       // 	try {
       // 		const absoluteFilePath = join(workspaceRoot.uri.path, filePath)
       // 		const doc = await vscode.workspace.openTextDocument(absoluteFilePath)
