@@ -12,10 +12,7 @@ class Editor {
     // set out 60/40 layout
     vscode.commands.executeCommand('vscode.setEditorLayout', {
       orientation: 0,
-      groups: [
-        { groups: [{}], size: 0.6 },
-        { groups: [{}], size: 0.4 },
-      ],
+      groups: [{ size: 0.6 }, { size: 0.4 }],
     })
 
     // commands
