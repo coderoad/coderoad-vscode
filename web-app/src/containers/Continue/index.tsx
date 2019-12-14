@@ -31,8 +31,8 @@ export const ContinuePage = (props: Props) => (
     </div>
     <Card>
       <div>
-        <h2>{props.tutorial.version.summary.title}</h2>
-        <p>{props.tutorial.version.summary.description}</p>
+        <h2>{props.tutorial.summary.title}</h2>
+        <p>{props.tutorial.summary.description}</p>
         <Button onClick={props.onContinue}>Resume</Button>
       </div>
     </Card>
