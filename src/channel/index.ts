@@ -88,14 +88,6 @@ class Channel implements Channel {
 
         await tutorialConfig({ config: data.config }, onError)
 
-        // run init setup actions
-        if (data.init) {
-          const setup: G.StepActions | null | undefined = data.init.setup
-          if (setup) {
-            setupActions(this.workspaceRoot, setup, this.send)
-          }
-        }
-
         // report back to the webview that setup is complete
         this.send({ type: 'TUTORIAL_CONFIGURED' })
         return
