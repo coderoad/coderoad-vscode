@@ -1,8 +1,7 @@
 import * as React from 'react'
 import * as G from 'typings/graphql'
-
-import TutorialItem from './TutorialItem'
 import channel from '../../../services/channel'
+import TutorialItem from './TutorialItem'
 
 interface Props {
   tutorialList: G.Tutorial[]

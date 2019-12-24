@@ -1,11 +1,10 @@
 import * as React from 'react'
-import * as G from 'typings/graphql'
 import * as T from 'typings'
-
-import Step from './Step'
+import * as G from 'typings/graphql'
 import Button from '../../../components/Button'
 import Markdown from '../../../components/Markdown'
 import ProcessEvents from '../../../components/ProcessEvents'
+import Step from './Step'
 
 const styles = {
   page: {

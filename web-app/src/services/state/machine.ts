@@ -1,5 +1,5 @@
-import { Machine, MachineOptions } from 'xstate'
 import * as CR from 'typings'
+import { Machine, MachineOptions } from 'xstate'
 import actions from './actions'
 
 const options: MachineOptions<CR.MachineContext, CR.MachineEvent> = {

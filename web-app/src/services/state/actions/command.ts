@@ -1,5 +1,5 @@
-import { assign } from 'xstate'
 import * as T from 'typings'
+import { assign } from 'xstate'
 
 export default {
   // @ts-ignore

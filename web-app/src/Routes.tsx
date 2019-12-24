@@ -1,14 +1,13 @@
 import * as React from 'react'
 import * as CR from 'typings'
-import Workspace from './components/Workspace'
-
 import Router from './components/Router'
-import LoadingPage from './containers/LoadingPage'
+import Workspace from './components/Workspace'
 import ContinuePage from './containers/Continue'
+import LoadingPage from './containers/LoadingPage'
 import NewPage from './containers/New'
 import OverviewPage from './containers/Overview'
-import LevelSummaryPage from './containers/Tutorial/LevelPage'
 import CompletedPage from './containers/Tutorial/CompletedPage'
+import LevelSummaryPage from './containers/Tutorial/LevelPage'
 
 const { Route } = Router
 

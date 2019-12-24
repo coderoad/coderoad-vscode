@@ -1,8 +1,8 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
 import client from '../../apollo'
-import authenticateMutation from '../../apollo/mutations/authenticate'
 import { setAuthToken } from '../../apollo/auth'
+import authenticateMutation from '../../apollo/mutations/authenticate'
 import channel from '../../channel'
 
 interface AuthenticateData {

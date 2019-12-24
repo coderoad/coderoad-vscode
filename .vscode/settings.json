@@ -1,23 +1,18 @@
 {
-	"editor.formatOnSave": true,
-	"eslint.autoFixOnSave": true,
-	"eslint.validate": ["javascript", { "language": "typescript", "autoFix": true }],
-	// Turn off tsc task auto detection since we have the necessary tasks as npm scripts
-	"files.exclude": {
-		"build": false // set this to true to hide the "out" folder with the compiled JS files
-	},
-	"search.exclude": {
-		"build": true // set this to false to include "out" folder in search results
-	},
-	// styles
-	"workbench.colorCustomizations": {
-		"activityBar.background": "#000000",
-		"titleBar.activeBackground": "#000000",
-		"titleBar.activeForeground": "#FFFFFF"
-	},
-	"cSpell.ignoreWords": ["camelcase"],
-	"files.exclude": {
-		".vscode-test/**": true,
-		"*.vsix": true
-	}
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true,
+    "source.fixAll": true
+  },
+  "files.exclude": {
+    "build": false, // set this to true to hide the "out" folder with the compiled JS files
+    ".vscode-test/**": true,
+    "*.vsix": true
+  },
+  // styles
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#000000",
+    "titleBar.activeBackground": "#000000",
+    "titleBar.activeForeground": "#FFFFFF"
+  }
 }

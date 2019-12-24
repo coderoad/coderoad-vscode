@@ -1,9 +1,9 @@
-import * as G from 'typings/graphql'
 import * as CR from 'typings'
-import * as selectors from '../../selectors'
-import channel from '../../channel'
+import * as G from 'typings/graphql'
 import client from '../../apollo'
 import tutorialQuery from '../../apollo/queries/tutorial'
+import channel from '../../channel'
+import * as selectors from '../../selectors'
 
 interface TutorialData {
   tutorial: G.Tutorial

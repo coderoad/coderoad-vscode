@@ -1,7 +1,7 @@
-import editorActions from './editor'
-import contextActions from './context'
 import apiActions from './api'
 import commandActions from './command'
+import contextActions from './context'
+import editorActions from './editor'
 
 export default {
   ...editorActions,

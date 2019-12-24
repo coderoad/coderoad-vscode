@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { Card as AlifdCard } from '@alifd/next'
+import * as React from 'react'
 
 const styles = {
   card: {

@@ -1,9 +1,7 @@
-import React from 'react'
-
 import { storiesOf } from '@storybook/react'
-
-import SideBarDecorator from './utils/SideBarDecorator'
+import React from 'react'
 import LoadingPage from '../src/containers/LoadingPage'
+import SideBarDecorator from './utils/SideBarDecorator'
 
 storiesOf('Components', module)
   .addDecorator(SideBarDecorator)

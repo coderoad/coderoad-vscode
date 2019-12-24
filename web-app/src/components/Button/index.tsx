@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { Button as AlifdButton } from '@alifd/next'
+import * as React from 'react'
 
 interface Props {
   style?: React.CSSProperties

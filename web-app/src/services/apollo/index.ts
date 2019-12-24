@@ -1,6 +1,6 @@
 import ApolloClient, { InMemoryCache } from 'apollo-boost'
-
 import { authorizeHeaders } from './auth'
+
 export const cache = new InMemoryCache()
 
 const client = new ApolloClient({

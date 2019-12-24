@@ -1,6 +1,6 @@
+import { createSelector } from 'reselect'
 import { MachineContext } from 'typings'
 import * as G from 'typings/graphql'
-import { createSelector } from 'reselect'
 
 export const currentTutorial = ({ tutorial }: MachineContext): G.Tutorial => {
   if (!tutorial) {

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
-import * as G from 'typings/graphql'
 import * as CR from 'typings'
+import * as G from 'typings/graphql'
 import * as tutorial from './tutorial'
 
 export const defaultPosition = () => ({

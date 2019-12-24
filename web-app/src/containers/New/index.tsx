@@ -1,12 +1,11 @@
-import * as React from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import * as G from 'typings/graphql'
+import * as React from 'react'
 import * as T from 'typings'
-
-import queryTutorials from '../../services/apollo/queries/tutorials'
-import NewPage from './NewPage'
-import LoadingPage from '../LoadingPage'
+import * as G from 'typings/graphql'
 import ErrorView from '../../components/Error'
+import queryTutorials from '../../services/apollo/queries/tutorials'
+import LoadingPage from '../LoadingPage'
+import NewPage from './NewPage'
 
 interface ContainerProps {
   send(action: T.Action): void

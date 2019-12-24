@@ -1,6 +1,6 @@
 import * as React from 'react'
-import Button from '../../components/Button'
 import * as CR from 'typings'
+import Button from '../../components/Button'
 
 const styles = {
   options: {

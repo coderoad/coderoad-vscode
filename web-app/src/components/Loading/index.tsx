@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { Loading } from '@alifd/next'
+import * as React from 'react'
 
 interface Props {
   text: string

@@ -2,7 +2,6 @@ import * as React from 'react'
 import * as T from 'typings'
 import * as G from 'typings/graphql'
 import * as selectors from '../../../services/selectors'
-
 import Level from './Level'
 
 interface PageProps {
@@ -49,9 +48,7 @@ const LevelSummaryPageContainer = (props: PageProps) => {
     }),
   }
 
-  return (
-    <Level level={level} onContinue={onContinue} onLoadSolution={onLoadSolution} processes={processes} />
-  )
+  return <Level level={level} onContinue={onContinue} onLoadSolution={onLoadSolution} processes={processes} />
 }
 
 export default LevelSummaryPageContainer

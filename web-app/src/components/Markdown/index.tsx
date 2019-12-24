@@ -4,7 +4,6 @@ import markdownEmoji from 'markdown-it-emoji'
 // @ts-ignore no types for package
 import prism from 'markdown-it-prism'
 import * as React from 'react'
-
 // load prism styles & language support
 import './prism'
 

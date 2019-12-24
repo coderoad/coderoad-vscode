@@ -1,8 +1,8 @@
 import * as React from 'react'
-import Button from '../../components/Button'
-import Card from '../../components/Card'
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
+import Button from '../../components/Button'
+import Card from '../../components/Card'
 
 const styles = {
   page: {

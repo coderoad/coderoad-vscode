@@ -1,6 +1,6 @@
-import { assign, send } from 'xstate'
-import * as G from 'typings/graphql'
 import * as CR from 'typings'
+import * as G from 'typings/graphql'
+import { assign, send } from 'xstate'
 import * as selectors from '../../selectors'
 
 export default {

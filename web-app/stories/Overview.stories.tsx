@@ -1,10 +1,8 @@
-import React from 'react'
-
 import { linkTo } from '@storybook/addon-links'
 import { storiesOf } from '@storybook/react'
-
-import SideBarDecorator from './utils/SideBarDecorator'
+import React from 'react'
 import OverViewPage from '../src/containers/Overview/OverviewPage'
+import SideBarDecorator from './utils/SideBarDecorator'
 
 storiesOf('Overview', module)
   .addDecorator(SideBarDecorator)

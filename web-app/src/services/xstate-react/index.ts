@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from 'react'
-import { interpret, EventObject, StateMachine, State, Interpreter, InterpreterOptions, MachineOptions } from 'xstate'
+import { useEffect, useRef, useState } from 'react'
+import { EventObject, interpret, Interpreter, InterpreterOptions, MachineOptions, State, StateMachine } from 'xstate'
 
 interface UseMachineOptions<TContext> {
   /**

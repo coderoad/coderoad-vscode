@@ -1,11 +1,10 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-
-import SideBarDecorator from './utils/SideBarDecorator'
+import { storiesOf } from '@storybook/react'
+import React from 'react'
 import NewPage from '../src/containers/New/NewPage'
 import TutorialList from '../src/containers/New/TutorialList'
 import TutorialItem from '../src/containers/New/TutorialList/TutorialItem'
+import SideBarDecorator from './utils/SideBarDecorator'
 
 const tutorialList = [
   {

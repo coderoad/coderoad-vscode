@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { Icon as AlifdIcon } from '@alifd/next'
+import * as React from 'react'
 
 interface Props {
   type: string

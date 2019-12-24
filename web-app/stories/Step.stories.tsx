@@ -1,14 +1,12 @@
-import React from 'react'
-
 import { action } from '@storybook/addon-actions'
 import { select, text, withKnobs } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
+import React from 'react'
+import Step from '../src/containers/Tutorial/LevelPage/Step'
 import SideBarDecorator from './utils/SideBarDecorator'
 
-import Step from '../src/containers/Tutorial/LevelPage/Step'
-
 const stepText =
-	'This is a long paragraph of step text intended to wrap around the side after a short period of writing to demonstrate text wrap among other things'
+  'This is a long paragraph of step text intended to wrap around the side after a short period of writing to demonstrate text wrap among other things'
 
 const paragraphText = `Markdown included \`code\`, *bold*, & _italics_.
   \`\`\`javascript
@@ -31,21 +29,21 @@ const paragraphText = `Markdown included \`code\`, *bold*, & _italics_.
   `
 
 storiesOf('Level', module)
-	.addDecorator(SideBarDecorator)
-	.addDecorator(withKnobs)
-	.add('Step', () => (
-		<Step
-			order={1}
-			content={text('text', stepText)}
-			status={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'COMPLETE', 'step')}
-			onLoadSolution={action('onLoadSolution')}
-		/>
-	))
-	.add('Step Markdown', () => (
-		<Step
-			order={2}
-			content={text('text', paragraphText)}
-			status={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'ACTIVE', 'step')}
-			onLoadSolution={action('onLoadSolution')}
-		/>
-	))
+  .addDecorator(SideBarDecorator)
+  .addDecorator(withKnobs)
+  .add('Step', () => (
+    <Step
+      order={1}
+      content={text('text', stepText)}
+      status={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'COMPLETE', 'step')}
+      onLoadSolution={action('onLoadSolution')}
+    />
+  ))
+  .add('Step Markdown', () => (
+    <Step
+      order={2}
+      content={text('text', paragraphText)}
+      status={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'ACTIVE', 'step')}
+      onLoadSolution={action('onLoadSolution')}
+    />
+  ))
