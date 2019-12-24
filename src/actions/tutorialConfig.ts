@@ -1,9 +1,9 @@
 import * as T from 'typings'
 import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
-import * as git from '../services/git'
-import languageMap from '../editor/languageMap'
 import { COMMANDS } from '../editor/commands'
+import languageMap from '../editor/languageMap'
+import * as git from '../services/git'
 
 interface TutorialConfigParams {
   config: G.TutorialConfig

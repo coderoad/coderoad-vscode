@@ -1,7 +1,6 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
-
 import Position from './state/Position'
 import Progress from './state/Progress'
 import Tutorial from './state/Tutorial'

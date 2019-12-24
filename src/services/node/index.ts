@@ -1,6 +1,6 @@
+import { exec as cpExec } from 'child_process'
 import * as fs from 'fs'
 import { join } from 'path'
-import { exec as cpExec } from 'child_process'
 import { promisify } from 'util'
 import * as vscode from 'vscode'
 

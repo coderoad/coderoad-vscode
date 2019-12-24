@@ -2,9 +2,8 @@ import * as T from 'typings'
 import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
 import * as git from '../services/git'
-
-import openFiles from './utils/openFiles'
 import loadWatchers from './utils/loadWatchers'
+import openFiles from './utils/openFiles'
 import runCommands from './utils/runCommands'
 
 const setupActions = async (

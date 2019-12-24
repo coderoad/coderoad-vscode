@@ -1,7 +1,7 @@
 import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
-import createWebView from '../webview'
 import createTestRunner, { Payload } from '../services/testRunner'
+import createWebView from '../webview'
 
 export const COMMANDS = {
   START: 'coderoad.start',

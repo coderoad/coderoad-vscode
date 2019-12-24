@@ -1,7 +1,6 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
-
 import Storage from '../../services/storage'
 
 const defaultValue: CR.Progress = {

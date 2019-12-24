@@ -71,7 +71,7 @@ export async function version(): Promise<string | boolean> {
     const match = stdout.match(/^git version (\d+\.)?(\d+\.)?(\*|\d+)/)
     if (match) {
       // eslint-disable-next-line
-			const [_, major, minor, patch] = match
+      const [_, major, minor, patch] = match
       return `${major}${minor}${patch}`
     }
   }

@@ -1,13 +1,12 @@
 import * as T from 'typings'
 import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
-
-import Context from './context'
-import tutorialConfig from '../actions/tutorialConfig'
+import saveCommit from '../actions/saveCommit'
 import setupActions from '../actions/setupActions'
 import solutionActions from '../actions/solutionActions'
-import saveCommit from '../actions/saveCommit'
+import tutorialConfig from '../actions/tutorialConfig'
 import { COMMANDS } from '../editor/commands'
+import Context from './context'
 
 interface Channel {
   receive(action: T.Action): Promise<void>

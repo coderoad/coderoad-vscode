@@ -1,5 +1,5 @@
-import * as vscode from 'vscode'
 import * as chokidar from 'chokidar'
+import * as vscode from 'vscode'
 import { COMMANDS } from '../../editor/commands'
 
 // NOTE: vscode createFileWatcher doesn't seem to detect changes outside of vscode

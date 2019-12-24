@@ -1,4 +1,3 @@
-import Storage from '../src/services/storage'
 import * as G from './graphql'
 
 export type ProgressStatus = 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE'
