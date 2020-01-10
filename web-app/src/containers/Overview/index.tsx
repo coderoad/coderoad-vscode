@@ -54,7 +54,7 @@ const Overview = (props: PageProps) => {
       },
     })
 
-  const { title, description } = data.tutorial.version.summary
+  const { title, description } = data.tutorial.summary
   const { levels } = data.tutorial.version.data
 
   return <OverviewPage title={title} description={description} levels={levels} onNext={onNext} />
