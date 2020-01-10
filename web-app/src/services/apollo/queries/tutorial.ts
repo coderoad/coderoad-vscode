@@ -4,53 +4,43 @@ export default gql`
   query getTutorial($tutorialId: ID!, $version: String) {
     tutorial(id: $tutorialId) {
       id
-      version(version: $version) {
-        version
-        summary {
-          title
-          description
+      createdBy {
+        id
+        name
+        email
+      }
+      summary {
+        title
+        description
+      }
+      latestVersion {
+        createdAt
+        createdBy {
+          id
+          name
+        }
+        updatedAt
+        updatedBy {
+          id
+          name
+        }
+        publishedAt
+        publishedBy {
+          name
         }
         data {
-          config {
-            testRunner {
-              command
-              fileFormats
-            }
-            repo {
-              uri
-              branch
-            }
-          }
-          init {
-            setup {
-              commits
-              commands
-            }
-          }
+          config
           levels {
             id
             title
             description
             content
-            setup {
-              commits
-              commands
-              files
-            }
+            setup
             steps {
               id
               content
-              setup {
-                commits
-                commands
-                files
-                watchers
-              }
-              solution {
-                commits
-                commands
-                files
-              }
+              setup
+              solution
             }
           }
         }

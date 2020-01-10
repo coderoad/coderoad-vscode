@@ -4,19 +4,21 @@ export default gql`
   query getTutorials {
     tutorials {
       id
-      version {
-        version
-        createdBy {
+      createdBy {
+        id
+        name
+        email
+      }
+      summary {
+        title
+        description
+      }
+      latestVersion {
+        publishedAt
+        publishedBy {
           id
-        }
-        createdAt
-        updatedBy {
-          id
-        }
-        updatedAt
-        summary {
-          title
-          description
+          name
+          email
         }
       }
     }
