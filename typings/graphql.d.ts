@@ -190,7 +190,7 @@ export type Tutorial = {
   __typename?: 'Tutorial'
   id: Scalars['ID']
   createdBy?: Maybe<User>
-  latestVersion: TutorialVersion
+  version: TutorialVersion
   versions?: Maybe<Array<TutorialVersion>>
   summary: TutorialSummary
 }
@@ -524,7 +524,7 @@ export type TutorialResolvers<
 > = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
-  latestVersion?: Resolver<ResolversTypes['TutorialVersion'], ParentType, ContextType>
+  version?: Resolver<ResolversTypes['TutorialVersion'], ParentType, ContextType>
   versions?: Resolver<Maybe<Array<ResolversTypes['TutorialVersion']>>, ParentType, ContextType>
   summary?: Resolver<ResolversTypes['TutorialSummary'], ParentType, ContextType>
 }
@@ -615,9 +615,3 @@ export interface IntrospectionResultData {
     }[]
   }
 }
-const result: IntrospectionResultData = {
-  __schema: {
-    types: [],
-  },
-}
-export default result

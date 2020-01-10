@@ -1,5 +1,4 @@
 import * as T from 'typings'
-import * as G from 'typings/graphql'
 import * as vscode from 'vscode'
 import * as git from '../services/git'
 import loadWatchers from './utils/loadWatchers'
@@ -8,7 +7,7 @@ import runCommands from './utils/runCommands'
 
 const setupActions = async (
   workspaceRoot: vscode.WorkspaceFolder,
-  actions: G.StepActions,
+  actions: T.StepActions,
   send: (action: T.Action) => void, // send messages to client
 ): Promise<void> => {
   const { commands, commits, files, watchers } = actions
