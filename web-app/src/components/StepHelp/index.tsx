@@ -1,5 +1,6 @@
 import { Balloon } from '@alifd/next'
 import * as React from 'react'
+import { css, jsx } from '@emotion/core'
 import Button from '../Button'
 
 const styles = {
@@ -35,12 +36,12 @@ const StepHelp = (props: Props) => {
       props.onLoadSolution()
     }
   }
-  const promptLeft = <Button style={styles.iconButton}>i</Button>
+  const promptLeft = <Button css={styles.iconButton}>i</Button>
   return (
-    <Balloon trigger={promptLeft} align="l" alignEdge triggerType="click" style={{ width: 150 }} closable={false}>
+    <Balloon trigger={promptLeft} align="l" alignEdge triggerType="click" css={{ width: 150 }} closable={false}>
       <div>
-        <h4 style={styles.balloonTitle}>Stuck?</h4>
-        <div style={styles.balloonOptions}>
+        <h4 css={styles.balloonTitle}>Stuck?</h4>
+        <div css={styles.balloonOptions}>
           <Button type="secondary" onClick={onClickHandler} disabled={loadedSolution}>
             Load Solution
           </Button>

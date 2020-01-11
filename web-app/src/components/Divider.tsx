@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { css, jsx } from '@emotion/core'
 
 const styles = {
   divider: {
@@ -7,6 +8,6 @@ const styles = {
   },
 }
 
-const Divider = () => <div style={styles.divider} />
+const Divider = () => <div css={styles.divider} />
 
 export default Divider

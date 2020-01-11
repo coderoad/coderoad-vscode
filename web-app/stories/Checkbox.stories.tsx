@@ -1,5 +1,6 @@
 import { storiesOf } from '@storybook/react'
 import React from 'react'
+import { css, jsx } from '@emotion/core'
 import Checkbox from '../src/components/Checkbox'
 import SideBarDecorator from './utils/SideBarDecorator'
 
@@ -13,7 +14,7 @@ const styles = {
 storiesOf('Components', module)
   .addDecorator(SideBarDecorator)
   .add('Checkboxes', () => (
-    <div style={styles.container}>
+    <div css={styles.container}>
       <span>
         <Checkbox status="COMPLETE" /> Checked
       </span>

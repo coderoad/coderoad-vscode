@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { css, jsx } from '@emotion/core'
 
 const styles = {
   container: {
@@ -13,6 +14,6 @@ const styles = {
   },
 }
 
-const SideBarDecorator = storyFn => <div style={styles.container}>{storyFn()}</div>
+const SideBarDecorator = storyFn => <div css={styles.container}>{storyFn()}</div>
 
 export default SideBarDecorator

@@ -1,6 +1,7 @@
 import { Message as AlifdMessage } from '@alifd/next'
 import * as React from 'react'
 import * as T from 'typings'
+import { css, jsx } from '@emotion/core'
 
 interface Props {
   processes: T.ProcessEvent[]
@@ -19,7 +20,7 @@ const ProcessEvents = ({ processes }: Props) => {
     return null
   }
   return (
-    <div style={styles.container}>
+    <div css={styles.container}>
       {processes.map(process => (
         <AlifdMessage key={process.title} type="loading" size="medium" title={process.title}>
           {process.description}

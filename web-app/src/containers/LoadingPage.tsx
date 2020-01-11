@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as T from 'typings'
+import { css, jsx } from '@emotion/core'
 import Loading from '../components/Loading'
 import Message from '../components/Message'
 
@@ -23,13 +24,13 @@ const LoadingPage = ({ text, context }: Props) => {
   const { error } = context
   if (error) {
     return (
-      <div style={styles.page}>
+      <div css={styles.page}>
         <Message type="error" title={error.title} description={error.description} />
       </div>
     )
   }
   return (
-    <div style={styles.page}>
+    <div css={styles.page}>
       <Loading text={text} />
     </div>
   )

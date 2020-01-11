@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as CR from 'typings'
+import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
 
 const styles = {
@@ -20,7 +21,7 @@ const CompletedPage = (props: Props) => {
   return (
     <div>
       <h3>Tutorial Complete</h3>
-      <div style={styles.options}>
+      <div css={styles.options}>
         <Button onClick={selectNewTutorial}>Continue</Button>
       </div>
     </div>

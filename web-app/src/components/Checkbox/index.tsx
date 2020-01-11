@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { css, jsx } from '@emotion/core'
 
 const styles = {
   box: {
@@ -26,9 +27,9 @@ const Checkbox = (props: Props) => {
   const checked = props.status === 'COMPLETE'
 
   return (
-    <div style={styles.box}>
+    <div css={styles.box}>
       <label>
-        <input style={styles.input} type="checkbox" checked={checked} onChange={onChange} />
+        <input css={styles.input} type="checkbox" checked={checked} onChange={onChange} />
       </label>
     </div>
   )

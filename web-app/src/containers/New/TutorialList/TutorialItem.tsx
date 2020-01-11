@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { css, jsx } from '@emotion/core'
 import Card from '../../../components/Card'
 
 const styles = {
@@ -26,7 +27,7 @@ interface Props {
 
 // icons from https://konpa.github.io/devicon/
 const LanguageIcon = () => (
-  <svg viewBox="0 0 128 128" style={styles.languageIcon}>
+  <svg viewBox="0 0 128 128" css={styles.languageIcon}>
     <path fill="#F0DB4F" d="M1.408 1.408h125.184v125.185h-125.184z"></path>
     <path
       fill="#323330"
@@ -36,10 +37,10 @@ const LanguageIcon = () => (
 )
 
 const TutorialItem = (props: Props) => (
-  <Card onClick={props.onSelect} style={styles.card}>
+  <Card onClick={props.onSelect} css={styles.card}>
     <h3>{props.title || 'Title'}</h3>
     <p>{props.description || 'Description'}</p>
-    <div style={styles.languages}>
+    <div css={styles.languages}>
       <LanguageIcon />
     </div>
   </Card>

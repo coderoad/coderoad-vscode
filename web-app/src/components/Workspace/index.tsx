@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { css, jsx } from '@emotion/core'
 
 interface Props {
   children: React.ReactElement
@@ -26,7 +27,7 @@ const Workspace = ({ children }: Props) => {
     },
   }
 
-  return <div style={{ ...styles.page, ...dimensions }}>{children}</div>
+  return <div css={{ ...styles.page, ...dimensions }}>{children}</div>
 }
 
 export default Workspace

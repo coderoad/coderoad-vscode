@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as G from 'typings/graphql'
+import { css, jsx } from '@emotion/core'
 import TutorialList from './TutorialList'
 
 const styles = {
@@ -26,11 +27,11 @@ interface Props {
 }
 
 const NewPage = (props: Props) => (
-  <div style={styles.page}>
-    <div style={styles.header}>
+  <div css={styles.page}>
+    <div css={styles.header}>
       <span>CodeRoad</span>
     </div>
-    <div style={styles.banner}>
+    <div css={styles.banner}>
       <span>Select a Tutorial to Start</span>
     </div>
     <TutorialList tutorialList={props.tutorialList} />

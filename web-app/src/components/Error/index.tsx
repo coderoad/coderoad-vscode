@@ -1,6 +1,7 @@
 import { ApolloError } from 'apollo-boost'
 import { GraphQLError } from 'graphql'
 import * as React from 'react'
+import { css, jsx } from '@emotion/core'
 
 const styles = {
   container: {
@@ -17,7 +18,7 @@ interface Props {
 const ErrorView = ({ error }: Props) => {
   console.log(error)
   return (
-    <div style={styles.container}>
+    <div css={styles.container}>
       <h1>Error</h1>
       {error.graphQLErrors && (
         <div>

@@ -1,5 +1,6 @@
 import { Card as AlifdCard } from '@alifd/next'
 import * as React from 'react'
+import { css, jsx } from '@emotion/core'
 
 const styles = {
   card: {
@@ -19,7 +20,7 @@ const Card = (props: Props) => (
     showTitleBullet={false}
     contentHeight="auto"
     onClick={props.onClick}
-    style={{ ...styles.card, ...props.style }}
+    css={{ ...styles.card, ...props.style }}
   >
     {props.children}
   </AlifdCard>

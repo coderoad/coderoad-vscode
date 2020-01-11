@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as T from 'typings'
 import * as G from 'typings/graphql'
+import { css, jsx } from '@emotion/core'
 import Button from '../../../components/Button'
 import Markdown from '../../../components/Markdown'
 import ProcessEvents from '../../../components/ProcessEvents'
@@ -75,18 +76,18 @@ const Level = ({ level, onContinue, onLoadSolution, processes }: Props) => {
   }
 
   return (
-    <div style={styles.page}>
-      <div style={styles.header}>
+    <div css={styles.page}>
+      <div css={styles.header}>
         <span>Learn</span>
       </div>
-      <div style={styles.content}>
-        <h2 style={styles.title}>{level.title}</h2>
+      <div css={styles.content}>
+        <h2 css={styles.title}>{level.title}</h2>
         <Markdown>{level.content || ''}</Markdown>
       </div>
 
-      <div style={styles.tasks}>
-        <div style={styles.header}>Tasks</div>
-        <div style={styles.steps}>
+      <div css={styles.tasks}>
+        <div css={styles.header}>Tasks</div>
+        <div css={styles.steps}>
           {level.steps.map((step: (G.Step & { status: T.ProgressStatus }) | null, index: number) => {
             if (!step) {
               return null
@@ -105,12 +106,12 @@ const Level = ({ level, onContinue, onLoadSolution, processes }: Props) => {
       </div>
 
       {processes.length > 0 && (
-        <div style={styles.processes}>
+        <div css={styles.processes}>
           <ProcessEvents processes={processes} />
         </div>
       )}
 
-      <div style={styles.footer}>
+      <div css={styles.footer}>
         <span>
           {typeof level.index === 'number' ? `${level.index + 1}. ` : ''}
           {level.title}

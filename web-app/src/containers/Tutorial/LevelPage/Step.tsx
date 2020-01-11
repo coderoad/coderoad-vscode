@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as T from 'typings'
+import { css, jsx } from '@emotion/core'
 import Checkbox from '../../../components/Checkbox'
 import Markdown from '../../../components/Markdown'
 import StepHelp from '../../../components/StepHelp'
@@ -37,7 +38,7 @@ const Step = (props: Props) => {
   const showLoadSolution = props.status === 'ACTIVE'
   return (
     <div>
-      <div style={styles.card}>
+      <div css={styles.card}>
         <div>
           <Checkbox status={props.status} />
         </div>
@@ -46,7 +47,7 @@ const Step = (props: Props) => {
         </div>
       </div>
       {showLoadSolution && (
-        <div style={styles.options}>
+        <div css={styles.options}>
           <StepHelp onLoadSolution={props.onLoadSolution} />
         </div>
       )}

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as G from 'typings/graphql'
+import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
 import Markdown from '../../components/Markdown'
 
@@ -52,20 +53,20 @@ interface Props {
 }
 
 const Summary = ({ title, description, levels, onNext }: Props) => (
-  <div style={styles.page}>
+  <div css={styles.page}>
     <div>
-      <div style={styles.header}>
+      <div css={styles.header}>
         <span>CodeRoad</span>
       </div>
-      <div style={styles.summary}>
-        <h2 style={styles.title}>{title}</h2>
+      <div css={styles.summary}>
+        <h2 css={styles.title}>{title}</h2>
         <Markdown>{description}</Markdown>
       </div>
       <div>
-        <div style={styles.header}>
+        <div css={styles.header}>
           <span>Levels</span>
         </div>
-        <div style={styles.levelList}>
+        <div css={styles.levelList}>
           {levels.map((level: G.Level, index: number) => (
             <div key={index}>
               <h4>
@@ -78,7 +79,7 @@ const Summary = ({ title, description, levels, onNext }: Props) => (
       </div>
     </div>
 
-    <div style={styles.options}>
+    <div css={styles.options}>
       {/* TODO Add back button */}
       <Button type="primary" onClick={() => onNext()}>
         Start
