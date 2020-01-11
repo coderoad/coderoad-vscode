@@ -96,7 +96,7 @@ class Channel implements Channel {
         if (!tutorialContinue) {
           throw new Error('Invalid tutorial to continue')
         }
-        const continueConfig: G.TutorialConfig = tutorialContinue.version.data.config
+        const continueConfig: T.TutorialConfig = tutorialContinue.version.data.config
         tutorialConfig(
           {
             config: continueConfig,

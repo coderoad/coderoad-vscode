@@ -6,7 +6,7 @@ import languageMap from '../editor/languageMap'
 import * as git from '../services/git'
 
 interface TutorialConfigParams {
-  config: G.TutorialConfig
+  config: T.TutorialConfig
   alreadyConfigured?: boolean
   onComplete?(): void
 }

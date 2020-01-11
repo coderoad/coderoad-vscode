@@ -115,3 +115,26 @@ export interface ProcessEvent {
   description: string
   status: 'RUNNING' | 'SUCCESS' | 'FAIL' | 'ERROR'
 }
+
+export interface StepActions {
+  id: string
+  commands: string[]
+  commits: string[]
+  files: string[]
+  watchers: string[]
+}
+
+export interface TutorialTestRunner {
+  command: string
+  fileFormats: string[]
+}
+
+export interface TutorialRepo {
+  uri: string
+  branch: string
+}
+
+export interface TutorialConfig {
+  testRunner: TutorialTestRunner
+  repo: TutorialRepo
+}

@@ -17,7 +17,7 @@ interface TutorialData {
 
 interface TutorialDataVariables {
   tutorialId: string
-  version: string
+  // version: string
 }
 
 const Overview = (props: PageProps) => {
@@ -30,7 +30,7 @@ const Overview = (props: PageProps) => {
     fetchPolicy: 'network-only', // to ensure latest
     variables: {
       tutorialId: tutorial.id,
-      version: tutorial.version.version,
+      // version: tutorial.version.version, // TODO: re-enable latest
     },
   })
 
