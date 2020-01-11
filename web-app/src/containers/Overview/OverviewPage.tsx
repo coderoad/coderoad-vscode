@@ -71,7 +71,7 @@ const Summary = ({ title, description, levels, onNext }: Props) => (
               <h4>
                 {index + 1}. {level.title}
               </h4>
-              <div>{level.description}</div>
+              <div>{level.summary}</div>
             </div>
           ))}
         </div>

@@ -35,7 +35,7 @@ export default gql`
           levels {
             id
             title
-            # summary # TODO: reimplement later
+            summary
             content
             setup
             steps {

@@ -11,7 +11,7 @@ interface TutorialData {
 
 interface TutorialDataVariables {
   tutorialId: string
-  version: string
+  // version: string
 }
 
 export default {
@@ -38,7 +38,7 @@ export default {
         query: tutorialQuery,
         variables: {
           tutorialId: context.tutorial.id,
-          version: context.tutorial.version.version,
+          // version: context.tutorial.version.version, // TODO: reimplement version
         },
       })
       .then(result => {
