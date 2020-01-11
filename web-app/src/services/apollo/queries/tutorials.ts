@@ -13,7 +13,7 @@ export default gql`
         title
         description
       }
-      latestVersion {
+      version {
         publishedAt
         publishedBy {
           id

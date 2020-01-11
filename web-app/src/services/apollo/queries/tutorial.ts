@@ -1,7 +1,9 @@
 import { gql } from 'apollo-boost'
 
+// TODO: add version to query
+
 export default gql`
-  query getTutorial($tutorialId: ID!, $version: String) {
+  query getTutorial($tutorialId: ID!) {
     tutorial(id: $tutorialId) {
       id
       createdBy {
@@ -13,7 +15,7 @@ export default gql`
         title
         description
       }
-      latestVersion {
+      version {
         createdAt
         createdBy {
           id
@@ -33,7 +35,7 @@ export default gql`
           levels {
             id
             title
-            description
+            # summary # TODO: reimplement later
             content
             setup
             steps {
