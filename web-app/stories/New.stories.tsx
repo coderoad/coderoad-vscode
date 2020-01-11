@@ -9,20 +9,16 @@ import SideBarDecorator from './utils/SideBarDecorator'
 const tutorialList = [
   {
     id: '1',
-    version: {
-      summary: {
-        title: 'Tutorial 1',
-        description: 'The first one',
-      },
+    summary: {
+      title: 'Tutorial 1',
+      description: 'The first one',
     },
   },
   {
     id: '2',
-    version: {
-      summary: {
-        title: 'Tutorial 2',
-        description: 'The second one',
-      },
+    summary: {
+      title: 'Tutorial 2',
+      description: 'The second one',
     },
   },
 ]
@@ -37,5 +33,11 @@ storiesOf('Start', module)
   })
   .add('Tutorial Item', () => {
     const tutorial = tutorialList[0]
-    return <TutorialItem onSelect={action('onSelect')} title={tutorial.title} description={tutorial.description} />
+    return (
+      <TutorialItem
+        onSelect={action('onSelect')}
+        title={tutorial.summary.title}
+        description={tutorial.summary.description}
+      />
+    )
   })
