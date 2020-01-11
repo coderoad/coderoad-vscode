@@ -102,8 +102,6 @@ export type Level = {
   title: Scalars['String']
   /** A summary of the level */
   summary: Scalars['String']
-  /** Detailed description */
-  description?: Maybe<Scalars['String']>
   /** The lesson content of the level, parsed as markdown */
   content: Scalars['String']
   /** Actions run on level start up for configuring setup */
@@ -179,7 +177,6 @@ export type Role = 'ADMIN' | 'EDITOR_USER'
 export type Step = {
   __typename?: 'Step'
   id: Scalars['ID']
-  title: Scalars['String']
   content: Scalars['String']
   setup?: Maybe<Scalars['JSON']>
   solution?: Maybe<Scalars['JSON']>
@@ -191,8 +188,13 @@ export type Tutorial = {
   id: Scalars['ID']
   createdBy?: Maybe<User>
   version: TutorialVersion
-  versions?: Maybe<Array<TutorialVersion>>
+  versions: Array<TutorialVersion>
   summary: TutorialSummary
+}
+
+/** A tutorial for use in VSCode CodeRoad */
+export type TutorialVersionArgs = {
+  id?: Maybe<Scalars['String']>
 }
 
 /** Data for tutorial */
@@ -255,7 +257,6 @@ export type User = {
   email?: Maybe<Scalars['String']>
   createdAt: Scalars['DateTime']
   updatedAt: Scalars['DateTime']
-  githubUser?: Maybe<GithubUser>
 }
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
@@ -332,7 +333,6 @@ export type ResolversTypes = {
   User: ResolverTypeWrapper<User>
   String: ResolverTypeWrapper<Scalars['String']>
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>
-  GithubUser: ResolverTypeWrapper<GithubUser>
   TutorialVersion: ResolverTypeWrapper<TutorialVersion>
   TutorialData: ResolverTypeWrapper<TutorialData>
   JSON: ResolverTypeWrapper<Scalars['JSON']>
@@ -355,6 +355,7 @@ export type ResolversTypes = {
   Role: Role
   FileFormat: FileFormat
   tutorialRepoInput: TutorialRepoInput
+  GithubUser: ResolverTypeWrapper<GithubUser>
 }
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -365,7 +366,6 @@ export type ResolversParentTypes = {
   User: User
   String: Scalars['String']
   DateTime: Scalars['DateTime']
-  GithubUser: GithubUser
   TutorialVersion: TutorialVersion
   TutorialData: TutorialData
   JSON: Scalars['JSON']
@@ -388,6 +388,7 @@ export type ResolversParentTypes = {
   Role: Role
   FileFormat: FileFormat
   tutorialRepoInput: TutorialRepoInput
+  GithubUser: GithubUser
 }
 
 export type AuthDirectiveResolver<
@@ -435,7 +436,6 @@ export type LevelResolvers<
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   summary?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   setup?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>
   steps?: Resolver<Array<ResolversTypes['Step']>, ParentType, ContextType>
@@ -512,7 +512,6 @@ export type StepResolvers<
   ParentType extends ResolversParentTypes['Step'] = ResolversParentTypes['Step']
 > = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
-  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   setup?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>
   solution?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>
@@ -524,8 +523,8 @@ export type TutorialResolvers<
 > = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
-  version?: Resolver<ResolversTypes['TutorialVersion'], ParentType, ContextType>
-  versions?: Resolver<Maybe<Array<ResolversTypes['TutorialVersion']>>, ParentType, ContextType>
+  version?: Resolver<ResolversTypes['TutorialVersion'], ParentType, ContextType, TutorialVersionArgs>
+  versions?: Resolver<Array<ResolversTypes['TutorialVersion']>, ParentType, ContextType>
   summary?: Resolver<ResolversTypes['TutorialSummary'], ParentType, ContextType>
 }
 
@@ -568,7 +567,6 @@ export type UserResolvers<
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
-  githubUser?: Resolver<Maybe<ResolversTypes['GithubUser']>, ParentType, ContextType>
 }
 
 export type Resolvers<ContextType = any> = {
