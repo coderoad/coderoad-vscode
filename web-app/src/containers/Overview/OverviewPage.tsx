@@ -1,6 +1,5 @@
 import * as React from 'react'
 import * as G from 'typings/graphql'
-import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
 import Markdown from '../../components/Markdown'
 
@@ -30,9 +29,11 @@ const styles = {
   levelList: {
     padding: '0rem 1rem',
   },
-  options: {
-    position: 'absolute' as 'absolute',
+  footer: {
+    position: 'fixed' as 'fixed',
     bottom: 0,
+    left: 0,
+    right: 0,
     display: 'flex' as 'flex',
     flexDirection: 'row' as 'row',
     alignItems: 'center' as 'center',
@@ -79,7 +80,7 @@ const Summary = ({ title, description, levels, onNext }: Props) => (
       </div>
     </div>
 
-    <div css={styles.options}>
+    <div css={styles.footer}>
       {/* TODO Add back button */}
       <Button type="primary" onClick={() => onNext()}>
         Start
