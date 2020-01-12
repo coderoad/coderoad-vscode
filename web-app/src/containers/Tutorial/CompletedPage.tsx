@@ -1,6 +1,5 @@
 import * as React from 'react'
 import * as CR from 'typings'
-import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
 
 const styles = {

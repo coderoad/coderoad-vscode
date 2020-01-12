@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { css, jsx } from '@emotion/core'
 
 const styles = {
   container: {

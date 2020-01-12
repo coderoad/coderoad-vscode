@@ -1,7 +1,6 @@
 import { ApolloError } from 'apollo-boost'
 import { GraphQLError } from 'graphql'
 import * as React from 'react'
-import { css, jsx } from '@emotion/core'
 
 const styles = {
   container: {

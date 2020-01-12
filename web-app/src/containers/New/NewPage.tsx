@@ -1,6 +1,5 @@
 import * as React from 'react'
 import * as G from 'typings/graphql'
-import { css, jsx } from '@emotion/core'
 import TutorialList from './TutorialList'
 
 const styles = {

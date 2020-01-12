@@ -1,7 +1,6 @@
 import { Message as AlifdMessage } from '@alifd/next'
 import * as React from 'react'
 import * as T from 'typings'
-import { css, jsx } from '@emotion/core'
 
 interface Props {
   processes: T.ProcessEvent[]

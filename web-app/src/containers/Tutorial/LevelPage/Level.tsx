@@ -1,7 +1,6 @@
 import * as React from 'react'
 import * as T from 'typings'
 import * as G from 'typings/graphql'
-import { css, jsx } from '@emotion/core'
 import Button from '../../../components/Button'
 import Markdown from '../../../components/Markdown'
 import ProcessEvents from '../../../components/ProcessEvents'

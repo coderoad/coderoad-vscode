@@ -1,6 +1,5 @@
 import * as React from 'react'
 import * as T from 'typings'
-import { css, jsx } from '@emotion/core'
 
 interface Props extends T.MachineContext {
   state: string
