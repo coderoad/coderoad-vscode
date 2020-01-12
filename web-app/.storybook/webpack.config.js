@@ -22,7 +22,12 @@ module.exports = ({ config }) => {
           },
         ],
       ],
-      presets: [['react-app', { flow: false, typescript: true }], ['@emotion/babel-preset-css-prop']],
+      presets: [
+        // react-app
+        ['react-app', { flow: false, typescript: true }],
+        // allow emotion css prop on html
+        ['@emotion/babel-preset-css-prop'],
+      ],
     },
   })
 

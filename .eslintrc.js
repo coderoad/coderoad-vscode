@@ -16,7 +16,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/camelcase': 'off',
-    'react/forbid-component-props': [1, { forbid: ['style'] }],
-    'react/forbid-dom-props': [1, { forbid: ['style'] }],
+    // 'react/forbid-component-props': [1, { forbid: ['style'] }],
+    // 'react/forbid-dom-props': [1, { forbid: ['style'] }],
   },
 }

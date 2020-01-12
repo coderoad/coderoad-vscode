@@ -1,6 +1,5 @@
 import { Icon as AlifdIcon } from '@alifd/next'
 import * as React from 'react'
-import { css, jsx } from '@emotion/core'
 
 interface Props {
   type: string
@@ -10,7 +9,7 @@ interface Props {
 }
 
 const Icon = (props: Props) => {
-  return <AlifdIcon type={props.type} role={props.role} size={props.size} css={props.style} />
+  return <AlifdIcon type={props.type} role={props.role} size={props.size} style={props.style} />
 }
 
 export default Icon

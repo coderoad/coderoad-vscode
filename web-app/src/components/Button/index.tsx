@@ -1,6 +1,5 @@
 import { Button as AlifdButton } from '@alifd/next'
 import * as React from 'react'
-import { css, jsx } from '@emotion/core'
 
 interface Props {
   style?: React.CSSProperties
@@ -11,7 +10,7 @@ interface Props {
 }
 
 const Button = (props: Props) => (
-  <AlifdButton onClick={props.onClick} type={props.type} disabled={props.disabled} css={props.style}>
+  <AlifdButton onClick={props.onClick} type={props.type} disabled={props.disabled} style={props.style}>
     {props.children}
   </AlifdButton>
 )
