@@ -1,5 +1,5 @@
 import { configure } from '@storybook/react'
-// import '../src/styles/index.css'
+import '../src/styles/index.css'
 
 // setup acquireVsCodeApi mock
 // @ts-ignore
