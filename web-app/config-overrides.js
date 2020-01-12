@@ -1,7 +1,9 @@
-const path = require('path') // eslint-disable-line
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path')
+const { addBabelPreset, addBabelPlugin, addWebpackModuleRule } = require('customize-cra')
 
 module.exports = function override(config) {
-  config.module.rules.push({
+  addWebpackModuleRule({
     test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
     use: [
       {
@@ -12,34 +14,19 @@ module.exports = function override(config) {
         },
       },
     ],
-  })
+  })(config)
 
-  config.module.rules.push({
-    test: /\.(ts|tsx)$/,
-    loader: require.resolve('babel-loader'),
-    options: {
-      plugins: [
-        // load css for @alifd/next components
-        [
-          'babel-plugin-import',
-          {
-            libraryName: '@alifd/next',
-            style: true,
-          },
-        ],
-      ],
-      presets: [
-        // react-app
-        ['react-app', { flow: false, typescript: true }],
-        // allow emotion css prop on html
-        ['@emotion/babel-preset-css-prop'],
-      ],
+  // load @alifd/next component css
+  addBabelPlugin([
+    'babel-plugin-import',
+    {
+      libraryName: '@alifd/next',
+      style: true,
     },
-  })
+  ])(config)
 
-  config.resolve.extensions.push('.ts', '.tsx')
-
-  config.resolve.modules = ['node_modules', path.resolve(__dirname, './src')]
+  // setup emotion styles
+  addBabelPreset('@emotion/babel-preset-css-prop')(config)
 
   return config
 }
