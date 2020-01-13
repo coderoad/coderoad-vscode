@@ -6,6 +6,7 @@ import setupActions from '../actions/setupActions'
 import solutionActions from '../actions/solutionActions'
 import tutorialConfig from '../actions/tutorialConfig'
 import { COMMANDS } from '../editor/commands'
+import logger from '../services/logger'
 import Context from './context'
 
 interface Channel {
@@ -120,7 +121,7 @@ class Channel implements Channel {
         return
 
       default:
-        console.log(`No match for action type: ${actionType}`)
+        logger(`No match for action type: ${actionType}`)
         return
     }
   }

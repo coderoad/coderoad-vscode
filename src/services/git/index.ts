@@ -1,4 +1,5 @@
 import node from '../node'
+import logger from '../logger'
 
 const gitOrigin = 'coderoad'
 
@@ -48,7 +49,7 @@ export async function saveCommit(message: string): Promise<void> {
     console.error(stderr)
     throw new Error('Error saving progress to Git')
   }
-  console.log('save with commit & continue stdout', stdout)
+  logger(['save with commit & continue stdout', stdout])
 }
 
 export async function clear(): Promise<void> {
