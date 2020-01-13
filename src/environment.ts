@@ -1,3 +1,7 @@
+require('dotenv').config({
+  path: './.env',
+})
+
 interface Environment {
   LOG: boolean
 }
