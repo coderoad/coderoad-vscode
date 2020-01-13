@@ -3,6 +3,7 @@ import { css, jsx } from '@emotion/core'
 
 const styles = {
   divider: {
+    width: '100%',
     backgroundColor: '#e8e8e8',
     height: '0.1rem',
   },
