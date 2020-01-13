@@ -1,5 +1,6 @@
 import { getOutputChannel } from '../../editor/outputChannel'
 import node from '../../services/node'
+import logger from '../../services/logger'
 import parser from './parser'
 import { debounce, throttle } from './throttle'
 
@@ -27,7 +28,8 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
     if (!startTime) {
       return
     }
-    console.log('------------------- RUN TEST -------------------')
+
+    logger('------------------- RUN TEST -------------------')
 
     // flag as running
     callbacks.onRun(payload)
@@ -44,7 +46,8 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
     if (!debounce(startTime)) {
       return
     }
-    console.log('----------------- PROCESS TEST -----------------')
+
+    logger('----------------- PROCESS TEST -----------------')
 
     const { stdout, stderr } = result
 
