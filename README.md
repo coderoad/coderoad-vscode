@@ -16,6 +16,14 @@ Requires:
 
 Run the postgres db and api server.
 
+Setup the extension environmental variables.
+
+/src/.env
+
+```
+LOG=true #show hide debugging logs
+```
+
 Setup the web app environmental variables.
 
 /web-app/.env.local
