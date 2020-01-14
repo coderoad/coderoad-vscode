@@ -3,12 +3,15 @@ import * as G from 'typings/graphql'
 import Button from '../../components/Button'
 import Markdown from '../../components/Markdown'
 
+const footerHeight = 50
+
 const styles = {
   page: {
     position: 'relative' as 'relative',
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
     width: '100%',
+    paddingBottom: footerHeight,
   },
   summary: {
     padding: '0rem 1rem 1rem 1rem',
@@ -38,7 +41,7 @@ const styles = {
     flexDirection: 'row' as 'row',
     alignItems: 'center' as 'center',
     justifyContent: 'flex-end' as 'flex-end',
-    height: '50px',
+    height: footerHeight,
     padding: '1rem',
     paddingRight: '2rem',
     backgroundColor: 'black',

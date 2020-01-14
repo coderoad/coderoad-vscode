@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { css, jsx } from '@emotion/core'
 import Card from '../../../components/Card'
+import Markdown from '../../../components/Markdown'
 
 const styles = {
   card: {
@@ -39,7 +40,7 @@ const LanguageIcon = () => (
 const TutorialItem = (props: Props) => (
   <Card onClick={props.onSelect} css={styles.card}>
     <h3>{props.title || 'Title'}</h3>
-    <p>{props.description || 'Description'}</p>
+    <Markdown minimal>{props.description || 'Description'}</Markdown>
     <div css={styles.languages}>
       <LanguageIcon />
     </div>
