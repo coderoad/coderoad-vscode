@@ -10,22 +10,49 @@ import './prism'
 // markdown highlighter instance
 const md: MarkdownIt = new MarkdownIt({
   breaks: true,
-  // highlight: syntaxHighlight,
   html: true,
   linkify: true,
 })
   // add emoji: https://github.com/markdown-it/markdown-it-emoji
   .use(markdownEmoji)
+  // add syntax highlighting through prism
   .use(prism, {
     defaultLanguage: 'js',
   })
 
+// const mdFeatures = [
+//   'table',
+//   'code',
+//   'fence',
+//   'blockquote',
+//   'hr',
+//   'list',
+//   'reference',
+//   'heading',
+//   'lheading',
+//   'html_block',
+//   'paragraph',
+//   'html_inline',
+//   'autolink',
+//   'link',
+//   'image',
+// ]
+
+// TODO: markdownIt with rules disabling most features
+// const minimalMarkdownIt = new MarkdownIt({
+//   breaks: false,
+//   html: true,
+//   linkify: false,
+// }).disable(mdFeatures)
+
 interface Props {
   children: string
+  minimal?: boolean
 }
 
 const Markdown = (props: Props) => {
   let html: string
+  // TODO: set md to minimal rule set if specified
   try {
     html = md.render(props.children)
   } catch (error) {
