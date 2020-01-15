@@ -29,14 +29,18 @@ export default {
           editor: 'VSCODE',
         },
       })
-      .catch(console.error)
+      .catch(error => {
+        console.error('ERROR: Authentication failed')
+        console.error(error)
+      })
 
     if (!result || !result.data) {
       // TODO handle failed authentication
-      console.error('ERROR: Authentication failed')
+      console.error('ERROR: Connection')
       const error = {
-        title: 'Authentication Failed',
-        description: 'You may not be connected to the internet. Connect and restart the application',
+        title: 'Connection Failed',
+        description:
+          'Either our server is having issues or you may not be connected to the internet. Try checking your connection and restarting the application. ',
       }
       channel.receive({ data: { type: 'ERROR', payload: { error } } })
       return
