@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "build": "react-app-rewired build",
-    "postbuild": "cp -R ./build/ ../build/",
     "build-storybook": "build-storybook",
     "start": "react-app-rewired start",
     "storybook": "start-storybook -p 6006",

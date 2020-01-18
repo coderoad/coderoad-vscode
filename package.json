@@ -17,10 +17,10 @@
   },
   "main": "./build/extension.js",
   "scripts": {
-    "build": "rm -rf build && concurrently \"npm run build:ext\" \"npm run build:web\"",
-    "build:ext": "npm run compile",
+    "build": "rm -rf build && npm run build:ext && npm run build:web",
+    "build:ext": "tsc -p ./",
     "build:web": "cd web-app && npm run build",
-    "compile": "tsc -p ./",
+    "postbuild:web": "cp -R ./web-app/build/ ./build/",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "lint": "eslint src/**/*ts",
     "machine": "node ./out/state/index.js",

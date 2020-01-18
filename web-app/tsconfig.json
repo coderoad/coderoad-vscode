@@ -1,6 +1,12 @@
 {
   "extends": "./tsconfig.paths.json",
   "compilerOptions": {
+    "rootDirs": [
+      "src",
+      "stories"
+    ],
+    "baseUrl": "src",
+    "outDir": "build",
     "target": "es2018",
     "lib": [
       "dom",
@@ -18,7 +24,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "sourceMap": true
   },
   "include": [
     "src"
