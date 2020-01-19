@@ -7,7 +7,7 @@ interface Environment {
 }
 
 const environment: Environment = {
-  LOG: (process.env.LOG || '').toLowerCase() === 'test',
+  LOG: (process.env.LOG || '').toLowerCase() === 'true',
 }
 
 export default environment
