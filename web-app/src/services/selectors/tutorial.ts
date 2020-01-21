@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { MachineContext } from 'typings'
 import * as G from 'typings/graphql'
-import onError from 'services/sentry/onError'
+import onError from '../../services/sentry/onError'
 
 export const currentTutorial = ({ tutorial }: MachineContext): G.Tutorial => {
   if (!tutorial) {

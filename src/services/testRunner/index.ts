@@ -3,7 +3,7 @@ import node from '../../services/node'
 import logger from '../../services/logger'
 import parser from './parser'
 import { debounce, throttle } from './throttle'
-import onError from 'services/sentry/onError'
+import onError from '../sentry/onError'
 
 export interface Payload {
   stepId: string

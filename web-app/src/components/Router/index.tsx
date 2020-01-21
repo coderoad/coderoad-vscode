@@ -6,7 +6,7 @@ import machine from '../../services/state/machine'
 import { useMachine } from '../../services/xstate-react'
 import debuggerWrapper from '../Debugger/debuggerWrapper'
 import Route from './Route'
-import onError from 'services/sentry/onError'
+import onError from '../../services/sentry/onError'
 
 interface Props {
   children: any

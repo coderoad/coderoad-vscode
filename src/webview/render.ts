@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom'
 import * as path from 'path'
 import * as vscode from 'vscode'
-import onError from 'services/sentry/onError'
+import onError from '../services/sentry/onError'
 
 const getNonce = (): string => {
   let text = ''
@@ -29,11 +29,14 @@ async function render(panel: vscode.WebviewPanel, rootPath: string) {
 
     // generate vscode-resource build path uri
     const createUri = (filePath: string): any => {
-      return panel.webview
-        .asWebviewUri(vscode.Uri.file(filePath))
-        .toString()
-        .replace(/^\/+/g, '') // remove leading '/'
-        .replace('/vscode-resource%3A', rootPath) // replace mangled resource path with root
+      return (
+        panel.webview
+          // @ts-ignore
+          .asWebviewUri(vscode.Uri.file(filePath))
+          .toString()
+          .replace(/^\/+/g, '') // remove leading '/'
+          .replace('/vscode-resource%3A', rootPath)
+      ) // replace mangled resource path with root
     }
 
     // fix paths for scripts
@@ -70,9 +73,12 @@ async function render(panel: vscode.WebviewPanel, rootPath: string) {
       [
         `default-src 'self'`,
         `connect-src https: http:`,
+        // @ts-ignore
         `font-src ${panel.webview.cspSource} http: https: data:`,
+        // @ts-ignore
         `img-src ${panel.webview.cspSource} https:`,
         `script-src ${nonces.map(nonce => `'nonce-${nonce}'`).join(' ')} data:`,
+        // @ts-ignore
         `style-src ${panel.webview.cspSource} https: 'self' 'unsafe-inline'`,
       ].join('; ') + ';'
     document.head.appendChild(cspMeta)

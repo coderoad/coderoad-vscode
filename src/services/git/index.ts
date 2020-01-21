@@ -1,6 +1,6 @@
 import node from '../node'
 import logger from '../logger'
-import onError from 'services/sentry/onError'
+import onError from '../sentry/onError'
 
 const gitOrigin = 'coderoad'
 

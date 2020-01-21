@@ -4,7 +4,7 @@ import * as vscode from 'vscode'
 import { COMMANDS } from '../editor/commands'
 import languageMap from '../editor/languageMap'
 import * as git from '../services/git'
-import onError from 'services/sentry/onError'
+import onError from '../services/sentry/onError'
 
 interface TutorialConfigParams {
   config: T.TutorialConfig

@@ -2,7 +2,7 @@ import { ApolloError } from 'apollo-boost'
 import { GraphQLError } from 'graphql'
 import * as React from 'react'
 import { css, jsx } from '@emotion/core'
-import onError from 'services/sentry/onError'
+import onError from '../../services/sentry/onError'
 
 const styles = {
   container: {

@@ -3,7 +3,7 @@ import * as fs from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
 import * as vscode from 'vscode'
-import onError from 'services/sentry/onError'
+import onError from '../sentry/onError'
 
 const asyncExec = promisify(cpExec)
 

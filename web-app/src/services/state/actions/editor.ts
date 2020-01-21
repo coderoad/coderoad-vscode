@@ -4,7 +4,7 @@ import client from '../../apollo'
 import tutorialQuery from '../../apollo/queries/tutorial'
 import channel from '../../channel'
 import * as selectors from '../../selectors'
-import onError from 'services/sentry/onError'
+import onError from '../../../services/sentry/onError'
 
 interface TutorialData {
   tutorial: G.Tutorial

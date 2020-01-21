@@ -4,7 +4,7 @@ import client from '../../apollo'
 import { setAuthToken } from '../../apollo/auth'
 import authenticateMutation from '../../apollo/mutations/authenticate'
 import channel from '../../channel'
-import onError from 'services/sentry/onError'
+import onError from '../../../services/sentry/onError'
 
 interface AuthenticateData {
   editorLogin: {
