@@ -1,3 +1,6 @@
+// init error logging
+import './services/sentry/init'
+
 import Editor from './editor'
 
 // vscode editor
