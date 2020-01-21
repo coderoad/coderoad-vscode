@@ -3,6 +3,7 @@ import node from '../../services/node'
 import logger from '../../services/logger'
 import parser from './parser'
 import { debounce, throttle } from './throttle'
+import onError from 'services/sentry/onError'
 
 export interface Payload {
   stepId: string
@@ -76,6 +77,7 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
       }
     } else {
       // should never get here
+      onError(new Error(`Error with running test ${JSON.stringify(payload)}`))
       callbacks.onError(payload)
     }
   }

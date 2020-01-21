@@ -4,6 +4,7 @@ import * as vscode from 'vscode'
 import { COMMANDS } from '../editor/commands'
 import languageMap from '../editor/languageMap'
 import * as git from '../services/git'
+import onError from 'services/sentry/onError'
 
 interface TutorialConfigParams {
   config: T.TutorialConfig
@@ -13,13 +14,14 @@ interface TutorialConfigParams {
 
 const tutorialConfig = async (
   { config, alreadyConfigured }: TutorialConfigParams,
-  onError: (msg: T.ErrorMessage) => void,
+  handleError: (msg: T.ErrorMessage) => void,
 ) => {
   if (!alreadyConfigured) {
     // setup git, add remote
     await git.initIfNotExists().catch(error => {
+      onError(new Error('Git not found'))
       // failed to setup git
-      onError({
+      handleError({
         title: error.message,
         description:
           'Be sure you install Git. See the docs for help https://git-scm.com/book/en/v2/Getting-Started-Installing-Git',
@@ -28,7 +30,8 @@ const tutorialConfig = async (
 
     // TODO if remote not already set
     await git.setupRemote(config.repo.uri).catch(error => {
-      onError({ title: error.message, description: 'Remove your current Git project and restarting' })
+      onError(error)
+      handleError({ title: error.message, description: 'Remove your current Git project and restarting' })
     })
   }
 

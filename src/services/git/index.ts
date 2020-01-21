@@ -1,5 +1,6 @@
 import node from '../node'
 import logger from '../logger'
+import onError from 'services/sentry/onError'
 
 const gitOrigin = 'coderoad'
 
@@ -76,13 +77,18 @@ export async function version(): Promise<string | boolean> {
       return `${major}${minor}${patch}`
     }
   }
-  throw new Error('Git not installed. Please install Git')
+  const message = 'Git not installed. Please install Git'
+  const error = new Error(message)
+  onError(error)
+  throw error
 }
 
 async function init(): Promise<void> {
   const { stderr } = await node.exec('git init')
   if (stderr) {
-    throw new Error('Error initializing Git')
+    const error = new Error('Error initializing Git')
+    onError(error)
+    throw error
   }
 }
 
