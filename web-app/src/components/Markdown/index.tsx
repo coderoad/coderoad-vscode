@@ -4,6 +4,7 @@ import markdownEmoji from 'markdown-it-emoji'
 // @ts-ignore no types for package
 import prism from 'markdown-it-prism'
 import * as React from 'react'
+import onError from '../../services/sentry/onError'
 // load prism styles & language support
 import './prism'
 
@@ -56,7 +57,9 @@ const Markdown = (props: Props) => {
   try {
     html = md.render(props.children)
   } catch (error) {
-    console.log(`failed to parse markdown for ${props.children}`)
+    const message = `failed to parse markdown for ${props.children}`
+    onError(new Error(message))
+    console.log(message)
     html = `<div style='background-color: #FFB81A; padding: 0.5rem;'>
 			<strong style='padding-bottom: 0.5rem;'>ERROR: Failed to parse markdown</strong>
 			<p>${props.children}</p>
