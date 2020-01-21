@@ -3,6 +3,7 @@ import * as fs from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
 import * as vscode from 'vscode'
+import onError from '../sentry/onError'
 
 const asyncExec = promisify(cpExec)
 
@@ -12,7 +13,9 @@ class Node {
     // set workspace root for node executions
     const workspaceRoots: vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders
     if (!workspaceRoots || !workspaceRoots.length) {
-      throw new Error('No workspace root path')
+      const error = new Error('No workspace root path')
+      onError(error)
+      throw error
     }
     const workspaceRoot: vscode.WorkspaceFolder = workspaceRoots[0]
     this.workspaceRootPath = workspaceRoot.uri.path

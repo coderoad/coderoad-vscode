@@ -6,6 +6,7 @@ import machine from '../../services/state/machine'
 import { useMachine } from '../../services/xstate-react'
 import debuggerWrapper from '../Debugger/debuggerWrapper'
 import Route from './Route'
+import onError from '../../services/sentry/onError'
 
 interface Props {
   children: any
@@ -45,7 +46,9 @@ const Router = ({ children }: Props): React.ReactElement<CloneElementProps> | nu
       return debuggerWrapper(element, state)
     }
   }
-  console.warn(`No Route matches for ${JSON.stringify(state)}`)
+  const message = `No Route matches for ${JSON.stringify(state)}`
+  onError(new Error(message))
+  console.warn(message)
   return null
 }
 

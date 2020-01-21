@@ -4,6 +4,7 @@ import * as git from '../services/git'
 import loadWatchers from './utils/loadWatchers'
 import openFiles from './utils/openFiles'
 import runCommands from './utils/runCommands'
+import onError from '../services/sentry/onError'
 
 const setupActions = async (
   workspaceRoot: vscode.WorkspaceFolder,
@@ -16,7 +17,7 @@ const setupActions = async (
   if (commits) {
     for (const commit of commits) {
       // TODO handle git errors
-      await git.loadCommit(commit)
+      await git.loadCommit(commit).catch(onError)
     }
   }
 
@@ -27,7 +28,7 @@ const setupActions = async (
   loadWatchers(watchers || [], workspaceRoot.uri)
 
   // 4. run command
-  await runCommands(commands || [], send)
+  await runCommands(commands || [], send).catch(onError)
 }
 
 export default setupActions

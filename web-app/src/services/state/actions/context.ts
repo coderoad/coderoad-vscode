@@ -2,6 +2,7 @@ import * as CR from 'typings'
 import * as G from 'typings/graphql'
 import { assign, send } from 'xstate'
 import * as selectors from '../../selectors'
+import onError from '../../../services/sentry/onError'
 
 export default {
   setEnv: assign({
@@ -147,7 +148,9 @@ export default {
       // has next level?
 
       if (!context.tutorial) {
-        throw new Error('Tutorial not found')
+        const error = new Error('Tutorial not found')
+        onError(error)
+        throw error
       }
 
       const levels = context.tutorial.version.data.levels || []

@@ -2,6 +2,7 @@ import { ApolloError } from 'apollo-boost'
 import { GraphQLError } from 'graphql'
 import * as React from 'react'
 import { css, jsx } from '@emotion/core'
+import onError from '../../services/sentry/onError'
 
 const styles = {
   container: {
@@ -16,7 +17,12 @@ interface Props {
 }
 
 const ErrorView = ({ error }: Props) => {
-  console.log(error)
+  // log error
+  React.useEffect(() => {
+    console.log(error)
+    onError(error)
+  }, [])
+
   return (
     <div css={styles.container}>
       <h1>Error</h1>

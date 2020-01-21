@@ -4,6 +4,7 @@ import client from '../../apollo'
 import tutorialQuery from '../../apollo/queries/tutorial'
 import channel from '../../channel'
 import * as selectors from '../../selectors'
+import onError from '../../../services/sentry/onError'
 
 interface TutorialData {
   tutorial: G.Tutorial
@@ -30,7 +31,9 @@ export default {
   initializeTutorial(context: CR.MachineContext, event: CR.MachineEvent) {
     // setup test runner and git
     if (!context.tutorial) {
-      throw new Error('Tutorial not available to load')
+      const error = new Error('Tutorial not available to load')
+      onError(error)
+      throw error
     }
 
     client
@@ -43,7 +46,9 @@ export default {
       })
       .then(result => {
         if (!result || !result.data || !result.data.tutorial) {
-          return Promise.reject('No tutorial returned from tutorial config query')
+          const message = 'No tutorial returned from tutorial config query'
+          onError(new Error(message))
+          return Promise.reject(message)
         }
 
         channel.editorSend({
@@ -52,7 +57,9 @@ export default {
         })
       })
       .catch((error: Error) => {
-        return Promise.reject(`Failed to load tutorial config ${error.message}`)
+        const message = `Failed to load tutorial config ${error.message}`
+        onError(new Error(message))
+        return Promise.reject(message)
       })
   },
   continueConfig(context: CR.MachineContext) {
