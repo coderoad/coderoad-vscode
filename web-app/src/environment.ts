@@ -10,4 +10,4 @@ export const GQL_URI: string =
   process.env.REACT_APP_GQL_URI || 'https://33mf420q4m.execute-api.us-west-2.amazonaws.com/stage/api-stage'
 export const DEBUG: boolean = (process.env.REACT_APP_DEBUG || '').toLowerCase() === 'true'
 export const VERSION: string = process.env.VERSION || 'unknown'
-export const NODE_ENV: string = process.env.NODE_ENV || 'producton'
+export const NODE_ENV: string = process.env.NODE_ENV || 'production'
