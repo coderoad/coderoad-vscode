@@ -31,6 +31,7 @@
     "watch": "tsc -watch -p ./"
   },
   "dependencies": {
+    "@sentry/node": "^5.11.0",
     "chokidar": "^3.3.0",
     "dotenv": "^8.2.0",
     "jsdom": "^15.2.1"
