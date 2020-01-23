@@ -10,7 +10,7 @@ const styles = {
     alignItems: 'center',
     width: 30,
     height: 30,
-    fontSize: 18,
+    fontSize: '1.2rem',
     color: 'grey',
   },
   balloonTitle: {

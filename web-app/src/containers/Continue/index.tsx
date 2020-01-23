@@ -11,10 +11,10 @@ const styles = {
     width: '100%',
   },
   header: {
-    height: '36px',
+    height: '2rem',
     backgroundColor: '#EBEBEB',
-    fontSize: '16px',
-    lineHeight: '16px',
+    fontSize: '1rem',
+    lineHeight: '1rem',
     padding: '10px 1rem',
   },
 }
