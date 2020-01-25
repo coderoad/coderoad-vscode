@@ -3,7 +3,7 @@ import * as G from 'typings/graphql'
 import Button from '../../components/Button'
 import Markdown from '../../components/Markdown'
 
-const footerHeight = 50
+const footerHeight = '3rem'
 
 const styles = {
   page: {
@@ -23,10 +23,10 @@ const styles = {
     fontSize: '1rem',
   },
   header: {
-    height: '36px',
+    height: '2rem',
     backgroundColor: '#EBEBEB',
-    fontSize: '16px',
-    lineHeight: '16px',
+    fontSize: '1rem',
+    lineHeight: '1rem',
     padding: '10px 1rem',
   },
   levelList: {
