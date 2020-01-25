@@ -32,19 +32,28 @@ export default {
       })
       .catch(error => {
         onError(error)
-        console.error('ERROR: Authentication failed')
-        console.error(error)
+        console.log('ERROR: Authentication failed')
+        console.log(error.message)
+        let message
+        if (error.message.match(/Network error:/)) {
+          message = {
+            title: 'Network Error',
+            description: 'Make sure you have an Internet connection. Restart and try again',
+          }
+        } else {
+          message = {
+            title: 'Server Error',
+            description: error.message,
+          }
+        }
+        channel.receive({ data: { type: 'ERROR', payload: { error: message } } })
+        return
       })
 
     if (!result || !result.data) {
-      // TODO handle failed authentication
-      console.error('ERROR: Connection')
-      const error = {
-        title: 'Connection Failed',
-        description:
-          'Either our server is having issues or you may not be connected to the internet. Try checking your connection and restarting the application. ',
-      }
-      channel.receive({ data: { type: 'ERROR', payload: { error } } })
+      const error = new Error('Authentication request responded with no data')
+      console.log(error)
+      onError(error)
       return
     }
     const { token } = result.data.editorLogin
