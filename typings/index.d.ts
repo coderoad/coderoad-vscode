@@ -66,18 +66,19 @@ export interface SelectTutorialMachineStateSchema {
     Authenticate: {}
     NewOrContinue: {}
     SelectTutorial: {}
+    Summary: {}
+    Configure: {}
+    Launch: {}
     ContinueTutorial: {}
   }
 }
 
 export interface PlayTutorialMachineStateSchema {
   states: {
-    Initialize: {}
-    Summary: {}
     LoadNext: {}
     Level: {
       states: {
-        Load: {}
+        Loading: {}
         Normal: {}
         TestRunning: {}
         TestPass: {}

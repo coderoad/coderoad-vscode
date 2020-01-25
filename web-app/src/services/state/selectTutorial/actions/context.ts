@@ -32,6 +32,12 @@ export default {
       return { levels: {}, steps: {}, complete: false }
     },
   }),
+  initTutorial: assign({
+    // loads complete tutorial
+    tutorial: (context: CR.PlayMachineContext, event: CR.MachineEvent): any => {
+      return event.payload.tutorial
+    },
+  }),
   // @ts-ignore
   setError: assign({
     error: (context: CR.MachineContext, event: CR.MachineEvent): string | null => {

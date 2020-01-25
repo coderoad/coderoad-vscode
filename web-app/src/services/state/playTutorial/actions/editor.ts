@@ -16,7 +16,7 @@ interface TutorialDataVariables {
 }
 
 export default {
-  initializeTutorial(context: CR.PlayMachineContext, event: CR.MachineEvent) {
+  configureTutorial(context: CR.PlayMachineContext, event: CR.MachineEvent) {
     // setup test runner and git
     if (!context.tutorial) {
       const error = new Error('Tutorial not available to load')

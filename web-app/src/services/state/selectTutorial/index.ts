@@ -3,8 +3,11 @@ import { Machine, MachineOptions } from 'xstate'
 import actions from './actions'
 
 const options: MachineOptions<CR.MachineContext, CR.MachineEvent> = {
-  // @ts-ignore
+  activities: {},
   actions,
+  guards: {},
+  services: {},
+  delays: {},
 }
 
 export const selectTutorialMachine = Machine<CR.MachineContext, CR.SelectTutorialMachineStateSchema, CR.MachineEvent>(
@@ -42,12 +45,31 @@ export const selectTutorialMachine = Machine<CR.MachineContext, CR.SelectTutoria
         },
       },
       SelectTutorial: {
-        onEntry: ['clearStorage'],
-        id: 'start-new-tutorial',
         on: {
-          TUTORIAL_START: {
+          SELECTED: 'Summary',
+        },
+      },
+      Summary: {
+        on: {
+          BACK: 'SelectTutorial',
+          LOAD_TUTORIAL: {
+            target: 'Configure',
+            actions: ['newTutorial', 'initTutorial'],
+          },
+        },
+      },
+      Configure: {
+        onEntry: ['clearStorage, configureTutorial'],
+        on: {
+          TUTORIAL_CONFIGURED: 'Launch',
+          // TUTORIAL_CONFIG_ERROR: 'Start' // TODO should handle error
+        },
+      },
+      Launch: {
+        // awaits tutorial configuration
+        on: {
+          LOAD_TUTORIAL: {
             type: 'final',
-            actions: ['newTutorial'],
           },
         },
       },

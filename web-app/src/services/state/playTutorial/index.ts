@@ -3,8 +3,11 @@ import { Machine, MachineOptions } from 'xstate'
 import actions from './actions'
 
 const options: MachineOptions<CR.PlayMachineContext, CR.MachineEvent> = {
-  // @ts-ignore
+  activities: {},
   actions,
+  guards: {},
+  services: {},
+  delays: {},
 }
 
 export const playTutorialMachine = Machine<CR.PlayMachineContext, CR.PlayTutorialMachineStateSchema, CR.MachineEvent>(
@@ -22,7 +25,8 @@ export const playTutorialMachine = Machine<CR.PlayMachineContext, CR.PlayTutoria
       processes: [],
     },
     id: 'tutorial',
-    initial: 'Initialize',
+    initial: 'Level',
+    onEntry: ['initPosition', 'initTutorial'],
     on: {
       // track commands
       COMMAND_START: {
@@ -39,22 +43,6 @@ export const playTutorialMachine = Machine<CR.PlayMachineContext, CR.PlayTutoria
       },
     },
     states: {
-      // TODO move Initialize into New Tutorial setup
-      Initialize: {
-        onEntry: ['initializeTutorial'],
-        on: {
-          TUTORIAL_CONFIGURED: 'Summary',
-          // TUTORIAL_CONFIG_ERROR: 'Start' // TODO should handle error
-        },
-      },
-      Summary: {
-        on: {
-          LOAD_TUTORIAL: {
-            target: 'Level',
-            actions: ['initPosition', 'initTutorial'],
-          },
-        },
-      },
       LoadNext: {
         id: 'tutorial-load-next',
         onEntry: ['loadNext'],
@@ -64,16 +52,17 @@ export const playTutorialMachine = Machine<CR.PlayMachineContext, CR.PlayTutoria
             actions: ['updatePosition'],
           },
           NEXT_LEVEL: {
-            target: 'Level', // TODO should return to levels summary page
+            target: 'Level',
             actions: ['updatePosition'],
           },
           COMPLETED: '#completed-tutorial',
         },
       },
       Level: {
-        initial: 'Load',
+        id: 'level',
+        initial: 'Loading',
         states: {
-          Load: {
+          Loading: {
             onEntry: ['loadLevel', 'loadStep'],
             after: {
               0: 'Normal',
@@ -143,7 +132,6 @@ export const playTutorialMachine = Machine<CR.PlayMachineContext, CR.PlayTutoria
         on: {
           SELECT_TUTORIAL: {
             type: 'final',
-            actions: ['reset'],
           },
         },
       },

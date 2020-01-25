@@ -5,12 +5,6 @@ import * as selectors from '../../../selectors'
 import onError from '../../../sentry/onError'
 
 export default {
-  initTutorial: assign({
-    // loads complete tutorial
-    tutorial: (context: CR.PlayMachineContext, event: CR.MachineEvent): any => {
-      return event.payload.tutorial
-    },
-  }),
   // @ts-ignore
   initPosition: assign({
     position: (context: CR.PlayMachineContext, event: CR.MachineEvent): CR.Position => {
@@ -174,19 +168,6 @@ export default {
       }
     },
   ),
-  reset: assign({
-    tutorial() {
-      return null
-    },
-    progress(): CR.Progress {
-      const progress: CR.Progress = selectors.defaultProgress()
-      return progress
-    },
-    position(): CR.Position {
-      const position: CR.Position = selectors.defaultPosition()
-      return position
-    },
-  }),
   // @ts-ignore
   setError: assign({
     error: (context: CR.PlayMachineContext, event: CR.MachineEvent): string | null => {
