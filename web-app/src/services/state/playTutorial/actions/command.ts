@@ -4,7 +4,7 @@ import { assign } from 'xstate'
 export default {
   // @ts-ignore
   commandStart: assign({
-    processes: ({ processes }: T.MachineContext, event: T.MachineEvent): T.ProcessEvent[] => {
+    processes: ({ processes }: T.PlayMachineContext, event: T.MachineEvent): T.ProcessEvent[] => {
       const { process } = event.payload
       const isRunning = processes.find(p => p.title === process.title)
       if (!isRunning) {
@@ -15,14 +15,14 @@ export default {
   }),
   // @ts-ignore
   commandSuccess: assign({
-    processes: ({ processes }: T.MachineContext, event: T.MachineEvent): T.ProcessEvent[] => {
+    processes: ({ processes }: T.PlayMachineContext, event: T.MachineEvent): T.ProcessEvent[] => {
       const { process } = event.payload
       return processes.filter(p => p.title !== process.title)
     },
   }),
   // @ts-ignore
   commandFail: assign({
-    processes: ({ processes }: T.MachineContext, event: T.MachineEvent): T.ProcessEvent[] => {
+    processes: ({ processes }: T.PlayMachineContext, event: T.MachineEvent): T.ProcessEvent[] => {
       const { process } = event.payload
       return processes.filter(p => p.title !== process.title)
     },

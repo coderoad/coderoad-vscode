@@ -37,10 +37,10 @@ const Routes = () => {
           <OverviewPage send={tempSend} context={{} as CR.MachineContext} />
         </Route>
         <Route path="Tutorial.Level">
-          <LevelSummaryPage send={tempSend} context={{} as CR.MachineContext} />
+          <LevelSummaryPage send={tempSend} context={{} as CR.PlayMachineContext} />
         </Route>
         <Route path="Tutorial.Completed">
-          <CompletedPage send={tempSend} context={{} as CR.MachineContext} />
+          <CompletedPage send={tempSend} context={{} as CR.PlayMachineContext} />
         </Route>
       </Router>
     </Workspace>

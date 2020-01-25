@@ -1,53 +1,26 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
 import { assign, send } from 'xstate'
-import * as selectors from '../../selectors'
-import onError from '../../../services/sentry/onError'
+import * as selectors from '../../../selectors'
+import onError from '../../../sentry/onError'
 
 export default {
-  setEnv: assign({
-    env: (context: CR.MachineContext, event: CR.MachineEvent) => {
-      return {
-        ...context.env,
-        ...event.payload.env,
-      }
-    },
-  }),
-  continueTutorial: assign({
-    tutorial: (context: CR.MachineContext, event: CR.MachineEvent) => {
-      return event.payload.tutorial
-    },
-    progress: (context: CR.MachineContext, event: CR.MachineEvent) => {
-      return event.payload.progress
-    },
-    position: (context: CR.MachineContext, event: CR.MachineEvent) => {
-      return event.payload.position
-    },
-  }),
-  newTutorial: assign({
-    tutorial: (context: CR.MachineContext, event: CR.MachineEvent): any => {
-      return event.payload.tutorial
-    },
-    progress: (): CR.Progress => {
-      return { levels: {}, steps: {}, complete: false }
-    },
-  }),
   initTutorial: assign({
     // loads complete tutorial
-    tutorial: (context: CR.MachineContext, event: CR.MachineEvent): any => {
+    tutorial: (context: CR.PlayMachineContext, event: CR.MachineEvent): any => {
       return event.payload.tutorial
     },
   }),
   // @ts-ignore
   initPosition: assign({
-    position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
+    position: (context: CR.PlayMachineContext, event: CR.MachineEvent): CR.Position => {
       const position: CR.Position = selectors.initialPosition(event.payload)
       return position
     },
   }),
   // @ts-ignore
   updateStepPosition: assign({
-    position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
+    position: (context: CR.PlayMachineContext, event: CR.MachineEvent): CR.Position => {
       // TODO calculate from progress
 
       const { position } = context
@@ -75,7 +48,7 @@ export default {
   }),
   // @ts-ignore
   updateLevelPosition: assign({
-    position: (context: CR.MachineContext): CR.Position => {
+    position: (context: CR.PlayMachineContext): CR.Position => {
       const { position } = context
       const version = selectors.currentVersion(context)
       // merge in the updated position
@@ -95,7 +68,7 @@ export default {
   }),
   // @ts-ignore
   updateLevelProgress: assign({
-    progress: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
+    progress: (context: CR.PlayMachineContext, event: CR.MachineEvent): CR.Progress => {
       // update progress by tracking completed
       const { progress, position } = context
 
@@ -108,7 +81,7 @@ export default {
   }),
   // @ts-ignore
   updateStepProgress: assign({
-    progress: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
+    progress: (context: CR.PlayMachineContext, event: CR.MachineEvent): CR.Progress => {
       // update progress by tracking completed
       const currentProgress: CR.Progress = context.progress
 
@@ -121,13 +94,13 @@ export default {
   }),
   // @ts-ignore
   updatePosition: assign({
-    position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
+    position: (context: CR.PlayMachineContext, event: CR.MachineEvent): CR.Progress => {
       const { position } = event.payload
       return position
     },
   }),
   loadNext: send(
-    (context: CR.MachineContext): CR.Action => {
+    (context: CR.PlayMachineContext): CR.Action => {
       const { position, progress } = context
 
       const level = selectors.currentLevel(context)
@@ -173,7 +146,7 @@ export default {
     },
   ),
   stepNext: send(
-    (context: CR.MachineContext): CR.Action => {
+    (context: CR.PlayMachineContext): CR.Action => {
       const { position, progress } = context
 
       const level: G.Level = selectors.currentLevel(context)
@@ -216,7 +189,7 @@ export default {
   }),
   // @ts-ignore
   setError: assign({
-    error: (context: CR.MachineContext, event: CR.MachineEvent): string | null => {
+    error: (context: CR.PlayMachineContext, event: CR.MachineEvent): string | null => {
       return event.payload.error
     },
   }),

@@ -46,6 +46,9 @@ export interface MachineContext {
   env: Environment
   error: ErrorMessage | null
   tutorial: G.Tutorial | null
+}
+
+export interface PlayMachineContext extends MachineContext {
   position: Position
   progress: Progress
   processes: ProcessEvent[]
@@ -57,7 +60,7 @@ export interface MachineEvent {
   data?: any
 }
 
-export interface MachineStateSchema {
+export interface SelectTutorialMachineStateSchema {
   states: {
     Start: {
       states: {
@@ -68,6 +71,11 @@ export interface MachineStateSchema {
         ContinueTutorial: {}
       }
     }
+  }
+}
+
+export interface PlayTutorialMachineStateSchema {
+  states: {
     Tutorial: {
       states: {
         Initialize: {}
@@ -88,6 +96,13 @@ export interface MachineStateSchema {
         Completed: {}
       }
     }
+  }
+}
+
+export interface MachineStateSchema {
+  states: {
+    SelectTutorial: {}
+    PlayTutorial: {}
   }
 }
 

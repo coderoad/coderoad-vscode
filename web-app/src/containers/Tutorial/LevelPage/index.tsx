@@ -5,7 +5,7 @@ import * as selectors from '../../../services/selectors'
 import Level from './Level'
 
 interface PageProps {
-  context: T.MachineContext
+  context: T.PlayMachineContext
   send(action: T.Action): void
 }
 

@@ -1,10 +1,10 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import client from '../../apollo'
-import tutorialQuery from '../../apollo/queries/tutorial'
-import channel from '../../channel'
-import * as selectors from '../../selectors'
-import onError from '../../../services/sentry/onError'
+import client from '../../../apollo'
+import tutorialQuery from '../../../apollo/queries/tutorial'
+import channel from '../../../channel'
+import * as selectors from '../../../selectors'
+import onError from '../../../../services/sentry/onError'
 
 interface TutorialData {
   tutorial: G.Tutorial
@@ -28,7 +28,7 @@ export default {
       type: 'EDITOR_TUTORIAL_LOAD',
     })
   },
-  initializeTutorial(context: CR.MachineContext, event: CR.MachineEvent) {
+  initializeTutorial(context: CR.PlayMachineContext, event: CR.MachineEvent) {
     // setup test runner and git
     if (!context.tutorial) {
       const error = new Error('Tutorial not available to load')
@@ -62,7 +62,7 @@ export default {
         return Promise.reject(message)
       })
   },
-  continueConfig(context: CR.MachineContext) {
+  continueConfig(context: CR.PlayMachineContext) {
     channel.editorSend({
       type: 'EDITOR_TUTORIAL_CONTINUE_CONFIG',
       payload: {
@@ -71,7 +71,7 @@ export default {
       },
     })
   },
-  loadLevel(context: CR.MachineContext): void {
+  loadLevel(context: CR.PlayMachineContext): void {
     const level: G.Level = selectors.currentLevel(context)
     if (level.setup) {
       // load step actions
@@ -81,7 +81,7 @@ export default {
       })
     }
   },
-  loadStep(context: CR.MachineContext): void {
+  loadStep(context: CR.PlayMachineContext): void {
     const step: G.Step = selectors.currentStep(context)
     if (step.setup) {
       // load step actions
@@ -94,7 +94,7 @@ export default {
       })
     }
   },
-  editorLoadSolution(context: CR.MachineContext): void {
+  editorLoadSolution(context: CR.PlayMachineContext): void {
     const step: G.Step = selectors.currentStep(context)
     // tell editor to load solution commit
     channel.editorSend({
