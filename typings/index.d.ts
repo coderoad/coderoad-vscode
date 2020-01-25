@@ -62,40 +62,32 @@ export interface MachineEvent {
 
 export interface SelectTutorialMachineStateSchema {
   states: {
-    Start: {
-      states: {
-        Startup: {}
-        Authenticate: {}
-        NewOrContinue: {}
-        SelectTutorial: {}
-        ContinueTutorial: {}
-      }
-    }
+    Startup: {}
+    Authenticate: {}
+    NewOrContinue: {}
+    SelectTutorial: {}
+    ContinueTutorial: {}
   }
 }
 
 export interface PlayTutorialMachineStateSchema {
   states: {
-    Tutorial: {
+    Initialize: {}
+    Summary: {}
+    LoadNext: {}
+    Level: {
       states: {
-        Initialize: {}
-        Summary: {}
-        LoadNext: {}
-        Level: {
-          states: {
-            Load: {}
-            Normal: {}
-            TestRunning: {}
-            TestPass: {}
-            TestFail: {}
-            TestError: {}
-            StepNext: {}
-            LevelComplete: {}
-          }
-        }
-        Completed: {}
+        Load: {}
+        Normal: {}
+        TestRunning: {}
+        TestPass: {}
+        TestFail: {}
+        TestError: {}
+        StepNext: {}
+        LevelComplete: {}
       }
     }
+    Completed: {}
   }
 }
 

@@ -18,28 +18,28 @@ const Routes = () => {
   return (
     <Workspace>
       <Router>
-        <Route path={['Start.Startup', 'Start.Authenticate', 'Start.NewOrContinue']}>
+        <Route path={['SelectTutorial.Startup', 'SelectTutorial.Authenticate', 'SelectTutorial.NewOrContinue']}>
           <LoadingPage text="Launching..." context={{} as CR.MachineContext} />
         </Route>
-        <Route path="Start.SelectTutorial">
+        <Route path="SelectTutorial.SelectTutorial">
           <NewPage send={tempSend} context={{} as CR.MachineContext} />
         </Route>
-        <Route path="Start.ContinueTutorial">
+        <Route path="SelectTutorial.ContinueTutorial">
           <ContinuePage send={tempSend} context={{} as CR.MachineContext} />
         </Route>
-        <Route path="Tutorial.Initialize">
+        <Route path="PlayTutorial.Initialize">
           <LoadingPage text="Initializing..." context={{} as CR.MachineContext} />
         </Route>
-        <Route path="Tutorial.LoadNext">
+        <Route path="PlayTutorial.LoadNext">
           <LoadingPage text="Loading..." context={{} as CR.MachineContext} />
         </Route>
-        <Route path="Tutorial.Summary">
+        <Route path="PlayTutorial.Summary">
           <OverviewPage send={tempSend} context={{} as CR.MachineContext} />
         </Route>
-        <Route path="Tutorial.Level">
+        <Route path="PlayTutorial.Level">
           <LevelSummaryPage send={tempSend} context={{} as CR.PlayMachineContext} />
         </Route>
-        <Route path="Tutorial.Completed">
+        <Route path="PlayTutorial.Completed">
           <CompletedPage send={tempSend} context={{} as CR.PlayMachineContext} />
         </Route>
       </Router>

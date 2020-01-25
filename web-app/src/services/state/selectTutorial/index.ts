@@ -9,59 +9,55 @@ const options: MachineOptions<CR.MachineContext, CR.MachineEvent> = {
 
 export const selectTutorialMachine = Machine<CR.MachineContext, CR.SelectTutorialMachineStateSchema, CR.MachineEvent>(
   {
+    initial: 'Startup',
     states: {
-      Start: {
-        initial: 'Startup',
-        states: {
-          Startup: {
-            onEntry: ['loadEnv'],
-            on: {
-              ENV_LOAD: {
-                target: 'Authenticate',
-                actions: ['setEnv'],
-              },
-            },
+      Startup: {
+        onEntry: ['loadEnv'],
+        on: {
+          ENV_LOAD: {
+            target: 'Authenticate',
+            actions: ['setEnv'],
           },
-          Authenticate: {
-            onEntry: ['authenticate'],
-            on: {
-              AUTHENTICATED: 'NewOrContinue',
-              ERROR: {
-                actions: ['setError'],
-              },
-            },
+        },
+      },
+      Authenticate: {
+        onEntry: ['authenticate'],
+        on: {
+          AUTHENTICATED: 'NewOrContinue',
+          ERROR: {
+            actions: ['setError'],
           },
-          NewOrContinue: {
-            onEntry: ['loadStoredTutorial'],
-            on: {
-              CONTINUE_TUTORIAL: {
-                target: 'ContinueTutorial',
-                actions: ['continueTutorial'],
-              },
-              NEW_TUTORIAL: {
-                target: 'SelectTutorial',
-              },
-            },
+        },
+      },
+      NewOrContinue: {
+        onEntry: ['loadStoredTutorial'],
+        on: {
+          CONTINUE_TUTORIAL: {
+            target: 'ContinueTutorial',
+            actions: ['continueTutorial'],
           },
-          SelectTutorial: {
-            onEntry: ['clearStorage'],
-            id: 'start-new-tutorial',
-            on: {
-              TUTORIAL_START: {
-                target: '#tutorial',
-                actions: ['newTutorial'],
-              },
-            },
+          NEW_TUTORIAL: {
+            target: 'SelectTutorial',
           },
-          ContinueTutorial: {
-            on: {
-              TUTORIAL_START: {
-                target: '#tutorial-level',
-                actions: ['continueConfig'],
-              },
-              TUTORIAL_SELECT: 'SelectTutorial',
-            },
+        },
+      },
+      SelectTutorial: {
+        onEntry: ['clearStorage'],
+        id: 'start-new-tutorial',
+        on: {
+          TUTORIAL_START: {
+            type: 'final',
+            actions: ['newTutorial'],
           },
+        },
+      },
+      ContinueTutorial: {
+        on: {
+          TUTORIAL_START: {
+            type: 'final',
+            actions: ['continueConfig'],
+          },
+          TUTORIAL_SELECT: 'SelectTutorial',
         },
       },
     },
