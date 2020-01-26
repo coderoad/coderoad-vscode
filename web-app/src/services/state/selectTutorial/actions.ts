@@ -1,10 +1,10 @@
-import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import client from '../../../apollo'
-import tutorialQuery from '../../../apollo/queries/tutorial'
-import channel from '../../../channel'
-import * as selectors from '../../../selectors'
-import onError from '../../../../services/sentry/onError'
+import { ActionFunctionMap } from 'xstate'
+import client from '../../apollo'
+import tutorialQuery from '../../apollo/queries/tutorial'
+import channel from '../../channel'
+import onError from '../../../services/sentry/onError'
+import { MachineContext, MachineEvent } from './index'
 
 interface TutorialData {
   tutorial: G.Tutorial
@@ -15,7 +15,7 @@ interface TutorialDataVariables {
   // version: string
 }
 
-export default {
+const actionMap: ActionFunctionMap<MachineContext, MachineEvent> = {
   loadEnv(): void {
     channel.editorSend({
       type: 'ENV_GET',
@@ -28,7 +28,7 @@ export default {
       type: 'EDITOR_TUTORIAL_LOAD',
     })
   },
-  initializeTutorial(context: CR.PlayMachineContext, event: CR.MachineEvent) {
+  initializeTutorial(context: MachineContext, event: MachineEvent) {
     // setup test runner and git
     if (!context.tutorial) {
       const error = new Error('Tutorial not available to load')
@@ -62,50 +62,21 @@ export default {
         return Promise.reject(message)
       })
   },
-  continueConfig(context: CR.PlayMachineContext) {
-    channel.editorSend({
-      type: 'EDITOR_TUTORIAL_CONTINUE_CONFIG',
-      payload: {
-        // pass position because current stepId or first stepId will be empty
-        stepId: context.position.stepId,
-      },
-    })
-  },
-  loadLevel(context: CR.PlayMachineContext): void {
-    const level: G.Level = selectors.currentLevel(context)
-    if (level.setup) {
-      // load step actions
-      channel.editorSend({
-        type: 'SETUP_ACTIONS',
-        payload: level.setup,
-      })
-    }
-  },
-  loadStep(context: CR.PlayMachineContext): void {
-    const step: G.Step = selectors.currentStep(context)
-    if (step.setup) {
-      // load step actions
-      channel.editorSend({
-        type: 'SETUP_ACTIONS',
-        payload: {
-          stepId: step.id,
-          ...step.setup,
-        },
-      })
-    }
-  },
-  editorLoadSolution(context: CR.PlayMachineContext): void {
-    const step: G.Step = selectors.currentStep(context)
-    // tell editor to load solution commit
-    channel.editorSend({
-      type: 'SOLUTION_ACTIONS',
-      payload: {
-        stepId: step.id,
-        ...step.solution,
-      },
-    })
-  },
+  // continueConfig(context: CR.MachineContext) {
+  //   channel.editorSend({
+  //     type: 'EDITOR_TUTORIAL_CONTINUE_CONFIG',
+  //     payload: {
+  //       // pass position because current stepId or first stepId will be empty
+  //       stepId: context.position.stepId,
+  //     },
+  //   })
+  // },
   clearStorage(): void {
     channel.editorSend({ type: 'TUTORIAL_CLEAR' })
   },
+  userTutorialComplete(context: MachineContext) {
+    console.log('should update user tutorial as complete')
+  },
 }
+
+export default actionMap

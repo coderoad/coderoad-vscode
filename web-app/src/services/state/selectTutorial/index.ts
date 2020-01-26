@@ -1,8 +1,40 @@
 import * as CR from 'typings'
+import * as G from 'typings/graphql'
 import { Machine, MachineOptions } from 'xstate'
 import actions from './actions'
 
-const options: MachineOptions<CR.MachineContext, CR.MachineEvent> = {
+export type MachineEvent =
+  | { type: 'CONTINUE_TUTORIAL'; payload: { tutorial: G.Tutorial; progress: CR.Progress; position: CR.Position } }
+  | { type: 'NEW_TUTORIAL' }
+  | { type: 'BACK' }
+  | { type: 'TUTORIAL_SELECTED'; payload: { tutorial: G.Tutorial } }
+  | { type: 'LOAD_TUTORIAL'; payload: { tutorial: G.Tutorial } }
+  | { type: 'TUTORIAL_CONFIGURED' }
+  | { type: 'SELECT_NEW_TUTORIAL'; payload: { tutorial: G.Tutorial } }
+  | { type: 'TUTORIAL_START' }
+// | { type: 'ERROR'; payload: { error: Error } }
+
+export type MachineContext = {
+  env: CR.Environment
+  // error: CR.ErrorMessage | null
+  tutorial: G.Tutorial | null
+  position: CR.Position
+  progress: CR.Progress
+}
+
+export type StateSchema = {
+  states: {
+    NewOrContinue: {}
+    SelectTutorial: {}
+    Summary: {}
+    Configure: {}
+    ContinueTutorial: {}
+    LoadingNew: {}
+    Launch: {}
+  }
+}
+
+const options: MachineOptions<MachineContext, MachineEvent> = {
   activities: {},
   actions,
   guards: {},
@@ -10,28 +42,17 @@ const options: MachineOptions<CR.MachineContext, CR.MachineEvent> = {
   delays: {},
 }
 
-export const selectTutorialMachine = Machine<CR.MachineContext, CR.SelectTutorialMachineStateSchema, CR.MachineEvent>(
+export const selectTutorialMachine = Machine<MachineContext, StateSchema, MachineEvent>(
   {
-    initial: 'Startup',
+    context: {
+      // error: null,
+      env: { machineId: '', sessionId: '', token: '' },
+      tutorial: null,
+      progress: { levels: {}, steps: {}, complete: false },
+      position: { levelId: '', stepId: '' },
+    },
+    initial: 'NewOrContinue',
     states: {
-      Startup: {
-        onEntry: ['loadEnv'],
-        on: {
-          ENV_LOAD: {
-            target: 'Authenticate',
-            actions: ['setEnv'],
-          },
-        },
-      },
-      Authenticate: {
-        onEntry: ['authenticate'],
-        on: {
-          AUTHENTICATED: 'NewOrContinue',
-          ERROR: {
-            actions: ['setError'],
-          },
-        },
-      },
       NewOrContinue: {
         onEntry: ['loadStoredTutorial'],
         on: {
@@ -46,41 +67,40 @@ export const selectTutorialMachine = Machine<CR.MachineContext, CR.SelectTutoria
       },
       SelectTutorial: {
         on: {
-          SELECTED: 'Summary',
+          TUTORIAL_SELECTED: 'Summary',
         },
       },
       Summary: {
         on: {
           BACK: 'SelectTutorial',
           LOAD_TUTORIAL: {
-            target: 'Configure',
             actions: ['newTutorial', 'initTutorial'],
+            target: 'Configure',
           },
         },
       },
       Configure: {
         onEntry: ['clearStorage, configureTutorial'],
         on: {
-          TUTORIAL_CONFIGURED: 'Launch',
+          TUTORIAL_CONFIGURED: 'LoadingNew',
           // TUTORIAL_CONFIG_ERROR: 'Start' // TODO should handle error
-        },
-      },
-      Launch: {
-        // awaits tutorial configuration
-        on: {
-          LOAD_TUTORIAL: {
-            type: 'final',
-          },
         },
       },
       ContinueTutorial: {
         on: {
-          TUTORIAL_START: {
-            type: 'final',
-            actions: ['continueConfig'],
-          },
-          TUTORIAL_SELECT: 'SelectTutorial',
+          TUTORIAL_START: 'ContinueLaunch',
+          SELECT_NEW_TUTORIAL: 'SelectTutorial',
         },
+      },
+      LoadingNew: {
+        // awaits tutorial configuration
+        on: {
+          LOAD_TUTORIAL: 'Launch',
+        },
+      },
+      Launch: {
+        // onEntry: ['continueConfig'],
+        type: 'final',
       },
     },
   },

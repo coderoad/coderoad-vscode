@@ -5,9 +5,10 @@ import * as G from 'typings/graphql'
 import ErrorView from '../../components/Error'
 import queryTutorial from '../../services/apollo/queries/tutorial'
 import OverviewPage from './OverviewPage'
+import { MachineContext } from '../../services/state/selectTutorial'
 
 interface PageProps {
-  context: CR.MachineContext
+  context: MachineContext
   send(action: CR.Action): void
 }
 

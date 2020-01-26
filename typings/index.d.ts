@@ -42,63 +42,6 @@ export interface ErrorMessage {
   description?: string
 }
 
-export interface MachineContext {
-  env: Environment
-  error: ErrorMessage | null
-  tutorial: G.Tutorial | null
-}
-
-export interface PlayMachineContext extends MachineContext {
-  position: Position
-  progress: Progress
-  processes: ProcessEvent[]
-}
-
-export interface MachineEvent {
-  type: string
-  payload?: any
-  data?: any
-}
-
-export interface SelectTutorialMachineStateSchema {
-  states: {
-    Startup: {}
-    Authenticate: {}
-    NewOrContinue: {}
-    SelectTutorial: {}
-    Summary: {}
-    Configure: {}
-    Launch: {}
-    ContinueTutorial: {}
-  }
-}
-
-export interface PlayTutorialMachineStateSchema {
-  states: {
-    LoadNext: {}
-    Level: {
-      states: {
-        Loading: {}
-        Normal: {}
-        TestRunning: {}
-        TestPass: {}
-        TestFail: {}
-        TestError: {}
-        StepNext: {}
-        LevelComplete: {}
-      }
-    }
-    Completed: {}
-  }
-}
-
-export interface MachineStateSchema {
-  states: {
-    SelectTutorial: {}
-    PlayTutorial: {}
-  }
-}
-
 export interface StateMachine {
   activate(): void
   deactivate(): void
