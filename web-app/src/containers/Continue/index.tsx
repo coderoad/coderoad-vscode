@@ -62,8 +62,8 @@ const ContinuePageContainer = ({ context, send }: ContainerProps) => {
   return (
     <ContinuePage
       tutorial={tutorial}
-      onContinue={() => send({ type: 'TUTORIAL_START' })}
-      onNew={() => send({ type: 'SELECT_NEW_TUTORIAL' })}
+      onContinue={() => send({ type: 'CHOOSE_CONTINUE' })}
+      onNew={() => send({ type: 'CHOOSE_NEW' })}
     />
   )
 }

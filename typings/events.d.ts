@@ -1,26 +1,33 @@
 import * as CR from './index'
 import * as G from './graphql'
 
-/* --- Editor Events --- */
+/*
+  --- Editor Events ---
+  sent from client to editor
+*/
 
-export type EnvGetEvent = { type: 'ENV_LOAD'; payload: { env: CR.Environment } }
+export type EnvGetEvent = { type: 'ENV_GET' }
 export type EditorTutorialConfigEvent = { type: 'EDITOR_TUTORIAL_CONFIG'; payload: { tutorial: G.Tutorial } }
 export type StepActionsEvent = { type: 'SETUP_ACTIONS'; payload: CR.StepActions }
 export type SolutionActionsEvent = { type: 'SOLUTION_ACTIONS'; payload: CR.StepActions }
 
 export type EditorEvents =
   | EnvGetEvent
-  | { type: 'EDITOR_TUTORIAL_LOAD' }
-  | { type: 'TUTORIAL_CLEAR' }
+  | { type: 'EDITOR_LOAD_STORED_TUTORIAL' }
+  | { type: 'EDITOR_CLEAR_TUTORIAL_STORAGE' }
   | EditorTutorialConfigEvent
   | { type: 'EDITOR_TUTORIAL_CONTINUE_CONFIG' }
   | StepActionsEvent
   | SolutionActionsEvent
 
-/* --- Client Events --- */
+/*
+  --- Client Events ---
+  sent within client
+  or sent from editor to client
+*/
 
 export type EventLoadEvent = { type: 'ENV_LOAD'; payload: { env: CR.Environment } }
-export type ErrorEvent = { type: 'ERROR'; payload: { error: string } }
+export type ErrorMessageEvent = { type: 'ERROR'; payload: CR.ErrorMessage }
 export type CommandStartEvent = { type: 'COMMAND_START'; payload: { process: CR.ProcessEvent } }
 export type CommandSuccessEvent = { type: 'COMMAND_SUCCESS'; payload: { process: CR.ProcessEvent } }
 export type CommandFailEvent = { type: 'COMMAND_FAIL'; payload: { process: CR.ProcessEvent } }
@@ -31,8 +38,8 @@ export type NextLevelEvent = { type: 'NEXT_LEVEL'; payload: { position: CR.Posit
 export type TestRunningEvent = { type: 'TEST_RUNNING'; payload: { stepId: string } }
 export type TestErrorEvent = { type: 'TEST_ERROR'; payload: { stepId: string } }
 export type LoadNextStepEvent = { type: 'LOAD_NEXT_STEP'; payload: { step: string } }
-export type ContinueTutorialEvent = {
-  type: 'CONTINUE_TUTORIAL'
+export type CanContinueEvent = {
+  type: 'CAN_CONTINUE'
   payload: { tutorial: G.Tutorial; progress: CR.Progress; position: CR.Position }
 }
 export type LoadTutorialEvent = { type: 'LOAD_TUTORIAL'; payload: { tutorial: G.Tutorial } }
@@ -58,14 +65,14 @@ export type PlayTutorialEvents =
   | { type: 'EXIT' }
 
 export type SelectTutorialEvents =
-  | ContinueTutorialEvent
+  | { type: 'NO_CONTINUE' }
+  | CanContinueEvent
   | LoadTutorialEvent
-  | { type: 'NEW_TUTORIAL' }
   | { type: 'BACK' }
   | TutorialSelectedEvent
   | { type: 'TUTORIAL_CONFIGURED' }
-  | { type: 'SELECT_NEW_TUTORIAL' }
-  | { type: 'TUTORIAL_START' }
+  | { type: 'CHOOSE_NEW' }
+  | { type: 'CHOOSE_CONTINUE' }
   | ErrorEvent
 
-type ClientEvents = MachineEvent | AuthenticateEvents | SelectTutorialEvents | PlayTutorialEvents
+type ClientEvents = AuthenticateEvents | SelectTutorialEvents | PlayTutorialEvents

@@ -26,7 +26,6 @@ export type StateSchema = {
 
 export type MachineContext = {
   error: CR.ErrorMessage | null
-  env: CR.Environment
   tutorial: G.Tutorial | null
   position: CR.Position
   progress: CR.Progress
@@ -45,7 +44,6 @@ export const playTutorialMachine = Machine<MachineContext, StateSchema, PlayTuto
   {
     context: {
       error: null,
-      env: { machineId: '', sessionId: '', token: '' },
       tutorial: null,
       position: { levelId: '', stepId: '' },
       progress: {
@@ -57,7 +55,6 @@ export const playTutorialMachine = Machine<MachineContext, StateSchema, PlayTuto
     },
     id: 'tutorial',
     initial: 'Level',
-    onEntry: ['initTutorial'],
     on: {
       // track commands
       COMMAND_START: {

@@ -38,6 +38,7 @@ class Channel implements Channel {
   public receive = async (action: EditorEvents) => {
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
+    // @ts-ignore TODO: actual error, fix !
     const onError = (error: CR.ErrorMessage) => this.send({ type: 'ERROR', payload: { error } })
 
     switch (actionType) {
@@ -48,17 +49,18 @@ class Channel implements Channel {
             env: {
               machineId: vscode.env.machineId,
               sessionId: vscode.env.sessionId,
+              token: '',
             },
           },
         })
         return
       // continue from tutorial from local storage
-      case 'EDITOR_TUTORIAL_LOAD':
+      case 'EDITOR_LOAD_STORED_TUTORIAL':
         const tutorial: G.Tutorial | null = this.context.tutorial.get()
 
         // new tutorial
         if (!tutorial || !tutorial.id || !tutorial.version) {
-          this.send({ type: 'NEW_TUTORIAL' })
+          this.send({ type: 'NO_CONTINUE' })
           return
         }
 
@@ -67,21 +69,22 @@ class Channel implements Channel {
 
         if (progress.complete) {
           // tutorial is already complete
-          this.send({ type: 'NEW_TUTORIAL' })
+          this.send({ type: 'NO_CONTINUE' })
           return
         }
 
         // communicate to client the tutorial & stepProgress state
-        this.send({ type: 'CONTINUE_TUTORIAL', payload: { tutorial, progress, position } })
+        this.send({ type: 'CAN_CONTINUE', payload: { tutorial, progress, position } })
 
         return
       // clear tutorial local storage
-      case 'TUTORIAL_CLEAR':
+      case 'EDITOR_CLEAR_TUTORIAL_STORAGE':
         // clear current progress/position/tutorial
         this.context.reset()
         return
       // configure test runner, language, git
       case 'EDITOR_TUTORIAL_CONFIG':
+        // @ts-ignore TODO: fix typings
         const tutorialData: G.Tutorial = action.payload.tutorial
         // setup tutorial config (save watcher, test runner, etc)
         this.context.setTutorial(this.workspaceState, tutorialData)
@@ -107,17 +110,22 @@ class Channel implements Channel {
           onError,
         )
         // update the current stepId on startup
+        // @ts-ignore TODO: fix typings
         vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
         return
       // load step actions (git commits, commands, open files)
       case 'SETUP_ACTIONS':
+        // @ts-ignore TODO: fix typings
         await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
+        // @ts-ignore TODO: fix typings
         setupActions(this.workspaceRoot, action.payload, this.send)
         return
       // load solution step actions (git commits, commands, open files)
       case 'SOLUTION_ACTIONS':
+        // @ts-ignore TODO: fix typings
         await solutionActions(this.workspaceRoot, action.payload, this.send)
         // run test following solution to update position
+        // @ts-ignore TODO: fix typings
         vscode.commands.executeCommand(COMMANDS.RUN_TEST, action.payload)
         return
 
@@ -133,6 +141,7 @@ class Channel implements Channel {
     switch (actionType) {
       case 'TEST_PASS':
         // update local storage stepProgress
+        // @ts-ignore TODO: fix typings
         const progress = this.context.progress.setStepComplete(action.payload.stepId)
         const tutorial = this.context.tutorial.get()
         if (!tutorial) {

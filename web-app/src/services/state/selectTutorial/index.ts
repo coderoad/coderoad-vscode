@@ -16,9 +16,8 @@ export type StateSchema = {
     NewOrContinue: {}
     SelectTutorial: {}
     Summary: {}
-    Configure: {}
+    InitializeTutorial: {}
     ContinueTutorial: {}
-    LoadingNew: {}
     Launch: {}
   }
 }
@@ -42,15 +41,13 @@ export const selectTutorialMachine = Machine<MachineContext, StateSchema, Select
     initial: 'NewOrContinue',
     states: {
       NewOrContinue: {
-        onEntry: ['loadStoredTutorial'],
+        onEntry: ['loadStoredTutorialIfExists'],
         on: {
-          CONTINUE_TUTORIAL: {
+          CAN_CONTINUE: {
             target: 'ContinueTutorial',
             actions: ['continueTutorial'],
           },
-          NEW_TUTORIAL: {
-            target: 'SelectTutorial',
-          },
+          NO_CONTINUE: 'SelectTutorial',
         },
       },
       SelectTutorial: {
@@ -62,35 +59,29 @@ export const selectTutorialMachine = Machine<MachineContext, StateSchema, Select
         on: {
           BACK: 'SelectTutorial',
           LOAD_TUTORIAL: {
-            actions: ['newTutorial', 'initTutorial'],
-            target: 'Configure',
+            actions: ['clearStorage', 'newTutorial'],
+            target: 'InitializeTutorial',
           },
         },
       },
-      Configure: {
-        onEntry: ['clearStorage, configureTutorial'],
+      InitializeTutorial: {
+        // await configuration
+        onEntry: ['initializeTutorial'],
         on: {
-          TUTORIAL_CONFIGURED: 'LoadingNew',
+          TUTORIAL_CONFIGURED: 'Launch',
           // TUTORIAL_CONFIG_ERROR: 'Start' // TODO should handle error
         },
       },
       ContinueTutorial: {
         on: {
-          TUTORIAL_START: 'ContinueLaunch',
-          SELECT_NEW_TUTORIAL: 'SelectTutorial',
-        },
-      },
-      LoadingNew: {
-        // awaits tutorial configuration
-        on: {
-          LOAD_TUTORIAL: {
+          CHOOSE_CONTINUE: {
             target: 'Launch',
-            actions: ['initPositionAndProgress'],
+            actions: ['continueConfig'],
           },
+          CHOOSE_NEW: 'SelectTutorial',
         },
       },
       Launch: {
-        // onEntry: ['continueConfig'],
         type: 'final',
       },
     },

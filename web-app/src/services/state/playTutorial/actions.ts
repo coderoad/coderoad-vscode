@@ -200,8 +200,8 @@ const actions: ActionFunctionMap<MachineContext, Event.PlayTutorialEvents> = {
   ),
   // @ts-ignore
   setError: assign({
-    error: (context: MachineContext, event: Event.ErrorEvent): string | null => {
-      return event.payload.error
+    error: (context: MachineContext, event: Event.ErrorMessageEvent): string | null => {
+      return event.payload.title
     },
   }),
   loadLevel(context: MachineContext): void {
@@ -239,7 +239,7 @@ const actions: ActionFunctionMap<MachineContext, Event.PlayTutorialEvents> = {
     })
   },
   clearStorage(): void {
-    channel.editorSend({ type: 'TUTORIAL_CLEAR' })
+    channel.editorSend({ type: 'EDITOR_CLEAR_TUTORIAL_STORAGE' })
   },
 }
 

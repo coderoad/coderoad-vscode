@@ -1,6 +1,6 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import { AuthenticateEvents, EnvGetEvent } from 'typings/events'
+import { AuthenticateEvents, EventLoadEvent, ErrorMessageEvent } from 'typings/events'
 import { assign, ActionFunctionMap } from 'xstate'
 import client from '../../apollo'
 import { setAuthToken } from '../../apollo/auth'
@@ -23,9 +23,14 @@ interface AuthenticateVariables {
 }
 
 const actions: ActionFunctionMap<MachineContext, AuthenticateEvents> = {
+  loadEnv(): void {
+    channel.editorSend({
+      type: 'ENV_GET',
+    })
+  },
   // @ts-ignore
   setEnv: assign({
-    env: (context: MachineContext, event: EnvGetEvent): CR.Environment => ({
+    env: (context: MachineContext, event: EventLoadEvent): CR.Environment => ({
       ...context.env,
       ...event.payload.env,
     }),
@@ -56,7 +61,8 @@ const actions: ActionFunctionMap<MachineContext, AuthenticateEvents> = {
             description: error.message,
           }
         }
-        channel.receive({ data: ErrorEvent })
+        // TODO: fix
+        // channel.receive({ data: { payload: message } })
         return
       })
 
