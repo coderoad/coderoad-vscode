@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { MachineContext, MachineEvent } from '../../services/state/playTutorial'
+import { ClientEvents } from 'typings/events'
+import { MachineContext } from '../../services/state/playTutorial'
 import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
 
@@ -11,7 +12,7 @@ const styles = {
 
 interface Props {
   context: MachineContext
-  send(action: MachineEvent): void
+  send(action: ClientEvents): void
 }
 
 const CompletedPage = (props: Props) => {

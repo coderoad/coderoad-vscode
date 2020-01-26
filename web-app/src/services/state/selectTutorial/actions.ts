@@ -19,11 +19,6 @@ interface TutorialDataVariables {
 }
 
 const actionMap: ActionFunctionMap<MachineContext, Event.SelectTutorialEvents> = {
-  loadEnv(): void {
-    channel.editorSend({
-      type: 'ENV_GET',
-    })
-  },
   loadStoredTutorial(): void {
     // send message to editor to see if there is existing tutorial progress
     // in local storage on the editor
@@ -81,10 +76,10 @@ const actionMap: ActionFunctionMap<MachineContext, Event.SelectTutorialEvents> =
   //     },
   //   })
   // },
-  initPositionAndProgress: assign((context: MachineContext, event: Event.LoadTutorialEvent) => ({
-    position: selectors.initialPosition(event.payload),
-    progress: selectors.defaultProgress(),
-  })),
+  // initPositionAndProgress: assign((context: MachineContext, event: Event.LoadTutorialEvent) => ({
+  //   position: selectors.initialPosition(event.payload),
+  //   progress: selectors.defaultProgress(),
+  // })),
   clearStorage(): void {
     channel.editorSend({ type: 'TUTORIAL_CLEAR' })
   },

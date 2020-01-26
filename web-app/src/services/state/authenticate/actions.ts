@@ -1,6 +1,6 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import { AuthenticateEvent, EnvGetEvent } from 'typings/events'
+import { AuthenticateEvents, EnvGetEvent } from 'typings/events'
 import { assign, ActionFunctionMap } from 'xstate'
 import client from '../../apollo'
 import { setAuthToken } from '../../apollo/auth'
@@ -22,7 +22,7 @@ interface AuthenticateVariables {
   editor: 'VSCODE'
 }
 
-const actions: ActionFunctionMap<MachineContext, AuthenticateEvent> = {
+const actions: ActionFunctionMap<MachineContext, AuthenticateEvents> = {
   // @ts-ignore
   setEnv: assign({
     env: (context: MachineContext, event: EnvGetEvent): CR.Environment => ({

@@ -1,5 +1,5 @@
 import * as CR from 'typings'
-import { AuthenticateEvent } from 'typings/events'
+import { AuthenticateEvents } from 'typings/events'
 import { Machine } from 'xstate'
 import actions from './actions'
 
@@ -20,7 +20,7 @@ const options = {
   actions,
 }
 
-export const authenticateMachine = Machine<MachineContext, StateSchema, AuthenticateEvent>(
+export const authenticateMachine = Machine<MachineContext, StateSchema, AuthenticateEvents>(
   {
     id: 'authenticate',
     context: {

@@ -1,6 +1,6 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import { EditorEvent, ClientEvent } from 'typings/events'
+import { EditorEvents, ClientEvents } from 'typings/events'
 import * as vscode from 'vscode'
 import saveCommit from '../actions/saveCommit'
 import setupActions from '../actions/setupActions'
@@ -11,18 +11,18 @@ import logger from '../services/logger'
 import Context from './context'
 
 interface Channel {
-  receive(action: EditorEvent): Promise<void>
-  send(action: ClientEvent): Promise<void>
+  receive(action: EditorEvents): Promise<void>
+  send(action: ClientEvents): Promise<void>
 }
 
 interface ChannelProps {
-  postMessage: (action: ClientEvent) => Thenable<boolean>
+  postMessage: (action: ClientEvents) => Thenable<boolean>
   workspaceState: vscode.Memento
   workspaceRoot: vscode.WorkspaceFolder
 }
 
 class Channel implements Channel {
-  private postMessage: (action: ClientEvent) => Thenable<boolean>
+  private postMessage: (action: ClientEvents) => Thenable<boolean>
   private workspaceState: vscode.Memento
   private workspaceRoot: vscode.WorkspaceFolder
   private context: Context
@@ -35,7 +35,7 @@ class Channel implements Channel {
   }
 
   // receive from webview
-  public receive = async (action: EditorEvent) => {
+  public receive = async (action: EditorEvents) => {
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
     const onError = (error: CR.ErrorMessage) => this.send({ type: 'ERROR', payload: { error } })
@@ -98,7 +98,7 @@ class Channel implements Channel {
         if (!tutorialContinue) {
           throw new Error('Invalid tutorial to continue')
         }
-        const continueConfig: T.TutorialConfig = tutorialContinue.version.data.config
+        const continueConfig: CR.TutorialConfig = tutorialContinue.version.data.config
         tutorialConfig(
           {
             config: continueConfig,
@@ -127,7 +127,7 @@ class Channel implements Channel {
     }
   }
   // send to webview
-  public send = async (action: ClientEvent) => {
+  public send = async (action: ClientEvents) => {
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
     switch (actionType) {

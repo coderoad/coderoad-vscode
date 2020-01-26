@@ -1,6 +1,7 @@
 import * as React from 'react'
+import { ClientEvents } from 'typings/events'
 import * as G from 'typings/graphql'
-import { MachineContext, MachineEvent } from '../../services/state/selectTutorial'
+import { MachineContext } from '../../services/state/selectTutorial'
 import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
 import Card from '../../components/Card'
@@ -48,7 +49,7 @@ export const ContinuePage = (props: Props) => (
 
 interface ContainerProps {
   context: MachineContext
-  send(action: MachineEvent): void
+  send(action: ClientEvents): void
 }
 
 const ContinuePageContainer = ({ context, send }: ContainerProps) => {

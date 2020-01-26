@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { ClientEvents } from 'typings/events'
 import channel from '../../services/channel'
 import messageBusReceiver from '../../services/channel/receiver'
 import machine from '../../services/state/machine'
@@ -6,7 +7,7 @@ import { useMachine } from '../../services/xstate-react'
 import debuggerWrapper from '../Debugger/debuggerWrapper'
 import Route from './Route'
 import onError from '../../services/sentry/onError'
-import { MachineContext, MachineEvent } from '../../services/state/machine'
+import { MachineContext } from '../../services/state/machine'
 
 interface Props {
   children: any
@@ -14,7 +15,7 @@ interface Props {
 
 interface CloneElementProps {
   context: MachineContext
-  send(action: MachineEvent): void
+  send(action: ClientEvents): void
 }
 
 // TODO: rewrite router, logic is messy

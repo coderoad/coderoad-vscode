@@ -1,11 +1,11 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import { EditorEvent, ClientEvent } from 'typings/events'
+import { EditorEvents, ClientEvents } from 'typings/events'
 
 declare let acquireVsCodeApi: any
 
 interface ReceivedEvent {
-  data: ClientEvent
+  data: ClientEvents
 }
 
 class Channel {
@@ -23,10 +23,10 @@ class Channel {
     this.editorSend = editor.postMessage
   }
 
-  public machineSend = (event: ClientEvent) => {
+  public machineSend = (event: ClientEvents) => {
     /* implemented by `setMachineSend` in router on startup */
   }
-  public editorSend = (event: EditorEvent) => {
+  public editorSend = (event: EditorEvents) => {
     /* */
   }
 
