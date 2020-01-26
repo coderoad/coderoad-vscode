@@ -2,7 +2,8 @@
   "compilerOptions": {
     "paths": {
       "typings": ["../../typings/index.d.ts"],
-      "typings/graphql": ["../../typings/graphql.d.ts"]
+      "typings/graphql": ["../../typings/graphql.d.ts"],
+      "typings/events": ["../../typings/events.d.ts"]
     },
     "allowSyntheticDefaultImports": true
   },

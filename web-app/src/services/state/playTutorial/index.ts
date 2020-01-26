@@ -1,5 +1,6 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
+import { PlayTutorialEvents } from 'typings/events'
 import { Machine, MachineOptions } from 'xstate'
 import actions from './actions'
 
@@ -23,23 +24,6 @@ export type StateSchema = {
   }
 }
 
-export type MachineEvent =
-  | { type: 'COMMAND_START'; payload: { process: CR.ProcessEvent } }
-  | { type: 'COMMAND_SUCCESS'; payload: { process: CR.ProcessEvent } }
-  | { type: 'COMMAND_FAIL'; payload: { process: CR.ProcessEvent } }
-  | { type: 'ERROR'; payload: { error: string } }
-  | { type: 'NEXT_STEP'; payload: { position: CR.Position } }
-  | { type: 'NEXT_LEVEL'; payload: { position: CR.Position } }
-  | { type: 'COMPLETED' }
-  | { type: 'TEST_RUNNING'; payload: { stepId: string } }
-  | { type: 'STEP_SOLUTION_LOAD' }
-  | { type: 'TEST_PASS'; payload: { stepId: string } }
-  | { type: 'TEST_FAIL'; payload: { stepId: string } }
-  | { type: 'TEST_ERROR'; payload: { stepId: string } }
-  | { type: 'LOAD_NEXT_STEP'; payload: { step: string } }
-  | { type: 'LEVEL_COMPLETE' }
-  | { type: 'EXIT' }
-
 export type MachineContext = {
   error: CR.ErrorMessage | null
   env: CR.Environment
@@ -49,7 +33,7 @@ export type MachineContext = {
   processes: CR.ProcessEvent[]
 }
 
-const options: MachineOptions<MachineContext, MachineEvent> = {
+const options: MachineOptions<MachineContext, PlayTutorialEvents> = {
   activities: {},
   actions,
   guards: {},
@@ -57,7 +41,7 @@ const options: MachineOptions<MachineContext, MachineEvent> = {
   delays: {},
 }
 
-export const playTutorialMachine = Machine<MachineContext, StateSchema, MachineEvent>(
+export const playTutorialMachine = Machine<MachineContext, StateSchema, PlayTutorialEvents>(
   {
     context: {
       error: null,

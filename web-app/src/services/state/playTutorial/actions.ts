@@ -1,12 +1,13 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
+import * as Event from 'typings/events'
 import { assign, send, ActionFunctionMap } from 'xstate'
-import { MachineContext, MachineEvent } from './index'
+import { MachineContext } from './index'
 import channel from '../../channel'
 import onError from '../../sentry/onError'
 import * as selectors from '../../selectors'
 
-const actions: ActionFunctionMap<MachineContext, MachineEvent> = {
+const actions: ActionFunctionMap<MachineContext, Event.PlayTutorialEvents> = {
   userTutorialComplete(context: MachineContext) {
     console.log('should update user tutorial as complete')
   },
@@ -29,27 +30,21 @@ const actions: ActionFunctionMap<MachineContext, MachineEvent> = {
   }),
   // @ts-ignore
   commandSuccess: assign({
-    processes: (
-      { processes }: MachineContext,
-      event: { type: 'COMMAND_SUCCESS'; payload: { process: CR.ProcessEvent } },
-    ): CR.ProcessEvent[] => {
+    processes: ({ processes }: MachineContext, event: Event.CommandSuccessEvent): CR.ProcessEvent[] => {
       const { process } = event.payload
       return processes.filter(p => p.title !== process.title)
     },
   }),
   // @ts-ignore
   commandFail: assign({
-    processes: (
-      { processes }: MachineContext,
-      event: { type: 'COMMAND_FAIL'; payload: { process: CR.ProcessEvent } },
-    ): CR.ProcessEvent[] => {
+    processes: ({ processes }: MachineContext, event: Event.CommandFailEvent): CR.ProcessEvent[] => {
       const { process } = event.payload
       return processes.filter(p => p.title !== process.title)
     },
   }),
   // @ts-ignore
   updateStepPosition: assign({
-    position: (context: MachineContext, event: MachineEvent): CR.Position => {
+    position: (context: MachineContext, event: Event.PlayTutorialEvents): CR.Position => {
       // TODO calculate from progress
 
       const { position } = context
@@ -97,7 +92,7 @@ const actions: ActionFunctionMap<MachineContext, MachineEvent> = {
   }),
   // @ts-ignore
   updateLevelProgress: assign({
-    progress: (context: MachineContext, event: MachineEvent): CR.Progress => {
+    progress: (context: MachineContext, event: Event.PlayTutorialEvents): CR.Progress => {
       // update progress by tracking completed
       const { progress, position } = context
 
@@ -110,7 +105,7 @@ const actions: ActionFunctionMap<MachineContext, MachineEvent> = {
   }),
   // @ts-ignore
   updateStepProgress: assign({
-    progress: (context: MachineContext, event: { type: 'TEST_PASS'; payload: { stepId: string } }): CR.Progress => {
+    progress: (context: MachineContext, event: Event.TestPassEvent): CR.Progress => {
       // update progress by tracking completed
       const currentProgress: CR.Progress = context.progress
 
@@ -123,12 +118,7 @@ const actions: ActionFunctionMap<MachineContext, MachineEvent> = {
   }),
   // @ts-ignore
   updatePosition: assign({
-    position: (
-      context: MachineContext,
-      event:
-        | { type: 'NEXT_STEP'; payload: { position: CR.Position } }
-        | { type: 'NEXT_LEVEL'; payload: { position: CR.Position } },
-    ): CR.Progress => {
+    position: (context: MachineContext, event: Event.NextStepEvent | Event.NextLevelEvent): CR.Position => {
       const { position } = event.payload
       return position
     },
@@ -210,7 +200,7 @@ const actions: ActionFunctionMap<MachineContext, MachineEvent> = {
   ),
   // @ts-ignore
   setError: assign({
-    error: (context: MachineContext, event: { type: 'ERROR'; payload: { error: string } }): string | null => {
+    error: (context: MachineContext, event: Event.ErrorEvent): string | null => {
       return event.payload.error
     },
   }),

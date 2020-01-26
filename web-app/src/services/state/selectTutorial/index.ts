@@ -1,23 +1,8 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
+import { SelectTutorialEvents } from 'typings/events'
 import { Machine, MachineOptions } from 'xstate'
 import actions from './actions'
-
-export type ContinueTutorialEvent = {
-  type: 'CONTINUE_TUTORIAL'
-  payload: { tutorial: G.Tutorial; progress: CR.Progress; position: CR.Position }
-}
-
-export type MachineEvent =
-  | ContinueTutorialEvent
-  | { type: 'NEW_TUTORIAL' }
-  | { type: 'BACK' }
-  | { type: 'TUTORIAL_SELECTED'; payload: { tutorial: G.Tutorial } }
-  | { type: 'LOAD_TUTORIAL'; payload: { tutorial: G.Tutorial } }
-  | { type: 'TUTORIAL_CONFIGURED' }
-  | { type: 'SELECT_NEW_TUTORIAL' }
-  | { type: 'TUTORIAL_START' }
-  | { type: 'ERROR'; payload: { error: Error } }
 
 export type MachineContext = {
   error: CR.ErrorMessage | null
@@ -38,7 +23,7 @@ export type StateSchema = {
   }
 }
 
-const options: MachineOptions<MachineContext, MachineEvent> = {
+const options: MachineOptions<MachineContext, SelectTutorialEvents> = {
   activities: {},
   actions,
   guards: {},
@@ -46,7 +31,7 @@ const options: MachineOptions<MachineContext, MachineEvent> = {
   delays: {},
 }
 
-export const selectTutorialMachine = Machine<MachineContext, StateSchema, MachineEvent>(
+export const selectTutorialMachine = Machine<MachineContext, StateSchema, SelectTutorialEvents>(
   {
     context: {
       error: null,

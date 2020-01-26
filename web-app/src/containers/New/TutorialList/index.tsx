@@ -10,7 +10,7 @@ interface Props {
 const TutorialList = (props: Props) => {
   const onSelect = (tutorial: G.Tutorial) => {
     channel.machineSend({
-      type: 'SELECT_NEW_TUTORIAL',
+      type: 'LOAD_TUTORIAL',
       payload: {
         tutorial,
       },

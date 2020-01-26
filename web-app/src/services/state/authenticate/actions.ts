@@ -1,12 +1,13 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
+import { AuthenticateEvent, EnvGetEvent } from 'typings/events'
 import { assign, ActionFunctionMap } from 'xstate'
 import client from '../../apollo'
 import { setAuthToken } from '../../apollo/auth'
 import authenticateMutation from '../../apollo/mutations/authenticate'
 import channel from '../../channel'
 import onError from '../../../services/sentry/onError'
-import { MachineContext, MachineEvent } from './index'
+import { MachineContext } from './index'
 
 interface AuthenticateData {
   editorLogin: {
@@ -21,10 +22,10 @@ interface AuthenticateVariables {
   editor: 'VSCODE'
 }
 
-const actions: ActionFunctionMap<MachineContext, MachineEvent> = {
+const actions: ActionFunctionMap<MachineContext, AuthenticateEvent> = {
   // @ts-ignore
   setEnv: assign({
-    env: (context: MachineContext, event: { type: 'ENV_LOAD'; payload: { env: CR.Environment } }): CR.Environment => ({
+    env: (context: MachineContext, event: EnvGetEvent): CR.Environment => ({
       ...context.env,
       ...event.payload.env,
     }),
@@ -55,7 +56,7 @@ const actions: ActionFunctionMap<MachineContext, MachineEvent> = {
             description: error.message,
           }
         }
-        channel.receive({ data: { type: 'ERROR', payload: { error: message } } })
+        channel.receive({ data: ErrorEvent })
         return
       })
 

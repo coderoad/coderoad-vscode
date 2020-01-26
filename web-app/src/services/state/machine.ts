@@ -5,10 +5,6 @@ import { authenticateMachine } from './authenticate'
 import { selectTutorialMachine } from './selectTutorial'
 import { playTutorialMachine } from './playTutorial'
 
-export type MachineEvent = {
-  type: 'NONE'
-}
-
 export type MachineContext = {
   env: CR.Environment
   error: CR.ErrorMessage | null
@@ -25,7 +21,7 @@ export type MachineStateSchema = {
   }
 }
 
-export const machine = Machine<MachineContext, MachineStateSchema, MachineEvent>({
+export const machine = Machine<MachineContext, MachineStateSchema>({
   id: 'root',
   initial: 'Initializing',
   context: {

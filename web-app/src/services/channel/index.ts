@@ -1,14 +1,11 @@
-import { MachineEvent } from '../state/machine'
-import { MachineEvent as AuthenticateEvent } from '../state/authenticate'
-import { MachineEvent as SelectTutorialEvent } from '../state/selectTutorial'
-import { MachineEvent as PlayTutorialEvent } from '../state/playTutorial'
+import * as CR from 'typings'
+import * as G from 'typings/graphql'
+import { EditorEvent, ClientEvent } from 'typings/events'
 
 declare let acquireVsCodeApi: any
 
-type SendEvent = MachineEvent | AuthenticateEvent | SelectTutorialEvent | PlayTutorialEvent
-
 interface ReceivedEvent {
-  data: SendEvent
+  data: ClientEvent
 }
 
 class Channel {
@@ -26,10 +23,10 @@ class Channel {
     this.editorSend = editor.postMessage
   }
 
-  public machineSend = (event: SendEvent) => {
+  public machineSend = (event: ClientEvent) => {
     /* implemented by `setMachineSend` in router on startup */
   }
-  public editorSend = (event: SendEvent) => {
+  public editorSend = (event: EditorEvent) => {
     /* */
   }
 

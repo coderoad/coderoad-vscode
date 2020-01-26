@@ -1,5 +1,6 @@
-import * as T from 'typings'
+import * as CR from 'typings'
 import * as G from 'typings/graphql'
+import { EditorEvent, ClientEvent } from 'typings/events'
 import * as vscode from 'vscode'
 import saveCommit from '../actions/saveCommit'
 import setupActions from '../actions/setupActions'
@@ -10,18 +11,18 @@ import logger from '../services/logger'
 import Context from './context'
 
 interface Channel {
-  receive(action: T.Action): Promise<void>
-  send(action: T.Action): Promise<void>
+  receive(action: EditorEvent): Promise<void>
+  send(action: ClientEvent): Promise<void>
 }
 
 interface ChannelProps {
-  postMessage: (action: T.Action) => Thenable<boolean>
+  postMessage: (action: ClientEvent) => Thenable<boolean>
   workspaceState: vscode.Memento
   workspaceRoot: vscode.WorkspaceFolder
 }
 
 class Channel implements Channel {
-  private postMessage: (action: T.Action) => Thenable<boolean>
+  private postMessage: (action: ClientEvent) => Thenable<boolean>
   private workspaceState: vscode.Memento
   private workspaceRoot: vscode.WorkspaceFolder
   private context: Context
@@ -34,10 +35,10 @@ class Channel implements Channel {
   }
 
   // receive from webview
-  public receive = async (action: T.Action) => {
+  public receive = async (action: EditorEvent) => {
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
-    const onError = (error: T.ErrorMessage) => this.send({ type: 'ERROR', payload: { error } })
+    const onError = (error: CR.ErrorMessage) => this.send({ type: 'ERROR', payload: { error } })
 
     switch (actionType) {
       case 'ENV_GET':
@@ -126,7 +127,7 @@ class Channel implements Channel {
     }
   }
   // send to webview
-  public send = async (action: T.Action) => {
+  public send = async (action: ClientEvent) => {
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
     switch (actionType) {

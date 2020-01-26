@@ -1,11 +1,12 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
+import * as Event from 'typings/events'
 import { assign, ActionFunctionMap } from 'xstate'
 import client from '../../apollo'
 import tutorialQuery from '../../apollo/queries/tutorial'
 import channel from '../../channel'
 import onError from '../../../services/sentry/onError'
-import { MachineContext, MachineEvent, ContinueTutorialEvent } from './index'
+import { MachineContext } from './index'
 import * as selectors from '../../selectors'
 
 interface TutorialData {
@@ -17,7 +18,7 @@ interface TutorialDataVariables {
   // version: string
 }
 
-const actionMap: ActionFunctionMap<MachineContext, MachineEvent> = {
+const actionMap: ActionFunctionMap<MachineContext, Event.SelectTutorialEvents> = {
   loadEnv(): void {
     channel.editorSend({
       type: 'ENV_GET',
@@ -37,40 +38,40 @@ const actionMap: ActionFunctionMap<MachineContext, MachineEvent> = {
     progress: event.payload.progress,
     position: event.payload.position,
   })),
-  initializeTutorial(context: MachineContext, event: MachineEvent) {
-    // setup test runner and git
-    if (!context.tutorial) {
-      const error = new Error('Tutorial not available to load')
-      onError(error)
-      throw error
-    }
+  // initializeTutorial(context: MachineContext, event: Event.SelectTutorialEvents) {
+  //   // setup test runner and git
+  //   if (!context.tutorial) {
+  //     const error = new Error('Tutorial not available to load')
+  //     onError(error)
+  //     throw error
+  //   }
 
-    client
-      .query<TutorialData, TutorialDataVariables>({
-        query: tutorialQuery,
-        variables: {
-          tutorialId: context.tutorial.id,
-          // version: context.tutorial.version.version, // TODO: reimplement version
-        },
-      })
-      .then(result => {
-        if (!result || !result.data || !result.data.tutorial) {
-          const message = 'No tutorial returned from tutorial config query'
-          onError(new Error(message))
-          return Promise.reject(message)
-        }
+  //   client
+  //     .query<TutorialData, TutorialDataVariables>({
+  //       query: tutorialQuery,
+  //       variables: {
+  //         tutorialId: context.tutorial.id,
+  //         // version: context.tutorial.version.version, // TODO: reimplement version
+  //       },
+  //     })
+  //     .then(result => {
+  //       if (!result || !result.data || !result.data.tutorial) {
+  //         const message = 'No tutorial returned from tutorial config query'
+  //         onError(new Error(message))
+  //         return Promise.reject(message)
+  //       }
 
-        channel.editorSend({
-          type: 'EDITOR_TUTORIAL_CONFIG',
-          payload: { tutorial: result.data.tutorial },
-        })
-      })
-      .catch((error: Error) => {
-        const message = `Failed to load tutorial config ${error.message}`
-        onError(new Error(message))
-        return Promise.reject(message)
-      })
-  },
+  //       channel.editorSend({
+  //         type: 'EDITOR_TUTORIAL_CONFIG',
+  //         payload: { tutorial: result.data.tutorial },
+  //       })
+  //     })
+  //     .catch((error: Error) => {
+  //       const message = `Failed to load tutorial config ${error.message}`
+  //       onError(new Error(message))
+  //       return Promise.reject(message)
+  //     })
+  // },
   // continueConfig(context: CR.MachineContext) {
   //   channel.editorSend({
   //     type: 'EDITOR_TUTORIAL_CONTINUE_CONFIG',
@@ -80,7 +81,7 @@ const actionMap: ActionFunctionMap<MachineContext, MachineEvent> = {
   //     },
   //   })
   // },
-  initPositionAndProgress: assign((context: MachineContext, event: MachineEvent) => ({
+  initPositionAndProgress: assign((context: MachineContext, event: Event.LoadTutorialEvent) => ({
     position: selectors.initialPosition(event.payload),
     progress: selectors.defaultProgress(),
   })),

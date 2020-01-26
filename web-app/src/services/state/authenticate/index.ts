@@ -1,11 +1,7 @@
 import * as CR from 'typings'
+import { AuthenticateEvent } from 'typings/events'
 import { Machine } from 'xstate'
 import actions from './actions'
-
-export type MachineEvent =
-  | { type: 'ENV_LOAD'; payload: { env: CR.Environment } }
-  | { type: 'AUTHENTICATED' }
-  | { type: 'ERROR'; payload: { error: Error } }
 
 export type StateSchema = {
   states: {
@@ -24,7 +20,7 @@ const options = {
   actions,
 }
 
-export const authenticateMachine = Machine<MachineContext, StateSchema, MachineEvent>(
+export const authenticateMachine = Machine<MachineContext, StateSchema, AuthenticateEvent>(
   {
     id: 'authenticate',
     context: {
