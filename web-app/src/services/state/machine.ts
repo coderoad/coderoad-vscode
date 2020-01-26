@@ -1,31 +1,65 @@
 import * as CR from 'typings'
+import * as G from 'typings/graphql'
 import { Machine } from 'xstate'
+import { authenticateMachine } from './authenticate'
 import { selectTutorialMachine } from './selectTutorial'
 import { playTutorialMachine } from './playTutorial'
 
-export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>({
+export type MachineEvent = {
+  type: 'NONE'
+}
+
+export type MachineContext = {
+  env: CR.Environment
+  error: CR.ErrorMessage | null
+  tutorial: G.Tutorial | null
+}
+
+export type MachineStateSchema = {
+  states: {
+    Initializing: {}
+    Start: {}
+    PlayTutorial: {}
+  }
+}
+
+export const machine = Machine<MachineContext, MachineStateSchema, MachineEvent>({
   id: 'root',
-  initial: 'SelectTutorial',
+  initial: 'Initializing',
   context: {
     error: null,
     env: { machineId: '', sessionId: '', token: '' },
     tutorial: null,
   },
   states: {
-    // start/continue a tutorial
-    // select tutorial
-    // view tutorial summary
-    SelectTutorial: {
+    // load environment
+    // authenticate with environment
+    Initializing: {
       invoke: {
-        src: selectTutorialMachine,
-        onDone: 'PlayTutorial',
+        src: authenticateMachine,
+        onDone: 'Start',
         data: {
-          env: (context: CR.MachineContext) => context.env,
-          tutorial: (context: CR.MachineContext) => context.tutorial,
+          env: (context: MachineContext) => context.env,
           error: null,
         },
       },
     },
+
+    // start/continue a tutorial
+    // select tutorial
+    // view tutorial summary
+    Start: {
+      invoke: {
+        src: selectTutorialMachine,
+        onDone: 'PlayTutorial',
+        data: {
+          env: (context: MachineContext) => context.env,
+          tutorial: (context: MachineContext) => context.tutorial,
+          error: null,
+        },
+      },
+    },
+
     // initialize a selected tutorial
     // progress through tutorial level/steps
     // complete tutorial
@@ -34,8 +68,8 @@ export const machine = Machine<CR.MachineContext, CR.MachineStateSchema, CR.Mach
         src: playTutorialMachine,
         onDone: 'SelectTutorial',
         data: {
-          context: (context: CR.MachineContext) => context.env,
-          tutorial: (context: CR.MachineContext) => context.tutorial,
+          context: (context: MachineContext) => context.env,
+          tutorial: (context: MachineContext) => context.tutorial,
           error: null,
         },
       },
