@@ -1,5 +1,4 @@
 import * as React from 'react'
-import * as CR from 'typings'
 import channel from '../../services/channel'
 import messageBusReceiver from '../../services/channel/receiver'
 import machine from '../../services/state/machine'
@@ -7,15 +6,18 @@ import { useMachine } from '../../services/xstate-react'
 import debuggerWrapper from '../Debugger/debuggerWrapper'
 import Route from './Route'
 import onError from '../../services/sentry/onError'
+import { MachineContext, MachineEvent } from '../../services/state/machine'
 
 interface Props {
   children: any
 }
 
 interface CloneElementProps {
-  context: CR.MachineContext
-  send(action: CR.Action): void
+  context: MachineContext
+  send(action: MachineEvent): void
 }
+
+// TODO: rewrite router, logic is messy
 
 // router finds first state match of <Route path='' />
 const Router = ({ children }: Props): React.ReactElement<CloneElementProps> | null => {
@@ -32,6 +34,7 @@ const Router = ({ children }: Props): React.ReactElement<CloneElementProps> | nu
 
   const childArray = React.Children.toArray(children)
   for (const child of childArray) {
+    // @ts-ignore
     const { path } = child.props
     let pathMatch
     if (typeof path === 'string') {
@@ -42,6 +45,7 @@ const Router = ({ children }: Props): React.ReactElement<CloneElementProps> | nu
       throw new Error(`Invalid route path ${JSON.stringify(path)}`)
     }
     if (pathMatch) {
+      // @ts-ignore
       const element = React.cloneElement<CloneElementProps>(child.props.children, { send, context: state.context })
       return debuggerWrapper(element, state)
     }

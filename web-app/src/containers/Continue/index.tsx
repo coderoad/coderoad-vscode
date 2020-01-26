@@ -1,6 +1,6 @@
 import * as React from 'react'
-import * as CR from 'typings'
 import * as G from 'typings/graphql'
+import { MachineContext, MachineEvent } from '../../services/state/selectTutorial'
 import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
 import Card from '../../components/Card'
@@ -47,8 +47,8 @@ export const ContinuePage = (props: Props) => (
 )
 
 interface ContainerProps {
-  context: CR.MachineContext
-  send(action: CR.Action | string): void
+  context: MachineContext
+  send(action: MachineEvent): void
 }
 
 const ContinuePageContainer = ({ context, send }: ContainerProps) => {
@@ -59,7 +59,11 @@ const ContinuePageContainer = ({ context, send }: ContainerProps) => {
   }
 
   return (
-    <ContinuePage tutorial={tutorial} onContinue={() => send('TUTORIAL_START')} onNew={() => send('TUTORIAL_SELECT')} />
+    <ContinuePage
+      tutorial={tutorial}
+      onContinue={() => send({ type: 'TUTORIAL_START' })}
+      onNew={() => send({ type: 'SELECT_NEW_TUTORIAL' })}
+    />
   )
 }
 

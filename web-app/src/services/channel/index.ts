@@ -1,9 +1,14 @@
-import { Action } from 'typings'
+import { MachineEvent } from '../state/machine'
+import { MachineEvent as AuthenticateEvent } from '../state/authenticate'
+import { MachineEvent as SelectTutorialEvent } from '../state/selectTutorial'
+import { MachineEvent as PlayTutorialEvent } from '../state/playTutorial'
 
 declare let acquireVsCodeApi: any
 
+type SendEvent = MachineEvent | AuthenticateEvent | SelectTutorialEvent | PlayTutorialEvent
+
 interface ReceivedEvent {
-  data: Action
+  data: SendEvent
 }
 
 class Channel {
@@ -21,10 +26,10 @@ class Channel {
     this.editorSend = editor.postMessage
   }
 
-  public machineSend = (action: Action | string) => {
+  public machineSend = (event: SendEvent) => {
     /* implemented by `setMachineSend` in router on startup */
   }
-  public editorSend = (action: Action) => {
+  public editorSend = (event: SendEvent) => {
     /* */
   }
 
@@ -40,29 +45,7 @@ class Channel {
       return
     }
 
-    // messages from core
-    switch (action.type) {
-      case 'ENV_LOAD':
-      case 'AUTHENTICATED':
-      case 'TUTORIAL_LOADED':
-      case 'NEW_TUTORIAL':
-      case 'TUTORIAL_CONFIGURED':
-      case 'CONTINUE_TUTORIAL':
-      case 'TEST_PASS':
-      case 'TEST_FAIL':
-      case 'TEST_RUNNING':
-      case 'TEST_ERROR':
-      case 'COMMAND_START':
-      case 'COMMAND_SUCCESS':
-      case 'COMMAND_FAIL':
-      case 'ERROR':
-        this.machineSend(action)
-        return
-      default:
-        if (action.type) {
-          console.warn(`Unknown received action ${action.type}`, action)
-        }
-    }
+    this.machineSend(action)
   }
 }
 

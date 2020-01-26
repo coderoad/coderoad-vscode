@@ -1,15 +1,14 @@
 import { useQuery } from '@apollo/react-hooks'
 import * as React from 'react'
-import * as CR from 'typings'
 import * as G from 'typings/graphql'
 import ErrorView from '../../components/Error'
 import queryTutorial from '../../services/apollo/queries/tutorial'
 import OverviewPage from './OverviewPage'
-import { MachineContext } from '../../services/state/selectTutorial'
+import { MachineContext, MachineEvent } from '../../services/state/selectTutorial'
 
 interface PageProps {
   context: MachineContext
-  send(action: CR.Action): void
+  send(action: MachineEvent): void
 }
 
 interface TutorialData {

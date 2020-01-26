@@ -1,12 +1,11 @@
 import * as React from 'react'
-import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
 import Loading from '../components/Loading'
 import Message from '../components/Message'
 
 interface Props {
   text: string
-  context: T.MachineContext
+  context: any
 }
 
 const styles = {

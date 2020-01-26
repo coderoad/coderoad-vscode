@@ -13,6 +13,8 @@ export type MachineContext = {
   env: CR.Environment
   error: CR.ErrorMessage | null
   tutorial: G.Tutorial | null
+  position: CR.Position
+  progress: CR.Progress
 }
 
 export type MachineStateSchema = {
@@ -30,6 +32,8 @@ export const machine = Machine<MachineContext, MachineStateSchema, MachineEvent>
     error: null,
     env: { machineId: '', sessionId: '', token: '' },
     tutorial: null,
+    progress: { levels: {}, steps: {}, complete: false },
+    position: { levelId: '', stepId: '' },
   },
   states: {
     // load environment
@@ -53,9 +57,10 @@ export const machine = Machine<MachineContext, MachineStateSchema, MachineEvent>
         src: selectTutorialMachine,
         onDone: 'PlayTutorial',
         data: {
-          env: (context: MachineContext) => context.env,
           tutorial: (context: MachineContext) => context.tutorial,
           error: null,
+          position: (context: MachineContext) => context.position,
+          progress: (context: MachineContext) => context.progress,
         },
       },
     },

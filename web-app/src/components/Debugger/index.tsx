@@ -1,8 +1,8 @@
 import * as React from 'react'
-import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
+import { MachineContext } from '../../services/state/playTutorial'
 
-interface Props extends T.PlayMachineContext {
+interface Props extends MachineContext {
   state: string
   children: React.ReactElement
 }

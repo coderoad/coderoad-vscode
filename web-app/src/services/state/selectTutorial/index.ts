@@ -3,20 +3,24 @@ import * as G from 'typings/graphql'
 import { Machine, MachineOptions } from 'xstate'
 import actions from './actions'
 
+export type ContinueTutorialEvent = {
+  type: 'CONTINUE_TUTORIAL'
+  payload: { tutorial: G.Tutorial; progress: CR.Progress; position: CR.Position }
+}
+
 export type MachineEvent =
-  | { type: 'CONTINUE_TUTORIAL'; payload: { tutorial: G.Tutorial; progress: CR.Progress; position: CR.Position } }
+  | ContinueTutorialEvent
   | { type: 'NEW_TUTORIAL' }
   | { type: 'BACK' }
   | { type: 'TUTORIAL_SELECTED'; payload: { tutorial: G.Tutorial } }
   | { type: 'LOAD_TUTORIAL'; payload: { tutorial: G.Tutorial } }
   | { type: 'TUTORIAL_CONFIGURED' }
-  | { type: 'SELECT_NEW_TUTORIAL'; payload: { tutorial: G.Tutorial } }
+  | { type: 'SELECT_NEW_TUTORIAL' }
   | { type: 'TUTORIAL_START' }
-// | { type: 'ERROR'; payload: { error: Error } }
+  | { type: 'ERROR'; payload: { error: Error } }
 
 export type MachineContext = {
-  env: CR.Environment
-  // error: CR.ErrorMessage | null
+  error: CR.ErrorMessage | null
   tutorial: G.Tutorial | null
   position: CR.Position
   progress: CR.Progress
@@ -45,8 +49,7 @@ const options: MachineOptions<MachineContext, MachineEvent> = {
 export const selectTutorialMachine = Machine<MachineContext, StateSchema, MachineEvent>(
   {
     context: {
-      // error: null,
-      env: { machineId: '', sessionId: '', token: '' },
+      error: null,
       tutorial: null,
       progress: { levels: {}, steps: {}, complete: false },
       position: { levelId: '', stepId: '' },
@@ -95,7 +98,10 @@ export const selectTutorialMachine = Machine<MachineContext, StateSchema, Machin
       LoadingNew: {
         // awaits tutorial configuration
         on: {
-          LOAD_TUTORIAL: 'Launch',
+          LOAD_TUTORIAL: {
+            target: 'Launch',
+            actions: ['initPositionAndProgress'],
+          },
         },
       },
       Launch: {

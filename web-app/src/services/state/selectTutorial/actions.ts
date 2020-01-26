@@ -1,10 +1,12 @@
+import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import { ActionFunctionMap } from 'xstate'
+import { assign, ActionFunctionMap } from 'xstate'
 import client from '../../apollo'
 import tutorialQuery from '../../apollo/queries/tutorial'
 import channel from '../../channel'
 import onError from '../../../services/sentry/onError'
-import { MachineContext, MachineEvent } from './index'
+import { MachineContext, MachineEvent, ContinueTutorialEvent } from './index'
+import * as selectors from '../../selectors'
 
 interface TutorialData {
   tutorial: G.Tutorial
@@ -28,6 +30,13 @@ const actionMap: ActionFunctionMap<MachineContext, MachineEvent> = {
       type: 'EDITOR_TUTORIAL_LOAD',
     })
   },
+  // @ts-ignore
+  continueTutorial: assign((context: MachineContext, event: ContinueTutorialEvent) => ({
+    ...context,
+    tutorial: event.payload.tutorial,
+    progress: event.payload.progress,
+    position: event.payload.position,
+  })),
   initializeTutorial(context: MachineContext, event: MachineEvent) {
     // setup test runner and git
     if (!context.tutorial) {
@@ -71,6 +80,10 @@ const actionMap: ActionFunctionMap<MachineContext, MachineEvent> = {
   //     },
   //   })
   // },
+  initPositionAndProgress: assign((context: MachineContext, event: MachineEvent) => ({
+    position: selectors.initialPosition(event.payload),
+    progress: selectors.defaultProgress(),
+  })),
   clearStorage(): void {
     channel.editorSend({ type: 'TUTORIAL_CLEAR' })
   },

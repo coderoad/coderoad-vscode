@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as CR from 'typings'
+import { MachineContext, MachineEvent } from '../../services/state/playTutorial'
 import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
 
@@ -10,13 +10,13 @@ const styles = {
 }
 
 interface Props {
-  context: CR.MachineContext
-  send(action: CR.Action | string): void
+  context: MachineContext
+  send(action: MachineEvent): void
 }
 
 const CompletedPage = (props: Props) => {
   const selectNewTutorial = () => {
-    props.send('SELECT_TUTORIAL')
+    props.send({ type: 'EXIT' })
   }
   return (
     <div>

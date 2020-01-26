@@ -1,20 +1,55 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import { assign, send } from 'xstate'
-import * as selectors from '../../../selectors'
-import onError from '../../../sentry/onError'
+import { assign, send, ActionFunctionMap } from 'xstate'
+import { MachineContext, MachineEvent } from './index'
+import channel from '../../channel'
+import onError from '../../sentry/onError'
+import * as selectors from '../../selectors'
 
-export default {
+const actions: ActionFunctionMap<MachineContext, MachineEvent> = {
+  userTutorialComplete(context: MachineContext) {
+    console.log('should update user tutorial as complete')
+  },
   // @ts-ignore
-  initPosition: assign({
-    position: (context: CR.PlayMachineContext, event: CR.MachineEvent): CR.Position => {
-      const position: CR.Position = selectors.initialPosition(event.payload)
-      return position
+  commandStart: assign({
+    processes: (
+      context: MachineContext,
+      event: { type: 'COMMAND_START'; payload: { process: CR.ProcessEvent } },
+    ): CR.ProcessEvent[] => {
+      // only add processes that aren't already running
+      const currentProcesses: CR.ProcessEvent[] = context.processes
+      const { process } = event.payload
+      const isRunning: CR.ProcessEvent | undefined = currentProcesses.find(p => p.title === process.title)
+      if (!isRunning) {
+        // if not running, add it to the list
+        currentProcesses.push(process)
+      }
+      return currentProcesses
+    },
+  }),
+  // @ts-ignore
+  commandSuccess: assign({
+    processes: (
+      { processes }: MachineContext,
+      event: { type: 'COMMAND_SUCCESS'; payload: { process: CR.ProcessEvent } },
+    ): CR.ProcessEvent[] => {
+      const { process } = event.payload
+      return processes.filter(p => p.title !== process.title)
+    },
+  }),
+  // @ts-ignore
+  commandFail: assign({
+    processes: (
+      { processes }: MachineContext,
+      event: { type: 'COMMAND_FAIL'; payload: { process: CR.ProcessEvent } },
+    ): CR.ProcessEvent[] => {
+      const { process } = event.payload
+      return processes.filter(p => p.title !== process.title)
     },
   }),
   // @ts-ignore
   updateStepPosition: assign({
-    position: (context: CR.PlayMachineContext, event: CR.MachineEvent): CR.Position => {
+    position: (context: MachineContext, event: MachineEvent): CR.Position => {
       // TODO calculate from progress
 
       const { position } = context
@@ -42,7 +77,7 @@ export default {
   }),
   // @ts-ignore
   updateLevelPosition: assign({
-    position: (context: CR.PlayMachineContext): CR.Position => {
+    position: (context: MachineContext): CR.Position => {
       const { position } = context
       const version = selectors.currentVersion(context)
       // merge in the updated position
@@ -62,7 +97,7 @@ export default {
   }),
   // @ts-ignore
   updateLevelProgress: assign({
-    progress: (context: CR.PlayMachineContext, event: CR.MachineEvent): CR.Progress => {
+    progress: (context: MachineContext, event: MachineEvent): CR.Progress => {
       // update progress by tracking completed
       const { progress, position } = context
 
@@ -75,7 +110,7 @@ export default {
   }),
   // @ts-ignore
   updateStepProgress: assign({
-    progress: (context: CR.PlayMachineContext, event: CR.MachineEvent): CR.Progress => {
+    progress: (context: MachineContext, event: { type: 'TEST_PASS'; payload: { stepId: string } }): CR.Progress => {
       // update progress by tracking completed
       const currentProgress: CR.Progress = context.progress
 
@@ -88,13 +123,18 @@ export default {
   }),
   // @ts-ignore
   updatePosition: assign({
-    position: (context: CR.PlayMachineContext, event: CR.MachineEvent): CR.Progress => {
+    position: (
+      context: MachineContext,
+      event:
+        | { type: 'NEXT_STEP'; payload: { position: CR.Position } }
+        | { type: 'NEXT_LEVEL'; payload: { position: CR.Position } },
+    ): CR.Progress => {
       const { position } = event.payload
       return position
     },
   }),
   loadNext: send(
-    (context: CR.PlayMachineContext): CR.Action => {
+    (context: MachineContext): CR.Action => {
       const { position, progress } = context
 
       const level = selectors.currentLevel(context)
@@ -140,7 +180,7 @@ export default {
     },
   ),
   stepNext: send(
-    (context: CR.PlayMachineContext): CR.Action => {
+    (context: MachineContext): CR.Action => {
       const { position, progress } = context
 
       const level: G.Level = selectors.currentLevel(context)
@@ -170,8 +210,47 @@ export default {
   ),
   // @ts-ignore
   setError: assign({
-    error: (context: CR.PlayMachineContext, event: CR.MachineEvent): string | null => {
+    error: (context: MachineContext, event: { type: 'ERROR'; payload: { error: string } }): string | null => {
       return event.payload.error
     },
   }),
+  loadLevel(context: MachineContext): void {
+    const level: G.Level = selectors.currentLevel(context)
+    if (level.setup) {
+      // load step actions
+      channel.editorSend({
+        type: 'SETUP_ACTIONS',
+        payload: level.setup,
+      })
+    }
+  },
+  loadStep(context: MachineContext): void {
+    const step: G.Step = selectors.currentStep(context)
+    if (step.setup) {
+      // load step actions
+      channel.editorSend({
+        type: 'SETUP_ACTIONS',
+        payload: {
+          stepId: step.id,
+          ...step.setup,
+        },
+      })
+    }
+  },
+  editorLoadSolution(context: MachineContext): void {
+    const step: G.Step = selectors.currentStep(context)
+    // tell editor to load solution commit
+    channel.editorSend({
+      type: 'SOLUTION_ACTIONS',
+      payload: {
+        stepId: step.id,
+        ...step.solution,
+      },
+    })
+  },
+  clearStorage(): void {
+    channel.editorSend({ type: 'TUTORIAL_CLEAR' })
+  },
 }
+
+export default actions

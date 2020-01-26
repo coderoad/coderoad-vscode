@@ -3,9 +3,10 @@ import * as T from 'typings'
 import * as G from 'typings/graphql'
 import * as selectors from '../../../services/selectors'
 import Level from './Level'
+import { MachineContext } from '../../../services/state/playTutorial'
 
 interface PageProps {
-  context: T.PlayMachineContext
+  context: MachineContext
   send(action: T.Action): void
 }
 
@@ -17,7 +18,7 @@ const LevelSummaryPageContainer = (props: PageProps) => {
 
   const onContinue = (): void => {
     props.send({
-      type: 'LEVEL_NEXT',
+      type: 'NEXT_LEVEL',
       payload: {
         LevelId: position.levelId,
       },

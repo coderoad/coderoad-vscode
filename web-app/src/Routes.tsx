@@ -1,5 +1,7 @@
 import * as React from 'react'
-import * as CR from 'typings'
+import { MachineContext as RootMachineContext } from './services/state/machine'
+import { MachineContext as SelectTutorialContext } from './services/state/selectTutorial'
+import { MachineContext as PlayTutorialContext } from './services/state/playTutorial'
 import Router from './components/Router'
 import Workspace from './components/Workspace'
 import ContinuePage from './containers/Continue'
@@ -18,29 +20,29 @@ const Routes = () => {
   return (
     <Workspace>
       <Router>
-        <Route path={['SelectTutorial.Startup', 'SelectTutorial.Authenticate', 'SelectTutorial.NewOrContinue']}>
-          <LoadingPage text="Launching..." context={{} as CR.MachineContext} />
+        <Route path={'Initializing'}>
+          <LoadingPage text="Launching..." context={{} as RootMachineContext} />
         </Route>
-        <Route path="SelectTutorial.SelectTutorial">
-          <NewPage send={tempSend} context={{} as CR.MachineContext} />
+        <Route path="Start.SelectTutorial">
+          <NewPage send={tempSend} context={{} as SelectTutorialContext} />
         </Route>
-        <Route path="SelectTutorial.ContinueTutorial">
-          <ContinuePage send={tempSend} context={{} as CR.MachineContext} />
+        <Route path="Start.ContinueTutorial">
+          <ContinuePage send={tempSend} context={{} as SelectTutorialContext} />
         </Route>
-        <Route path="PlayTutorial.Initialize">
-          <LoadingPage text="Initializing..." context={{} as CR.MachineContext} />
+        <Route path="Start.Initialize">
+          <LoadingPage text="Initializing..." context={{} as SelectTutorialContext} />
         </Route>
         <Route path="PlayTutorial.LoadNext">
-          <LoadingPage text="Loading..." context={{} as CR.MachineContext} />
+          <LoadingPage text="Loading..." context={{} as PlayTutorialContext} />
         </Route>
         <Route path="PlayTutorial.Summary">
-          <OverviewPage send={tempSend} context={{} as CR.MachineContext} />
+          <OverviewPage send={tempSend} context={{} as PlayTutorialContext} />
         </Route>
         <Route path="PlayTutorial.Level">
-          <LevelSummaryPage send={tempSend} context={{} as CR.PlayMachineContext} />
+          <LevelSummaryPage send={tempSend} context={{} as PlayTutorialContext} />
         </Route>
         <Route path="PlayTutorial.Completed">
-          <CompletedPage send={tempSend} context={{} as CR.PlayMachineContext} />
+          <CompletedPage send={tempSend} context={{} as PlayTutorialContext} />
         </Route>
       </Router>
     </Workspace>

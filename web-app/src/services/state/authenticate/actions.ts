@@ -22,15 +22,14 @@ interface AuthenticateVariables {
 }
 
 const actions: ActionFunctionMap<MachineContext, MachineEvent> = {
+  // @ts-ignore
   setEnv: assign({
-    env: (context: CR.MachineContext, event: CR.MachineEvent) => {
-      return {
-        ...context.env,
-        ...event.payload.env,
-      }
-    },
+    env: (context: MachineContext, event: { type: 'ENV_LOAD'; payload: { env: CR.Environment } }): CR.Environment => ({
+      ...context.env,
+      ...event.payload.env,
+    }),
   }),
-  authenticate: async (context: CR.MachineContext): Promise<void> => {
+  authenticate: async (context: MachineContext): Promise<void> => {
     const result = await client
       .mutate<AuthenticateData, AuthenticateVariables>({
         mutation: authenticateMutation,

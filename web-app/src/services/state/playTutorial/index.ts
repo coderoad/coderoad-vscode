@@ -1,8 +1,55 @@
 import * as CR from 'typings'
+import * as G from 'typings/graphql'
 import { Machine, MachineOptions } from 'xstate'
 import actions from './actions'
 
-const options: MachineOptions<CR.PlayMachineContext, CR.MachineEvent> = {
+export type StateSchema = {
+  states: {
+    LoadNext: {}
+    Level: {
+      states: {
+        Loading: {}
+        Normal: {}
+        TestRunning: {}
+        TestPass: {}
+        TestFail: {}
+        TestError: {}
+        StepNext: {}
+        LevelComplete: {}
+      }
+    }
+    Completed: {}
+    Exit: {}
+  }
+}
+
+export type MachineEvent =
+  | { type: 'COMMAND_START'; payload: { process: CR.ProcessEvent } }
+  | { type: 'COMMAND_SUCCESS'; payload: { process: CR.ProcessEvent } }
+  | { type: 'COMMAND_FAIL'; payload: { process: CR.ProcessEvent } }
+  | { type: 'ERROR'; payload: { error: string } }
+  | { type: 'NEXT_STEP'; payload: { position: CR.Position } }
+  | { type: 'NEXT_LEVEL'; payload: { position: CR.Position } }
+  | { type: 'COMPLETED' }
+  | { type: 'TEST_RUNNING'; payload: { stepId: string } }
+  | { type: 'STEP_SOLUTION_LOAD' }
+  | { type: 'TEST_PASS'; payload: { stepId: string } }
+  | { type: 'TEST_FAIL'; payload: { stepId: string } }
+  | { type: 'TEST_ERROR'; payload: { stepId: string } }
+  | { type: 'LOAD_NEXT_STEP'; payload: { step: string } }
+  | { type: 'LEVEL_COMPLETE' }
+  | { type: 'EXIT' }
+
+export type MachineContext = {
+  error: CR.ErrorMessage | null
+  env: CR.Environment
+  tutorial: G.Tutorial | null
+  position: CR.Position
+  progress: CR.Progress
+  processes: CR.ProcessEvent[]
+}
+
+const options: MachineOptions<MachineContext, MachineEvent> = {
   activities: {},
   actions,
   guards: {},
@@ -10,7 +57,7 @@ const options: MachineOptions<CR.PlayMachineContext, CR.MachineEvent> = {
   delays: {},
 }
 
-export const playTutorialMachine = Machine<CR.PlayMachineContext, CR.PlayTutorialMachineStateSchema, CR.MachineEvent>(
+export const playTutorialMachine = Machine<MachineContext, StateSchema, MachineEvent>(
   {
     context: {
       error: null,
@@ -26,7 +73,7 @@ export const playTutorialMachine = Machine<CR.PlayMachineContext, CR.PlayTutoria
     },
     id: 'tutorial',
     initial: 'Level',
-    onEntry: ['initPosition', 'initTutorial'],
+    onEntry: ['initTutorial'],
     on: {
       // track commands
       COMMAND_START: {
@@ -121,7 +168,7 @@ export const playTutorialMachine = Machine<CR.PlayMachineContext, CR.PlayTutoria
           },
           LevelComplete: {
             on: {
-              LEVEL_NEXT: '#tutorial-load-next',
+              NEXT_LEVEL: '#tutorial-load-next',
             },
           },
         },
@@ -130,10 +177,11 @@ export const playTutorialMachine = Machine<CR.PlayMachineContext, CR.PlayTutoria
         id: 'completed-tutorial',
         onEntry: ['userTutorialComplete'],
         on: {
-          SELECT_TUTORIAL: {
-            type: 'final',
-          },
+          EXIT: 'Exit',
         },
+      },
+      Exit: {
+        type: 'final',
       },
     },
   },

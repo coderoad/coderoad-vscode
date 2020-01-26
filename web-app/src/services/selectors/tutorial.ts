@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect'
-import * as CR from 'typings'
 import * as G from 'typings/graphql'
 import onError from '../../services/sentry/onError'
+import { MachineContext } from '../../services/state/playTutorial'
 
-export const currentTutorial = ({ tutorial }: CR.MachineContext): G.Tutorial => {
+export const currentTutorial = ({ tutorial }: MachineContext): G.Tutorial => {
   if (!tutorial) {
     const error = new Error('Tutorial not found')
     onError(error)
@@ -21,7 +21,7 @@ export const currentVersion = createSelector(currentTutorial, (tutorial: G.Tutor
   return tutorial.version
 })
 
-export const currentLevel = (context: CR.PlayMachineContext): G.Level =>
+export const currentLevel = (context: MachineContext): G.Level =>
   createSelector(
     currentVersion,
     (version: G.TutorialVersion): G.Level => {
@@ -41,7 +41,7 @@ export const currentLevel = (context: CR.PlayMachineContext): G.Level =>
     },
   )(context)
 
-export const currentStep = (context: CR.PlayMachineContext): G.Step =>
+export const currentStep = (context: MachineContext): G.Step =>
   createSelector(
     currentLevel,
     (level: G.Level): G.Step => {
