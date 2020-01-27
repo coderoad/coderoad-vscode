@@ -21,6 +21,9 @@ const Routes = () => {
         <Route path={['Start.Startup', 'Start.Authenticate', 'Start.NewOrContinue']}>
           <LoadingPage text="Launching..." context={{} as CR.MachineContext} />
         </Route>
+        <Route path={'Start.Error'}>
+          <div>Error</div>
+        </Route>
         <Route path="Start.SelectTutorial">
           <NewPage send={tempSend} context={{} as CR.MachineContext} />
         </Route>

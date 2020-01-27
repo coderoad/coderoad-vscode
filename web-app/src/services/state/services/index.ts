@@ -1,0 +1,1 @@
+export { authenticate } from './authenticate'

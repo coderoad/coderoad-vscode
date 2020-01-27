@@ -40,7 +40,7 @@ class Channel implements Channel {
     const onError = (error: T.ErrorMessage) => this.send({ type: 'ERROR', payload: { error } })
 
     switch (actionType) {
-      case 'ENV_GET':
+      case 'EDITOR_ENV_GET':
         this.send({
           type: 'ENV_LOAD',
           payload: {

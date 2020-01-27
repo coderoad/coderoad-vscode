@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as T from 'typings'
 import * as G from 'typings/graphql'
 import { css, jsx } from '@emotion/core'
 import TutorialList from './TutorialList'
@@ -23,6 +24,7 @@ const styles = {
 }
 
 interface Props {
+  send(action: T.Action): void
   tutorialList: G.Tutorial[]
 }
 
@@ -34,7 +36,7 @@ const NewPage = (props: Props) => (
     <div css={styles.banner}>
       <span>Select a Tutorial to Start</span>
     </div>
-    <TutorialList tutorialList={props.tutorialList} />
+    <TutorialList tutorialList={props.tutorialList} send={props.send} />
   </div>
 )
 

@@ -31,7 +31,7 @@ const NewPageContainer = (props: ContainerProps) => {
     return null
   }
 
-  return <NewPage tutorialList={data.tutorials} />
+  return <NewPage tutorialList={data.tutorials} send={props.send} />
 }
 
 export default NewPageContainer
