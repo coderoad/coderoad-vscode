@@ -18,7 +18,7 @@ interface AuthenticateVariables {
   editor: 'VSCODE'
 }
 
-export async function authenticate(context: CR.MachineContext): Promise<void> {
+export async function authenticate(context: CR.MachineContext): Promise<any> {
   const result = await client
     .mutate<AuthenticateData, AuthenticateVariables>({
       mutation: authenticateMutation,
@@ -57,6 +57,7 @@ export async function authenticate(context: CR.MachineContext): Promise<void> {
     return
   }
   const { token } = result.data.editorLogin
+  console.log(`Token: ${token}`)
   // add token to headers
   setAuthToken(token)
   // pass authenticated action back to state machine

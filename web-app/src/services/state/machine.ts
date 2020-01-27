@@ -53,7 +53,13 @@ export const createMachine = (options: any) =>
                 onDone: 'NewOrContinue',
                 onError: {
                   target: 'Error',
-                  actions: assign({ error: (context, event) => event.data }),
+                  actions: assign({
+                    error: (context, event) => {
+                      console.log('ERROR')
+                      console.log(JSON.stringify(event))
+                      return event.data
+                    },
+                  }),
                 },
               },
             },
