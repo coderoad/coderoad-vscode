@@ -31,7 +31,7 @@
     "@emotion/core": "^10.0.27",
     "@sentry/browser": "^5.11.1",
     "apollo-boost": "^0.4.7",
-    "graphql": "^14.5.8",
+    "graphql": "^14.6.0",
     "markdown-it": "^10.0.0",
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-prism": "^2.0.3",
