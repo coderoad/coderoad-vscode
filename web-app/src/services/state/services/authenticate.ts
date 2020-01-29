@@ -29,37 +29,36 @@ export async function authenticate(context: CR.MachineContext): Promise<any> {
       },
     })
     .catch(error => {
-      onError(error)
+      // onError(error)
       console.log('ERROR: Authentication failed')
       console.log(error.message)
       // let message
       if (error.message.match(/Network error:/)) {
-        throw {
+        return Promise.reject({
           error: {
             title: 'Network Error',
             description: 'Make sure you have an Internet connection. Restart and try again',
           },
-        }
+        })
       } else {
-        throw {
+        return Promise.reject({
           error: {
             title: 'Server Error',
             description: error.message,
           },
-        }
+        })
       }
     })
 
   if (!result || !result.data) {
     const error = new Error('Authentication request responded with no data')
     console.log(error)
-    onError(error)
+    // onError(error)
     return
   }
   const { token } = result.data.editorLogin
-  console.log(`Token: ${token}`)
   // add token to headers
   setAuthToken(token)
   // pass authenticated action back to state machine
-  return
+  return Promise.resolve()
 }

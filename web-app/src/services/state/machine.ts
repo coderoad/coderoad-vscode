@@ -1,5 +1,5 @@
 import * as CR from 'typings'
-import { assign, Machine, MachineOptions } from 'xstate'
+import { assign, Machine, MachineOptions, actions } from 'xstate'
 import editorActions from './actions/editor'
 import commandActions from './actions/command'
 import contextActions from './actions/context'
@@ -17,8 +17,8 @@ const createOptions = ({ editorSend }: any): MachineOptions<CR.MachineContext, C
   delays: {},
 })
 
-export const createMachine = (options: any) =>
-  Machine<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>(
+export const createMachine = (options: any) => {
+  return Machine<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>(
     {
       id: 'root',
       initial: 'Start',
@@ -230,3 +230,4 @@ export const createMachine = (options: any) =>
     },
     createOptions(options),
   )
+}

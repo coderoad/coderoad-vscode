@@ -26,9 +26,19 @@ const Router = ({ children }: Props): React.ReactElement<CloneElementProps> | nu
   // event bus listener
   React.useEffect(() => {
     const listener = 'message'
-    window.addEventListener(listener, send)
+    // propograte channel event to state machine
+    const handler = (action: any) => {
+      // NOTE: must call event.data, cannot destructure. VSCode acts odd
+      const event = action.data
+      // ignore browser events from plugins
+      if (event.source) {
+        return
+      }
+      send(event)
+    }
+    window.addEventListener(listener, handler)
     return () => {
-      window.removeEventListener(listener, send)
+      window.removeEventListener(listener, handler)
     }
   }, [])
 
