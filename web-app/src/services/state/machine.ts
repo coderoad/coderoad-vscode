@@ -54,11 +54,7 @@ export const createMachine = (options: any) => {
                 onError: {
                   target: 'Error',
                   actions: assign({
-                    error: (context, event) => {
-                      console.log('ERROR')
-                      console.log(JSON.stringify(event))
-                      return event.data
-                    },
+                    error: (context, event) => event.data,
                   }),
                 },
               },
@@ -118,10 +114,20 @@ export const createMachine = (options: any) => {
           states: {
             // TODO move Initialize into New Tutorial setup
             Initialize: {
-              onEntry: ['initializeTutorial'],
-              on: {
-                TUTORIAL_CONFIGURED: 'Summary',
-                // TUTORIAL_CONFIG_ERROR: 'Start' // TODO should handle error
+              invoke: {
+                src: services.initialize,
+                onDone: {
+                  target: 'Summary',
+                  actions: assign({
+                    tutorial: (context, event) => event.data,
+                  }),
+                },
+                onError: {
+                  target: 'Summary',
+                  actions: assign({
+                    error: (context, event) => event.data,
+                  }),
+                },
               },
             },
             Summary: {

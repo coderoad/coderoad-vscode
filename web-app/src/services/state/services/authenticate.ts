@@ -29,7 +29,7 @@ export async function authenticate(context: CR.MachineContext): Promise<any> {
       },
     })
     .catch(error => {
-      // onError(error)
+      onError(error)
       console.log('ERROR: Authentication failed')
       console.log(error.message)
       // let message
@@ -53,7 +53,7 @@ export async function authenticate(context: CR.MachineContext): Promise<any> {
   if (!result || !result.data) {
     const error = new Error('Authentication request responded with no data')
     console.log(error)
-    // onError(error)
+    onError(error)
     return
   }
   const { token } = result.data.editorLogin

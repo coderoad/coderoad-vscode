@@ -1,18 +1,6 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import client from '../../apollo'
-import tutorialQuery from '../../apollo/queries/tutorial'
 import * as selectors from '../../selectors'
-import onError from '../../../services/sentry/onError'
-
-interface TutorialData {
-  tutorial: G.Tutorial
-}
-
-interface TutorialDataVariables {
-  tutorialId: string
-  // version: string
-}
 
 export default (editorSend: any) => ({
   loadEnv(): void {
@@ -26,40 +14,6 @@ export default (editorSend: any) => ({
     editorSend({
       type: 'EDITOR_TUTORIAL_LOAD',
     })
-  },
-  initializeTutorial(context: CR.MachineContext, event: CR.MachineEvent) {
-    // setup test runner and git
-    if (!context.tutorial) {
-      const error = new Error('Tutorial not available to load')
-      onError(error)
-      throw error
-    }
-
-    client
-      .query<TutorialData, TutorialDataVariables>({
-        query: tutorialQuery,
-        variables: {
-          tutorialId: context.tutorial.id,
-          // version: context.tutorial.version.version, // TODO: reimplement version
-        },
-      })
-      .then(result => {
-        if (!result || !result.data || !result.data.tutorial) {
-          const message = 'No tutorial returned from tutorial config query'
-          onError(new Error(message))
-          return Promise.reject(message)
-        }
-
-        editorSend({
-          type: 'EDITOR_TUTORIAL_CONFIG',
-          payload: { tutorial: result.data.tutorial },
-        })
-      })
-      .catch((error: Error) => {
-        const message = `Failed to load tutorial config ${error.message}`
-        onError(new Error(message))
-        return Promise.reject(message)
-      })
   },
   continueConfig(context: CR.MachineContext) {
     editorSend({
