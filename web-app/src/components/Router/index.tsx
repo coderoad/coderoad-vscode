@@ -1,5 +1,4 @@
 import * as React from 'react'
-import * as CR from 'typings'
 import { createMachine } from '../../services/state/machine'
 import { useMachine } from '../../services/xstate-react'
 import Route from './Route'
@@ -7,11 +6,6 @@ import onError from '../../services/sentry/onError'
 
 interface Props {
   children: any
-}
-
-interface CloneElementProps {
-  context: CR.MachineContext
-  send(action: CR.Action): void
 }
 
 declare let acquireVsCodeApi: any
@@ -41,7 +35,7 @@ const useRouter = () => {
     }
   }, [])
 
-  const Router = ({ children }: Props): React.ReactElement<CloneElementProps> | null => {
+  const Router = ({ children }: Props): React.ReactElement<any> | null => {
     const childArray = React.Children.toArray(children)
     for (const child of childArray) {
       // match path
