@@ -9,19 +9,27 @@ const styles = {
     color: '#D8000C',
     backgroundColor: '#FFBABA',
     padding: '1rem',
+    width: '100%',
+    height: '100%',
   },
 }
 
 interface Props {
-  error: ApolloError
+  error?: ApolloError
 }
 
 const ErrorView = ({ error }: Props) => {
   // log error
   React.useEffect(() => {
-    console.log(error)
-    onError(error)
+    if (error) {
+      console.log(error)
+      onError(error)
+    }
   }, [])
+
+  if (!error) {
+    return null
+  }
 
   return (
     <div css={styles.container}>

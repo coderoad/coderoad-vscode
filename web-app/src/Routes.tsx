@@ -22,13 +22,16 @@ const Routes = () => {
           <LoadingPage text="Launching..." context={{} as CR.MachineContext} />
         </Route>
         <Route path={'Start.Error'}>
-          <div>Error</div>
+          <div>Something went wrong wrong</div>
         </Route>
         <Route path="Start.SelectTutorial">
           <NewPage send={tempSend} context={{} as CR.MachineContext} />
         </Route>
         <Route path="Start.ContinueTutorial">
           <ContinuePage send={tempSend} context={{} as CR.MachineContext} />
+        </Route>
+        <Route path={'Tutorial.Error'}>
+          <div>Something went wrong wrong</div>
         </Route>
         <Route path="Tutorial.Initialize">
           <LoadingPage text="Initializing..." context={{} as CR.MachineContext} />

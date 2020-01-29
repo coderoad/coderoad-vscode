@@ -74,6 +74,7 @@ export interface MachineStateSchema {
         Initialize: {}
         Summary: {}
         LoadNext: {}
+        Error: {}
         Level: {
           states: {
             Load: {}

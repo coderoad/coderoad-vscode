@@ -123,13 +123,14 @@ export const createMachine = (options: any) => {
                   }),
                 },
                 onError: {
-                  target: 'Summary',
+                  target: 'Error',
                   actions: assign({
                     error: (context, event) => event.data,
                   }),
                 },
               },
             },
+            Error: {},
             Summary: {
               on: {
                 LOAD_TUTORIAL: {
