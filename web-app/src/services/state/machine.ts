@@ -1,5 +1,5 @@
 import * as CR from 'typings'
-import { assign, Machine, MachineOptions, actions } from 'xstate'
+import { assign, Machine, MachineOptions } from 'xstate'
 import editorActions from './actions/editor'
 import commandActions from './actions/command'
 import contextActions from './actions/context'
@@ -72,18 +72,18 @@ export const createMachine = (options: any) => {
             },
             SelectTutorial: {
               onEntry: ['clearStorage'],
-              id: 'start-new-tutorial',
+              id: 'select-new-tutorial',
               on: {
                 SELECT_TUTORIAL: {
-                  target: 'LoadTutorial',
+                  target: 'LoadTutorialSummary',
                   actions: ['newTutorial'],
                 },
               },
             },
             // TODO move Initialize into New Tutorial setup
-            LoadTutorial: {
+            LoadTutorialSummary: {
               invoke: {
-                src: services.loadTutorial,
+                src: services.loadTutorialSummary,
                 onDone: {
                   target: 'Summary',
                   actions: assign({
@@ -102,9 +102,31 @@ export const createMachine = (options: any) => {
               on: {
                 BACK: 'SelectTutorial',
                 TUTORIAL_START: {
-                  target: '#tutorial',
-                  actions: ['initPosition', 'initTutorial'],
+                  target: 'LoadTutorialData',
                 },
+              },
+            },
+            LoadTutorialData: {
+              invoke: {
+                src: services.loadTutorialData,
+                onDone: {
+                  target: 'SetupNewTutorial',
+                  actions: assign({
+                    tutorial: (context, event) => event.data,
+                  }),
+                },
+                onError: {
+                  target: 'Error',
+                  actions: assign({
+                    error: (context, event) => event.data,
+                  }),
+                },
+              },
+            },
+            SetupNewTutorial: {
+              onEntry: ['configureNewTutorial', 'initPosition'],
+              after: {
+                0: '#tutorial',
               },
             },
             ContinueTutorial: {
@@ -224,7 +246,7 @@ export const createMachine = (options: any) => {
               onEntry: ['userTutorialComplete'],
               on: {
                 SELECT_TUTORIAL: {
-                  target: '#start-new-tutorial',
+                  target: '#select-new-tutorial',
                   actions: ['reset'],
                 },
               },

@@ -1,11 +1,15 @@
 import * as React from 'react'
+import * as T from 'typings'
 import { createMachine } from '../../services/state/machine'
 import { useMachine } from '../../services/xstate-react'
 import Route from './Route'
 import onError from '../../services/sentry/onError'
 
-interface Props {
-  children: any
+interface Output {
+  context: T.MachineContext
+  send: (action: any) => void
+  Router: any
+  Route: any
 }
 
 declare let acquireVsCodeApi: any
@@ -13,8 +17,8 @@ declare let acquireVsCodeApi: any
 const editor = acquireVsCodeApi()
 
 // router finds first state match of <Route path='' />
-const useRouter = () => {
-  const [state, send] = useMachine(createMachine({ editorSend: editor.postMessage }))
+const useRouter = (): Output => {
+  const [state, send] = useMachine<T.MachineContext, any>(createMachine({ editorSend: editor.postMessage }))
 
   // event bus listener
   React.useEffect(() => {
@@ -35,7 +39,7 @@ const useRouter = () => {
     }
   }, [])
 
-  const Router = ({ children }: Props): React.ReactElement<any> | null => {
+  const Router = ({ children }: any) => {
     const childArray = React.Children.toArray(children)
     for (const child of childArray) {
       // match path

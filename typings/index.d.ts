@@ -66,8 +66,10 @@ export interface MachineStateSchema {
         Error: {}
         NewOrContinue: {}
         SelectTutorial: {}
-        LoadTutorial: {}
+        LoadTutorialSummary: {}
         Summary: {}
+        LoadTutorialData: {}
+        SetupNewTutorial: {}
         ContinueTutorial: {}
       }
     }

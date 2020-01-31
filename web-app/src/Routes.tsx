@@ -1,5 +1,4 @@
 import * as React from 'react'
-import * as CR from 'typings'
 import useRouter from './components/Router'
 import Workspace from './components/Workspace'
 import ContinuePage from './containers/Continue'
@@ -21,8 +20,8 @@ const Routes = () => {
         <Route path="Start.ContinueTutorial">
           <ContinuePage send={send} context={context} />
         </Route>
-        <Route path="Start.Initialize">
-          <LoadingPage text="Initializing..." context={context} />
+        <Route path={['Start.LoadTutorialSummary', 'Start.LoadTutorialData']}>
+          <LoadingPage text="Loading Tutorial..." context={context} />
         </Route>
         <Route path={'Start.Error'}>
           <LoadingPage text="Error" context={context} />
@@ -32,6 +31,9 @@ const Routes = () => {
         </Route>
         <Route path="Start.Summary">
           <OverviewPage send={send} context={context} />
+        </Route>
+        <Route path="SetupNewTutorial">
+          <LoadingPage text="Configuring tutorial..." context={context} />
         </Route>
         {/* Tutorial */}
         <Route path="Tutorial.LoadNext">

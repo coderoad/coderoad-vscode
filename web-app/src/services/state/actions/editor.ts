@@ -15,6 +15,15 @@ export default (editorSend: any) => ({
       type: 'EDITOR_TUTORIAL_LOAD',
     })
   },
+  configureNewTutorial(context: CR.MachineContext) {
+    editorSend({
+      type: 'EDITOR_TUTORIAL_CONFIG',
+      payload: {
+        // pass position because current stepId or first stepId will be empty
+        tutorial: context.tutorial,
+      },
+    })
+  },
   continueConfig(context: CR.MachineContext) {
     editorSend({
       type: 'EDITOR_TUTORIAL_CONTINUE_CONFIG',
