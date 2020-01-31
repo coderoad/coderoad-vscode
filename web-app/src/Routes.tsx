@@ -20,7 +20,7 @@ const Routes = () => {
         <Route path="Start.ContinueTutorial">
           <ContinuePage send={send} context={context} />
         </Route>
-        <Route path={['Start.LoadTutorialSummary', 'Start.LoadTutorialData']}>
+        <Route path={['Start.LoadTutorialSummary', 'Start.LoadTutorialData', 'Start.SetupNewTutorial']}>
           <LoadingPage text="Loading Tutorial..." context={context} />
         </Route>
         <Route path={'Start.Error'}>
