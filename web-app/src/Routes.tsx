@@ -14,30 +14,33 @@ const Routes = () => {
   return (
     <Workspace>
       <Router>
+        {/* Start */}
         <Route path={['Start.Startup', 'Start.Authenticate', 'Start.NewOrContinue']}>
           <LoadingPage text="Launching..." context={context} />
+        </Route>
+        <Route path="Start.ContinueTutorial">
+          <ContinuePage send={send} context={context} />
         </Route>
         <Route path="Start.Initialize">
           <LoadingPage text="Initializing..." context={context} />
         </Route>
         <Route path={'Start.Error'}>
-          <div>Something went wrong wrong</div>
+          <LoadingPage text="Error" context={context} />
         </Route>
         <Route path="Start.SelectTutorial">
           <NewPage send={send} context={context} />
         </Route>
-        <Route path="Start.ContinueTutorial">
-          <ContinuePage send={send} context={context} />
-        </Route>
         <Route path="Start.Summary">
           <OverviewPage send={send} context={context} />
         </Route>
+        {/* Tutorial */}
         <Route path="Tutorial.LoadNext">
           <LoadingPage text="Loading Level..." context={context} />
         </Route>
         <Route path="Tutorial.Level">
           <LevelSummaryPage send={send} context={context} />
         </Route>
+        {/* Completed */}
         <Route path="Tutorial.Completed">
           <CompletedPage send={send} context={context} />
         </Route>
