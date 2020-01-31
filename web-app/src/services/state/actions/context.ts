@@ -1,10 +1,11 @@
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import { assign, send } from 'xstate'
+import { assign, send, ActionFunctionMap } from 'xstate'
 import * as selectors from '../../selectors'
 import onError from '../../../services/sentry/onError'
 
-export default {
+const contextActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
+  // @ts-ignore
   setEnv: assign({
     env: (context: CR.MachineContext, event: CR.MachineEvent) => {
       return {
@@ -13,6 +14,7 @@ export default {
       }
     },
   }),
+  // @ts-ignore
   continueTutorial: assign({
     tutorial: (context: CR.MachineContext, event: CR.MachineEvent) => {
       return event.payload.tutorial
@@ -24,6 +26,7 @@ export default {
       return event.payload.position
     },
   }),
+  // @ts-ignore
   newTutorial: assign({
     tutorial: (context: CR.MachineContext, event: CR.MachineEvent): any => {
       return event.payload.tutorial
@@ -32,6 +35,7 @@ export default {
       return { levels: {}, steps: {}, complete: false }
     },
   }),
+  // @ts-ignore
   initTutorial: assign({
     // loads complete tutorial
     tutorial: (context: CR.MachineContext, event: CR.MachineEvent): any => {
@@ -201,6 +205,7 @@ export default {
       }
     },
   ),
+  // @ts-ignore
   reset: assign({
     tutorial() {
       return null
@@ -221,3 +226,5 @@ export default {
     },
   }),
 }
+
+export default contextActions

@@ -1,15 +1,16 @@
 import * as React from 'react'
+import * as T from 'typings'
 import * as G from 'typings/graphql'
-import channel from '../../../services/channel'
 import TutorialItem from './TutorialItem'
 
 interface Props {
+  send(action: T.Action): void
   tutorialList: G.Tutorial[]
 }
 
 const TutorialList = (props: Props) => {
   const onSelect = (tutorial: G.Tutorial) => {
-    channel.machineSend({
+    props.send({
       type: 'TUTORIAL_START',
       payload: {
         tutorial,

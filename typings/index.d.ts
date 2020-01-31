@@ -63,6 +63,7 @@ export interface MachineStateSchema {
       states: {
         Startup: {}
         Authenticate: {}
+        Error: {}
         NewOrContinue: {}
         SelectTutorial: {}
         ContinueTutorial: {}
@@ -73,6 +74,7 @@ export interface MachineStateSchema {
         Initialize: {}
         Summary: {}
         LoadNext: {}
+        Error: {}
         Level: {
           states: {
             Load: {}
