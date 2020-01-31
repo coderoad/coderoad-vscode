@@ -76,7 +76,7 @@ export const createMachine = (options: any) => {
               on: {
                 SELECT_TUTORIAL: {
                   target: 'LoadTutorialSummary',
-                  actions: ['newTutorial'],
+                  actions: ['selectTutorialById'],
                 },
               },
             },
@@ -124,7 +124,7 @@ export const createMachine = (options: any) => {
               },
             },
             SetupNewTutorial: {
-              onEntry: ['configureNewTutorial', 'initPosition'],
+              onEntry: ['configureNewTutorial', 'startNewTutorial'],
               after: {
                 0: '#tutorial',
               },
@@ -142,7 +142,7 @@ export const createMachine = (options: any) => {
         },
         Tutorial: {
           id: 'tutorial',
-          initial: 'LoadNext',
+          initial: 'Level',
           on: {
             // track commands
             COMMAND_START: {
@@ -168,7 +168,7 @@ export const createMachine = (options: any) => {
                   actions: ['updatePosition'],
                 },
                 NEXT_LEVEL: {
-                  target: 'Level', // TODO should return to levels summary page
+                  target: 'Level',
                   actions: ['updatePosition'],
                 },
                 COMPLETED: '#completed-tutorial',
