@@ -13,7 +13,7 @@ interface TutorialDataVariables {
   // version: string
 }
 
-export async function initialize(context: CR.MachineContext): Promise<any> {
+export async function loadTutorial(context: CR.MachineContext): Promise<any> {
   // setup test runner and git
   if (!context.tutorial) {
     const error = new Error('Tutorial not available to load')

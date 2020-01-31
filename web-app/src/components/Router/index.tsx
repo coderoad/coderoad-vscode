@@ -39,6 +39,7 @@ const useRouter = () => {
     const childArray = React.Children.toArray(children)
     for (const child of childArray) {
       // match path
+      // @ts-ignore
       const { path } = child.props
       let pathMatch
       if (typeof path === 'string') {

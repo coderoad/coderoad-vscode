@@ -67,9 +67,7 @@ export const createMachine = (options: any) => {
                   target: 'ContinueTutorial',
                   actions: ['continueTutorial'],
                 },
-                NEW_TUTORIAL: {
-                  target: 'SelectTutorial',
-                },
+                NEW_TUTORIAL: 'SelectTutorial',
               },
             },
             SelectTutorial: {
@@ -77,8 +75,35 @@ export const createMachine = (options: any) => {
               id: 'start-new-tutorial',
               on: {
                 TUTORIAL_START: {
-                  target: '#tutorial',
+                  target: 'LoadTutorial',
                   actions: ['newTutorial'],
+                },
+              },
+            },
+            // TODO move Initialize into New Tutorial setup
+            LoadTutorial: {
+              invoke: {
+                src: services.loadTutorial,
+                onDone: {
+                  target: 'Summary',
+                  actions: assign({
+                    tutorial: (context, event) => event.data,
+                  }),
+                },
+                onError: {
+                  target: 'Error',
+                  actions: assign({
+                    error: (context, event) => event.data,
+                  }),
+                },
+              },
+            },
+            Summary: {
+              on: {
+                BACK: 'SelectTutorial',
+                LOAD_TUTORIAL: {
+                  target: '#tutorial',
+                  actions: ['initPosition', 'initTutorial'],
                 },
               },
             },
@@ -95,7 +120,7 @@ export const createMachine = (options: any) => {
         },
         Tutorial: {
           id: 'tutorial',
-          initial: 'Initialize',
+          initial: 'LoadNext',
           on: {
             // track commands
             COMMAND_START: {
@@ -112,33 +137,6 @@ export const createMachine = (options: any) => {
             },
           },
           states: {
-            // TODO move Initialize into New Tutorial setup
-            Initialize: {
-              invoke: {
-                src: services.initialize,
-                onDone: {
-                  target: 'Summary',
-                  actions: assign({
-                    tutorial: (context, event) => event.data,
-                  }),
-                },
-                onError: {
-                  target: 'Error',
-                  actions: assign({
-                    error: (context, event) => event.data,
-                  }),
-                },
-              },
-            },
-            Error: {},
-            Summary: {
-              on: {
-                LOAD_TUTORIAL: {
-                  target: 'Level',
-                  actions: ['initPosition', 'initTutorial'],
-                },
-              },
-            },
             LoadNext: {
               id: 'tutorial-load-next',
               onEntry: ['loadNext'],
