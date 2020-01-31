@@ -74,7 +74,7 @@ export const createMachine = (options: any) => {
               onEntry: ['clearStorage'],
               id: 'start-new-tutorial',
               on: {
-                TUTORIAL_START: {
+                SELECT_TUTORIAL: {
                   target: 'LoadTutorial',
                   actions: ['newTutorial'],
                 },
@@ -101,7 +101,7 @@ export const createMachine = (options: any) => {
             Summary: {
               on: {
                 BACK: 'SelectTutorial',
-                LOAD_TUTORIAL: {
+                TUTORIAL_START: {
                   target: '#tutorial',
                   actions: ['initPosition', 'initTutorial'],
                 },
@@ -110,7 +110,7 @@ export const createMachine = (options: any) => {
             ContinueTutorial: {
               on: {
                 TUTORIAL_START: {
-                  target: '#tutorial-level',
+                  target: '#tutorial',
                   actions: ['continueConfig'],
                 },
                 TUTORIAL_SELECT: 'SelectTutorial',

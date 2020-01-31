@@ -48,7 +48,7 @@ const Overview = (props: PageProps) => {
 
   const onNext = () =>
     props.send({
-      type: 'LOAD_TUTORIAL',
+      type: 'TUTORIAL_START',
       payload: {
         tutorial: data.tutorial,
       },
