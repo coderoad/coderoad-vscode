@@ -38,7 +38,7 @@ const LanguageIcon = () => (
 )
 
 const TutorialItem = (props: Props) => (
-  <Card onClick={props.onSelect} css={styles.card}>
+  <Card onClick={props.onSelect} style={styles.card}>
     <h3>{props.title || 'Title'}</h3>
     <Markdown minimal>{props.description || 'Description'}</Markdown>
     <div css={styles.languages}>
