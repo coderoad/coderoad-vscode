@@ -1,5 +1,5 @@
 import * as CR from 'typings'
-import { assign, Machine, MachineOptions, actions } from 'xstate'
+import { assign, Machine, MachineOptions } from 'xstate'
 import editorActions from './actions/editor'
 import commandActions from './actions/command'
 import contextActions from './actions/context'
@@ -67,25 +67,70 @@ export const createMachine = (options: any) => {
                   target: 'ContinueTutorial',
                   actions: ['continueTutorial'],
                 },
-                NEW_TUTORIAL: {
-                  target: 'SelectTutorial',
-                },
+                NEW_TUTORIAL: 'SelectTutorial',
               },
             },
             SelectTutorial: {
               onEntry: ['clearStorage'],
-              id: 'start-new-tutorial',
+              id: 'select-new-tutorial',
               on: {
-                TUTORIAL_START: {
-                  target: '#tutorial',
-                  actions: ['newTutorial'],
+                SELECT_TUTORIAL: {
+                  target: 'LoadTutorialSummary',
+                  actions: ['selectTutorialById'],
                 },
+              },
+            },
+            // TODO move Initialize into New Tutorial setup
+            LoadTutorialSummary: {
+              invoke: {
+                src: services.loadTutorialSummary,
+                onDone: {
+                  target: 'Summary',
+                  actions: assign({
+                    tutorial: (context, event) => event.data,
+                  }),
+                },
+                onError: {
+                  target: 'Error',
+                  actions: assign({
+                    error: (context, event) => event.data,
+                  }),
+                },
+              },
+            },
+            Summary: {
+              on: {
+                BACK: 'SelectTutorial',
+                TUTORIAL_START: 'LoadTutorialData',
+              },
+            },
+            LoadTutorialData: {
+              invoke: {
+                src: services.loadTutorialData,
+                onDone: {
+                  target: 'SetupNewTutorial',
+                  actions: assign({
+                    tutorial: (context, event) => event.data,
+                  }),
+                },
+                onError: {
+                  target: 'Error',
+                  actions: assign({
+                    error: (context, event) => event.data,
+                  }),
+                },
+              },
+            },
+            SetupNewTutorial: {
+              onEntry: ['configureNewTutorial', 'startNewTutorial'],
+              on: {
+                TUTORIAL_CONFIGURED: '#tutorial',
               },
             },
             ContinueTutorial: {
               on: {
                 TUTORIAL_START: {
-                  target: '#tutorial-level',
+                  target: '#tutorial',
                   actions: ['continueConfig'],
                 },
                 TUTORIAL_SELECT: 'SelectTutorial',
@@ -95,7 +140,7 @@ export const createMachine = (options: any) => {
         },
         Tutorial: {
           id: 'tutorial',
-          initial: 'Initialize',
+          initial: 'Level',
           on: {
             // track commands
             COMMAND_START: {
@@ -112,33 +157,6 @@ export const createMachine = (options: any) => {
             },
           },
           states: {
-            // TODO move Initialize into New Tutorial setup
-            Initialize: {
-              invoke: {
-                src: services.initialize,
-                onDone: {
-                  target: 'Summary',
-                  actions: assign({
-                    tutorial: (context, event) => event.data,
-                  }),
-                },
-                onError: {
-                  target: 'Error',
-                  actions: assign({
-                    error: (context, event) => event.data,
-                  }),
-                },
-              },
-            },
-            Error: {},
-            Summary: {
-              on: {
-                LOAD_TUTORIAL: {
-                  target: 'Level',
-                  actions: ['initPosition', 'initTutorial'],
-                },
-              },
-            },
             LoadNext: {
               id: 'tutorial-load-next',
               onEntry: ['loadNext'],
@@ -148,7 +166,7 @@ export const createMachine = (options: any) => {
                   actions: ['updatePosition'],
                 },
                 NEXT_LEVEL: {
-                  target: 'Level', // TODO should return to levels summary page
+                  target: 'Level',
                   actions: ['updatePosition'],
                 },
                 COMPLETED: '#completed-tutorial',
@@ -226,7 +244,7 @@ export const createMachine = (options: any) => {
               onEntry: ['userTutorialComplete'],
               on: {
                 SELECT_TUTORIAL: {
-                  target: '#start-new-tutorial',
+                  target: '#select-new-tutorial',
                   actions: ['reset'],
                 },
               },

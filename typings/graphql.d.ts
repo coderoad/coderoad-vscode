@@ -137,7 +137,7 @@ export type MutationUpdateTutorialProgressArgs = {
 }
 
 export type MutationCreateTutorialArgs = {
-  input: CreateTutorialInput
+  input: Scalars['String']
 }
 
 export type MutationCreateTutorialVersionArgs = {
@@ -347,7 +347,6 @@ export type ResolversTypes = {
   TutorialProgressType: TutorialProgressType
   TutorialProgressStatus: TutorialProgressStatus
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>
-  createTutorialInput: CreateTutorialInput
   createTutorialVersionInput: CreateTutorialVersionInput
   updateTutorialVersionInput: UpdateTutorialVersionInput
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>
@@ -355,6 +354,7 @@ export type ResolversTypes = {
   Role: Role
   FileFormat: FileFormat
   tutorialRepoInput: TutorialRepoInput
+  createTutorialInput: CreateTutorialInput
   GithubUser: ResolverTypeWrapper<GithubUser>
 }
 
@@ -380,7 +380,6 @@ export type ResolversParentTypes = {
   TutorialProgressType: TutorialProgressType
   TutorialProgressStatus: TutorialProgressStatus
   Boolean: Scalars['Boolean']
-  createTutorialInput: CreateTutorialInput
   createTutorialVersionInput: CreateTutorialVersionInput
   updateTutorialVersionInput: UpdateTutorialVersionInput
   JSONObject: Scalars['JSONObject']
@@ -388,6 +387,7 @@ export type ResolversParentTypes = {
   Role: Role
   FileFormat: FileFormat
   tutorialRepoInput: TutorialRepoInput
+  createTutorialInput: CreateTutorialInput
   GithubUser: GithubUser
 }
 
@@ -601,15 +601,3 @@ export type DirectiveResolvers<ContextType = any> = {
  * Use "DirectiveResolvers" root object instead. If you wish to get "IDirectiveResolvers", add "typesPrefix: I" to your config.
  */
 export type IDirectiveResolvers<ContextType = any> = DirectiveResolvers<ContextType>
-
-export interface IntrospectionResultData {
-  __schema: {
-    types: {
-      kind: string
-      name: string
-      possibleTypes: {
-        name: string
-      }[]
-    }[]
-  }
-}

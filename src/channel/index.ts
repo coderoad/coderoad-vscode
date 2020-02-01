@@ -98,7 +98,7 @@ class Channel implements Channel {
           throw new Error('Invalid tutorial to continue')
         }
         const continueConfig: T.TutorialConfig = tutorialContinue.version.data.config
-        tutorialConfig(
+        await tutorialConfig(
           {
             config: continueConfig,
             alreadyConfigured: true,

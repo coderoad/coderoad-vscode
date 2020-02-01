@@ -54,12 +54,14 @@ interface Props {
   description: string
   levels: G.Level[]
   onNext(): void
+  onBack(): void
 }
 
-const Summary = ({ title, description, levels, onNext }: Props) => (
+const Summary = ({ title, description, levels, onNext, onBack }: Props) => (
   <div css={styles.page}>
     <div>
       <div css={styles.header}>
+        <button onClick={onBack}>Back</button>
         <span>CodeRoad</span>
       </div>
       <div css={styles.summary}>

@@ -48,16 +48,18 @@ const Overview = (props: PageProps) => {
 
   const onNext = () =>
     props.send({
-      type: 'LOAD_TUTORIAL',
+      type: 'TUTORIAL_START',
       payload: {
         tutorial: data.tutorial,
       },
     })
 
+  const onBack = () => props.send({ type: 'BACK' })
+
   const { title, description } = data.tutorial.summary
   const { levels } = data.tutorial.version.data
 
-  return <OverviewPage title={title} description={description} levels={levels} onNext={onNext} />
+  return <OverviewPage title={title} description={description} levels={levels} onNext={onNext} onBack={onBack} />
 }
 
 export default Overview

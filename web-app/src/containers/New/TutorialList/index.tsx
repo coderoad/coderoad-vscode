@@ -11,7 +11,7 @@ interface Props {
 const TutorialList = (props: Props) => {
   const onSelect = (tutorial: G.Tutorial) => {
     props.send({
-      type: 'TUTORIAL_START',
+      type: 'SELECT_TUTORIAL',
       payload: {
         tutorial,
       },

@@ -1,2 +1,3 @@
 export { authenticate } from './authenticate'
-export { initialize } from './initialize'
+export { loadTutorialData } from './loadTutorialData'
+export { loadTutorialSummary } from './loadTutorialSummary'

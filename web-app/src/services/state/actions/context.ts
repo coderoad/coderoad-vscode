@@ -27,26 +27,19 @@ const contextActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
     },
   }),
   // @ts-ignore
-  newTutorial: assign({
+  selectTutorialById: assign({
     tutorial: (context: CR.MachineContext, event: CR.MachineEvent): any => {
       return event.payload.tutorial
+    },
+  }),
+  // @ts-ignore
+  startNewTutorial: assign({
+    position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
+      const position: CR.Position = selectors.initialPosition(context)
+      return position
     },
     progress: (): CR.Progress => {
       return { levels: {}, steps: {}, complete: false }
-    },
-  }),
-  // @ts-ignore
-  initTutorial: assign({
-    // loads complete tutorial
-    tutorial: (context: CR.MachineContext, event: CR.MachineEvent): any => {
-      return event.payload.tutorial
-    },
-  }),
-  // @ts-ignore
-  initPosition: assign({
-    position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
-      const position: CR.Position = selectors.initialPosition(event.payload)
-      return position
     },
   }),
   // @ts-ignore

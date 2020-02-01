@@ -1,5 +1,4 @@
 import * as React from 'react'
-import * as CR from 'typings'
 import useRouter from './components/Router'
 import Workspace from './components/Workspace'
 import ContinuePage from './containers/Continue'
@@ -11,37 +10,39 @@ import LevelSummaryPage from './containers/Tutorial/LevelPage'
 
 const Routes = () => {
   const { context, send, Router, Route } = useRouter()
-  // TODO refactor for typescript to understand send & context passed into React.cloneElement's
   return (
     <Workspace>
       <Router>
+        {/* Start */}
         <Route path={['Start.Startup', 'Start.Authenticate', 'Start.NewOrContinue']}>
           <LoadingPage text="Launching..." context={context} />
-        </Route>
-        <Route path={'Start.Error'}>
-          <div>Something went wrong wrong</div>
-        </Route>
-        <Route path="Start.SelectTutorial">
-          <NewPage send={send} context={context} />
         </Route>
         <Route path="Start.ContinueTutorial">
           <ContinuePage send={send} context={context} />
         </Route>
-        <Route path={'Tutorial.Error'}>
-          <div>Something went wrong wrong</div>
+        <Route path={['Start.LoadTutorialSummary', 'Start.LoadTutorialData', 'Start.SetupNewTutorial']}>
+          <LoadingPage text="Loading Tutorial..." context={context} />
         </Route>
-        <Route path="Tutorial.Initialize">
-          <LoadingPage text="Initializing..." context={context} />
+        <Route path={'Start.Error'}>
+          <LoadingPage text="Error" context={context} />
         </Route>
-        <Route path="Tutorial.LoadNext">
-          <LoadingPage text="Loading..." context={context} />
+        <Route path="Start.SelectTutorial">
+          <NewPage send={send} context={context} />
         </Route>
-        <Route path="Tutorial.Summary">
+        <Route path="Start.Summary">
           <OverviewPage send={send} context={context} />
+        </Route>
+        <Route path="SetupNewTutorial">
+          <LoadingPage text="Configuring tutorial..." context={context} />
+        </Route>
+        {/* Tutorial */}
+        <Route path="Tutorial.LoadNext">
+          <LoadingPage text="Loading Level..." context={context} />
         </Route>
         <Route path="Tutorial.Level">
           <LevelSummaryPage send={send} context={context} />
         </Route>
+        {/* Completed */}
         <Route path="Tutorial.Completed">
           <CompletedPage send={send} context={context} />
         </Route>
