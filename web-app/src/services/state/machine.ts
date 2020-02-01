@@ -101,9 +101,7 @@ export const createMachine = (options: any) => {
             Summary: {
               on: {
                 BACK: 'SelectTutorial',
-                TUTORIAL_START: {
-                  target: 'LoadTutorialData',
-                },
+                TUTORIAL_START: 'LoadTutorialData',
               },
             },
             LoadTutorialData: {
@@ -125,8 +123,8 @@ export const createMachine = (options: any) => {
             },
             SetupNewTutorial: {
               onEntry: ['configureNewTutorial', 'startNewTutorial'],
-              after: {
-                0: '#tutorial',
+              on: {
+                TUTORIAL_CONFIGURED: '#tutorial',
               },
             },
             ContinueTutorial: {
