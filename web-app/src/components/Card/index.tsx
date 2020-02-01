@@ -20,7 +20,7 @@ const Card = (props: Props) => (
     showTitleBullet={false}
     contentHeight="auto"
     onClick={props.onClick}
-    css={{ ...styles.card, ...props.style }}
+    style={{ ...styles.card, ...props.style }}
   >
     {props.children}
   </AlifdCard>
