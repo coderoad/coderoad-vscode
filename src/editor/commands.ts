@@ -57,13 +57,10 @@ export const createCommands = ({ extensionPath, workspaceState, workspaceRoot }:
       testRunner = createTestRunner(config, {
         onSuccess: (payload: Payload) => {
           // send test pass message back to client
-          notify({ message: 'PASS' })
           webview.send({ type: 'TEST_PASS', payload })
-          // update local storage
         },
         onFail: (payload: Payload, message: string) => {
           // send test fail message back to client
-          notify({ message: `FAIL ${message}` })
           webview.send({ type: 'TEST_FAIL', payload })
         },
         onError: (payload: Payload) => {

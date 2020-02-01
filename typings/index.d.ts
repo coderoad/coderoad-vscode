@@ -83,7 +83,6 @@ export interface MachineStateSchema {
             TestRunning: {}
             TestPass: {}
             TestFail: {}
-            TestError: {}
             StepNext: {}
             LevelComplete: {}
           }

@@ -1,17 +1,11 @@
 import * as CR from 'typings'
 import { assign, Machine, MachineOptions } from 'xstate'
-import editorActions from './actions/editor'
-import commandActions from './actions/command'
-import contextActions from './actions/context'
+import createActions from './actions'
 import * as services from './services'
 
 const createOptions = ({ editorSend }: any): MachineOptions<CR.MachineContext, CR.MachineEvent> => ({
   activities: {},
-  actions: {
-    ...editorActions(editorSend),
-    ...contextActions,
-    ...commandActions,
-  },
+  actions: createActions(editorSend),
   guards: {},
   services: {},
   delays: {},
@@ -195,16 +189,16 @@ export const createMachine = (options: any) => {
                   on: {
                     TEST_PASS: {
                       target: 'TestPass',
-                      actions: ['updateStepProgress'],
+                      actions: ['updateStepProgress', 'testPass'],
                     },
-                    TEST_FAIL: 'TestFail',
-                    TEST_ERROR: 'TestError',
-                  },
-                },
-                TestError: {
-                  onEntry: ['testFail'],
-                  after: {
-                    0: 'Normal',
+                    TEST_FAIL: {
+                      target: 'TestFail',
+                      actions: ['testFail'],
+                    },
+                    TEST_ERROR: {
+                      target: 'TestFail',
+                      actions: ['testFail'],
+                    },
                   },
                 },
                 TestPass: {
@@ -214,7 +208,6 @@ export const createMachine = (options: any) => {
                   },
                 },
                 TestFail: {
-                  onEntry: ['testFail'],
                   after: {
                     0: 'Normal',
                   },
