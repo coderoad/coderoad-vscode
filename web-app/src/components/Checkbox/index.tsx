@@ -1,19 +1,5 @@
 import * as React from 'react'
-import { css, jsx } from '@emotion/core'
-
-const styles = {
-  box: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    border: '1px solid black',
-  },
-  loading: {
-    backgroundColor: 'red',
-  },
-}
+import { Checkbox as AlifdCheckbox } from '@alifd/next'
 
 interface Props {
   status: 'COMPLETE' | 'INCOMPLETE' | 'ACTIVE'
@@ -26,13 +12,7 @@ const Checkbox = (props: Props) => {
 
   const checked = props.status === 'COMPLETE'
 
-  return (
-    <div css={styles.box}>
-      <label>
-        <input css={styles.input} type="checkbox" checked={checked} onChange={onChange} />
-      </label>
-    </div>
-  )
+  return <AlifdCheckbox checked={checked} onChange={onChange} />
 }
 
 export default Checkbox
