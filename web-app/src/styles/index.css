@@ -1,6 +1,6 @@
-@import '~@alifd/next/index.scss';
+@import '~@alifd/next/dist/next.min.css';
 /* @import '~@alifd/theme-4/dist/next.css'; */
-@import './font.scss';
+@import './font.css';
 
 html {
   height: 100%;
