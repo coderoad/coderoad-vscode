@@ -27,6 +27,7 @@ export const createMachine = (options: any) => {
           complete: false,
         },
         processes: [],
+        testStatus: null,
       },
       states: {
         Start: {

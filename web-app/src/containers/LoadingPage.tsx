@@ -25,7 +25,9 @@ const LoadingPage = ({ text, context }: Props) => {
   if (error) {
     return (
       <div css={styles.page}>
-        <Message type="error" title={error.title} description={error.description} />
+        <Message type="error" title={error.title}>
+          {error.description}
+        </Message>
       </div>
     )
   }

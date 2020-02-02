@@ -68,11 +68,12 @@ const styles = {
 interface Props {
   level: G.Level & { status: T.ProgressStatus; index: number; steps: Array<G.Step & { status: T.ProgressStatus }> }
   processes: T.ProcessEvent[]
+  testStatus: T.TestStatus | null
   onContinue(): void
   onLoadSolution(): void
 }
 
-const Level = ({ level, onContinue, onLoadSolution, processes }: Props) => {
+const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Props) => {
   if (!level.steps) {
     throw new Error('No Stage steps found')
   }
@@ -109,7 +110,7 @@ const Level = ({ level, onContinue, onLoadSolution, processes }: Props) => {
 
       {processes.length > 0 && (
         <div css={styles.processes}>
-          <ProcessMessages processes={processes} />
+          <ProcessMessages processes={processes} testStatus={testStatus} />
         </div>
       )}
 

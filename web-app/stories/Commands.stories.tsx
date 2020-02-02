@@ -14,6 +14,7 @@ storiesOf('Components', module)
   .addDecorator(SideBarDecorator)
   .add('Processes', () => (
     <ProcessMessages
+      testStatus={null}
       processes={[
         {
           title: 'npm install',
@@ -24,5 +25,33 @@ storiesOf('Components', module)
           description: 'Test running',
         },
       ]}
+    />
+  ))
+  .add('Test Start', () => (
+    <ProcessMessages
+      testStatus={{
+        type: 'loading',
+        title: 'Test running...',
+      }}
+      processes={[]}
+    />
+  ))
+  .add('Test Pass', () => (
+    <ProcessMessages
+      testStatus={{
+        type: 'success',
+        title: 'Success!',
+      }}
+      processes={[]}
+    />
+  ))
+  .add('Test Fail', () => (
+    <ProcessMessages
+      testStatus={{
+        type: 'warning',
+        title: 'Fail!',
+        content: 'Test failed for some reason',
+      }}
+      processes={[]}
     />
   ))

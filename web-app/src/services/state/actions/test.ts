@@ -1,24 +1,29 @@
 import * as CR from 'typings'
-import { ActionFunctionMap } from 'xstate'
-import notify from '../../notify'
+import { assign, ActionFunctionMap } from 'xstate'
 
 const testActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
-  testPass() {
-    notify({
-      key: 'test',
+  // @ts-ignore
+  testStart: assign({
+    testStatus: () => ({
+      type: 'loading',
+      title: 'Test running...',
+    }),
+  }),
+  // @ts-ignore
+  testPass: assign({
+    testStatus: () => ({
+      type: 'success',
       title: 'Success!',
-      content: '',
-      duration: 1500,
-    })
-  },
-  testFail(context, event) {
-    notify({
-      key: 'test',
-      title: 'Fail',
-      content: '',
-      duration: 3000,
-    })
-  },
+    }),
+  }),
+  // @ts-ignore
+  testFail: assign({
+    testStatus: () => ({
+      type: 'warning',
+      title: 'Fail!',
+      content: 'Test failed for some reason',
+    }),
+  }),
 }
 
 export default testActions

@@ -4,6 +4,7 @@ import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
 
 interface Props {
+  testStatus: T.TestStatus | null
   processes: T.ProcessEvent[]
 }
 
@@ -15,7 +16,14 @@ const styles = {
 }
 
 // display a list of active processes
-const ProcessMessages = ({ processes }: Props) => {
+const ProcessMessages = ({ processes, testStatus }: Props) => {
+  if (testStatus) {
+    return (
+      <Message key={testStatus.title} type={testStatus.type} title={testStatus.title} size="medium">
+        {testStatus.content}
+      </Message>
+    )
+  }
   if (!processes.length) {
     return null
   }
