@@ -31,13 +31,8 @@ const paragraphText = `Markdown included \`code\`, *bold*, & _italics_.
 storiesOf('Level', module)
   .addDecorator(SideBarDecorator)
   .addDecorator(withKnobs)
-  .add('Step', () => (
-    <Step
-      order={1}
-      content={text('text', stepText)}
-      status={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'COMPLETE', 'step')}
-      onLoadSolution={action('onLoadSolution')}
-    />
+  .add('Active Step', () => (
+    <Step order={1} content={text('text', stepText)} status="ACTIVE" onLoadSolution={action('onLoadSolution')} />
   ))
   .add('Step Markdown', () => (
     <Step
