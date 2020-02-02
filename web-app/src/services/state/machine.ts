@@ -125,7 +125,7 @@ export const createMachine = (options: any) => {
             ContinueTutorial: {
               on: {
                 TUTORIAL_START: {
-                  target: '#tutorial',
+                  target: '#tutorial-level',
                   actions: ['continueConfig'],
                 },
                 TUTORIAL_SELECT: 'SelectTutorial',
