@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as G from 'typings/graphql'
 import Button from '../../components/Button'
 import Icon from '../../components/Icon'
+import { Divider } from '@alifd/next'
 import Markdown from '../../components/Markdown'
 
 const footerHeight = '3rem'
@@ -85,6 +86,7 @@ const Summary = ({ title, description, levels, onNext, onBack }: Props) => (
                 {index + 1}. {level.title}
               </h4>
               <div>{level.summary}</div>
+              <Divider />
             </div>
           ))}
         </div>

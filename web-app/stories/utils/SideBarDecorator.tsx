@@ -10,7 +10,7 @@ const styles = {
     borderRight: '2px solid black',
     width: '50rem',
     height: window.innerHeight,
-    backgroundColor: 'yellow',
+    backgroundColor: 'white',
   },
 }
 

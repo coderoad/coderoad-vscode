@@ -1,4 +1,5 @@
 import { linkTo } from '@storybook/addon-links'
+import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import OverViewPage from '../src/containers/Overview/OverviewPage'
@@ -11,17 +12,17 @@ storiesOf('Overview', module)
       {
         id: 'L1',
         title: 'The First Level',
-        description: 'A Summary of the first level',
+        summary: 'A Summary of the first level',
       },
       {
         id: 'L2',
         title: 'The Second Level',
-        description: 'A Summary of the second level',
+        summary: 'A Summary of the second level',
       },
       {
         id: 'L3',
         title: 'The Third Level',
-        description: 'A Summary of the third level',
+        summary: 'A Summary of the third level',
       },
     ]
     return (
@@ -29,6 +30,7 @@ storiesOf('Overview', module)
         title="Some Title"
         description="Some description"
         levels={levels}
+        onBack={action('back')}
         onNext={linkTo('Tutorial SideBar', 'Level')}
       />
     )
