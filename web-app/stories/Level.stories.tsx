@@ -71,7 +71,13 @@ storiesOf('Level', module)
       ],
     }
     return (
-      <Level level={level} onContinue={action('onContinue')} onLoadSolution={action('onLoadSolution')} processes={[]} />
+      <Level
+        level={level}
+        onContinue={action('onContinue')}
+        onLoadSolution={action('onLoadSolution')}
+        processes={[]}
+        testStatus={null}
+      />
     )
   })
   .add('Level 2', () => {
@@ -129,6 +135,7 @@ storiesOf('Level', module)
             description: 'Installing dependencies',
           },
         ]}
+        testStatus={null}
       />
     )
   })
@@ -201,7 +208,13 @@ storiesOf('Level', module)
       ],
     }
     return (
-      <Level level={level} onContinue={action('onContinue')} onLoadSolution={action('onLoadSolution')} processes={[]} />
+      <Level
+        level={level}
+        onContinue={action('onContinue')}
+        onLoadSolution={action('onLoadSolution')}
+        processes={[]}
+        testStatus={null}
+      />
     )
   })
   .add('FakeBook API L2', () => {
@@ -267,6 +280,12 @@ storiesOf('Level', module)
       ],
     }
     return (
-      <Level level={level} onContinue={action('onContinue')} onLoadSolution={action('onLoadSolution')} processes={[]} />
+      <Level
+        level={level}
+        onContinue={action('onContinue')}
+        onLoadSolution={action('onLoadSolution')}
+        processes={[]}
+        testStatus={null}
+      />
     )
   })
