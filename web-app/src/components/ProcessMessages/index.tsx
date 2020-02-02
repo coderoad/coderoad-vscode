@@ -2,6 +2,7 @@ import Message from '../Message'
 import * as React from 'react'
 import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
+import TestMessage from './TestMessage'
 
 interface Props {
   testStatus: T.TestStatus | null
@@ -18,11 +19,7 @@ const styles = {
 // display a list of active processes
 const ProcessMessages = ({ processes, testStatus }: Props) => {
   if (testStatus) {
-    return (
-      <Message key={testStatus.title} type={testStatus.type} title={testStatus.title} size="medium">
-        {testStatus.content}
-      </Message>
-    )
+    return <TestMessage {...testStatus} />
   }
   if (!processes.length) {
     return null
@@ -30,9 +27,7 @@ const ProcessMessages = ({ processes, testStatus }: Props) => {
   return (
     <div css={styles.container}>
       {processes.map(process => (
-        <Message key={process.title} type="loading" size="medium" title={process.title}>
-          {process.description}
-        </Message>
+        <Message key={process.title} type="loading" size="medium" title={process.title} content={process.description} />
       ))}
     </div>
   )

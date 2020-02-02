@@ -108,7 +108,7 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
         </div>
       </div>
 
-      {processes.length > 0 && (
+      {(testStatus || processes.length > 0) && (
         <div css={styles.processes}>
           <ProcessMessages processes={processes} testStatus={testStatus} />
         </div>

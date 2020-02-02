@@ -60,8 +60,8 @@ export const createCommands = ({ extensionPath, workspaceState, workspaceRoot }:
           webview.send({ type: 'TEST_PASS', payload })
         },
         onFail: (payload: Payload, message: string) => {
-          // send test fail message back to client
-          webview.send({ type: 'TEST_FAIL', payload })
+          // send test fail message back to client with failure message
+          webview.send({ type: 'TEST_FAIL', payload: { ...payload, message } })
         },
         onError: (payload: Payload) => {
           // send test error message back to client

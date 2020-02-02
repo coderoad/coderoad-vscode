@@ -3,10 +3,11 @@ import * as React from 'react'
 
 interface Props {
   type?: 'success' | 'warning' | 'error' | 'notice' | 'help' | 'loading'
-  title: string
   shape?: 'inline' | 'addon' | 'toast'
   size?: 'medium' | 'large'
-  children?: string
+  title: string
+  content?: string
+  closed?: boolean
   closeable?: boolean
   onClose?: () => void
   handleClose?: () => void
@@ -23,13 +24,13 @@ const Message = (props: Props) => {
   return (
     <AlifdMessage
       type={props.type}
-      visible={visible}
+      visible={props.closed ? !props.closed : visible}
       title={props.title}
       closeable={props.closeable}
       onClose={onClose}
       shape={props.shape}
     >
-      {props.children}
+      {props.content}
     </AlifdMessage>
   )
 }
