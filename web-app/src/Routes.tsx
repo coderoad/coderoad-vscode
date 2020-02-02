@@ -23,7 +23,7 @@ const Routes = () => {
         <Route path={['Start.LoadTutorialSummary', 'Start.LoadTutorialData', 'Start.SetupNewTutorial']}>
           <LoadingPage text="Loading Tutorial..." context={context} />
         </Route>
-        <Route path={'Start.Error'}>
+        <Route path="Start.Error">
           <LoadingPage text="Error" context={context} />
         </Route>
         <Route path="Start.SelectTutorial">
@@ -32,11 +32,11 @@ const Routes = () => {
         <Route path="Start.Summary">
           <OverviewPage send={send} context={context} />
         </Route>
-        <Route path="SetupNewTutorial">
+        <Route path="Start.SetupNewTutorial">
           <LoadingPage text="Configuring tutorial..." context={context} />
         </Route>
         {/* Tutorial */}
-        <Route path="Tutorial.LoadNext">
+        <Route path={['Tutorial.LoadNext', 'Tutorial.Level.Load']}>
           <LoadingPage text="Loading Level..." context={context} />
         </Route>
         <Route path="Tutorial.Level">

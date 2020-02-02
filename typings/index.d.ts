@@ -42,6 +42,12 @@ export interface ErrorMessage {
   description?: string
 }
 
+export interface TestStatus {
+  type: 'success' | 'warning' | 'error' | 'loading'
+  title: string
+  content?: string
+}
+
 export interface MachineContext {
   env: Environment
   error: ErrorMessage | null
@@ -49,6 +55,7 @@ export interface MachineContext {
   position: Position
   progress: Progress
   processes: ProcessEvent[]
+  testStatus: TestStatus | null
 }
 
 export interface MachineEvent {
@@ -83,7 +90,6 @@ export interface MachineStateSchema {
             TestRunning: {}
             TestPass: {}
             TestFail: {}
-            TestError: {}
             StepNext: {}
             LevelComplete: {}
           }

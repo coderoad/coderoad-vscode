@@ -5,6 +5,7 @@ import * as G from 'typings/graphql'
 import ErrorView from '../../components/Error'
 import queryTutorial from '../../services/apollo/queries/tutorial'
 import OverviewPage from './OverviewPage'
+import LoadingPage from '../../containers/LoadingPage'
 
 interface PageProps {
   context: CR.MachineContext
@@ -35,7 +36,7 @@ const Overview = (props: PageProps) => {
   })
 
   if (loading) {
-    return <div>Loading Summary...</div>
+    return <LoadingPage text="Loading Summary..." context={props.context} />
   }
 
   if (error) {

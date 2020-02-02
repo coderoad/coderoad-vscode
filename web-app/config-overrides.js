@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path')
-const { addBabelPreset, addBabelPlugin, addWebpackModuleRule } = require('customize-cra')
+const { addBabelPreset, addWebpackModuleRule, addBabelPlugin } = require('customize-cra')
 
 module.exports = function override(config) {
   addWebpackModuleRule({

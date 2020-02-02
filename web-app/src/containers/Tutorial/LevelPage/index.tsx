@@ -10,7 +10,7 @@ interface PageProps {
 }
 
 const LevelSummaryPageContainer = (props: PageProps) => {
-  const { position, progress, processes, error } = props.context
+  const { position, progress, processes, testStatus, error } = props.context
 
   const version = selectors.currentVersion(props.context)
   const levelData: G.Level = selectors.currentLevel(props.context)
@@ -48,7 +48,15 @@ const LevelSummaryPageContainer = (props: PageProps) => {
     }),
   }
 
-  return <Level level={level} onContinue={onContinue} onLoadSolution={onLoadSolution} processes={processes} />
+  return (
+    <Level
+      level={level}
+      onContinue={onContinue}
+      onLoadSolution={onLoadSolution}
+      processes={processes}
+      testStatus={testStatus}
+    />
+  )
 }
 
 export default LevelSummaryPageContainer

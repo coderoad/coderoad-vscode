@@ -7,10 +7,19 @@ interface Props {
   disabled?: boolean
   type?: 'primary' | 'secondary' | 'normal'
   onClick?: () => void
+  size?: 'small' | 'medium' | 'large'
+  iconSize?: 'xxs' | 'xs' | 'small' | 'medium' | 'large' | 'xl' | 'xxl' | 'xxxl'
 }
 
 const Button = (props: Props) => (
-  <AlifdButton onClick={props.onClick} type={props.type} disabled={props.disabled} style={props.style}>
+  <AlifdButton
+    onClick={props.onClick}
+    type={props.type}
+    disabled={props.disabled}
+    style={props.style}
+    size={props.size}
+    iconSize={props.iconSize}
+  >
     {props.children}
   </AlifdButton>
 )

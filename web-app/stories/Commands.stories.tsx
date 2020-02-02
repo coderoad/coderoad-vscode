@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import ProcessEvents from '../src/components/ProcessEvents'
+import ProcessMessages from '../src/components/ProcessMessages'
 import SideBarDecorator from './utils/SideBarDecorator'
 
 const styles = {
@@ -13,7 +13,8 @@ const styles = {
 storiesOf('Components', module)
   .addDecorator(SideBarDecorator)
   .add('Processes', () => (
-    <ProcessEvents
+    <ProcessMessages
+      testStatus={null}
       processes={[
         {
           title: 'npm install',
@@ -24,5 +25,33 @@ storiesOf('Components', module)
           description: 'Test running',
         },
       ]}
+    />
+  ))
+  .add('Test Start', () => (
+    <ProcessMessages
+      testStatus={{
+        type: 'loading',
+        title: 'Test running...',
+      }}
+      processes={[]}
+    />
+  ))
+  .add('Test Pass', () => (
+    <ProcessMessages
+      testStatus={{
+        type: 'success',
+        title: 'Success!',
+      }}
+      processes={[]}
+    />
+  ))
+  .add('Test Fail', () => (
+    <ProcessMessages
+      testStatus={{
+        type: 'warning',
+        title: 'Fail!',
+        content: 'Test failed for some reason',
+      }}
+      processes={[]}
     />
   ))

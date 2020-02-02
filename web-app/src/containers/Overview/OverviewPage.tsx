@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as G from 'typings/graphql'
 import Button from '../../components/Button'
+import Icon from '../../components/Icon'
 import Markdown from '../../components/Markdown'
 
 const footerHeight = '3rem'
@@ -23,11 +24,13 @@ const styles = {
     fontSize: '1rem',
   },
   header: {
+    display: 'flex',
     height: '2rem',
     backgroundColor: '#EBEBEB',
     fontSize: '1rem',
     lineHeight: '1rem',
     padding: '10px 1rem',
+    alignItems: 'center',
   },
   levelList: {
     padding: '0rem 1rem',
@@ -61,7 +64,10 @@ const Summary = ({ title, description, levels, onNext, onBack }: Props) => (
   <div css={styles.page}>
     <div>
       <div css={styles.header}>
-        <button onClick={onBack}>Back</button>
+        <button onClick={onBack}>
+          <Icon type="arrow-left" size="xxs" />
+        </button>
+        <span>&nbsp;&nbsp;</span>
         <span>CodeRoad</span>
       </div>
       <div css={styles.summary}>
