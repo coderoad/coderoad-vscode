@@ -13,7 +13,7 @@ const styles = {
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
     width: '100%',
-    paddingBottom: footerHeight,
+    paddingBottom: '5rem',
   },
   summary: {
     padding: '0rem 1rem 1rem 1rem',
