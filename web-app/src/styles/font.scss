@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: 'NextIcon';
+  src: url('/styles/fonts/next-icon.woff2') format('woff2'), url('/styles/fonts/next-icon.svg#NextIcon') format('svg');
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('/styles/fonts/roboto-thin.woff2') format('woff2');
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/styles/fonts/roboto-light.woff2') format('woff2');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/styles/fonts/roboto-regular.woff2') format('woff2');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/styles/fonts/roboto-medium.woff2') format('woff2');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/styles/fonts/roboto-bold.woff2') format('woff2');
+  font-weight: 700;
+}

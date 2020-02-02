@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path')
-const { addBabelPreset, addBabelPlugin, addWebpackModuleRule } = require('customize-cra')
+const { addBabelPreset, addWebpackModuleRule, addWebpackPlugin } = require('customize-cra')
 
 module.exports = function override(config) {
   addWebpackModuleRule({
@@ -17,13 +16,13 @@ module.exports = function override(config) {
   })(config)
 
   // load @alifd/next component css
-  addBabelPlugin([
-    'babel-plugin-import',
-    {
-      libraryName: '@alifd/next',
-      style: true,
-    },
-  ])(config)
+  // addBabelPlugin([
+  //   'babel-plugin-import',
+  //   {
+  //     libraryName: '@alifd/next',
+  //     style: true,
+  //   },
+  // ])(config)
 
   // setup emotion styles
   addBabelPreset('@emotion/babel-preset-css-prop')(config)

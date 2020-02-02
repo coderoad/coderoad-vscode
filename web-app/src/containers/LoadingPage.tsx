@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
 import Loading from '../components/Loading'
+import { Icon } from '@alifd/next'
 import Message from '../components/Message'
 
 interface Props {
@@ -31,6 +32,7 @@ const LoadingPage = ({ text, context }: Props) => {
   }
   return (
     <div css={styles.page}>
+      <Icon type="smile" />
       <Loading text={text} />
     </div>
   )
