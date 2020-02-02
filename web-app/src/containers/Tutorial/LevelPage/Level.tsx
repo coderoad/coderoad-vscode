@@ -4,7 +4,7 @@ import * as G from 'typings/graphql'
 import { css, jsx } from '@emotion/core'
 import Button from '../../../components/Button'
 import Markdown from '../../../components/Markdown'
-import ProcessEvents from '../../../components/ProcessEvents'
+import ProcessMessages from '../../../components/ProcessMessages'
 import Step from './Step'
 
 const styles = {
@@ -109,7 +109,7 @@ const Level = ({ level, onContinue, onLoadSolution, processes }: Props) => {
 
       {processes.length > 0 && (
         <div css={styles.processes}>
-          <ProcessEvents processes={processes} />
+          <ProcessMessages processes={processes} />
         </div>
       )}
 
