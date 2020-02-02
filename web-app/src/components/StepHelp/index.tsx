@@ -1,6 +1,7 @@
 import { Balloon } from '@alifd/next'
 import * as React from 'react'
 import { css, jsx } from '@emotion/core'
+import Icon from '../Icon'
 import Button from '../Button'
 
 const styles = {
@@ -28,17 +29,32 @@ interface Props {
 }
 
 const StepHelp = (props: Props) => {
+  const [visible, setVisible] = React.useState(false)
   // TODO extract or replace load solution
   const [loadedSolution, setLoadedSolution] = React.useState()
   const onClickHandler = () => {
     if (!loadedSolution) {
       setLoadedSolution(true)
       props.onLoadSolution()
+      setVisible(false)
     }
   }
-  const promptLeft = <Button css={styles.iconButton}>i</Button>
+  const promptLeft = (
+    <Button css={styles.iconButton} onClick={() => setVisible(!visible)}>
+      <Icon type="help" />
+    </Button>
+  )
   return (
-    <Balloon trigger={promptLeft} align="l" alignEdge triggerType="click" css={{ width: 150 }} closable={false}>
+    <Balloon
+      trigger={promptLeft}
+      align="l"
+      alignEdge
+      triggerType="click"
+      css={{ width: 150 }}
+      closable
+      visible={visible}
+      onClose={() => setVisible(false)}
+    >
       <div>
         <h4 css={styles.balloonTitle}>Stuck?</h4>
         <div css={styles.balloonOptions}>
