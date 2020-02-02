@@ -7,7 +7,7 @@ const durations = {
   success: 1000,
   warning: 4500,
   error: 4500,
-  loading: Infinity,
+  loading: 300000,
 }
 
 const useTimeout = ({ duration, key }: { duration: number; key: string }) => {
