@@ -13,15 +13,15 @@ module.exports = ({ config }) => {
     test: /\.(ts|tsx)$/,
     loader: require.resolve('babel-loader'),
     options: {
-      // plugins: [
-      //   [
-      //     'babel-plugin-import',
-      //     {
-      //       libraryName: '@alifd/next',
-      //       style: true,
-      //     },
-      //   ],
-      // ],
+      plugins: [
+        [
+          'babel-plugin-import',
+          {
+            libraryName: '@alifd/next',
+            style: true,
+          },
+        ],
+      ],
       presets: [
         // react-app
         ['react-app', { flow: false, typescript: true }],
