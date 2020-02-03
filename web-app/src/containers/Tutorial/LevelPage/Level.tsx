@@ -78,6 +78,9 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
     throw new Error('No Stage steps found')
   }
 
+  // @ts-ignore
+  const currentStep = level.steps.indexOf(s => s.status === 'ACTIVE') + 1
+
   return (
     <div css={styles.page}>
       <div css={styles.header}>
@@ -120,10 +123,14 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
           {level.title}
         </span>
         <span>
-          {level.status === 'COMPLETE' && (
+          {level.status === 'COMPLETE' ? (
             <Button type="primary" onClick={onContinue}>
               Continue
             </Button>
+          ) : (
+            <span>
+              {currentStep} of {level.steps.length} tasks
+            </span>
           )}
         </span>
       </div>
