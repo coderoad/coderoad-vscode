@@ -13,7 +13,9 @@ const styles = {
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
     width: '100%',
-    paddingBottom: '5rem',
+  },
+  content: {
+    paddingBottom: '3rem',
   },
   summary: {
     padding: '0rem 1rem 1rem 1rem',
@@ -63,7 +65,7 @@ interface Props {
 
 const Summary = ({ title, description, levels, onNext, onBack }: Props) => (
   <div css={styles.page}>
-    <div>
+    <div css={styles.content}>
       <div css={styles.header}>
         <button onClick={onBack}>
           <Icon type="arrow-left" size="xxs" />
