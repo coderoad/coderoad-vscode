@@ -13,7 +13,9 @@ const styles = {
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
     width: '100%',
-    paddingBottom: '5rem',
+  },
+  content: {
+    paddingBottom: '3rem',
   },
   summary: {
     padding: '0rem 1rem 1rem 1rem',
@@ -35,6 +37,9 @@ const styles = {
   },
   levelList: {
     padding: '0rem 1rem',
+  },
+  levelSummary: {
+    paddingLeft: '1.1rem',
   },
   footer: {
     position: 'fixed' as 'fixed',
@@ -63,7 +68,7 @@ interface Props {
 
 const Summary = ({ title, description, levels, onNext, onBack }: Props) => (
   <div css={styles.page}>
-    <div>
+    <div css={styles.content}>
       <div css={styles.header}>
         <button onClick={onBack}>
           <Icon type="arrow-left" size="xxs" />
@@ -85,7 +90,7 @@ const Summary = ({ title, description, levels, onNext, onBack }: Props) => (
               <h4>
                 {index + 1}. {level.title}
               </h4>
-              <div>{level.summary}</div>
+              <div css={styles.levelSummary}>{level.summary}</div>
               <Divider />
             </div>
           ))}

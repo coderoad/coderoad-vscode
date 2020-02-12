@@ -16,10 +16,14 @@ const styles = {
   card: {
     display: 'grid',
     gridTemplateColumns: '25px 1fr',
-    padding: '1rem 1rem 1rem 0.2rem',
+    padding: '1rem 1rem 1rem 0rem',
   },
   content: {
     margin: 0,
+  },
+  checkboxContainer: {
+    paddingTop: 2,
+    width: '1rem',
   },
   options: {
     display: 'flex' as 'flex',
@@ -39,7 +43,7 @@ const Step = (props: Props) => {
   return (
     <div>
       <div css={styles.card}>
-        <div>
+        <div css={styles.checkboxContainer}>
           <Checkbox status={props.status} />
         </div>
         <div>
