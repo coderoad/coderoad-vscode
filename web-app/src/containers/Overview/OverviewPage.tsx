@@ -38,6 +38,9 @@ const styles = {
   levelList: {
     padding: '0rem 1rem',
   },
+  levelSummary: {
+    paddingLeft: '1.1rem',
+  },
   footer: {
     position: 'fixed' as 'fixed',
     bottom: 0,
@@ -87,7 +90,7 @@ const Summary = ({ title, description, levels, onNext, onBack }: Props) => (
               <h4>
                 {index + 1}. {level.title}
               </h4>
-              <div>{level.summary}</div>
+              <div css={styles.levelSummary}>{level.summary}</div>
               <Divider />
             </div>
           ))}
