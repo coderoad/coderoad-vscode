@@ -63,6 +63,10 @@ const styles = {
     right: 0,
     color: 'white',
   },
+  taskCount: {
+    fontSize: '0.8rem',
+    opacity: 0.9,
+  },
 }
 
 interface Props {
@@ -128,7 +132,7 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
               Continue
             </Button>
           ) : (
-            <span>
+            <span css={styles.taskCount}>
               {currentStep} of {level.steps.length} tasks
             </span>
           )}
