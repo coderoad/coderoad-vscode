@@ -5,6 +5,7 @@ import * as services from './services'
 
 const createOptions = ({ editorSend }: any): MachineOptions<CR.MachineContext, CR.MachineEvent> => ({
   activities: {},
+  // @ts-ignore
   actions: createActions(editorSend),
   guards: {},
   services: {},

@@ -2,10 +2,10 @@ import * as T from 'typings'
 import { assign } from 'xstate'
 
 export default {
-  // @ts-ignore
   commandStart: assign({
-    processes: ({ processes }: T.MachineContext, event: T.MachineEvent): T.ProcessEvent[] => {
-      const { process } = event.payload
+    processes: (context: T.MachineContext, event: T.MachineEvent): any => {
+      let processes: T.ProcessEvent[] = context.processes
+      const process: T.ProcessEvent = event.payload.process
       const isRunning = processes.find(p => p.title === process.title)
       if (!isRunning) {
         processes = processes.concat(process)
@@ -13,17 +13,17 @@ export default {
       return processes
     },
   }),
-  // @ts-ignore
   commandSuccess: assign({
-    processes: ({ processes }: T.MachineContext, event: T.MachineEvent): T.ProcessEvent[] => {
-      const { process } = event.payload
+    processes: (context: T.MachineContext, event: T.MachineEvent): any => {
+      const processes: T.ProcessEvent[] = context.processes
+      const process: T.ProcessEvent = event.payload.process
       return processes.filter(p => p.title !== process.title)
     },
   }),
-  // @ts-ignore
   commandFail: assign({
-    processes: ({ processes }: T.MachineContext, event: T.MachineEvent): T.ProcessEvent[] => {
-      const { process } = event.payload
+    processes: (context: T.MachineContext, event: T.MachineEvent): any => {
+      const processes: T.ProcessEvent[] = context.processes
+      const process: T.ProcessEvent = event.payload.process
       return processes.filter(p => p.title !== process.title)
     },
   }),

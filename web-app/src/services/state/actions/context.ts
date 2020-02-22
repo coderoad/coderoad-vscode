@@ -1,13 +1,13 @@
-import * as CR from 'typings'
+import * as T from 'typings'
 import * as G from 'typings/graphql'
 import { assign, send, ActionFunctionMap } from 'xstate'
 import * as selectors from '../../selectors'
 import onError from '../../../services/sentry/onError'
 
-const contextActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
+const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
   // @ts-ignore
   setEnv: assign({
-    env: (context: CR.MachineContext, event: CR.MachineEvent) => {
+    env: (context: T.MachineContext, event: T.MachineEvent) => {
       return {
         ...context.env,
         ...event.payload.env,
@@ -16,35 +16,35 @@ const contextActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
   }),
   // @ts-ignore
   continueTutorial: assign({
-    tutorial: (context: CR.MachineContext, event: CR.MachineEvent) => {
+    tutorial: (context: T.MachineContext, event: T.MachineEvent) => {
       return event.payload.tutorial
     },
-    progress: (context: CR.MachineContext, event: CR.MachineEvent) => {
+    progress: (context: T.MachineContext, event: T.MachineEvent) => {
       return event.payload.progress
     },
-    position: (context: CR.MachineContext, event: CR.MachineEvent) => {
+    position: (context: T.MachineContext, event: T.MachineEvent) => {
       return event.payload.position
     },
   }),
   // @ts-ignore
   selectTutorialById: assign({
-    tutorial: (context: CR.MachineContext, event: CR.MachineEvent): any => {
+    tutorial: (context: T.MachineContext, event: T.MachineEvent): any => {
       return event.payload.tutorial
     },
   }),
   // @ts-ignore
   startNewTutorial: assign({
-    position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
-      const position: CR.Position = selectors.initialPosition(context)
+    position: (context: T.MachineContext, event: T.MachineEvent): any => {
+      const position: T.Position = selectors.initialPosition(context)
       return position
     },
-    progress: (): CR.Progress => {
+    progress: (): T.Progress => {
       return { levels: {}, steps: {}, complete: false }
     },
   }),
   // @ts-ignore
   updateStepPosition: assign({
-    position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Position => {
+    position: (context: T.MachineContext, event: T.MachineEvent): any => {
       // TODO calculate from progress
 
       const { position } = context
@@ -62,7 +62,7 @@ const contextActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
 
       const step: G.Step = steps[stepIndex + 1]
 
-      const nextPosition: CR.Position = {
+      const nextPosition: T.Position = {
         ...position,
         stepId: step.id,
       }
@@ -72,7 +72,7 @@ const contextActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
   }),
   // @ts-ignore
   updateLevelPosition: assign({
-    position: (context: CR.MachineContext): CR.Position => {
+    position: (context: T.MachineContext): any => {
       const { position } = context
       const version = selectors.currentVersion(context)
       // merge in the updated position
@@ -82,7 +82,7 @@ const contextActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
       const levelIndex = levels.findIndex((l: G.Level) => l.id === position.levelId)
       const level: G.Level = levels[levelIndex + 1]
 
-      const nextPosition: CR.Position = {
+      const nextPosition: T.Position = {
         levelId: level.id,
         stepId: level.steps[0].id,
       }
@@ -92,7 +92,7 @@ const contextActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
   }),
   // @ts-ignore
   updateLevelProgress: assign({
-    progress: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
+    progress: (context: T.MachineContext, event: T.MachineEvent): any => {
       // update progress by tracking completed
       const { progress, position } = context
 
@@ -105,9 +105,9 @@ const contextActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
   }),
   // @ts-ignore
   updateStepProgress: assign({
-    progress: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
+    progress: (context: T.MachineContext, event: T.MachineEvent): any => {
       // update progress by tracking completed
-      const currentProgress: CR.Progress = context.progress
+      const currentProgress: T.Progress = context.progress
 
       const { stepId } = event.payload
 
@@ -118,13 +118,13 @@ const contextActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
   }),
   // @ts-ignore
   updatePosition: assign({
-    position: (context: CR.MachineContext, event: CR.MachineEvent): CR.Progress => {
+    position: (context: T.MachineContext, event: T.MachineEvent): any => {
       const { position } = event.payload
       return position
     },
   }),
   loadNext: send(
-    (context: CR.MachineContext): CR.Action => {
+    (context: T.MachineContext): T.Action => {
       const { position, progress } = context
 
       const level = selectors.currentLevel(context)
@@ -170,7 +170,7 @@ const contextActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
     },
   ),
   stepNext: send(
-    (context: CR.MachineContext): CR.Action => {
+    (context: T.MachineContext): T.Action => {
       const { position, progress } = context
 
       const level: G.Level = selectors.currentLevel(context)
@@ -203,19 +203,20 @@ const contextActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
     tutorial() {
       return null
     },
-    progress(): CR.Progress {
-      const progress: CR.Progress = selectors.defaultProgress()
+    progress(): T.Progress {
+      const progress: T.Progress = selectors.defaultProgress()
       return progress
     },
-    position(): CR.Position {
-      const position: CR.Position = selectors.defaultPosition()
+    position(): T.Position {
+      const position: T.Position = selectors.defaultPosition()
       return position
     },
   }),
   // @ts-ignore
   setError: assign({
-    error: (context: CR.MachineContext, event: CR.MachineEvent): string | null => {
-      return event.payload.error
+    error: (context: T.MachineContext, event: T.MachineEvent): any => {
+      const message: string | null = event.payload.error
+      return message
     },
   }),
 }

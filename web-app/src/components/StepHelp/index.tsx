@@ -1,8 +1,7 @@
 import { Balloon } from '@alifd/next'
 import * as React from 'react'
-import { css, jsx } from '@emotion/core'
-import Icon from '../Icon'
 import Button from '../Button'
+import Icon from '../Icon'
 
 const styles = {
   iconButton: {
@@ -31,7 +30,7 @@ interface Props {
 const StepHelp = (props: Props) => {
   const [visible, setVisible] = React.useState(false)
   // TODO extract or replace load solution
-  const [loadedSolution, setLoadedSolution] = React.useState()
+  const [loadedSolution, setLoadedSolution] = React.useState(false)
   const onClickHandler = () => {
     if (!loadedSolution) {
       setLoadedSolution(true)
