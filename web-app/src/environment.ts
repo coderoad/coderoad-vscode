@@ -11,3 +11,4 @@ export const GQL_URI: string =
 export const DEBUG: boolean = (process.env.REACT_APP_DEBUG || '').toLowerCase() === 'true'
 export const VERSION: string = process.env.VERSION || 'unknown'
 export const NODE_ENV: string = process.env.NODE_ENV || 'production'
+export const AUTH_TOKEN: string | null = process.env.AUTH_TOKEN || null
