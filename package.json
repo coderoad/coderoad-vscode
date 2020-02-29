@@ -31,7 +31,6 @@
     "watch": "tsc -watch -p ./"
   },
   "dependencies": {
-    "@sentry/electron": "^1.2.0",
     "@sentry/node": "^5.12.4",
     "chokidar": "^3.3.0",
     "dotenv": "^8.2.0",
@@ -50,6 +49,7 @@
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
     "graphql": "^14.6.0",
+    "jest": "^25.1.0",
     "prettier": "^1.19.1",
     "ts-jest": "^25.2.1",
     "typescript": "^3.8.2",

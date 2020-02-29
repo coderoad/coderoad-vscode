@@ -3,8 +3,8 @@ interface ParserOutput {
   message?: string
 }
 
-const fail = /^not ok \d+ .{1} (.+)+$/
-const ok = /^ok \d+ .{1} /
+const fail = /^not ok \d+\s(\-\s)?(.+)+$/
+const ok = /^ok/
 
 const parser = (text: string): ParserOutput => {
   const lines = text.split('\n')
@@ -14,7 +14,7 @@ const parser = (text: string): ParserOutput => {
       // parse failed test
       const failRegex = fail.exec(line)
       if (!!failRegex) {
-        return { ok: false, message: failRegex[1] }
+        return { ok: false, message: failRegex[2] }
       }
       if (!hasPass) {
         if (!!ok.exec(line)) {
