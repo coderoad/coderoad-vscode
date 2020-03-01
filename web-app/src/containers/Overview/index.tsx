@@ -28,7 +28,7 @@ const Overview = (props: PageProps) => {
     throw new Error('Tutorial not found in summary page')
   }
   const { loading, error, data } = useQuery<TutorialData, TutorialDataVariables>(queryTutorial, {
-    fetchPolicy: 'network-only', // to ensure latest
+    fetchPolicy: 'no-cache', // to ensure latest
     variables: {
       tutorialId: tutorial.id,
       // version: tutorial.version.version, // TODO: re-enable latest

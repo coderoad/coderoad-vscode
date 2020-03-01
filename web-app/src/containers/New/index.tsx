@@ -18,7 +18,7 @@ interface TutorialsData {
 
 const NewPageContainer = (props: ContainerProps) => {
   const { data, loading, error } = useQuery<TutorialsData>(queryTutorials, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'no-cache',
   })
 
   if (error) {
