@@ -24,6 +24,10 @@ const testActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
       content: event.payload.message,
     }),
   }),
+  // @ts-ignore
+  testClear: assign({
+    testStatus: null,
+  }),
 }
 
 export default testActions
