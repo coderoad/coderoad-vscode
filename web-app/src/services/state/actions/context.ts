@@ -211,6 +211,9 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
       const position: T.Position = selectors.defaultPosition()
       return position
     },
+    processes() {
+      return []
+    },
   }),
   // @ts-ignore
   setError: assign({

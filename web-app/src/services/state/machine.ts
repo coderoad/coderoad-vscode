@@ -239,7 +239,7 @@ export const createMachine = (options: any) => {
             },
             Completed: {
               id: 'completed-tutorial',
-              onEntry: ['userTutorialComplete'],
+              onEntry: ['userTutorialComplete'], // unusued
               on: {
                 SELECT_TUTORIAL: {
                   target: '#select-new-tutorial',

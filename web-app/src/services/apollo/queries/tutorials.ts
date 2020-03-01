@@ -14,6 +14,7 @@ export default gql`
         description
       }
       version {
+        id
         publishedAt
         publishedBy {
           id
