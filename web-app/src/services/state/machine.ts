@@ -229,7 +229,10 @@ export const createMachine = (options: any) => {
                 },
                 LevelComplete: {
                   on: {
-                    LEVEL_NEXT: '#tutorial-load-next',
+                    LEVEL_NEXT: {
+                      target: '#tutorial-load-next',
+                      actions: ['testClear'],
+                    },
                   },
                 },
               },
