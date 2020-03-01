@@ -17,7 +17,9 @@ interface TutorialsData {
 }
 
 const NewPageContainer = (props: ContainerProps) => {
-  const { data, loading, error } = useQuery<TutorialsData>(queryTutorials)
+  const { data, loading, error } = useQuery<TutorialsData>(queryTutorials, {
+    fetchPolicy: 'network-only',
+  })
 
   if (error) {
     return <ErrorView error={error} />
