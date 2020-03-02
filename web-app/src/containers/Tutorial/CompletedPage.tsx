@@ -4,8 +4,15 @@ import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
 
 const styles = {
-  options: {
-    padding: '0rem 1rem',
+  page: {
+    padding: '1rem',
+  },
+  section: {
+    marginTop: '1rem',
+    marginBottom: '2rem',
+  },
+  buttonContainer: {
+    marginTop: '1rem',
   },
 }
 
@@ -19,10 +26,33 @@ const CompletedPage = (props: Props) => {
     props.send('SELECT_TUTORIAL')
   }
   return (
-    <div>
-      <h3>Tutorial Complete</h3>
-      <div css={styles.options}>
-        <Button onClick={selectNewTutorial}>Continue</Button>
+    <div css={styles.page}>
+      <h1>Tutorial Complete!</h1>
+      <div css={styles.section}>
+        <p>Thank you for demoing the CodeRoad beta!</p>
+      </div>
+      <div css={styles.section}>
+        <h3>Subscribe!</h3>
+        <p>Sign up to our mailing list to be first to hear about future tutorials.</p>
+        <div css={styles.buttonContainer}>
+          <a href="https://tiny.cc/coderoad">
+            <Button type="primary">Subscribe to Mailing List</Button>
+          </a>
+        </div>
+      </div>
+      <div css={styles.section}>
+        <h3>Contact Us</h3>
+        <p>We'd love to hear your comments, ideas & feedback.</p>
+        <p>
+          Reach out at <a href="mailto:coderoadapp@gmail.com">coderoadapp@gmail.com</a>!
+        </p>
+      </div>
+      <div css={styles.section}>
+        <h3>Continue</h3>
+        <p>To try another tutorial, open a new VSCode workspace and launch the CodeRoad app</p>
+        <div css={styles.buttonContainer}>
+          <Button onClick={selectNewTutorial}>Return to Tutorial List</Button>
+        </div>
       </div>
     </div>
   )
