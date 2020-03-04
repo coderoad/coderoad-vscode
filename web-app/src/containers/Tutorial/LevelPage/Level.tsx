@@ -83,7 +83,7 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
   }
 
   // @ts-ignore
-  const currentStep = level.steps.indexOf(s => s.status === 'ACTIVE') + 1
+  const currentStep = level.steps.findIndex(s => s.status === 'ACTIVE')
 
   return (
     <div css={styles.page}>
