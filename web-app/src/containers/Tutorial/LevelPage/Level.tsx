@@ -82,8 +82,15 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
     throw new Error('No Stage steps found')
   }
 
+  const pageBottomRef = React.useRef(null)
+
+  const scrollToBottom = () => {
+    // @ts-ignore
+    pageBottomRef.current.scrollIntoView({ behavior: 'smooth' })
+  }
   // @ts-ignore
   const currentStep = level.steps.findIndex(s => s.status === 'ACTIVE')
+  React.useEffect(scrollToBottom, [currentStep])
 
   return (
     <div css={styles.page}>
@@ -113,6 +120,7 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
             )
           })}
         </div>
+        <div ref={pageBottomRef} />
       </div>
 
       {(testStatus || processes.length > 0) && (
