@@ -1,9 +1,9 @@
-import { getOutputChannel } from '../../editor/outputChannel'
 import node from '../../services/node'
 import logger from '../../services/logger'
 import parser from './parser'
 import { debounce, throttle } from './throttle'
 import onError from '../sentry/onError'
+import displayOutput from './output'
 
 export interface Payload {
   stepId: string
@@ -21,8 +21,6 @@ interface TestRunnerConfig {
 }
 
 const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
-  const outputChannelName = 'TEST_OUTPUT'
-
   return async (payload: Payload, onSuccess?: () => void): Promise<void> => {
     const startTime = throttle()
     // throttle time early
@@ -58,13 +56,12 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
       if (stdout && stdout.length && !tap.ok) {
         const message = tap.message ? tap.message : ''
         callbacks.onFail(payload, message)
+        displayOutput(stdout)
         return
       } else {
         callbacks.onError(payload)
         // open terminal with error string
-        const channel = getOutputChannel(outputChannelName)
-        channel.show(false)
-        channel.appendLine(stderr)
+        displayOutput(stderr)
         return
       }
     }
