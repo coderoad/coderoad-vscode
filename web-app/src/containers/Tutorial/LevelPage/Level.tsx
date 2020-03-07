@@ -15,7 +15,7 @@ const styles = {
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
     padding: 0,
-    paddingBottom: '4.5rem',
+    paddingBottom: '5rem',
     height: 'auto',
     width: '100%',
   },
@@ -44,7 +44,7 @@ const styles = {
   processes: {
     padding: '0 1rem',
     position: 'fixed' as 'fixed',
-    bottom: '2rem',
+    bottom: '4rem',
     left: 0,
     right: 0,
   },

@@ -7,22 +7,22 @@ const Panel = Collapse.Panel
 
 const styles = {
   container: {
-    position: 'relative',
+    position: 'relative' as 'relative',
     transition: 'all .35s',
   },
   header: {
-    display: 'flex',
+    display: 'flex' as 'flex',
     backgroundColor: '#6a67ce',
     color: 'white',
     padding: '0.5rem',
   },
   title: {
-    marginLeft: '.6rem',
     fontSize: '1rem',
   },
   toggle: {
-    display: 'flex',
-    alignItems: 'center',
+    display: 'flex' as 'flex',
+    alignItems: 'center' as 'center',
+    width: '1.5rem',
   },
 }
 
@@ -113,10 +113,8 @@ const NewUserExperienceTutorial = (props: Props) => {
   return (
     <div css={{ ...styles.container, ...props.css }}>
       <div css={styles.header} onClick={onToggle} style={{ cursor: 'pointer' }}>
-        <div css={styles.toggle}>
-          {isOpen ? <Icon type="close" size="xs" /> : <Icon type="help" size="small" />}
-          <span css={styles.title}>Help</span>
-        </div>
+        <span css={styles.toggle}>{isOpen ? <Icon type="close" size="xs" /> : <Icon type="help" size="small" />}</span>
+        <span css={styles.title}>Help</span>
       </div>
       <ReactCSSTransitionGroup transitionName="slide" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
         {isOpen && <NewUserExperienceTutorialCollapsible />}
