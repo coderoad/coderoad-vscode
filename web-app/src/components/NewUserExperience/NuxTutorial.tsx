@@ -18,7 +18,7 @@ const styles = {
   },
   title: {
     marginLeft: '.6rem',
-    fontSize: '1.1rem',
+    fontSize: '1rem',
   },
   toggle: {
     display: 'flex',
@@ -101,16 +101,20 @@ const NewUserExperienceTutorialCollapsible = () => {
   )
 }
 
-const NewUserExperienceTutorial = () => {
+interface Props {
+  css?: React.CSSProperties
+}
+
+const NewUserExperienceTutorial = (props: Props) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false)
   const onToggle = () => {
     setIsOpen(!isOpen)
   }
   return (
-    <div css={styles.container}>
+    <div css={{ ...styles.container, ...props.css }}>
       <div css={styles.header} onClick={onToggle} style={{ cursor: 'pointer' }}>
         <div css={styles.toggle}>
-          <Icon type="help" />
+          {isOpen ? <Icon type="close" size="xs" /> : <Icon type="help" size="small" />}
           <span css={styles.title}>Help</span>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { css, jsx } from '@emotion/core'
 import Button from '../../../components/Button'
 import Markdown from '../../../components/Markdown'
 import ProcessMessages from '../../../components/ProcessMessages'
+import NuxTutorial from '../../../components/NewUserExperience/NuxTutorial'
 import Step from './Step'
 
 const styles = {
@@ -42,6 +43,12 @@ const styles = {
   },
   processes: {
     padding: '0 1rem',
+    position: 'fixed' as 'fixed',
+    bottom: '2rem',
+    left: 0,
+    right: 0,
+  },
+  nux: {
     position: 'fixed' as 'fixed',
     bottom: '2rem',
     left: 0,
@@ -128,6 +135,10 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
           <ProcessMessages processes={processes} testStatus={testStatus} />
         </div>
       )}
+
+      <div css={styles.nux}>
+        <NuxTutorial />
+      </div>
 
       <div css={styles.footer}>
         <span>
