@@ -38,6 +38,7 @@
     "moment": "^2.24.0",
     "prismjs": "^1.19.0",
     "react": "^16.13.0",
+    "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^16.13.0",
     "reselect": "^4.0.0",
     "typescript": "^3.8.3",
