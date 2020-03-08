@@ -68,8 +68,11 @@ export const createMachine = (options: any) => {
             },
             Start: {
               on: {
-                CONTINUE_TUTORIAL: 'ContinueTutorial',
                 NEW_TUTORIAL: 'SelectTutorial',
+                CONTINUE_TUTORIAL: {
+                  target: '#tutorial-level',
+                  actions: ['continueConfig'],
+                },
               },
             },
             SelectTutorial: {
@@ -127,15 +130,6 @@ export const createMachine = (options: any) => {
               onEntry: ['configureNewTutorial', 'startNewTutorial'],
               on: {
                 TUTORIAL_CONFIGURED: '#tutorial',
-              },
-            },
-            ContinueTutorial: {
-              on: {
-                TUTORIAL_START: {
-                  target: '#tutorial-level',
-                  actions: ['continueConfig'],
-                },
-                TUTORIAL_SELECT: 'SelectTutorial',
               },
             },
           },

@@ -87,7 +87,7 @@ interface ContainerProps {
 const StartPageContainer = ({ context, send }: ContainerProps) => {
   const tutorial = context.tutorial || undefined
   return (
-    <StartPage onContinue={() => send('TUTORIAL_START')} onNew={() => send('TUTORIAL_SELECT')} tutorial={tutorial} />
+    <StartPage onContinue={() => send('CONTINUE_TUTORIAL')} onNew={() => send('NEW_TUTORIAL')} tutorial={tutorial} />
   )
 }
 

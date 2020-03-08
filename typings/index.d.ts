@@ -78,7 +78,6 @@ export interface MachineStateSchema {
         Summary: {}
         LoadTutorialData: {}
         SetupNewTutorial: {}
-        ContinueTutorial: {}
       }
     }
     Tutorial: {
