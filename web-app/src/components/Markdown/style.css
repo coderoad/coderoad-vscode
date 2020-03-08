@@ -1,0 +1,6 @@
+.coderoad-markdown :not(pre) > code {
+  background-color: black;
+  color: white;
+  border-radius: 2px;
+  padding: 0.1rem;
+}
