@@ -66,7 +66,7 @@ const Markdown = (props: Props) => {
 		</div>`
   }
   // TODO sanitize markdown or HTML
-  return <div dangerouslySetInnerHTML={{ __html: html }} />
+  return <span className="coderoad-markdown" dangerouslySetInnerHTML={{ __html: html }} />
 }
 
 export default Markdown

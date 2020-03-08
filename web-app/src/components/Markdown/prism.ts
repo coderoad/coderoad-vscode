@@ -11,3 +11,6 @@ import 'prismjs/components/prism-typescript'
 import 'prismjs/themes/prism-tomorrow.css'
 
 // TODO import all - current list only supports js related
+
+// resolve unsupported style cases
+import './style.css'
