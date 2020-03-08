@@ -5,7 +5,7 @@ import * as G from 'typings/graphql'
 import ErrorView from '../../components/Error'
 import queryTutorial from '../../services/apollo/queries/tutorial'
 import OverviewPage from './OverviewPage'
-import LoadingPage from '../../containers/LoadingPage'
+import LoadingPage from '../Loading'
 
 interface PageProps {
   context: CR.MachineContext

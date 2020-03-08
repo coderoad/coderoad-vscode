@@ -4,20 +4,19 @@ import * as G from 'typings/graphql'
 import { Badge } from '@alifd/next'
 import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
-import Card from '../../components/Card'
 
 const styles = {
   page: {
     position: 'relative' as 'relative',
-    display: 'flex',
-    flexDirection: 'column',
+    display: 'flex' as 'flex',
+    flexDirection: 'column' as 'column',
     width: '100%',
     height: window.innerHeight,
   },
   header: {
     flex: 1,
     display: 'flex' as 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column' as 'column',
     justifyContent: 'flex-end' as 'flex-end',
     alignItems: 'center' as 'center',
     backgroundColor: '#EBEBEB',
@@ -54,7 +53,7 @@ interface Props {
   tutorial?: G.Tutorial
 }
 
-export const LaunchPage = (props: Props) => (
+export const StartPage = (props: Props) => (
   <div css={styles.page}>
     <div css={styles.header}>
       <Badge content="beta" style={styles.betaBadge}>
@@ -85,11 +84,11 @@ interface ContainerProps {
   send(action: CR.Action | string): void
 }
 
-const LaunchPageContainer = ({ context, send }: ContainerProps) => {
-  const { tutorial } = context
+const StartPageContainer = ({ context, send }: ContainerProps) => {
+  const tutorial = context.tutorial || undefined
   return (
-    <LaunchPage onContinue={() => send('TUTORIAL_START')} onNew={() => send('TUTORIAL_SELECT')} tutorial={tutorial} />
+    <StartPage onContinue={() => send('TUTORIAL_START')} onNew={() => send('TUTORIAL_SELECT')} tutorial={tutorial} />
   )
 }
 
-export default LaunchPageContainer
+export default StartPageContainer

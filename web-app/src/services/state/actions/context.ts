@@ -15,8 +15,9 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
     },
   }),
   // @ts-ignore
-  continueTutorial: assign({
+  storeContinuedTutorial: assign({
     tutorial: (context: T.MachineContext, event: T.MachineEvent) => {
+      console.log('storeContinuedTutorial')
       return event.payload.tutorial
     },
     progress: (context: T.MachineContext, event: T.MachineEvent) => {

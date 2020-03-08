@@ -3,15 +3,15 @@ import { action } from '@storybook/addon-actions'
 import React from 'react'
 import { css, jsx } from '@emotion/core'
 import SideBarDecorator from './utils/SideBarDecorator'
-import LaunchPage from '../src/containers/Launch'
+import StartPage from '../src/containers/Start'
 
 const styles = {
   container: {},
 }
 
-storiesOf('Launch', module)
+storiesOf('Start', module)
   .addDecorator(SideBarDecorator)
-  .add('LaunchPage', () => {
+  .add('StartPage', () => {
     const tutorial = {
       summary: {
         title: 'Tutorial Title',
@@ -20,7 +20,7 @@ storiesOf('Launch', module)
     }
     return (
       <div css={styles.container}>
-        <LaunchPage send={action('send')} context={{ tutorial }} />
+        <StartPage send={action('send')} context={{ tutorial }} />
       </div>
     )
   })
