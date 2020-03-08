@@ -66,18 +66,18 @@ export interface MachineEvent {
 
 export interface MachineStateSchema {
   states: {
-    Start: {
+    Setup: {
       states: {
         Startup: {}
         Authenticate: {}
         Error: {}
-        NewOrContinue: {}
+        LoadStoredTutorial: {}
+        Start: {}
         SelectTutorial: {}
         LoadTutorialSummary: {}
         Summary: {}
         LoadTutorialData: {}
         SetupNewTutorial: {}
-        ContinueTutorial: {}
       }
     }
     Tutorial: {

@@ -1,8 +1,8 @@
 import * as React from 'react'
 import useRouter from './components/Router'
 import Workspace from './components/Workspace'
-import ContinuePage from './containers/Continue'
-import LoadingPage from './containers/LoadingPage'
+import LoadingPage from './containers/Loading'
+import StartPage from './containers/Start'
 import NewPage from './containers/New'
 import OverviewPage from './containers/Overview'
 import CompletedPage from './containers/Tutorial/CompletedPage'
@@ -13,26 +13,26 @@ const Routes = () => {
   return (
     <Workspace>
       <Router>
-        {/* Start */}
-        <Route path={['Start.Startup', 'Start.Authenticate', 'Start.NewOrContinue']}>
+        {/* Setup */}
+        <Route path={['Setup.Startup', 'Setup.Authenticate', 'Setup.LoadStoredTutorial']}>
           <LoadingPage text="Launching..." context={context} />
         </Route>
-        <Route path="Start.ContinueTutorial">
-          <ContinuePage send={send} context={context} />
+        <Route path="Setup.Start">
+          <StartPage send={send} context={context} />
         </Route>
-        <Route path={['Start.LoadTutorialSummary', 'Start.LoadTutorialData', 'Start.SetupNewTutorial']}>
+        <Route path={['Setup.LoadTutorialSummary', 'Setup.LoadTutorialData', 'Setup.SetupNewTutorial']}>
           <LoadingPage text="Loading Tutorial..." context={context} />
         </Route>
-        <Route path="Start.Error">
+        <Route path="Setup.Error">
           <LoadingPage text="Error" context={context} />
         </Route>
-        <Route path="Start.SelectTutorial">
+        <Route path="Setup.SelectTutorial">
           <NewPage send={send} context={context} />
         </Route>
-        <Route path="Start.Summary">
+        <Route path="Setup.Summary">
           <OverviewPage send={send} context={context} />
         </Route>
-        <Route path="Start.SetupNewTutorial">
+        <Route path="Setup.SetupNewTutorial">
           <LoadingPage text="Configuring tutorial..." context={context} />
         </Route>
         {/* Tutorial */}

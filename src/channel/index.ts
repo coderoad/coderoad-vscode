@@ -57,7 +57,7 @@ class Channel implements Channel {
 
         // new tutorial
         if (!tutorial || !tutorial.id || !tutorial.version) {
-          this.send({ type: 'NEW_TUTORIAL' })
+          this.send({ type: 'START_NEW_TUTORIAL' })
           return
         }
 
@@ -66,12 +66,12 @@ class Channel implements Channel {
 
         if (progress.complete) {
           // tutorial is already complete
-          this.send({ type: 'NEW_TUTORIAL' })
+          this.send({ type: 'START_NEW_TUTORIAL' })
           return
         }
-
+        console.log('send LOAD_STORED_TUTORIAL')
         // communicate to client the tutorial & stepProgress state
-        this.send({ type: 'CONTINUE_TUTORIAL', payload: { tutorial, progress, position } })
+        this.send({ type: 'LOAD_STORED_TUTORIAL', payload: { tutorial, progress, position } })
 
         return
       // clear tutorial local storage

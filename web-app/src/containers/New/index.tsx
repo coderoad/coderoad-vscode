@@ -4,7 +4,7 @@ import * as T from 'typings'
 import * as G from 'typings/graphql'
 import ErrorView from '../../components/Error'
 import queryTutorials from '../../services/apollo/queries/tutorials'
-import LoadingPage from '../LoadingPage'
+import LoadingPage from '../Loading'
 import NewPage from './NewPage'
 
 interface ContainerProps {

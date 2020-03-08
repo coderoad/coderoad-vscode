@@ -16,7 +16,7 @@ export const createMachine = (options: any) => {
   return Machine<CR.MachineContext, CR.MachineStateSchema, CR.MachineEvent>(
     {
       id: 'root',
-      initial: 'Start',
+      initial: 'Setup',
       context: {
         error: null,
         env: { machineId: '', sessionId: '', token: '' },
@@ -31,7 +31,7 @@ export const createMachine = (options: any) => {
         testStatus: null,
       },
       states: {
-        Start: {
+        Setup: {
           initial: 'Startup',
           states: {
             Startup: {
@@ -46,7 +46,7 @@ export const createMachine = (options: any) => {
             Authenticate: {
               invoke: {
                 src: services.authenticate,
-                onDone: 'NewOrContinue',
+                onDone: 'LoadStoredTutorial',
                 onError: {
                   target: 'Error',
                   actions: assign({
@@ -56,14 +56,23 @@ export const createMachine = (options: any) => {
               },
             },
             Error: {},
-            NewOrContinue: {
+            LoadStoredTutorial: {
               onEntry: ['loadStoredTutorial'],
               on: {
-                CONTINUE_TUTORIAL: {
-                  target: 'ContinueTutorial',
-                  actions: ['continueTutorial'],
+                LOAD_STORED_TUTORIAL: {
+                  target: 'Start',
+                  actions: ['storeContinuedTutorial'],
                 },
+                START_NEW_TUTORIAL: 'Start',
+              },
+            },
+            Start: {
+              on: {
                 NEW_TUTORIAL: 'SelectTutorial',
+                CONTINUE_TUTORIAL: {
+                  target: '#tutorial-level',
+                  actions: ['continueConfig'],
+                },
               },
             },
             SelectTutorial: {
@@ -121,15 +130,6 @@ export const createMachine = (options: any) => {
               onEntry: ['configureNewTutorial', 'startNewTutorial'],
               on: {
                 TUTORIAL_CONFIGURED: '#tutorial',
-              },
-            },
-            ContinueTutorial: {
-              on: {
-                TUTORIAL_START: {
-                  target: '#tutorial-level',
-                  actions: ['continueConfig'],
-                },
-                TUTORIAL_SELECT: 'SelectTutorial',
               },
             },
           },
