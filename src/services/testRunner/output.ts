@@ -9,7 +9,7 @@ const getOutputChannel = (name: string): vscode.OutputChannel => {
   return channel
 }
 
-const outputChannelName = 'TEST_OUTPUT'
+const outputChannelName = 'CodeRoad Output'
 
 const parseOutput = (text: string): string => {
   let result = ''
@@ -21,11 +21,17 @@ const parseOutput = (text: string): string => {
   return result
 }
 
-const displayOutput = (text: string) => {
+export const displayOutput = (text: string) => {
   const channel = getOutputChannel(outputChannelName)
+  channel.clear()
   channel.show(true)
   const output = parseOutput(text)
   channel.append(output)
 }
 
-export default displayOutput
+export const clearOutput = () => {
+  const channel = getOutputChannel(outputChannelName)
+  channel.show(false)
+  channel.clear()
+  channel.hide()
+}
