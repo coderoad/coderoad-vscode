@@ -3,7 +3,7 @@ import logger from '../../services/logger'
 import parser from './parser'
 import { debounce, throttle } from './throttle'
 import onError from '../sentry/onError'
-import displayOutput from './output'
+import { clearOutput, displayOutput } from './output'
 
 export interface Payload {
   stepId: string
@@ -68,6 +68,7 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
 
     // success!
     if (tap.ok) {
+      clearOutput()
       callbacks.onSuccess(payload)
       if (onSuccess) {
         onSuccess()
