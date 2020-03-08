@@ -21,22 +21,21 @@ const styles = {
     alignItems: 'center' as 'center',
     fontSize: '1rem',
     lineHeight: '1rem',
-    padding: '1rem',
+    padding: '0.5rem',
   },
   title: {
     fontSize: '3rem',
+    fontWeight: 'bold' as 'bold',
   },
   subtitle: {
     fontSize: '1.3rem',
   },
   options: {
     flex: 1,
-    backgroundColor: '#EBEBEB',
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
     justifyContent: 'flex-start' as 'flex-start',
     alignItems: 'center' as 'center',
-    padding: '1rem',
   },
   betaBadge: {
     backgroundColor: '#6a67ce',
@@ -57,21 +56,27 @@ export const StartPage = (props: Props) => (
   <div css={styles.page}>
     <div css={styles.header}>
       <Badge content="beta" style={styles.betaBadge}>
-        <span css={styles.title}>CodeRoad&nbsp;</span>
+        <h1 css={styles.title}>
+          CodeRoad<span>&nbsp;</span>
+        </h1>
       </Badge>
       <h3 css={styles.subtitle}>Play Interactive Coding Tutorials in VSCode</h3>
+      <p>Learn by coding in a real environment.</p>
+      <p>Instant feedback on save.</p>
+      <p>Progress saves to Git.</p>
+      <p>Build your portfolio as you learn.</p>
     </div>
 
     <div css={styles.options}>
       <div css={styles.buttonContainer}>
-        <Button size="large" type="primary" onClick={props.onNew} style={{ width: '12rem' }}>
-          New Tutorial
+        <Button size="large" type="primary" onClick={props.onNew} style={{ padding: '0 2.5rem' }}>
+          Start New Tutorial
         </Button>
       </div>
       {props.tutorial && (
         <div css={styles.buttonContainer}>
-          <Button size="large" onClick={props.onContinue} style={{ width: '12rem' }}>
-            Continue "{props.tutorial.summary.title}"
+          <Button size="large" onClick={props.onContinue} style={{ padding: '0 1rem' }}>
+            Continue Current Tutorial
           </Button>
         </div>
       )}
