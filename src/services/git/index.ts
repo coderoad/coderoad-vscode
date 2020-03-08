@@ -19,7 +19,9 @@ const cherryPickCommit = async (commit: string, count = 0): Promise<void> => {
     return
   }
   try {
-    const { stdout } = await node.exec(`git cherry-pick ${commit}`)
+    // cherry-pick pulls commits from another branch
+    // -X theirs merges and accepts incoming changes over existing changes
+    const { stdout } = await node.exec(`git cherry-pick -X theirs ${commit}`)
     if (!stdout) {
       throw new Error('No cherry-pick output')
     }
