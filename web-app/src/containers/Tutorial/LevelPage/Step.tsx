@@ -39,7 +39,6 @@ const Step = (props: Props) => {
   if (!showStep) {
     return null
   }
-  const showLoadSolution = props.status === 'ACTIVE'
   return (
     <div>
       <div css={styles.card}>
@@ -50,11 +49,6 @@ const Step = (props: Props) => {
           <Markdown>{props.content || ''}</Markdown>
         </div>
       </div>
-      {showLoadSolution && (
-        <div css={styles.options}>
-          <StepHelp onLoadSolution={props.onLoadSolution} />
-        </div>
-      )}
     </div>
   )
 }

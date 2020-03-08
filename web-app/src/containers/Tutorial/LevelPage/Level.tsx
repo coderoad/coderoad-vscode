@@ -137,7 +137,7 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
       )}
 
       <div css={styles.nux}>
-        <NuxTutorial />
+        <NuxTutorial onLoadSolution={onLoadSolution} />
       </div>
 
       <div css={styles.footer}>
