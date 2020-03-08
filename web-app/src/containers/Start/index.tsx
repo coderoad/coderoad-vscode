@@ -19,19 +19,19 @@ const styles = {
     flexDirection: 'column' as 'column',
     justifyContent: 'flex-end' as 'flex-end',
     alignItems: 'center' as 'center',
-    backgroundColor: '#EBEBEB',
     fontSize: '1rem',
     lineHeight: '1rem',
     padding: '1rem',
   },
   title: {
-    fontSize: '4rem',
+    fontSize: '3rem',
   },
   subtitle: {
-    fontSize: '1.6rem',
+    fontSize: '1.3rem',
   },
   options: {
     flex: 1,
+    backgroundColor: '#EBEBEB',
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
     justifyContent: 'flex-start' as 'flex-start',
@@ -64,14 +64,14 @@ export const StartPage = (props: Props) => (
 
     <div css={styles.options}>
       <div css={styles.buttonContainer}>
-        <Button size="large" type="primary" onClick={props.onNew} style={{ width: '10rem' }}>
-          Start
+        <Button size="large" type="primary" onClick={props.onNew} style={{ width: '12rem' }}>
+          New Tutorial
         </Button>
       </div>
       {props.tutorial && (
         <div css={styles.buttonContainer}>
-          <Button size="large" onClick={props.onContinue} style={{ width: '10rem' }}>
-            Continue
+          <Button size="large" onClick={props.onContinue} style={{ width: '12rem' }}>
+            Continue "{props.tutorial.summary.title}"
           </Button>
         </div>
       )}

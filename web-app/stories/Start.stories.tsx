@@ -11,7 +11,14 @@ const styles = {
 
 storiesOf('Start', module)
   .addDecorator(SideBarDecorator)
-  .add('StartPage', () => {
+  .add('New', () => {
+    return (
+      <div css={styles.container}>
+        <StartPage send={action('send')} context={{}} />
+      </div>
+    )
+  })
+  .add('Continue', () => {
     const tutorial = {
       summary: {
         title: 'Tutorial Title',
