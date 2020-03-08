@@ -1,4 +1,5 @@
 import { storiesOf } from '@storybook/react'
+import { action } from '@storybook/addon-actions'
 import React from 'react'
 import { css, jsx } from '@emotion/core'
 import SideBarDecorator from './utils/SideBarDecorator'
@@ -17,6 +18,6 @@ storiesOf('NewUserExperience', module)
   .addDecorator(SideBarDecorator)
   .add('NUXTutorial', () => (
     <div css={styles.container}>
-      <NewUserExperienceTutorial />
+      <NewUserExperienceTutorial onLoadSolution={action('onLoadSolution')} />
     </div>
   ))

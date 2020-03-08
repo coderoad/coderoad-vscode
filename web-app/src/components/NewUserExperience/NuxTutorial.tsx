@@ -1,5 +1,6 @@
 import React from 'react'
 import { Collapse, Icon } from '@alifd/next'
+import Button from '../Button'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import './transition.css'
 
@@ -26,7 +27,33 @@ const styles = {
   },
 }
 
-const NewUserExperienceTutorialCollapsible = () => {
+type LoadSolutionButtonProps = {
+  onLoadSolution: () => void
+  close: () => void
+}
+
+const LoadSolutionButton = (props: LoadSolutionButtonProps) => {
+  const [loadedSolution, setLoadedSolution] = React.useState(false)
+  const onClickHandler = () => {
+    props.close()
+    if (!loadedSolution) {
+      setLoadedSolution(true)
+      props.onLoadSolution()
+    }
+  }
+  return (
+    <Button type="secondary" onClick={onClickHandler} disabled={loadedSolution}>
+      Load Solution
+    </Button>
+  )
+}
+
+type NuxProps = {
+  onClose: () => void
+  onLoadSolution: () => void
+}
+
+const NewUserExperienceTutorialCollapsible = (props: NuxProps) => {
   const [expandedKeys, setExpandedKeys] = React.useState<string[]>([])
   return (
     <Collapse onExpand={setExpandedKeys} expandedKeys={expandedKeys}>
@@ -88,8 +115,17 @@ const NewUserExperienceTutorialCollapsible = () => {
           </li>
           <br />
           <li>
-            Load the solution. Each step in CodeRoad is stored as a Git commit - including the solution. Load the
-            solution by pressing the help icon under the current task, and select the option "load solution".
+            Still stuck? Load the solution. Each step in CodeRoad is stored as a Git commit - including the solution.
+            Load the solution commit by pressing the button below.
+            <br />
+            <br />
+            <LoadSolutionButton
+              onLoadSolution={props.onLoadSolution}
+              close={() => {
+                setExpandedKeys([])
+                props.onClose()
+              }}
+            />
           </li>
         </ol>
       </Panel>
@@ -103,6 +139,7 @@ const NewUserExperienceTutorialCollapsible = () => {
 
 interface Props {
   css?: React.CSSProperties
+  onLoadSolution: () => void
 }
 
 const NewUserExperienceTutorial = (props: Props) => {
@@ -117,7 +154,12 @@ const NewUserExperienceTutorial = (props: Props) => {
         <span css={styles.title}>Help</span>
       </div>
       <ReactCSSTransitionGroup transitionName="slide" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
-        {isOpen && <NewUserExperienceTutorialCollapsible />}
+        {isOpen && (
+          <NewUserExperienceTutorialCollapsible
+            onLoadSolution={props.onLoadSolution}
+            onClose={() => setIsOpen(false)}
+          />
+        )}
       </ReactCSSTransitionGroup>
     </div>
   )
