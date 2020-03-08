@@ -34,7 +34,7 @@ const NewPage = (props: Props) => (
       <span>CodeRoad</span>
     </div>
     <div css={styles.banner}>
-      <span>Select a Tutorial to Start</span>
+      <span>Select a tutorial to launch in this workspace:</span>
     </div>
     <TutorialList tutorialList={props.tutorialList} send={props.send} />
   </div>
