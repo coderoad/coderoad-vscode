@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as CR from 'typings'
 import * as G from 'typings/graphql'
-import { Badge } from '@alifd/next'
+import BetaBadge from '../../components/BetaBadge'
 import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
 
@@ -37,10 +37,6 @@ const styles = {
     justifyContent: 'flex-start' as 'flex-start',
     alignItems: 'center' as 'center',
   },
-  betaBadge: {
-    backgroundColor: '#6a67ce',
-    color: '#FFFFFF',
-  },
   buttonContainer: {
     margin: '0.5rem',
   },
@@ -55,11 +51,9 @@ interface Props {
 export const StartPage = (props: Props) => (
   <div css={styles.page}>
     <div css={styles.header}>
-      <Badge content="beta" style={styles.betaBadge}>
-        <h1 css={styles.title}>
-          CodeRoad<span>&nbsp;</span>
-        </h1>
-      </Badge>
+      <BetaBadge>
+        <span css={styles.title}>CodeRoad</span>
+      </BetaBadge>
       <h3 css={styles.subtitle}>Play Interactive Coding Tutorials in VSCode</h3>
       <p>Learn by coding in a real environment.</p>
       <p>Instant feedback on save.</p>
