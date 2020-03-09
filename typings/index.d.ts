@@ -73,6 +73,8 @@ export interface MachineStateSchema {
         Error: {}
         LoadStoredTutorial: {}
         Start: {}
+        CheckEmptyWorkspace: {}
+        RequestEmptyWorkspace: {}
         SelectTutorial: {}
         LoadTutorialSummary: {}
         Summary: {}

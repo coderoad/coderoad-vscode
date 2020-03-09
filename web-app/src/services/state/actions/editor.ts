@@ -70,4 +70,13 @@ export default (editorSend: any) => ({
   clearStorage(): void {
     editorSend({ type: 'TUTORIAL_CLEAR' })
   },
+  checkEmptyWorkspace() {
+    editorSend({
+      type: 'EDITOR_CHECK_WORKSPACE',
+    })
+  },
+  requestEmptyWorkspace() {
+    // TODO
+    console.log('request empty workspace')
+  },
 })

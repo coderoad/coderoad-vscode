@@ -8,6 +8,7 @@ import tutorialConfig from '../actions/tutorialConfig'
 import { COMMANDS } from '../editor/commands'
 import logger from '../services/logger'
 import Context from './context'
+import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 
 interface Channel {
   receive(action: T.Action): Promise<void>
@@ -107,6 +108,15 @@ class Channel implements Channel {
         )
         // update the current stepId on startup
         vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
+        return
+      case 'EDITOR_CHECK_WORKSPACE':
+        const isEmptyWorkspace = await checkWorkspaceEmpty(this.workspaceRoot.uri.path)
+        if (isEmptyWorkspace) {
+          this.send({ type: 'IS_EMPTY_WORKSPACE' })
+        } else {
+          openWorkspace()
+          this.send({ type: 'REQUEST_WORKSPACE' })
+        }
         return
       // load step actions (git commits, commands, open files)
       case 'SETUP_ACTIONS':

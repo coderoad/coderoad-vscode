@@ -68,11 +68,24 @@ export const createMachine = (options: any) => {
             },
             Start: {
               on: {
-                NEW_TUTORIAL: 'SelectTutorial',
+                NEW_TUTORIAL: 'CheckEmptyWorkspace',
                 CONTINUE_TUTORIAL: {
                   target: '#tutorial-level',
                   actions: ['continueConfig'],
                 },
+              },
+            },
+            CheckEmptyWorkspace: {
+              onEntry: ['checkEmptyWorkspace'],
+              on: {
+                REQUEST_WORKSPACE: 'RequestEmptyWorkspace',
+                IS_EMPTY_WORKSPACE: 'SelectTutorial',
+              },
+            },
+            RequestEmptyWorkspace: {
+              onEntry: ['requestWorkspaceSelection'],
+              on: {
+                WORKSPACE_LOADED: 'CheckEmptyWorkspace',
               },
             },
             SelectTutorial: {
