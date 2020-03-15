@@ -96,7 +96,10 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
     pageBottomRef.current.scrollIntoView({ behavior: 'smooth' })
   }
   // @ts-ignore
-  const currentStep = level.steps.findIndex(s => s.status === 'ACTIVE')
+  let currentStep = level.steps.findIndex(s => s.status === 'ACTIVE')
+  if (currentStep === -1) {
+    currentStep = level.steps.length
+  }
   React.useEffect(scrollToBottom, [currentStep])
 
   return (
