@@ -3,7 +3,7 @@ import useRouter from './components/Router'
 import Workspace from './components/Workspace'
 import LoadingPage from './containers/Loading'
 import StartPage from './containers/Start'
-import NewPage from './containers/New'
+import SelectTutorialPage from './containers/SelectTutorial'
 import OverviewPage from './containers/Overview'
 import CompletedPage from './containers/Tutorial/CompletedPage'
 import LevelSummaryPage from './containers/Tutorial/LevelPage'
@@ -27,7 +27,7 @@ const Routes = () => {
           <LoadingPage text="Error" context={context} />
         </Route>
         <Route path="Setup.SelectTutorial">
-          <NewPage send={send} context={context} />
+          <SelectTutorialPage send={send} context={context} />
         </Route>
         <Route path="Setup.Summary">
           <OverviewPage send={send} context={context} />

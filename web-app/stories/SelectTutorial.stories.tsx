@@ -1,9 +1,8 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import NewPage from '../src/containers/New/NewPage'
-import TutorialList from '../src/containers/New/TutorialList'
-import TutorialItem from '../src/containers/New/TutorialList/TutorialItem'
+import SelectTutorial from '../src/containers/SelectTutorial/SelectTutorial'
+import TutorialItem from '../src/containers/SelectTutorial/TutorialItem'
 import SideBarDecorator from './utils/SideBarDecorator'
 
 const tutorialList = [
@@ -25,11 +24,8 @@ const tutorialList = [
 
 storiesOf('Select Tutorial', module)
   .addDecorator(SideBarDecorator)
-  .add('New Page', () => {
-    return <NewPage tutorialList={tutorialList} />
-  })
-  .add('Tutorial List', () => {
-    return <TutorialList tutorialList={tutorialList} />
+  .add('Select Tutorial Page', () => {
+    return <SelectTutorial tutorialList={tutorialList} send={action('send')} />
   })
   .add('Tutorial Item', () => {
     const tutorial = tutorialList[0]

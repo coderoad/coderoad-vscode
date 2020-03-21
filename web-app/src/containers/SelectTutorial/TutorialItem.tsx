@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { css, jsx } from '@emotion/core'
-import Card from '../../../components/Card'
-import Markdown from '../../../components/Markdown'
+import Card from '../../components/Card'
+import Markdown from '../../components/Markdown'
 
 const styles = {
   card: {
