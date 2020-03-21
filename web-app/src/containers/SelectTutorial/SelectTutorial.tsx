@@ -42,6 +42,7 @@ const SelectTutorial = (props: Props) => {
             onSelect={() => onSelect(tutorial)}
             title={tutorial.summary.title || ''}
             description={tutorial.summary.description || ''}
+            createdBy={tutorial.createdBy}
           />
         ))}
       </div>
