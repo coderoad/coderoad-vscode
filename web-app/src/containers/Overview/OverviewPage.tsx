@@ -1,9 +1,9 @@
 import * as React from 'react'
 import * as G from 'typings/graphql'
+import moment from 'moment'
 import Button from '../../components/Button'
-import Icon from '../../components/Icon'
-import { Divider } from '@alifd/next'
 import Markdown from '../../components/Markdown'
+import { Breadcrumb } from '@alifd/next'
 
 const footerHeight = '3rem'
 
@@ -14,26 +14,31 @@ const styles = {
     flexDirection: 'column' as 'column',
     width: '100%',
   },
+  nav: {
+    display: 'flex',
+    height: '2rem',
+    fontSize: '1rem',
+    lineHeight: '1rem',
+    alignItems: 'center',
+  },
+  navLink: {
+    fontSize: '14px',
+    color: 'white',
+    cursor: 'pointer',
+  },
   content: {
     paddingBottom: '3rem',
   },
-  summary: {
-    padding: '0rem 1rem 1rem 1rem',
+  header: {
+    color: 'white',
+    backgroundColor: '#0066B8',
+    padding: '1rem 1rem 1.5rem 1rem',
   },
   title: {
     fontWeight: 'bold' as 'bold',
   },
   description: {
     fontSize: '1rem',
-  },
-  header: {
-    display: 'flex',
-    height: '2rem',
-    backgroundColor: '#EBEBEB',
-    fontSize: '1rem',
-    lineHeight: '1rem',
-    padding: '10px 1rem',
-    alignItems: 'center',
   },
   levelList: {
     padding: '0rem 1rem',
@@ -61,46 +66,55 @@ const styles = {
 interface Props {
   title: string
   description: string
+  createdBy: G.User
+  updatedAt: string
   levels: G.Level[]
   onNext(): void
   onBack(): void
 }
 
-const Summary = ({ title, description, levels, onNext, onBack }: Props) => (
+const Summary = (props: Props) => (
   <div css={styles.page}>
     <div css={styles.content}>
       <div css={styles.header}>
-        <button onClick={onBack}>
-          <Icon type="arrow-left" size="xxs" />
-        </button>
-        <span>&nbsp;&nbsp;</span>
-        <span>CodeRoad</span>
-      </div>
-      <div css={styles.summary}>
-        <h2 css={styles.title}>{title}</h2>
-        <Markdown>{description}</Markdown>
+        <div css={styles.nav}>
+          <Breadcrumb separator="/">
+            <Breadcrumb.Item>
+              <div css={styles.navLink} onClick={props.onBack}>
+                &lt; Back to Tutorials
+              </div>
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
+        <h1 css={styles.title}>{props.title}</h1>
+        <h3>{props.description}</h3>
+        <h4>
+          <span css={{ marginRight: '2rem' }}>Created by {props.createdBy.name}</span>
+          <span>Last updated {moment(props.updatedAt).format('M/YYYY')}</span>
+        </h4>
       </div>
       <div>
-        <div css={styles.header}>
-          <span>Levels</span>
-        </div>
         <div css={styles.levelList}>
-          {levels.map((level: G.Level, index: number) => (
+          <h2>Content</h2>
+          {props.levels.map((level: G.Level, index: number) => (
             <div key={index}>
-              <h4>
+              <h3>
                 {index + 1}. {level.title}
-              </h4>
-              <div css={styles.levelSummary}>{level.summary}</div>
-              <Divider />
+              </h3>
+              <div css={styles.levelSummary}>
+                <Markdown>{level.summary}</Markdown>
+              </div>
             </div>
           ))}
         </div>
       </div>
     </div>
 
+    <div css={{ height: '3rem ' }} />
+
     <div css={styles.footer}>
       {/* TODO Add back button */}
-      <Button type="primary" onClick={() => onNext()}>
+      <Button type="primary" onClick={props.onNext}>
         Start
       </Button>
     </div>

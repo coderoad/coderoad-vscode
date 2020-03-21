@@ -42,8 +42,10 @@ storiesOf('Overview', module)
     ]
     return (
       <OverViewPage
-        title="Some Title"
-        description="Some description"
+        title="Manage NPM package.json"
+        description="Learn to use the package manager at the core of JavaScript projects."
+        createdBy={{ name: 'Shawn McKay' }}
+        updatedAt={new Date().toUTCString()}
         levels={levels}
         onBack={action('back')}
         onNext={linkTo('Tutorial SideBar', 'Level')}

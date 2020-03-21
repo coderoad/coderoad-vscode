@@ -58,9 +58,20 @@ const Overview = (props: PageProps) => {
   const onBack = () => props.send({ type: 'BACK' })
 
   const { title, description } = data.tutorial.summary
-  const { levels } = data.tutorial.version.data
+  const { createdBy, updatedAt, data: tutorialData } = data.tutorial.version
+  const { levels } = tutorialData
 
-  return <OverviewPage title={title} description={description} levels={levels} onNext={onNext} onBack={onBack} />
+  return (
+    <OverviewPage
+      title={title}
+      description={description}
+      createdBy={createdBy}
+      updatedAt={updatedAt}
+      levels={levels}
+      onNext={onNext}
+      onBack={onBack}
+    />
+  )
 }
 
 export default Overview
