@@ -9,13 +9,6 @@ const styles = {
     position: 'relative' as 'relative',
     width: '100%',
   },
-  header: {
-    height: '2rem',
-    backgroundColor: '#EBEBEB',
-    fontSize: '1rem',
-    lineHeight: '1rem',
-    padding: '10px 1rem',
-  },
   banner: {
     minHeight: '3rem',
     fontSize: '1rem',
@@ -39,9 +32,6 @@ const SelectTutorial = (props: Props) => {
   }
   return (
     <div css={styles.page}>
-      <div css={styles.header}>
-        <span>CodeRoad</span>
-      </div>
       <div css={styles.banner}>
         <span>Select a tutorial to launch in this workspace:</span>
       </div>
