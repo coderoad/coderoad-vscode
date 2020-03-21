@@ -31,10 +31,10 @@
     "watch": "tsc -watch -p ./"
   },
   "dependencies": {
-    "@sentry/node": "^5.13.2",
+    "@sentry/node": "^5.15.0",
     "chokidar": "^3.3.0",
     "dotenv": "^8.2.0",
-    "jsdom": "^16.2.0"
+    "jsdom": "^16.2.1"
   },
   "devDependencies": {
     "@types/assert": "^1.4.6",
@@ -42,9 +42,9 @@
     "@types/dotenv": "^8.2.0",
     "@types/jest": "^25.1.4",
     "@types/jsdom": "^16.1.0",
-    "@types/node": "^13.9.0",
-    "@typescript-eslint/eslint-plugin": "^2.22.0",
-    "@typescript-eslint/parser": "^2.22.0",
+    "@types/node": "^13.9.2",
+    "@typescript-eslint/eslint-plugin": "^2.24.0",
+    "@typescript-eslint/parser": "^2.24.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
