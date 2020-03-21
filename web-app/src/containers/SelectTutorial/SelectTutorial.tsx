@@ -17,7 +17,7 @@ const styles = {
     padding: '10px 1rem',
   },
   banner: {
-    height: '3rem',
+    minHeight: '3rem',
     fontSize: '1rem',
     padding: '1rem',
   },
