@@ -12,12 +12,18 @@ const tutorialList = [
       title: 'Tutorial 1',
       description: 'The first one',
     },
+    createdBy: {
+      name: 'First Lastname',
+    },
   },
   {
     id: '2',
     summary: {
       title: 'Tutorial 2',
       description: 'The second one',
+    },
+    createdBy: {
+      name: 'Joe Schmo',
     },
   },
 ]
@@ -34,6 +40,7 @@ storiesOf('Select Tutorial', module)
         onSelect={action('onSelect')}
         title={tutorial.summary.title}
         description={tutorial.summary.description}
+        createdBy={{ name: 'First Lastname' }}
       />
     )
   })

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as G from 'typings/graphql'
 import { css, jsx } from '@emotion/core'
 import Card from '../../components/Card'
 import Tag from '../../components/Tag'
@@ -46,8 +47,9 @@ const styles = {
 }
 
 interface Props {
-  title?: string
-  description?: string
+  title: string
+  description: string
+  createdBy?: G.User | null
   onSelect(): void
 }
 
@@ -69,8 +71,8 @@ const TutorialItem = (props: Props) => (
         <img src="https://via.placeholder.com/75/75" height="75px" width="75px" />
       </div>
       <div css={styles.right}>
-        <h2 css={styles.title}>{props.title || 'Title'}</h2>
-        <h3 css={styles.author}>Author Name</h3>
+        <h2 css={styles.title}>{props.title}</h2>
+        {props.createdBy && <h3 css={styles.author}>{props.createdBy.name}</h3>}
         <div css={styles.tags}>
           <Tag>javascript</Tag>
         </div>
