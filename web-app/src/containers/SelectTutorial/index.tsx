@@ -5,7 +5,7 @@ import * as G from 'typings/graphql'
 import ErrorView from '../../components/Error'
 import queryTutorials from '../../services/apollo/queries/tutorials'
 import LoadingPage from '../Loading'
-import NewPage from './NewPage'
+import SelectTutorial from './SelectTutorial'
 
 interface ContainerProps {
   send(action: T.Action): void
@@ -16,7 +16,7 @@ interface TutorialsData {
   tutorials: G.Tutorial[]
 }
 
-const NewPageContainer = (props: ContainerProps) => {
+const SelectPageContainer = (props: ContainerProps) => {
   const { data, loading, error } = useQuery<TutorialsData>(queryTutorials, {
     fetchPolicy: 'no-cache',
   })
@@ -33,7 +33,7 @@ const NewPageContainer = (props: ContainerProps) => {
     return null
   }
 
-  return <NewPage tutorialList={data.tutorials} send={props.send} />
+  return <SelectTutorial tutorialList={data.tutorials} send={props.send} />
 }
 
-export default NewPageContainer
+export default SelectPageContainer

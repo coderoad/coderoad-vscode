@@ -1,11 +1,36 @@
 import * as React from 'react'
 import { css, jsx } from '@emotion/core'
-import Card from '../../../components/Card'
-import Markdown from '../../../components/Markdown'
+import Card from '../../components/Card'
+import Tag from '../../components/Tag'
 
 const styles = {
   card: {
     cursor: 'pointer',
+    display: 'inline-flex' as 'inline-flex',
+    flexDirection: 'row' as 'row',
+    minWidth: 500,
+  },
+  left: {
+    width: 80,
+    display: 'flex' as 'flex',
+    alignItems: 'center' as 'center',
+  },
+  right: {
+    flex: '1',
+    display: 'flex' as 'flex',
+    flexDirection: 'column' as 'column',
+  },
+  title: {
+    margin: 0,
+  },
+  author: {
+    margin: '0 0 2px 0',
+    color: 'grey',
+  },
+  tags: {
+    display: 'flex' as 'flex',
+    alignItems: 'center' as 'center',
+    padding: '2px',
   },
   languages: {
     display: 'flex' as 'flex',
@@ -38,11 +63,18 @@ const LanguageIcon = () => (
 )
 
 const TutorialItem = (props: Props) => (
-  <Card onClick={props.onSelect} style={styles.card}>
-    <h3>{props.title || 'Title'}</h3>
-    <Markdown minimal>{props.description || 'Description'}</Markdown>
-    <div css={styles.languages}>
-      <LanguageIcon />
+  <Card onClick={props.onSelect}>
+    <div style={styles.card}>
+      <div css={styles.left}>
+        <img src="https://via.placeholder.com/75/75" height="75px" width="75px" />
+      </div>
+      <div css={styles.right}>
+        <h2 css={styles.title}>{props.title || 'Title'}</h2>
+        <h3 css={styles.author}>Author Name</h3>
+        <div css={styles.tags}>
+          <Tag>javascript</Tag>
+        </div>
+      </div>
     </div>
   </Card>
 )
