@@ -10,11 +10,17 @@ export const useWindowResize = () => {
 
   // solution for windows getting off size
   React.useEffect(() => {
+    // timeoutId for debounce mechanism
+    let timeoutId: any
     const handleResize = () => {
-      setDimensions(resize())
+      if (timeoutId) {
+        // prevent execution of previous setTimeout
+        clearTimeout(timeoutId)
+      }
+      timeoutId = setTimeout(() => setDimensions(resize()), 50)
     }
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  }, [window.innerWidth, window.innerHeight])
   return dimensions
 }

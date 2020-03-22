@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { css, jsx } from '@emotion/core'
-import { useWindowResize } from '../../services/hooks/resize'
+import { useWindowResize } from './resize'
 
 interface Props {
   children: React.ReactElement
