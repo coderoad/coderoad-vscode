@@ -144,12 +144,12 @@ class Channel implements Channel {
     const actionType: string = typeof action === 'string' ? action : action.type
     switch (actionType) {
       case 'TEST_PASS':
-        // update local storage stepProgress
-        const progress = this.context.progress.setStepComplete(action.payload.stepId)
         const tutorial = this.context.tutorial.get()
         if (!tutorial) {
           throw new Error('Error with current tutorial')
         }
+        // update local storage stepProgress
+        const progress = this.context.progress.setStepComplete(tutorial.version.data, action.payload.stepId)
         this.context.position.setPositionFromProgress(tutorial, progress)
         saveCommit()
     }

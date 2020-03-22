@@ -1,6 +1,5 @@
 import * as T from 'typings'
 import * as vscode from 'vscode'
-import notify from '../services/notify'
 import createTestRunner, { Payload } from '../services/testRunner'
 import createWebView from '../webview'
 
@@ -27,9 +26,6 @@ export const createCommands = ({ extensionPath, workspaceState, workspaceRoot }:
   return {
     // initialize
     [COMMANDS.START]: async () => {
-      // TODO replace with a prompt to open a workspace
-      // await isEmptyWorkspace()
-
       let webviewState: 'INITIALIZING' | 'RESTARTING'
       if (!webview) {
         webviewState = 'INITIALIZING'
