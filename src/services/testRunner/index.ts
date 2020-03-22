@@ -1,5 +1,5 @@
-import node from '../../services/node'
-import logger from '../../services/logger'
+import node from '../node'
+import logger from '../logger'
 import parser from './parser'
 import { debounce, throttle } from './throttle'
 import onError from '../sentry/onError'

@@ -70,4 +70,14 @@ export default (editorSend: any) => ({
   clearStorage(): void {
     editorSend({ type: 'TUTORIAL_CLEAR' })
   },
+  checkEmptyWorkspace() {
+    editorSend({
+      type: 'EDITOR_CHECK_WORKSPACE',
+    })
+  },
+  requestWorkspaceSelect() {
+    editorSend({
+      type: 'EDITOR_REQUEST_WORKSPACE',
+    })
+  },
 })
