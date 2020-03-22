@@ -27,7 +27,7 @@ const styles = {
     cursor: 'pointer',
   },
   content: {
-    paddingBottom: '3rem',
+    paddingBottom: '5rem',
   },
   header: {
     color: 'white',
@@ -39,6 +39,11 @@ const styles = {
   },
   description: {
     fontSize: '1rem',
+  },
+  meta: {
+    display: 'flex' as 'flex',
+    flexDirection: 'row' as 'row',
+    flexWrap: 'wrap' as 'wrap',
   },
   levelList: {
     padding: '0rem 1rem',
@@ -88,10 +93,10 @@ const Summary = (props: Props) => (
         </div>
         <h1 css={styles.title}>{props.title}</h1>
         <h3>{props.description}</h3>
-        <h4>
-          <span css={{ marginRight: '2rem' }}>Created by {props.createdBy.name}</span>
-          <span>Last updated {moment(props.updatedAt).format('M/YYYY')}</span>
-        </h4>
+        <h5 css={styles.meta}>
+          <div css={{ marginRight: '2rem' }}>Created by {props.createdBy.name}</div>
+          <div>Last updated {moment(props.updatedAt).format('M/YYYY')}</div>
+        </h5>
       </div>
       <div>
         <div css={styles.levelList}>
@@ -109,8 +114,6 @@ const Summary = (props: Props) => (
         </div>
       </div>
     </div>
-
-    <div css={{ height: '3rem ' }} />
 
     <div css={styles.footer}>
       {/* TODO Add back button */}

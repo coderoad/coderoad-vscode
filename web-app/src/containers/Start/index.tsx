@@ -29,6 +29,7 @@ const styles = {
   },
   subtitle: {
     fontSize: '1.3rem',
+    textAlign: 'center' as 'center',
   },
   options: {
     flex: 1,
@@ -54,11 +55,10 @@ export const StartPage = (props: Props) => (
       <BetaBadge>
         <span css={styles.title}>CodeRoad</span>
       </BetaBadge>
-      <h3 css={styles.subtitle}>Play Interactive Coding Tutorials in VSCode</h3>
-      <p>Learn by coding in a real environment.</p>
+      <h3 css={styles.subtitle}>Play Tutorials in VSCode</h3>
+      <p>Learn in a real environment.</p>
       <p>Instant feedback on save.</p>
-      <p>Progress saves to Git.</p>
-      <p>Build your portfolio as you learn.</p>
+      <p>Build your portfolio and Git timeline.</p>
     </div>
 
     <div css={styles.options}>
