@@ -2,7 +2,8 @@ import * as vscode from 'vscode'
 import * as fs from 'fs'
 
 export const openWorkspace = () => {
-  vscode.commands.executeCommand('vscode.openFolder')
+  const openInNewWindow = false
+  vscode.commands.executeCommand('vscode.openFolder', undefined, openInNewWindow)
 }
 
 export const checkWorkspaceEmpty = async (dirname: string) => {

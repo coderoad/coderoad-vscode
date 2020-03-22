@@ -75,8 +75,9 @@ export default (editorSend: any) => ({
       type: 'EDITOR_CHECK_WORKSPACE',
     })
   },
-  requestEmptyWorkspace() {
-    // TODO
-    console.log('request empty workspace')
+  requestWorkspaceSelect() {
+    editorSend({
+      type: 'EDITOR_REQUEST_WORKSPACE',
+    })
   },
 })

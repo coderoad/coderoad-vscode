@@ -15,15 +15,7 @@ const Routes = () => {
     <Workspace>
       <Router>
         {/* Setup */}
-        <Route
-          path={[
-            'Setup.Startup',
-            'Setup.Authenticate',
-            'Setup.LoadStoredTutorial',
-            'Setup.CheckEmptyWorkspace',
-            'Setup.RequestEmptyWorkspace',
-          ]}
-        >
+        <Route path={['Setup.Startup', 'Setup.Authenticate', 'Setup.LoadStoredTutorial', 'Setup.CheckEmptyWorkspace']}>
           <LoadingPage text="Launching..." context={context} />
         </Route>
         <Route path="Setup.Start">

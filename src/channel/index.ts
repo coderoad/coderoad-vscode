@@ -114,9 +114,12 @@ class Channel implements Channel {
         if (isEmptyWorkspace) {
           this.send({ type: 'IS_EMPTY_WORKSPACE' })
         } else {
-          openWorkspace()
-          this.send({ type: 'REQUEST_WORKSPACE' })
+          this.send({ type: 'NOT_EMPTY_WORKSPACE' })
         }
+        return
+      case 'EDITOR_REQUEST_WORKSPACE':
+        console.log('request workspace')
+        openWorkspace()
         return
       // load step actions (git commits, commands, open files)
       case 'SETUP_ACTIONS':

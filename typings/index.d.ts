@@ -75,7 +75,6 @@ export interface MachineStateSchema {
         Start: {}
         CheckEmptyWorkspace: {}
         NonEmptyWorkspace: {}
-        RequestEmptyWorkspace: {}
         SelectTutorial: {}
         LoadTutorialSummary: {}
         Summary: {}

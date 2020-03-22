@@ -78,20 +78,17 @@ export const createMachine = (options: any) => {
             CheckEmptyWorkspace: {
               onEntry: ['checkEmptyWorkspace'],
               on: {
-                REQUEST_WORKSPACE: 'RequestEmptyWorkspace',
                 IS_EMPTY_WORKSPACE: 'SelectTutorial',
+                NOT_EMPTY_WORKSPACE: 'NonEmptyWorkspace',
               },
             },
             NonEmptyWorkspace: {
               on: {
-                REQUEST_WORKSPACE: 'RequestEmptyWorkspace',
-              },
-            },
-            RequestEmptyWorkspace: {
-              onEntry: ['requestWorkspaceSelection'],
-              on: {
+                REQUEST_WORKSPACE: {
+                  target: 'NonEmptyWorkspace',
+                  actions: 'requestWorkspaceSelect',
+                },
                 WORKSPACE_LOADED: 'CheckEmptyWorkspace',
-                CANCEL: 'NonEmptyWorkspace',
               },
             },
             SelectTutorial: {
