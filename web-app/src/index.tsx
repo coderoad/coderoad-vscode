@@ -1,5 +1,9 @@
 import * as React from 'react'
 import ReactDOM from 'react-dom'
+
+// mock values for non-extension web use
+import './mock'
+
 import App from './App'
 
 // init error logging
