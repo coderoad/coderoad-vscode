@@ -33,17 +33,16 @@ class Position {
       throw new Error('Error setting position from progress')
     }
 
+    // get level
     const { levels } = tutorial.version.data
-
     const lastLevelIndex: number | undefined = levels.findIndex((l: G.Level) => !progress.levels[l.id])
-
     if (lastLevelIndex >= levels.length) {
       throw new Error('Error setting progress level')
     }
+
+    // get step
     const currentLevel: G.Level = levels[lastLevelIndex]
-
     const { steps } = currentLevel
-
     const lastStepIndex: number | undefined = steps.findIndex((s: G.Step) => !progress.steps[s.id])
     if (lastStepIndex >= steps.length) {
       throw new Error('Error setting progress step')
