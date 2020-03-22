@@ -27,7 +27,7 @@ const styles = {
     cursor: 'pointer',
   },
   content: {
-    paddingBottom: '3rem',
+    paddingBottom: '5rem',
   },
   header: {
     color: 'white',
@@ -109,8 +109,6 @@ const Summary = (props: Props) => (
         </div>
       </div>
     </div>
-
-    <div css={{ height: '3rem ' }} />
 
     <div css={styles.footer}>
       {/* TODO Add back button */}
