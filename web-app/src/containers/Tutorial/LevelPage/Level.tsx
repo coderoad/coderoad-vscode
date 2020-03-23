@@ -85,8 +85,10 @@ interface Props {
 }
 
 const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Props) => {
-  if (!level.steps) {
-    throw new Error('No Stage steps found')
+  // @ts-ignore
+  let currentStep = level.steps.findIndex(s => s.status === 'ACTIVE')
+  if (currentStep === -1) {
+    currentStep = level.steps.length
   }
 
   const pageBottomRef = React.useRef(null)
@@ -94,11 +96,6 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
   const scrollToBottom = () => {
     // @ts-ignore
     pageBottomRef.current.scrollIntoView({ behavior: 'smooth' })
-  }
-  // @ts-ignore
-  let currentStep = level.steps.findIndex(s => s.status === 'ACTIVE')
-  if (currentStep === -1) {
-    currentStep = level.steps.length
   }
   React.useEffect(scrollToBottom, [currentStep])
 
@@ -112,26 +109,28 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
         <Markdown>{level.content || ''}</Markdown>
       </div>
 
-      <div css={styles.tasks}>
-        <div css={styles.header}>Tasks</div>
-        <div css={styles.steps}>
-          {level.steps.map((step: (G.Step & { status: T.ProgressStatus }) | null, index: number) => {
-            if (!step) {
-              return null
-            }
-            return (
-              <Step
-                key={step.id}
-                order={index + 1}
-                status={step.status}
-                content={step.content}
-                onLoadSolution={onLoadSolution}
-              />
-            )
-          })}
+      {level.steps.length ? (
+        <div css={styles.tasks}>
+          <div css={styles.header}>Tasks</div>
+          <div css={styles.steps}>
+            {level.steps.map((step: (G.Step & { status: T.ProgressStatus }) | null, index: number) => {
+              if (!step) {
+                return null
+              }
+              return (
+                <Step
+                  key={step.id}
+                  order={index + 1}
+                  status={step.status}
+                  content={step.content}
+                  onLoadSolution={onLoadSolution}
+                />
+              )
+            })}
+          </div>
         </div>
-        <div ref={pageBottomRef} />
-      </div>
+      ) : null}
+      <div ref={pageBottomRef} />
 
       {(testStatus || processes.length > 0) && (
         <div css={styles.processes}>
@@ -149,7 +148,7 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
           {level.title}
         </span>
         <span>
-          {level.status === 'COMPLETE' ? (
+          {level.status === 'COMPLETE' || !level.steps.length ? (
             <Button type="primary" onClick={onContinue}>
               Continue
             </Button>

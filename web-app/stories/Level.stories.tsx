@@ -289,3 +289,24 @@ storiesOf('Level', module)
       />
     )
   })
+  .add('No steps', () => {
+    const level = {
+      id: 'L1',
+      index: 0,
+      title: 'A Title',
+      description: 'A summary of the level',
+      content: 'Some content here in markdown',
+      setup: null,
+      status: 'ACTIVE',
+      steps: [],
+    }
+    return (
+      <Level
+        level={level}
+        onContinue={action('onContinue')}
+        onLoadSolution={action('onLoadSolution')}
+        processes={[]}
+        testStatus={null}
+      />
+    )
+  })
