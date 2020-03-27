@@ -46,11 +46,9 @@ export const currentStep = (context: MachineContext): G.Step =>
     currentLevel,
     (level: G.Level): G.Step => {
       const steps: G.Step[] = level.steps
-      const step: G.Step | undefined = steps.find((s: G.Step) => s.id === context.position.stepId)
+      let step: G.Step | undefined = steps.find((s: G.Step) => s.id === context.position.stepId)
       if (!step) {
-        const error = new Error(`No Step found for Level ${level.id}. Expected step ${context.position.stepId}`)
-        onError(error)
-        throw error
+        step = { id: '', content: 'no steps for level' }
       }
       return step
     },

@@ -12,7 +12,7 @@ export const initialPosition = createSelector(tutorial.currentVersion, (version:
   const level = version.data.levels[0]
   const position: CR.Position = {
     levelId: level.id,
-    stepId: level.steps[0].id,
+    stepId: level.steps.length ? level.steps[0].id : '',
   }
   return position
 })
