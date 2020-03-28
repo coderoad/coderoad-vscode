@@ -59,7 +59,7 @@ const createReactWebView = ({ extensionPath, workspaceState, workspaceRoot }: Re
       // Clean up our resources
       loaded = false
       panel.dispose()
-      Promise.all(disposables.map(x => x.dispose()))
+      Promise.all(disposables.map((x) => x.dispose()))
     },
     createOrShow() {
       vscode.commands.executeCommand('vscode.setEditorLayout', {

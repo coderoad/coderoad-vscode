@@ -6,7 +6,7 @@ export default {
     processes: (context: T.MachineContext, event: T.MachineEvent): any => {
       let processes: T.ProcessEvent[] = context.processes
       const process: T.ProcessEvent = event.payload.process
-      const isRunning = processes.find(p => p.title === process.title)
+      const isRunning = processes.find((p) => p.title === process.title)
       if (!isRunning) {
         processes = processes.concat(process)
       }
@@ -17,14 +17,14 @@ export default {
     processes: (context: T.MachineContext, event: T.MachineEvent): any => {
       const processes: T.ProcessEvent[] = context.processes
       const process: T.ProcessEvent = event.payload.process
-      return processes.filter(p => p.title !== process.title)
+      return processes.filter((p) => p.title !== process.title)
     },
   }),
   commandFail: assign({
     processes: (context: T.MachineContext, event: T.MachineEvent): any => {
       const processes: T.ProcessEvent[] = context.processes
       const process: T.ProcessEvent = event.payload.process
-      return processes.filter(p => p.title !== process.title)
+      return processes.filter((p) => p.title !== process.title)
     },
   }),
 }

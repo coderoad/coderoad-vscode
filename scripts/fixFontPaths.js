@@ -7,7 +7,7 @@ const fs = require('fs') // eslint-disable-line
 // find the generated main css file
 const getMainCSSFile = () => {
   const regex = /^main.[a-z0-9]+.chunk.css$/
-  const mainCss = fs.readdirSync('build/static/css').filter(filename => filename.match(regex))
+  const mainCss = fs.readdirSync('build/static/css').filter((filename) => filename.match(regex))
   if (!mainCss.length) {
     throw new Error('No main.css file found in build/static/css')
   }

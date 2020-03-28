@@ -28,7 +28,7 @@ export async function authenticate(context: CR.MachineContext): Promise<any> {
         editor: 'VSCODE',
       },
     })
-    .catch(error => {
+    .catch((error) => {
       onError(error)
       console.log('ERROR: Authentication failed')
       console.log(error.message)

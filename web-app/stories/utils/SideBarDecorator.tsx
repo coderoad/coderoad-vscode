@@ -14,6 +14,6 @@ const styles = {
   },
 }
 
-const SideBarDecorator = storyFn => <div css={styles.container}>{storyFn()}</div>
+const SideBarDecorator = (storyFn) => <div css={styles.container}>{storyFn()}</div>
 
 export default SideBarDecorator

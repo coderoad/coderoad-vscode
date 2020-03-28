@@ -50,7 +50,7 @@ export function useMachine<TContext, TEvent extends EventObject>(
 
   // Create the service only once
   if (serviceRef.current === null) {
-    serviceRef.current = interpret(machineRef.current, interpreterOptions).onTransition(state => {
+    serviceRef.current = interpret(machineRef.current, interpreterOptions).onTransition((state) => {
       // Update the current machine state when a transition occurs
       if (state.changed) {
         setCurrent(state) // eslint-disable-line
