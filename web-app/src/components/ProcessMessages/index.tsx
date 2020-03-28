@@ -26,7 +26,7 @@ const ProcessMessages = ({ processes, testStatus }: Props) => {
   }
   return (
     <div css={styles.container}>
-      {processes.map(process => (
+      {processes.map((process) => (
         <Message key={process.title} type="loading" size="medium" title={process.title} content={process.description} />
       ))}
     </div>

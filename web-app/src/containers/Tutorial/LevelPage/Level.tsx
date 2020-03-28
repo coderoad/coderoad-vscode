@@ -86,7 +86,7 @@ interface Props {
 
 const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Props) => {
   // @ts-ignore
-  let currentStep = level.steps.findIndex(s => s.status === 'ACTIVE')
+  let currentStep = level.steps.findIndex((s) => s.status === 'ACTIVE')
   if (currentStep === -1) {
     currentStep = level.steps.length
   }

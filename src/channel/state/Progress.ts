@@ -44,7 +44,7 @@ class Progress {
     // mark step complete
     next.steps[stepId] = true
 
-    const currentLevel = tutorialData.levels.find(l => l.steps.find(s => s.id === stepId))
+    const currentLevel = tutorialData.levels.find((l) => l.steps.find((s) => s.id === stepId))
     if (!currentLevel) {
       throw new Error(`setStepComplete level not found for stepId ${stepId}`)
     }

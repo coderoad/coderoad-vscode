@@ -18,7 +18,7 @@ const tutorialConfig = async (
 ) => {
   if (!alreadyConfigured) {
     // setup git, add remote
-    await git.initIfNotExists().catch(error => {
+    await git.initIfNotExists().catch((error) => {
       onError(new Error('Git not found'))
       // failed to setup git
       handleError({
@@ -29,7 +29,7 @@ const tutorialConfig = async (
     })
 
     // TODO if remote not already set
-    await git.setupRemote(config.repo.uri).catch(error => {
+    await git.setupRemote(config.repo.uri).catch((error) => {
       onError(error)
       handleError({ title: error.message, description: 'Remove your current Git project and restarting' })
     })

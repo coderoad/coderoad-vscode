@@ -10,6 +10,6 @@ function StorybookProvider({ children }) {
   )
 }
 
-export default story => {
+export default (story) => {
   return <StorybookProvider>{story()}</StorybookProvider>
 }

@@ -54,7 +54,7 @@ const useRouter = (): Output => {
       if (typeof path === 'string') {
         pathMatch = state.matches(path)
       } else if (Array.isArray(path)) {
-        pathMatch = path.some(p => state.matches(p))
+        pathMatch = path.some((p) => state.matches(p))
       } else {
         throw new Error(`Invalid route path ${JSON.stringify(path)}`)
       }

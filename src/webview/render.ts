@@ -77,7 +77,7 @@ async function render(panel: vscode.WebviewPanel, rootPath: string) {
         `font-src ${panel.webview.cspSource} http: https: data:`,
         // @ts-ignore
         `img-src ${panel.webview.cspSource} https:`,
-        `script-src ${nonces.map(nonce => `'nonce-${nonce}'`).join(' ')} data:`,
+        `script-src ${nonces.map((nonce) => `'nonce-${nonce}'`).join(' ')} data:`,
         // @ts-ignore
         `style-src ${panel.webview.cspSource} https: 'self' 'unsafe-inline'`,
       ].join('; ') + ';'
