@@ -2,6 +2,7 @@ import { JSDOM } from 'jsdom'
 import * as path from 'path'
 import * as vscode from 'vscode'
 import onError from '../services/sentry/onError'
+import environment from '../environment'
 
 const getNonce = (): string => {
   let text = ''
@@ -72,7 +73,7 @@ async function render(panel: vscode.WebviewPanel, rootPath: string) {
     cspMeta.content =
       [
         `default-src 'self'`,
-        `connect-src https: http:`,
+        `connect-src https: http: ${environment.API_URL}`,
         // @ts-ignore
         `font-src ${panel.webview.cspSource} http: https: data:`,
         // @ts-ignore
