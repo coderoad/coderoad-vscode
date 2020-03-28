@@ -41,15 +41,9 @@ export const currentLevel = (context: MachineContext): G.Level =>
     },
   )(context)
 
-export const currentStep = (context: MachineContext): G.Step =>
-  createSelector(
-    currentLevel,
-    (level: G.Level): G.Step => {
-      const steps: G.Step[] = level.steps
-      let step: G.Step | undefined = steps.find((s: G.Step) => s.id === context.position.stepId)
-      if (!step) {
-        step = { id: '', content: 'no steps for level' }
-      }
-      return step
-    },
-  )(context)
+export const currentStep = (context: MachineContext): G.Step | null =>
+  createSelector(currentLevel, (level: G.Level): G.Step | null => {
+    const steps: G.Step[] = level.steps
+    const step: G.Step | null = steps.find((s: G.Step) => s.id === context.position.stepId) || null
+    return step
+  })(context)

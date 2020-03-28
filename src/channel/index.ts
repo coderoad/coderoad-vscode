@@ -70,7 +70,6 @@ class Channel implements Channel {
           this.send({ type: 'START_NEW_TUTORIAL' })
           return
         }
-        console.log('send LOAD_STORED_TUTORIAL')
         // communicate to client the tutorial & stepProgress state
         this.send({ type: 'LOAD_STORED_TUTORIAL', payload: { tutorial, progress, position } })
 

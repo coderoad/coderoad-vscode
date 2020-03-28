@@ -44,8 +44,8 @@ export default (editorSend: any) => ({
     }
   },
   loadStep(context: CR.MachineContext): void {
-    const step: G.Step = selectors.currentStep(context)
-    if (step.setup) {
+    const step: G.Step | null = selectors.currentStep(context)
+    if (step && step.setup) {
       // load step actions
       editorSend({
         type: 'SETUP_ACTIONS',
@@ -57,15 +57,17 @@ export default (editorSend: any) => ({
     }
   },
   editorLoadSolution(context: CR.MachineContext): void {
-    const step: G.Step = selectors.currentStep(context)
+    const step: G.Step | null = selectors.currentStep(context)
     // tell editor to load solution commit
-    editorSend({
-      type: 'SOLUTION_ACTIONS',
-      payload: {
-        stepId: step.id,
-        ...step.solution,
-      },
-    })
+    if (step && step.solution) {
+      editorSend({
+        type: 'SOLUTION_ACTIONS',
+        payload: {
+          stepId: step.id,
+          ...step.solution,
+        },
+      })
+    }
   },
   clearStorage(): void {
     editorSend({ type: 'TUTORIAL_CLEAR' })
