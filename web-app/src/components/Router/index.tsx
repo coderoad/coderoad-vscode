@@ -4,6 +4,7 @@ import { createMachine } from '../../services/state/machine'
 import { useMachine } from '../../services/xstate-react'
 import Route from './Route'
 import onError from '../../services/sentry/onError'
+import { LOG_STATE } from '../../environment'
 
 interface Output {
   context: T.MachineContext
@@ -19,6 +20,10 @@ const editor = acquireVsCodeApi()
 // router finds first state match of <Route path='' />
 const useRouter = (): Output => {
   const [state, send] = useMachine<T.MachineContext, any>(createMachine({ editorSend: editor.postMessage }))
+
+  if (LOG_STATE) {
+    console.log(JSON.stringify(state.value))
+  }
 
   // event bus listener
   React.useEffect(() => {

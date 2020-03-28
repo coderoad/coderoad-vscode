@@ -12,12 +12,14 @@ const styles = {
   page: {
     backgroundColor: 'white',
     position: 'relative' as 'relative',
+    height: 'auto',
+    width: '100%',
+  },
+  content: {
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
     padding: 0,
     paddingBottom: '5rem',
-    height: 'auto',
-    width: '100%',
   },
   header: {
     height: '2rem',
@@ -26,13 +28,11 @@ const styles = {
     lineHeight: '1rem',
     padding: '10px 1rem',
   },
-  content: {
+  text: {
     padding: '0rem 1rem',
     paddingBottom: '1rem',
   },
-  tasks: {
-    paddingBottom: '5rem',
-  },
+  tasks: {},
   steps: {
     padding: '1rem 1rem',
   },
@@ -85,8 +85,10 @@ interface Props {
 }
 
 const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Props) => {
-  if (!level.steps) {
-    throw new Error('No Stage steps found')
+  // @ts-ignore
+  let currentStep = level.steps.findIndex(s => s.status === 'ACTIVE')
+  if (currentStep === -1) {
+    currentStep = level.steps.length
   }
 
   const pageBottomRef = React.useRef(null)
@@ -95,70 +97,70 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
     // @ts-ignore
     pageBottomRef.current.scrollIntoView({ behavior: 'smooth' })
   }
-  // @ts-ignore
-  let currentStep = level.steps.findIndex(s => s.status === 'ACTIVE')
-  if (currentStep === -1) {
-    currentStep = level.steps.length
-  }
   React.useEffect(scrollToBottom, [currentStep])
 
   return (
     <div css={styles.page}>
-      <div css={styles.header}>
-        <span>Learn</span>
-      </div>
       <div css={styles.content}>
-        <h2 css={styles.title}>{level.title}</h2>
-        <Markdown>{level.content || ''}</Markdown>
-      </div>
-
-      <div css={styles.tasks}>
-        <div css={styles.header}>Tasks</div>
-        <div css={styles.steps}>
-          {level.steps.map((step: (G.Step & { status: T.ProgressStatus }) | null, index: number) => {
-            if (!step) {
-              return null
-            }
-            return (
-              <Step
-                key={step.id}
-                order={index + 1}
-                status={step.status}
-                content={step.content}
-                onLoadSolution={onLoadSolution}
-              />
-            )
-          })}
+        <div css={styles.header}>
+          <span>Learn</span>
         </div>
+        <div css={styles.text}>
+          <h2 css={styles.title}>{level.title}</h2>
+          <Markdown>{level.content || ''}</Markdown>
+        </div>
+
+        {level.steps.length ? (
+          <div css={styles.tasks}>
+            <div css={styles.header}>Tasks</div>
+            <div css={styles.steps}>
+              {level.steps.map((step: (G.Step & { status: T.ProgressStatus }) | null, index: number) => {
+                if (!step) {
+                  return null
+                }
+                return (
+                  <Step
+                    key={step.id}
+                    order={index + 1}
+                    status={step.status}
+                    content={step.content}
+                    onLoadSolution={onLoadSolution}
+                  />
+                )
+              })}
+            </div>
+          </div>
+        ) : null}
+
         <div ref={pageBottomRef} />
-      </div>
 
-      {(testStatus || processes.length > 0) && (
-        <div css={styles.processes}>
-          <ProcessMessages processes={processes} testStatus={testStatus} />
+        {(testStatus || processes.length > 0) && (
+          <div css={styles.processes}>
+            <ProcessMessages processes={processes} testStatus={testStatus} />
+          </div>
+        )}
+
+        <div css={styles.nux}>
+          <NuxTutorial onLoadSolution={onLoadSolution} />
         </div>
-      )}
 
-      <div css={styles.nux}>
-        <NuxTutorial onLoadSolution={onLoadSolution} />
-      </div>
-
-      <div css={styles.footer}>
-        <span>
-          {typeof level.index === 'number' ? `${level.index + 1}. ` : ''}
-          {level.title}
-        </span>
-        <span>
-          {level.status === 'COMPLETE' ? (
-            <Button type="primary" onClick={onContinue}>
-              Continue
-            </Button>
-          ) : (
-            <span css={styles.taskCount}>
-              {currentStep} of {level.steps.length} tasks
-            </span>
-          )}
-        </span>
+        <div css={styles.footer}>
+          <span>
+            {typeof level.index === 'number' ? `${level.index + 1}. ` : ''}
+            {level.title}
+          </span>
+          <span>
+            {level.status === 'COMPLETE' || !level.steps.length ? (
+              <Button type="primary" onClick={onContinue}>
+                Continue
+              </Button>
+            ) : (
+              <span css={styles.taskCount}>
+                {currentStep} of {level.steps.length} tasks
+              </span>
+            )}
+          </span>
+        </div>
       </div>
     </div>
   )

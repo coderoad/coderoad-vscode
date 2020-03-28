@@ -19,7 +19,7 @@ export interface StepProgress {
 // current tutorial position
 export interface Position {
   levelId: string
-  stepId: string
+  stepId: string | null
   complete?: boolean
 }
 

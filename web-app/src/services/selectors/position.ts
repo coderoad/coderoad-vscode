@@ -5,14 +5,14 @@ import * as tutorial from './tutorial'
 
 export const defaultPosition = () => ({
   levelId: '',
-  stepId: '',
+  stepId: null,
 })
 
 export const initialPosition = createSelector(tutorial.currentVersion, (version: G.TutorialVersion) => {
   const level = version.data.levels[0]
   const position: CR.Position = {
     levelId: level.id,
-    stepId: level.steps[0].id,
+    stepId: level.steps.length ? level.steps[0].id : null,
   }
   return position
 })

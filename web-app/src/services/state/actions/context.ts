@@ -17,7 +17,6 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
   // @ts-ignore
   storeContinuedTutorial: assign({
     tutorial: (context: T.MachineContext, event: T.MachineEvent) => {
-      console.log('storeContinuedTutorial')
       return event.payload.tutorial
     },
     progress: (context: T.MachineContext, event: T.MachineEvent) => {
@@ -132,25 +131,27 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
 
       const steps: G.Step[] = level.steps
 
-      const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
-      const stepComplete = progress.steps[position.stepId]
-      const finalStep = stepIndex > -1 && stepIndex === steps.length - 1
-      const hasNextStep = !finalStep && !stepComplete
+      if (steps.length && position.stepId) {
+        const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
+        const stepComplete = progress.steps[position.stepId]
+        const finalStep = stepIndex > -1 && stepIndex === steps.length - 1
+        const hasNextStep = !finalStep && !stepComplete
 
-      // NEXT STEP
-      if (hasNextStep) {
-        const nextPosition = { ...position, stepId: steps[stepIndex + 1].id }
-        return { type: 'NEXT_STEP', payload: { position: nextPosition } }
+        // NEXT STEP
+        if (hasNextStep) {
+          const nextPosition = { ...position, stepId: steps[stepIndex + 1].id }
+          return { type: 'NEXT_STEP', payload: { position: nextPosition } }
+        }
+
+        // has next level?
+        if (!context.tutorial) {
+          const error = new Error('Tutorial not found')
+          onError(error)
+          throw error
+        }
       }
 
-      // has next level?
-
-      if (!context.tutorial) {
-        const error = new Error('Tutorial not found')
-        onError(error)
-        throw error
-      }
-
+      // @ts-ignore
       const levels = context.tutorial.version.data.levels || []
       const levelIndex = levels.findIndex((l: G.Level) => l.id === position.levelId)
       const finalLevel = levelIndex > -1 && levelIndex === levels.length - 1
@@ -177,25 +178,26 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
       const level: G.Level = selectors.currentLevel(context)
 
       const { steps } = level
-      // TODO verify not -1
-      const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
-      const finalStep = stepIndex === steps.length - 1
-      const stepComplete = progress.steps[position.stepId]
-      // not final step, or final step but not complete
-      const hasNextStep = !finalStep || !stepComplete
 
-      if (hasNextStep) {
-        const nextStep = steps[stepIndex + 1]
-        return {
-          type: 'LOAD_NEXT_STEP',
-          payload: {
-            step: nextStep,
-          },
+      if (steps.length && position.stepId) {
+        const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
+        const finalStep = stepIndex === steps.length - 1
+        const stepComplete = progress.steps[position.stepId]
+        // not final step, or final step but not complete
+        const hasNextStep = !finalStep || !stepComplete
+
+        if (hasNextStep) {
+          const nextStep = steps[stepIndex + 1]
+          return {
+            type: 'LOAD_NEXT_STEP',
+            payload: {
+              step: nextStep,
+            },
+          }
         }
-      } else {
-        return {
-          type: 'LEVEL_COMPLETE',
-        }
+      }
+      return {
+        type: 'LEVEL_COMPLETE',
       }
     },
   ),
@@ -222,6 +224,13 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
       const message: string | null = event.payload.error
       return message
     },
+  }),
+  // @ts-ignore
+  checkEmptySteps: send((context: T.MachineContext) => {
+    // no step id indicates no steps to complete
+    return {
+      type: context.position.stepId === null ? 'START_COMPLETED_LEVEL' : 'START_LEVEL',
+    }
   }),
 }
 

@@ -21,7 +21,7 @@ export const createMachine = (options: any) => {
         error: null,
         env: { machineId: '', sessionId: '', token: '' },
         tutorial: null,
-        position: { levelId: '', stepId: '' },
+        position: { levelId: '', stepId: null },
         progress: {
           levels: {},
           steps: {},
@@ -188,9 +188,10 @@ export const createMachine = (options: any) => {
               initial: 'Load',
               states: {
                 Load: {
-                  onEntry: ['loadLevel', 'loadStep'],
-                  after: {
-                    0: 'Normal',
+                  onEntry: ['loadLevel', 'loadStep', 'checkEmptySteps'],
+                  on: {
+                    START_LEVEL: 'Normal',
+                    START_COMPLETED_LEVEL: 'LevelComplete',
                   },
                 },
                 Normal: {
