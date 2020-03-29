@@ -1,5 +1,5 @@
 import * as CR from 'typings'
-import * as G from 'typings/graphql'
+import * as TT from 'typings/tutorial'
 
 const defaultValue: CR.Position = {
   levelId: '',
@@ -22,26 +22,26 @@ class Position {
     this.value = defaultValue
   }
   // calculate the current position based on the saved progress
-  public setPositionFromProgress = (tutorial: G.Tutorial, progress: CR.Progress): CR.Position => {
+  public setPositionFromProgress = (tutorial: TT.Tutorial, progress: CR.Progress): CR.Position => {
     // tutorial already completed
     // TODO handle start again?
     if (progress.complete) {
       return this.value
     }
 
-    if (!tutorial || !tutorial.version || !tutorial.version.data || !tutorial.version.data.levels) {
+    if (!tutorial || !tutorial.data || !tutorial.data.levels) {
       throw new Error('Error setting position from progress')
     }
 
     // get level
-    const { levels } = tutorial.version.data
-    const lastLevelIndex: number | undefined = levels.findIndex((l: G.Level) => !progress.levels[l.id])
+    const { levels } = tutorial.data
+    const lastLevelIndex: number | undefined = levels.findIndex((l: TT.Level) => !progress.levels[l.id])
     if (lastLevelIndex >= levels.length) {
       throw new Error('Error setting progress level')
     }
 
     // get step
-    const currentLevel: G.Level = levels[lastLevelIndex]
+    const currentLevel: TT.Level = levels[lastLevelIndex]
     let currentStepId: string | null
     if (!currentLevel.steps.length) {
       // no steps available for level
@@ -49,7 +49,7 @@ class Position {
     } else {
       // find current step id
       const { steps } = currentLevel
-      const lastStepIndex: number | undefined = steps.findIndex((s: G.Step) => !progress.steps[s.id])
+      const lastStepIndex: number | undefined = steps.findIndex((s: TT.Step) => !progress.steps[s.id])
       if (lastStepIndex >= steps.length) {
         throw new Error('Error setting progress step')
       }

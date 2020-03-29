@@ -1,5 +1,5 @@
 import * as CR from 'typings'
-import * as G from 'typings/graphql'
+import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import Position from './state/Position'
 import Progress from './state/Progress'
@@ -17,7 +17,7 @@ class Context {
   }
   public setTutorial = async (
     workspaceState: vscode.Memento,
-    tutorial: G.Tutorial,
+    tutorial: TT.Tutorial,
   ): Promise<{ progress: CR.Progress; position: CR.Position }> => {
     this.tutorial.set(tutorial)
     const progress: CR.Progress = await this.progress.setTutorial(workspaceState, tutorial)

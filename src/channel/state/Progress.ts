@@ -1,5 +1,5 @@
 import * as CR from 'typings'
-import * as G from 'typings/graphql'
+import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import Storage from '../../services/storage'
 
@@ -39,7 +39,7 @@ class Progress {
   public reset = () => {
     this.set(defaultValue)
   }
-  public setStepComplete = (tutorialData: G.TutorialData, stepId: string): CR.Progress => {
+  public setStepComplete = (tutorialData: TT.TutorialData, stepId: string): CR.Progress => {
     const next = this.value
     // mark step complete
     next.steps[stepId] = true

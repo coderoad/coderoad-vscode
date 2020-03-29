@@ -1,5 +1,5 @@
 import * as T from 'typings'
-import * as G from 'typings/graphql'
+import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import saveCommit from '../actions/saveCommit'
 import setupActions from '../actions/setupActions'
@@ -54,10 +54,10 @@ class Channel implements Channel {
         return
       // continue from tutorial from local storage
       case 'EDITOR_TUTORIAL_LOAD':
-        const tutorial: G.Tutorial | null = this.context.tutorial.get()
+        const tutorial: TT.Tutorial | null = this.context.tutorial.get()
 
         // new tutorial
-        if (!tutorial || !tutorial.id || !tutorial.version) {
+        if (!tutorial || !tutorial.id) {
           this.send({ type: 'START_NEW_TUTORIAL' })
           return
         }
@@ -81,11 +81,11 @@ class Channel implements Channel {
         return
       // configure test runner, language, git
       case 'EDITOR_TUTORIAL_CONFIG':
-        const tutorialData: G.Tutorial = action.payload.tutorial
+        const tutorialData: TT.Tutorial = action.payload.tutorial
         // setup tutorial config (save watcher, test runner, etc)
         this.context.setTutorial(this.workspaceState, tutorialData)
 
-        const data: G.TutorialData = tutorialData.version.data
+        const data: TT.TutorialData = tutorialData.data
 
         await tutorialConfig({ config: data.config }, onError)
 
@@ -93,11 +93,11 @@ class Channel implements Channel {
         this.send({ type: 'TUTORIAL_CONFIGURED' })
         return
       case 'EDITOR_TUTORIAL_CONTINUE_CONFIG':
-        const tutorialContinue: G.Tutorial | null = this.context.tutorial.get()
+        const tutorialContinue: TT.Tutorial | null = this.context.tutorial.get()
         if (!tutorialContinue) {
           throw new Error('Invalid tutorial to continue')
         }
-        const continueConfig: T.TutorialConfig = tutorialContinue.version.data.config
+        const continueConfig: TT.TutorialConfig = tutorialContinue.data.config
         await tutorialConfig(
           {
             config: continueConfig,
@@ -148,7 +148,7 @@ class Channel implements Channel {
           throw new Error('Error with current tutorial')
         }
         // update local storage stepProgress
-        const progress = this.context.progress.setStepComplete(tutorial.version.data, action.payload.stepId)
+        const progress = this.context.progress.setStepComplete(tutorial.data, action.payload.stepId)
         this.context.position.setPositionFromProgress(tutorial, progress)
         saveCommit()
     }
