@@ -20,7 +20,7 @@
     "emitDecoratorMetadata": true,
     "paths": {
       "typings": ["../typings/index.d.ts"],
-      "typings/graphql": ["../typings/graphql.d.ts"]
+      "typings/tutorial": ["../typings/tutorial.d.ts"]
     },
     "allowJs": true,
     "removeComments": true
