@@ -37,20 +37,11 @@ const tutorialConfig = async (
 
   vscode.commands.executeCommand(COMMANDS.CONFIG_TEST_RUNNER, config.testRunner)
 
-  const fileFormats = config.testRunner.fileFormats
-
   // verify if file test should run based on document saved
   const shouldRunTest = (document: vscode.TextDocument): boolean => {
     // must be a file
     if (document.uri.scheme !== 'file') {
       return false
-    }
-    // must configure with file formatss
-    if (fileFormats && fileFormats.length) {
-      const fileFormat: G.FileFormat = languageMap[document.languageId]
-      if (!fileFormats.includes(fileFormat)) {
-        return false
-      }
     }
     return true
   }
