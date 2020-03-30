@@ -1,4 +1,3 @@
-import { ApolloError } from 'apollo-boost'
 import * as React from 'react'
 import { css, jsx } from '@emotion/core'
 import onError from '../../services/sentry/onError'
@@ -14,7 +13,7 @@ const styles = {
 }
 
 interface Props {
-  error?: ApolloError
+  error?: Error
 }
 
 const ErrorView = ({ error }: Props) => {

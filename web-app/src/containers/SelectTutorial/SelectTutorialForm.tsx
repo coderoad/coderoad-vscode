@@ -11,7 +11,6 @@ const styles = {
     padding: '1rem',
     width: '100%',
     height: 'auto',
-    backgroundColor: 'yellow',
   },
 }
 

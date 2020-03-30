@@ -1,25 +1,16 @@
 import * as React from 'react'
-import * as T from 'typings'
-import * as TT from 'typings/tutorial'
 import SelectTutorialForm from './SelectTutorialForm'
 import LoadTutorialSummary from './LoadTutorialSummary'
 
 const styles = {
   page: {
+    position: 'relative' as 'relative',
+    height: 'auto',
     width: '100%',
   },
-  header: {
+  selectPage: {
     padding: '1rem',
   },
-}
-
-interface ContainerProps {
-  send(action: T.Action): void
-  context: T.MachineContext
-}
-
-interface TutorialsData {
-  tutorials: TT.Tutorial[]
 }
 
 interface Props {
@@ -31,11 +22,7 @@ const SelectTutorialPage = (props: Props) => {
   const [url, setUrl] = React.useState<string | null>(null)
   return (
     <div css={styles.page}>
-      {!url && (
-        <div css={styles.header}>
-          <SelectTutorialForm onUrlChange={setUrl} />
-        </div>
-      )}
+      {!url && <SelectTutorialForm onUrlChange={setUrl} />}
       {url && <LoadTutorialSummary url={url} send={props.send} onClear={() => setUrl(null)} />}
     </div>
   )
