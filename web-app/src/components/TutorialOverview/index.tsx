@@ -70,7 +70,8 @@ const styles = {
 
 interface Props {
   tutorial: TT.Tutorial
-  onNext: () => void
+  onNext(): void
+  onClear(): void
 }
 
 const Summary = (props: Props) => {
@@ -78,15 +79,15 @@ const Summary = (props: Props) => {
     <div css={styles.page}>
       <div css={styles.content}>
         <div css={styles.header}>
-          {/* <div css={styles.nav}>
+          <div css={styles.nav}>
             <Breadcrumb separator="/">
               <Breadcrumb.Item>
-                <div css={styles.navLink} onClick={props.onBack}>
+                <div css={styles.navLink} onClick={props.onClear}>
                   &lt; Back to Tutorials
                 </div>
               </Breadcrumb.Item>
             </Breadcrumb>
-          </div> */}
+          </div>
           <h1 css={styles.title}>{props.tutorial.summary.title}</h1>
           <h3>{props.tutorial.summary.description}</h3>
           {/* <h5 css={styles.meta}>
