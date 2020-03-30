@@ -3,14 +3,14 @@ import { withKnobs } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import * as T from '../../typings'
-import * as G from '../../typings/graphql'
+import * as TT from '../../typings/tutorial'
 import Level from '../src/containers/Tutorial/LevelPage/Level'
 import SideBarDecorator from './utils/SideBarDecorator'
 
-type ModifiedLevel = G.Level & {
+type ModifiedLevel = TT.Level & {
   status: T.ProgressStatus
   index: number
-  steps: Array<G.Step & { status: T.ProgressStatus }>
+  steps: Array<TT.Step & { status: T.ProgressStatus }>
 }
 
 storiesOf('Level', module)

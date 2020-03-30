@@ -1,9 +1,9 @@
-import * as CR from 'typings'
+import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import Storage from '../../services/storage'
 
-const defaultValue: CR.Progress = {
+const defaultValue: T.Progress = {
   levels: {},
   steps: {},
   complete: false,
@@ -11,13 +11,13 @@ const defaultValue: CR.Progress = {
 
 // hold current progress and sync to storage based on tutorial.id/version
 class Progress {
-  private value: CR.Progress
-  private storage: Storage<CR.Progress> | undefined
+  private value: T.Progress
+  private storage: Storage<T.Progress> | undefined
   constructor() {
     this.value = defaultValue
   }
-  public setTutorial = async (workspaceState: vscode.Memento, tutorial: G.Tutorial): Promise<CR.Progress> => {
-    this.storage = new Storage<CR.Progress>({
+  public setTutorial = async (workspaceState: vscode.Memento, tutorial: TT.Tutorial): Promise<T.Progress> => {
+    this.storage = new Storage<T.Progress>({
       key: `coderoad:progress:${tutorial.id}:${tutorial.version}`,
       storage: workspaceState,
       defaultValue,
@@ -28,7 +28,7 @@ class Progress {
   public get = () => {
     return this.value
   }
-  public set = (value: CR.Progress) => {
+  public set = (value: T.Progress) => {
     this.value = value
     if (!this.storage) {
       return defaultValue
@@ -39,7 +39,7 @@ class Progress {
   public reset = () => {
     this.set(defaultValue)
   }
-  public setStepComplete = (tutorialData: TT.TutorialData, stepId: string): CR.Progress => {
+  public setStepComplete = (tutorialData: TT.TutorialData, stepId: string): T.Progress => {
     const next = this.value
     // mark step complete
     next.steps[stepId] = true

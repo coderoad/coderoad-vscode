@@ -1,11 +1,9 @@
 import * as CR from 'typings'
-import * as G from 'typings/graphql'
-import client from '../../apollo'
-import tutorialQuery from '../../apollo/queries/tutorial'
+import * as TT from 'typings/tutorial'
 import onError from '../../../services/sentry/onError'
 
 interface TutorialData {
-  tutorial: G.Tutorial
+  tutorial: TT.Tutorial
 }
 
 interface TutorialDataVariables {
@@ -22,19 +20,20 @@ export async function loadTutorialData(context: CR.MachineContext): Promise<any>
   }
 
   try {
-    const result = await client.query<TutorialData, TutorialDataVariables>({
-      query: tutorialQuery,
-      variables: {
-        tutorialId: context.tutorial.id,
-        // version: context.tutorial.version.version, // TODO: reimplement version
-      },
-    })
-    if (!result || !result.data || !result.data.tutorial) {
-      const message = 'No tutorial returned from tutorial config query'
-      onError(new Error(message))
-      return Promise.reject(message)
-    }
-    return Promise.resolve(result.data.tutorial)
+    console.log('todo load tutorial')
+    //   const result = await client.query<TutorialData, TutorialDataVariables>({
+    //     query: tutorialQuery,
+    //     variables: {
+    //       tutorialId: context.tutorial.id,
+    //       // version: context.tutorial.version.version, // TODO: reimplement version
+    //     },
+    //   })
+    //   if (!result || !result.data || !result.data.tutorial) {
+    //     const message = 'No tutorial returned from tutorial config query'
+    //     onError(new Error(message))
+    //     return Promise.reject(message)
+    //   }
+    //   return Promise.resolve(result.data.tutorial)
   } catch (error) {
     const message: CR.ErrorMessage = { title: 'Failed to load tutorial config', description: error.message }
     onError(error)

@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect'
 import { MachineContext } from 'typings'
-import * as G from 'typings/graphql'
+import * as TT from 'typings/tutorial'
 import onError from '../../services/sentry/onError'
 
-export const currentTutorial = ({ tutorial }: MachineContext): G.Tutorial => {
+export const currentTutorial = ({ tutorial }: MachineContext): TT.Tutorial => {
   if (!tutorial) {
     const error = new Error('Tutorial not found')
     onError(error)
@@ -12,38 +12,29 @@ export const currentTutorial = ({ tutorial }: MachineContext): G.Tutorial => {
   return tutorial
 }
 
-export const currentVersion = createSelector(currentTutorial, (tutorial: G.Tutorial) => {
-  if (!tutorial.version) {
-    const error = new Error('Tutorial version not found')
-    onError(error)
-    throw error
-  }
-  return tutorial.version
-})
-
-export const currentLevel = (context: MachineContext): G.Level =>
+export const currentLevel = (context: MachineContext): TT.Level =>
   createSelector(
-    currentVersion,
-    (version: G.TutorialVersion): G.Level => {
+    currentTutorial,
+    (tutorial: TT.Tutorial): TT.Level => {
       // merge in the updated position
       // sent with the test to ensure consistency
-      const levels: G.Level[] = version.data.levels
+      const levels: TT.Level[] = tutorial.data.levels
 
-      const levelIndex = levels.findIndex((l: G.Level) => l.id === context.position.levelId)
+      const levelIndex = levels.findIndex((l: TT.Level) => l.id === context.position.levelId)
       if (levelIndex < 0) {
-        const error = new Error(`Level not found when selecting level for ${version}`)
+        const error = new Error(`Level not found when selecting level for ${tutorial.id}`)
         onError(error)
         throw error
       }
-      const level: G.Level = levels[levelIndex]
+      const level: TT.Level = levels[levelIndex]
 
       return level
     },
   )(context)
 
-export const currentStep = (context: MachineContext): G.Step | null =>
-  createSelector(currentLevel, (level: G.Level): G.Step | null => {
-    const steps: G.Step[] = level.steps
-    const step: G.Step | null = steps.find((s: G.Step) => s.id === context.position.stepId) || null
+export const currentStep = (context: MachineContext): TT.Step | null =>
+  createSelector(currentLevel, (level: TT.Level): TT.Step | null => {
+    const steps: TT.Step[] = level.steps
+    const step: TT.Step | null = steps.find((s: TT.Step) => s.id === context.position.stepId) || null
     return step
   })(context)

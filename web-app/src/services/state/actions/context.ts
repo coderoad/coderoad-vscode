@@ -1,5 +1,5 @@
 import * as T from 'typings'
-import * as G from 'typings/graphql'
+import * as TT from 'typings/tutorial'
 import { assign, send, ActionFunctionMap } from 'xstate'
 import * as selectors from '../../selectors'
 import onError from '../../../services/sentry/onError'
@@ -50,17 +50,17 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
       const { position } = context
       // merge in the updated position
       // sent with the test to ensure consistency
-      const level: G.Level = selectors.currentLevel(context)
-      const steps: G.Step[] = level.steps
+      const level: TT.Level = selectors.currentLevel(context)
+      const steps: TT.Step[] = level.steps
 
       // final step but not completed
       if (steps[steps.length - 1].id === position.stepId) {
         return position
       }
 
-      const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
+      const stepIndex = steps.findIndex((s: TT.Step) => s.id === position.stepId)
 
-      const step: G.Step = steps[stepIndex + 1]
+      const step: TT.Step = steps[stepIndex + 1]
 
       const nextPosition: T.Position = {
         ...position,
@@ -74,13 +74,13 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
   updateLevelPosition: assign({
     position: (context: T.MachineContext): any => {
       const { position } = context
-      const version = selectors.currentVersion(context)
+      const tutorial = selectors.currentTutorial(context)
       // merge in the updated position
       // sent with the test to ensure consistency
-      const levels: G.Level[] = version.data.levels
+      const levels: TT.Level[] = tutorial.data.levels
 
-      const levelIndex = levels.findIndex((l: G.Level) => l.id === position.levelId)
-      const level: G.Level = levels[levelIndex + 1]
+      const levelIndex = levels.findIndex((l: TT.Level) => l.id === position.levelId)
+      const level: TT.Level = levels[levelIndex + 1]
 
       const nextPosition: T.Position = {
         levelId: level.id,
@@ -129,10 +129,10 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
 
       const level = selectors.currentLevel(context)
 
-      const steps: G.Step[] = level.steps
+      const steps: TT.Step[] = level.steps
 
       if (steps.length && position.stepId) {
-        const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
+        const stepIndex = steps.findIndex((s: TT.Step) => s.id === position.stepId)
         const stepComplete = progress.steps[position.stepId]
         const finalStep = stepIndex > -1 && stepIndex === steps.length - 1
         const hasNextStep = !finalStep && !stepComplete
@@ -153,7 +153,7 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
 
       // @ts-ignore
       const levels = context.tutorial.version.data.levels || []
-      const levelIndex = levels.findIndex((l: G.Level) => l.id === position.levelId)
+      const levelIndex = levels.findIndex((l: TT.Level) => l.id === position.levelId)
       const finalLevel = levelIndex > -1 && levelIndex === levels.length - 1
       const hasNextLevel = !finalLevel
 
@@ -175,12 +175,12 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
     (context: T.MachineContext): T.Action => {
       const { position, progress } = context
 
-      const level: G.Level = selectors.currentLevel(context)
+      const level: TT.Level = selectors.currentLevel(context)
 
       const { steps } = level
 
       if (steps.length && position.stepId) {
-        const stepIndex = steps.findIndex((s: G.Step) => s.id === position.stepId)
+        const stepIndex = steps.findIndex((s: TT.Step) => s.id === position.stepId)
         const finalStep = stepIndex === steps.length - 1
         const stepComplete = progress.steps[position.stepId]
         // not final step, or final step but not complete

@@ -69,7 +69,7 @@ export interface MachineStateSchema {
     Setup: {
       states: {
         Startup: {}
-        Authenticate: {}
+        // Authenticate: {}
         Error: {}
         LoadStoredTutorial: {}
         Start: {}

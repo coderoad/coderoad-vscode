@@ -30,6 +30,7 @@ export type Step = {
 /** A tutorial for use in VSCode CodeRoad */
 export type Tutorial = {
   id: string
+  version: string
   summary: TutorialSummary
   data: TutorialData
 }

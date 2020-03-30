@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as CR from 'typings'
+import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
 
@@ -17,8 +17,8 @@ const styles = {
 }
 
 interface Props {
-  context: CR.MachineContext
-  send(action: CR.Action | string): void
+  context: T.MachineContext
+  send(action: T.Action | string): void
 }
 
 const CompletedPage = (props: Props) => {

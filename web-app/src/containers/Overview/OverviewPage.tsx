@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as G from 'typings/graphql'
+import * as TT from 'typings/tutorial'
 import moment from 'moment'
 import Button from '../../components/Button'
 import Markdown from '../../components/Markdown'
@@ -71,9 +71,7 @@ const styles = {
 interface Props {
   title: string
   description: string
-  createdBy: G.User
-  updatedAt: string
-  levels: G.Level[]
+  levels: TT.Level[]
   onNext(): void
   onBack(): void
 }
@@ -93,15 +91,15 @@ const Summary = (props: Props) => (
         </div>
         <h1 css={styles.title}>{props.title}</h1>
         <h3>{props.description}</h3>
-        <h5 css={styles.meta}>
+        {/* <h5 css={styles.meta}>
           <div css={{ marginRight: '2rem' }}>Created by {props.createdBy.name}</div>
           <div>Last updated {moment(props.updatedAt).format('M/YYYY')}</div>
-        </h5>
+        </h5> */}
       </div>
       <div>
         <div css={styles.levelList}>
           <h2>Content</h2>
-          {props.levels.map((level: G.Level, index: number) => (
+          {props.levels.map((level: TT.Level, index: number) => (
             <div key={index}>
               <h3>
                 {index + 1}. {level.title}

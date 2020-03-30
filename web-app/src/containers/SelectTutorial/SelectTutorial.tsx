@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as T from 'typings'
-import * as G from 'typings/graphql'
+import * as TT from 'typings/tutorial'
 import { css, jsx } from '@emotion/core'
 import TutorialItem from './TutorialItem'
 
@@ -18,11 +18,11 @@ const styles = {
 
 interface Props {
   send(action: T.Action): void
-  tutorialList: G.Tutorial[]
+  tutorialList: TT.Tutorial[]
 }
 
 const SelectTutorial = (props: Props) => {
-  const onSelect = (tutorial: G.Tutorial) => {
+  const onSelect = (tutorial: TT.Tutorial) => {
     props.send({
       type: 'SELECT_TUTORIAL',
       payload: {
@@ -36,13 +36,12 @@ const SelectTutorial = (props: Props) => {
         <span>Select a tutorial to launch in this workspace:</span>
       </div>
       <div>
-        {props.tutorialList.map((tutorial: G.Tutorial) => (
+        {props.tutorialList.map((tutorial: TT.Tutorial) => (
           <TutorialItem
             key={tutorial.id}
             onSelect={() => onSelect(tutorial)}
             title={tutorial.summary.title || ''}
             description={tutorial.summary.description || ''}
-            createdBy={tutorial.createdBy}
           />
         ))}
       </div>

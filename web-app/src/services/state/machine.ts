@@ -38,23 +38,23 @@ export const createMachine = (options: any) => {
               onEntry: ['loadEnv'],
               on: {
                 ENV_LOAD: {
-                  target: 'Authenticate',
+                  target: 'LoadStoredTutorial',
                   actions: ['setEnv'],
                 },
               },
             },
-            Authenticate: {
-              invoke: {
-                src: services.authenticate,
-                onDone: 'LoadStoredTutorial',
-                onError: {
-                  target: 'Error',
-                  actions: assign({
-                    error: (context, event) => event.data,
-                  }),
-                },
-              },
-            },
+            // Authenticate: {
+            //   invoke: {
+            //     src: services.authenticate,
+            //     onDone: 'LoadStoredTutorial',
+            //     onError: {
+            //       target: 'Error',
+            //       actions: assign({
+            //         error: (context, event) => event.data,
+            //       }),
+            //     },
+            //   },
+            // },
             Error: {},
             LoadStoredTutorial: {
               onEntry: ['loadStoredTutorial'],

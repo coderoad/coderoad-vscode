@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as T from 'typings'
-import * as G from 'typings/graphql'
+import * as TT from 'typings/tutorial'
 import { css, jsx } from '@emotion/core'
 import Button from '../../../components/Button'
 import Markdown from '../../../components/Markdown'
@@ -77,7 +77,7 @@ const styles = {
 }
 
 interface Props {
-  level: G.Level & { status: T.ProgressStatus; index: number; steps: Array<G.Step & { status: T.ProgressStatus }> }
+  level: TT.Level & { status: T.ProgressStatus; index: number; steps: Array<TT.Step & { status: T.ProgressStatus }> }
   processes: T.ProcessEvent[]
   testStatus: T.TestStatus | null
   onContinue(): void
@@ -114,7 +114,7 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
           <div css={styles.tasks}>
             <div css={styles.header}>Tasks</div>
             <div css={styles.steps}>
-              {level.steps.map((step: (G.Step & { status: T.ProgressStatus }) | null, index: number) => {
+              {level.steps.map((step: (TT.Step & { status: T.ProgressStatus }) | null, index: number) => {
                 if (!step) {
                   return null
                 }

@@ -1,9 +1,8 @@
 import { useQuery } from '@apollo/react-hooks'
 import * as React from 'react'
 import * as CR from 'typings'
-import * as G from 'typings/graphql'
+import * as TT from 'typings/tutorial'
 import ErrorView from '../../components/Error'
-import queryTutorial from '../../services/apollo/queries/tutorial'
 import OverviewPage from './OverviewPage'
 import LoadingPage from '../Loading'
 
@@ -13,7 +12,7 @@ interface PageProps {
 }
 
 interface TutorialData {
-  tutorial: G.Tutorial
+  tutorial: TT.Tutorial
 }
 
 interface TutorialDataVariables {
@@ -27,51 +26,36 @@ const Overview = (props: PageProps) => {
   if (!tutorial) {
     throw new Error('Tutorial not found in summary page')
   }
-  const { loading, error, data } = useQuery<TutorialData, TutorialDataVariables>(queryTutorial, {
-    fetchPolicy: 'no-cache', // to ensure latest
-    variables: {
-      tutorialId: tutorial.id,
-      // version: tutorial.version.version, // TODO: re-enable latest
-    },
-  })
 
-  if (loading) {
-    return <LoadingPage text="Loading Summary..." context={props.context} />
-  }
+  console.log('todo overview load')
 
-  if (error) {
-    return <ErrorView error={error} />
-  }
+  return <div>Overview Page</div>
 
-  if (!data) {
-    return null
-  }
+  // const onNext = () =>
+  //   props.send({
+  //     type: 'TUTORIAL_START',
+  //     payload: {
+  //       tutorial: data.tutorial,
+  //     },
+  //   })
 
-  const onNext = () =>
-    props.send({
-      type: 'TUTORIAL_START',
-      payload: {
-        tutorial: data.tutorial,
-      },
-    })
+  // const onBack = () => props.send({ type: 'BACK' })
 
-  const onBack = () => props.send({ type: 'BACK' })
+  // const { title, description } = data.tutorial.summary
+  // const { createdBy, updatedAt, data: tutorialData } = data.tutorial.version
+  // const { levels } = tutorialData
 
-  const { title, description } = data.tutorial.summary
-  const { createdBy, updatedAt, data: tutorialData } = data.tutorial.version
-  const { levels } = tutorialData
-
-  return (
-    <OverviewPage
-      title={title}
-      description={description}
-      createdBy={createdBy}
-      updatedAt={updatedAt}
-      levels={levels}
-      onNext={onNext}
-      onBack={onBack}
-    />
-  )
+  // return (
+  //   <OverviewPage
+  //     title={title}
+  //     description={description}
+  //     createdBy={createdBy}
+  //     updatedAt={updatedAt}
+  //     levels={levels}
+  //     onNext={onNext}
+  //     onBack={onBack}
+  //   />
+  // )
 }
 
 export default Overview

@@ -1,5 +1,5 @@
 import * as CR from 'typings'
-import * as G from 'typings/graphql'
+import * as TT from 'typings/tutorial'
 import * as selectors from '../../selectors'
 
 export default (editorSend: any) => ({
@@ -34,7 +34,7 @@ export default (editorSend: any) => ({
     })
   },
   loadLevel(context: CR.MachineContext): void {
-    const level: G.Level = selectors.currentLevel(context)
+    const level: TT.Level = selectors.currentLevel(context)
     if (level.setup) {
       // load step actions
       editorSend({
@@ -44,7 +44,7 @@ export default (editorSend: any) => ({
     }
   },
   loadStep(context: CR.MachineContext): void {
-    const step: G.Step | null = selectors.currentStep(context)
+    const step: TT.Step | null = selectors.currentStep(context)
     if (step && step.setup) {
       // load step actions
       editorSend({
@@ -57,7 +57,7 @@ export default (editorSend: any) => ({
     }
   },
   editorLoadSolution(context: CR.MachineContext): void {
-    const step: G.Step | null = selectors.currentStep(context)
+    const step: TT.Step | null = selectors.currentStep(context)
     // tell editor to load solution commit
     if (step && step.solution) {
       editorSend({

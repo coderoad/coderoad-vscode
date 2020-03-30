@@ -3,7 +3,6 @@ import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
 import Checkbox from '../../../components/Checkbox'
 import Markdown from '../../../components/Markdown'
-import StepHelp from '../../../components/StepHelp'
 
 interface Props {
   order: number
