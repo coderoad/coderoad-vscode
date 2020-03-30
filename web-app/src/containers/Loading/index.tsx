@@ -6,7 +6,7 @@ import Message from '../../components/Message'
 
 interface Props {
   text: string
-  context: T.MachineContext
+  context?: T.MachineContext
 }
 
 const styles = {
@@ -16,19 +16,36 @@ const styles = {
     flexDirection: 'column' as 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
+    height: '100%',
   },
 }
 
 const LoadingPage = ({ text, context }: Props) => {
-  const { error } = context
-  if (error) {
+  const [showLoading, setShowHiding] = React.useState(false)
+
+  React.useEffect(() => {
+    // wait some time before showing loading indicator
+    const timeout = setTimeout(() => {
+      setShowHiding(true)
+    }, 600)
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [])
+
+  if (context && context.error) {
     return (
       <div css={styles.page}>
-        <Message type="error" title={error.title} content={error.description} />
+        <Message type="error" title={context.error.title} content={context.error.description} />
       </div>
     )
   }
+
+  // don't flash loader
+  if (!showLoading) {
+    return null
+  }
+
   return (
     <div css={styles.page}>
       <Loading text={text} />
