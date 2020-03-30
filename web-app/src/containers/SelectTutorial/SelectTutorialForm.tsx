@@ -1,12 +1,19 @@
 import * as React from 'react'
 import useFetch from '../../services/hooks/useFetch'
 import { Form, Select } from '@alifd/next'
+import { TUTORIAL_URL } from '../../environment'
 
 const FormItem = Form.Item
 const Option = Select.Option
 
-// configurable url to tutorials
-const tutorialUrl = 'https://raw.githubusercontent.com/coderoad/tutorials/master/tutorials.json'
+const styles = {
+  formWrapper: {
+    padding: '1rem',
+    width: '100%',
+    height: 'auto',
+    backgroundColor: 'yellow',
+  },
+}
 
 type TutorialList = Array<{ id: string; title: string; configUrl: string }>
 
@@ -15,28 +22,25 @@ interface Props {
 }
 
 const SelectTutorialForm = (props: Props) => {
-  const { data, error, loading } = useFetch<TutorialList>(tutorialUrl)
-  if (loading) {
-    return <div>Loading...</div>
-  }
-  if (error) {
-    return <div>{JSON.stringify(error)}</div>
-  }
-  if (!data) {
-    return <div>No data returned</div>
-  }
+  // load tutorial from a path to a tutorial list json
+  const { data, error, loading } = useFetch<TutorialList>(TUTORIAL_URL)
+  // TODO: display errors
+  const selectState = loading ? 'loading' : error || !data ? 'error' : undefined
   return (
-    <Form style={{ maxWidth: '500px' }}>
-      <FormItem label="Select Tutorial:">
-        <Select onChange={props.onUrlChange} style={{ width: '100%' }} placeholder="Tutorials...">
-          {data.map((tutorial) => (
-            <Option key={tutorial.id} value={tutorial.configUrl}>
-              {tutorial.title}
-            </Option>
-          ))}
-        </Select>
-      </FormItem>
-    </Form>
+    <div css={styles.formWrapper}>
+      <Form style={{ maxWidth: '500px' }}>
+        <FormItem label="Select Tutorial:">
+          <Select onChange={props.onUrlChange} style={{ width: '100%' }} placeholder="Tutorials..." state={selectState}>
+            {data &&
+              data.map((tutorial) => (
+                <Option key={tutorial.id} value={tutorial.configUrl}>
+                  {tutorial.title}
+                </Option>
+              ))}
+          </Select>
+        </FormItem>
+      </Form>
+    </div>
   )
 }
 
