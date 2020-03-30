@@ -29,8 +29,8 @@ interface GitHubFetchProps {
   send: any
 }
 
-const GitHubFetch = ({ url, send }: GitHubFetchProps) => {
-  const { data, error, loading } = useFetch<TT.Tutorial>(url)
+const GitHubFetch = (props: GitHubFetchProps) => {
+  const { data, error, loading } = useFetch<TT.Tutorial>(props.url)
   if (loading) {
     return <div>Loading...</div>
   }
@@ -40,7 +40,16 @@ const GitHubFetch = ({ url, send }: GitHubFetchProps) => {
   if (!data) {
     return <div>No data returned</div>
   }
-  return <TutorialOverview send={send} tutorial={data} />
+  const onNext = () => {
+    console.log('called tutorial start')
+    props.send({
+      type: 'TUTORIAL_START',
+      payload: {
+        tutorial: data,
+      },
+    })
+  }
+  return <TutorialOverview onNext={onNext} tutorial={data} />
 }
 
 const tutorials = [
@@ -61,7 +70,7 @@ interface Props {
   context: any
 }
 
-const SelectTutorialPage = ({ send }: Props) => {
+const SelectTutorialPage = (props: Props) => {
   const [url, setUrl] = React.useState<string | null>(null)
   const handleUrlChange = (value: string) => {
     setUrl(value)
@@ -81,7 +90,7 @@ const SelectTutorialPage = ({ send }: Props) => {
           </FormItem>
         </Form>
       </div>
-      {url && <GitHubFetch url={url} send={send} />}
+      {url && <GitHubFetch url={url} send={props.send} />}
     </div>
   )
 }

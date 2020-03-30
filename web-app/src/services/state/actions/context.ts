@@ -27,12 +27,6 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
     },
   }),
   // @ts-ignore
-  selectTutorialById: assign({
-    tutorial: (context: T.MachineContext, event: T.MachineEvent): any => {
-      return event.payload.tutorial
-    },
-  }),
-  // @ts-ignore
   startNewTutorial: assign({
     position: (context: T.MachineContext, event: T.MachineEvent): any => {
       const position: T.Position = selectors.initialPosition(context)
@@ -231,6 +225,12 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
     return {
       type: context.position.stepId === null ? 'START_COMPLETED_LEVEL' : 'START_LEVEL',
     }
+  }),
+  // @ts-ignore
+  setTutorialContext: assign({
+    tutorial: (context: T.MachineContext, event: T.MachineEvent): any => {
+      return event.payload.tutorial
+    },
   }),
 }
 

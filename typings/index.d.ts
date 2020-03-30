@@ -69,16 +69,12 @@ export interface MachineStateSchema {
     Setup: {
       states: {
         Startup: {}
-        // Authenticate: {}
         Error: {}
         LoadStoredTutorial: {}
         Start: {}
         CheckEmptyWorkspace: {}
         NonEmptyWorkspace: {}
         SelectTutorial: {}
-        LoadTutorialSummary: {}
-        Summary: {}
-        LoadTutorialData: {}
         SetupNewTutorial: {}
       }
     }

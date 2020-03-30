@@ -1,7 +1,6 @@
 import * as CR from 'typings'
 import { assign, Machine, MachineOptions } from 'xstate'
 import createActions from './actions'
-import * as services from './services'
 
 const createOptions = ({ editorSend }: any): MachineOptions<CR.MachineContext, CR.MachineEvent> => ({
   activities: {},
@@ -43,18 +42,6 @@ export const createMachine = (options: any) => {
                 },
               },
             },
-            // Authenticate: {
-            //   invoke: {
-            //     src: services.authenticate,
-            //     onDone: 'LoadStoredTutorial',
-            //     onError: {
-            //       target: 'Error',
-            //       actions: assign({
-            //         error: (context, event) => event.data,
-            //       }),
-            //     },
-            //   },
-            // },
             Error: {},
             LoadStoredTutorial: {
               onEntry: ['loadStoredTutorial'],
@@ -95,50 +82,9 @@ export const createMachine = (options: any) => {
               onEntry: ['clearStorage'],
               id: 'select-new-tutorial',
               on: {
-                SELECT_TUTORIAL: {
-                  target: 'LoadTutorialSummary',
-                  actions: ['selectTutorialById'],
-                },
-              },
-            },
-            // TODO move Initialize into New Tutorial setup
-            LoadTutorialSummary: {
-              invoke: {
-                src: services.loadTutorialSummary,
-                onDone: {
-                  target: 'Summary',
-                  actions: assign({
-                    tutorial: (context, event) => event.data,
-                  }),
-                },
-                onError: {
-                  target: 'Error',
-                  actions: assign({
-                    error: (context, event) => event.data,
-                  }),
-                },
-              },
-            },
-            Summary: {
-              on: {
-                BACK: 'SelectTutorial',
-                TUTORIAL_START: 'LoadTutorialData',
-              },
-            },
-            LoadTutorialData: {
-              invoke: {
-                src: services.loadTutorialData,
-                onDone: {
+                TUTORIAL_START: {
                   target: 'SetupNewTutorial',
-                  actions: assign({
-                    tutorial: (context, event) => event.data,
-                  }),
-                },
-                onError: {
-                  target: 'Error',
-                  actions: assign({
-                    error: (context, event) => event.data,
-                  }),
+                  actions: ['setTutorialContext'],
                 },
               },
             },

@@ -70,20 +70,10 @@ const styles = {
 
 interface Props {
   tutorial: TT.Tutorial
-  send: any
+  onNext: () => void
 }
 
 const Summary = (props: Props) => {
-  const onNext = () =>
-    props.send({
-      type: 'TUTORIAL_START',
-      // TODO: change tutorial on parent
-      // payload: {
-      //   tutorial: data.tutorial,
-      // },
-    })
-
-  // const onBack = () => props.send({ type: 'BACK' })
   return (
     <div css={styles.page}>
       <div css={styles.content}>
@@ -123,7 +113,7 @@ const Summary = (props: Props) => {
 
       <div css={styles.footer}>
         {/* TODO Add back button */}
-        <Button type="primary" onClick={onNext}>
+        <Button type="primary" onClick={props.onNext}>
           Start
         </Button>
       </div>
