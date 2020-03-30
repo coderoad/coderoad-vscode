@@ -3,9 +3,17 @@ import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import { Form, Select } from '@alifd/next'
 import useFetch from '../../services/hooks/useFetch'
+import TutorialOverview from '../../components/TutorialOverview'
 
 const FormItem = Form.Item
 const Option = Select.Option
+
+const styles = {
+  page: {},
+  header: {
+    padding: '1rem',
+  },
+}
 
 interface ContainerProps {
   send(action: T.Action): void
@@ -18,17 +26,21 @@ interface TutorialsData {
 
 interface GitHubFetchProps {
   url: string
+  send: any
 }
 
-const GitHubFetch = ({ url }: GitHubFetchProps) => {
-  const { data, error, loading } = useFetch(url)
+const GitHubFetch = ({ url, send }: GitHubFetchProps) => {
+  const { data, error, loading } = useFetch<TT.Tutorial>(url)
   if (loading) {
     return <div>Loading...</div>
   }
   if (error) {
     return <div>{JSON.stringify(error)}</div>
   }
-  return <div>{JSON.stringify(data)}</div>
+  if (!data) {
+    return <div>No data returned</div>
+  }
+  return <TutorialOverview send={send} tutorial={data} />
 }
 
 const tutorials = [
@@ -55,19 +67,21 @@ const SelectTutorialPage = ({ send }: Props) => {
     setUrl(value)
   }
   return (
-    <div>
-      <Form style={{ maxWidth: '500px' }}>
-        <FormItem label="Select Tutorial:">
-          <Select onChange={handleUrlChange} style={{ width: '100%' }}>
-            {tutorials.map((tutorial) => (
-              <Option key={tutorial.id} value={tutorial.configUrl}>
-                {tutorial.title}
-              </Option>
-            ))}
-          </Select>
-        </FormItem>
-      </Form>
-      {url && <GitHubFetch url={url} />}
+    <div css={styles.page}>
+      <div css={styles.header}>
+        <Form style={{ maxWidth: '500px' }}>
+          <FormItem label="Select Tutorial:">
+            <Select onChange={handleUrlChange} style={{ width: '100%' }}>
+              {tutorials.map((tutorial) => (
+                <Option key={tutorial.id} value={tutorial.configUrl}>
+                  {tutorial.title}
+                </Option>
+              ))}
+            </Select>
+          </FormItem>
+        </Form>
+      </div>
+      {url && <GitHubFetch url={url} send={send} />}
     </div>
   )
 }

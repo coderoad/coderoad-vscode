@@ -81,11 +81,9 @@ class Channel implements Channel {
         return
       // configure test runner, language, git
       case 'EDITOR_TUTORIAL_CONFIG':
-        const tutorialData: TT.Tutorial = action.payload.tutorial
+        const data: TT.Tutorial = action.payload.tutorial
         // setup tutorial config (save watcher, test runner, etc)
-        this.context.setTutorial(this.workspaceState, tutorialData)
-
-        const data: TT.TutorialData = tutorialData.data
+        this.context.setTutorial(this.workspaceState, data)
 
         await tutorialConfig({ config: data.config }, onError)
 
@@ -97,7 +95,7 @@ class Channel implements Channel {
         if (!tutorialContinue) {
           throw new Error('Invalid tutorial to continue')
         }
-        const continueConfig: TT.TutorialConfig = tutorialContinue.data.config
+        const continueConfig: TT.TutorialConfig = tutorialContinue.config
         await tutorialConfig(
           {
             config: continueConfig,
@@ -148,7 +146,7 @@ class Channel implements Channel {
           throw new Error('Error with current tutorial')
         }
         // update local storage stepProgress
-        const progress = this.context.progress.setStepComplete(tutorial.data, action.payload.stepId)
+        const progress = this.context.progress.setStepComplete(tutorial, action.payload.stepId)
         this.context.position.setPositionFromProgress(tutorial, progress)
         saveCommit()
     }

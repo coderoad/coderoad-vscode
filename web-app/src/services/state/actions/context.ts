@@ -77,7 +77,7 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
       const tutorial = selectors.currentTutorial(context)
       // merge in the updated position
       // sent with the test to ensure consistency
-      const levels: TT.Level[] = tutorial.data.levels
+      const levels: TT.Level[] = tutorial.levels
 
       const levelIndex = levels.findIndex((l: TT.Level) => l.id === position.levelId)
       const level: TT.Level = levels[levelIndex + 1]

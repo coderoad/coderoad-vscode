@@ -32,19 +32,14 @@ export type Tutorial = {
   id: string
   version: string
   summary: TutorialSummary
-  data: TutorialData
+  config: TutorialConfig
+  levels: Array<Level>
 }
 
 /** Summary of tutorial used when selecting tutorial */
 export type TutorialSummary = {
   title: string
   description: string
-}
-
-/** Data for tutorial */
-export type TutorialData = {
-  config: TutorialConfig
-  levels: Array<Level>
 }
 
 export type StepActions = {

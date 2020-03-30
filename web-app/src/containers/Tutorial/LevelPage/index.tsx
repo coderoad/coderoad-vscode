@@ -34,7 +34,7 @@ const LevelSummaryPageContainer = (props: PageProps) => {
     steps: Array<TT.Step & { status: T.ProgressStatus }>
   } = {
     ...levelData,
-    index: tutorial.data.levels.findIndex((l: TT.Level) => l.id === position.levelId),
+    index: tutorial.levels.findIndex((l: TT.Level) => l.id === position.levelId),
     status: progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE',
     steps: levelData.steps.map((step: TT.Step) => {
       // label step status for step component

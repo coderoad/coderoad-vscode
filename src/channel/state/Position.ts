@@ -29,12 +29,12 @@ class Position {
       return this.value
     }
 
-    if (!tutorial || !tutorial.data || !tutorial.data.levels) {
+    if (!tutorial || !tutorial.levels) {
       throw new Error('Error setting position from progress')
     }
 
     // get level
-    const { levels } = tutorial.data
+    const { levels } = tutorial
     const lastLevelIndex: number | undefined = levels.findIndex((l: TT.Level) => !progress.levels[l.id])
     if (lastLevelIndex >= levels.length) {
       throw new Error('Error setting progress level')

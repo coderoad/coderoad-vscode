@@ -39,12 +39,12 @@ class Progress {
   public reset = () => {
     this.set(defaultValue)
   }
-  public setStepComplete = (tutorialData: TT.TutorialData, stepId: string): T.Progress => {
+  public setStepComplete = (tutorial: TT.Tutorial, stepId: string): T.Progress => {
     const next = this.value
     // mark step complete
     next.steps[stepId] = true
 
-    const currentLevel = tutorialData.levels.find((l) => l.steps.find((s) => s.id === stepId))
+    const currentLevel = tutorial.levels.find((l) => l.steps.find((s) => s.id === stepId))
     if (!currentLevel) {
       throw new Error(`setStepComplete level not found for stepId ${stepId}`)
     }
@@ -53,7 +53,7 @@ class Progress {
       // final step for level is complete
       next.levels[currentLevel.id] = true
 
-      if (tutorialData.levels[tutorialData.levels.length - 1].id === currentLevel.id) {
+      if (tutorial.levels[tutorial.levels.length - 1].id === currentLevel.id) {
         //final level complete so tutorial is complete
         next.complete = true
       }
