@@ -34,7 +34,7 @@
     "@sentry/node": "^5.15.4",
     "chokidar": "^3.3.0",
     "dotenv": "^8.2.0",
-    "jsdom": "^16.2.1"
+    "jsdom": "^16.2.2"
   },
   "devDependencies": {
     "@types/assert": "^1.4.6",
@@ -42,14 +42,14 @@
     "@types/dotenv": "^8.2.0",
     "@types/jest": "^25.1.4",
     "@types/jsdom": "^16.2.0",
-    "@types/node": "^13.9.5",
-    "@typescript-eslint/eslint-plugin": "^2.25.0",
-    "@typescript-eslint/parser": "^2.25.0",
+    "@types/node": "^13.9.8",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
     "graphql": "^14.6.0",
-    "jest": "^25.2.3",
+    "jest": "^25.2.4",
     "prettier": "^2.0.2",
     "ts-jest": "^25.2.1",
     "typescript": "^3.8.3",
