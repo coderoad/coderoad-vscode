@@ -146,7 +146,7 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
       }
 
       // @ts-ignore
-      const levels = context.tutorial.version.data.levels || []
+      const levels = context.tutorial.levels || []
       const levelIndex = levels.findIndex((l: TT.Level) => l.id === position.levelId)
       const finalLevel = levelIndex > -1 && levelIndex === levels.length - 1
       const hasNextLevel = !finalLevel
