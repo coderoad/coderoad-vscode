@@ -16,7 +16,6 @@ module.exports = {
   rules: {
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g.
-    'arrow-parens': 'on',
     'comma-dangles': 0,
     'global-require': 0,
     'import/no-extraneous-dependencies': 0,
