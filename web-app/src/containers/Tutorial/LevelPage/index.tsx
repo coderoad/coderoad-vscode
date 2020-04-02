@@ -10,7 +10,7 @@ interface PageProps {
 }
 
 const LevelSummaryPageContainer = (props: PageProps) => {
-  const { position, progress, processes, testStatus, error } = props.context
+  const { position, progress, processes, testStatus } = props.context
 
   const tutorial = selectors.currentTutorial(props.context)
   const levelData: TT.Level = selectors.currentLevel(props.context)

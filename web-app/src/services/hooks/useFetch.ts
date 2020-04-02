@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-const useFetch = <T>(url: string, options?: object): { data: T | null; error: string | null; loading: boolean } => {
+const useFetch = <T>(url: string, options: object = {}): { data: T | null; error: string | null; loading: boolean } => {
   const [data, setData] = React.useState(null)
   const [error, setError] = React.useState(null)
   const [loading, setLoading] = React.useState(true)

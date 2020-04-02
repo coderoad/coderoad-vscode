@@ -1,5 +1,5 @@
 import * as CR from 'typings'
-import { assign, Machine, MachineOptions } from 'xstate'
+import { Machine, MachineOptions } from 'xstate'
 import createActions from './actions'
 
 const createOptions = ({ editorSend }: any): MachineOptions<CR.MachineContext, CR.MachineEvent> => ({
