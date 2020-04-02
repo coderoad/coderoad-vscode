@@ -1,39 +1,31 @@
-import { useQuery } from '@apollo/react-hooks'
 import * as React from 'react'
-import * as T from 'typings'
-import * as G from 'typings/graphql'
-import ErrorView from '../../components/Error'
-import queryTutorials from '../../services/apollo/queries/tutorials'
-import LoadingPage from '../Loading'
-import SelectTutorial from './SelectTutorial'
+import SelectTutorialForm from './SelectTutorialForm'
+import LoadTutorialSummary from './LoadTutorialSummary'
 
-interface ContainerProps {
-  send(action: T.Action): void
-  context: T.MachineContext
+const styles = {
+  page: {
+    position: 'relative' as 'relative',
+    height: 'auto',
+    width: '100%',
+  },
+  selectPage: {
+    padding: '1rem',
+  },
 }
 
-interface TutorialsData {
-  tutorials: G.Tutorial[]
+interface Props {
+  send: any
+  context: any
 }
 
-const SelectPageContainer = (props: ContainerProps) => {
-  const { data, loading, error } = useQuery<TutorialsData>(queryTutorials, {
-    fetchPolicy: 'no-cache',
-  })
-
-  if (error) {
-    return <ErrorView error={error} />
-  }
-
-  if (loading) {
-    return <LoadingPage text="Loading tutorials" context={props.context} />
-  }
-
-  if (!data) {
-    return null
-  }
-
-  return <SelectTutorial tutorialList={data.tutorials} send={props.send} />
+const SelectTutorialPage = (props: Props) => {
+  const [url, setUrl] = React.useState<string | null>(null)
+  return (
+    <div css={styles.page}>
+      {!url && <SelectTutorialForm onUrlChange={setUrl} />}
+      {url && <LoadTutorialSummary url={url} send={props.send} onClear={() => setUrl(null)} />}
+    </div>
+  )
 }
 
-export default SelectPageContainer
+export default SelectTutorialPage

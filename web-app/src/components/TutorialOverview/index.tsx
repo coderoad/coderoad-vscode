@@ -1,8 +1,8 @@
 import * as React from 'react'
-import * as G from 'typings/graphql'
-import moment from 'moment'
-import Button from '../../components/Button'
-import Markdown from '../../components/Markdown'
+import * as TT from 'typings/tutorial'
+// import moment from 'moment'
+import Button from '../Button'
+import Markdown from '../Markdown'
 import { Breadcrumb } from '@alifd/next'
 
 const footerHeight = '3rem'
@@ -69,59 +69,57 @@ const styles = {
 }
 
 interface Props {
-  title: string
-  description: string
-  createdBy: G.User
-  updatedAt: string
-  levels: G.Level[]
+  tutorial: TT.Tutorial
   onNext(): void
-  onBack(): void
+  onClear(): void
 }
 
-const Summary = (props: Props) => (
-  <div css={styles.page}>
-    <div css={styles.content}>
-      <div css={styles.header}>
-        <div css={styles.nav}>
-          <Breadcrumb separator="/">
-            <Breadcrumb.Item>
-              <div css={styles.navLink} onClick={props.onBack}>
-                &lt; Back to Tutorials
-              </div>
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-        <h1 css={styles.title}>{props.title}</h1>
-        <h3>{props.description}</h3>
-        <h5 css={styles.meta}>
+const Summary = (props: Props) => {
+  return (
+    <div css={styles.page}>
+      <div css={styles.content}>
+        <div css={styles.header}>
+          <div css={styles.nav}>
+            <Breadcrumb separator="/">
+              <Breadcrumb.Item>
+                <div css={styles.navLink} onClick={props.onClear}>
+                  &lt; Back to Tutorials
+                </div>
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          </div>
+          <h1 css={styles.title}>{props.tutorial.summary.title}</h1>
+          <h3>{props.tutorial.summary.description}</h3>
+          {/* <h5 css={styles.meta}>
           <div css={{ marginRight: '2rem' }}>Created by {props.createdBy.name}</div>
           <div>Last updated {moment(props.updatedAt).format('M/YYYY')}</div>
-        </h5>
-      </div>
-      <div>
-        <div css={styles.levelList}>
-          <h2>Content</h2>
-          {props.levels.map((level: G.Level, index: number) => (
-            <div key={index}>
-              <h3>
-                {index + 1}. {level.title}
-              </h3>
-              <div css={styles.levelSummary}>
-                <Markdown>{level.summary}</Markdown>
+        </h5> */}
+        </div>
+        <div>
+          <div css={styles.levelList}>
+            <h2>Content</h2>
+            {props.tutorial.levels.map((level: TT.Level, index: number) => (
+              <div key={index}>
+                <h3>
+                  {index + 1}. {level.title}
+                </h3>
+                <div css={styles.levelSummary}>
+                  <Markdown>{level.summary}</Markdown>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
 
-    <div css={styles.footer}>
-      {/* TODO Add back button */}
-      <Button type="primary" onClick={props.onNext}>
-        Start
-      </Button>
+      <div css={styles.footer}>
+        {/* TODO Add back button */}
+        <Button type="primary" onClick={props.onNext}>
+          Start
+        </Button>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default Summary

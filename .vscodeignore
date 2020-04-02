@@ -1,26 +1,27 @@
 ## Common
 .gitignore
 
-## Docs
-DEV.md
-
 ## VSCode
 .vscode/**
 .vscode-test/**
 vsc-extension-quickstart.md
-*.vsix
-
-## Dev Folders
-src/**
-web-app/**
-.env
-.prettierrc.js
-jest.config.js
 
 ## TypeScript
 **/tsconfig.json
 **/tslint.json
 **/*.ts
 
+## Dev Folders
+src/**
+web-app/**
+scripts/**
+docs/**
+.env
+.prettierrc.js
+jest.config.js
+
 ## Tests
 build/test/**
+
+## Docs
+DEV.md

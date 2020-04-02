@@ -4,7 +4,6 @@ import Workspace from './components/Workspace'
 import LoadingPage from './containers/Loading'
 import StartPage from './containers/Start'
 import SelectTutorialPage from './containers/SelectTutorial'
-import OverviewPage from './containers/Overview'
 import CompletedPage from './containers/Tutorial/CompletedPage'
 import LevelSummaryPage from './containers/Tutorial/LevelPage'
 import SelectEmptyWorkspace from './containers/Check/SelectWorkspace'
@@ -32,9 +31,6 @@ const Routes = () => {
         </Route>
         <Route path="Setup.SelectTutorial">
           <SelectTutorialPage send={send} context={context} />
-        </Route>
-        <Route path="Setup.Summary">
-          <OverviewPage send={send} context={context} />
         </Route>
         <Route path="Setup.SetupNewTutorial">
           <LoadingPage text="Configuring tutorial..." context={context} />

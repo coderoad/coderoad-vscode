@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as T from 'typings'
-import * as G from 'typings/graphql'
+import * as TT from 'typings/tutorial'
 import * as selectors from '../../../services/selectors'
 import Level from './Level'
 
@@ -10,10 +10,10 @@ interface PageProps {
 }
 
 const LevelSummaryPageContainer = (props: PageProps) => {
-  const { position, progress, processes, testStatus, error } = props.context
+  const { position, progress, processes, testStatus } = props.context
 
-  const version = selectors.currentVersion(props.context)
-  const levelData: G.Level = selectors.currentLevel(props.context)
+  const tutorial = selectors.currentTutorial(props.context)
+  const levelData: TT.Level = selectors.currentLevel(props.context)
 
   const onContinue = (): void => {
     props.send({
@@ -28,15 +28,15 @@ const LevelSummaryPageContainer = (props: PageProps) => {
     props.send({ type: 'STEP_SOLUTION_LOAD' })
   }
 
-  const level: G.Level & {
+  const level: TT.Level & {
     status: T.ProgressStatus
     index: number
-    steps: Array<G.Step & { status: T.ProgressStatus }>
+    steps: Array<TT.Step & { status: T.ProgressStatus }>
   } = {
     ...levelData,
-    index: version.data.levels.findIndex((l: G.Level) => l.id === position.levelId),
+    index: tutorial.levels.findIndex((l: TT.Level) => l.id === position.levelId),
     status: progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE',
-    steps: levelData.steps.map((step: G.Step) => {
+    steps: levelData.steps.map((step: TT.Step) => {
       // label step status for step component
       let status: T.ProgressStatus = 'INCOMPLETE'
       if (progress.steps[step.id]) {

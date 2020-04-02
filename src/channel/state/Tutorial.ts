@@ -1,26 +1,26 @@
-import * as G from 'typings/graphql'
+import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import Storage from '../../services/storage'
 
 // Tutorial
 class Tutorial {
-  private storage: Storage<G.Tutorial | null>
-  private value: G.Tutorial | null = null
+  private storage: Storage<TT.Tutorial | null>
+  private value: TT.Tutorial | null = null
   constructor(workspaceState: vscode.Memento) {
-    this.storage = new Storage<G.Tutorial | null>({
+    this.storage = new Storage<TT.Tutorial | null>({
       key: 'coderoad:currentTutorial',
       storage: workspaceState,
       defaultValue: null,
     })
     // set value from storage
-    this.storage.get().then((value: G.Tutorial | null) => {
+    this.storage.get().then((value: TT.Tutorial | null) => {
       this.value = value
     })
   }
   public get = () => {
     return this.value
   }
-  public set = (value: G.Tutorial | null) => {
+  public set = (value: TT.Tutorial | null) => {
     this.value = value
     this.storage.set(value)
   }

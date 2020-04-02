@@ -1,13 +1,12 @@
 import * as T from 'typings'
-import * as G from 'typings/graphql'
+import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import { COMMANDS } from '../editor/commands'
-import languageMap from '../editor/languageMap'
 import * as git from '../services/git'
 import onError from '../services/sentry/onError'
 
 interface TutorialConfigParams {
-  config: T.TutorialConfig
+  config: TT.TutorialConfig
   alreadyConfigured?: boolean
   onComplete?(): void
 }

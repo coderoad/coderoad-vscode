@@ -1,4 +1,4 @@
-import * as G from './graphql'
+import * as TT from './tutorial'
 
 export type ProgressStatus = 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE'
 
@@ -51,7 +51,7 @@ export interface TestStatus {
 export interface MachineContext {
   env: Environment
   error: ErrorMessage | null
-  tutorial: G.Tutorial | null
+  tutorial: TT.Tutorial | null
   position: Position
   progress: Progress
   processes: ProcessEvent[]
@@ -69,16 +69,12 @@ export interface MachineStateSchema {
     Setup: {
       states: {
         Startup: {}
-        Authenticate: {}
         Error: {}
         LoadStoredTutorial: {}
         Start: {}
         CheckEmptyWorkspace: {}
         NonEmptyWorkspace: {}
         SelectTutorial: {}
-        LoadTutorialSummary: {}
-        Summary: {}
-        LoadTutorialData: {}
         SetupNewTutorial: {}
       }
     }
@@ -125,27 +121,4 @@ export interface ProcessEvent {
   title: string
   description: string
   status: 'RUNNING' | 'SUCCESS' | 'FAIL' | 'ERROR'
-}
-
-export interface StepActions {
-  id: string
-  commands: string[]
-  commits: string[]
-  files: string[]
-  watchers: string[]
-}
-
-export interface TutorialTestRunner {
-  command: string
-  fileFormats: string[]
-}
-
-export interface TutorialRepo {
-  uri: string
-  branch: string
-}
-
-export interface TutorialConfig {
-  testRunner: TutorialTestRunner
-  repo: TutorialRepo
 }

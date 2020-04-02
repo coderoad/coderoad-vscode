@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as CR from 'typings'
-import * as G from 'typings/graphql'
+import * as TT from 'typings/tutorial'
 import BetaBadge from '../../components/BetaBadge'
 import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
@@ -46,7 +46,7 @@ const styles = {
 interface Props {
   onContinue(): void
   onNew(): void
-  tutorial?: G.Tutorial
+  tutorial?: TT.Tutorial
 }
 
 export const StartPage = (props: Props) => (
