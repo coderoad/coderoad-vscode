@@ -1,10 +1,7 @@
 import * as React from 'react'
-import useFetch from '../../services/hooks/useFetch'
-import { Form, Select } from '@alifd/next'
-import { TUTORIAL_URL } from '../../environment'
-
-const FormItem = Form.Item
-const Option = Select.Option
+import { Radio } from '@alifd/next'
+import TutorialSelect from './forms/TutorialSelect'
+import TutorialUrl from './forms/TutorialUrl'
 
 const styles = {
   formWrapper: {
@@ -14,31 +11,31 @@ const styles = {
   },
 }
 
-type TutorialList = Array<{ id: string; title: string; configUrl: string }>
-
 interface Props {
-  onUrlChange(url: string): void
+  tab: string
+  setTab(tab: 'list' | 'url'): void
+  url: string | null
+  onTutorialLoad(url: string): void
 }
 
 const SelectTutorialForm = (props: Props) => {
-  // load tutorial from a path to a tutorial list json
-  const { data, error, loading } = useFetch<TutorialList>(TUTORIAL_URL)
-  // TODO: display errors
-  const selectState = loading ? 'loading' : error || !data ? 'error' : undefined
   return (
     <div css={styles.formWrapper}>
-      <Form style={{ maxWidth: '500px' }}>
-        <FormItem label="Select Tutorial:">
-          <Select onChange={props.onUrlChange} style={{ width: '100%' }} placeholder="Tutorials..." state={selectState}>
-            {data &&
-              data.map((tutorial) => (
-                <Option key={tutorial.id} value={tutorial.configUrl}>
-                  {tutorial.title}
-                </Option>
-              ))}
-          </Select>
-        </FormItem>
-      </Form>
+      <Radio.Group
+        style={{ marginLeft: 8 }}
+        shape="button"
+        value={props.tab}
+        // @ts-ignore ts lib validation issue
+        onChange={props.setTab}
+      >
+        <Radio value="list">List</Radio>
+        <Radio value="url">URL</Radio>
+        {/* <Radio value="file">File</Radio> */}
+      </Radio.Group>
+      <br />
+      <br />
+      {props.tab === 'list' && <TutorialSelect onTutorialLoad={props.onTutorialLoad} />}
+      {props.tab === 'url' && <TutorialUrl onTutorialLoad={props.onTutorialLoad} defaultUrl={props.url || ''} />}
     </div>
   )
 }

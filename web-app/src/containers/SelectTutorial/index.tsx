@@ -19,11 +19,17 @@ interface Props {
 }
 
 const SelectTutorialPage = (props: Props) => {
+  const [page, setPage] = React.useState<'form' | 'summary'>('form')
+  const [tab, setTab] = React.useState<'list' | 'url'>('list')
   const [url, setUrl] = React.useState<string | null>(null)
+  const onTutorialLoad = (url: string) => {
+    setUrl(url)
+    setPage('summary')
+  }
   return (
     <div css={styles.page}>
-      {!url && <SelectTutorialForm onUrlChange={setUrl} />}
-      {url && <LoadTutorialSummary url={url} send={props.send} onClear={() => setUrl(null)} />}
+      {page === 'form' && <SelectTutorialForm url={url} onTutorialLoad={onTutorialLoad} tab={tab} setTab={setTab} />}
+      {page === 'summary' && url && <LoadTutorialSummary url={url} send={props.send} onClear={() => setPage('form')} />}
     </div>
   )
 }

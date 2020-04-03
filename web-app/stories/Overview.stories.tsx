@@ -1,54 +1,69 @@
+import * as TT from '../../typings/tutorial'
 import { linkTo } from '@storybook/addon-links'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import OverViewPage from '../src/containers/Overview/OverviewPage'
+import OverViewPage from '../src/components/TutorialOverview'
 import SideBarDecorator from './utils/SideBarDecorator'
 
 storiesOf('Overview', module)
   .addDecorator(SideBarDecorator)
   .add('OverView Page', () => {
-    const levels = [
-      {
-        id: 'L1',
-        title: 'The First Level',
-        summary: 'A Summary of the first level',
+    const tutorial: TT.Tutorial = {
+      id: '1',
+      version: '0.1.0',
+      config: {
+        testRunner: { command: '' },
+        repo: { uri: '', branch: 'master' },
       },
-      {
-        id: 'L2',
-        title: 'The Second Level',
-        summary: 'A Summary of the second level',
+      summary: {
+        title: 'Manage NPM package.json',
+        description: 'Learn to use the package manager at the core of JavaScript projects.',
       },
-      {
-        id: 'L3',
-        title: 'The Third Level',
-        summary: 'A Summary of the third level',
-      },
-      {
-        id: 'L4',
-        title: 'The Fourth Level',
-        summary: 'A Summary of the fourth level',
-      },
-      {
-        id: 'L5',
-        title: 'The Fifth Level',
-        summary: 'A Summary of the fifth level',
-      },
-      {
-        id: 'L6',
-        title: 'The Sixth Level',
-        summary: 'A Summary of the sixth level',
-      },
-    ]
-    return (
-      <OverViewPage
-        title="Manage NPM package.json"
-        description="Learn to use the package manager at the core of JavaScript projects."
-        createdBy={{ name: 'Shawn McKay' }}
-        updatedAt={new Date().toUTCString()}
-        levels={levels}
-        onBack={action('back')}
-        onNext={linkTo('Tutorial SideBar', 'Level')}
-      />
-    )
+      levels: [
+        {
+          id: 'L1',
+          title: 'The First Level',
+          summary: 'A Summary of the first level',
+          content: '',
+          steps: [],
+        },
+        {
+          id: 'L2',
+          title: 'The Second Level',
+          summary: 'A Summary of the second level',
+          content: '',
+          steps: [],
+        },
+        {
+          id: 'L3',
+          title: 'The Third Level',
+          summary: 'A Summary of the third level',
+          content: '',
+          steps: [],
+        },
+        {
+          id: 'L4',
+          title: 'The Fourth Level',
+          summary: 'A Summary of the fourth level',
+          content: '',
+          steps: [],
+        },
+        {
+          id: 'L5',
+          title: 'The Fifth Level',
+          summary: 'A Summary of the fifth level',
+          content: '',
+          steps: [],
+        },
+        {
+          id: 'L6',
+          title: 'The Sixth Level',
+          summary: 'A Summary of the sixth level',
+          content: '',
+          steps: [],
+        },
+      ],
+    }
+    return <OverViewPage tutorial={tutorial} onClear={action('clear')} onNext={linkTo('Tutorial SideBar', 'Level')} />
   })
