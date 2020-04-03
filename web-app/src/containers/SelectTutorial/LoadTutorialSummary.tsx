@@ -5,7 +5,7 @@ import Loading from '../Loading'
 
 interface Props {
   url: string
-  onSetDataFromUrl(data: TT.Tutorial): void
+  onLoadSummary(data: TT.Tutorial): void
 }
 
 const LoadTutorialSummary = (props: Props) => {
@@ -20,7 +20,7 @@ const LoadTutorialSummary = (props: Props) => {
   if (!data) {
     return <div>No data returned for tutorial</div>
   }
-  props.onSetDataFromUrl(data)
+  props.onLoadSummary(data)
   return null
 }
 

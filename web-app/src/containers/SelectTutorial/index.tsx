@@ -34,11 +34,11 @@ const SelectTutorialPage = (props: Props) => {
       },
     })
   }
-  const onTutorialLoad = (url: string) => {
+  const onTutorialLoadFromUrl = (url: string) => {
     setUrl(url)
     setPage('loading')
   }
-  const onSetDataFromUrl = (d: TT.Tutorial) => {
+  const onLoadSummary = (d: TT.Tutorial) => {
     setData(d)
     setPage('summary')
   }
@@ -48,8 +48,16 @@ const SelectTutorialPage = (props: Props) => {
   }
   return (
     <div css={styles.page}>
-      {page === 'form' && <SelectTutorialForm url={url} onTutorialLoad={onTutorialLoad} tab={tab} setTab={setTab} />}
-      {page === 'loading' && url && <LoadTutorialSummary url={url} onSetDataFromUrl={onSetDataFromUrl} />}
+      {page === 'form' && (
+        <SelectTutorialForm
+          url={url}
+          onLoadSummary={onLoadSummary}
+          onTutorialLoadFromUrl={onTutorialLoadFromUrl}
+          tab={tab}
+          setTab={setTab}
+        />
+      )}
+      {page === 'loading' && url && <LoadTutorialSummary url={url} onLoadSummary={onLoadSummary} />}
       {page === 'summary' && data && <TutorialOverview onNext={onNext} tutorial={data} onClear={onClear} />}
     </div>
   )

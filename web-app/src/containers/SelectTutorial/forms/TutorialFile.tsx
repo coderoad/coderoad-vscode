@@ -1,15 +1,14 @@
 import * as React from 'react'
+import * as TT from 'typings/tutorial'
 import { Form } from '@alifd/next'
 
 const FormItem = Form.Item
 
 interface Props {
-  onTutorialLoad(url: string): void
+  onLoadSummary(data: TT.Tutorial): void
 }
 
 const TutorialFile = (props: Props) => {
-  const [json, setJson] = React.useState<JSON | null>(null)
-
   const onChange = (evt: any) => {
     const files = evt.target.files
 
@@ -20,9 +19,9 @@ const TutorialFile = (props: Props) => {
     const uploadedFile = files[0]
     const reader = new FileReader()
     reader.onload = (e: any) => {
-      // TODO: handle errors from bad JSON
-      const fileJson: JSON = JSON.parse(e.target.result)
-      setJson(fileJson)
+      // TODO: handle errors from invalid JSON
+      const fileJson: TT.Tutorial = JSON.parse(e.target.result)
+      props.onLoadSummary(fileJson)
     }
     reader.readAsText(uploadedFile)
   }
@@ -32,7 +31,7 @@ const TutorialFile = (props: Props) => {
       <FormItem label="Load coderoad config.json">
         <input type="file" accept="application/json" onChange={onChange} />
       </FormItem>
-      &nbsp;&nbsp;
+      <br />
     </Form>
   )
 }
