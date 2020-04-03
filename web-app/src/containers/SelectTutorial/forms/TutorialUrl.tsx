@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, Form, Radio, Input } from '@alifd/next'
+import { Button, Form, Input } from '@alifd/next'
 
 const FormItem = Form.Item
 

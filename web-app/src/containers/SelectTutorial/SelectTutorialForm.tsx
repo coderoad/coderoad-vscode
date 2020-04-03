@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Radio } from '@alifd/next'
 import TutorialSelect from './forms/TutorialSelect'
 import TutorialUrl from './forms/TutorialUrl'
+import TutorialFile from './forms/TutorialFile'
 
 const styles = {
   formWrapper: {
@@ -30,12 +31,13 @@ const SelectTutorialForm = (props: Props) => {
       >
         <Radio value="list">List</Radio>
         <Radio value="url">URL</Radio>
-        {/* <Radio value="file">File</Radio> */}
+        <Radio value="file">File</Radio>
       </Radio.Group>
       <br />
       <br />
       {props.tab === 'list' && <TutorialSelect onTutorialLoad={props.onTutorialLoad} />}
       {props.tab === 'url' && <TutorialUrl onTutorialLoad={props.onTutorialLoad} defaultUrl={props.url || ''} />}
+      {props.tab === 'file' && <TutorialFile onTutorialLoad={props.onTutorialLoad} />}
     </div>
   )
 }
