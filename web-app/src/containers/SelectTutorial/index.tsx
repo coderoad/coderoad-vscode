@@ -1,5 +1,7 @@
+import * as TT from 'typings/tutorial'
 import * as React from 'react'
 import SelectTutorialForm from './SelectTutorialForm'
+import TutorialOverview from '../../components/TutorialOverview'
 import LoadTutorialSummary from './LoadTutorialSummary'
 
 const styles = {
@@ -19,17 +21,44 @@ interface Props {
 }
 
 const SelectTutorialPage = (props: Props) => {
-  const [page, setPage] = React.useState<'form' | 'summary'>('form')
+  const [data, setData] = React.useState<TT.Tutorial | null>()
+  const [page, setPage] = React.useState<'form' | 'loading' | 'summary'>('form')
   const [tab, setTab] = React.useState<'list' | 'url'>('list')
   const [url, setUrl] = React.useState<string | null>(null)
-  const onTutorialLoad = (url: string) => {
+
+  const onNext = () => {
+    props.send({
+      type: 'TUTORIAL_START',
+      payload: {
+        tutorial: data,
+      },
+    })
+  }
+  const onTutorialLoadFromUrl = (url: string) => {
     setUrl(url)
+    setPage('loading')
+  }
+  const onLoadSummary = (d: TT.Tutorial) => {
+    setData(d)
     setPage('summary')
+  }
+  const onClear = () => {
+    setData(null)
+    setPage('form')
   }
   return (
     <div css={styles.page}>
-      {page === 'form' && <SelectTutorialForm url={url} onTutorialLoad={onTutorialLoad} tab={tab} setTab={setTab} />}
-      {page === 'summary' && url && <LoadTutorialSummary url={url} send={props.send} onClear={() => setPage('form')} />}
+      {page === 'form' && (
+        <SelectTutorialForm
+          url={url}
+          onLoadSummary={onLoadSummary}
+          onTutorialLoadFromUrl={onTutorialLoadFromUrl}
+          tab={tab}
+          setTab={setTab}
+        />
+      )}
+      {page === 'loading' && url && <LoadTutorialSummary url={url} onLoadSummary={onLoadSummary} />}
+      {page === 'summary' && data && <TutorialOverview onNext={onNext} tutorial={data} onClear={onClear} />}
     </div>
   )
 }

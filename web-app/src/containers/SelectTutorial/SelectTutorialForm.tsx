@@ -1,7 +1,9 @@
+import * as TT from 'typings/tutorial'
 import * as React from 'react'
 import { Radio } from '@alifd/next'
 import TutorialSelect from './forms/TutorialSelect'
 import TutorialUrl from './forms/TutorialUrl'
+import TutorialFile from './forms/TutorialFile'
 
 const styles = {
   formWrapper: {
@@ -15,7 +17,8 @@ interface Props {
   tab: string
   setTab(tab: 'list' | 'url'): void
   url: string | null
-  onTutorialLoad(url: string): void
+  onTutorialLoadFromUrl(url: string): void
+  onLoadSummary(data: TT.Tutorial | null): void
 }
 
 const SelectTutorialForm = (props: Props) => {
@@ -30,12 +33,13 @@ const SelectTutorialForm = (props: Props) => {
       >
         <Radio value="list">List</Radio>
         <Radio value="url">URL</Radio>
-        {/* <Radio value="file">File</Radio> */}
+        <Radio value="file">File</Radio>
       </Radio.Group>
       <br />
       <br />
-      {props.tab === 'list' && <TutorialSelect onTutorialLoad={props.onTutorialLoad} />}
-      {props.tab === 'url' && <TutorialUrl onTutorialLoad={props.onTutorialLoad} defaultUrl={props.url || ''} />}
+      {props.tab === 'list' && <TutorialSelect onTutorialLoad={props.onTutorialLoadFromUrl} />}
+      {props.tab === 'url' && <TutorialUrl onTutorialLoad={props.onTutorialLoadFromUrl} defaultUrl={props.url || ''} />}
+      {props.tab === 'file' && <TutorialFile onLoadSummary={props.onLoadSummary} />}
     </div>
   )
 }
