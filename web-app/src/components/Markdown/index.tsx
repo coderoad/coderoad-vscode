@@ -1,8 +1,10 @@
 import MarkdownIt from 'markdown-it'
 // @ts-ignore no types for package
-import markdownEmoji from 'markdown-it-emoji'
+
+import Prism from 'prismjs'
+
 // @ts-ignore no types for package
-import prism from 'markdown-it-prism'
+import markdownEmoji from 'markdown-it-emoji'
 import * as React from 'react'
 import onError from '../../services/sentry/onError'
 // load prism styles & language support
@@ -13,13 +15,21 @@ const md: MarkdownIt = new MarkdownIt({
   breaks: true,
   html: true,
   linkify: true,
+  highlight(str, lang) {
+    let hl
+
+    try {
+      hl = Prism.highlight(str, Prism.languages[lang], lang)
+    } catch (error) {
+      console.error(error)
+      hl = md.utils.escapeHtml(str)
+    }
+
+    return `<pre class="language-${lang}"><code class="language-${lang}">${hl}</code></pre>`
+  },
 })
   // add emoji: https://github.com/markdown-it/markdown-it-emoji
   .use(markdownEmoji)
-  // add syntax highlighting through prism
-  .use(prism, {
-    defaultLanguage: 'js',
-  })
 
 // const mdFeatures = [
 //   'table',
