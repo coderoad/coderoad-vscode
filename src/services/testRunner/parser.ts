@@ -1,4 +1,4 @@
-interface ParserOutput {
+export interface ParserOutput {
   ok: boolean
   passed: Array<{ message: string }>
   failed: Array<{ message: string; details?: string }>

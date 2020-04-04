@@ -4,6 +4,7 @@ import parser from './parser'
 import { debounce, throttle } from './throttle'
 import onError from '../sentry/onError'
 import { clearOutput, displayOutput } from './output'
+import { formatFailOutput } from './formatOutput'
 
 export interface Payload {
   stepId: string
@@ -52,11 +53,12 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
 
     const tap = parser(stdout || '')
     if (stderr) {
-      // failures also trigger stderr
+      // FAIL also trigger stderr
       if (stdout && stdout.length && !tap.ok) {
-        const message = tap.message ? tap.message : ''
-        callbacks.onFail(payload, message)
-        displayOutput(stdout)
+        const firstFailMessage = tap.failed[0].message
+        callbacks.onFail(payload, firstFailMessage)
+        const output = formatFailOutput(tap)
+        displayOutput(output)
         return
       } else {
         callbacks.onError(payload)
@@ -66,7 +68,7 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
       }
     }
 
-    // success!
+    // PASS
     if (tap.ok) {
       clearOutput()
       callbacks.onSuccess(payload)
