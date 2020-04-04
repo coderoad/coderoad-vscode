@@ -11,22 +11,11 @@ const getOutputChannel = (name: string): vscode.OutputChannel => {
 
 const outputChannelName = 'CodeRoad Output'
 
-const parseOutput = (text: string): string => {
-  let result = ''
-  for (const line of text.split(/\r?\n/)) {
-    if (line.match(/^#/) || line.match(/^not ok/)) {
-      result += line + '\n'
-    }
-  }
-  return result
-}
-
 export const displayOutput = (text: string) => {
   const channel = getOutputChannel(outputChannelName)
   channel.clear()
   channel.show(true)
-  const output = parseOutput(text)
-  channel.append(output)
+  channel.append(text)
 }
 
 export const clearOutput = () => {
