@@ -74,4 +74,21 @@ ok 3 sumItems should total numbers accurately
 `
     expect(parser(example).fails).toEqual([{ message: "sumItems shouldn't return NaN" }])
   })
+  test('should capture error details', () => {
+    const example = `
+not ok 1 package.json should have a valid "author" key
+#  AssertionError [ERR_ASSERTION]: no "author" key provided
+#      at Context.<anonymous> (test/packagejson.test.js:11:12)
+#      at processImmediate (internal/timers.js:439:21)
+# tests 1
+# pass 0
+# fail 1
+# skip 0
+`
+    const result = parser(example)
+    expect(result.fails[0].message).toBe('package.json should have a valid "author" key')
+    expect(result.fails[0].details).toBe(`AssertionError [ERR_ASSERTION]: no "author" key provided
+at Context.<anonymous> (test/packagejson.test.js:11:12)
+at processImmediate (internal/timers.js:439:21)`)
+  })
 })

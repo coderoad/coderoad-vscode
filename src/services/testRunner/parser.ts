@@ -54,7 +54,7 @@ const parser = (text: string): ParserOutput => {
     // check for error details
     const isDetails = detect('details', line)
     if (!!isDetails) {
-      const lineDetails: string = isDetails[2]
+      const lineDetails: string = isDetails[1].trim()
       if (!currentDetails) {
         currentDetails = lineDetails
       } else {
@@ -63,6 +63,7 @@ const parser = (text: string): ParserOutput => {
       }
     }
   }
+  addCurrentDetails()
   return result
 }
 
