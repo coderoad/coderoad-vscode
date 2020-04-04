@@ -74,7 +74,7 @@ ok 3 sumItems should total numbers accurately
 `
     expect(parser(example).fails).toEqual([{ message: "sumItems shouldn't return NaN" }])
   })
-  test('should capture error details', () => {
+  test('should capture single error details', () => {
     const example = `
 not ok 1 package.json should have a valid "author" key
 #  AssertionError [ERR_ASSERTION]: no "author" key provided
@@ -90,5 +90,50 @@ not ok 1 package.json should have a valid "author" key
     expect(result.fails[0].details).toBe(`AssertionError [ERR_ASSERTION]: no "author" key provided
 at Context.<anonymous> (test/packagejson.test.js:11:12)
 at processImmediate (internal/timers.js:439:21)`)
+  })
+  test('should capture multiple error details', () => {
+    const example = `
+not ok 1 package.json should have a valid "author" key
+#  AssertionError [ERR_ASSERTION]: no "author" key provided
+#      at Context.<anonymous> (test/packagejson.test.js:11:12)
+#      at processImmediate (internal/timers.js:439:21)
+not ok 2 package.json should have a valid "description" key
+#  AssertionError [ERR_ASSERTION]: no "description" key provided
+# tests 1
+# pass 0
+# fail 1
+# skip 0
+`
+    const result = parser(example)
+    expect(result.fails[0].message).toBe('package.json should have a valid "author" key')
+    expect(result.fails[0].details).toBe(`AssertionError [ERR_ASSERTION]: no "author" key provided
+at Context.<anonymous> (test/packagejson.test.js:11:12)
+at processImmediate (internal/timers.js:439:21)`)
+    expect(result.fails[1].message).toBe('package.json should have a valid "description" key')
+    expect(result.fails[1].details).toBe(`AssertionError [ERR_ASSERTION]: no "description" key provided`)
+  })
+  test('should capture multiple error details between successes', () => {
+    const example = `
+ok 1 first passing test
+not ok 2 package.json should have a valid "author" key
+#  AssertionError [ERR_ASSERTION]: no "author" key provided
+#      at Context.<anonymous> (test/packagejson.test.js:11:12)
+#      at processImmediate (internal/timers.js:439:21)
+ok 3 some passing test
+not ok 4 package.json should have a valid "description" key
+#  AssertionError [ERR_ASSERTION]: no "description" key provided
+ok 5 some passing test
+# tests 1
+# pass 0
+# fail 1
+# skip 0
+`
+    const result = parser(example)
+    expect(result.fails[0].message).toBe('package.json should have a valid "author" key')
+    expect(result.fails[0].details).toBe(`AssertionError [ERR_ASSERTION]: no "author" key provided
+at Context.<anonymous> (test/packagejson.test.js:11:12)
+at processImmediate (internal/timers.js:439:21)`)
+    expect(result.fails[1].message).toBe('package.json should have a valid "description" key')
+    expect(result.fails[1].details).toBe(`AssertionError [ERR_ASSERTION]: no "description" key provided`)
   })
 })

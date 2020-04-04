@@ -23,8 +23,9 @@ const parser = (text: string): ParserOutput => {
   let currentDetails: string | null = null
 
   const addCurrentDetails = () => {
-    if (currentDetails) {
-      result.fails[result.fails.length - 1].details = currentDetails
+    const failLength: number = result.fails.length
+    if (currentDetails && !!failLength) {
+      result.fails[failLength - 1].details = currentDetails
       currentDetails = null
     }
   }
@@ -46,8 +47,8 @@ const parser = (text: string): ParserOutput => {
     const isFail = detect('fail', line)
     if (!!isFail) {
       result.ok = false
-      result.fails.push({ message: isFail[2] })
       addCurrentDetails()
+      result.fails.push({ message: isFail[2] })
       continue
     }
 
