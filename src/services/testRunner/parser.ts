@@ -1,11 +1,12 @@
 interface ParserOutput {
   ok: boolean
-  fails: Array<{ message: string; details?: string }>
+  passed: Array<{ message: string }>
+  failed: Array<{ message: string; details?: string }>
 }
 
 const r = {
   fail: /^not ok \d+\s(\-\s)?(.+)+$/,
-  pass: /^ok/,
+  pass: /^ok \d+\s(\-\s)?(.+)+$/,
   details: /^#\s{2}(.+)$/,
 }
 
@@ -15,17 +16,18 @@ const parser = (text: string): ParserOutput => {
   const lines = text.split('\n')
 
   const result: ParserOutput = {
-    ok: false,
-    fails: [],
+    ok: true,
+    passed: [],
+    failed: [],
   }
 
   // temporary holder of error detail strings
   let currentDetails: string | null = null
 
   const addCurrentDetails = () => {
-    const failLength: number = result.fails.length
+    const failLength: number = result.failed.length
     if (currentDetails && !!failLength) {
-      result.fails[failLength - 1].details = currentDetails
+      result.failed[failLength - 1].details = currentDetails
       currentDetails = null
     }
   }
@@ -35,12 +37,11 @@ const parser = (text: string): ParserOutput => {
       continue
     }
     // be optimistic! check for success
-    if (!result.ok && !result.fails.length) {
-      if (!!detect('pass', line)) {
-        result.ok = true
-        addCurrentDetails()
-        continue
-      }
+    const isPass = detect('pass', line)
+    if (!!isPass) {
+      result.passed.push({ message: isPass[2].trim() })
+      addCurrentDetails()
+      continue
     }
 
     // check for failure
@@ -48,7 +49,7 @@ const parser = (text: string): ParserOutput => {
     if (!!isFail) {
       result.ok = false
       addCurrentDetails()
-      result.fails.push({ message: isFail[2] })
+      result.failed.push({ message: isFail[2].trim() })
       continue
     }
 

@@ -6,7 +6,7 @@ describe('parser', () => {
 1..1
 ok 1 - Should pass
 `
-    expect(parser(example)).toEqual({ ok: true, fails: [] })
+    expect(parser(example)).toEqual({ ok: true, passed: [{ message: 'Should pass' }], failed: [] })
   })
   test('should detect multiple successes', () => {
     const example = `
@@ -14,7 +14,12 @@ ok 1 - Should pass
 ok 1 - Should pass
 ok 2 - Should also pass
 `
-    expect(parser(example)).toEqual({ ok: true, fails: [] })
+    const result = parser(example)
+    expect(result).toEqual({
+      ok: true,
+      passed: [{ message: 'Should pass' }, { message: 'Should also pass' }],
+      failed: [],
+    })
   })
   test('should detect failure if no tests passed', () => {
     const example = `
@@ -44,7 +49,7 @@ not ok 2 - First to fail
 ok 3 - Also passes
 not ok 4 - Second to fail
 `
-    expect(parser(example).fails).toEqual([{ message: 'First to fail' }, { message: 'Second to fail' }])
+    expect(parser(example).failed).toEqual([{ message: 'First to fail' }, { message: 'Second to fail' }])
   })
 
   test('should parse mocha tap example', () => {
@@ -72,7 +77,7 @@ ok 3 sumItems should total numbers accurately
 # fail 1
 # skip 0
 `
-    expect(parser(example).fails).toEqual([{ message: "sumItems shouldn't return NaN" }])
+    expect(parser(example).failed).toEqual([{ message: "sumItems shouldn't return NaN" }])
   })
   test('should capture single error details', () => {
     const example = `
@@ -86,8 +91,8 @@ not ok 1 package.json should have a valid "author" key
 # skip 0
 `
     const result = parser(example)
-    expect(result.fails[0].message).toBe('package.json should have a valid "author" key')
-    expect(result.fails[0].details).toBe(`AssertionError [ERR_ASSERTION]: no "author" key provided
+    expect(result.failed[0].message).toBe('package.json should have a valid "author" key')
+    expect(result.failed[0].details).toBe(`AssertionError [ERR_ASSERTION]: no "author" key provided
 at Context.<anonymous> (test/packagejson.test.js:11:12)
 at processImmediate (internal/timers.js:439:21)`)
   })
@@ -105,12 +110,12 @@ not ok 2 package.json should have a valid "description" key
 # skip 0
 `
     const result = parser(example)
-    expect(result.fails[0].message).toBe('package.json should have a valid "author" key')
-    expect(result.fails[0].details).toBe(`AssertionError [ERR_ASSERTION]: no "author" key provided
+    expect(result.failed[0].message).toBe('package.json should have a valid "author" key')
+    expect(result.failed[0].details).toBe(`AssertionError [ERR_ASSERTION]: no "author" key provided
 at Context.<anonymous> (test/packagejson.test.js:11:12)
 at processImmediate (internal/timers.js:439:21)`)
-    expect(result.fails[1].message).toBe('package.json should have a valid "description" key')
-    expect(result.fails[1].details).toBe(`AssertionError [ERR_ASSERTION]: no "description" key provided`)
+    expect(result.failed[1].message).toBe('package.json should have a valid "description" key')
+    expect(result.failed[1].details).toBe(`AssertionError [ERR_ASSERTION]: no "description" key provided`)
   })
   test('should capture multiple error details between successes', () => {
     const example = `
@@ -129,11 +134,11 @@ ok 5 some passing test
 # skip 0
 `
     const result = parser(example)
-    expect(result.fails[0].message).toBe('package.json should have a valid "author" key')
-    expect(result.fails[0].details).toBe(`AssertionError [ERR_ASSERTION]: no "author" key provided
+    expect(result.failed[0].message).toBe('package.json should have a valid "author" key')
+    expect(result.failed[0].details).toBe(`AssertionError [ERR_ASSERTION]: no "author" key provided
 at Context.<anonymous> (test/packagejson.test.js:11:12)
 at processImmediate (internal/timers.js:439:21)`)
-    expect(result.fails[1].message).toBe('package.json should have a valid "description" key')
-    expect(result.fails[1].details).toBe(`AssertionError [ERR_ASSERTION]: no "description" key provided`)
+    expect(result.failed[1].message).toBe('package.json should have a valid "description" key')
+    expect(result.failed[1].details).toBe(`AssertionError [ERR_ASSERTION]: no "description" key provided`)
   })
 })
