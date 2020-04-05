@@ -7,8 +7,7 @@
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "files.exclude": {
     "build": false, // set this to true to hide the "out" folder with the compiled JS files
-    ".vscode-test/**": true,
-    "*.vsix": true
+    ".vscode-test/**": true
   },
   // styles
   "workbench.colorCustomizations": {
