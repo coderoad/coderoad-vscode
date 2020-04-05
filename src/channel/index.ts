@@ -83,7 +83,7 @@ class Channel implements Channel {
       case 'EDITOR_TUTORIAL_CONFIG':
         const data: TT.Tutorial = action.payload.tutorial
         // setup tutorial config (save watcher, test runner, etc)
-        this.context.setTutorial(this.workspaceState, data)
+        await this.context.setTutorial(this.workspaceState, data)
 
         await tutorialConfig({ config: data.config }, onError)
 
