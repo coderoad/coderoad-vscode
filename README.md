@@ -14,14 +14,14 @@ To start the extension, inside VSCode:
   - select “View” > “Command Palette” from the top panel
   - alternatively, press `cmd/ctrl + shift + P`
 - Search for and run `CodeRoad:Start`
-- A web view should appear on the right side of your editor asking you to click "Start"
+- A web view should appear on the right side of your editor. Click "Start"
 
 ### Requirements
 
 - VSCode 1.40+
   [Download Visual Studio Code - Mac, Linux, Windows](https://code.visualstudio.com/download)
 - VSCode command line tools.
-  For Mac, installation requires an additioanl step. See [Running Visual Studio Code on macOS](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line).
+  For Mac, installation requires an additional step. See [Running Visual Studio Code on macOS](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line).
 - Node.js 10+
   [Download Node.js](https://nodejs.org/en/download/)
 - Git
@@ -34,7 +34,9 @@ To install the extension manually:
 
 - run `vsce package` to build the package.
   Learn more about [VSCE](https://code.visualstudio.com/api/working-with-extensions/publishing-extension)
-- run `code —-install-extension coderoad-0.1.0.vsix`.
+- run `code —-install-extension coderoad-$VERSION.vsix` where version is the name of the file.
+- Reload the window (`ctrl/cmd + R`)
+- You should be able to see the extension from the extensions list on the left hand side. Verify that "CodeRoad" is "enabled".
 
 ## Creating Tutorials
 
