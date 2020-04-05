@@ -1,6 +1,5 @@
 node_modules
 .vscode-test/
-*.vsix
 .DS_Store
 
 # local
@@ -17,3 +16,6 @@ web-app/node_modules
 TODO.md
 vsc-extension-quickstart.md
 
+# releases
+*.vsix
+/releases
