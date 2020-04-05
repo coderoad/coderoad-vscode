@@ -3,15 +3,19 @@
 # This script exists because certain dependencies 
 # seem to fail to be installed.
 
+
 PACKAGE_VERSION=$(grep 'version' package.json \
   | cut -d '"' -f4)
+RELEASES_FOLDER=releases
+OUTPUT_FILE=coderoad-$PACKAGE_VERSION.vsix
 
-# echo "Packaging Extension..."
-vsce package
+echo "Creating $OUTPUT_FILE..."
 
-# echo "Installing Extension..."
-code --install-extension coderoad-$PACKAGE_VERSION.vsix
+echo "Building..."
+npm run build
 
-# echo "Installing Additional Deps..."
-cd ~/.vscode/extensions/coderoad.coderoad-$PACKAGE_VERSION
-npm install
+echo "Packaging Extension..."
+vsce package --out ./$RELEASES_FOLDER
+
+echo "Installing Extension..."
+code --install-extension ./$RELEASES_FOLDER/$OUTPUT_FILE
