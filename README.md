@@ -34,7 +34,7 @@ To install the extension manually:
 
 - run `vsce package` to build the package.
   Learn more about [VSCE](https://code.visualstudio.com/api/working-with-extensions/publishing-extension)
-- run `code —install-extension coderoad-0.1.0.vsix`.
+- run `code —-install-extension coderoad-0.1.0.vsix`.
 
 ## Creating Tutorials
 
