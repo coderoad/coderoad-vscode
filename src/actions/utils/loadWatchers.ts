@@ -34,11 +34,18 @@ const loadWatchers = (watchers: string[], workspaceUri: vscode.Uri) => {
         interval: 1000,
       })
 
+      // prevent firing tests within 1 second of last test check
+      const lastFire: Date | null = null
+
+      // run tests on watcher change
       fsWatcher.on('change', (path, event) => {
-        vscode.commands.executeCommand(COMMANDS.RUN_TEST, null, () => {
-          // cleanup watcher on success
-          disposeWatcher(watcher)
-        })
+        const now = +new Date()
+        if (!lastFire || lastFire - now > 1000) {
+          vscode.commands.executeCommand(COMMANDS.RUN_TEST, null, () => {
+            // cleanup watcher on success
+            disposeWatcher(watcher)
+          })
+        }
       })
 
       // key fs watcher on name
