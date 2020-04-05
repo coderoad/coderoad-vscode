@@ -6,6 +6,9 @@
 .vscode-test/**
 vsc-extension-quickstart.md
 
+## CI/CD
+.circleci
+
 ## TypeScript
 **/tsconfig.json
 **/tslint.json
