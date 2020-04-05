@@ -1,6 +1,5 @@
 import React from 'react'
 import { Collapse, Icon } from '@alifd/next'
-import Button from '../Button'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import './transition.css'
 
@@ -25,27 +24,6 @@ const styles = {
     alignItems: 'center' as 'center',
     width: '1.5rem',
   },
-}
-
-type LoadSolutionButtonProps = {
-  onLoadSolution: () => void
-  close: () => void
-}
-
-const LoadSolutionButton = (props: LoadSolutionButtonProps) => {
-  const [loadedSolution, setLoadedSolution] = React.useState(false)
-  const onClickHandler = () => {
-    props.close()
-    if (!loadedSolution) {
-      setLoadedSolution(true)
-      props.onLoadSolution()
-    }
-  }
-  return (
-    <Button type="secondary" onClick={onClickHandler} disabled={loadedSolution}>
-      Load Solution
-    </Button>
-  )
 }
 
 type NuxProps = {
@@ -112,20 +90,6 @@ const NewUserExperienceTutorialCollapsible = (props: NuxProps) => {
           <li>
             Read the tests. The tests can be found in the test directory and can be read in detail to help you
             understand what's failing.
-          </li>
-          <br />
-          <li>
-            Still stuck? Load the solution. Each step in CodeRoad is stored as a Git commit - including the solution.
-            Load the solution commit by pressing the button below.
-            <br />
-            <br />
-            <LoadSolutionButton
-              onLoadSolution={props.onLoadSolution}
-              close={() => {
-                setExpandedKeys([])
-                props.onClose()
-              }}
-            />
           </li>
         </ol>
       </Panel>
