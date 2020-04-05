@@ -23,18 +23,18 @@ const tutorialConfig = async (
       handleError({
         title: error.message,
         description:
-          'Be sure you install Git. See the docs for help https://git-scm.com/book/en/v2/Getting-Started-Installing-Git',
+          'Make sure you install Git. See the docs for help https://git-scm.com/book/en/v2/Getting-Started-Installing-Git',
       })
     })
 
     // TODO if remote not already set
     await git.setupRemote(config.repo.uri).catch((error) => {
       onError(error)
-      handleError({ title: error.message, description: 'Remove your current Git project and restarting' })
+      handleError({ title: error.message, description: 'Remove your current Git project and reload the editor' })
     })
   }
 
-  vscode.commands.executeCommand(COMMANDS.CONFIG_TEST_RUNNER, config.testRunner)
+  await vscode.commands.executeCommand(COMMANDS.CONFIG_TEST_RUNNER, config.testRunner)
 
   // verify if file test should run based on document saved
   const shouldRunTest = (document: vscode.TextDocument): boolean => {
