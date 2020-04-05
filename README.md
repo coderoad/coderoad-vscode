@@ -23,7 +23,6 @@ To start the extension, inside VSCode:
 - VSCode command line tools.
   For Mac, installation requires an additional step. See [Running Visual Studio Code on macOS](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line).
 - Node.js 10+
-  [Download Node.js](https://nodejs.org/en/download/)
 - Git
 
 ### Installation
@@ -43,6 +42,10 @@ To install the extension manually:
 Build and share your own interactive tutorials.
 
 Learn more about [how tutorials area created](./docs/tutorials.md).
+
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
