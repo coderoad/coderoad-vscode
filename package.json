@@ -1,6 +1,6 @@
 {
   "name": "coderoad",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Interactive tutorials in your editor",
   "keywords": [
     "tutorial",
@@ -75,7 +75,7 @@
   },
   "displayName": "CodeRoad",
   "galleryBanner": {
-    "color": "#C80000",
+    "color": "#6a67ce",
     "theme": "dark"
   },
   "preview": true,

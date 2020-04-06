@@ -6,15 +6,23 @@ CodeRoad is a VSCode extension that allows you to play interactive coding tutori
 
 ## Getting Started
 
-### Launch
+### Start
 
 To start the extension, inside VSCode:
 
-- Open the VSCode command palette.
+- Open an empty VSCode workspace (an empty folder)
+- Launch the app from the VSCode command palette:
   - select “View” > “Command Palette” from the top panel
   - alternatively, press `cmd/ctrl + shift + P`
-- Search for and run `CodeRoad:Start`
-- A web view should appear on the right side of your editor. Click "Start"
+- In the command palette, search for and run `CodeRoad:Start`
+- A webview should appear on the right side of your editor. Click "Start"
+
+### Install
+
+Install CodeRoad from [this link in the VSCode Marketplace](https://marketplace.visualstudio.com/items?itemName=CodeRoad.coderoad).
+
+- You may need to reload the window (`ctrl/cmd + R`)
+- See ["Start"](#start) to get started.
 
 ### Requirements
 
@@ -25,23 +33,15 @@ To start the extension, inside VSCode:
 - Node.js 10+
 - Git
 
-### Installation
-
-> Currently CodeRoad is not yet available in the VSCode marketplace (coming soon!).
-
-To install the extension manually:
-
-- run `vsce package` to build the package.
-  Learn more about [VSCE](https://code.visualstudio.com/api/working-with-extensions/publishing-extension)
-- run `code —-install-extension coderoad-$VERSION.vsix` where version is the name of the file.
-- Reload the window (`ctrl/cmd + R`)
-- You should be able to see the extension from the extensions list on the left hand side. Verify that "CodeRoad" is "enabled".
-
 ## Creating Tutorials
 
 Build and share your own interactive tutorials.
 
 Learn more about [how tutorials area created](./docs/tutorials.md).
+
+## Editing Tutorials
+
+Tutorials can be edited directly as markdown on Github.
 
 ## Contributing
 
