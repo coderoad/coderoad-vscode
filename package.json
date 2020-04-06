@@ -1,7 +1,7 @@
 {
   "name": "coderoad",
-  "version": "0.1.4",
-  "description": "Interactive tutorials in your editor",
+  "version": "0.1.5",
+  "description": "Play interactive coding tutorials in your editor",
   "keywords": [
     "tutorial",
     "learn",
@@ -9,7 +9,7 @@
     "teach",
     "training"
   ],
-  "homepage": "https://github.com/coderoad/coderoad-vscode/README.md",
+  "homepage": "https://github.com/coderoad/coderoad-vscode",
   "bugs": {
     "url": "https://github.com/coderoad/coderoad-vscode/issues",
     "email": "coderoadapp@gmail.com"

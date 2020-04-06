@@ -10,12 +10,11 @@ CodeRoad is a VSCode extension that allows you to play interactive coding tutori
 
 To start the extension, inside VSCode:
 
-- Open an empty VSCode workspace (an empty folder)
-- Launch the app from the VSCode command palette:
-  - select “View” > “Command Palette” from the top panel
-  - alternatively, press `cmd/ctrl + shift + P`
-- In the command palette, search for and run `CodeRoad:Start`
-- A webview should appear on the right side of your editor. Click "Start"
+- open an empty VSCode workspace (an empty folder)
+- launch the app from the VSCode command palette:
+  - select “View” > “Command Palette” from the top panel OR press `cmd/ctrl + shift + P`
+  - in the command palette, search for and run `CodeRoad:Start`
+- a webview should appear on the right side of your editor. Click "Start"
 
 ### Install
 
@@ -27,9 +26,6 @@ Install CodeRoad from [this link in the VSCode Marketplace](https://marketplace.
 ### Requirements
 
 - VSCode 1.40+
-  [Download Visual Studio Code - Mac, Linux, Windows](https://code.visualstudio.com/download)
-- VSCode command line tools.
-  For Mac, installation requires an additional step. See [Running Visual Studio Code on macOS](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line).
 - Node.js 10+
 - Git
 
