@@ -21,6 +21,9 @@ interface TestRunnerConfig {
   command: string
 }
 
+const failChannelName = 'CodeRoad (Tests)'
+const logChannelName = 'CodeRoad (Logs)'
+
 const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
   return async (payload: Payload, onSuccess?: () => void): Promise<void> => {
     const startTime = throttle()
@@ -52,25 +55,28 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
     const { stdout, stderr } = result
 
     const tap = parser(stdout || '')
+
+    displayOutput({ channel: logChannelName, text: tap.logs.join('\n'), show: false })
+
     if (stderr) {
       // FAIL also trigger stderr
       if (stdout && stdout.length && !tap.ok) {
         const firstFailMessage = tap.failed[0].message
         callbacks.onFail(payload, firstFailMessage)
         const output = formatFailOutput(tap)
-        displayOutput(output)
+        displayOutput({ channel: failChannelName, text: output, show: true })
         return
       } else {
         callbacks.onError(payload)
         // open terminal with error string
-        displayOutput(stderr)
+        displayOutput({ channel: failChannelName, text: stderr, show: true })
         return
       }
     }
 
     // PASS
     if (tap.ok) {
-      clearOutput()
+      clearOutput(failChannelName)
       callbacks.onSuccess(payload)
       if (onSuccess) {
         onSuccess()

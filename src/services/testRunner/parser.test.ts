@@ -6,7 +6,7 @@ describe('parser', () => {
 1..1
 ok 1 - Should pass
 `
-    expect(parser(example)).toEqual({ ok: true, passed: [{ message: 'Should pass' }], failed: [] })
+    expect(parser(example)).toEqual({ ok: true, passed: [{ message: 'Should pass' }], failed: [], logs: [] })
   })
   test('should detect multiple successes', () => {
     const example = `
@@ -19,6 +19,7 @@ ok 2 - Should also pass
       ok: true,
       passed: [{ message: 'Should pass' }, { message: 'Should also pass' }],
       failed: [],
+      logs: [],
     })
   })
   test('should detect failure if no tests passed', () => {
@@ -140,5 +141,35 @@ at Context.<anonymous> (test/packagejson.test.js:11:12)
 at processImmediate (internal/timers.js:439:21)`)
     expect(result.failed[1].message).toBe('package.json should have a valid "description" key')
     expect(result.failed[1].details).toBe(`AssertionError [ERR_ASSERTION]: no "description" key provided`)
+  })
+  test('should capture logs', () => {
+    const example = `
+1..2
+ok 1 package.json should have "express" installed
+log 1
+log 2
+not ok 2 server should log "Hello World"
+#  AssertionError [ERR_ASSERTION]: "Hello World was not logged
+#      at Context.<anonymous> (test/server.test.js:15:12)
+#      at processImmediate (internal/timers.js:439:21)
+# tests 2
+# pass 1
+# fail 1
+# skip 0
+`
+    expect(parser(example)).toEqual({
+      ok: false,
+      passed: [{ message: 'package.json should have "express" installed' }],
+      failed: [
+        {
+          message: 'server should log "Hello World"',
+          details: `AssertionError [ERR_ASSERTION]: \"Hello World was not logged
+at Context.<anonymous> (test/server.test.js:15:12)
+at processImmediate (internal/timers.js:439:21)`,
+          logs: ['log 1', 'log 2'],
+        },
+      ],
+      logs: ['log 1', 'log 2'],
+    })
   })
 })

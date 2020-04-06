@@ -1,25 +1,29 @@
 import * as vscode from 'vscode'
 
-let channel: vscode.OutputChannel
+const channels: { key: string; value: vscode.OutputChannel } | {} = {}
 
 const getOutputChannel = (name: string): vscode.OutputChannel => {
-  if (!channel) {
-    channel = vscode.window.createOutputChannel(name)
+  if (!channels[name]) {
+    channels[name] = vscode.window.createOutputChannel(name)
   }
-  return channel
+  return channels[name]
 }
 
-const outputChannelName = 'CodeRoad Output'
+interface DisplayOutput {
+  channel: string
+  text: string
+  show?: boolean
+}
 
-export const displayOutput = (text: string) => {
-  const channel = getOutputChannel(outputChannelName)
+export const displayOutput = (params: DisplayOutput) => {
+  const channel = getOutputChannel(params.channel)
   channel.clear()
-  channel.show(true)
-  channel.append(text)
+  channel.show(params.show || false)
+  channel.append(params.text)
 }
 
-export const clearOutput = () => {
-  const channel = getOutputChannel(outputChannelName)
+export const clearOutput = (channelName: string) => {
+  const channel = getOutputChannel(channelName)
   channel.show(false)
   channel.clear()
   channel.hide()
