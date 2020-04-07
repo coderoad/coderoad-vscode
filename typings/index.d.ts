@@ -72,8 +72,9 @@ export interface MachineStateSchema {
         Error: {}
         LoadStoredTutorial: {}
         Start: {}
-        CheckEmptyWorkspace: {}
+        ValidateSetup: {}
         NonEmptyWorkspace: {}
+        GitNotInstalled: {}
         SelectTutorial: {}
         SetupNewTutorial: {}
       }

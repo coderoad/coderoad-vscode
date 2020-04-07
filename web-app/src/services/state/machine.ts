@@ -55,18 +55,19 @@ export const createMachine = (options: any) => {
             },
             Start: {
               on: {
-                NEW_TUTORIAL: 'CheckEmptyWorkspace',
+                NEW_TUTORIAL: 'ValidateSetup',
                 CONTINUE_TUTORIAL: {
                   target: '#tutorial-level',
                   actions: ['continueConfig'],
                 },
               },
             },
-            CheckEmptyWorkspace: {
-              onEntry: ['checkEmptyWorkspace'],
+            ValidateSetup: {
+              onEntry: ['validateSetup'],
               on: {
-                IS_EMPTY_WORKSPACE: 'SelectTutorial',
                 NOT_EMPTY_WORKSPACE: 'NonEmptyWorkspace',
+                GIT_NOT_INSTALLED: 'GitNotInstalled',
+                SETUP_VALIDATED: 'SelectTutorial',
               },
             },
             NonEmptyWorkspace: {
@@ -75,7 +76,13 @@ export const createMachine = (options: any) => {
                   target: 'NonEmptyWorkspace',
                   actions: 'requestWorkspaceSelect',
                 },
-                WORKSPACE_LOADED: 'CheckEmptyWorkspace',
+                WORKSPACE_LOADED: 'ValidateSetup',
+              },
+            },
+            // validation 2: git installed
+            GitNotInstalled: {
+              on: {
+                TRY_AGAIN: 'ValidateSetup',
               },
             },
             SelectTutorial: {

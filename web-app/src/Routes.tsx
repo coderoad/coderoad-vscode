@@ -7,6 +7,7 @@ import SelectTutorialPage from './containers/SelectTutorial'
 import CompletedPage from './containers/Tutorial/CompletedPage'
 import LevelSummaryPage from './containers/Tutorial/LevelPage'
 import SelectEmptyWorkspace from './containers/Check/SelectWorkspace'
+import GitInstalled from './containers/Check/GitInstalled'
 
 const Routes = () => {
   const { context, send, Router, Route } = useRouter()
@@ -25,6 +26,9 @@ const Routes = () => {
         </Route>
         <Route path={['Setup.NonEmptyWorkspace', 'Setup.RequestEmptyWorkspace']}>
           <SelectEmptyWorkspace send={send} />
+        </Route>
+        <Route path="Setup.GitNotInstalled">
+          <GitInstalled send={send} />
         </Route>
         <Route path="Setup.Error">
           <LoadingPage text="Error" context={context} />

@@ -8,6 +8,7 @@ import tutorialConfig from '../actions/tutorialConfig'
 import { COMMANDS } from '../editor/commands'
 import logger from '../services/logger'
 import Context from './context'
+import { version as gitVersion } from '../services/git'
 import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 
 interface Channel {
@@ -106,13 +107,21 @@ class Channel implements Channel {
         // update the current stepId on startup
         vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
         return
-      case 'EDITOR_CHECK_WORKSPACE':
+      case 'EDITOR_VALIDATE_SETUP':
+        // 1. check workspace is selected
         const isEmptyWorkspace = await checkWorkspaceEmpty(this.workspaceRoot.uri.path)
-        if (isEmptyWorkspace) {
-          this.send({ type: 'IS_EMPTY_WORKSPACE' })
-        } else {
+        if (!isEmptyWorkspace) {
           this.send({ type: 'NOT_EMPTY_WORKSPACE' })
+          return
         }
+        // 2. check Git is installed.
+        // Should wait for workspace before running otherwise requires access to root folder
+        const isGitInstalled = await gitVersion()
+        if (!isGitInstalled) {
+          this.send({ type: 'GIT_NOT_INSTALLED' })
+          return
+        }
+        this.send({ type: 'SETUP_VALIDATED' })
         return
       case 'EDITOR_REQUEST_WORKSPACE':
         console.log('request workspace')
