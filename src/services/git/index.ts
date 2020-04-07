@@ -69,7 +69,7 @@ export async function clear(): Promise<void> {
   throw new Error('Error cleaning up current unsaved work')
 }
 
-export async function version(): Promise<string | boolean> {
+export async function version(): Promise<string | null> {
   const { stdout, stderr } = await node.exec('git --version')
   if (!stderr) {
     const match = stdout.match(/^git version (\d+\.)?(\d+\.)?(\*|\d+)/)
@@ -79,10 +79,7 @@ export async function version(): Promise<string | boolean> {
       return `${major}${minor}${patch}`
     }
   }
-  const message = 'Git not installed. Please install Git'
-  const error = new Error(message)
-  onError(error)
-  throw error
+  return null
 }
 
 async function init(): Promise<void> {
@@ -95,12 +92,6 @@ async function init(): Promise<void> {
 }
 
 export async function initIfNotExists(): Promise<void> {
-  const hasGit = await version()
-
-  if (!hasGit) {
-    throw new Error('Git must be installed')
-  }
-
   const hasGitInit = node.exists('.git')
   if (!hasGitInit) {
     await init()

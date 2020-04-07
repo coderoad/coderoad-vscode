@@ -72,9 +72,9 @@ export default (editorSend: any) => ({
   clearStorage(): void {
     editorSend({ type: 'TUTORIAL_CLEAR' })
   },
-  checkEmptyWorkspace() {
+  validateSetup() {
     editorSend({
-      type: 'EDITOR_CHECK_WORKSPACE',
+      type: 'EDITOR_VALIDATE_SETUP',
     })
   },
   requestWorkspaceSelect() {
