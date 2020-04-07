@@ -3,6 +3,7 @@ export type Maybe<T> = T | null
 export type TutorialConfig = {
   testRunner: TutorialTestRunner
   repo: TutorialRepo
+  dependencies?: TutorialDependency[]
 }
 
 /** Logical groupings of tasks */
@@ -56,4 +57,13 @@ export interface TutorialTestRunner {
 export interface TutorialRepo {
   uri: string
   branch: string
+}
+
+export interface TutorialDependency {
+  // A string command that, when run in a terminal, returns a value
+  command: string
+  // A regex pattern to match the output to determine if the dependency was found
+  expected: string
+  // A message or instructions to the user of what went wrong and what to do
+  message: string
 }
