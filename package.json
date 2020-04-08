@@ -24,7 +24,7 @@
   },
   "main": "./build/extension.js",
   "scripts": {
-    "build": "./scripts/build.sh",
+    "build": "rimraf ./build && tsc -p ./ && cd web-app && npm run build && cpy ./web-app/build/ ./build/ && node scripts/fixFontPaths.js",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "lint": "eslint src/**/*ts",
     "package": "./scripts/package.sh",
@@ -41,6 +41,7 @@
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
     "chokidar": "^3.3.0",
+    "cpy": "^8.1.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
@@ -48,6 +49,7 @@
     "jest": "^25.2.7",
     "jsdom": "^16.2.2",
     "prettier": "^2.0.2",
+    "rimraf": "^3.0.2",
     "ts-jest": "^25.3.1",
     "typescript": "^3.8.3"
   },
