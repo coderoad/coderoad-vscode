@@ -11,6 +11,11 @@ import logger from '../services/logger'
 import Context from './context'
 import { version as gitVersion } from '../services/git'
 import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
+import { readFile } from 'fs'
+import { join } from 'path'
+import { promisify } from 'util'
+
+const readFileAsync = promisify(readFile)
 
 interface Channel {
   receive(action: T.Action): Promise<void>
@@ -40,7 +45,9 @@ class Channel implements Channel {
   public receive = async (action: T.Action) => {
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
-    const onError = (error: T.ErrorMessage) => this.send({ type: 'ERROR', payload: { error } })
+    // const onError = (error: T.ErrorMessage) => this.send({ type: 'ERROR', payload: { error } })
+
+    // console.log(`ACTION: ${actionType}`)
 
     switch (actionType) {
       case 'EDITOR_ENV_GET':
@@ -107,13 +114,10 @@ class Channel implements Channel {
           throw new Error('Invalid tutorial to continue')
         }
         const continueConfig: TT.TutorialConfig = tutorialContinue.config
-        await tutorialConfig(
-          {
-            config: continueConfig,
-            alreadyConfigured: true,
-          },
-          onError,
-        )
+        await tutorialConfig({
+          config: continueConfig,
+          alreadyConfigured: true,
+        })
         // update the current stepId on startup
         vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
         return
@@ -156,6 +160,23 @@ class Channel implements Channel {
   }
   // send to webview
   public send = async (action: T.Action) => {
+    // Error middleware
+    if (action?.payload?.error?.type) {
+      // load error markdown message
+      const error = action.payload.error
+      const errorMarkdownFile = join(__dirname, '..', '..', 'errors', `${action.payload.error.type}.md`)
+      const errorMarkdown = await readFileAsync(errorMarkdownFile).catch(() => {
+        // onError(new Error(`Error Markdown file not found for ${action.type}`))
+      })
+
+      console.log(`ERROR:\n ${errorMarkdown}`)
+
+      if (errorMarkdown) {
+        // add a clearer error message for the user
+        error.message = `${errorMarkdown}\n${error.message}`
+      }
+    }
+
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
     switch (actionType) {
@@ -170,8 +191,9 @@ class Channel implements Channel {
         saveCommit()
     }
 
-    const success = await this.postMessage(action)
-    if (!success) {
+    // send message
+    const sentToClient = await this.postMessage(action)
+    if (!sentToClient) {
       throw new Error(`Message post failure: ${JSON.stringify(action)}`)
     }
   }

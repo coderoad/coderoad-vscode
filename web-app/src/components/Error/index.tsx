@@ -1,6 +1,7 @@
 import * as React from 'react'
+import * as E from 'typings/error'
 import { css, jsx } from '@emotion/core'
-import onError from '../../services/sentry/onError'
+import Markdown from '../Markdown'
 
 const styles = {
   container: {
@@ -13,17 +14,16 @@ const styles = {
 }
 
 interface Props {
-  error?: Error
+  error?: E.ErrorMessage
 }
 
-const ErrorView = ({ error }: Props) => {
-  // log error
+const ErrorMarkdown = ({ error }: Props) => {
   React.useEffect(() => {
     if (error) {
+      // log error
       console.log(error)
-      onError(error)
     }
-  }, [])
+  }, [error])
 
   if (!error) {
     return null
@@ -32,9 +32,9 @@ const ErrorView = ({ error }: Props) => {
   return (
     <div css={styles.container}>
       <h1>Error</h1>
-      <div>{JSON.stringify(error)}</div>
+      <Markdown>{error.message}</Markdown>
     </div>
   )
 }
 
-export default ErrorView
+export default ErrorMarkdown

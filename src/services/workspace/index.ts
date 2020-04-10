@@ -1,5 +1,8 @@
 import * as vscode from 'vscode'
 import * as fs from 'fs'
+import { promisify } from 'util'
+
+const readDir = promisify(fs.readdir)
 
 export const openWorkspace = () => {
   const openInNewWindow = false
@@ -9,7 +12,7 @@ export const openWorkspace = () => {
 export const checkWorkspaceEmpty = async (dirname: string) => {
   let files
   try {
-    files = await fs.promises.readdir(dirname)
+    files = await readDir(dirname)
   } catch (error) {
     throw new Error('Failed to check workspace')
   }

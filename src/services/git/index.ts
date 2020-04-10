@@ -1,11 +1,10 @@
 import * as TT from 'typings/tutorial'
 import node from '../node'
 import logger from '../logger'
-import onError from '../sentry/onError'
 
 const gitOrigin = 'coderoad'
 
-const stashAllFiles = async () => {
+const stashAllFiles = async (): Promise<never | void> => {
   // stash files including untracked (eg. newly created file)
   const { stdout, stderr } = await node.exec(`git stash --include-untracked`)
   if (stderr) {
@@ -14,7 +13,7 @@ const stashAllFiles = async () => {
   }
 }
 
-const cherryPickCommit = async (commit: string, count = 0): Promise<void> => {
+const cherryPickCommit = async (commit: string, count = 0): Promise<never | void> => {
   if (count > 1) {
     console.warn('cherry-pick failed')
     return
@@ -38,7 +37,7 @@ const cherryPickCommit = async (commit: string, count = 0): Promise<void> => {
     SINGLE git cherry-pick %COMMIT%
     if fails, will stash all and retry
 */
-export function loadCommit(commit: string): Promise<void> {
+export function loadCommit(commit: string): Promise<never | void> {
   return cherryPickCommit(commit)
 }
 
@@ -47,7 +46,7 @@ export function loadCommit(commit: string): Promise<void> {
     git commit -am '${level}/${step} complete'
 */
 
-export async function saveCommit(message: string): Promise<void> {
+export async function saveCommit(message: string): Promise<never | void> {
   const { stdout, stderr } = await node.exec(`git commit -am '${message}'`)
   if (stderr) {
     console.error(stderr)
@@ -56,7 +55,7 @@ export async function saveCommit(message: string): Promise<void> {
   logger(['save with commit & continue stdout', stdout])
 }
 
-export async function clear(): Promise<void> {
+export async function clear(): Promise<Error | void> {
   try {
     // commit progress to git
     const { stderr } = await node.exec('git reset HEAD --hard && git clean -fd')
@@ -83,23 +82,21 @@ export async function version(): Promise<string | null> {
   return null
 }
 
-async function init(): Promise<void> {
+async function init(): Promise<Error | void> {
   const { stderr } = await node.exec('git init')
   if (stderr) {
-    const error = new Error('Error initializing Git')
-    onError(error)
-    throw error
+    throw new Error('Error initializing Git')
   }
 }
 
-export async function initIfNotExists(): Promise<void> {
+export async function initIfNotExists(): Promise<never | void> {
   const hasGitInit = node.exists('.git')
   if (!hasGitInit) {
     await init()
   }
 }
 
-export async function checkRemoteConnects(repo: TT.TutorialRepo): Promise<boolean | Error> {
+export async function checkRemoteConnects(repo: TT.TutorialRepo): Promise<never | void> {
   // check for git repo
   const externalRepoExists = await node.exec(`git ls-remote --exit-code --heads ${repo.uri}`)
   if (externalRepoExists.stderr) {
@@ -114,10 +111,9 @@ export async function checkRemoteConnects(repo: TT.TutorialRepo): Promise<boolea
   if (!stdout || !stdout.length) {
     throw new Error('Tutorial branch does not exist')
   }
-  return true
 }
 
-export async function addRemote(repo: string): Promise<void> {
+export async function addRemote(repo: string): Promise<never | void> {
   const { stderr } = await node.exec(`git remote add ${gitOrigin} ${repo} && git fetch ${gitOrigin}`)
   if (stderr) {
     const alreadyExists = stderr.match(`${gitOrigin} already exists.`)
@@ -145,14 +141,13 @@ export async function checkRemoteExists(): Promise<boolean> {
   }
 }
 
-export async function setupCodeRoadRemote(repo: string): Promise<void> {
+export async function setupCodeRoadRemote(repo: string): Promise<never | void> {
   // check coderoad remote not taken
   const hasRemote = await checkRemoteExists()
   // git remote add coderoad tutorial
   // git fetch coderoad
-  if (!hasRemote) {
-    await addRemote(repo)
-  } else {
+  if (hasRemote) {
     throw new Error('A CodeRoad remote is already configured')
   }
+  await addRemote(repo)
 }

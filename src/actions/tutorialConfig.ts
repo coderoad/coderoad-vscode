@@ -13,28 +13,40 @@ interface TutorialConfigParams {
 const tutorialConfig = async ({ config, alreadyConfigured }: TutorialConfigParams): Promise<E.ErrorMessage | void> => {
   if (!alreadyConfigured) {
     // setup git, add remote
-    await git.initIfNotExists().catch((error: Error) => {
-      return {
+    const initError: E.ErrorMessage | void = await git.initIfNotExists().catch(
+      (error: Error): E.ErrorMessage => ({
         type: 'GitNotFound',
         message: error.message,
-      }
-    })
+      }),
+    )
+
+    if (initError) {
+      return initError
+    }
 
     // verify that internet is connected, remote exists and branch exists
-    await git.checkRemoteConnects(config.repo).catch((error: Error) => {
-      return {
+    const remoteConnectError: E.ErrorMessage | void = await git.checkRemoteConnects(config.repo).catch(
+      (error: Error): E.ErrorMessage => ({
         type: 'FailedToConnectToGitRepo',
         message: error.message,
-      }
-    })
+      }),
+    )
+
+    if (remoteConnectError) {
+      return remoteConnectError
+    }
 
     // TODO if remote not already set
-    await git.setupCodeRoadRemote(config.repo.uri).catch((error: Error) => {
-      return {
+    const coderoadRemoteError: E.ErrorMessage | void = await git.setupCodeRoadRemote(config.repo.uri).catch(
+      (error: Error): E.ErrorMessage => ({
         type: 'GitRemoteAlreadyExists',
         message: error.message,
-      }
-    })
+      }),
+    )
+
+    if (coderoadRemoteError) {
+      return coderoadRemoteError
+    }
   }
 
   await vscode.commands.executeCommand(COMMANDS.CONFIG_TEST_RUNNER, config.testRunner)
