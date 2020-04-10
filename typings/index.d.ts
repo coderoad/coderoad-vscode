@@ -75,8 +75,10 @@ export interface MachineStateSchema {
         ValidateSetup: {}
         NonEmptyWorkspace: {}
         GitNotInstalled: {}
+        GitRemoteFailed: {}
         SelectTutorial: {}
         SetupNewTutorial: {}
+        StartNewTutorial: {}
       }
     }
     Tutorial: {

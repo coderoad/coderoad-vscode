@@ -1,3 +1,4 @@
+import * as TT from 'typings/tutorial'
 import node from '../node'
 import logger from '../logger'
 import onError from '../sentry/onError'
@@ -96,6 +97,24 @@ export async function initIfNotExists(): Promise<void> {
   if (!hasGitInit) {
     await init()
   }
+}
+
+export async function checkRemoteConnects(repo: TT.TutorialRepo): Promise<boolean | Error> {
+  // check for git repo
+  const externalRepoExists = await node.exec(`git ls-remote --exit-code --heads ${repo.uri}`)
+  if (externalRepoExists.stderr) {
+    // no repo found or no internet connection
+    throw new Error(externalRepoExists.stderr)
+  }
+  // check for git repo branch
+  const { stderr, stdout } = await node.exec(`git ls-remote --exit-code --heads ${repo.uri} ${repo.branch}`)
+  if (stderr) {
+    throw new Error(stderr)
+  }
+  if (!stdout || !stdout.length) {
+    throw new Error('Tutorial branch does not exist')
+  }
+  return true
 }
 
 export async function addRemote(repo: string): Promise<void> {

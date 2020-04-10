@@ -8,6 +8,7 @@ import CompletedPage from './containers/Tutorial/CompletedPage'
 import LevelSummaryPage from './containers/Tutorial/LevelPage'
 import SelectEmptyWorkspace from './containers/Check/SelectWorkspace'
 import GitInstalled from './containers/Check/GitInstalled'
+import GitRemoteFailed from './containers/Check/GitRemoteFailed'
 
 const Routes = () => {
   const { context, send, Router, Route } = useRouter()
@@ -15,7 +16,7 @@ const Routes = () => {
     <Workspace>
       <Router>
         {/* Setup */}
-        <Route path={['Setup.Startup', 'Setup.Authenticate', 'Setup.LoadStoredTutorial', 'Setup.CheckEmptyWorkspace']}>
+        <Route path={['Setup.Startup', 'Setup.LoadStoredTutorial', 'Setup.ValidateSetup']}>
           <LoadingPage text="Launching..." context={context} />
         </Route>
         <Route path="Setup.Start">
@@ -36,8 +37,11 @@ const Routes = () => {
         <Route path="Setup.SelectTutorial">
           <SelectTutorialPage send={send} context={context} />
         </Route>
-        <Route path="Setup.SetupNewTutorial">
+        <Route path={['Setup.SetupNewTutorial', 'Setup.StartNewTutorial']}>
           <LoadingPage text="Configuring tutorial..." context={context} />
+        </Route>
+        <Route path="Setup.GitRemoteFailed">
+          <GitRemoteFailed send={send} error={context.error} />
         </Route>
         {/* Tutorial */}
         <Route path={['Tutorial.LoadNext', 'Tutorial.Level.Load']}>

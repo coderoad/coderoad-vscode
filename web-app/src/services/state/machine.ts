@@ -85,6 +85,11 @@ export const createMachine = (options: any) => {
                 TRY_AGAIN: 'ValidateSetup',
               },
             },
+            GitRemoteFailed: {
+              on: {
+                TRY_AGAIN: 'SetupNewTutorial',
+              },
+            },
             SelectTutorial: {
               onEntry: ['clearStorage'],
               id: 'select-new-tutorial',
@@ -96,9 +101,16 @@ export const createMachine = (options: any) => {
               },
             },
             SetupNewTutorial: {
-              onEntry: ['configureNewTutorial', 'startNewTutorial'],
+              onEntry: ['configureNewTutorial'],
               on: {
-                TUTORIAL_CONFIGURED: '#tutorial',
+                GIT_REMOTE_FAILED: 'GitRemoteFailed',
+                TUTORIAL_CONFIGURED: 'StartNewTutorial',
+              },
+            },
+            StartNewTutorial: {
+              onEntry: ['startNewTutorial'],
+              after: {
+                0: '#tutorial',
               },
             },
           },
