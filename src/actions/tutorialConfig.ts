@@ -27,6 +27,13 @@ const tutorialConfig = async (
       })
     })
 
+    try {
+      await git.checkRemoteConnects(config.repo)
+    } catch (error) {
+      onError(error)
+      handleError({ title: 'Error connecting to Git repo', description: error.message })
+    }
+
     // TODO if remote not already set
     await git.setupRemote(config.repo.uri).catch((error) => {
       onError(error)
