@@ -145,7 +145,7 @@ export async function checkRemoteExists(): Promise<boolean> {
   }
 }
 
-export async function setupRemote(repo: string): Promise<void> {
+export async function setupCodeRoadRemote(repo: string): Promise<void> {
   // check coderoad remote not taken
   const hasRemote = await checkRemoteExists()
   // git remote add coderoad tutorial
@@ -153,6 +153,6 @@ export async function setupRemote(repo: string): Promise<void> {
   if (!hasRemote) {
     await addRemote(repo)
   } else {
-    throw new Error('A Remote is already configured')
+    throw new Error('A CodeRoad remote is already configured')
   }
 }

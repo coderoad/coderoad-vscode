@@ -20,7 +20,8 @@
     "emitDecoratorMetadata": true,
     "paths": {
       "typings": ["../typings/index.d.ts"],
-      "typings/tutorial": ["../typings/tutorial.d.ts"]
+      "typings/tutorial": ["../typings/tutorial.d.ts"],
+      "typings/error": ["../typings/error.d.ts"]
     },
     "allowJs": true,
     "removeComments": true

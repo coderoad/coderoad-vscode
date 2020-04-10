@@ -1,5 +1,6 @@
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
+import * as E from 'typings/error'
 import * as vscode from 'vscode'
 import saveCommit from '../actions/saveCommit'
 import setupActions from '../actions/setupActions'
@@ -86,11 +87,14 @@ class Channel implements Channel {
         // setup tutorial config (save watcher, test runner, etc)
         await this.context.setTutorial(this.workspaceState, data)
 
-        try {
-          // TODO: better handle errors
-          await tutorialConfig({ config: data.config })
-        } catch (error) {
-          this.send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error: error.message } })
+        const error: E.ErrorMessage | void = await tutorialConfig({ config: data.config }).catch((error: Error) => ({
+          type: 'UnknownError',
+          message: `Location: tutorial config.\n\n${error.message}`,
+        }))
+
+        // has error
+        if (error && error.type) {
+          this.send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error } })
           return
         }
 

@@ -1,9 +1,8 @@
-import * as T from 'typings'
+import * as E from 'typings/error'
 import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import { COMMANDS } from '../editor/commands'
 import * as git from '../services/git'
-import onError from '../services/sentry/onError'
 
 interface TutorialConfigParams {
   config: TT.TutorialConfig
@@ -11,33 +10,30 @@ interface TutorialConfigParams {
   onComplete?(): void
 }
 
-const tutorialConfig = async (
-  { config, alreadyConfigured }: TutorialConfigParams,
-  handleError: (msg: T.ErrorMessage) => void,
-) => {
+const tutorialConfig = async ({ config, alreadyConfigured }: TutorialConfigParams): Promise<E.ErrorMessage | void> => {
   if (!alreadyConfigured) {
     // setup git, add remote
-    await git.initIfNotExists().catch((error) => {
-      onError(new Error('Git not found'))
-      // failed to setup git
-      handleError({
-        title: error.message,
-        description:
-          'Make sure you install Git. See the docs for help https://git-scm.com/book/en/v2/Getting-Started-Installing-Git',
-      })
+    await git.initIfNotExists().catch((error: Error) => {
+      return {
+        type: 'GitNotFound',
+        message: error.message,
+      }
     })
 
-    try {
-      await git.checkRemoteConnects(config.repo)
-    } catch (error) {
-      onError(error)
-      handleError({ title: 'Error connecting to Git repo', description: error.message })
-    }
+    // verify that internet is connected, remote exists and branch exists
+    await git.checkRemoteConnects(config.repo).catch((error: Error) => {
+      return {
+        type: 'FailedToConnectToGitRepo',
+        message: error.message,
+      }
+    })
 
     // TODO if remote not already set
-    await git.setupRemote(config.repo.uri).catch((error) => {
-      onError(error)
-      handleError({ title: error.message, description: 'Remove your current Git project and reload the editor' })
+    await git.setupCodeRoadRemote(config.repo.uri).catch((error: Error) => {
+      return {
+        type: 'GitRemoteAlreadyExists',
+        message: error.message,
+      }
     })
   }
 
