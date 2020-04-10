@@ -8,7 +8,7 @@ import tutorialConfig from '../actions/tutorialConfig'
 import { COMMANDS } from '../editor/commands'
 import logger from '../services/logger'
 import Context from './context'
-import { version as gitVersion } from '../services/git'
+import { version as gitVersion, checkRemoteConnects } from '../services/git'
 import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 
 interface Channel {
@@ -87,6 +87,12 @@ class Channel implements Channel {
         await this.context.setTutorial(this.workspaceState, data)
 
         await tutorialConfig({ config: data.config }, onError)
+
+        try {
+          await checkRemoteConnects(data.config.repo)
+        } catch (error) {
+          this.send({ type: 'GIT_REMOTE_FAILED', payload: { message: error.message } })
+        }
 
         // report back to the webview that setup is complete
         this.send({ type: 'TUTORIAL_CONFIGURED' })
