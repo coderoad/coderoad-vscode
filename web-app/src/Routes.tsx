@@ -31,9 +31,6 @@ const Routes = () => {
         <Route path="Setup.GitNotInstalled">
           <GitInstalled send={send} />
         </Route>
-        <Route path="Setup.Error">
-          <LoadingPage text="Error" context={context} />
-        </Route>
         <Route path="Setup.SelectTutorial">
           <SelectTutorialPage send={send} context={context} />
         </Route>

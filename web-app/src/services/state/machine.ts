@@ -42,7 +42,6 @@ export const createMachine = (options: any) => {
                 },
               },
             },
-            Error: {},
             LoadStoredTutorial: {
               onEntry: ['loadStoredTutorial'],
               on: {
@@ -103,7 +102,10 @@ export const createMachine = (options: any) => {
             SetupNewTutorial: {
               onEntry: ['configureNewTutorial'],
               on: {
-                GIT_REMOTE_FAILED: 'GitRemoteFailed',
+                TUTORIAL_CONFIGURE_FAIL: {
+                  actions: ['setError'],
+                },
+                TRY_AGAIN: 'SetupNewTutorial',
                 TUTORIAL_CONFIGURED: 'StartNewTutorial',
               },
             },

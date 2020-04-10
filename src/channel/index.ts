@@ -88,10 +88,10 @@ class Channel implements Channel {
 
         try {
           // TODO: better handle errors
-          await tutorialConfig({ config: data.config }, onError)
+          await tutorialConfig({ config: data.config })
         } catch (error) {
-          // TODO send failure messages back to client
-          // to show errors in the webview
+          this.send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error: error.message } })
+          return
         }
 
         // report back to the webview that setup is complete
