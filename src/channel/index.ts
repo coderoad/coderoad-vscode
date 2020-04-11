@@ -94,6 +94,8 @@ class Channel implements Channel {
         // setup tutorial config (save watcher, test runner, etc)
         await this.context.setTutorial(this.workspaceState, data)
 
+        // validate dependencies
+
         const error: E.ErrorMessage | void = await tutorialConfig({ config: data.config }).catch((error: Error) => ({
           type: 'UnknownError',
           message: `Location: tutorial config.\n\n${error.message}`,
