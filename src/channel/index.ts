@@ -146,13 +146,22 @@ class Channel implements Channel {
         // Should wait for workspace before running otherwise requires access to root folder
         const isGitInstalled = await gitVersion()
         if (!isGitInstalled) {
-          this.send({ type: 'GIT_NOT_INSTALLED' })
+          const error: E.ErrorMessage = {
+            type: 'GitNotFound',
+            message: '',
+            actions: [
+              {
+                label: 'Check Again',
+                transition: 'RETRY',
+              },
+            ],
+          }
+          this.send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
           return
         }
         this.send({ type: 'SETUP_VALIDATED' })
         return
       case 'EDITOR_REQUEST_WORKSPACE':
-        console.log('request workspace')
         openWorkspace()
         return
       // load step actions (git commits, commands, open files)
@@ -183,6 +192,7 @@ class Channel implements Channel {
         // onError(new Error(`Error Markdown file not found for ${action.type}`))
       })
 
+      // log error to console for safe keeping
       console.log(`ERROR:\n ${errorMarkdown}`)
 
       if (errorMarkdown) {
