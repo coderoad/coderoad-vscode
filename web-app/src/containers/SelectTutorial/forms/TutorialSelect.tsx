@@ -25,6 +25,7 @@ const TutorialSelect = (props: Props) => {
           style={{ width: '100%' }}
           placeholder="Tutorials..."
           state={selectState}
+          size="large"
         >
           {data &&
             data.map((tutorial) => (
