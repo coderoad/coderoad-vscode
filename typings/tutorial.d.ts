@@ -3,6 +3,7 @@ export type Maybe<T> = T | null
 export type TutorialConfig = {
   testRunner: TutorialTestRunner
   repo: TutorialRepo
+  dependencies?: TutorialDependency[]
 }
 
 /** Logical groupings of tasks */
@@ -56,4 +57,9 @@ export interface TutorialTestRunner {
 export interface TutorialRepo {
   uri: string
   branch: string
+}
+
+export interface TutorialDependency {
+  name: string
+  version: string
 }
