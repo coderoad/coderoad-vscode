@@ -62,4 +62,5 @@ export interface TutorialRepo {
 export interface TutorialDependency {
   name: string
   version: string
+  message?: string
 }
