@@ -9,7 +9,7 @@ import tutorialConfig from '../actions/tutorialConfig'
 import { COMMANDS } from '../editor/commands'
 import logger from '../services/logger'
 import Context from './context'
-import { version as gitVersion } from '../services/git'
+import { version } from '../services/dependencies'
 import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 import { readFile } from 'fs'
 import { join } from 'path'
@@ -146,7 +146,7 @@ class Channel implements Channel {
         }
         // 2. check Git is installed.
         // Should wait for workspace before running otherwise requires access to root folder
-        const isGitInstalled = await gitVersion()
+        const isGitInstalled = await version('git')
         if (!isGitInstalled) {
           const error: E.ErrorMessage = {
             type: 'GitNotFound',
