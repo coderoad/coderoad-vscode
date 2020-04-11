@@ -96,15 +96,16 @@ class Channel implements Channel {
         await this.context.setTutorial(this.workspaceState, data)
 
         // validate dependencies
-        if (data.config.dependencies) {
-          for (const dep of data.config.dependencies) {
+        const dependencies = data.config.dependencies
+        if (dependencies && dependencies.length) {
+          for (const dep of dependencies) {
             // check dependency is installed
-            const currentVersion: string | null = await version(name)
+            const currentVersion: string | null = await version(dep.name)
             if (!currentVersion) {
               // use a custom error message
               const error = {
                 type: 'MissingTutorialDependency',
-                message: dep.message || `Process ${name} is required but not found. It may need to be installed`,
+                message: dep.message || `Process "${dep.name}" is required but not found. It may need to be installed`,
                 actions: [
                   {
                     label: 'Check Again',
@@ -117,16 +118,23 @@ class Channel implements Channel {
             }
 
             // check dependency version
-            const satisfiedDependency = await compareVersions(currentVersion, dep.version).catch((error: Error) => ({
-              type: 'UnmetTutorialDependency',
-              message: error.message,
-              actions: [
-                {
-                  label: 'Check Again',
-                  transition: 'TRY_AGAIN',
-                },
-              ],
-            }))
+            const satisfiedDependency = await compareVersions(currentVersion, dep.version)
+
+            if (!satisfiedDependency) {
+              const error = {
+                type: 'UnmetTutorialDependency',
+                message: `Expected ${dep.name} to have version ${dep.version}, but found version ${currentVersion}`,
+                actions: [
+                  {
+                    label: 'Check Again',
+                    transition: 'TRY_AGAIN',
+                  },
+                ],
+              }
+              this.send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error } })
+              return
+            }
+
             if (satisfiedDependency !== true) {
               const error = satisfiedDependency || {
                 type: 'UnknownError',
@@ -247,7 +255,7 @@ class Channel implements Channel {
 
       if (errorMarkdown) {
         // add a clearer error message for the user
-        error.message = `${errorMarkdown}\n${error.message}`
+        error.message = `${errorMarkdown}\n\n${error.message}`
       }
     }
 
