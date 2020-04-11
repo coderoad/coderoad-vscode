@@ -1,6 +1,6 @@
 {
   "name": "coderoad",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "Play interactive coding tutorials in your editor",
   "keywords": [
     "tutorial",
@@ -26,6 +26,7 @@
   "scripts": {
     "build": "./scripts/build.sh",
     "postinstall": "node ./node_modules/vscode/bin/install",
+    "publish": "vsce publish -p $PERSONAL_ACCESS_TOKEN --packagePath ./releases/coderoad-$npm_package_version.vsix --baseContentUrl https://github.com/coderoad/coderoad-vscode/blob/master --baseImagesUrl https://github.com/coderoad/coderoad-vscode/blob/master",
     "lint": "eslint src/**/*ts",
     "package": "./scripts/package.sh",
     "storybook": "cd web-app && npm run storybook",

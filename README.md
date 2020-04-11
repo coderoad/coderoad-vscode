@@ -1,3 +1,7 @@
+![Visual Studio Marketplace Version](https://vsmarketplacebadge.apphb.com/version/Coderoad.coderoad.svg)
+![Visual Studio Marketplace Installs](https://vsmarketplacebadge.apphb.com/installs/Coderoad.coderoad.svg)
+![Visual Studio Marketplace Downloads](https://vsmarketplacebadge.apphb.com/downloads/Coderoad.coderoad.svg)
+
 # CodeRoad VSCode
 
 CodeRoad is a VSCode extension that allows you to play interactive coding tutorials in your editor.
@@ -29,7 +33,6 @@ Install CodeRoad from [this link in the VSCode Marketplace](https://marketplace.
 - VSCode 1.40+
 - Node.js 12+ (10+ soon #237)
 - Git
-
 
 ## Creating Tutorials
 
