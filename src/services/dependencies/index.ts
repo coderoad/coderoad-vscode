@@ -15,19 +15,7 @@ export const version = async (name: string): Promise<string | null> => {
   return null
 }
 
-export const compareVersions = async ({
-  name,
-  version: expectedVersion,
-  message,
-}: TT.TutorialDependency): Promise<boolean> => {
-  const currentVersion = await version(name)
-  if (!currentVersion) {
-    // use a custom error message
-    if (message) {
-      throw new Error(message)
-    }
-    throw new Error(`Process ${name} is required but not found. It may need to be installed`)
-  }
+export const compareVersions = async (currentVersion: string, expectedVersion: string): Promise<never | boolean> => {
   // see node-semver docs: https://github.com/npm/node-semver
   const satisfied: boolean = satisfies(currentVersion, expectedVersion)
   if (!satisfied) {

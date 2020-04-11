@@ -9,11 +9,12 @@ import tutorialConfig from '../actions/tutorialConfig'
 import { COMMANDS } from '../editor/commands'
 import logger from '../services/logger'
 import Context from './context'
-import { version } from '../services/dependencies'
+import { version, compareVersions } from '../services/dependencies'
 import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 import { readFile } from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
+import { compare } from 'semver'
 
 const readFileAsync = promisify(readFile)
 
@@ -95,6 +96,53 @@ class Channel implements Channel {
         await this.context.setTutorial(this.workspaceState, data)
 
         // validate dependencies
+        if (data.config.dependencies) {
+          for (const dep of data.config.dependencies) {
+            // check dependency is installed
+            const currentVersion: string | null = await version(name)
+            if (!currentVersion) {
+              // use a custom error message
+              const error = {
+                type: 'MissingTutorialDependency',
+                message: dep.message || `Process ${name} is required but not found. It may need to be installed`,
+                actions: [
+                  {
+                    label: 'Check Again',
+                    transition: 'TRY_AGAIN',
+                  },
+                ],
+              }
+              this.send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error } })
+              return
+            }
+
+            // check dependency version
+            const satisfiedDependency = await compareVersions(currentVersion, dep.version).catch((error: Error) => ({
+              type: 'UnmetTutorialDependency',
+              message: error.message,
+              actions: [
+                {
+                  label: 'Check Again',
+                  transition: 'TRY_AGAIN',
+                },
+              ],
+            }))
+            if (satisfiedDependency !== true) {
+              const error = satisfiedDependency || {
+                type: 'UnknownError',
+                message: `Something went wrong comparing dependency for ${name}`,
+                actions: [
+                  {
+                    label: 'Try Again',
+                    transition: 'TRY_AGAIN',
+                  },
+                ],
+              }
+              this.send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error } })
+              return
+            }
+          }
+        }
 
         const error: E.ErrorMessage | void = await tutorialConfig({ config: data.config }).catch((error: Error) => ({
           type: 'UnknownError',
