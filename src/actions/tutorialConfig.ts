@@ -17,6 +17,7 @@ const tutorialConfig = async ({ config, alreadyConfigured }: TutorialConfigParam
       (error: Error): E.ErrorMessage => ({
         type: 'GitNotFound',
         message: error.message,
+        actions: [{ label: 'Retry', transition: '' }],
       }),
     )
 
@@ -29,6 +30,7 @@ const tutorialConfig = async ({ config, alreadyConfigured }: TutorialConfigParam
       (error: Error): E.ErrorMessage => ({
         type: 'FailedToConnectToGitRepo',
         message: error.message,
+        actions: [{ label: 'Retry', transition: '' }],
       }),
     )
 

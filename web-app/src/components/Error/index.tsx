@@ -1,7 +1,9 @@
 import * as React from 'react'
 import * as E from 'typings/error'
+import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
 import Markdown from '../Markdown'
+import Button from '../../components/Button'
 
 const styles = {
   container: {
@@ -14,10 +16,11 @@ const styles = {
 }
 
 interface Props {
-  error?: E.ErrorMessage
+  error: E.ErrorMessage
+  send: (action: T.Action) => void
 }
 
-const ErrorMarkdown = ({ error }: Props) => {
+const ErrorMarkdown = ({ error, send }: Props) => {
   React.useEffect(() => {
     if (error) {
       // log error
@@ -33,6 +36,13 @@ const ErrorMarkdown = ({ error }: Props) => {
     <div css={styles.container}>
       <h1>Error</h1>
       <Markdown>{error.message}</Markdown>
+      {/* Actions */}
+      {error.actions &&
+        error.actions.map((a) => (
+          <Button type="secondary" onClick={() => send({ type: a.transition })}>
+            {a.label}
+          </Button>
+        ))}
     </div>
   )
 }

@@ -6,9 +6,16 @@ export type ErrorMessageType =
   | 'FailedToConnectToGitRepo'
   | 'GitProjectAlreadyExists'
   | 'GitRemoteAlreadyExists'
+  | 'WorkspaceNotEmpty'
+
+export type ErrorAction = {
+  label: string
+  transition: string
+}
 
 export type ErrorMessage = {
   type: ErrorMessageType
   message: string
   display?: ErrorMessageView
+  actions?: ErrorAction[]
 }

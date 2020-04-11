@@ -20,7 +20,7 @@ const styles = {
   },
 }
 
-const LoadingPage = ({ text, context }: Props) => {
+const LoadingPage = ({ text }: Props) => {
   const [showLoading, setShowHiding] = React.useState(false)
 
   React.useEffect(() => {
@@ -32,14 +32,6 @@ const LoadingPage = ({ text, context }: Props) => {
       clearTimeout(timeout)
     }
   }, [])
-
-  if (context && context.error) {
-    return (
-      <div css={styles.page}>
-        <Message type="error" title={context.error.title} content={context.error.description} />
-      </div>
-    )
-  }
 
   // don't flash loader
   if (!showLoading) {

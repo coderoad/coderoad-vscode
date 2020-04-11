@@ -125,7 +125,21 @@ class Channel implements Channel {
         // 1. check workspace is selected
         const isEmptyWorkspace = await checkWorkspaceEmpty(this.workspaceRoot.uri.path)
         if (!isEmptyWorkspace) {
-          this.send({ type: 'NOT_EMPTY_WORKSPACE' })
+          const error: E.ErrorMessage = {
+            type: 'WorkspaceNotEmpty',
+            message: '',
+            actions: [
+              {
+                label: 'Open Workspace',
+                transition: 'REQUEST_WORKSPACE',
+              },
+              {
+                label: 'Check Again',
+                transition: 'RETRY',
+              },
+            ],
+          }
+          this.send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
           return
         }
         // 2. check Git is installed.

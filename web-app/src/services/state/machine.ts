@@ -64,29 +64,15 @@ export const createMachine = (options: any) => {
             ValidateSetup: {
               onEntry: ['validateSetup'],
               on: {
-                NOT_EMPTY_WORKSPACE: 'NonEmptyWorkspace',
-                GIT_NOT_INSTALLED: 'GitNotInstalled',
-                SETUP_VALIDATED: 'SelectTutorial',
-              },
-            },
-            NonEmptyWorkspace: {
-              on: {
+                VALIDATE_SETUP_FAILED: {
+                  actions: ['setError'],
+                },
+                RETRY: 'ValidateSetup',
                 REQUEST_WORKSPACE: {
-                  target: 'NonEmptyWorkspace',
                   actions: 'requestWorkspaceSelect',
                 },
                 WORKSPACE_LOADED: 'ValidateSetup',
-              },
-            },
-            // validation 2: git installed
-            GitNotInstalled: {
-              on: {
-                TRY_AGAIN: 'ValidateSetup',
-              },
-            },
-            GitRemoteFailed: {
-              on: {
-                TRY_AGAIN: 'SetupNewTutorial',
+                SETUP_VALIDATED: 'SelectTutorial',
               },
             },
             SelectTutorial: {
