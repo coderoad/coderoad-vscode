@@ -1,9 +1,8 @@
-import * as T from 'typings'
+import * as E from 'typings/error'
 import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import { COMMANDS } from '../editor/commands'
 import * as git from '../services/git'
-import onError from '../services/sentry/onError'
 
 interface TutorialConfigParams {
   config: TT.TutorialConfig
@@ -11,27 +10,45 @@ interface TutorialConfigParams {
   onComplete?(): void
 }
 
-const tutorialConfig = async (
-  { config, alreadyConfigured }: TutorialConfigParams,
-  handleError: (msg: T.ErrorMessage) => void,
-) => {
+const tutorialConfig = async ({ config, alreadyConfigured }: TutorialConfigParams): Promise<E.ErrorMessage | void> => {
   if (!alreadyConfigured) {
     // setup git, add remote
-    await git.initIfNotExists().catch((error) => {
-      onError(new Error('Git not found'))
-      // failed to setup git
-      handleError({
-        title: error.message,
-        description:
-          'Make sure you install Git. See the docs for help https://git-scm.com/book/en/v2/Getting-Started-Installing-Git',
-      })
-    })
+    const initError: E.ErrorMessage | void = await git.initIfNotExists().catch(
+      (error: Error): E.ErrorMessage => ({
+        type: 'GitNotFound',
+        message: error.message,
+        actions: [{ label: 'Retry', transition: '' }],
+      }),
+    )
+
+    if (initError) {
+      return initError
+    }
+
+    // verify that internet is connected, remote exists and branch exists
+    const remoteConnectError: E.ErrorMessage | void = await git.checkRemoteConnects(config.repo).catch(
+      (error: Error): E.ErrorMessage => ({
+        type: 'FailedToConnectToGitRepo',
+        message: error.message,
+        actions: [{ label: 'Retry', transition: '' }],
+      }),
+    )
+
+    if (remoteConnectError) {
+      return remoteConnectError
+    }
 
     // TODO if remote not already set
-    await git.setupRemote(config.repo.uri).catch((error) => {
-      onError(error)
-      handleError({ title: error.message, description: 'Remove your current Git project and reload the editor' })
-    })
+    const coderoadRemoteError: E.ErrorMessage | void = await git.setupCodeRoadRemote(config.repo.uri).catch(
+      (error: Error): E.ErrorMessage => ({
+        type: 'GitRemoteAlreadyExists',
+        message: error.message,
+      }),
+    )
+
+    if (coderoadRemoteError) {
+      return coderoadRemoteError
+    }
   }
 
   await vscode.commands.executeCommand(COMMANDS.CONFIG_TEST_RUNNER, config.testRunner)

@@ -42,7 +42,6 @@ export const createMachine = (options: any) => {
                 },
               },
             },
-            Error: {},
             LoadStoredTutorial: {
               onEntry: ['loadStoredTutorial'],
               on: {
@@ -64,25 +63,17 @@ export const createMachine = (options: any) => {
             },
             ValidateSetup: {
               onEntry: ['validateSetup'],
+              onExit: ['clearError'],
               on: {
-                NOT_EMPTY_WORKSPACE: 'NonEmptyWorkspace',
-                GIT_NOT_INSTALLED: 'GitNotInstalled',
-                SETUP_VALIDATED: 'SelectTutorial',
-              },
-            },
-            NonEmptyWorkspace: {
-              on: {
+                VALIDATE_SETUP_FAILED: {
+                  actions: ['setError'],
+                },
+                RETRY: 'ValidateSetup',
                 REQUEST_WORKSPACE: {
-                  target: 'NonEmptyWorkspace',
                   actions: 'requestWorkspaceSelect',
                 },
                 WORKSPACE_LOADED: 'ValidateSetup',
-              },
-            },
-            // validation 2: git installed
-            GitNotInstalled: {
-              on: {
-                TRY_AGAIN: 'ValidateSetup',
+                SETUP_VALIDATED: 'SelectTutorial',
               },
             },
             SelectTutorial: {
@@ -96,9 +87,20 @@ export const createMachine = (options: any) => {
               },
             },
             SetupNewTutorial: {
-              onEntry: ['configureNewTutorial', 'startNewTutorial'],
+              onEntry: ['configureNewTutorial'],
+              onExit: ['clearError'],
               on: {
-                TUTORIAL_CONFIGURED: '#tutorial',
+                TUTORIAL_CONFIGURE_FAIL: {
+                  actions: ['setError'],
+                },
+                TRY_AGAIN: 'SetupNewTutorial',
+                TUTORIAL_CONFIGURED: 'StartNewTutorial',
+              },
+            },
+            StartNewTutorial: {
+              onEntry: ['startNewTutorial'],
+              after: {
+                0: '#tutorial',
               },
             },
           },
@@ -118,6 +120,7 @@ export const createMachine = (options: any) => {
               actions: ['commandFail'],
             },
             ERROR: {
+              // TODO: missing clearError
               actions: ['setError'],
             },
           },

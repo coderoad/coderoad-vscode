@@ -1,3 +1,4 @@
+import * as E from './error'
 import * as TT from './tutorial'
 
 export type ProgressStatus = 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE'
@@ -37,11 +38,6 @@ export interface Environment {
   token: string
 }
 
-export interface ErrorMessage {
-  title: string
-  description?: string
-}
-
 export interface TestStatus {
   type: 'success' | 'warning' | 'error' | 'loading'
   title: string
@@ -50,7 +46,7 @@ export interface TestStatus {
 
 export interface MachineContext {
   env: Environment
-  error: ErrorMessage | null
+  error: E.ErrorMessage | null
   tutorial: TT.Tutorial | null
   position: Position
   progress: Progress
@@ -69,14 +65,12 @@ export interface MachineStateSchema {
     Setup: {
       states: {
         Startup: {}
-        Error: {}
         LoadStoredTutorial: {}
         Start: {}
         ValidateSetup: {}
-        NonEmptyWorkspace: {}
-        GitNotInstalled: {}
         SelectTutorial: {}
         SetupNewTutorial: {}
+        StartNewTutorial: {}
       }
     }
     Tutorial: {

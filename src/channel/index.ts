@@ -1,5 +1,6 @@
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
+import * as E from 'typings/error'
 import * as vscode from 'vscode'
 import saveCommit from '../actions/saveCommit'
 import setupActions from '../actions/setupActions'
@@ -10,6 +11,11 @@ import logger from '../services/logger'
 import Context from './context'
 import { version as gitVersion } from '../services/git'
 import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
+import { readFile } from 'fs'
+import { join } from 'path'
+import { promisify } from 'util'
+
+const readFileAsync = promisify(readFile)
 
 interface Channel {
   receive(action: T.Action): Promise<void>
@@ -39,7 +45,9 @@ class Channel implements Channel {
   public receive = async (action: T.Action) => {
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
-    const onError = (error: T.ErrorMessage) => this.send({ type: 'ERROR', payload: { error } })
+    // const onError = (error: T.ErrorMessage) => this.send({ type: 'ERROR', payload: { error } })
+
+    // console.log(`ACTION: ${actionType}`)
 
     switch (actionType) {
       case 'EDITOR_ENV_GET':
@@ -86,7 +94,16 @@ class Channel implements Channel {
         // setup tutorial config (save watcher, test runner, etc)
         await this.context.setTutorial(this.workspaceState, data)
 
-        await tutorialConfig({ config: data.config }, onError)
+        const error: E.ErrorMessage | void = await tutorialConfig({ config: data.config }).catch((error: Error) => ({
+          type: 'UnknownError',
+          message: `Location: tutorial config.\n\n${error.message}`,
+        }))
+
+        // has error
+        if (error && error.type) {
+          this.send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error } })
+          return
+        }
 
         // report back to the webview that setup is complete
         this.send({ type: 'TUTORIAL_CONFIGURED' })
@@ -97,13 +114,10 @@ class Channel implements Channel {
           throw new Error('Invalid tutorial to continue')
         }
         const continueConfig: TT.TutorialConfig = tutorialContinue.config
-        await tutorialConfig(
-          {
-            config: continueConfig,
-            alreadyConfigured: true,
-          },
-          onError,
-        )
+        await tutorialConfig({
+          config: continueConfig,
+          alreadyConfigured: true,
+        })
         // update the current stepId on startup
         vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
         return
@@ -111,20 +125,43 @@ class Channel implements Channel {
         // 1. check workspace is selected
         const isEmptyWorkspace = await checkWorkspaceEmpty(this.workspaceRoot.uri.path)
         if (!isEmptyWorkspace) {
-          this.send({ type: 'NOT_EMPTY_WORKSPACE' })
+          const error: E.ErrorMessage = {
+            type: 'WorkspaceNotEmpty',
+            message: '',
+            actions: [
+              {
+                label: 'Open Workspace',
+                transition: 'REQUEST_WORKSPACE',
+              },
+              {
+                label: 'Check Again',
+                transition: 'RETRY',
+              },
+            ],
+          }
+          this.send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
           return
         }
         // 2. check Git is installed.
         // Should wait for workspace before running otherwise requires access to root folder
         const isGitInstalled = await gitVersion()
         if (!isGitInstalled) {
-          this.send({ type: 'GIT_NOT_INSTALLED' })
+          const error: E.ErrorMessage = {
+            type: 'GitNotFound',
+            message: '',
+            actions: [
+              {
+                label: 'Check Again',
+                transition: 'RETRY',
+              },
+            ],
+          }
+          this.send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
           return
         }
         this.send({ type: 'SETUP_VALIDATED' })
         return
       case 'EDITOR_REQUEST_WORKSPACE':
-        console.log('request workspace')
         openWorkspace()
         return
       // load step actions (git commits, commands, open files)
@@ -146,6 +183,24 @@ class Channel implements Channel {
   }
   // send to webview
   public send = async (action: T.Action) => {
+    // Error middleware
+    if (action?.payload?.error?.type) {
+      // load error markdown message
+      const error = action.payload.error
+      const errorMarkdownFile = join(__dirname, '..', '..', 'errors', `${action.payload.error.type}.md`)
+      const errorMarkdown = await readFileAsync(errorMarkdownFile).catch(() => {
+        // onError(new Error(`Error Markdown file not found for ${action.type}`))
+      })
+
+      // log error to console for safe keeping
+      console.log(`ERROR:\n ${errorMarkdown}`)
+
+      if (errorMarkdown) {
+        // add a clearer error message for the user
+        error.message = `${errorMarkdown}\n${error.message}`
+      }
+    }
+
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
     switch (actionType) {
@@ -160,8 +215,9 @@ class Channel implements Channel {
         saveCommit()
     }
 
-    const success = await this.postMessage(action)
-    if (!success) {
+    // send message
+    const sentToClient = await this.postMessage(action)
+    if (!sentToClient) {
       throw new Error(`Message post failure: ${JSON.stringify(action)}`)
     }
   }
