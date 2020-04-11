@@ -220,6 +220,10 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
     },
   }),
   // @ts-ignore
+  clearError: assign({
+    error: (): any => null,
+  }),
+  // @ts-ignore
   checkEmptySteps: send((context: T.MachineContext) => {
     // no step id indicates no steps to complete
     return {

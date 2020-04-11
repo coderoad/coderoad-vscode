@@ -63,6 +63,7 @@ export const createMachine = (options: any) => {
             },
             ValidateSetup: {
               onEntry: ['validateSetup'],
+              onExit: ['clearError'],
               on: {
                 VALIDATE_SETUP_FAILED: {
                   actions: ['setError'],
@@ -87,6 +88,7 @@ export const createMachine = (options: any) => {
             },
             SetupNewTutorial: {
               onEntry: ['configureNewTutorial'],
+              onExit: ['clearError'],
               on: {
                 TUTORIAL_CONFIGURE_FAIL: {
                   actions: ['setError'],
@@ -118,6 +120,7 @@ export const createMachine = (options: any) => {
               actions: ['commandFail'],
             },
             ERROR: {
+              // TODO: missing clearError
               actions: ['setError'],
             },
           },
