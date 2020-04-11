@@ -69,19 +69,6 @@ export async function clear(): Promise<Error | void> {
   throw new Error('Error cleaning up current unsaved work')
 }
 
-export async function version(): Promise<string | null> {
-  const { stdout, stderr } = await node.exec('git --version')
-  if (!stderr) {
-    const match = stdout.match(/^git version (\d+\.)?(\d+\.)?(\*|\d+)/)
-    if (match) {
-      // eslint-disable-next-line
-      const [_, major, minor, patch] = match
-      return `${major}${minor}${patch}`
-    }
-  }
-  return null
-}
-
 async function init(): Promise<Error | void> {
   const { stderr } = await node.exec('git init')
   if (stderr) {

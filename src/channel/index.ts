@@ -9,11 +9,12 @@ import tutorialConfig from '../actions/tutorialConfig'
 import { COMMANDS } from '../editor/commands'
 import logger from '../services/logger'
 import Context from './context'
-import { version as gitVersion } from '../services/git'
+import { version, compareVersions } from '../services/dependencies'
 import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 import { readFile } from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
+import { compare } from 'semver'
 
 const readFileAsync = promisify(readFile)
 
@@ -94,6 +95,63 @@ class Channel implements Channel {
         // setup tutorial config (save watcher, test runner, etc)
         await this.context.setTutorial(this.workspaceState, data)
 
+        // validate dependencies
+        const dependencies = data.config.dependencies
+        if (dependencies && dependencies.length) {
+          for (const dep of dependencies) {
+            // check dependency is installed
+            const currentVersion: string | null = await version(dep.name)
+            if (!currentVersion) {
+              // use a custom error message
+              const error = {
+                type: 'MissingTutorialDependency',
+                message: dep.message || `Process "${dep.name}" is required but not found. It may need to be installed`,
+                actions: [
+                  {
+                    label: 'Check Again',
+                    transition: 'TRY_AGAIN',
+                  },
+                ],
+              }
+              this.send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error } })
+              return
+            }
+
+            // check dependency version
+            const satisfiedDependency = await compareVersions(currentVersion, dep.version)
+
+            if (!satisfiedDependency) {
+              const error = {
+                type: 'UnmetTutorialDependency',
+                message: `Expected ${dep.name} to have version ${dep.version}, but found version ${currentVersion}`,
+                actions: [
+                  {
+                    label: 'Check Again',
+                    transition: 'TRY_AGAIN',
+                  },
+                ],
+              }
+              this.send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error } })
+              return
+            }
+
+            if (satisfiedDependency !== true) {
+              const error = satisfiedDependency || {
+                type: 'UnknownError',
+                message: `Something went wrong comparing dependency for ${name}`,
+                actions: [
+                  {
+                    label: 'Try Again',
+                    transition: 'TRY_AGAIN',
+                  },
+                ],
+              }
+              this.send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error } })
+              return
+            }
+          }
+        }
+
         const error: E.ErrorMessage | void = await tutorialConfig({ config: data.config }).catch((error: Error) => ({
           type: 'UnknownError',
           message: `Location: tutorial config.\n\n${error.message}`,
@@ -144,7 +202,7 @@ class Channel implements Channel {
         }
         // 2. check Git is installed.
         // Should wait for workspace before running otherwise requires access to root folder
-        const isGitInstalled = await gitVersion()
+        const isGitInstalled = await version('git')
         if (!isGitInstalled) {
           const error: E.ErrorMessage = {
             type: 'GitNotFound',
@@ -197,7 +255,7 @@ class Channel implements Channel {
 
       if (errorMarkdown) {
         // add a clearer error message for the user
-        error.message = `${errorMarkdown}\n${error.message}`
+        error.message = `${errorMarkdown}\n\n${error.message}`
       }
     }
 
