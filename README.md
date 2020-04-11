@@ -31,7 +31,7 @@ Install CodeRoad from [this link in the VSCode Marketplace](https://marketplace.
 
 - OS: MacOS, Linux (Windows coming soon #227)
 - VSCode 1.40+
-- Node.js 12+ (10+ soon #237)
+- Node.js 10+
 - Git
 
 ## Creating Tutorials
