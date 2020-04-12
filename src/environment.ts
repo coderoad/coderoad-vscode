@@ -14,8 +14,7 @@ export type Env = 'test' | 'local' | 'development' | 'production'
 export const NODE_ENV: Env = process.env.NODE_ENV || 'production'
 
 // toggle logging in development
-export const LOG: boolean =
-  (process.env.REACT_APP_LOG || '').toLowerCase() === 'true' && process.env.NODE_ENV !== 'production'
+export const LOG: boolean = (process.env.REACT_APP_LOG || '').toLowerCase() === 'true'
 
 // error logging tool
 export const SENTRY_DSN: string | null = process.env.SENTRY_DSN || null

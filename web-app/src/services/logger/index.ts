@@ -1,4 +1,4 @@
-import { LOG } from '../../environment'
+import { LOG, VERSION, NODE_ENV } from '../../environment'
 
 export type Log = string | object
 
@@ -16,5 +16,12 @@ const logger = (...messages: Log[]): void => {
     }
   }
 }
+
+logger(`
+ENV
+---
+VERSION: ${VERSION}
+NODE_ENV: ${NODE_ENV}
+`)
 
 export default logger
