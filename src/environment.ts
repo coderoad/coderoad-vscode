@@ -2,25 +2,22 @@ require('dotenv').config({
   path: './web-app/.env',
 })
 
-import * as vscode from 'vscode'
 import { getWorkspaceRoot } from './services/workspace'
 
-interface Environment {
-  VERSION: string
-  NODE_ENV: string
-  LOG: boolean
-  API_URL: string
-  SENTRY_DSN: string | null
-  WORKSPACE_ROOT: string
-}
+// CodeRoad version
+export const VERSION: string = process.env.npm_package_version || 'unknown'
 
-const environment: Environment = {
-  VERSION: process.env.VERSION || 'unknown',
-  NODE_ENV: process.env.NODE_ENV || 'production',
-  LOG: (process.env.LOG || '').toLowerCase() === 'true',
-  API_URL: process.env.REACT_APP_GQL_URI || '',
-  SENTRY_DSN: process.env.SENTRY_DSN || null,
-  WORKSPACE_ROOT: getWorkspaceRoot(),
-}
+// Node env
+export type Env = 'test' | 'local' | 'development' | 'production'
+// @ts-ignore
+export const NODE_ENV: Env = process.env.NODE_ENV || 'production'
 
-export default environment
+// toggle logging in development
+export const LOG: boolean =
+  (process.env.REACT_APP_LOG || '').toLowerCase() === 'true' && process.env.NODE_ENV !== 'production'
+
+// error logging tool
+export const SENTRY_DSN: string | null = process.env.SENTRY_DSN || null
+
+// uri path to the users project workspace
+export const WORKSPACE_ROOT: string = getWorkspaceRoot()

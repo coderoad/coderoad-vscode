@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Button, Form, Input } from '@alifd/next'
+import logger from '../../../services/logger'
 
 const FormItem = Form.Item
 
@@ -12,7 +13,7 @@ const TutorialUrl = (props: Props) => {
   const [url, setUrl] = React.useState(props.defaultUrl)
   const onSubmit = (e: any) => {
     e.preventDefault()
-    console.log('tutorial url', url)
+    logger(`Tutorial url: ${url}`)
     props.onTutorialLoad(url)
   }
 

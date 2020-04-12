@@ -1,7 +1,7 @@
-import enviroment from '../../environment'
+import { LOG } from '../../environment'
 
 const logger = (message: string | string[]) => {
-  if (!enviroment.LOG) {
+  if (!LOG) {
     return
   }
   if (Array.isArray(message)) {

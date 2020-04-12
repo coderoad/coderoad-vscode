@@ -1,5 +1,6 @@
 import * as React from 'react'
 import onError from '../../services/sentry/onError'
+import logger from '../../services/logger'
 
 class ErrorBoundary extends React.Component {
   public state = { errorMessage: null }
@@ -9,8 +10,8 @@ class ErrorBoundary extends React.Component {
     // Display fallback UI
     this.setState({ errorMessage: error.message })
     // You can also log the error to an error reporting service
-    console.error(JSON.stringify(error))
-    console.log(JSON.stringify(info))
+    logger('ERROR in component:', JSON.stringify(error))
+    logger('ERROR info:', JSON.stringify(info))
   }
 
   public render() {

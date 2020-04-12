@@ -5,7 +5,7 @@ import '../src/styles/index.css'
 // @ts-ignore
 global.acquireVsCodeApi = () => ({
   postMessage(event: string) {
-    console.log('postMessage', event)
+    console.log('ERROR: VSCode did not load properly in CodeRoad extension', event)
   },
 })
 

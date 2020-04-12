@@ -14,7 +14,7 @@ import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 import { readFile } from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
-import environment from '../environment'
+import { WORKSPACE_ROOT } from '../environment'
 
 const readFileAsync = promisify(readFile)
 
@@ -45,12 +45,12 @@ class Channel implements Channel {
     const actionType: string = typeof action === 'string' ? action : action.type
     // const onError = (error: T.ErrorMessage) => this.send({ type: 'ERROR', payload: { error } })
 
-    // console.log(`ACTION: ${actionType}`)
+    logger(`EXT RECEIVED: "${actionType}"`)
 
     switch (actionType) {
       case 'EDITOR_STARTUP':
         // check if a workspace is open, otherwise nothing works
-        const noActiveWorksapce = !environment.WORKSPACE_ROOT.length
+        const noActiveWorksapce = !WORKSPACE_ROOT.length
         if (noActiveWorksapce) {
           const error: E.ErrorMessage = {
             type: 'NoWorkspaceFound',
@@ -260,7 +260,7 @@ class Channel implements Channel {
       })
 
       // log error to console for safe keeping
-      console.log(`ERROR:\n ${errorMarkdown}`)
+      logger(`ERROR:\n ${errorMarkdown}`)
 
       if (errorMarkdown) {
         // add a clearer error message for the user
@@ -270,6 +270,9 @@ class Channel implements Channel {
 
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
+
+    logger(`EXT TO CLIENT: "${actionType}"`)
+
     switch (actionType) {
       case 'TEST_PASS':
         const tutorial = this.context.tutorial.get()

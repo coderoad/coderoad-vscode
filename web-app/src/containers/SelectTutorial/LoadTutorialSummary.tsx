@@ -14,7 +14,7 @@ const LoadTutorialSummary = (props: Props) => {
     return <Loading text="Loading tutorial summary..." />
   }
   if (error) {
-    console.log(error)
+    console.log(`Failed to load tutorial summary: ${error}`)
     return <div>Error loading summary</div>
   }
   if (!data) {

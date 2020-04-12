@@ -4,7 +4,7 @@ import { createMachine } from '../../services/state/machine'
 import { useMachine } from '../../services/xstate-react'
 import Route from './Route'
 import onError from '../../services/sentry/onError'
-import { LOG_STATE } from '../../environment'
+import logger from '../../services/logger'
 
 interface Output {
   context: T.MachineContext
@@ -16,27 +16,30 @@ interface Output {
 declare let acquireVsCodeApi: any
 
 const editor = acquireVsCodeApi()
+const editorSend = (action: T.Action) => {
+  logger(`CLIENT TO EXT: "${action.type}"`)
+  return editor.postMessage(action)
+}
 
 // router finds first state match of <Route path='' />
 const useRouter = (): Output => {
-  const [state, send] = useMachine<T.MachineContext, any>(createMachine({ editorSend: editor.postMessage }))
+  const [state, send] = useMachine<T.MachineContext, any>(createMachine({ editorSend }))
 
-  if (LOG_STATE) {
-    console.log(JSON.stringify(state.value))
-  }
+  logger(`STATE: ${JSON.stringify(state.value)}`)
 
   // event bus listener
   React.useEffect(() => {
     const listener = 'message'
     // propograte channel event to state machine
-    const handler = (action: any) => {
+    const handler = (event: any) => {
       // NOTE: must call event.data, cannot destructure. VSCode acts odd
-      const event = action.data
+      const action = event.data
       // ignore browser events from plugins
-      if (event.source) {
+      if (action.source) {
         return
       }
-      send(event)
+      logger(`CLIENT RECEIVED: "${action.type}"`)
+      send(action)
     }
     window.addEventListener(listener, handler)
     return () => {
