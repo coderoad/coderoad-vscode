@@ -17,8 +17,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.2.1]
 
-- Improve error page
-- Tutorial dependency validation in tutorial config. See an example below
+- Improves error page
+- Adds tutorial dependency validation in tutorial config. See an example below:
 
 ```json
 {
@@ -37,3 +37,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
   }
 }
 ```
+
+## [0.2.2]
+
+- Fixes issue where app fails on startup without a workspace, and instead returns an error page
