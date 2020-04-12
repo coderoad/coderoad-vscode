@@ -14,6 +14,7 @@ import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 import { readFile } from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
+import environment from 'environment'
 
 const readFileAsync = promisify(readFile)
 
@@ -176,7 +177,18 @@ class Channel implements Channel {
         vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
         return
       case 'EDITOR_VALIDATE_SETUP':
-        // 1. check workspace is selected
+        // check if a workspace is open
+        const noActiveWorksapce = !environment.WORKSPACE_ROOT.length
+        if (noActiveWorksapce) {
+          const error: E.ErrorMessage = {
+            type: 'NoWorkspaceFound',
+            message: '',
+          }
+          this.send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
+          return
+        }
+
+        // check workspace is selected
         const isEmptyWorkspace = await checkWorkspaceEmpty()
         if (!isEmptyWorkspace) {
           const error: E.ErrorMessage = {
@@ -196,7 +208,7 @@ class Channel implements Channel {
           this.send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
           return
         }
-        // 2. check Git is installed.
+        // check Git is installed.
         // Should wait for workspace before running otherwise requires access to root folder
         const isGitInstalled = await version('git')
         if (!isGitInstalled) {

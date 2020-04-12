@@ -25,7 +25,7 @@ export const getWorkspaceRoot = (): string => {
   const workspaceRoots: vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders
   if (!workspaceRoots || !workspaceRoots.length) {
     // no workspace root
-    return 'NO_WORKSPACE_FOUND'
+    return ''
   }
   // a user may have multiple workspace folders
   // for simplicity, assume the first is the active workspace
