@@ -14,7 +14,7 @@ import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 import { readFile } from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
-import environment from 'environment'
+import environment from '../environment'
 
 const readFileAsync = promisify(readFile)
 
@@ -49,6 +49,22 @@ class Channel implements Channel {
 
     switch (actionType) {
       case 'EDITOR_ENV_GET':
+        // check if a workspace is open, otherwise nothing works
+        const noActiveWorksapce = !environment.WORKSPACE_ROOT.length
+        if (noActiveWorksapce) {
+          const error: E.ErrorMessage = {
+            type: 'NoWorkspaceFound',
+            message: '',
+            actions: [
+              {
+                label: 'Open Workspace',
+                transition: 'REQUEST_WORKSPACE',
+              },
+            ],
+          }
+          this.send({ type: 'NO_WORKSPACE', payload: { error } })
+          return
+        }
         this.send({
           type: 'ENV_LOAD',
           payload: {
@@ -177,17 +193,6 @@ class Channel implements Channel {
         vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
         return
       case 'EDITOR_VALIDATE_SETUP':
-        // check if a workspace is open
-        const noActiveWorksapce = !environment.WORKSPACE_ROOT.length
-        if (noActiveWorksapce) {
-          const error: E.ErrorMessage = {
-            type: 'NoWorkspaceFound',
-            message: '',
-          }
-          this.send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
-          return
-        }
-
         // check workspace is selected
         const isEmptyWorkspace = await checkWorkspaceEmpty()
         if (!isEmptyWorkspace) {

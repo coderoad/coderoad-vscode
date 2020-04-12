@@ -1,5 +1,4 @@
 import * as vscode from 'vscode'
-import notify from '../services/notify'
 import { createCommands } from './commands'
 
 class Editor {
