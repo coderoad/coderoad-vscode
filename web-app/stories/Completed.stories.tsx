@@ -1,7 +1,7 @@
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import CompletedPage from '../src/containers/Tutorial/CompletedPage'
+import CompletedPage from '../src/containers/Tutorial/Completed'
 import SideBarDecorator from './utils/SideBarDecorator'
 
 storiesOf('Completed', module)

@@ -91,6 +91,8 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
     currentStep = level.steps.length
   }
 
+  console.log(`currentStep: ${currentStep}`)
+
   const pageBottomRef = React.useRef(null)
 
   const scrollToBottom = () => {

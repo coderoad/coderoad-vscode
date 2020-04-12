@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
-import * as selectors from '../../../services/selectors'
+import * as selectors from '../../services/selectors'
 import Level from './Level'
 
 interface PageProps {
@@ -9,13 +9,14 @@ interface PageProps {
   send(action: T.Action): void
 }
 
-const LevelSummaryPageContainer = (props: PageProps) => {
+const TutorialPage = (props: PageProps) => {
   const { position, progress, processes, testStatus } = props.context
 
   const tutorial = selectors.currentTutorial(props.context)
   const levelData: TT.Level = selectors.currentLevel(props.context)
 
   const onContinue = (): void => {
+    console.log('onContinue triggered')
     props.send({
       type: 'LEVEL_NEXT',
       payload: {
@@ -59,4 +60,4 @@ const LevelSummaryPageContainer = (props: PageProps) => {
   )
 }
 
-export default LevelSummaryPageContainer
+export default TutorialPage

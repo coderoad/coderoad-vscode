@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react'
 import React from 'react'
 import * as T from '../../typings'
 import * as TT from '../../typings/tutorial'
-import Level from '../src/containers/Tutorial/LevelPage/Level'
+import Level from '../src/containers/Tutorial/Level'
 import SideBarDecorator from './utils/SideBarDecorator'
 
 type ModifiedLevel = TT.Level & {

@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions'
 import { select, text, withKnobs } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import Step from '../src/containers/Tutorial/LevelPage/Step'
+import Step from '../src/containers/Tutorial/Level/Step'
 import SideBarDecorator from './utils/SideBarDecorator'
 
 const stepText =

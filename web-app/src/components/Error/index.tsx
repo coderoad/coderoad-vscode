@@ -37,13 +37,6 @@ interface Props {
 }
 
 const ErrorMarkdown = ({ error, send }: Props) => {
-  React.useEffect(() => {
-    if (error) {
-      // log error
-      console.log(`ERROR in markdown: ${error.message}`)
-    }
-  }, [error])
-
   if (!error) {
     return null
   }

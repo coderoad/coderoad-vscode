@@ -5,8 +5,8 @@ import ErrorView from './components/Error'
 import LoadingPage from './containers/Loading'
 import StartPage from './containers/Start'
 import SelectTutorialPage from './containers/SelectTutorial'
-import CompletedPage from './containers/Tutorial/CompletedPage'
-import LevelSummaryPage from './containers/Tutorial/LevelPage'
+import CompletedPage from './containers/Tutorial/Completed'
+import TutorialPage from './containers/Tutorial'
 
 const Routes = () => {
   const { context, send, Router, Route } = useRouter()
@@ -44,7 +44,7 @@ const Routes = () => {
           <LoadingPage text="Loading Level..." />
         </Route>
         <Route path="Tutorial.Level">
-          <LevelSummaryPage send={send} context={context} />
+          <TutorialPage send={send} context={context} />
         </Route>
         {/* Completed */}
         <Route path="Tutorial.Completed">
