@@ -9,6 +9,7 @@ interface Props {
   onClick?: () => void
   size?: 'small' | 'medium' | 'large'
   iconSize?: 'xxs' | 'xs' | 'small' | 'medium' | 'large' | 'xl' | 'xxl' | 'xxxl'
+  warning?: boolean
 }
 
 const Button = (props: Props) => (
@@ -19,6 +20,7 @@ const Button = (props: Props) => (
     style={props.style}
     size={props.size}
     iconSize={props.iconSize}
+    warning={props.warning}
   >
     {props.children}
   </AlifdButton>
