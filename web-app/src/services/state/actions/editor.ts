@@ -3,16 +3,9 @@ import * as TT from 'typings/tutorial'
 import * as selectors from '../../selectors'
 
 export default (editorSend: any) => ({
-  loadEnv(): void {
+  startup(): void {
     editorSend({
-      type: 'EDITOR_ENV_GET',
-    })
-  },
-  loadStoredTutorial(): void {
-    // send message to editor to see if there is existing tutorial progress
-    // in local storage on the editor
-    editorSend({
-      type: 'EDITOR_TUTORIAL_LOAD',
+      type: 'EDITOR_STARTUP',
     })
   },
   configureNewTutorial(context: CR.MachineContext) {

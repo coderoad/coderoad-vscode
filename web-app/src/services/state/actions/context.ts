@@ -6,7 +6,7 @@ import onError from '../../../services/sentry/onError'
 
 const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
   // @ts-ignore
-  setEnv: assign({
+  setStart: assign({
     env: (context: T.MachineContext, event: T.MachineEvent) => {
       return {
         ...context.env,
@@ -16,6 +16,12 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
   }),
   // @ts-ignore
   storeContinuedTutorial: assign({
+    env: (context: T.MachineContext, event: T.MachineEvent) => {
+      return {
+        ...context.env,
+        ...event.payload.env,
+      }
+    },
     tutorial: (context: T.MachineContext, event: T.MachineEvent) => {
       return event.payload.tutorial
     },

@@ -34,37 +34,27 @@ export const createMachine = (options: any) => {
           initial: 'Startup',
           states: {
             Startup: {
-              onEntry: ['loadEnv'],
+              onEntry: ['startup'],
               onExit: ['clearError'],
               on: {
-                ENV_LOAD: {
-                  target: 'LoadStoredTutorial',
-                  actions: ['setEnv'],
-                },
                 NO_WORKSPACE: {
                   actions: ['setError'],
                 },
                 REQUEST_WORKSPACE: {
                   actions: 'requestWorkspaceSelect',
                 },
-              },
-            },
-            LoadStoredTutorial: {
-              onEntry: ['loadStoredTutorial'],
-              on: {
                 LOAD_STORED_TUTORIAL: {
                   target: 'Start',
                   actions: ['storeContinuedTutorial'],
                 },
-                START_NEW_TUTORIAL: 'Start',
-              },
-            },
-            Start: {
-              on: {
-                NEW_TUTORIAL: 'ValidateSetup',
-                CONTINUE_TUTORIAL: {
-                  target: '#tutorial-level',
-                  actions: ['continueConfig'],
+                START_NEW_TUTORIAL: {
+                  target: 'Start',
+                  actions: ['setStart'],
+                },
+                // TODO: handle completed tutorial differently
+                TUTORIAL_ALREADY_COMPLETE: {
+                  target: 'Start',
+                  actions: ['setStart'],
                 },
               },
             },
@@ -81,6 +71,15 @@ export const createMachine = (options: any) => {
                 },
                 WORKSPACE_LOADED: 'ValidateSetup',
                 SETUP_VALIDATED: 'SelectTutorial',
+              },
+            },
+            Start: {
+              on: {
+                NEW_TUTORIAL: 'ValidateSetup',
+                CONTINUE_TUTORIAL: {
+                  target: '#tutorial-level',
+                  actions: ['continueConfig'],
+                },
               },
             },
             SelectTutorial: {

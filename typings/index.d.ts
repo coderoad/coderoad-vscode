@@ -65,7 +65,6 @@ export interface MachineStateSchema {
     Setup: {
       states: {
         Startup: {}
-        LoadStoredTutorial: {}
         Start: {}
         ValidateSetup: {}
         SelectTutorial: {}
