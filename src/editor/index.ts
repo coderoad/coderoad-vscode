@@ -1,4 +1,5 @@
 import * as vscode from 'vscode'
+import notify from '../services/notify'
 import { createCommands } from './commands'
 
 class Editor {
@@ -28,18 +29,10 @@ class Editor {
   }
 
   private activateCommands = (): void => {
-    // set workspace root for node executions
-    const workspaceRoots: vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders
-    if (!workspaceRoots || !workspaceRoots.length) {
-      throw new Error('No workspace root path')
-    }
-    const workspaceRoot: vscode.WorkspaceFolder = workspaceRoots[0]
-
     const commands = createCommands({
       extensionPath: this.vscodeExt.extensionPath,
       // NOTE: local storage must be bound to the vscodeExt.workspaceState
       workspaceState: this.vscodeExt.workspaceState,
-      workspaceRoot,
     })
 
     // register commands

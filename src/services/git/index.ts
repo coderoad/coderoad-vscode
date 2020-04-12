@@ -1,12 +1,12 @@
 import * as TT from 'typings/tutorial'
-import node from '../node'
+import { exec, exists } from '../node'
 import logger from '../logger'
 
 const gitOrigin = 'coderoad'
 
 const stashAllFiles = async (): Promise<never | void> => {
   // stash files including untracked (eg. newly created file)
-  const { stdout, stderr } = await node.exec(`git stash --include-untracked`)
+  const { stdout, stderr } = await exec(`git stash --include-untracked`)
   if (stderr) {
     console.error(stderr)
     throw new Error('Error stashing files')
@@ -21,7 +21,7 @@ const cherryPickCommit = async (commit: string, count = 0): Promise<never | void
   try {
     // cherry-pick pulls commits from another branch
     // -X theirs merges and accepts incoming changes over existing changes
-    const { stdout } = await node.exec(`git cherry-pick -X theirs ${commit}`)
+    const { stdout } = await exec(`git cherry-pick -X theirs ${commit}`)
     if (!stdout) {
       throw new Error('No cherry-pick output')
     }
@@ -47,7 +47,7 @@ export function loadCommit(commit: string): Promise<never | void> {
 */
 
 export async function saveCommit(message: string): Promise<never | void> {
-  const { stdout, stderr } = await node.exec(`git commit -am '${message}'`)
+  const { stdout, stderr } = await exec(`git commit -am '${message}'`)
   if (stderr) {
     console.error(stderr)
     throw new Error('Error saving progress to Git')
@@ -58,7 +58,7 @@ export async function saveCommit(message: string): Promise<never | void> {
 export async function clear(): Promise<Error | void> {
   try {
     // commit progress to git
-    const { stderr } = await node.exec('git reset HEAD --hard && git clean -fd')
+    const { stderr } = await exec('git reset HEAD --hard && git clean -fd')
     if (!stderr) {
       return
     }
@@ -70,14 +70,14 @@ export async function clear(): Promise<Error | void> {
 }
 
 async function init(): Promise<Error | void> {
-  const { stderr } = await node.exec('git init')
+  const { stderr } = await exec('git init')
   if (stderr) {
     throw new Error('Error initializing Git')
   }
 }
 
 export async function initIfNotExists(): Promise<never | void> {
-  const hasGitInit = node.exists('.git')
+  const hasGitInit = exists('.git')
   if (!hasGitInit) {
     await init()
   }
@@ -85,13 +85,13 @@ export async function initIfNotExists(): Promise<never | void> {
 
 export async function checkRemoteConnects(repo: TT.TutorialRepo): Promise<never | void> {
   // check for git repo
-  const externalRepoExists = await node.exec(`git ls-remote --exit-code --heads ${repo.uri}`)
+  const externalRepoExists = await exec(`git ls-remote --exit-code --heads ${repo.uri}`)
   if (externalRepoExists.stderr) {
     // no repo found or no internet connection
     throw new Error(externalRepoExists.stderr)
   }
   // check for git repo branch
-  const { stderr, stdout } = await node.exec(`git ls-remote --exit-code --heads ${repo.uri} ${repo.branch}`)
+  const { stderr, stdout } = await exec(`git ls-remote --exit-code --heads ${repo.uri} ${repo.branch}`)
   if (stderr) {
     throw new Error(stderr)
   }
@@ -101,7 +101,7 @@ export async function checkRemoteConnects(repo: TT.TutorialRepo): Promise<never 
 }
 
 export async function addRemote(repo: string): Promise<never | void> {
-  const { stderr } = await node.exec(`git remote add ${gitOrigin} ${repo} && git fetch ${gitOrigin}`)
+  const { stderr } = await exec(`git remote add ${gitOrigin} ${repo} && git fetch ${gitOrigin}`)
   if (stderr) {
     const alreadyExists = stderr.match(`${gitOrigin} already exists.`)
     const successfulNewBranch = stderr.match('new branch')
@@ -116,7 +116,7 @@ export async function addRemote(repo: string): Promise<never | void> {
 
 export async function checkRemoteExists(): Promise<boolean> {
   try {
-    const { stdout, stderr } = await node.exec('git remote -v')
+    const { stdout, stderr } = await exec('git remote -v')
     if (stderr) {
       return false
     }

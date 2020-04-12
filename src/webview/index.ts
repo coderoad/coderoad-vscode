@@ -7,10 +7,9 @@ import render from './render'
 interface ReactWebViewProps {
   extensionPath: string
   workspaceState: vscode.Memento
-  workspaceRoot: vscode.WorkspaceFolder
 }
 
-const createReactWebView = ({ extensionPath, workspaceState, workspaceRoot }: ReactWebViewProps) => {
+const createReactWebView = ({ extensionPath, workspaceState }: ReactWebViewProps) => {
   let loaded = false
   // TODO add disposables
   const disposables: vscode.Disposable[] = []
@@ -40,7 +39,6 @@ const createReactWebView = ({ extensionPath, workspaceState, workspaceRoot }: Re
 
   const channel = new Channel({
     workspaceState,
-    workspaceRoot,
     postMessage: (action: Action): Thenable<boolean> => {
       return panel.webview.postMessage(action)
     },

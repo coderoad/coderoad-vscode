@@ -14,7 +14,6 @@ import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 import { readFile } from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
-import { compare } from 'semver'
 
 const readFileAsync = promisify(readFile)
 
@@ -26,18 +25,15 @@ interface Channel {
 interface ChannelProps {
   postMessage: (action: T.Action) => Thenable<boolean>
   workspaceState: vscode.Memento
-  workspaceRoot: vscode.WorkspaceFolder
 }
 
 class Channel implements Channel {
   private postMessage: (action: T.Action) => Thenable<boolean>
   private workspaceState: vscode.Memento
-  private workspaceRoot: vscode.WorkspaceFolder
   private context: Context
-  constructor({ postMessage, workspaceState, workspaceRoot }: ChannelProps) {
+  constructor({ postMessage, workspaceState }: ChannelProps) {
     // workspaceState used for local storage
     this.workspaceState = workspaceState
-    this.workspaceRoot = workspaceRoot
     this.postMessage = postMessage
     this.context = new Context(workspaceState)
   }
@@ -181,7 +177,7 @@ class Channel implements Channel {
         return
       case 'EDITOR_VALIDATE_SETUP':
         // 1. check workspace is selected
-        const isEmptyWorkspace = await checkWorkspaceEmpty(this.workspaceRoot.uri.path)
+        const isEmptyWorkspace = await checkWorkspaceEmpty()
         if (!isEmptyWorkspace) {
           const error: E.ErrorMessage = {
             type: 'WorkspaceNotEmpty',
@@ -225,11 +221,11 @@ class Channel implements Channel {
       // load step actions (git commits, commands, open files)
       case 'SETUP_ACTIONS':
         await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
-        setupActions(this.workspaceRoot, action.payload, this.send)
+        setupActions(action.payload, this.send)
         return
       // load solution step actions (git commits, commands, open files)
       case 'SOLUTION_ACTIONS':
-        await solutionActions(this.workspaceRoot, action.payload, this.send)
+        await solutionActions(action.payload, this.send)
         // run test following solution to update position
         vscode.commands.executeCommand(COMMANDS.RUN_TEST, action.payload)
         return
