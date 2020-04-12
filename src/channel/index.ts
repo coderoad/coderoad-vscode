@@ -48,7 +48,7 @@ class Channel implements Channel {
     // console.log(`ACTION: ${actionType}`)
 
     switch (actionType) {
-      case 'EDITOR_ENV_GET':
+      case 'EDITOR_STARTUP':
         // check if a workspace is open, otherwise nothing works
         const noActiveWorksapce = !environment.WORKSPACE_ROOT.length
         if (noActiveWorksapce) {
@@ -65,23 +65,18 @@ class Channel implements Channel {
           this.send({ type: 'NO_WORKSPACE', payload: { error } })
           return
         }
-        this.send({
-          type: 'ENV_LOAD',
-          payload: {
-            env: {
-              machineId: vscode.env.machineId,
-              sessionId: vscode.env.sessionId,
-            },
-          },
-        })
-        return
-      // continue from tutorial from local storage
-      case 'EDITOR_TUTORIAL_LOAD':
+
+        const env = {
+          machineId: vscode.env.machineId,
+          sessionId: vscode.env.sessionId,
+        }
+
+        // continue from tutorial from local storage
         const tutorial: TT.Tutorial | null = this.context.tutorial.get()
 
         // new tutorial
         if (!tutorial || !tutorial.id) {
-          this.send({ type: 'START_NEW_TUTORIAL' })
+          this.send({ type: 'START_NEW_TUTORIAL', payload: { env } })
           return
         }
 
@@ -90,13 +85,14 @@ class Channel implements Channel {
 
         if (progress.complete) {
           // tutorial is already complete
-          this.send({ type: 'START_NEW_TUTORIAL' })
+          this.send({ type: 'TUTORIAL_ALREADY_COMPLETE', payload: { env } })
           return
         }
         // communicate to client the tutorial & stepProgress state
-        this.send({ type: 'LOAD_STORED_TUTORIAL', payload: { tutorial, progress, position } })
+        this.send({ type: 'LOAD_STORED_TUTORIAL', payload: { env, tutorial, progress, position } })
 
         return
+
       // clear tutorial local storage
       case 'TUTORIAL_CLEAR':
         // clear current progress/position/tutorial
