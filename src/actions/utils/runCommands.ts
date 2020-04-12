@@ -15,7 +15,7 @@ const runCommands = async (commands: string[], send: (action: T.Action) => void)
     try {
       result = await exec(command)
     } catch (error) {
-      console.log(error)
+      console.log(`Test failed: ${error.message}`)
       send({ type: 'COMMAND_FAIL', payload: { process: { ...process, status: 'FAIL' } } })
       return
     }

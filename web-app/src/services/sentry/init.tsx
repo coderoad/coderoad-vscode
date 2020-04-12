@@ -9,6 +9,5 @@ try {
     })
   }
 } catch (error) {
-  console.log('Error in Sentry init')
-  console.log(error)
+  console.log(`Error in Sentry init: ${error.message}`)
 }

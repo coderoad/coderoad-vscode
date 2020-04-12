@@ -45,7 +45,7 @@ class Channel implements Channel {
     const actionType: string = typeof action === 'string' ? action : action.type
     // const onError = (error: T.ErrorMessage) => this.send({ type: 'ERROR', payload: { error } })
 
-    // console.log(`ACTION: ${actionType}`)
+    logger(`EXT RECEIVED: "${actionType}"`)
 
     switch (actionType) {
       case 'EDITOR_STARTUP':
@@ -260,7 +260,7 @@ class Channel implements Channel {
       })
 
       // log error to console for safe keeping
-      console.log(`ERROR:\n ${errorMarkdown}`)
+      logger(`ERROR:\n ${errorMarkdown}`)
 
       if (errorMarkdown) {
         // add a clearer error message for the user
@@ -270,6 +270,9 @@ class Channel implements Channel {
 
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
+
+    logger(`EXT TO CLIENT: "${actionType}"`)
+
     switch (actionType) {
       case 'TEST_PASS':
         const tutorial = this.context.tutorial.get()

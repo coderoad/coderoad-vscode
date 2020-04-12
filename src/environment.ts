@@ -2,7 +2,6 @@ require('dotenv').config({
   path: './web-app/.env',
 })
 
-import * as vscode from 'vscode'
 import { getWorkspaceRoot } from './services/workspace'
 
 interface Environment {
@@ -17,7 +16,7 @@ interface Environment {
 const environment: Environment = {
   VERSION: process.env.VERSION || 'unknown',
   NODE_ENV: process.env.NODE_ENV || 'production',
-  LOG: (process.env.LOG || '').toLowerCase() === 'true',
+  LOG: (process.env.REACT_APP_LOG || '').toLowerCase() === 'true' && process.env.NODE_ENV !== 'production',
   API_URL: process.env.REACT_APP_GQL_URI || '',
   SENTRY_DSN: process.env.SENTRY_DSN || null,
   WORKSPACE_ROOT: getWorkspaceRoot(),

@@ -67,7 +67,7 @@ const Markdown = (props: Props) => {
   try {
     html = md.render(props.children)
   } catch (error) {
-    const message = `failed to parse markdown for ${props.children}`
+    const message = `Failed to parse markdown for ${props.children}`
     onError(new Error(message))
     console.log(message)
     html = `<div style='background-color: #FFB81A; padding: 0.5rem;'>

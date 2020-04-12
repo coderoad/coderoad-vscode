@@ -20,7 +20,7 @@ const openFiles = async (files: string[]) => {
       // ensure the panel is redrawn on the right side first
       vscode.commands.executeCommand(COMMANDS.OPEN_WEBVIEW)
     } catch (error) {
-      console.log(`Failed to open file ${filePath}`, error)
+      console.log(`Failed to open file ${filePath}: ${error.message}`)
     }
   }
 }
