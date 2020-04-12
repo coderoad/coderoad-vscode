@@ -65,11 +65,11 @@ export interface MachineStateSchema {
     Setup: {
       states: {
         Startup: {}
-        Start: {}
         ValidateSetup: {}
+        Start: {}
         SelectTutorial: {}
         SetupNewTutorial: {}
-        StartNewTutorial: {}
+        StartTutorial: {}
       }
     }
     Tutorial: {

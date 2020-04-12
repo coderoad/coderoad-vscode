@@ -16,7 +16,6 @@ const TutorialPage = (props: PageProps) => {
   const levelData: TT.Level = selectors.currentLevel(props.context)
 
   const onContinue = (): void => {
-    console.log('onContinue triggered')
     props.send({
       type: 'LEVEL_NEXT',
       payload: {

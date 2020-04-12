@@ -30,13 +30,10 @@ const Routes = () => {
         <Route path="Setup.Start">
           <StartPage send={send} context={context} />
         </Route>
-        <Route path={['Setup.LoadTutorialSummary', 'Setup.LoadTutorialData', 'Setup.SetupNewTutorial']}>
-          <LoadingPage text="Loading Tutorial..." />
-        </Route>
         <Route path="Setup.SelectTutorial">
           <SelectTutorialPage send={send} context={context} />
         </Route>
-        <Route path={['Setup.SetupNewTutorial', 'Setup.StartNewTutorial']}>
+        <Route path={['Setup.SetupNewTutorial', 'Setup.StartTutorial']}>
           <LoadingPage text="Configuring tutorial..." />
         </Route>
         {/* Tutorial */}

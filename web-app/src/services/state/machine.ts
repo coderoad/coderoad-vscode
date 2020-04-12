@@ -81,7 +81,7 @@ export const createMachine = (options: any) => {
               on: {
                 NEW_TUTORIAL: 'ValidateSetup',
                 CONTINUE_TUTORIAL: {
-                  target: '#tutorial-level',
+                  target: 'StartTutorial',
                   actions: ['continueConfig'],
                 },
                 CONTINUE_FAILED: {
@@ -107,11 +107,11 @@ export const createMachine = (options: any) => {
                   actions: ['setError'],
                 },
                 TRY_AGAIN: 'SetupNewTutorial',
-                TUTORIAL_CONFIGURED: 'StartNewTutorial',
+                TUTORIAL_CONFIGURED: 'StartTutorial',
               },
             },
-            StartNewTutorial: {
-              onEntry: ['startNewTutorial'],
+            StartTutorial: {
+              onEntry: ['StartTutorial'],
               after: {
                 0: '#tutorial',
               },
