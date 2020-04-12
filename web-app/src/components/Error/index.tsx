@@ -7,11 +7,27 @@ import Button from '../../components/Button'
 
 const styles = {
   container: {
-    color: '#D8000C',
-    backgroundColor: '#FFBABA',
+    display: 'flex' as 'flex',
+    flexDirection: 'column' as 'column',
+    justifyContent: 'center' as 'center',
+    alignItems: 'center' as 'center',
+    border: '0.5rem solid #FFBABA',
     padding: '1rem',
     width: '100%',
     height: '100%',
+  },
+  content: {
+    textAlign: 'center' as 'center',
+    color: 'rgb(40, 40, 40);',
+  },
+  options: {
+    display: 'flex' as 'flex',
+    flexDirection: 'column' as 'column',
+    alignItems: 'center',
+  },
+  button: {
+    margin: '0.5rem',
+    width: '10rem',
   },
 }
 
@@ -34,15 +50,21 @@ const ErrorMarkdown = ({ error, send }: Props) => {
 
   return (
     <div css={styles.container}>
-      <h1>Error</h1>
-      <Markdown>{error.message}</Markdown>
+      <h1>Oops!</h1>
+      <div css={styles.content}>
+        <Markdown>{error.message}</Markdown>
+      </div>
+      <br />
+      <br />
       {/* Actions */}
-      {error.actions &&
-        error.actions.map((a) => (
-          <Button type="secondary" onClick={() => send({ type: a.transition })}>
-            {a.label}
-          </Button>
-        ))}
+      <div css={styles.options}>
+        {error.actions &&
+          error.actions.map((a) => (
+            <Button type="normal" warning style={styles.button} onClick={() => send({ type: a.transition })}>
+              {a.label}
+            </Button>
+          ))}
+      </div>
     </div>
   )
 }
