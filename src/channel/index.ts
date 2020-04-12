@@ -329,7 +329,7 @@ class Channel implements Channel {
       case 'TEST_PASS':
         const tutorial = this.context.tutorial.get()
         if (!tutorial) {
-          throw new Error('Error with current tutorial')
+          throw new Error('ERROR: Tutorial not found in test run')
         }
         // update local storage stepProgress
         const progress = this.context.progress.setStepComplete(tutorial, action.payload.stepId)
@@ -340,7 +340,7 @@ class Channel implements Channel {
     // send message
     const sentToClient = await this.postMessage(action)
     if (!sentToClient) {
-      throw new Error(`Message post failure: ${JSON.stringify(action)}`)
+      throw new Error(`ERROR: Message post failure: ${JSON.stringify(action)}`)
     }
   }
 }

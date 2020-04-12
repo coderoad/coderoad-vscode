@@ -59,14 +59,14 @@ const useRouter = (): Output => {
       } else if (Array.isArray(path)) {
         pathMatch = path.some((p) => state.matches(p))
       } else {
-        throw new Error(`Invalid route path ${JSON.stringify(path)}`)
+        throw new Error(`ERROR: Invalid route path: ${JSON.stringify(path)}`)
       }
       if (pathMatch) {
         // @ts-ignore
         return child.props.children
       }
     }
-    const message = `No Route matches for ${JSON.stringify(state)}`
+    const message = `ERROR: No Route matches for ${JSON.stringify(state)}`
     onError(new Error(message))
     console.warn(message)
     return null

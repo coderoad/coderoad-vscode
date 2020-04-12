@@ -1,13 +1,19 @@
 import { LOG } from '../../environment'
 
-const logger = (message: string | string[]) => {
+export type Log = string | object
+
+const logger = (...messages: Log[]): void => {
   if (!LOG) {
     return
   }
-  if (Array.isArray(message)) {
-    message.forEach(console.log)
-  } else {
-    console.log(message)
+  // Inside vscode, you console.log does not allow more than 1 param
+  // to get around it, we can log with multiple log statements
+  for (const message of messages) {
+    if (typeof message === 'object') {
+      console.log(JSON.stringify(message))
+    } else {
+      console.log(message)
+    }
   }
 }
 
