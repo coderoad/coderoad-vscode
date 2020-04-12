@@ -1,4 +1,4 @@
-import node from '../node'
+import { exec } from '../node'
 import logger from '../logger'
 import parser from './parser'
 import { debounce, throttle } from './throttle'
@@ -39,7 +39,7 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
 
     let result: { stdout: string | undefined; stderr: string | undefined }
     try {
-      result = await node.exec(config.command)
+      result = await exec(config.command)
     } catch (err) {
       result = { stdout: err.stdout, stderr: err.stack }
     }

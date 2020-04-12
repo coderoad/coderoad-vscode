@@ -1,6 +1,5 @@
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
-import * as vscode from 'vscode'
 import * as git from '../services/git'
 import loadWatchers from './utils/loadWatchers'
 import openFiles from './utils/openFiles'
@@ -8,7 +7,6 @@ import runCommands from './utils/runCommands'
 import onError from '../services/sentry/onError'
 
 const setupActions = async (
-  workspaceRoot: vscode.WorkspaceFolder,
   actions: TT.StepActions,
   send: (action: T.Action) => void, // send messages to client
 ): Promise<void> => {
@@ -26,7 +24,7 @@ const setupActions = async (
   openFiles(files || [])
 
   // 3. start file watchers
-  loadWatchers(watchers || [], workspaceRoot.uri)
+  loadWatchers(watchers || [])
 
   // 4. run command
   await runCommands(commands || [], send).catch(onError)

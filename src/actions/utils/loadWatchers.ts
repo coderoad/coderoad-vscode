@@ -1,6 +1,7 @@
 import * as chokidar from 'chokidar'
 import * as vscode from 'vscode'
 import { COMMANDS } from '../../editor/commands'
+import environment from '../../environment'
 
 // NOTE: vscode createFileWatcher doesn't seem to detect changes outside of vscode
 // such as `npm install` of a package. Went with chokidar instead
@@ -13,7 +14,7 @@ const disposeWatcher = (watcher: string) => {
   delete watcherObject[watcher]
 }
 
-const loadWatchers = (watchers: string[], workspaceUri: vscode.Uri) => {
+const loadWatchers = (watchers: string[]) => {
   if (!watchers.length) {
     // remove all watchers
     for (const watcher of Object.keys(watcherObject)) {
@@ -24,13 +25,8 @@ const loadWatchers = (watchers: string[], workspaceUri: vscode.Uri) => {
     if (!watcherObject[watcher]) {
       // see how glob patterns are used in VSCode (not like a regex)
       // https://code.visualstudio.com/api/references/vscode-api#GlobPattern
-      const rootUri = vscode.workspace.getWorkspaceFolder(workspaceUri)
-      if (!rootUri) {
-        return
-      }
-
       const fsWatcher: chokidar.FSWatcher = chokidar.watch(watcher, {
-        cwd: rootUri.uri.path,
+        cwd: environment.WORKSPACE_ROOT,
         interval: 1000,
       })
 

@@ -1,11 +1,11 @@
 import { satisfies } from 'semver'
-import node from '../node'
+import { exec } from '../node'
 
 const semverRegex = /(?<=^v?|\sv?)(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(?:0|[1-9]\d*|[\da-z-]*[a-z-][\da-z-]*)(?:\.(?:0|[1-9]\d*|[\da-z-]*[a-z-][\da-z-]*))*)?(?:\+[\da-z-]+(?:\.[\da-z-]+)*)?(?=$|\s)/gi
 
 export const version = async (name: string): Promise<string | null> => {
   try {
-    const { stdout, stderr } = await node.exec(`${name} --version`)
+    const { stdout, stderr } = await exec(`${name} --version`)
     if (!stderr) {
       const match = stdout.match(semverRegex)
       if (match) {

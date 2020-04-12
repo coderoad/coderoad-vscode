@@ -14,10 +14,9 @@ export const COMMANDS = {
 interface CreateCommandProps {
   extensionPath: string
   workspaceState: vscode.Memento
-  workspaceRoot: vscode.WorkspaceFolder
 }
 
-export const createCommands = ({ extensionPath, workspaceState, workspaceRoot }: CreateCommandProps) => {
+export const createCommands = ({ extensionPath, workspaceState }: CreateCommandProps) => {
   // React panel webview
   let webview: any
   let currentStepId = ''
@@ -41,7 +40,6 @@ export const createCommands = ({ extensionPath, workspaceState, workspaceRoot }:
       webview = createWebView({
         extensionPath,
         workspaceState,
-        workspaceRoot,
       })
     },
     // open React webview

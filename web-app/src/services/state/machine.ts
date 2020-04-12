@@ -35,10 +35,17 @@ export const createMachine = (options: any) => {
           states: {
             Startup: {
               onEntry: ['loadEnv'],
+              onExit: ['clearError'],
               on: {
                 ENV_LOAD: {
                   target: 'LoadStoredTutorial',
                   actions: ['setEnv'],
+                },
+                NO_WORKSPACE: {
+                  actions: ['setError'],
+                },
+                REQUEST_WORKSPACE: {
+                  actions: 'requestWorkspaceSelect',
                 },
               },
             },

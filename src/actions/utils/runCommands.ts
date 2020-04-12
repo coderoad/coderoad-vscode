@@ -1,5 +1,5 @@
 import * as T from 'typings'
-import node from '../../services/node'
+import { exec } from '../../services/node'
 
 const runCommands = async (commands: string[], send: (action: T.Action) => void) => {
   if (!commands.length) {
@@ -13,7 +13,7 @@ const runCommands = async (commands: string[], send: (action: T.Action) => void)
     send({ type: 'COMMAND_START', payload: { process: { ...process, status: 'RUNNING' } } })
     let result: { stdout: string; stderr: string }
     try {
-      result = await node.exec(command)
+      result = await exec(command)
     } catch (error) {
       console.log(error)
       send({ type: 'COMMAND_FAIL', payload: { process: { ...process, status: 'FAIL' } } })
