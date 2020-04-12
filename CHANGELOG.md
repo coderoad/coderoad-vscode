@@ -12,5 +12,28 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Improvements to error handling
 - Validate Git installed on startup
-- Validate git remote can connect on tutorial selection
+- Validate Git remote can connect on tutorial selection
 - Fix component translation issues
+
+## [0.2.1]
+
+- Improve error page
+- Tutorial dependency validation in tutorial config. See an example below
+
+```json
+{
+  "config": {
+    "dependencies": [
+      {
+        "name": "node", // command line process to run
+        "version": "^10", // see node-semver for options
+        "message": "An optional message to display if the validation fails"
+      },
+      {
+        "name": "npm",
+        "version": ">5"
+      }
+    ]
+  }
+}
+```
