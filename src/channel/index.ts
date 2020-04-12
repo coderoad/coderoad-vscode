@@ -14,7 +14,7 @@ import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 import { readFile } from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
-import environment from '../environment'
+import { WORKSPACE_ROOT } from '../environment'
 
 const readFileAsync = promisify(readFile)
 
@@ -50,7 +50,7 @@ class Channel implements Channel {
     switch (actionType) {
       case 'EDITOR_STARTUP':
         // check if a workspace is open, otherwise nothing works
-        const noActiveWorksapce = !environment.WORKSPACE_ROOT.length
+        const noActiveWorksapce = !WORKSPACE_ROOT.length
         if (noActiveWorksapce) {
           const error: E.ErrorMessage = {
             type: 'NoWorkspaceFound',

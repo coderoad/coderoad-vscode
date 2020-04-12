@@ -1,9 +1,9 @@
 import { init } from '@sentry/node'
-import environment from '../../environment'
+import { SENTRY_DSN, NODE_ENV } from '../../environment'
 
-if (environment.SENTRY_DSN) {
+if (SENTRY_DSN) {
   init({
-    dsn: environment.SENTRY_DSN,
-    environment: environment.NODE_ENV,
+    dsn: SENTRY_DSN,
+    environment: NODE_ENV,
   })
 }
