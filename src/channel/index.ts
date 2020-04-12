@@ -75,13 +75,13 @@ class Channel implements Channel {
           // continue from tutorial from local storage
           const tutorial: TT.Tutorial | null = this.context.tutorial.get()
 
-          // new tutorial
-          if (!tutorial || !tutorial.id) {
+          if (!tutorial || !tutorial.config) {
+            // new tutorial
             this.send({ type: 'START_NEW_TUTORIAL', payload: { env } })
             return
           }
 
-          // set tutorial
+          // set tutorials
           const { position, progress } = await this.context.setTutorial(this.workspaceState, tutorial)
 
           if (progress.complete) {
