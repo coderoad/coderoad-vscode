@@ -3,6 +3,7 @@ import * as TT from 'typings/tutorial'
 import { assign, send, ActionFunctionMap } from 'xstate'
 import * as selectors from '../../selectors'
 import onError from '../../../services/sentry/onError'
+import logger from 'services/logger'
 
 const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
   // @ts-ignore
@@ -99,6 +100,8 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
       const levelId: string = position.levelId
 
       progress.levels[levelId] = true
+
+      logger('PROGRESS', progress)
 
       return progress
     },

@@ -160,7 +160,10 @@ export const createMachine = (options: any) => {
                   onEntry: ['loadLevel', 'checkLevelCompleted'],
                   on: {
                     START_LEVEL: 'Normal',
-                    START_COMPLETED_LEVEL: 'LevelComplete',
+                    START_COMPLETED_LEVEL: {
+                      target: 'LevelComplete',
+                      actions: ['updateLevelProgress'],
+                    },
                   },
                 },
                 Normal: {

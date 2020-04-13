@@ -91,8 +91,6 @@ class Channel implements Channel {
           }
           // communicate to client the tutorial & stepProgress state
           this.send({ type: 'LOAD_STORED_TUTORIAL', payload: { env, tutorial, progress, position } })
-
-          return
         } catch (e) {
           const error = {
             type: 'UnknownError',
@@ -100,6 +98,7 @@ class Channel implements Channel {
           }
           this.send({ type: 'EDITOR_STARTUP_FAILED', payload: { error } })
         }
+        return
 
       // clear tutorial local storage
       case 'TUTORIAL_CLEAR':
@@ -203,7 +202,6 @@ class Channel implements Channel {
 
           // report back to the webview that setup is complete
           this.send({ type: 'TUTORIAL_CONFIGURED' })
-          return
         } catch (e) {
           const error = {
             type: 'UnknownError',
@@ -211,6 +209,7 @@ class Channel implements Channel {
           }
           this.send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error } })
         }
+        return
       case 'EDITOR_TUTORIAL_CONTINUE_CONFIG':
         try {
           const tutorialContinue: TT.Tutorial | null = this.context.tutorial.get()
@@ -224,7 +223,6 @@ class Channel implements Channel {
           })
           // update the current stepId on startup
           vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload.stepId)
-          return
         } catch (e) {
           const error = {
             type: 'UnknownError',
@@ -232,6 +230,7 @@ class Channel implements Channel {
           }
           this.send({ type: 'CONTINUE_FAILED', payload: { error } })
         }
+        return
       case 'EDITOR_VALIDATE_SETUP':
         try {
           // check workspace is selected
@@ -272,7 +271,6 @@ class Channel implements Channel {
             return
           }
           this.send({ type: 'SETUP_VALIDATED' })
-          return
         } catch (e) {
           const error = {
             type: 'UknownError',
@@ -280,6 +278,7 @@ class Channel implements Channel {
           }
           this.send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
         }
+        return
       case 'EDITOR_REQUEST_WORKSPACE':
         openWorkspace()
         return
