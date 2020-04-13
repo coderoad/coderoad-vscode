@@ -20,7 +20,7 @@ async function render(panel: vscode.WebviewPanel, rootPath: string) {
 
     // set base href
     const base: HTMLBaseElement = document.createElement('base')
-    base.href = `vscode-resource:${rootPath}/`
+    base.href = `${vscode.Uri.file(path.join(rootPath, 'build')).with({ scheme: 'vscode-resource' })}`
 
     document.head.appendChild(base)
 
@@ -28,15 +28,10 @@ async function render(panel: vscode.WebviewPanel, rootPath: string) {
     const nonces: string[] = []
 
     // generate vscode-resource build path uri
-    const createUri = (filePath: string): any => {
-      return (
-        panel.webview
-          // @ts-ignore
-          .asWebviewUri(vscode.Uri.file(filePath))
-          .toString()
-          .replace(/^\/+/g, '') // remove leading '/'
-          .replace('/vscode-resource%3A', rootPath)
-      ) // replace mangled resource path with root
+    const createUri = (_filePath: string): any => {
+      const filePath = (_filePath.startsWith('vscode') ? _filePath.substr(16) : _filePath).replace('///', '\\')
+
+      return panel.webview.asWebviewUri(vscode.Uri.file(path.join(rootPath, filePath)))
     }
 
     // fix paths for scripts
@@ -55,7 +50,7 @@ async function render(panel: vscode.WebviewPanel, rootPath: string) {
     runTimeScript.nonce = getNonce()
     nonces.push(runTimeScript.nonce)
     const manifest = await import(path.join(rootPath, 'asset-manifest.json'))
-    runTimeScript.src = createUri(path.join(rootPath, manifest.files['runtime-main.js']))
+    runTimeScript.src = createUri(manifest.files['runtime-main.js'])
     document.body.appendChild(runTimeScript)
 
     // fix paths for links

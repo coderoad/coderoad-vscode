@@ -41,3 +41,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.2.2]
 
 - Fixes issue where app fails on startup without a workspace, and instead returns an error page
+
+## [0.2.3]
+
+- Support Windows OS
