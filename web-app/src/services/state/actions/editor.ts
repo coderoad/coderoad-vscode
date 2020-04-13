@@ -1,6 +1,7 @@
 import * as CR from 'typings'
 import * as TT from 'typings/tutorial'
 import * as selectors from '../../selectors'
+import logger from 'services/logger'
 
 export default (editorSend: any) => ({
   startup(): void {
@@ -28,23 +29,28 @@ export default (editorSend: any) => ({
   },
   loadLevel(context: CR.MachineContext): void {
     const level: TT.Level = selectors.currentLevel(context)
+    logger('loadStep', level)
     if (level.setup) {
       // load step actions
       editorSend({
         type: 'SETUP_ACTIONS',
-        payload: level.setup,
+        payload: {
+          actions: level.setup,
+          stepId: level.steps.length ? level.steps[0].id : null,
+        },
       })
     }
   },
   loadStep(context: CR.MachineContext): void {
     const step: TT.Step | null = selectors.currentStep(context)
+    logger('loadStep', step)
     if (step && step.setup) {
       // load step actions
       editorSend({
         type: 'SETUP_ACTIONS',
         payload: {
+          actions: step.setup,
           stepId: step.id,
-          ...step.setup,
         },
       })
     }

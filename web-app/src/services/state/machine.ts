@@ -157,7 +157,7 @@ export const createMachine = (options: any) => {
               initial: 'Load',
               states: {
                 Load: {
-                  onEntry: ['loadLevel', 'loadStep', 'checkEmptySteps'],
+                  onEntry: ['loadLevel', 'checkLevelCompleted'],
                   on: {
                     START_LEVEL: 'Normal',
                     START_COMPLETED_LEVEL: 'LevelComplete',

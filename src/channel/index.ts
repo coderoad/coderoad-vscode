@@ -223,7 +223,7 @@ class Channel implements Channel {
             alreadyConfigured: true,
           })
           // update the current stepId on startup
-          vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
+          vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload.stepId)
           return
         } catch (e) {
           const error = {
@@ -292,7 +292,7 @@ class Channel implements Channel {
       case 'SOLUTION_ACTIONS':
         await solutionActions({ actions: action.payload, send: this.send })
         // run test following solution to update position
-        vscode.commands.executeCommand(COMMANDS.RUN_TEST, action.payload)
+        vscode.commands.executeCommand(COMMANDS.RUN_TEST, action.payload.stepId)
         return
 
       default:

@@ -20,7 +20,7 @@ interface CreateCommandProps {
 export const createCommands = ({ extensionPath, workspaceState }: CreateCommandProps) => {
   // React panel webview
   let webview: any
-  let currentStepId = ''
+  let currentStepId: string | null = ''
   let testRunner: any
 
   return {
@@ -73,13 +73,13 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
         },
       })
     },
-    [COMMANDS.SET_CURRENT_STEP]: ({ stepId }: Payload) => {
+    [COMMANDS.SET_CURRENT_STEP]: (stepId: string | null) => {
       // set from last setup stepAction
       currentStepId = stepId
     },
-    [COMMANDS.RUN_TEST]: (current: Payload | undefined, onSuccess: () => void) => {
+    [COMMANDS.RUN_TEST]: (stepId: string | null | undefined, onSuccess: () => void) => {
       // use stepId from client, or last set stepId
-      const payload: Payload = { stepId: current && current.stepId.length ? current.stepId : currentStepId }
+      const payload: Payload = { stepId: stepId ?? null }
       testRunner(payload, onSuccess)
     },
   }

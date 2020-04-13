@@ -230,7 +230,7 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
     error: (): any => null,
   }),
   // @ts-ignore
-  checkEmptySteps: send((context: T.MachineContext) => {
+  checkLevelCompleted: send((context: T.MachineContext) => {
     // no step id indicates no steps to complete
     return {
       type: context.position.stepId === null ? 'START_COMPLETED_LEVEL' : 'START_LEVEL',
