@@ -29,7 +29,7 @@ Install CodeRoad from [this link in the VSCode Marketplace](https://marketplace.
 
 ### Requirements
 
-- OS: MacOS, Linux (Windows coming soon #227)
+- OS: MacOS, Windows, Linux
 - VSCode 1.40+
 - Node.js 10+
 - Git
