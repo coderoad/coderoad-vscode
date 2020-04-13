@@ -37,6 +37,9 @@ export const createMachine = (options: any) => {
               onEntry: ['startup'],
               onExit: ['clearError'],
               on: {
+                EDITOR_STARTUP_FAILED: {
+                  actions: ['setError'],
+                },
                 NO_WORKSPACE: {
                   actions: ['setError'],
                 },
@@ -74,11 +77,15 @@ export const createMachine = (options: any) => {
               },
             },
             Start: {
+              onExit: ['clearError'],
               on: {
                 NEW_TUTORIAL: 'ValidateSetup',
                 CONTINUE_TUTORIAL: {
                   target: '#tutorial-level',
                   actions: ['continueConfig'],
+                },
+                CONTINUE_FAILED: {
+                  actions: ['setError'],
                 },
               },
             },
