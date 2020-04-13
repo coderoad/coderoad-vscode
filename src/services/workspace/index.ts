@@ -22,7 +22,7 @@ export const checkWorkspaceEmpty = async () => {
 
 // capture the workspace root to use the users dirname in processes
 export const getWorkspaceRoot = (): string => {
-  const workspaceRoots: vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders
+  const workspaceRoots: readonly vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders
   if (!workspaceRoots || !workspaceRoots.length) {
     // no workspace root
     return ''
