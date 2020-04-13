@@ -14,7 +14,9 @@ tsc -p ./
 cd web-app
 npm run build
 cd ..
-cp -R ./web-app/build/ ./build/
+# For Windows build: switch the next 2 lines
+# cp -R ./web-app/build/ ./
+cp -R ./web-app/build/ ./build
 node scripts/fixFontPaths.js
 
 echo "Build complete!"
