@@ -41,7 +41,7 @@
     "xstate": "^4.8.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.4",
+    "@babel/core": "^7.9.0",
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-knobs": "^5.3.18",
     "@storybook/addon-links": "^5.3.18",
@@ -58,8 +58,8 @@
     "@types/react-dom": "^16.9.6",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",
-    "babel-loader": "8.0.5",
-    "babel-plugin-import": "^1.12.1",
+    "babel-loader": "8.1.0",
+    "babel-plugin-import": "^1.13.0",
     "customize-cra": "^0.9.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
