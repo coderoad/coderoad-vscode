@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import * as fs from 'fs'
 import { promisify } from 'util'
-import { WORKSPACE_ROOT } from '../../environment'
+import * as env from '../../environment'
 
 const readDir = promisify(fs.readdir)
 
@@ -13,7 +13,7 @@ export const openWorkspace = () => {
 export const checkWorkspaceEmpty = async () => {
   let files
   try {
-    files = await readDir(WORKSPACE_ROOT)
+    files = await readDir(env.WORKSPACE_ROOT, { encoding: 'utf8' })
   } catch (error) {
     throw new Error('Failed to check workspace')
   }
