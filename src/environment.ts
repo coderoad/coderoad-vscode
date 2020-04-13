@@ -25,4 +25,4 @@ export const WORKSPACE_ROOT: string = getWorkspaceRoot()
 
 // Possible values are 'aix', 'darwin', 'freebsd', 'linux', 'openbsd', 'sunos', and 'win32'.
 // @ts-ignore
-export const OS_PLATFORM: 'win32' | 'linux' = os.platform()
+export const OS_PLATFORM: 'win32' | 'linux' | 'darwin' = os.platform()
