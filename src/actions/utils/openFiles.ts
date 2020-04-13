@@ -8,7 +8,7 @@ const openFiles = async (files: string[]) => {
   }
   for (const filePath of files) {
     try {
-      const workspaceFolders: vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders
+      const workspaceFolders: readonly vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders
       if (!workspaceFolders || !workspaceFolders.length) {
         throw new Error('No workspace directory. Open a workspace directory and try again')
       }

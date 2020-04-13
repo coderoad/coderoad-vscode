@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import * as fs from 'fs'
 import { promisify } from 'util'
-import { WORKSPACE_ROOT } from '../../environment'
+import * as env from '../../environment'
 
 const readDir = promisify(fs.readdir)
 
@@ -13,7 +13,7 @@ export const openWorkspace = () => {
 export const checkWorkspaceEmpty = async () => {
   let files
   try {
-    files = await readDir(WORKSPACE_ROOT)
+    files = await readDir(env.WORKSPACE_ROOT, { encoding: 'utf8' })
   } catch (error) {
     throw new Error('Failed to check workspace')
   }
@@ -22,7 +22,7 @@ export const checkWorkspaceEmpty = async () => {
 
 // capture the workspace root to use the users dirname in processes
 export const getWorkspaceRoot = (): string => {
-  const workspaceRoots: vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders
+  const workspaceRoots: readonly vscode.WorkspaceFolder[] | undefined = vscode.workspace.workspaceFolders
   if (!workspaceRoots || !workspaceRoots.length) {
     // no workspace root
     return ''
@@ -30,5 +30,6 @@ export const getWorkspaceRoot = (): string => {
   // a user may have multiple workspace folders
   // for simplicity, assume the first is the active workspace
   const workspaceRoot: vscode.WorkspaceFolder = workspaceRoots[0]
-  return workspaceRoot.uri.path
+
+  return workspaceRoot.uri.fsPath
 }
