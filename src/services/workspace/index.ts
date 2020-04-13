@@ -30,5 +30,11 @@ export const getWorkspaceRoot = (): string => {
   // a user may have multiple workspace folders
   // for simplicity, assume the first is the active workspace
   const workspaceRoot: vscode.WorkspaceFolder = workspaceRoots[0]
+
+  // Remove leading / on windows machines. Temp solution
+  if (env.OS_PLATFORM === 'win32') {
+    return workspaceRoot.uri.path.substr(1)
+  }
+
   return workspaceRoot.uri.path
 }
