@@ -93,9 +93,11 @@ const NewUserExperienceTutorialCollapsible = (props: NuxProps) => {
           </li>
         </ol>
       </Panel>
-      <Panel title="Contact">
-        We'd love to hear your comments, requests, issues, questions - reach out at{' '}
-        <a href="mailto:coderoadapp@gmail.com">coderoadapp@gmail.com</a>.
+      <Panel title="Feedback">
+        <p>
+          Find a bug? Want to request a feature? Post an issue at{' '}
+          <a href="https://github.com/coderoad/coderoad-vscode">https://github.com/coderoad/coderoad-vscode</a>
+        </p>
       </Panel>
     </Collapse>
   )

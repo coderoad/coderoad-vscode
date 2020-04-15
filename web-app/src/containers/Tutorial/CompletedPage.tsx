@@ -18,18 +18,14 @@ const styles = {
 
 interface Props {
   context: T.MachineContext
-  send(action: T.Action | string): void
 }
 
 const CompletedPage = (props: Props) => {
-  const selectNewTutorial = () => {
-    props.send('SELECT_TUTORIAL')
-  }
   return (
     <div css={styles.page}>
       <h1>Tutorial Complete!</h1>
       <div css={styles.section}>
-        <p>Thank you for demoing the CodeRoad beta!</p>
+        <p>Thank you for demoing the CodeRoad preview!</p>
       </div>
       <div css={styles.section}>
         <h3>Subscribe!</h3>
@@ -42,17 +38,15 @@ const CompletedPage = (props: Props) => {
       </div>
       <div css={styles.section}>
         <h3>Contact Us</h3>
-        <p>We'd love to hear your comments, ideas & feedback.</p>
+        <p>We'd love to hear your comments, issues, ideas & feedback.</p>
         <p>
-          Reach out at <a href="mailto:coderoadapp@gmail.com">coderoadapp@gmail.com</a>!
+          Reach out at{' '}
+          <a href="https://github.com/coderoad/coderoad-vscode">https://github.com/coderoad/coderoad-vscode</a>!
         </p>
       </div>
       <div css={styles.section}>
         <h3>Continue</h3>
         <p>To try another tutorial, open a new VSCode workspace and launch the CodeRoad app</p>
-        <div css={styles.buttonContainer}>
-          <Button onClick={selectNewTutorial}>Return to Tutorial List</Button>
-        </div>
       </div>
     </div>
   )

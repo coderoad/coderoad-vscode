@@ -48,7 +48,7 @@ const Routes = () => {
         </Route>
         {/* Completed */}
         <Route path="Tutorial.Completed">
-          <CompletedPage send={send} context={context} />
+          <CompletedPage context={context} />
         </Route>
       </Router>
     </Workspace>
