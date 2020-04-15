@@ -45,3 +45,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.2.3]
 
 - Support Windows OS
+
+## [0.2.4]
+
+- Support VSCode 1.39.2 
