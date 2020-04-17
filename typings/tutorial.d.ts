@@ -67,5 +67,5 @@ export interface TutorialDependency {
 }
 
 export interface TutorialAppVersions {
-  coderoadVSCode: string
+  vscode: string
 }

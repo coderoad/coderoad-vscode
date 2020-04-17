@@ -113,7 +113,7 @@ class Channel implements Channel {
           const data: TT.Tutorial = action.payload.tutorial
 
           // validate extension version
-          const expectedAppVersion = data.config?.appVersions?.coderoadVSCode
+          const expectedAppVersion = data.config?.appVersions?.vscode
           if (expectedAppVersion) {
             const extension = vscode.extensions.getExtension('coderoad.coderoad')
             if (extension) {
@@ -122,7 +122,7 @@ class Channel implements Channel {
               if (!satisfied) {
                 const error: E.ErrorMessage = {
                   type: 'UnmetExtensionVersion',
-                  message: `Expected CodeRoad v${expectedAppVersion}, but found ${currentAppVersion}`,
+                  message: `Expected CodeRoad v${expectedAppVersion}, but found v${currentAppVersion}`,
                 }
                 this.send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error } })
                 return
