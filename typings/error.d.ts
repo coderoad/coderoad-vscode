@@ -1,13 +1,16 @@
 export type ErrorMessageView = 'FULL_PAGE' | 'NOTIFY' | 'NONE'
 
 export type ErrorMessageType =
-  | 'UnknownError'
-  | 'NoWorkspaceFound'
-  | 'GitNotFound'
-  | 'WorkspaceNotEmpty'
   | 'FailedToConnectToGitRepo'
+  | 'GitNotFound'
   | 'GitProjectAlreadyExists'
   | 'GitRemoteAlreadyExists'
+  | 'MissingTutorialDependency'
+  | 'NoWorkspaceFound'
+  | 'UnknownError'
+  | 'UnmetExtensionVersion'
+  | 'UnmetTutorialDependency'
+  | 'WorkspaceNotEmpty'
 
 export type ErrorAction = {
   label: string

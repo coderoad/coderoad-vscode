@@ -1,6 +1,7 @@
 export type Maybe<T> = T | null
 
 export type TutorialConfig = {
+  appVersions: TutorialAppVersions
   testRunner: TutorialTestRunner
   repo: TutorialRepo
   dependencies?: TutorialDependency[]
@@ -63,4 +64,8 @@ export interface TutorialDependency {
   name: string
   version: string
   message?: string
+}
+
+export interface TutorialAppVersions {
+  coderoadVSCode: string
 }

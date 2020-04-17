@@ -1,5 +1,5 @@
-### Git Project Already Exists
+### Git Remote Already Exists
 
-CodeRoad requires an empty Git project.
+Have you started this tutorial before in this workspace? The Git remote already exists.
 
-Open a new workspace to start a tutorial.
+Consider deleting your `.git` folder and restarting.
