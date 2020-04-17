@@ -6,9 +6,14 @@ import { WORKSPACE_ROOT } from '../../environment'
 
 const asyncExec = promisify(cpExec)
 
-export const exec = (cmd: string): Promise<{ stdout: string; stderr: string }> | never => {
-  return asyncExec(cmd, {
-    cwd: WORKSPACE_ROOT,
+interface ExecParams {
+  command: string
+  path?: string
+}
+
+export const exec = (params: ExecParams): Promise<{ stdout: string; stderr: string }> | never => {
+  return asyncExec(params.command, {
+    cwd: join(WORKSPACE_ROOT, params.path || ''),
   })
 }
 

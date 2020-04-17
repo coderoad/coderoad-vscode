@@ -1,6 +1,7 @@
 import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import createTestRunner, { Payload } from '../services/testRunner'
+import setupActions from 'actions/setupActions'
 import createWebView from '../webview'
 
 export const COMMANDS = {
@@ -47,7 +48,12 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
       // setup 1x1 horizontal layout
       webview.createOrShow()
     },
-    [COMMANDS.CONFIG_TEST_RUNNER]: (config: TT.TutorialTestRunner) => {
+    [COMMANDS.CONFIG_TEST_RUNNER]: (config: TT.TutorialTestRunnerConfig) => {
+      if (config.actions) {
+        // setup tutorial test runner commits
+        // assumes git already exists
+        setupActions(config.actions, webview.send)
+      }
       testRunner = createTestRunner(config, {
         onSuccess: (payload: Payload) => {
           // send test pass message back to client

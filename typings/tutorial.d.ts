@@ -2,7 +2,7 @@ export type Maybe<T> = T | null
 
 export type TutorialConfig = {
   appVersions: TutorialAppVersions
-  testRunner: TutorialTestRunner
+  testRunner: TutorialTestRunnerConfig
   repo: TutorialRepo
   dependencies?: TutorialDependency[]
 }
@@ -51,8 +51,10 @@ export type StepActions = {
   watchers: string[]
 }
 
-export interface TutorialTestRunner {
+export interface TutorialTestRunnerConfig {
   command: string
+  path?: string
+  actions?: StepActions
 }
 
 export interface TutorialRepo {
