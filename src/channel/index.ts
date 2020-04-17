@@ -2,6 +2,7 @@ import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as E from 'typings/error'
 import * as vscode from 'vscode'
+import { satisfies } from 'semver'
 import saveCommit from '../actions/saveCommit'
 import setupActions from '../actions/setupActions'
 import solutionActions from '../actions/solutionActions'
@@ -110,6 +111,25 @@ class Channel implements Channel {
       case 'EDITOR_TUTORIAL_CONFIG':
         try {
           const data: TT.Tutorial = action.payload.tutorial
+
+          // validate extension version
+          const expectedAppVersion = data.config?.appVersions?.vscode
+          if (expectedAppVersion) {
+            const extension = vscode.extensions.getExtension('coderoad.coderoad')
+            if (extension) {
+              const currentAppVersion = extension.packageJSON.version
+              const satisfied = satisfies(currentAppVersion, expectedAppVersion)
+              if (!satisfied) {
+                const error: E.ErrorMessage = {
+                  type: 'UnmetExtensionVersion',
+                  message: `Expected CodeRoad v${expectedAppVersion}, but found v${currentAppVersion}`,
+                }
+                this.send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error } })
+                return
+              }
+            }
+          }
+
           // setup tutorial config (save watcher, test runner, etc)
           await this.context.setTutorial(this.workspaceState, data)
 
@@ -121,7 +141,7 @@ class Channel implements Channel {
               const currentVersion: string | null = await version(dep.name)
               if (!currentVersion) {
                 // use a custom error message
-                const error = {
+                const error: E.ErrorMessage = {
                   type: 'MissingTutorialDependency',
                   message:
                     dep.message || `Process "${dep.name}" is required but not found. It may need to be installed`,
@@ -140,7 +160,7 @@ class Channel implements Channel {
               const satisfiedDependency = await compareVersions(currentVersion, dep.version)
 
               if (!satisfiedDependency) {
-                const error = {
+                const error: E.ErrorMessage = {
                   type: 'UnmetTutorialDependency',
                   message: `Expected ${dep.name} to have version ${dep.version}, but found version ${currentVersion}`,
                   actions: [
@@ -155,7 +175,7 @@ class Channel implements Channel {
               }
 
               if (satisfiedDependency !== true) {
-                const error = satisfiedDependency || {
+                const error: E.ErrorMessage = satisfiedDependency || {
                   type: 'UnknownError',
                   message: `Something went wrong comparing dependency for ${name}`,
                   actions: [
