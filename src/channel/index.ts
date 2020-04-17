@@ -4,8 +4,7 @@ import * as E from 'typings/error'
 import * as vscode from 'vscode'
 import { satisfies } from 'semver'
 import saveCommit from '../actions/saveCommit'
-import setupActions from '../actions/setupActions'
-import solutionActions from '../actions/solutionActions'
+import { setupActions, solutionActions } from '../actions/setupActions'
 import tutorialConfig from '../actions/tutorialConfig'
 import { COMMANDS } from '../editor/commands'
 import logger from '../services/logger'
@@ -287,11 +286,11 @@ class Channel implements Channel {
       // load step actions (git commits, commands, open files)
       case 'SETUP_ACTIONS':
         await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
-        setupActions(action.payload, this.send)
+        setupActions({ actions: action.payload, send: this.send })
         return
       // load solution step actions (git commits, commands, open files)
       case 'SOLUTION_ACTIONS':
-        await solutionActions(action.payload, this.send)
+        await solutionActions({ actions: action.payload, send: this.send })
         // run test following solution to update position
         vscode.commands.executeCommand(COMMANDS.RUN_TEST, action.payload)
         return

@@ -71,11 +71,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 {
 "config": {
   "testRunner": {
-    "command": "npm test",
+    "command": "npm test", // runs in path location or root
     "path": "coderoad",
     "actions": {
       "commits": ["a974aea"],
-      "commands": ["cd coderoad && npm install"]
+      "commands": ["npm install"] // runs in path location or root
     }
   },
 }
