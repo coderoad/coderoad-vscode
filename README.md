@@ -40,6 +40,8 @@ Build and share your own interactive tutorials.
 
 Learn more about [how tutorials area created](./docs/tutorials.md).
 
+See an [interactive visualization](https://coderoad.github.io/coderoad-visual/) of a tutorial repository.
+
 ## Editing Tutorials
 
 Tutorials can be edited directly as markdown on Github.
