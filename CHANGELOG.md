@@ -48,4 +48,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.2.4]
 
-- Support VSCode 1.39.2 
+- Support VSCode 1.39.2
+
+## [0.3.0]
+
+- Validate the extension version against the tutorial config version. This should allow us to manage breaking changes in tutorial schema in upcoming versions
