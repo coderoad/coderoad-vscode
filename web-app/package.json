@@ -25,7 +25,7 @@
     "extends": "react-app"
   },
   "dependencies": {
-    "@alifd/next": "^1.19.24",
+    "@alifd/next": "^1.19.25",
     "@alifd/theme-4": "^0.2.3",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/core": "^10.0.28",
@@ -38,7 +38,7 @@
     "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^16.13.1",
     "reselect": "^4.0.0",
-    "xstate": "^4.8.0"
+    "xstate": "^4.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -51,19 +51,19 @@
     "@types/highlight.js": "^9.12.3",
     "@types/jest": "^25.2.1",
     "@types/markdown-it": "^10.0.0",
-    "@types/node": "^13.11.1",
+    "@types/node": "^13.13.0",
     "@types/prismjs": "^1.16.0",
     "@types/react": "^16.9.34",
     "@types/react-addons-css-transition-group": "^15.0.5",
     "@types/react-dom": "^16.9.6",
-    "@typescript-eslint/eslint-plugin": "^2.27.0",
-    "@typescript-eslint/parser": "^2.27.0",
+    "@typescript-eslint/eslint-plugin": "^2.28.0",
+    "@typescript-eslint/parser": "^2.28.0",
     "babel-loader": "8.1.0",
     "babel-plugin-import": "^1.13.0",
     "customize-cra": "^0.9.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
-    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-prettier": "^3.1.3",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.13.1",
     "prettier": "^2.0.4",

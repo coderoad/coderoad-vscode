@@ -12,10 +12,10 @@ OUTPUT_FILE=coderoad-$PACKAGE_VERSION.vsix
 echo "Creating $OUTPUT_FILE..."
 
 echo "Building..."
-npm run build
+yarn build
 
 echo "Packaging Extension..."
-vsce package --out ./$RELEASES_FOLDER
+vsce package --yarn --out ./$RELEASES_FOLDER
 
 echo "Installing Extension..."
 code --install-extension ./$RELEASES_FOLDER/$OUTPUT_FILE
