@@ -6,10 +6,19 @@ import openFiles from './utils/openFiles'
 import runCommands from './utils/runCommands'
 import onError from '../services/sentry/onError'
 
-const setupActions = async (
-  actions: TT.StepActions,
-  send: (action: T.Action) => void, // send messages to client
-): Promise<void> => {
+async function wait(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
+}
+
+interface SetupActions {
+  actions: TT.StepActions
+  send: (action: T.Action) => void // send messages to client
+  path?: string
+}
+
+export const setupActions = async ({ actions, send, path }: SetupActions): Promise<void> => {
   const { commands, commits, files, watchers } = actions
 
   // 1. run commits
@@ -26,8 +35,13 @@ const setupActions = async (
   // 3. start file watchers
   loadWatchers(watchers || [])
 
+  await wait(1000)
+
   // 4. run command
-  await runCommands(commands || [], send).catch(onError)
+  await runCommands({ commands: commands || [], send, path }).catch(onError)
 }
 
-export default setupActions
+export const solutionActions = async (params: SetupActions): Promise<void> => {
+  await git.clear()
+  return setupActions(params).catch(onError)
+}

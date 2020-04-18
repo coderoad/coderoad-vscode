@@ -5,7 +5,7 @@ const semverRegex = /(?<=^v?|\sv?)(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)
 
 export const version = async (name: string): Promise<string | null> => {
   try {
-    const { stdout, stderr } = await exec(`${name} --version`)
+    const { stdout, stderr } = await exec({ command: `${name} --version` })
     if (!stderr) {
       const match = stdout.match(semverRegex)
       if (match) {

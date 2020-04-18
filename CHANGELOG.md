@@ -31,7 +31,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
       },
       {
         "name": "npm",
-        "version": ">5"
+        "version": ">=5"
       }
     ]
   }
@@ -52,4 +52,42 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.3.0]
 
-- Validate the extension version against the tutorial config version. This should allow us to manage breaking changes in tutorial schema in upcoming versions
+- Validate the extension version against the tutorial config version. This should allow us to manage breaking changes in tutorial schema in upcoming versions. See [node-semver](https://github.com/npm/node-semver#advanced-range-syntax) for possible version ranges and options.
+
+```json
+{
+"config": {
+  "appVersions": {
+    "vscode": ">=0.2"
+  },
+}
+```
+
+- Configure the CodeRoad to load and run in a different directory. The example below will:
+  - load a commit and run npm install to setup the test runner in its own folder.
+  - run "npm test" in the \$ROOT/coderoad directory on save
+
+```json
+{
+"config": {
+  "testRunner": {
+    "command": "npm test", // runs in path location or root
+    "path": "coderoad",
+    "actions": {
+      "commits": ["a974aea"],
+      "commands": ["npm install"] // runs in path location or root
+    }
+  },
+}
+```
+
+Resulting in a folder structure like the following:
+
+```
+- .vscode
+- coderoad (test runner files only with their own setup)
+  - package.json
+  - tests
+- package.json
+- server.js
+```

@@ -1,3 +1,4 @@
+import { TutorialTestRunnerConfig } from 'typings/tutorial'
 import { exec } from '../node'
 import logger from '../logger'
 import parser from './parser'
@@ -17,14 +18,10 @@ interface Callbacks {
   onError(payload: Payload): void
 }
 
-interface TestRunnerConfig {
-  command: string
-}
-
 const failChannelName = 'CodeRoad (Tests)'
 const logChannelName = 'CodeRoad (Logs)'
 
-const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
+const createTestRunner = (config: TutorialTestRunnerConfig, callbacks: Callbacks) => {
   return async (payload: Payload, onSuccess?: () => void): Promise<void> => {
     const startTime = throttle()
     // throttle time early
@@ -39,7 +36,7 @@ const createTestRunner = (config: TestRunnerConfig, callbacks: Callbacks) => {
 
     let result: { stdout: string | undefined; stderr: string | undefined }
     try {
-      result = await exec(config.command)
+      result = await exec({ command: config.command, path: config.path })
     } catch (err) {
       result = { stdout: err.stdout, stderr: err.stack }
     }
