@@ -2,11 +2,10 @@ import * as React from 'react'
 import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
 import Loading from '../../components/Loading'
-import Message from '../../components/Message'
 
 interface Props {
   text: string
-  context?: T.MachineContext
+  processes?: T.ProcessEvent[]
 }
 
 const styles = {
@@ -20,7 +19,7 @@ const styles = {
   },
 }
 
-const LoadingPage = ({ text }: Props) => {
+const LoadingPage = ({ text, processes }: Props) => {
   const [showLoading, setShowHiding] = React.useState(false)
 
   React.useEffect(() => {
@@ -38,9 +37,11 @@ const LoadingPage = ({ text }: Props) => {
     return null
   }
 
+  const message: string = processes && processes.length ? processes[0].title : text
+
   return (
     <div css={styles.page}>
-      <Loading text={text} />
+      <Loading message={message} />
     </div>
   )
 }

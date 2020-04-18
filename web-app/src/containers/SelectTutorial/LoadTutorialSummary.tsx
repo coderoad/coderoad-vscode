@@ -1,7 +1,7 @@
 import * as React from 'react'
 import useFetch from '../../services/hooks/useFetch'
 import * as TT from 'typings/tutorial'
-import Loading from '../Loading'
+import LoadingPage from '../Loading'
 
 interface Props {
   url: string
@@ -11,7 +11,7 @@ interface Props {
 const LoadTutorialSummary = (props: Props) => {
   const { data, error, loading } = useFetch<TT.Tutorial>(props.url)
   if (loading) {
-    return <Loading text="Loading tutorial summary..." />
+    return <LoadingPage text="Loading tutorial summary..." />
   }
   if (error) {
     console.log(`Failed to load tutorial summary: ${error}`)

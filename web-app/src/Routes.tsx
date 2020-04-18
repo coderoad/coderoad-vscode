@@ -25,13 +25,13 @@ const Routes = () => {
       <Router>
         {/* Setup */}
         <Route path={['Setup.Startup', 'Setup.ValidateSetup']}>
-          <LoadingPage text="Launching..." />
+          <LoadingPage text="Launching..." processes={context.processes} />
         </Route>
         <Route path="Setup.Start">
           <StartPage send={send} context={context} />
         </Route>
         <Route path={['Setup.LoadTutorialSummary', 'Setup.LoadTutorialData', 'Setup.SetupNewTutorial']}>
-          <LoadingPage text="Loading Tutorial..." />
+          <LoadingPage text="Loading Tutorial..." processes={context.processes} />]
         </Route>
         <Route path="Setup.SelectTutorial">
           <SelectTutorialPage send={send} context={context} />
@@ -41,7 +41,7 @@ const Routes = () => {
         </Route>
         {/* Tutorial */}
         <Route path={['Tutorial.LoadNext', 'Tutorial.Level.Load']}>
-          <LoadingPage text="Loading Level..." />
+          <LoadingPage text="Loading Level..." processes={context.processes} />
         </Route>
         <Route path="Tutorial.Level">
           <LevelSummaryPage send={send} context={context} />
