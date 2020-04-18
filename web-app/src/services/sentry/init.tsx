@@ -2,7 +2,7 @@ import * as sentry from '@sentry/browser'
 import { NODE_ENV, SENTRY_DSN } from '../../environment'
 
 try {
-  if (SENTRY_DSN) {
+  if (SENTRY_DSN && NODE_ENV === 'production') {
     sentry.init({
       dsn: SENTRY_DSN,
       environment: NODE_ENV,
