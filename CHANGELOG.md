@@ -31,7 +31,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
       },
       {
         "name": "npm",
-        "version": ">5"
+        "version": ">=5"
       }
     ]
   }
@@ -58,7 +58,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 {
 "config": {
   "appVersions": {
-    "vscode": "<0.2"
+    "vscode": ">=0.2"
   },
 }
 ```
@@ -79,4 +79,15 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
     }
   },
 }
+```
+
+Resulting in a folder structure like the following:
+
+```
+- .vscode
+- coderoad (test runner files only with their own setup)
+  - package.json
+  - tests
+- package.json
+- server.js
 ```
