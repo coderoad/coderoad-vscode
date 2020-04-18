@@ -29,14 +29,25 @@ export default (editorSend: any) => ({
   },
   loadLevel(context: CR.MachineContext): void {
     const level: TT.Level = selectors.currentLevel(context)
-    logger('loadStep', level)
+    logger('loadLevel', level)
     if (level.setup) {
       // load step actions
       editorSend({
         type: 'SETUP_ACTIONS',
         payload: {
           actions: level.setup,
-          stepId: level.steps.length ? level.steps[0].id : null,
+        },
+      })
+    }
+    // ensure level step is loaded before first step
+    const firstStep = selectors.currentStep(context)
+    logger('loadFirstStep', firstStep)
+    if (firstStep) {
+      editorSend({
+        type: 'SETUP_ACTIONS',
+        payload: {
+          actions: firstStep.setup,
+          stepId: firstStep.id,
         },
       })
     }

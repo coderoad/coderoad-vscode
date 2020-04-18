@@ -284,12 +284,12 @@ class Channel implements Channel {
         return
       // load step actions (git commits, commands, open files)
       case 'SETUP_ACTIONS':
-        await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
-        setupActions({ actions: action.payload, send: this.send })
+        await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload.stepId)
+        setupActions({ actions: action.payload.actions, send: this.send })
         return
       // load solution step actions (git commits, commands, open files)
       case 'SOLUTION_ACTIONS':
-        await solutionActions({ actions: action.payload, send: this.send })
+        await solutionActions({ actions: action.payload.actions, send: this.send })
         // run test following solution to update position
         vscode.commands.executeCommand(COMMANDS.RUN_TEST, action.payload.stepId)
         return
@@ -326,13 +326,16 @@ class Channel implements Channel {
 
     switch (actionType) {
       case 'TEST_PASS':
+        logger(`TEST PASS ${action.payload.stepId}`)
         const tutorial = this.context.tutorial.get()
         if (!tutorial) {
           throw new Error('ERROR: Tutorial not found in test run')
         }
         // update local storage stepProgress
-        const progress = this.context.progress.setStepComplete(tutorial, action.payload.stepId)
-        this.context.position.setPositionFromProgress(tutorial, progress)
+        if (action.payload.stepId) {
+          const progress = this.context.progress.setStepComplete(tutorial, action.payload.stepId)
+          this.context.position.setPositionFromProgress(tutorial, progress)
+        }
         saveCommit()
     }
 
