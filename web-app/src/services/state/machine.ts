@@ -123,10 +123,10 @@ export const createMachine = (options: any) => {
                   actions: ['setError'],
                 },
                 TRY_AGAIN: 'SetupNewTutorial',
-                TUTORIAL_CONFIGURED: 'StartNewTutorial',
+                TUTORIAL_CONFIGURED: 'StartTutorial',
               },
             },
-            StartNewTutorial: {
+            StartTutorial: {
               onEntry: ['startNewTutorial'],
               after: {
                 0: '#tutorial',

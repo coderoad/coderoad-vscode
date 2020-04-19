@@ -8,7 +8,7 @@ import { clearOutput, displayOutput } from './output'
 import { formatFailOutput } from './formatOutput'
 
 export interface Payload {
-  stepId: string
+  stepId: string | null
 }
 
 interface Callbacks {

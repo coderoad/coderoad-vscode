@@ -76,23 +76,23 @@ class Channel implements Channel {
           const tutorial: TT.Tutorial | null = this.context.tutorial.get()
 
           // new tutorial
-          if (!tutorial || !tutorial.id) {
-            this.send({ type: 'START_NEW_TUTORIAL', payload: { env } })
-            return
-          }
-
-          // set tutorial
-          const { position, progress } = await this.context.setTutorial(this.workspaceState, tutorial)
-
-          if (progress.complete) {
-            // tutorial is already complete
-            this.send({ type: 'TUTORIAL_ALREADY_COMPLETE', payload: { env } })
-            return
-          }
-          // communicate to client the tutorial & stepProgress state
-          this.send({ type: 'LOAD_STORED_TUTORIAL', payload: { env, tutorial, progress, position } })
-
+          this.send({ type: 'START_NEW_TUTORIAL', payload: { env } })
           return
+
+          // disable continue until fixed
+
+          // // set tutorial
+          // const { position, progress } = await this.context.setTutorial(this.workspaceState, tutorial)
+
+          // if (progress.complete) {
+          //   // tutorial is already complete
+          //   this.send({ type: 'TUTORIAL_ALREADY_COMPLETE', payload: { env } })
+          //   return
+          // }
+          // // communicate to client the tutorial & stepProgress state
+          // this.send({ type: 'LOAD_STORED_TUTORIAL', payload: { env, tutorial, progress, position } })
+
+          // return
         } catch (e) {
           const error = {
             type: 'UnknownError',
@@ -100,6 +100,7 @@ class Channel implements Channel {
           }
           this.send({ type: 'EDITOR_STARTUP_FAILED', payload: { error } })
         }
+        return
 
       // clear tutorial local storage
       case 'TUTORIAL_CLEAR':
@@ -203,7 +204,6 @@ class Channel implements Channel {
 
           // report back to the webview that setup is complete
           this.send({ type: 'TUTORIAL_CONFIGURED' })
-          return
         } catch (e) {
           const error = {
             type: 'UnknownError',
@@ -211,6 +211,7 @@ class Channel implements Channel {
           }
           this.send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error } })
         }
+        return
       case 'EDITOR_TUTORIAL_CONTINUE_CONFIG':
         try {
           const tutorialContinue: TT.Tutorial | null = this.context.tutorial.get()
@@ -224,7 +225,6 @@ class Channel implements Channel {
           })
           // update the current stepId on startup
           vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
-          return
         } catch (e) {
           const error = {
             type: 'UnknownError',
@@ -232,6 +232,7 @@ class Channel implements Channel {
           }
           this.send({ type: 'CONTINUE_FAILED', payload: { error } })
         }
+        return
       case 'EDITOR_VALIDATE_SETUP':
         try {
           // check workspace is selected
@@ -272,7 +273,6 @@ class Channel implements Channel {
             return
           }
           this.send({ type: 'SETUP_VALIDATED' })
-          return
         } catch (e) {
           const error = {
             type: 'UknownError',
@@ -280,6 +280,7 @@ class Channel implements Channel {
           }
           this.send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
         }
+        return
       case 'EDITOR_REQUEST_WORKSPACE':
         openWorkspace()
         return
@@ -329,7 +330,7 @@ class Channel implements Channel {
       case 'TEST_PASS':
         const tutorial = this.context.tutorial.get()
         if (!tutorial) {
-          throw new Error('Error with current tutorial')
+          throw new Error('Error with current tutorial. Tutorial may be missing an id.')
         }
         // update local storage stepProgress
         const progress = this.context.progress.setStepComplete(tutorial, action.payload.stepId)
