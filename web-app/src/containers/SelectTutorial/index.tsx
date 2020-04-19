@@ -3,6 +3,7 @@ import * as React from 'react'
 import SelectTutorialForm from './SelectTutorialForm'
 import TutorialOverview from '../../components/TutorialOverview'
 import LoadTutorialSummary from './LoadTutorialSummary'
+import processTutorial from '../../services/tutorial'
 
 const styles = {
   page: {
@@ -39,7 +40,7 @@ const SelectTutorialPage = (props: Props) => {
     setPage('loading')
   }
   const onLoadSummary = (d: TT.Tutorial) => {
-    setData(d)
+    setData(processTutorial(d))
     setPage('summary')
   }
   const onClear = () => {
