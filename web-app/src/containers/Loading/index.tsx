@@ -12,10 +12,10 @@ interface Props {
 const styles = {
   page: {
     position: 'relative' as 'relative',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: 'flex' as 'flex',
+    flexDirection: 'column' as 'column',
+    alignItems: 'center' as 'center',
+    justifyContent: 'center' as 'center',
     height: '100%',
     width: '100%',
   },
@@ -29,13 +29,13 @@ const styles = {
 }
 
 const LoadingPage = ({ text, processes }: Props) => {
-  const [showLoading, setShowHiding] = React.useState(false)
+  const [showLoading, setShowHiding] = React.useState<boolean>(!!processes?.length)
 
   React.useEffect(() => {
     // wait some time before showing loading indicator
     const timeout = setTimeout(() => {
       setShowHiding(true)
-    }, 600)
+    }, 500)
     return () => {
       clearTimeout(timeout)
     }
@@ -45,15 +45,14 @@ const LoadingPage = ({ text, processes }: Props) => {
   if (!showLoading) {
     return null
   }
-
   return (
     <div css={styles.page}>
       <Loading message={text} />
-      {processes && processes.length && (
+      {processes && processes.length ? (
         <div css={styles.processes}>
           <ProcessMessages processes={processes} />
         </div>
-      )}
+      ) : null}
     </div>
   )
 }
