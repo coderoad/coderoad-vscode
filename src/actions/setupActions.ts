@@ -5,6 +5,7 @@ import loadWatchers from './utils/loadWatchers'
 import openFiles from './utils/openFiles'
 import runCommands from './utils/runCommands'
 import onError from '../services/sentry/onError'
+import logger from '../services/logger'
 
 interface SetupActions {
   actions: TT.StepActions
@@ -15,10 +16,20 @@ interface SetupActions {
 export const setupActions = async ({ actions, send, path }: SetupActions): Promise<void> => {
   const { commands, commits, files, watchers } = actions
 
+  // validate commit is new
+  let alreadyLoaded = false
+
   // 1. run commits
   if (commits) {
+    // load the current list of commits for validation
+    const currentCommits: string[] = await git.loadCommitHistory()
     for (const commit of commits) {
-      // TODO handle git errors
+      // validate that commit has not already been created as a safety net
+      if (currentCommits.includes(commit)) {
+        logger(`Commit ${commit} already loaded`)
+        alreadyLoaded = true
+        continue
+      }
       await git.loadCommit(commit).catch(onError)
     }
   }
@@ -30,7 +41,9 @@ export const setupActions = async ({ actions, send, path }: SetupActions): Promi
   loadWatchers(watchers || [])
 
   // 4. run command
-  await runCommands({ commands: commands || [], send, path }).catch(onError)
+  if (!alreadyLoaded) {
+    await runCommands({ commands: commands || [], send, path }).catch(onError)
+  }
 }
 
 export const solutionActions = async (params: SetupActions): Promise<void> => {

@@ -138,3 +138,18 @@ export async function setupCodeRoadRemote(repo: string): Promise<never | void> {
   }
   await addRemote(repo)
 }
+
+export async function loadCommitHistory(): Promise<string[]> {
+  try {
+    // returns an list of commit hashes
+    const { stdout, stderr } = await exec({ command: 'git log --pretty=format:"%h"' })
+    if (stderr) {
+      return []
+    }
+    // string match on remote output
+    return stdout.split('\n')
+  } catch (error) {
+    // likely no git setup or no commits
+    return []
+  }
+}
