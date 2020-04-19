@@ -22,7 +22,7 @@ const styles = {
 const LoadingPage = ({ text }: Props) => {
   return (
     <div css={styles.page}>
-      <Loading text={text} />
+      <Loading message={text} />
     </div>
   )
 }

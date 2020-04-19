@@ -2,32 +2,40 @@ import * as React from 'react'
 import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
 import Loading from '../../components/Loading'
-import Message from '../../components/Message'
+import ProcessMessages from 'components/ProcessMessages'
 
 interface Props {
   text: string
-  context?: T.MachineContext
+  processes?: T.ProcessEvent[]
 }
 
 const styles = {
   page: {
     position: 'relative' as 'relative',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: 'flex' as 'flex',
+    flexDirection: 'column' as 'column',
+    alignItems: 'center' as 'center',
+    justifyContent: 'center' as 'center',
     height: '100%',
     width: '100%',
   },
+  processes: {
+    padding: '0 1rem',
+    position: 'fixed' as 'fixed',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
 }
 
-const LoadingPage = ({ text }: Props) => {
-  const [showLoading, setShowHiding] = React.useState(false)
+const LoadingPage = ({ text, processes }: Props) => {
+  const [showLoading, setShowHiding] = React.useState<boolean>(!!processes?.length)
 
   React.useEffect(() => {
     // wait some time before showing loading indicator
     const timeout = setTimeout(() => {
       setShowHiding(true)
-    }, 600)
+    }, 500)
     return () => {
       clearTimeout(timeout)
     }
@@ -37,10 +45,14 @@ const LoadingPage = ({ text }: Props) => {
   if (!showLoading) {
     return null
   }
-
   return (
     <div css={styles.page}>
-      <Loading text={text} />
+      <Loading message={text} />
+      {processes && processes.length ? (
+        <div css={styles.processes}>
+          <ProcessMessages processes={processes} />
+        </div>
+      ) : null}
     </div>
   )
 }
