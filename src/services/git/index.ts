@@ -1,6 +1,7 @@
 import * as TT from 'typings/tutorial'
 import { exec, exists } from '../node'
 import logger from '../logger'
+import { stringify } from 'querystring'
 
 const gitOrigin = 'coderoad'
 
@@ -152,4 +153,10 @@ export async function loadCommitHistory(): Promise<string[]> {
     // likely no git setup or no commits
     return []
   }
+}
+
+// return the short form of a hash (first 7 characters)
+// using `git rev-parse` seems unnecessarily slower
+export function getShortHash(hash: string): string {
+  return hash.slice(0, 7)
 }

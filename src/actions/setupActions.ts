@@ -25,7 +25,7 @@ export const setupActions = async ({ actions, send, path }: SetupActions): Promi
     const currentCommits: string[] = await git.loadCommitHistory()
     for (const commit of commits) {
       // validate that commit has not already been created as a safety net
-      if (currentCommits.includes(commit)) {
+      if (currentCommits.includes(git.getShortHash(commit))) {
         logger(`Commit ${commit} already loaded`)
         alreadyLoaded = true
         continue
