@@ -16,18 +16,6 @@ class Editor {
     })
 
     // commands
-    this.activateCommands()
-
-    // setup tasks or views here
-  }
-  public deactivate = (): void => {
-    // cleanup subscriptions/tasks
-    for (const disposable of this.vscodeExt.subscriptions) {
-      disposable.dispose()
-    }
-  }
-
-  private activateCommands = (): void => {
     const commands = createCommands({
       extensionPath: this.vscodeExt.extensionPath,
       // NOTE: local storage must be bound to the vscodeExt.workspaceState
@@ -38,6 +26,12 @@ class Editor {
     for (const cmd in commands) {
       const command: vscode.Disposable = vscode.commands.registerCommand(cmd, commands[cmd])
       this.vscodeExt.subscriptions.push(command)
+    }
+  }
+  public deactivate = (): void => {
+    // cleanup subscriptions/tasks
+    for (const disposable of this.vscodeExt.subscriptions) {
+      disposable.dispose()
     }
   }
 }
