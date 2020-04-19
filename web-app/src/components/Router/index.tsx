@@ -17,13 +17,18 @@ declare let acquireVsCodeApi: any
 
 const editor = acquireVsCodeApi()
 const editorSend = (action: T.Action) => {
-  logger(`CLIENT TO EXT: "${action.type}"`)
+  logger(`TO EXT: "${action.type}"`)
   return editor.postMessage(action)
 }
 
 // router finds first state match of <Route path='' />
 const useRouter = (): Output => {
   const [state, send] = useMachine<T.MachineContext, any>(createMachine({ editorSend }))
+
+  const sendWithLog = (action: T.Action): void => {
+    logger(`SEND: ${action.type}`, action)
+    send(action)
+  }
 
   logger(`STATE: ${JSON.stringify(state.value)}`)
 
@@ -38,8 +43,7 @@ const useRouter = (): Output => {
       if (action.source) {
         return
       }
-      logger(`CLIENT RECEIVED: "${action.type}"`)
-      send(action)
+      sendWithLog(action)
     }
     window.addEventListener(listener, handler)
     return () => {
@@ -74,7 +78,7 @@ const useRouter = (): Output => {
 
   return {
     context: state.context,
-    send,
+    send: sendWithLog,
     Router,
     Route,
   }

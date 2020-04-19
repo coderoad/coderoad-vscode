@@ -23,9 +23,9 @@ const TutorialPage = (props: PageProps) => {
 
   const onContinue = (): void => {
     props.send({
-      type: 'LEVEL_NEXT',
+      type: 'NEXT_LEVEL',
       payload: {
-        LevelId: position.levelId,
+        levelId: position.levelId,
       },
     })
   }

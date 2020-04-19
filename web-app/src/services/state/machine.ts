@@ -97,7 +97,7 @@ export const createMachine = (options: any) => {
               on: {
                 NEW_TUTORIAL: 'ValidateSetup',
                 CONTINUE_TUTORIAL: {
-                  target: '#tutorial-level',
+                  target: 'StartTutorial',
                   actions: ['continueConfig'],
                 },
                 CONTINUE_FAILED: {
@@ -127,7 +127,7 @@ export const createMachine = (options: any) => {
               },
             },
             StartTutorial: {
-              onEntry: ['startNewTutorial'],
+              onEntry: ['startTutorial'],
               after: {
                 0: '#tutorial',
               },
@@ -157,7 +157,7 @@ export const createMachine = (options: any) => {
               initial: 'Load',
               states: {
                 Load: {
-                  onEntry: ['loadLevel', 'loadStep', 'checkEmptySteps'],
+                  onEntry: ['loadLevel', 'loadStep', 'checkLevelCompleted'],
                   on: {
                     START_LEVEL: 'Normal',
                     START_COMPLETED_LEVEL: 'LevelComplete',
@@ -214,9 +214,9 @@ export const createMachine = (options: any) => {
                   onEntry: ['updateLevelProgress'],
                   onExit: ['syncLevelProgress'],
                   on: {
-                    LEVEL_NEXT: {
+                    NEXT_LEVEL: {
                       target: '#tutorial-load-next',
-                      actions: ['testClear'],
+                      actions: ['testClear', 'updatePosition'],
                     },
                   },
                 },
