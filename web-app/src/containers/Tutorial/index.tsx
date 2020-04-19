@@ -1,15 +1,15 @@
 import * as React from 'react'
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
-import * as selectors from '../../../services/selectors'
-import Level from './Level'
+import * as selectors from '../../services/selectors'
+import Level from './components/Level'
 
 interface PageProps {
   context: T.MachineContext
   send(action: T.Action): void
 }
 
-const LevelSummaryPageContainer = (props: PageProps) => {
+const TutorialPage = (props: PageProps) => {
   const { position, progress, processes, testStatus } = props.context
 
   const tutorial = selectors.currentTutorial(props.context)
@@ -59,4 +59,4 @@ const LevelSummaryPageContainer = (props: PageProps) => {
   )
 }
 
-export default LevelSummaryPageContainer
+export default TutorialPage

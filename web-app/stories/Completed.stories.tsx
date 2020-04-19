@@ -6,4 +6,4 @@ import SideBarDecorator from './utils/SideBarDecorator'
 
 storiesOf('Completed', module)
   .addDecorator(SideBarDecorator)
-  .add('Page', () => <CompletedPage context={{}} send={action('send')} />)
+  .add('Page', () => <CompletedPage context={{}} />)

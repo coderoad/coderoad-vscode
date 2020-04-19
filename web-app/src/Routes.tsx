@@ -6,7 +6,7 @@ import LoadingPage from './containers/Loading'
 import StartPage from './containers/Start'
 import SelectTutorialPage from './containers/SelectTutorial'
 import CompletedPage from './containers/Tutorial/CompletedPage'
-import LevelSummaryPage from './containers/Tutorial/LevelPage'
+import TutorialPage from './containers/Tutorial'
 
 const Routes = () => {
   const { context, send, Router, Route } = useRouter()
@@ -30,13 +30,10 @@ const Routes = () => {
         <Route path="Setup.Start">
           <StartPage send={send} context={context} />
         </Route>
-        <Route path={['Setup.LoadTutorialSummary', 'Setup.LoadTutorialData', 'Setup.SetupNewTutorial']}>
-          <LoadingPage text="Loading Tutorial..." processes={context.processes} />]
-        </Route>
         <Route path="Setup.SelectTutorial">
           <SelectTutorialPage send={send} context={context} />
         </Route>
-        <Route path={['Setup.SetupNewTutorial', 'Setup.StartNewTutorial']}>
+        <Route path={['Setup.SetupNewTutorial', 'Setup.StartTutorial']}>
           <LoadingPage text="Configuring tutorial..." />
         </Route>
         {/* Tutorial */}
@@ -44,7 +41,7 @@ const Routes = () => {
           <LoadingPage text="Loading Level..." processes={context.processes} />
         </Route>
         <Route path="Tutorial.Level">
-          <LevelSummaryPage send={send} context={context} />
+          <TutorialPage send={send} context={context} />
         </Route>
         {/* Completed */}
         <Route path="Tutorial.Completed">
