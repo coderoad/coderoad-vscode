@@ -29,6 +29,22 @@ export const createMachine = (options: any) => {
         processes: [],
         testStatus: null,
       },
+      on: {
+        // track commands
+        COMMAND_START: {
+          actions: ['commandStart'],
+        },
+        COMMAND_SUCCESS: {
+          actions: ['commandSuccess'],
+        },
+        COMMAND_FAIL: {
+          actions: ['commandFail'],
+        },
+        ERROR: {
+          // TODO: missing clearError
+          actions: ['setError'],
+        },
+      },
       states: {
         Setup: {
           initial: 'Startup',
@@ -121,22 +137,6 @@ export const createMachine = (options: any) => {
         Tutorial: {
           id: 'tutorial',
           initial: 'Level',
-          on: {
-            // track commands
-            COMMAND_START: {
-              actions: ['commandStart'],
-            },
-            COMMAND_SUCCESS: {
-              actions: ['commandSuccess'],
-            },
-            COMMAND_FAIL: {
-              actions: ['commandFail'],
-            },
-            ERROR: {
-              // TODO: missing clearError
-              actions: ['setError'],
-            },
-          },
           states: {
             LoadNext: {
               id: 'tutorial-load-next',

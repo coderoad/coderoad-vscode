@@ -5,7 +5,7 @@ import { css, jsx } from '@emotion/core'
 import TestMessage from './TestMessage'
 
 interface Props {
-  testStatus: T.TestStatus | null
+  testStatus?: T.TestStatus | null
   processes: T.ProcessEvent[]
 }
 
