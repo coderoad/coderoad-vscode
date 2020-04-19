@@ -1,6 +1,7 @@
 import * as TT from 'typings/tutorial'
 import { exec, exists } from '../node'
 import logger from '../logger'
+import { stringify } from 'querystring'
 
 const gitOrigin = 'coderoad'
 
@@ -137,4 +138,25 @@ export async function setupCodeRoadRemote(repo: string): Promise<never | void> {
     throw new Error('A CodeRoad remote is already configured')
   }
   await addRemote(repo)
+}
+
+export async function loadCommitHistory(): Promise<string[]> {
+  try {
+    // returns an list of commit hashes
+    const { stdout, stderr } = await exec({ command: 'git log --pretty=format:"%h"' })
+    if (stderr) {
+      return []
+    }
+    // string match on remote output
+    return stdout.split('\n')
+  } catch (error) {
+    // likely no git setup or no commits
+    return []
+  }
+}
+
+// return the short form of a hash (first 7 characters)
+// using `git rev-parse` seems unnecessarily slower
+export function getShortHash(hash: string): string {
+  return hash.slice(0, 7)
 }
