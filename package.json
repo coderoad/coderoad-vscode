@@ -26,10 +26,10 @@
   "scripts": {
     "build": "./scripts/build.sh",
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "install-all": "yarn && cd web-app && yarn",
+    "install-all": "yarn && yarn --cwd web-app",
     "lint": "eslint src/**/*ts",
     "package": "./scripts/package.sh",
-    "storybook": "cd web-app && npm run storybook",
+    "storybook": "yarn --cwd web-app storybook",
     "test": "jest",
     "watch": "tsc -watch -p ./"
   },

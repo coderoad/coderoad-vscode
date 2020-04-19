@@ -12,7 +12,7 @@ tsc -p ./
 
 # build web app
 cd web-app
-npm run build
+yarn build
 cd ..
 
 # For Windows build: switch the next 2 lines
