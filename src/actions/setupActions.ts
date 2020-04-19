@@ -6,12 +6,6 @@ import openFiles from './utils/openFiles'
 import runCommands from './utils/runCommands'
 import onError from '../services/sentry/onError'
 
-async function wait(ms: number) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms)
-  })
-}
-
 interface SetupActions {
   actions: TT.StepActions
   send: (action: T.Action) => void // send messages to client
@@ -34,8 +28,6 @@ export const setupActions = async ({ actions, send, path }: SetupActions): Promi
 
   // 3. start file watchers
   loadWatchers(watchers || [])
-
-  await wait(1000)
 
   // 4. run command
   await runCommands({ commands: commands || [], send, path }).catch(onError)
