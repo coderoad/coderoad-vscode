@@ -1,12 +1,13 @@
 import * as React from 'react'
+import { Form, Select } from '@alifd/next'
 import useFetch from '../../../services/hooks/useFetch'
 import { TUTORIAL_LIST_URL } from '../../../environment'
-import { Form, Select } from '@alifd/next'
 
 const FormItem = Form.Item
 const Option = Select.Option
 
-type TutorialList = Array<{ id: string; title: string; configUrl: string }>
+type TutorialItem = { id: string; title: string; description: string; url: string }
+type TutorialList = TutorialItem[]
 
 interface Props {
   onTutorialLoad(url: string): void
@@ -29,7 +30,7 @@ const TutorialSelect = (props: Props) => {
         >
           {data &&
             data.map((tutorial) => (
-              <Option key={tutorial.id} value={tutorial.configUrl}>
+              <Option key={tutorial.url} value={tutorial.url}>
                 {tutorial.title}
               </Option>
             ))}
