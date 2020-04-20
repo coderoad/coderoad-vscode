@@ -1,8 +1,11 @@
 import * as React from 'react'
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
+import { Menu } from '@alifd/next'
 import * as selectors from '../../services/selectors'
+import Icon from '../../components/Icon'
 import Level from './components/Level'
+import logger from 'services/logger'
 
 interface PageProps {
   context: T.MachineContext
@@ -48,8 +51,35 @@ const TutorialPage = (props: PageProps) => {
     }),
   }
 
+  const menu = (
+    <Menu>
+      {tutorial.levels.map((level: TT.Level) => {
+        const isCurrent = level.id === position.levelId
+        logger('progress', progress)
+        const isComplete = progress.levels[level.id]
+        let icon
+        let disabled = false
+
+        if (isComplete) {
+          icon = <Icon type="success" size="xs" />
+        } else if (isCurrent) {
+          icon = <Icon type="eye" size="xs" />
+        } else {
+          disabled = true
+          icon = <Icon type="minus" size="xs" />
+        }
+        return (
+          <Menu.Item key={level.id} disabled={disabled}>
+            {icon}&nbsp;&nbsp;&nbsp;{level.title}
+          </Menu.Item>
+        )
+      })}
+    </Menu>
+  )
+
   return (
     <Level
+      menu={menu}
       level={level}
       onContinue={onContinue}
       onLoadSolution={onLoadSolution}

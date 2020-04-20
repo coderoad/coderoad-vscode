@@ -6,12 +6,27 @@ import * as T from '../../typings'
 import * as TT from '../../typings/tutorial'
 import Level from '../src/containers/Tutorial/components/Level'
 import SideBarDecorator from './utils/SideBarDecorator'
+import { Menu } from '@alifd/next'
+import Icon from '../src/components/Icon'
 
 type ModifiedLevel = TT.Level & {
   status: T.ProgressStatus
   index: number
   steps: Array<TT.Step & { status: T.ProgressStatus }>
 }
+
+const menu = (
+  <Menu>
+    {[{ id: '1', title: 'First' }].map((level: TT.Level) => {
+      const icon = <Icon type="eye" size="xs" />
+      return (
+        <Menu.Item key={level.id}>
+          {icon}&nbsp;&nbsp;&nbsp;{level.title}
+        </Menu.Item>
+      )
+    })}
+  </Menu>
+)
 
 storiesOf('Level', module)
   .addDecorator(SideBarDecorator)
@@ -72,6 +87,7 @@ storiesOf('Level', module)
     }
     return (
       <Level
+        menu={menu}
         level={level}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
@@ -126,6 +142,7 @@ storiesOf('Level', module)
     }
     return (
       <Level
+        menu={menu}
         level={level}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
@@ -209,6 +226,7 @@ storiesOf('Level', module)
     }
     return (
       <Level
+        menu={menu}
         level={level}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
@@ -281,6 +299,7 @@ storiesOf('Level', module)
     }
     return (
       <Level
+        menu={menu}
         level={level}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
@@ -302,6 +321,7 @@ storiesOf('Level', module)
     }
     return (
       <Level
+        menu={menu}
         level={level}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}

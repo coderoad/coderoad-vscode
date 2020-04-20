@@ -2,6 +2,8 @@ import * as React from 'react'
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import { css, jsx } from '@emotion/core'
+import { Dropdown } from '@alifd/next'
+import Icon from '../../../components/Icon'
 import Button from '../../../components/Button'
 import Markdown from '../../../components/Markdown'
 import ProcessMessages from '../../../components/ProcessMessages'
@@ -22,11 +24,18 @@ const styles = {
     paddingBottom: '5rem',
   },
   header: {
+    display: 'flex' as 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     height: '2rem',
     backgroundColor: '#EBEBEB',
     fontSize: '1rem',
     lineHeight: '1rem',
     padding: '10px 1rem',
+  },
+  learn: {
+    textDecoration: 'none',
+    color: 'inherit',
   },
   text: {
     padding: '0rem 1rem',
@@ -77,6 +86,7 @@ const styles = {
 }
 
 interface Props {
+  menu: any
   level: TT.Level & { status: T.ProgressStatus; index: number; steps: Array<TT.Step & { status: T.ProgressStatus }> }
   processes: T.ProcessEvent[]
   testStatus: T.TestStatus | null
@@ -84,7 +94,7 @@ interface Props {
   onLoadSolution(): void
 }
 
-const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Props) => {
+const Level = ({ menu, level, onContinue, onLoadSolution, processes, testStatus }: Props) => {
   // @ts-ignore
   let currentStep = level.steps.findIndex((s) => s.status === 'ACTIVE')
   if (currentStep === -1) {
@@ -103,7 +113,16 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
     <div css={styles.page}>
       <div css={styles.content}>
         <div css={styles.header}>
-          <span>Learn</span>
+          <Dropdown
+            trigger={
+              <a css={styles.learn}>
+                Learn <Icon type="arrow-down" size="xxs" />{' '}
+              </a>
+            }
+            triggerType="click"
+          >
+            {menu}
+          </Dropdown>
         </div>
         <div css={styles.text}>
           <h2 css={styles.title}>{level.title}</h2>
