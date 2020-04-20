@@ -17,6 +17,8 @@ const TutorialPage = (props: PageProps) => {
 
   const tutorial = selectors.currentTutorial(props.context)
   const levelData: TT.Level = selectors.currentLevel(props.context)
+
+  const [title, setTitle] = React.useState<string>(levelData.title)
   const [content, setContent] = React.useState<string>(levelData.content)
 
   const onContinue = (): void => {
@@ -43,6 +45,14 @@ const TutorialPage = (props: PageProps) => {
     return { ...step, status }
   })
 
+  const setMenuContent = (levelId: string) => {
+    const selectedLevel: TT.Level | undefined = tutorial.levels.find((l: TT.Level) => l.id === levelId)
+    if (selectedLevel) {
+      setTitle(selectedLevel.title)
+      setContent(selectedLevel.content)
+    }
+  }
+
   const menu = (
     <Menu>
       {tutorial.levels.map((level: TT.Level) => {
@@ -61,7 +71,7 @@ const TutorialPage = (props: PageProps) => {
           icon = <Icon type="minus" size="xs" />
         }
         return (
-          <Menu.Item key={level.id} disabled={disabled}>
+          <Menu.Item key={level.id} disabled={disabled} onSelect={() => setMenuContent(level.id)}>
             {icon}&nbsp;&nbsp;&nbsp;{level.title}
           </Menu.Item>
         )
@@ -71,7 +81,7 @@ const TutorialPage = (props: PageProps) => {
 
   return (
     <Level
-      title={levelData.title}
+      title={title}
       content={content}
       menu={menu}
       index={tutorial.levels.findIndex((l: TT.Level) => l.id === position.levelId)}
