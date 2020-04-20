@@ -39,7 +39,7 @@ storiesOf('Level', module)
       description: 'A summary of the level',
       content: 'Some content here in markdown',
       setup: null,
-      status: 'ACTIVE',
+      status: 'ACTIVE' as 'ACTIVE',
       steps: [
         {
           id: 'L1:S1',
@@ -88,7 +88,11 @@ storiesOf('Level', module)
     return (
       <Level
         menu={menu}
-        level={level}
+        title={level.title}
+        content={level.content}
+        index={0}
+        status={level.status}
+        steps={level.steps}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
         processes={[]}
@@ -104,6 +108,7 @@ storiesOf('Level', module)
       description: 'A description',
       content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
       setup: { commits: ['77e57cd'], commands: ['npm install'], files: [] },
+      status: 'ACTIVE' as 'ACTIVE',
       steps: [
         {
           id: 'L1:S1',
@@ -143,7 +148,11 @@ storiesOf('Level', module)
     return (
       <Level
         menu={menu}
-        level={level}
+        title={level.title}
+        content={level.content}
+        index={0}
+        status={level.status}
+        steps={level.steps}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
         processes={[
@@ -167,6 +176,7 @@ storiesOf('Level', module)
         commits: ['6adeb95'],
         commands: ['npm install'],
       },
+      status: 'ACTIVE' as 'ACTIVE',
       steps: [
         {
           id: 'L1:S1',
@@ -227,7 +237,11 @@ storiesOf('Level', module)
     return (
       <Level
         menu={menu}
-        level={level}
+        title={level.title}
+        content={level.content}
+        index={0}
+        status={level.status}
+        steps={level.steps}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
         processes={[]}
@@ -246,6 +260,7 @@ storiesOf('Level', module)
         commits: ['0d7543c'],
         commands: ['npm install'],
       },
+      status: 'ACTIVE' as 'ACTIVE',
       steps: [
         {
           id: 'L2:S1',
@@ -300,7 +315,11 @@ storiesOf('Level', module)
     return (
       <Level
         menu={menu}
-        level={level}
+        title={level.title}
+        content={level.content}
+        index={0}
+        status={level.status}
+        steps={level.steps}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
         processes={[]}
@@ -316,13 +335,17 @@ storiesOf('Level', module)
       description: 'A summary of the level',
       content: 'Some content here in markdown',
       setup: null,
-      status: 'ACTIVE',
+      status: 'ACTIVE' as 'ACTIVE',
       steps: [],
     }
     return (
       <Level
         menu={menu}
-        level={level}
+        title={level.title}
+        content={level.content}
+        index={0}
+        status={level.status}
+        steps={level.steps}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
         processes={[]}

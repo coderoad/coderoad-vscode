@@ -17,6 +17,7 @@ const TutorialPage = (props: PageProps) => {
 
   const tutorial = selectors.currentTutorial(props.context)
   const levelData: TT.Level = selectors.currentLevel(props.context)
+  const [content, setContent] = React.useState<string>(levelData.content)
 
   const onContinue = (): void => {
     props.send({
@@ -31,25 +32,16 @@ const TutorialPage = (props: PageProps) => {
     props.send({ type: 'STEP_SOLUTION_LOAD' })
   }
 
-  const level: TT.Level & {
-    status: T.ProgressStatus
-    index: number
-    steps: Array<TT.Step & { status: T.ProgressStatus }>
-  } = {
-    ...levelData,
-    index: tutorial.levels.findIndex((l: TT.Level) => l.id === position.levelId),
-    status: progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE',
-    steps: levelData.steps.map((step: TT.Step) => {
-      // label step status for step component
-      let status: T.ProgressStatus = 'INCOMPLETE'
-      if (progress.steps[step.id]) {
-        status = 'COMPLETE'
-      } else if (step.id === position.stepId) {
-        status = 'ACTIVE'
-      }
-      return { ...step, status }
-    }),
-  }
+  const steps = levelData.steps.map((step: TT.Step) => {
+    // label step status for step component
+    let status: T.ProgressStatus = 'INCOMPLETE'
+    if (progress.steps[step.id]) {
+      status = 'COMPLETE'
+    } else if (step.id === position.stepId) {
+      status = 'ACTIVE'
+    }
+    return { ...step, status }
+  })
 
   const menu = (
     <Menu>
@@ -79,8 +71,12 @@ const TutorialPage = (props: PageProps) => {
 
   return (
     <Level
+      title={levelData.title}
+      content={content}
       menu={menu}
-      level={level}
+      index={tutorial.levels.findIndex((l: TT.Level) => l.id === position.levelId)}
+      steps={steps}
+      status={progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE'}
       onContinue={onContinue}
       onLoadSolution={onLoadSolution}
       processes={processes}

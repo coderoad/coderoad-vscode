@@ -87,18 +87,33 @@ const styles = {
 
 interface Props {
   menu: any
-  level: TT.Level & { status: T.ProgressStatus; index: number; steps: Array<TT.Step & { status: T.ProgressStatus }> }
+  steps: Array<TT.Step & { status: T.ProgressStatus }>
+  title: string
+  index: number
+  content: string
+  status: 'COMPLETE' | 'ACTIVE' | 'INCOMPLETE'
   processes: T.ProcessEvent[]
   testStatus: T.TestStatus | null
   onContinue(): void
   onLoadSolution(): void
 }
 
-const Level = ({ menu, level, onContinue, onLoadSolution, processes, testStatus }: Props) => {
+const Level = ({
+  menu,
+  steps,
+  title,
+  content,
+  index,
+  status,
+  onContinue,
+  onLoadSolution,
+  processes,
+  testStatus,
+}: Props) => {
   // @ts-ignore
-  let currentStep = level.steps.findIndex((s) => s.status === 'ACTIVE')
+  let currentStep = steps.findIndex((s) => s.status === 'ACTIVE')
   if (currentStep === -1) {
-    currentStep = level.steps.length
+    currentStep = steps.length
   }
 
   const pageBottomRef = React.useRef(null)
@@ -116,7 +131,7 @@ const Level = ({ menu, level, onContinue, onLoadSolution, processes, testStatus 
           <Dropdown
             trigger={
               <a css={styles.learn}>
-                Learn <Icon type="arrow-down" size="xxs" />{' '}
+                Learn <Icon type="arrow-down" size="xxs" />
               </a>
             }
             triggerType="click"
@@ -125,15 +140,15 @@ const Level = ({ menu, level, onContinue, onLoadSolution, processes, testStatus 
           </Dropdown>
         </div>
         <div css={styles.text}>
-          <h2 css={styles.title}>{level.title}</h2>
-          <Markdown>{level.content || ''}</Markdown>
+          <h2 css={styles.title}>{title}</h2>
+          <Markdown>{content || ''}</Markdown>
         </div>
 
-        {level.steps.length ? (
+        {steps.length ? (
           <div css={styles.tasks}>
             <div css={styles.header}>Tasks</div>
             <div css={styles.steps}>
-              {level.steps.map((step: (TT.Step & { status: T.ProgressStatus }) | null, index: number) => {
+              {steps.map((step: (TT.Step & { status: T.ProgressStatus }) | null, index: number) => {
                 if (!step) {
                   return null
                 }
@@ -165,17 +180,17 @@ const Level = ({ menu, level, onContinue, onLoadSolution, processes, testStatus 
 
         <div css={styles.footer}>
           <span>
-            {typeof level.index === 'number' ? `${level.index + 1}. ` : ''}
-            {level.title}
+            {typeof index === 'number' ? `${index + 1}. ` : ''}
+            {title}
           </span>
           <span>
-            {level.status === 'COMPLETE' || !level.steps.length ? (
+            {status === 'COMPLETE' || !steps.length ? (
               <Button type="primary" onClick={onContinue}>
                 Continue
               </Button>
             ) : (
               <span css={styles.taskCount}>
-                {currentStep} of {level.steps.length} tasks
+                {currentStep} of {steps.length} tasks
               </span>
             )}
           </span>
