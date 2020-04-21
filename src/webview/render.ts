@@ -31,6 +31,7 @@ async function render(panel: vscode.WebviewPanel, rootPath: string) {
     const createUri = (_filePath: string): any => {
       const filePath = (_filePath.startsWith('vscode') ? _filePath.substr(16) : _filePath).replace('///', '\\')
 
+      // @ts-ignore
       return panel.webview.asWebviewUri(vscode.Uri.file(path.join(rootPath, filePath)))
     }
 

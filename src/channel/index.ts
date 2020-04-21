@@ -224,7 +224,7 @@ class Channel implements Channel {
             alreadyConfigured: true,
           })
           // update the current stepId on startup
-          vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
+          vscode.commands.executeCommand(COMMANDS.SET_CURRENT_POSITION, action.payload.position)
         } catch (e) {
           const error = {
             type: 'UnknownError',
@@ -286,14 +286,15 @@ class Channel implements Channel {
         return
       // load step actions (git commits, commands, open files)
       case 'SETUP_ACTIONS':
-        await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_STEP, action.payload)
-        setupActions({ actions: action.payload, send: this.send })
+        await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_POSITION, action.payload.position)
+        setupActions({ actions: action.payload.actions, send: this.send })
         return
       // load solution step actions (git commits, commands, open files)
       case 'SOLUTION_ACTIONS':
-        await solutionActions({ actions: action.payload, send: this.send })
+        await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_POSITION, action.payload.position)
+        await solutionActions({ actions: action.payload.actions, send: this.send })
         // run test following solution to update position
-        vscode.commands.executeCommand(COMMANDS.RUN_TEST, action.payload)
+        vscode.commands.executeCommand(COMMANDS.RUN_TEST)
         return
 
       default:
@@ -328,12 +329,13 @@ class Channel implements Channel {
 
     switch (actionType) {
       case 'TEST_PASS':
+        console.log('TEST_PASS', action)
         const tutorial = this.context.tutorial.get()
         if (!tutorial) {
           throw new Error('Error with current tutorial. Tutorial may be missing an id.')
         }
         // update local storage stepProgress
-        const progress = this.context.progress.setStepComplete(tutorial, action.payload.stepId)
+        const progress = this.context.progress.setStepComplete(tutorial, action.payload.position.stepId)
         this.context.position.setPositionFromProgress(tutorial, progress)
         saveCommit()
     }

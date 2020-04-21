@@ -109,7 +109,7 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
       // update progress by tracking completed
       const currentProgress: T.Progress = context.progress
 
-      const { stepId } = event.payload
+      const { stepId } = event.payload.position
 
       currentProgress.steps[stepId] = true
 

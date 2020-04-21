@@ -14,6 +14,9 @@ interface SetupActions {
 }
 
 export const setupActions = async ({ actions, send, path }: SetupActions): Promise<void> => {
+  if (!actions) {
+    return
+  }
   const { commands, commits, files, watchers } = actions
 
   // validate commit is new

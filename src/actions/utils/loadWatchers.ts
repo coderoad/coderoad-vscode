@@ -37,9 +37,11 @@ const loadWatchers = (watchers: string[]) => {
       fsWatcher.on('change', (path, event) => {
         const now = +new Date()
         if (!lastFire || lastFire - now > 1000) {
-          vscode.commands.executeCommand(COMMANDS.RUN_TEST, null, () => {
-            // cleanup watcher on success
-            disposeWatcher(watcher)
+          vscode.commands.executeCommand(COMMANDS.RUN_TEST, {
+            onSuccess: () => {
+              // cleanup watcher on success
+              disposeWatcher(watcher)
+            },
           })
         }
       })
