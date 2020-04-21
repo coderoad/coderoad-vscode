@@ -22,19 +22,24 @@ export default (editorSend: any) => ({
       type: 'EDITOR_TUTORIAL_CONTINUE_CONFIG',
       payload: {
         // pass position because current stepId or first stepId will be empty
-        stepId: context.position.stepId,
+        position: context.position,
       },
     })
   },
   loadLevel(context: CR.MachineContext): void {
     const level: TT.Level = selectors.currentLevel(context)
-    if (level.setup) {
-      // load step actions
-      editorSend({
-        type: 'SETUP_ACTIONS',
-        payload: level.setup,
-      })
-    }
+    const step: TT.Step | null = selectors.currentStep(context)
+    // load step actions
+    editorSend({
+      type: 'SETUP_ACTIONS',
+      payload: {
+        position: {
+          stepId: step?.id || null,
+          levelId: level.id,
+        },
+        actions: level.setup,
+      },
+    })
   },
   loadStep(context: CR.MachineContext): void {
     const step: TT.Step | null = selectors.currentStep(context)
@@ -43,8 +48,12 @@ export default (editorSend: any) => ({
       editorSend({
         type: 'SETUP_ACTIONS',
         payload: {
-          stepId: step.id,
-          ...step.setup,
+          // set position here
+          position: {
+            stepId: step.id,
+            levelId: context.position.levelId,
+          },
+          actions: step.setup,
         },
       })
     }
@@ -56,8 +65,11 @@ export default (editorSend: any) => ({
       editorSend({
         type: 'SOLUTION_ACTIONS',
         payload: {
-          stepId: step.id,
-          ...step.solution,
+          position: {
+            stepId: step.id,
+            levelId: context.position.levelId,
+          },
+          actions: step.solution,
         },
       })
     }

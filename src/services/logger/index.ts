@@ -1,6 +1,6 @@
 import { LOG } from '../../environment'
 
-export type Log = string | object | null
+export type Log = string | object | null | undefined
 
 const logger = (...messages: Log[]): void => {
   if (!LOG) {

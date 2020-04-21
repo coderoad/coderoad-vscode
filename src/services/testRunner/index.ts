@@ -1,4 +1,5 @@
-import { TutorialTestRunnerConfig } from 'typings/tutorial'
+import * as T from 'typings'
+import * as TT from 'typings/tutorial'
 import { exec } from '../node'
 import logger from '../logger'
 import parser from './parser'
@@ -7,22 +8,19 @@ import onError from '../sentry/onError'
 import { clearOutput, displayOutput } from './output'
 import { formatFailOutput } from './formatOutput'
 
-export interface Payload {
-  stepId: string | null
-}
-
 interface Callbacks {
-  onSuccess(payload: Payload): void
-  onFail(payload: Payload, message: string): void
-  onRun(payload: Payload): void
-  onError(payload: Payload): void
+  onSuccess(position: T.Position): void
+  onFail(position: T.Position, message: string): void
+  onRun(position: T.Position): void
+  onError(position: T.Position): void
 }
 
 const failChannelName = 'CodeRoad (Tests)'
 const logChannelName = 'CodeRoad (Logs)'
 
-const createTestRunner = (config: TutorialTestRunnerConfig, callbacks: Callbacks) => {
-  return async (payload: Payload, onSuccess?: () => void): Promise<void> => {
+const createTestRunner = (config: TT.TutorialTestRunnerConfig, callbacks: Callbacks) => {
+  return async (position: T.Position, onSuccess?: () => void): Promise<void> => {
+    logger('createTestRunner', position)
     const startTime = throttle()
     // throttle time early
     if (!startTime) {
@@ -32,7 +30,7 @@ const createTestRunner = (config: TutorialTestRunnerConfig, callbacks: Callbacks
     logger('------------------- RUN TEST -------------------')
 
     // flag as running
-    callbacks.onRun(payload)
+    callbacks.onRun(position)
 
     let result: { stdout: string | undefined; stderr: string | undefined }
     try {
@@ -59,12 +57,12 @@ const createTestRunner = (config: TutorialTestRunnerConfig, callbacks: Callbacks
       // FAIL also trigger stderr
       if (stdout && stdout.length && !tap.ok) {
         const firstFailMessage = tap.failed[0].message
-        callbacks.onFail(payload, firstFailMessage)
+        callbacks.onFail(position, firstFailMessage)
         const output = formatFailOutput(tap)
         displayOutput({ channel: failChannelName, text: output, show: true })
         return
       } else {
-        callbacks.onError(payload)
+        callbacks.onError(position)
         // open terminal with error string
         displayOutput({ channel: failChannelName, text: stderr, show: true })
         return
@@ -74,14 +72,14 @@ const createTestRunner = (config: TutorialTestRunnerConfig, callbacks: Callbacks
     // PASS
     if (tap.ok) {
       clearOutput(failChannelName)
-      callbacks.onSuccess(payload)
+      callbacks.onSuccess(position)
       if (onSuccess) {
         onSuccess()
       }
     } else {
       // should never get here
-      onError(new Error(`Error with running test ${JSON.stringify(payload)}`))
-      callbacks.onError(payload)
+      onError(new Error(`Error with running test ${JSON.stringify(position)}`))
+      callbacks.onError(position)
     }
   }
 }
