@@ -5,7 +5,7 @@ import { Menu } from '@alifd/next'
 import * as selectors from '../../services/selectors'
 import Icon from '../../components/Icon'
 import Level from './components/Level'
-import logger from 'services/logger'
+import logger from '../../services/logger'
 
 interface PageProps {
   context: T.MachineContext

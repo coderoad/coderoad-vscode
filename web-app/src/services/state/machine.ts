@@ -207,13 +207,12 @@ export const createMachine = (options: any) => {
                       target: 'Normal',
                       actions: ['loadStep'],
                     },
-                    LEVEL_COMPLETE: {
-                      target: 'LevelComplete',
-                      actions: ['updateLevelProgress'],
-                    },
+                    LEVEL_COMPLETE: 'LevelComplete',
                   },
                 },
                 LevelComplete: {
+                  onEntry: ['updateLevelProgress'],
+                  onExit: ['syncLevelProgress'],
                   on: {
                     LEVEL_NEXT: {
                       target: '#tutorial-load-next',

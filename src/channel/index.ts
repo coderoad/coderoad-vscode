@@ -297,6 +297,11 @@ class Channel implements Channel {
         vscode.commands.executeCommand(COMMANDS.RUN_TEST)
         return
 
+      case 'EDITOR_SYNC_PROGRESS':
+        // update progress when a level is deemed complete in the client
+        await this.context.progress.syncProgress(action.payload.progress)
+        return
+
       default:
         logger(`No match for action type: ${actionType}`)
         return
