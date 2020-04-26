@@ -6,12 +6,27 @@ import * as T from '../../typings'
 import * as TT from '../../typings/tutorial'
 import Level from '../src/containers/Tutorial/components/Level'
 import SideBarDecorator from './utils/SideBarDecorator'
+import { Menu } from '@alifd/next'
+import Icon from '../src/components/Icon'
 
 type ModifiedLevel = TT.Level & {
   status: T.ProgressStatus
   index: number
   steps: Array<TT.Step & { status: T.ProgressStatus }>
 }
+
+const menu = (
+  <Menu>
+    {[{ id: '1', title: 'First' }].map((level: TT.Level) => {
+      const icon = <Icon type="eye" size="xs" />
+      return (
+        <Menu.Item key={level.id}>
+          {icon}&nbsp;&nbsp;&nbsp;{level.title}
+        </Menu.Item>
+      )
+    })}
+  </Menu>
+)
 
 storiesOf('Level', module)
   .addDecorator(SideBarDecorator)
@@ -24,7 +39,7 @@ storiesOf('Level', module)
       description: 'A summary of the level',
       content: 'Some content here in markdown',
       setup: null,
-      status: 'ACTIVE',
+      status: 'ACTIVE' as 'ACTIVE',
       steps: [
         {
           id: 'L1:S1',
@@ -72,7 +87,12 @@ storiesOf('Level', module)
     }
     return (
       <Level
-        level={level}
+        menu={menu}
+        title={level.title}
+        content={level.content}
+        index={0}
+        status={level.status}
+        steps={level.steps}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
         processes={[]}
@@ -88,6 +108,7 @@ storiesOf('Level', module)
       description: 'A description',
       content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
       setup: { commits: ['77e57cd'], commands: ['npm install'], files: [] },
+      status: 'ACTIVE' as 'ACTIVE',
       steps: [
         {
           id: 'L1:S1',
@@ -126,7 +147,12 @@ storiesOf('Level', module)
     }
     return (
       <Level
-        level={level}
+        menu={menu}
+        title={level.title}
+        content={level.content}
+        index={0}
+        status={level.status}
+        steps={level.steps}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
         processes={[
@@ -150,6 +176,7 @@ storiesOf('Level', module)
         commits: ['6adeb95'],
         commands: ['npm install'],
       },
+      status: 'ACTIVE' as 'ACTIVE',
       steps: [
         {
           id: 'L1:S1',
@@ -209,7 +236,12 @@ storiesOf('Level', module)
     }
     return (
       <Level
-        level={level}
+        menu={menu}
+        title={level.title}
+        content={level.content}
+        index={0}
+        status={level.status}
+        steps={level.steps}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
         processes={[]}
@@ -228,6 +260,7 @@ storiesOf('Level', module)
         commits: ['0d7543c'],
         commands: ['npm install'],
       },
+      status: 'ACTIVE' as 'ACTIVE',
       steps: [
         {
           id: 'L2:S1',
@@ -281,7 +314,12 @@ storiesOf('Level', module)
     }
     return (
       <Level
-        level={level}
+        menu={menu}
+        title={level.title}
+        content={level.content}
+        index={0}
+        status={level.status}
+        steps={level.steps}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
         processes={[]}
@@ -297,12 +335,17 @@ storiesOf('Level', module)
       description: 'A summary of the level',
       content: 'Some content here in markdown',
       setup: null,
-      status: 'ACTIVE',
+      status: 'ACTIVE' as 'ACTIVE',
       steps: [],
     }
     return (
       <Level
-        level={level}
+        menu={menu}
+        title={level.title}
+        content={level.content}
+        index={0}
+        status={level.status}
+        steps={level.steps}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
         processes={[]}

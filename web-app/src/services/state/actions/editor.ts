@@ -74,6 +74,14 @@ export default (editorSend: any) => ({
       })
     }
   },
+  syncLevelProgress(context: CR.MachineContext): void {
+    editorSend({
+      type: 'EDITOR_SYNC_PROGRESS',
+      payload: {
+        progress: context.progress,
+      },
+    })
+  },
   clearStorage(): void {
     editorSend({ type: 'TUTORIAL_CLEAR' })
   },

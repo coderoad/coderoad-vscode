@@ -2,6 +2,8 @@ import * as React from 'react'
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import { css, jsx } from '@emotion/core'
+import { Dropdown } from '@alifd/next'
+import Icon from '../../../components/Icon'
 import Button from '../../../components/Button'
 import Markdown from '../../../components/Markdown'
 import ProcessMessages from '../../../components/ProcessMessages'
@@ -22,11 +24,18 @@ const styles = {
     paddingBottom: '5rem',
   },
   header: {
+    display: 'flex' as 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     height: '2rem',
     backgroundColor: '#EBEBEB',
     fontSize: '1rem',
     lineHeight: '1rem',
     padding: '10px 1rem',
+  },
+  learn: {
+    textDecoration: 'none',
+    color: 'inherit',
   },
   text: {
     padding: '0rem 1rem',
@@ -77,18 +86,34 @@ const styles = {
 }
 
 interface Props {
-  level: TT.Level & { status: T.ProgressStatus; index: number; steps: Array<TT.Step & { status: T.ProgressStatus }> }
+  menu: any
+  steps: Array<TT.Step & { status: T.ProgressStatus }>
+  title: string
+  index: number
+  content: string
+  status: 'COMPLETE' | 'ACTIVE' | 'INCOMPLETE'
   processes: T.ProcessEvent[]
   testStatus: T.TestStatus | null
   onContinue(): void
   onLoadSolution(): void
 }
 
-const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Props) => {
+const Level = ({
+  menu,
+  steps,
+  title,
+  content,
+  index,
+  status,
+  onContinue,
+  onLoadSolution,
+  processes,
+  testStatus,
+}: Props) => {
   // @ts-ignore
-  let currentStep = level.steps.findIndex((s) => s.status === 'ACTIVE')
+  let currentStep = steps.findIndex((s) => s.status === 'ACTIVE')
   if (currentStep === -1) {
-    currentStep = level.steps.length
+    currentStep = steps.length
   }
 
   const pageBottomRef = React.useRef(null)
@@ -103,18 +128,27 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
     <div css={styles.page}>
       <div css={styles.content}>
         <div css={styles.header}>
-          <span>Learn</span>
+          <Dropdown
+            trigger={
+              <a css={styles.learn}>
+                Learn <Icon type="arrow-down" size="xxs" />
+              </a>
+            }
+            triggerType="click"
+          >
+            {menu}
+          </Dropdown>
         </div>
         <div css={styles.text}>
-          <h2 css={styles.title}>{level.title}</h2>
-          <Markdown>{level.content || ''}</Markdown>
+          <h2 css={styles.title}>{title}</h2>
+          <Markdown>{content || ''}</Markdown>
         </div>
 
-        {level.steps.length ? (
+        {steps.length ? (
           <div css={styles.tasks}>
             <div css={styles.header}>Tasks</div>
             <div css={styles.steps}>
-              {level.steps.map((step: (TT.Step & { status: T.ProgressStatus }) | null, index: number) => {
+              {steps.map((step: (TT.Step & { status: T.ProgressStatus }) | null, index: number) => {
                 if (!step) {
                   return null
                 }
@@ -146,17 +180,17 @@ const Level = ({ level, onContinue, onLoadSolution, processes, testStatus }: Pro
 
         <div css={styles.footer}>
           <span>
-            {typeof level.index === 'number' ? `${level.index + 1}. ` : ''}
-            {level.title}
+            {typeof index === 'number' ? `${index + 1}. ` : ''}
+            {title}
           </span>
           <span>
-            {level.status === 'COMPLETE' || !level.steps.length ? (
+            {status === 'COMPLETE' || !steps.length ? (
               <Button type="primary" onClick={onContinue}>
                 Continue
               </Button>
             ) : (
               <span css={styles.taskCount}>
-                {currentStep} of {level.steps.length} tasks
+                {currentStep} of {steps.length} tasks
               </span>
             )}
           </span>

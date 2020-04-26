@@ -1,8 +1,11 @@
 import * as React from 'react'
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
+import { Menu } from '@alifd/next'
 import * as selectors from '../../services/selectors'
+import Icon from '../../components/Icon'
 import Level from './components/Level'
+import logger from '../../services/logger'
 
 interface PageProps {
   context: T.MachineContext
@@ -14,6 +17,9 @@ const TutorialPage = (props: PageProps) => {
 
   const tutorial = selectors.currentTutorial(props.context)
   const levelData: TT.Level = selectors.currentLevel(props.context)
+
+  const [title, setTitle] = React.useState<string>(levelData.title)
+  const [content, setContent] = React.useState<string>(levelData.content)
 
   const onContinue = (): void => {
     props.send({
@@ -28,29 +34,62 @@ const TutorialPage = (props: PageProps) => {
     props.send({ type: 'STEP_SOLUTION_LOAD' })
   }
 
-  const level: TT.Level & {
-    status: T.ProgressStatus
-    index: number
-    steps: Array<TT.Step & { status: T.ProgressStatus }>
-  } = {
-    ...levelData,
-    index: tutorial.levels.findIndex((l: TT.Level) => l.id === position.levelId),
-    status: progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE',
-    steps: levelData.steps.map((step: TT.Step) => {
-      // label step status for step component
-      let status: T.ProgressStatus = 'INCOMPLETE'
-      if (progress.steps[step.id]) {
-        status = 'COMPLETE'
-      } else if (step.id === position.stepId) {
-        status = 'ACTIVE'
-      }
-      return { ...step, status }
-    }),
+  const steps = levelData.steps.map((step: TT.Step) => {
+    // label step status for step component
+    let status: T.ProgressStatus = 'INCOMPLETE'
+    if (progress.steps[step.id]) {
+      status = 'COMPLETE'
+    } else if (step.id === position.stepId) {
+      status = 'ACTIVE'
+    }
+    return { ...step, status }
+  })
+
+  const setMenuContent = (levelId: string) => {
+    const selectedLevel: TT.Level | undefined = tutorial.levels.find((l: TT.Level) => l.id === levelId)
+    if (selectedLevel) {
+      setTitle(selectedLevel.title)
+      setContent(selectedLevel.content)
+    }
   }
+
+  const menu = (
+    <Menu>
+      {tutorial.levels.map((level: TT.Level) => {
+        const isCurrent = level.id === position.levelId
+        logger('progress', progress)
+        const isComplete = progress.levels[level.id]
+        let icon
+        let disabled = false
+
+        if (isComplete) {
+          // completed icon
+          icon = <Icon type="minus" size="xs" />
+        } else if (isCurrent) {
+          // current icon`
+          icon = <Icon type="minus" size="xs" />
+        } else {
+          // upcoming
+          disabled = true
+          icon = <Icon type="lock" size="xs" />
+        }
+        return (
+          <Menu.Item key={level.id} disabled={disabled} onSelect={() => setMenuContent(level.id)}>
+            {icon}&nbsp;&nbsp;&nbsp;{level.title}
+          </Menu.Item>
+        )
+      })}
+    </Menu>
+  )
 
   return (
     <Level
-      level={level}
+      title={title}
+      content={content}
+      menu={menu}
+      index={tutorial.levels.findIndex((l: TT.Level) => l.id === position.levelId)}
+      steps={steps}
+      status={progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE'}
       onContinue={onContinue}
       onLoadSolution={onLoadSolution}
       processes={processes}
