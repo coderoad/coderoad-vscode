@@ -63,12 +63,15 @@ const TutorialPage = (props: PageProps) => {
         let disabled = false
 
         if (isComplete) {
-          icon = <Icon type="success" size="xs" />
-        } else if (isCurrent) {
-          icon = <Icon type="eye" size="xs" />
-        } else {
-          disabled = true
+          // completed icon
           icon = <Icon type="minus" size="xs" />
+        } else if (isCurrent) {
+          // current icon`
+          icon = <Icon type="minus" size="xs" />
+        } else {
+          // upcoming
+          disabled = true
+          icon = <Icon type="lock" size="xs" />
         }
         return (
           <Menu.Item key={level.id} disabled={disabled} onSelect={() => setMenuContent(level.id)}>
