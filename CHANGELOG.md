@@ -91,3 +91,11 @@ Resulting in a folder structure like the following:
 - package.json
 - server.js
 ```
+
+## [0.4.0]
+
+- Navigate through text content from previous levels.
+
+![traverse content](./docs/images/traverse-content.png)
+
+- Fixes progress navigation bug when no steps in a level
