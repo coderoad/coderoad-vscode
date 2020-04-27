@@ -3,6 +3,7 @@ import * as TT from 'typings/tutorial'
 import { assign, send, ActionFunctionMap } from 'xstate'
 import * as selectors from '../../selectors'
 import onError from '../../../services/sentry/onError'
+import logger from '../../../services/logger'
 
 const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
   // @ts-ignore
@@ -15,25 +16,20 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
     },
   }),
   // @ts-ignore
-  storeContinuedTutorial: assign({
-    env: (context: T.MachineContext, event: T.MachineEvent) => {
-      return {
+  loadContinuedTutorial: assign((context: T.MachineContext, event: T.MachineEvent): any => {
+    return {
+      env: {
         ...context.env,
         ...event.payload.env,
-      }
-    },
-    tutorial: (context: T.MachineContext, event: T.MachineEvent) => {
-      return event.payload.tutorial
-    },
-    progress: (context: T.MachineContext, event: T.MachineEvent) => {
-      return event.payload.progress
-    },
-    position: (context: T.MachineContext, event: T.MachineEvent) => {
-      return event.payload.position
-    },
+      },
+      tutorial: event.payload.tutorial,
+      progress: event.payload.progress,
+      position: event.payload.position,
+    }
   }),
+
   // @ts-ignore
-  startNewTutorial: assign({
+  initProgressPosition: assign({
     position: (context: T.MachineContext, event: T.MachineEvent): any => {
       const position: T.Position = selectors.initialPosition(context)
       return position
@@ -119,8 +115,7 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
   // @ts-ignore
   updatePosition: assign({
     position: (context: T.MachineContext, event: T.MachineEvent): any => {
-      const { position } = event.payload
-      return position
+      return event.payload
     },
   }),
   loadNext: send(
@@ -140,7 +135,7 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
         // NEXT STEP
         if (hasNextStep) {
           const nextPosition = { ...position, stepId: steps[stepIndex + 1].id }
-          return { type: 'NEXT_STEP', payload: { position: nextPosition } }
+          return { type: 'NEXT_STEP', payload: nextPosition }
         }
 
         // has next level?
@@ -164,7 +159,7 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
           levelId: nextLevel.id,
           stepId: nextLevel.steps[0].id,
         }
-        return { type: 'NEXT_LEVEL', payload: { position: nextPosition } }
+        return { type: 'NEXT_LEVEL', payload: nextPosition }
       }
 
       // COMPLETED
@@ -230,8 +225,9 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
     error: (): any => null,
   }),
   // @ts-ignore
-  checkEmptySteps: send((context: T.MachineContext) => {
+  checkLevelCompleted: send((context: T.MachineContext) => {
     // no step id indicates no steps to complete
+    logger(context.position)
     return {
       type: context.position.stepId === null ? 'START_COMPLETED_LEVEL' : 'START_LEVEL',
     }

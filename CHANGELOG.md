@@ -94,8 +94,10 @@ Resulting in a folder structure like the following:
 
 ## [0.4.0]
 
-- Navigate through text content from previous levels.
+- Want to look back at a previous lesson's content? Navigate through text content from previous levels by clicking the "Learn" dropdown.
 
 ![traverse content](./docs/images/traverse-content.png)
 
-- Fixes progress navigation bug when no steps in a level
+- Continue an incomplete tutorial started in the same workspace. Choose the "continue" path from the start screen. Progress is stored in local storage in the workspace.
+
+![continue tutorial](./docs/images/continue-tutorial.png)

@@ -75,24 +75,22 @@ class Channel implements Channel {
           // continue from tutorial from local storage
           const tutorial: TT.Tutorial | null = this.context.tutorial.get()
 
-          // new tutorial
-          this.send({ type: 'START_NEW_TUTORIAL', payload: { env } })
-          return
+          // no stored tutorial, must start new tutorial
+          if (!tutorial || !tutorial.id) {
+            this.send({ type: 'START_NEW_TUTORIAL', payload: { env } })
+            return
+          }
 
-          // disable continue until fixed
+          // load continued tutorial position & progress
+          const { position, progress } = await this.context.setTutorial(this.workspaceState, tutorial)
 
-          // // set tutorial
-          // const { position, progress } = await this.context.setTutorial(this.workspaceState, tutorial)
-
-          // if (progress.complete) {
-          //   // tutorial is already complete
-          //   this.send({ type: 'TUTORIAL_ALREADY_COMPLETE', payload: { env } })
-          //   return
-          // }
-          // // communicate to client the tutorial & stepProgress state
-          // this.send({ type: 'LOAD_STORED_TUTORIAL', payload: { env, tutorial, progress, position } })
-
-          // return
+          if (progress.complete) {
+            // tutorial is already complete
+            this.send({ type: 'TUTORIAL_ALREADY_COMPLETE', payload: { env } })
+            return
+          }
+          // communicate to client the tutorial & stepProgress state
+          this.send({ type: 'LOAD_STORED_TUTORIAL', payload: { env, tutorial, progress, position } })
         } catch (e) {
           const error = {
             type: 'UnknownError',
