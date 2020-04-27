@@ -64,7 +64,7 @@ export const createMachine = (options: any) => {
                 },
                 LOAD_STORED_TUTORIAL: {
                   target: 'Start',
-                  actions: ['storeContinuedTutorial'],
+                  actions: ['loadContinuedTutorial'],
                 },
                 START_NEW_TUTORIAL: {
                   target: 'Start',
@@ -97,7 +97,7 @@ export const createMachine = (options: any) => {
               on: {
                 NEW_TUTORIAL: 'ValidateSetup',
                 CONTINUE_TUTORIAL: {
-                  target: 'StartTutorial',
+                  target: '#tutorial',
                   actions: ['continueConfig'],
                 },
                 CONTINUE_FAILED: {
@@ -127,7 +127,7 @@ export const createMachine = (options: any) => {
               },
             },
             StartTutorial: {
-              onEntry: ['startTutorial'],
+              onEntry: ['initProgressPosition'],
               after: {
                 0: '#tutorial',
               },

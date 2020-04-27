@@ -3,7 +3,7 @@ import * as TT from 'typings/tutorial'
 import { assign, send, ActionFunctionMap } from 'xstate'
 import * as selectors from '../../selectors'
 import onError from '../../../services/sentry/onError'
-import logger from 'services/logger'
+import logger from '../../../services/logger'
 
 const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
   // @ts-ignore
@@ -16,25 +16,20 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
     },
   }),
   // @ts-ignore
-  storeContinuedTutorial: assign({
-    env: (context: T.MachineContext, event: T.MachineEvent) => {
-      return {
+  loadContinuedTutorial: assign((context: T.MachineContext, event: T.MachineEvent): any => {
+    return {
+      env: {
         ...context.env,
         ...event.payload.env,
-      }
-    },
-    tutorial: (context: T.MachineContext, event: T.MachineEvent) => {
-      return event.payload.tutorial
-    },
-    progress: (context: T.MachineContext, event: T.MachineEvent) => {
-      return event.payload.progress
-    },
-    position: (context: T.MachineContext, event: T.MachineEvent) => {
-      return event.payload.position
-    },
+      },
+      tutorial: event.payload.tutorial,
+      progress: event.payload.progress,
+      position: event.payload.position,
+    }
   }),
+
   // @ts-ignore
-  startTutorial: assign({
+  initProgressPosition: assign({
     position: (context: T.MachineContext, event: T.MachineEvent): any => {
       const position: T.Position = selectors.initialPosition(context)
       return position
