@@ -83,6 +83,7 @@ class Channel implements Channel {
 
           // load continued tutorial position & progress
           const { position, progress } = await this.context.setTutorial(this.workspaceState, tutorial)
+          logger('CONTINUE STATE', position, progress)
 
           if (progress.complete) {
             // tutorial is already complete

@@ -53,7 +53,7 @@ class Progress {
       throw new Error(`setStepComplete level not found for stepId ${stepId}`)
     }
 
-    if (currentLevel.steps[currentLevel.steps.length - 1]) {
+    if (currentLevel.steps[currentLevel.steps.length - 1].id === stepId) {
       // final step for level is complete
       next.levels[currentLevel.id] = true
 
