@@ -101,3 +101,9 @@ Resulting in a folder structure like the following:
 - Continue an incomplete tutorial started in the same workspace. Choose the "continue" path from the start screen. Progress is stored in local storage in the workspace.
 
 ![continue tutorial](./docs/images/continue-tutorial.png)
+
+## [0.5.0]
+
+- Show error messages in the webview UI
+
+![fail message in webview](./docs/images/fail-message-in-webview.png)
