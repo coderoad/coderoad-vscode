@@ -10,7 +10,7 @@ import { formatFailOutput } from './formatOutput'
 
 interface Callbacks {
   onSuccess(position: T.Position): void
-  onFail(position: T.Position, message: string): void
+  onFail(position: T.Position, failSummary: T.TestFail): void
   onRun(position: T.Position): void
   onError(position: T.Position): void
 }
@@ -56,8 +56,12 @@ const createTestRunner = (config: TT.TutorialTestRunnerConfig, callbacks: Callba
     if (stderr) {
       // FAIL also trigger stderr
       if (stdout && stdout.length && !tap.ok) {
-        const firstFailMessage = tap.failed[0].message
-        callbacks.onFail(position, firstFailMessage)
+        const firstFail = tap.failed[0]
+        const failSummary = {
+          title: firstFail.message || 'Test Failed',
+          description: firstFail.details || 'Unknown error',
+        }
+        callbacks.onFail(position, failSummary)
         const output = formatFailOutput(tap)
         displayOutput({ channel: failChannelName, text: output, show: true })
         return

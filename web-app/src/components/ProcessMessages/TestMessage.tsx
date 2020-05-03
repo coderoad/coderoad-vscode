@@ -5,7 +5,7 @@ import { css, jsx } from '@emotion/core'
 
 const durations = {
   success: 1000,
-  warning: 4500,
+  warning: 20000,
   error: 4500,
   loading: 300000,
 }

@@ -18,13 +18,11 @@ interface DisplayOutput {
 export const displayOutput = (params: DisplayOutput) => {
   const channel = getOutputChannel(params.channel)
   channel.clear()
-  channel.show(params.show || false)
   channel.append(params.text)
 }
 
 export const clearOutput = (channelName: string) => {
   const channel = getOutputChannel(channelName)
-  channel.show(false)
   channel.clear()
   channel.hide()
 }

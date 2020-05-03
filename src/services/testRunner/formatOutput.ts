@@ -4,7 +4,7 @@ import { ParserOutput, Fail } from './parser'
 // export const formatSuccessOutput = (tap: ParserOutput): string => {}
 
 export const formatFailOutput = (tap: ParserOutput): string => {
-  let output = `FAILED TESTS\n`
+  let output = `FAILED TEST LOG\n`
   tap.failed.forEach((fail: Fail) => {
     const details = fail.details ? `\n${fail.details}\n` : ''
     const logs = fail.logs ? `\n${fail.logs.join('\n')}\n` : ''
