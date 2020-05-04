@@ -24,7 +24,7 @@ const useTimeout = ({ duration, key }: { duration: number; key: string }) => {
   return timeoutClose
 }
 
-const TestMessage = (props: T.TestStatus) => {
+const TestMessage = (props: T.TestStatus & { children?: React.ReactElement | null }) => {
   const duration = durations[props.type]
   const timeoutClose = useTimeout({ duration, key: props.title })
   return (
@@ -36,7 +36,9 @@ const TestMessage = (props: T.TestStatus) => {
       size="medium"
       closeable={props.type !== 'loading'}
       content={props.content}
-    />
+    >
+      {props.children}
+    </Message>
   )
 }
 

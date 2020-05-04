@@ -32,6 +32,10 @@ const TutorialPage = (props: PageProps) => {
     props.send({ type: 'STEP_SOLUTION_LOAD' })
   }
 
+  const onOpenLogs = (channel: string): void => {
+    props.send({ type: 'OPEN_LOGS', payload: { channel } })
+  }
+
   const steps = levelData.steps.map((step: TT.Step) => {
     // label step status for step component
     let status: T.ProgressStatus = 'INCOMPLETE'
@@ -61,6 +65,7 @@ const TutorialPage = (props: PageProps) => {
       status={progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE'}
       onContinue={onContinue}
       onLoadSolution={onLoadSolution}
+      onOpenLogs={onOpenLogs}
       processes={processes}
       testStatus={testStatus}
     />

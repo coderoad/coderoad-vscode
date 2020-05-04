@@ -5,7 +5,7 @@ import logger from '../logger'
 import parser from './parser'
 import { debounce, throttle } from './throttle'
 import onError from '../sentry/onError'
-import { clearOutput, displayOutput } from './output'
+import { clearOutput, addOutput } from './output'
 import { formatFailOutput } from './formatOutput'
 
 interface Callbacks {
@@ -51,7 +51,7 @@ const createTestRunner = (config: TT.TutorialTestRunnerConfig, callbacks: Callba
 
     const tap = parser(stdout || '')
 
-    displayOutput({ channel: logChannelName, text: tap.logs.join('\n'), show: false })
+    addOutput({ channel: logChannelName, text: tap.logs.join('\n'), show: false })
 
     if (stderr) {
       // FAIL also trigger stderr
@@ -63,12 +63,12 @@ const createTestRunner = (config: TT.TutorialTestRunnerConfig, callbacks: Callba
         }
         callbacks.onFail(position, failSummary)
         const output = formatFailOutput(tap)
-        displayOutput({ channel: failChannelName, text: output, show: true })
+        addOutput({ channel: failChannelName, text: output, show: true })
         return
       } else {
         callbacks.onError(position)
         // open terminal with error string
-        displayOutput({ channel: failChannelName, text: stderr, show: true })
+        addOutput({ channel: failChannelName, text: stderr, show: true })
         return
       }
     }

@@ -1,4 +1,4 @@
-import * as CR from 'typings'
+import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as selectors from '../../selectors'
 
@@ -8,7 +8,7 @@ export default (editorSend: any) => ({
       type: 'EDITOR_STARTUP',
     })
   },
-  configureNewTutorial(context: CR.MachineContext) {
+  configureNewTutorial(context: T.MachineContext) {
     editorSend({
       type: 'EDITOR_TUTORIAL_CONFIG',
       payload: {
@@ -17,7 +17,7 @@ export default (editorSend: any) => ({
       },
     })
   },
-  continueConfig(context: CR.MachineContext) {
+  continueConfig(context: T.MachineContext) {
     editorSend({
       type: 'EDITOR_TUTORIAL_CONTINUE_CONFIG',
       payload: {
@@ -26,7 +26,7 @@ export default (editorSend: any) => ({
       },
     })
   },
-  loadLevel(context: CR.MachineContext): void {
+  loadLevel(context: T.MachineContext): void {
     const level: TT.Level = selectors.currentLevel(context)
     const step: TT.Step | null = selectors.currentStep(context)
     // load step actions
@@ -41,7 +41,7 @@ export default (editorSend: any) => ({
       },
     })
   },
-  loadStep(context: CR.MachineContext): void {
+  loadStep(context: T.MachineContext): void {
     const step: TT.Step | null = selectors.currentStep(context)
     if (step && step.setup) {
       // load step actions
@@ -58,7 +58,7 @@ export default (editorSend: any) => ({
       })
     }
   },
-  editorLoadSolution(context: CR.MachineContext): void {
+  editorLoadSolution(context: T.MachineContext): void {
     const step: TT.Step | null = selectors.currentStep(context)
     // tell editor to load solution commit
     if (step && step.solution) {
@@ -74,7 +74,7 @@ export default (editorSend: any) => ({
       })
     }
   },
-  syncLevelProgress(context: CR.MachineContext): void {
+  syncLevelProgress(context: T.MachineContext): void {
     editorSend({
       type: 'EDITOR_SYNC_PROGRESS',
       payload: {
@@ -93,6 +93,12 @@ export default (editorSend: any) => ({
   requestWorkspaceSelect() {
     editorSend({
       type: 'EDITOR_REQUEST_WORKSPACE',
+    })
+  },
+  editorOpenLogs(context: T.MachineContext, event: T.MachineEvent): void {
+    editorSend({
+      type: 'EDITOR_OPEN_LOGS',
+      payload: { channel: event.payload.channel },
     })
   },
 })

@@ -170,6 +170,9 @@ export const createMachine = (options: any) => {
                     STEP_SOLUTION_LOAD: {
                       actions: ['editorLoadSolution'],
                     },
+                    OPEN_LOGS: {
+                      actions: ['editorOpenLogs'],
+                    },
                   },
                 },
                 TestRunning: {

@@ -96,6 +96,7 @@ interface Props {
   testStatus: T.TestStatus | null
   onContinue(): void
   onLoadSolution(): void
+  onOpenLogs(channel: string): void
 }
 
 const Level = ({
@@ -107,6 +108,7 @@ const Level = ({
   status,
   onContinue,
   onLoadSolution,
+  onOpenLogs,
   processes,
   testStatus,
 }: Props) => {
@@ -170,7 +172,7 @@ const Level = ({
 
         {(testStatus || processes.length > 0) && (
           <div css={styles.processes}>
-            <ProcessMessages processes={processes} testStatus={testStatus} />
+            <ProcessMessages processes={processes} testStatus={testStatus} onOpenLogs={onOpenLogs} />
           </div>
         )}
 
