@@ -1,7 +1,7 @@
 import * as path from 'path'
 import { Action } from 'typings'
 import * as vscode from 'vscode'
-import Channel from '../channel'
+import Channel from '../../channel'
 import render from './render'
 
 interface ReactWebViewProps {

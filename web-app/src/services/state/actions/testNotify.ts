@@ -20,8 +20,8 @@ const testActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
   testFail: assign({
     testStatus: (context, event) => ({
       type: 'warning',
-      title: 'Fail!',
-      content: event.payload.message,
+      title: event.payload.fail.title,
+      content: event.payload.fail.description,
     }),
   }),
   // @ts-ignore

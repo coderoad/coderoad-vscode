@@ -9,22 +9,25 @@ const getOutputChannel = (name: string): vscode.OutputChannel => {
   return channels[name]
 }
 
-interface DisplayOutput {
+interface ChannelOutput {
   channel: string
   text: string
   show?: boolean
 }
 
-export const displayOutput = (params: DisplayOutput) => {
+export const addOutput = (params: ChannelOutput) => {
   const channel = getOutputChannel(params.channel)
   channel.clear()
-  channel.show(params.show || false)
   channel.append(params.text)
+}
+
+export const showOutput = (channelName: string) => {
+  const channel = getOutputChannel(channelName)
+  channel.show()
 }
 
 export const clearOutput = (channelName: string) => {
   const channel = getOutputChannel(channelName)
-  channel.show(false)
   channel.clear()
   channel.hide()
 }

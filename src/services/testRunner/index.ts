@@ -5,12 +5,12 @@ import logger from '../logger'
 import parser from './parser'
 import { debounce, throttle } from './throttle'
 import onError from '../sentry/onError'
-import { clearOutput, displayOutput } from './output'
+import { clearOutput, addOutput } from './output'
 import { formatFailOutput } from './formatOutput'
 
 interface Callbacks {
   onSuccess(position: T.Position): void
-  onFail(position: T.Position, message: string): void
+  onFail(position: T.Position, failSummary: T.TestFail): void
   onRun(position: T.Position): void
   onError(position: T.Position): void
 }
@@ -51,20 +51,24 @@ const createTestRunner = (config: TT.TutorialTestRunnerConfig, callbacks: Callba
 
     const tap = parser(stdout || '')
 
-    displayOutput({ channel: logChannelName, text: tap.logs.join('\n'), show: false })
+    addOutput({ channel: logChannelName, text: tap.logs.join('\n'), show: false })
 
     if (stderr) {
       // FAIL also trigger stderr
       if (stdout && stdout.length && !tap.ok) {
-        const firstFailMessage = tap.failed[0].message
-        callbacks.onFail(position, firstFailMessage)
+        const firstFail = tap.failed[0]
+        const failSummary = {
+          title: firstFail.message || 'Test Failed',
+          description: firstFail.details || 'Unknown error',
+        }
+        callbacks.onFail(position, failSummary)
         const output = formatFailOutput(tap)
-        displayOutput({ channel: failChannelName, text: output, show: true })
+        addOutput({ channel: failChannelName, text: output, show: true })
         return
       } else {
         callbacks.onError(position)
         // open terminal with error string
-        displayOutput({ channel: failChannelName, text: stderr, show: true })
+        addOutput({ channel: failChannelName, text: stderr, show: true })
         return
       }
     }

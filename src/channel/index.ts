@@ -14,6 +14,7 @@ import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 import { readFile } from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
+import { showOutput } from '../services/testRunner/output'
 import { WORKSPACE_ROOT } from '../environment'
 
 const readFileAsync = promisify(readFile)
@@ -300,7 +301,9 @@ class Channel implements Channel {
         // update progress when a level is deemed complete in the client
         await this.context.progress.syncProgress(action.payload.progress)
         return
-
+      case 'EDITOR_OPEN_LOGS':
+        const channel = action.payload.channel
+        await showOutput(channel)
       default:
         logger(`No match for action type: ${actionType}`)
         return

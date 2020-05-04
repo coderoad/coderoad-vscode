@@ -1,6 +1,5 @@
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import { css, jsx } from '@emotion/core'
 import Checkbox from '../src/components/Checkbox'
 import SideBarDecorator from './utils/SideBarDecorator'
 

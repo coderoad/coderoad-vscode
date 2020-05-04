@@ -3,7 +3,7 @@ import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import createTestRunner from '../services/testRunner'
 import { setupActions } from '../actions/setupActions'
-import createWebView from '../webview'
+import createWebView from '../services/webview'
 import logger from '../services/logger'
 
 export const COMMANDS = {
@@ -62,9 +62,9 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
           // send test pass message back to client
           webview.send({ type: 'TEST_PASS', payload: { position } })
         },
-        onFail: (position: T.Position, message: string) => {
+        onFail: (position: T.Position, failSummary: T.TestFail): void => {
           // send test fail message back to client with failure message
-          webview.send({ type: 'TEST_FAIL', payload: { position, message } })
+          webview.send({ type: 'TEST_FAIL', payload: { position, fail: failSummary } })
         },
         onError: (position: T.Position) => {
           // TODO: send test error message back to client

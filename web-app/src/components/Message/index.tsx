@@ -11,6 +11,7 @@ interface Props {
   closeable?: boolean
   onClose?: () => void
   handleClose?: () => void
+  children?: React.ReactElement | null
 }
 
 const Message = (props: Props) => {
@@ -30,7 +31,10 @@ const Message = (props: Props) => {
       onClose={onClose}
       shape={props.shape}
     >
-      {props.content}
+      <div>
+        <div>{props.content}</div>
+        <div>{props.children}</div>
+      </div>
     </AlifdMessage>
   )
 }

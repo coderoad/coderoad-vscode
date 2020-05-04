@@ -42,6 +42,7 @@ export interface TestStatus {
   type: 'success' | 'warning' | 'error' | 'loading'
   title: string
   content?: string
+  timeout?: number
 }
 
 export interface MachineContext {
@@ -115,4 +116,9 @@ export interface ProcessEvent {
   title: string
   description: string
   status: 'RUNNING' | 'SUCCESS' | 'FAIL' | 'ERROR'
+}
+
+export type TestFail = {
+  title: string
+  description: string
 }

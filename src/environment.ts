@@ -10,7 +10,7 @@ export type Env = 'test' | 'local' | 'development' | 'production'
 export const NODE_ENV: Env = process.env.NODE_ENV || 'production'
 
 // toggle logging in development
-export const LOG = false
+export const LOG = true
 
 // error logging tool
 export const SENTRY_DSN: string | null = null
