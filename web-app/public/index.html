@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="theme-color" content="#000000" />
-  <!--
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#000000" />
+    <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
-  <link rel="manifest" href="manifest.json" />
-  <link rel="shortcut icon" href="favicon.ico" />
-  <!--
+    <link rel="manifest" href="manifest.json" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -20,15 +19,47 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-  <title>CodeRoad</title>
-</head>
+    <title>CodeRoad</title>
+    <script>
+      // script must load in the header to work
+      window.onerror = function () {
+        // an error bubbled up
+        // cannot detect error message as it runs in a different script
+        const targetElement = document.getElementById('coderoad-message')
 
-<body>
-  <noscript>
-    You need to enable JavaScript to run this app.
-  </noscript>
-  <div id="root"></div>
-  <!--
+        if (targetElement) {
+          // setup failed, display an error message
+          document.body.style.padding = '1rem'
+          document.body.style.border = '0.5rem solid #FFBABA'
+
+          const description = document.createElement('p')
+          description.textContent =
+            'Try reloading VSCode, if the problem persists please report the error so we can get it fixed at'
+          description.style.marginTop = '1rem'
+          description.style.padding = '1rem'
+          const link = document.createElement('a')
+          link.href = 'https://github.com/coderoad/coderoad-vscode/issues'
+          link.textContent = 'github.com/coderoad/coderoad-vscode'
+          // append description & link
+          targetElement.textContent = 'Failed to load.'
+          targetElement.append(description)
+          description.append(document.createElement('br'))
+          description.append(link)
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="root">
+      <div style="position: absolute; top: 33%; left: 0; right: 0; text-align: center;">
+        <h1>CodeRoad</h1>
+        <h3 id="coderoad-message">
+          Loading...
+        </h3>
+      </div>
+    </div>
+    <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -38,6 +69,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-</body>
-
+  </body>
 </html>
