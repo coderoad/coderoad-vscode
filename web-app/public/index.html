@@ -20,21 +20,41 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>CodeRoad</title>
+    <script>
+      // script must load in the header to work
+      window.onerror = function () {
+        // an error bubbled up
+        // cannot detect error message as it runs in a different script
+        const targetElement = document.getElementById('coderoad-message')
+
+        if (targetElement) {
+          // setup failed, display an error message
+          document.body.style.padding = '1rem'
+          document.body.style.border = '0.5rem solid #FFBABA'
+
+          const description = document.createElement('p')
+          description.textContent =
+            'Try reloading VSCode, if the problem persists please report the error so we can get it fixed at'
+          description.style.marginTop = '1rem'
+          description.style.padding = '1rem'
+          const link = document.createElement('a')
+          link.href = 'https://github.com/coderoad/coderoad-vscode/issues'
+          link.textContent = 'github.com/coderoad/coderoad-vscode'
+          // append description & link
+          targetElement.textContent = 'Failed to load.'
+          targetElement.append(description)
+          description.append(document.createElement('br'))
+          description.append(link)
+        }
+      }
+    </script>
   </head>
 
   <body>
-    <script>
-      window.onerror = function (message, source, lineno, colno, error) {
-        console.log(`message: ${message}`)
-        console.log(`source: ${source}`)
-        console.log(`lineno: ${lineno}, ${colno}`)
-        console.log(`error: ${JSON.stringify(error)}`)
-      }
-    </script>
     <div id="root">
-      <div style="position: absolute; top: 40%; left: 0; right: 0; text-align: center;">
+      <div style="position: absolute; top: 33%; left: 0; right: 0; text-align: center;">
         <h1>CodeRoad</h1>
-        <h3>
+        <h3 id="coderoad-message">
           Loading...
         </h3>
       </div>
