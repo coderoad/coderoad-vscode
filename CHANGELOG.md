@@ -104,6 +104,8 @@ Resulting in a folder structure like the following:
 
 ## [0.5.0]
 
-- Show error messages in the webview UI
+- Show test fail messages in the webview UI
 
 ![fail message in webview](./docs/images/fail-message-in-webview.png)
+
+- Display error messages if React fails to load
