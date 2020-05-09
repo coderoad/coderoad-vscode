@@ -1,6 +1,12 @@
+.coderoad-markdown pre {
+  border-radius: 0.3rem;
+}
+
 .coderoad-markdown :not(pre) > code {
-  background-color: black;
-  color: white;
-  border-radius: 2px;
-  padding: 0.1rem;
+  background-color: rgba(27, 31, 35, 0.05);
+  color: black;
+  border-radius: 0.3rem;
+  padding: 0rem 0.15rem;
+  font-size: 80%;
+  white-space: nowrap;
 }
