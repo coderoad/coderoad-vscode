@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
-import Checkbox from '../../../components/Checkbox'
+import Icon from '../../../components/Icon'
 import Markdown from '../../../components/Markdown'
 
 interface Props {
@@ -20,8 +20,8 @@ const styles = {
   content: {
     margin: 0,
   },
-  checkboxContainer: {
-    paddingTop: 2,
+  statusContainer: {
+    paddingTop: 0,
     width: '1rem',
   },
   options: {
@@ -41,8 +41,9 @@ const Step = (props: Props) => {
   return (
     <div>
       <div css={styles.card}>
-        <div css={styles.checkboxContainer}>
-          <Checkbox status={props.status} />
+        <div css={styles.statusContainer}>
+          {props.status === 'ACTIVE' && <Icon type="success-filling" size="small" style={{ color: 'lightgrey' }} />}
+          {props.status === 'COMPLETE' && <Icon type="success-filling" size="small" style={{ color: '#37B809' }} />}
         </div>
         <div>
           <Markdown>{props.content || ''}</Markdown>
