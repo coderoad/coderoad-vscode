@@ -32,6 +32,10 @@ const TutorialPage = (props: PageProps) => {
     props.send({ type: 'STEP_SOLUTION_LOAD' })
   }
 
+  const onRunTest = (): void => {
+    props.send({ type: 'RUN_TEST' })
+  }
+
   const onOpenLogs = (channel: string): void => {
     props.send({ type: 'OPEN_LOGS', payload: { channel } })
   }
@@ -64,6 +68,7 @@ const TutorialPage = (props: PageProps) => {
       steps={steps}
       status={progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE'}
       onContinue={onContinue}
+      onRunTest={onRunTest}
       onLoadSolution={onLoadSolution}
       onOpenLogs={onOpenLogs}
       processes={processes}

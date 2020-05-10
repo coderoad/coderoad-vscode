@@ -101,4 +101,10 @@ export default (editorSend: any) => ({
       payload: { channel: event.payload.channel },
     })
   },
+  runTest(context: T.MachineContext) {
+    editorSend({
+      type: 'EDITOR_RUN_TEST',
+      payload: { position: context.position },
+    })
+  },
 })

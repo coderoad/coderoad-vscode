@@ -309,7 +309,6 @@ class Channel implements Channel {
         // run test following solution to update position
         vscode.commands.executeCommand(COMMANDS.RUN_TEST)
         return
-
       case 'EDITOR_SYNC_PROGRESS':
         // update progress when a level is deemed complete in the client
         await this.context.progress.syncProgress(action.payload.progress)
@@ -317,6 +316,10 @@ class Channel implements Channel {
       case 'EDITOR_OPEN_LOGS':
         const channel = action.payload.channel
         await showOutput(channel)
+        return
+      case 'EDITOR_RUN_TEST':
+        vscode.commands.executeCommand(COMMANDS.RUN_TEST)
+        return
       default:
         logger(`No match for action type: ${actionType}`)
         return
