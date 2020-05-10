@@ -177,6 +177,9 @@ export const createMachine = (options: any) => {
                     OPEN_LOGS: {
                       actions: ['editorOpenLogs'],
                     },
+                    RUN_TEST: {
+                      actions: ['runTest'],
+                    },
                   },
                 },
                 TestRunning: {

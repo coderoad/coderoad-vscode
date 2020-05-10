@@ -9,6 +9,7 @@ import Markdown from '../../../components/Markdown'
 import ProcessMessages from '../../../components/ProcessMessages'
 import NuxTutorial from '../../../components/NewUserExperience/NuxTutorial'
 import Step from './Step'
+import { DISPLAY_RUN_TEST_BUTTON } from '../../../environment'
 
 const styles = {
   page: {
@@ -95,6 +96,7 @@ interface Props {
   processes: T.ProcessEvent[]
   testStatus: T.TestStatus | null
   onContinue(): void
+  onRunTest(): void
   onLoadSolution(): void
   onOpenLogs(channel: string): void
 }
@@ -107,6 +109,7 @@ const Level = ({
   index,
   status,
   onContinue,
+  onRunTest,
   onLoadSolution,
   onOpenLogs,
   processes,
@@ -181,10 +184,16 @@ const Level = ({
         </div>
 
         <div css={styles.footer}>
-          <span>
-            {typeof index === 'number' ? `${index + 1}. ` : ''}
-            {title}
-          </span>
+          {DISPLAY_RUN_TEST_BUTTON && status !== 'COMPLETE' ? (
+            <Button type="primary" onClick={onRunTest}>
+              Run
+            </Button>
+          ) : (
+            <span>
+              {typeof index === 'number' ? `${index + 1}. ` : ''}
+              {title}
+            </span>
+          )}
           <span>
             {status === 'COMPLETE' || !steps.length ? (
               <Button type="primary" onClick={onContinue}>
