@@ -3,6 +3,7 @@ import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import { COMMANDS } from '../editor/commands'
 import * as git from '../services/git'
+import { DISABLE_AUTOSAVE } from '../environment'
 
 interface TutorialConfigParams {
   config: TT.TutorialConfig
@@ -53,21 +54,23 @@ const tutorialConfig = async ({ config, alreadyConfigured }: TutorialConfigParam
 
   await vscode.commands.executeCommand(COMMANDS.CONFIG_TEST_RUNNER, config.testRunner)
 
-  // verify if file test should run based on document saved
-  const shouldRunTest = (document: vscode.TextDocument): boolean => {
-    // must be a file
-    if (document.uri.scheme !== 'file') {
-      return false
+  if (!DISABLE_AUTOSAVE) {
+    // verify if file test should run based on document saved
+    const shouldRunTest = (document: vscode.TextDocument): boolean => {
+      // must be a file
+      if (document.uri.scheme !== 'file') {
+        return false
+      }
+      return true
     }
-    return true
-  }
 
-  // setup onSave hook
-  vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
-    if (shouldRunTest(document)) {
-      vscode.commands.executeCommand(COMMANDS.RUN_TEST)
-    }
-  })
+    // setup onSave hook
+    vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
+      if (shouldRunTest(document)) {
+        vscode.commands.executeCommand(COMMANDS.RUN_TEST)
+      }
+    })
+  }
 }
 
 export default tutorialConfig
