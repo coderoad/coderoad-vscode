@@ -10,7 +10,7 @@ export type Env = 'test' | 'local' | 'development' | 'production'
 export const NODE_ENV: Env = process.env.NODE_ENV || 'production'
 
 // toggle logging in development
-export const LOG = true
+export const LOG = false
 
 // error logging tool
 export const SENTRY_DSN: string | null = null
@@ -33,3 +33,5 @@ const supportedOS = [
 if (!supportedOS.includes(OS_PLATFORM)) {
   throw new Error(`OS ${OS_PLATFORM}" not supported with CodeRoad`)
 }
+
+export const TUTORIAL_URL: string | null = process.env.CODEROAD_TUTORIAL_URL || null

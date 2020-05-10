@@ -70,6 +70,10 @@ export const createMachine = (options: any) => {
                   target: 'Start',
                   actions: ['setStart'],
                 },
+                START_TUTORIAL_FROM_URL: {
+                  target: 'SetupNewTutorial',
+                  actions: ['setTutorialContext'],
+                },
                 // TODO: handle completed tutorial differently
                 TUTORIAL_ALREADY_COMPLETE: {
                   target: 'Start',

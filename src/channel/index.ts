@@ -2,6 +2,7 @@ import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as E from 'typings/error'
 import * as vscode from 'vscode'
+import fetch from 'node-fetch'
 import { satisfies } from 'semver'
 import saveCommit from '../actions/saveCommit'
 import { setupActions, solutionActions } from '../actions/setupActions'
@@ -15,7 +16,7 @@ import { readFile } from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
 import { showOutput } from '../services/testRunner/output'
-import { WORKSPACE_ROOT } from '../environment'
+import { WORKSPACE_ROOT, TUTORIAL_URL } from '../environment'
 
 const readFileAsync = promisify(readFile)
 
@@ -52,8 +53,8 @@ class Channel implements Channel {
       case 'EDITOR_STARTUP':
         try {
           // check if a workspace is open, otherwise nothing works
-          const noActiveWorksapce = !WORKSPACE_ROOT.length
-          if (noActiveWorksapce) {
+          const noActiveWorkspace = !WORKSPACE_ROOT.length
+          if (noActiveWorkspace) {
             const error: E.ErrorMessage = {
               type: 'NoWorkspaceFound',
               message: '',
@@ -71,6 +72,18 @@ class Channel implements Channel {
           const env = {
             machineId: vscode.env.machineId,
             sessionId: vscode.env.sessionId,
+          }
+
+          // load tutorial from url
+          if (TUTORIAL_URL) {
+            try {
+              const tutorialRes = await fetch(TUTORIAL_URL)
+              const tutorial = await tutorialRes.json()
+              this.send({ type: 'START_TUTORIAL_FROM_URL', payload: { tutorial } })
+              return
+            } catch (e) {
+              console.log(`Failed to load tutorial from url ${TUTORIAL_URL} with error "${e.message}"`)
+            }
           }
 
           // continue from tutorial from local storage
