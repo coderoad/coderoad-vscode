@@ -109,3 +109,15 @@ Resulting in a folder structure like the following:
 ![fail message in webview](./docs/images/fail-message-in-webview.png)
 
 - Display error messages if React fails to load
+
+## [0.6.0]
+
+- New configuration environment variables for web compatability
+
+```
+CODEROAD_DISABLE_RUN_ON_SAVE=true // blocks saving on file system changes
+CODEROAD_DISPLAY_RUN_TEST_BUTTON=true // adds a run test button to tutorial page
+CODEROAD_TUTORIAL_URL='path/to/tutorial_config_file.json' // will load directly into tutorial
+```
+
+- Improves styles for inline code blocks
