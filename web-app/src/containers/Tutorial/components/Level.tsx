@@ -185,7 +185,7 @@ const Level = ({
 
         <div css={styles.footer}>
           {DISPLAY_RUN_TEST_BUTTON && status !== 'COMPLETE' ? (
-            <Button type="primary" onClick={onRunTest}>
+            <Button type="primary" onClick={onRunTest} disabled={processes.length > 0}>
               Run
             </Button>
           ) : (

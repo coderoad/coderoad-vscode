@@ -36,4 +36,4 @@ if (!supportedOS.includes(OS_PLATFORM)) {
 
 export const TUTORIAL_URL: string | null = process.env.CODEROAD_TUTORIAL_URL || null
 
-export const DISABLE_AUTOSAVE = (process.env.CODEROAD_DISABLE_AUTOSAVE || '').toLowerCase() === 'true'
+export const DISABLE_RUN_ON_SAVE = (process.env.CODEROAD_DISABLE_RUN_ON_SAVE || '').toLowerCase() === 'true'

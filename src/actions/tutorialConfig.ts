@@ -3,7 +3,7 @@ import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import { COMMANDS } from '../editor/commands'
 import * as git from '../services/git'
-import { DISABLE_AUTOSAVE } from '../environment'
+import { DISABLE_RUN_ON_SAVE } from '../environment'
 
 interface TutorialConfigParams {
   config: TT.TutorialConfig
@@ -54,7 +54,7 @@ const tutorialConfig = async ({ config, alreadyConfigured }: TutorialConfigParam
 
   await vscode.commands.executeCommand(COMMANDS.CONFIG_TEST_RUNNER, config.testRunner)
 
-  if (!DISABLE_AUTOSAVE) {
+  if (!DISABLE_RUN_ON_SAVE) {
     // verify if file test should run based on document saved
     const shouldRunTest = (document: vscode.TextDocument): boolean => {
       // must be a file
