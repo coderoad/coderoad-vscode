@@ -121,3 +121,7 @@ CODEROAD_TUTORIAL_URL='path/to/tutorial_config_file.json' // will load directly 
 ```
 
 - Improves styles for inline code blocks
+
+## [0.6.1]
+
+- Replace checkboxes with icons
