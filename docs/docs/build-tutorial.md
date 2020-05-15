@@ -1,4 +1,8 @@
-# Tutorial Docs
+---
+id: build-tutorial
+title: Building a Tutorial
+sidebar_label: Building a Tutorial
+---
 
 A tutorial is made up of two parts:
 
@@ -133,7 +137,7 @@ That said, anything can be tested. I’ll include some examples below of tests I
 ##### Equality
 
 Testing equality
-Eg. https://github.com/ShMcK/coderoad-tutorial-js-bug-hunter/commit/75b32ebee89853deb3b4dad6aa8654f89bc72cff
+Eg. <https://github.com/ShMcK/coderoad-tutorial-js-bug-hunter/commit/75b32ebee89853deb3b4dad6aa8654f89bc72cff>
 
 ##### Spy/Listener
 
@@ -171,7 +175,7 @@ Eg. [setup: useText hook refactor · ShMcK/coderoad-tutorial-tweeter@71deafa · 
 
 When editing markdown, simply edit the markdown and re-run the parser.
 
-When editing code, you'll need to rebase. You can use VSCode as your default editor for Git: https://blog.soltysiak.it/en/2017/01/set-visual-studio-code-as-default-git-editor-and-diff-tool/.
+When editing code, you'll need to rebase. You can use VSCode as your default editor for Git: <https://blog.soltysiak.it/en/2017/01/set-visual-studio-code-as-default-git-editor-and-diff-tool/.>
 
 Run rebase from a commit or just "root".
 
