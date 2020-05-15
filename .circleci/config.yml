@@ -31,6 +31,9 @@ workflows:
   build-and-test:
     jobs:
       - extension
+        branches:
+            ignore:
+              - gh-pages
       # - web
       # - e2e
       # - package
