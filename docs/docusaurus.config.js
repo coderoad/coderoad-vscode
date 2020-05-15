@@ -5,7 +5,7 @@ module.exports = {
   baseUrl: '/',
   favicon: 'img/favicon.ico',
   organizationName: 'coderoad',
-  projectName: 'coderoad-vscode',
+  projectName: 'coderoad.github.io',
   themeConfig: {
     navbar: {
       title: 'CodeRoad',

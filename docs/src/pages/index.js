@@ -18,7 +18,7 @@ const features = [
     description: <>You own your progress. Save with Git to build your timeline. Deploy to build your portfolio.</>,
   },
   {
-    title: <>Open</>,
+    title: <>Free & Open</>,
     imageUrl: 'img/undraw_docusaurus_react.svg',
     description: <>CodeRoad is open-source. Build your own tutorials. Contribute to the tooling.</>,
   },
