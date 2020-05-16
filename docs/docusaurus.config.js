@@ -90,6 +90,7 @@ module.exports = {
   ],
   plugins: [
     [
+      '@docusaurus/plugin-ideal-image',
       '@docusaurus/plugin-sitemap',
       {
         cacheTime: 600 * 1000, // 600 sec - cache purge period
