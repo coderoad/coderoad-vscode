@@ -7,6 +7,11 @@ module.exports = {
   organizationName: 'coderoad',
   projectName: 'coderoad.github.io',
   themeConfig: {
+    themeConfig: {
+      googleAnalytics: {
+        trackingID: 'UA-166812953-1',
+      },
+    },
     navbar: {
       title: 'CodeRoad',
       logo: {
@@ -91,6 +96,7 @@ module.exports = {
   plugins: [
     [
       '@docusaurus/plugin-ideal-image',
+      '@docusaurus/plugin-google-analytics',
       '@docusaurus/plugin-sitemap',
       {
         cacheTime: 600 * 1000, // 600 sec - cache purge period
