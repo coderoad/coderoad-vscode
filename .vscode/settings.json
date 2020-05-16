@@ -9,5 +9,6 @@
     "build": false, // set this to true to hide the "out" folder with the compiled JS files
     ".vscode-test/**": true
   },
-  "git.alwaysSignOff": true // DCO compliance
+  "git.alwaysSignOff": true,
+  "typescript.tsdk": "./node_modules/typescript/lib"
 }
