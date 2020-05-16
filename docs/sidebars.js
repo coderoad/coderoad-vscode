@@ -1,6 +1,6 @@
 module.exports = {
   someSidebar: {
-    Intro: ['overview'],
+    Intro: ['overview', 'setup'],
     Build: [
       'build-tutorial',
       'markdown',
