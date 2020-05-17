@@ -51,7 +51,7 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
       webview.createOrShow()
     },
     [COMMANDS.CONFIG_TEST_RUNNER]: async (config: TT.TestRunnerConfig) => {
-      const setup = config.setup || config.actions // TODO: depreacte and remove config.actions
+      const setup = config.setup || config.actions // TODO: deprecate and remove config.actions
       if (setup) {
         // setup tutorial test runner commits
         // assumes git already exists

@@ -18,8 +18,15 @@ interface Callbacks {
 const failChannelName = 'CodeRoad (Tests)'
 const logChannelName = 'CodeRoad (Logs)'
 
+interface TestRunnerParams {
+  position: T.Position
+  filter?: string
+  onSuccess?: () => void
+}
+
 const createTestRunner = (config: TT.TestRunnerConfig, callbacks: Callbacks) => {
-  return async (position: T.Position, onSuccess?: () => void): Promise<void> => {
+  const testRunnerFilterArg = config.args?.filter
+  return async ({ position, filter: testFilter, onSuccess }: TestRunnerParams): Promise<void> => {
     logger('createTestRunner', position)
     const startTime = throttle()
     // throttle time early
@@ -34,7 +41,16 @@ const createTestRunner = (config: TT.TestRunnerConfig, callbacks: Callbacks) => 
 
     let result: { stdout: string | undefined; stderr: string | undefined }
     try {
-      const command = config.args ? `${config.command} ${config?.args.tap}` : config.command // TODO: enforce TAP
+      let command = config.args ? `${config.command} ${config?.args.tap}` : config.command // TODO: enforce TAP
+
+      // filter tests if requested
+      if (testRunnerFilterArg) {
+        if (testFilter) {
+          command += ` ${testRunnerFilterArg} ${testFilter}`
+        } else {
+          throw new Error('Test Runner filter not configured')
+        }
+      }
       result = await exec({ command, dir: config.directory || config.path }) // TODO: remove config.path later
     } catch (err) {
       result = { stdout: err.stdout, stderr: err.stack }
