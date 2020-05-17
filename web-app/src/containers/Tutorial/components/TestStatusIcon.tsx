@@ -6,8 +6,19 @@ interface Props {
   checked?: boolean
 }
 
+const colors = {
+  complete: '#37B809',
+  incomplete: 'lightgrey',
+}
+
 const TestStatusIcon = (props: Props) => {
-  return <Icon type="success-filling" size={props.size} style={{ color: props.checked ? '#37B809' : 'lightgrey' }} />
+  return (
+    <Icon
+      type="success-filling"
+      size={props.size}
+      style={{ color: props.checked ? colors.complete : colors.incomplete }}
+    />
+  )
 }
 
 export default TestStatusIcon

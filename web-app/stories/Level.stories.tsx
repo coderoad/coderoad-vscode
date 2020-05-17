@@ -133,7 +133,8 @@ storiesOf('Level', module)
           setup: {
             id: 'L1:S2:SETUP',
             commits: ['abcdefg'],
-            subtasks: ['^SomeTest'],
+            subtasks: true,
+            filter: '^SomeTest',
           },
           solution: {
             id: 'L1:S2:SOLUTION',

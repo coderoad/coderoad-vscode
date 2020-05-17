@@ -158,7 +158,7 @@ const Level = ({
                   return null
                 }
                 let subtasks = null
-                if (step.setup.subtasks?.length) {
+                if (step.setup.subtasks) {
                   if (testStatus?.summary) {
                     subtasks = Object.keys(testStatus.summary).map((testName: string) => ({
                       name: testName,

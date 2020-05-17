@@ -50,8 +50,8 @@ const Step = (props: Props) => {
     <div>
       <div css={styles.card}>
         <div css={styles.statusContainer}>
-          {props.status === 'ACTIVE' && <TestStatusIcon size="small" checked />}
-          {props.status === 'COMPLETE' && <TestStatusIcon size="small" />}
+          {props.status === 'ACTIVE' && <TestStatusIcon size="small" />}
+          {props.status === 'COMPLETE' && <TestStatusIcon size="small" checked />}
         </div>
         <div>
           <div css={styles.content}>
