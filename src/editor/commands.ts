@@ -50,14 +50,19 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
       // setup 1x1 horizontal layout
       webview.createOrShow()
     },
-    [COMMANDS.CONFIG_TEST_RUNNER]: async (config: TT.TestRunnerConfig) => {
-      const setup = config.setup || config.actions // TODO: deprecate and remove config.actions
+    [COMMANDS.CONFIG_TEST_RUNNER]: async (data: TT.Tutorial) => {
+      const testRunnerConfig = data.config.testRunner
+      const setup = testRunnerConfig.setup || testRunnerConfig.actions // TODO: deprecate and remove config.actions
       if (setup) {
         // setup tutorial test runner commits
         // assumes git already exists
-        await setupActions({ actions: setup, send: webview.send, dir: config.directory || config.path }) // TODO: deprecate and remove config.path
+        await setupActions({
+          actions: setup,
+          send: webview.send,
+          dir: testRunnerConfig.directory || testRunnerConfig.path,
+        }) // TODO: deprecate and remove config.path
       }
-      testRunner = createTestRunner(config, {
+      testRunner = createTestRunner(data, {
         onSuccess: (position: T.Position) => {
           logger('test pass position', position)
           // send test pass message back to client
@@ -89,7 +94,8 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
       //   ...current,
       //   stepId: current && current.position.stepId?.length ? current.position.stepId : currentPosition.stepId,
       // }
-      testRunner(currentPosition, callback?.onSuccess)
+      logger('currentPosition', currentPosition)
+      testRunner({ position: currentPosition, onSuccess: callback?.onSuccess })
     },
   }
 }

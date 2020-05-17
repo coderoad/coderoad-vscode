@@ -20,14 +20,13 @@ const logChannelName = 'CodeRoad (Logs)'
 
 interface TestRunnerParams {
   position: T.Position
-  filter?: string
   onSuccess?: () => void
 }
 
-const createTestRunner = (config: TT.TestRunnerConfig, callbacks: Callbacks) => {
-  const testRunnerFilterArg = config.args?.filter
-  return async ({ position, filter: testFilter, onSuccess }: TestRunnerParams): Promise<void> => {
-    logger('createTestRunner', position)
+const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
+  const testRunnerConfig = data.config.testRunner
+  const testRunnerFilterArg = testRunnerConfig.args?.filter
+  return async ({ position, onSuccess }: TestRunnerParams): Promise<void> => {
     const startTime = throttle()
     // throttle time early
     if (!startTime) {
@@ -41,17 +40,29 @@ const createTestRunner = (config: TT.TestRunnerConfig, callbacks: Callbacks) => 
 
     let result: { stdout: string | undefined; stderr: string | undefined }
     try {
-      let command = config.args ? `${config.command} ${config?.args.tap}` : config.command // TODO: enforce TAP
+      let command = testRunnerConfig.args
+        ? `${testRunnerConfig.command} ${testRunnerConfig?.args.tap}`
+        : testRunnerConfig.command // TODO: enforce TAP
 
       // filter tests if requested
       if (testRunnerFilterArg) {
+        // get tutorial step from position
+        // check the step actions for specific command
+        // NOTE: cannot just pass in step actions as the test can be called by:
+        // - onEditorSave, onWatcher, onSolution, onRunTest, onSubTask
+        const levels = data.levels
+        const level = levels.find((l) => l.id === position.levelId)
+        const step = level?.steps.find((s) => s.id === position.stepId)
+        const testFilter = step?.setup?.filter
         if (testFilter) {
-          command += ` ${testRunnerFilterArg} ${testFilter}`
+          // append filter commands
+          command = [command, testRunnerFilterArg, testFilter].join(' ')
         } else {
           throw new Error('Test Runner filter not configured')
         }
       }
-      result = await exec({ command, dir: config.directory || config.path }) // TODO: remove config.path later
+      logger('COMMAND', command)
+      result = await exec({ command, dir: testRunnerConfig.directory || testRunnerConfig.path }) // TODO: remove config.path later
     } catch (err) {
       result = { stdout: err.stdout, stderr: err.stack }
     }

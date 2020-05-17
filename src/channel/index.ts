@@ -204,7 +204,7 @@ class Channel implements Channel {
             }
           }
 
-          const error: E.ErrorMessage | void = await tutorialConfig({ config: data.config }).catch((error: Error) => ({
+          const error: E.ErrorMessage | void = await tutorialConfig({ data }).catch((error: Error) => ({
             type: 'UnknownError',
             message: `Location: tutorial config.\n\n${error.message}`,
           }))
@@ -231,9 +231,8 @@ class Channel implements Channel {
           if (!tutorialContinue) {
             throw new Error('Invalid tutorial to continue')
           }
-          const continueConfig: TT.TutorialConfig = tutorialContinue.config
           await tutorialConfig({
-            config: continueConfig,
+            data: tutorialContinue,
             alreadyConfigured: true,
           })
           // update the current stepId on startup
