@@ -22,6 +22,7 @@ const testActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
       type: 'warning',
       title: event.payload.fail.title,
       content: event.payload.fail.description,
+      summary: event.payload.fail.summary,
     }),
   }),
   // @ts-ignore

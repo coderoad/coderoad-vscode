@@ -45,10 +45,11 @@ export type TutorialSummary = {
 }
 
 export type StepActions = {
-  commands: string[]
+  commands?: string[]
   commits: string[]
-  files: string[]
-  watchers: string[]
+  files?: string[]
+  watchers?: string[]
+  subtasks?: string[]
 }
 
 export interface TutorialTestRunnerConfig {

@@ -2,7 +2,7 @@ import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import { exec } from '../node'
 import logger from '../logger'
-import parser from './parser'
+import parser, { ParserOutput } from './parser'
 import { debounce, throttle } from './throttle'
 import onError from '../sentry/onError'
 import { clearOutput, addOutput } from './output'
@@ -49,7 +49,7 @@ const createTestRunner = (config: TT.TutorialTestRunnerConfig, callbacks: Callba
 
     const { stdout, stderr } = result
 
-    const tap = parser(stdout || '')
+    const tap: ParserOutput = parser(stdout || '')
 
     addOutput({ channel: logChannelName, text: tap.logs.join('\n'), show: false })
 
@@ -60,6 +60,7 @@ const createTestRunner = (config: TT.TutorialTestRunnerConfig, callbacks: Callba
         const failSummary = {
           title: firstFail.message || 'Test Failed',
           description: firstFail.details || 'Unknown error',
+          summary: tap.summary,
         }
         callbacks.onFail(position, failSummary)
         const output = formatFailOutput(tap)

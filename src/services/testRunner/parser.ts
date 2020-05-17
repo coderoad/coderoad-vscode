@@ -1,3 +1,5 @@
+import logger from '../logger'
+
 export interface Fail {
   message: string
   details?: string
@@ -14,6 +16,7 @@ export interface ParserOutput {
   passed: Pass[]
   failed: Fail[]
   logs: string[]
+  summary: { [key: string]: boolean }
 }
 
 const r = {
@@ -37,6 +40,7 @@ const parser = (text: string): ParserOutput => {
     passed: [],
     failed: [],
     logs: [],
+    summary: {},
   }
 
   // temporary holder of error detail strings
@@ -58,12 +62,14 @@ const parser = (text: string): ParserOutput => {
     // be optimistic! check for success
     const isPass = detect('pass', line)
     if (!!isPass) {
-      const pass: Pass = { message: isPass[2].trim() }
+      const message = isPass[2].trim()
+      const pass: Pass = { message }
       if (logs.length) {
         pass.logs = logs
         logs = []
       }
       result.passed.push(pass)
+      result.summary[message] = true
       addCurrentDetails()
       continue
     }
@@ -73,12 +79,14 @@ const parser = (text: string): ParserOutput => {
     if (!!isFail) {
       result.ok = false
       addCurrentDetails()
-      const fail: Fail = { message: isFail[2].trim() }
+      const message = isFail[2].trim()
+      const fail: Fail = { message }
       if (logs.length) {
         fail.logs = logs
         logs = []
       }
       result.failed.push(fail)
+      result.summary[message] = false
       continue
     }
 
