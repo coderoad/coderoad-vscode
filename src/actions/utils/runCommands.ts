@@ -4,10 +4,10 @@ import { exec } from '../../services/node'
 interface RunCommands {
   commands: string[]
   send: (action: T.Action) => void
-  path?: string
+  dir?: string
 }
 
-const runCommands = async ({ commands, send, path }: RunCommands) => {
+const runCommands = async ({ commands, send, dir }: RunCommands) => {
   if (!commands.length) {
     return
   }
@@ -19,7 +19,7 @@ const runCommands = async ({ commands, send, path }: RunCommands) => {
     send({ type: 'COMMAND_START', payload: { process: { ...process, status: 'RUNNING' } } })
     let result: { stdout: string; stderr: string }
     try {
-      result = await exec({ command, path })
+      result = await exec({ command, dir })
       console.log(result)
     } catch (error) {
       console.log(`Test failed: ${error.message}`)

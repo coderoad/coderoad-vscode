@@ -18,7 +18,7 @@ interface Callbacks {
 const failChannelName = 'CodeRoad (Tests)'
 const logChannelName = 'CodeRoad (Logs)'
 
-const createTestRunner = (config: TT.TutorialTestRunnerConfig, callbacks: Callbacks) => {
+const createTestRunner = (config: TT.TestRunnerConfig, callbacks: Callbacks) => {
   return async (position: T.Position, onSuccess?: () => void): Promise<void> => {
     logger('createTestRunner', position)
     const startTime = throttle()
@@ -34,7 +34,8 @@ const createTestRunner = (config: TT.TutorialTestRunnerConfig, callbacks: Callba
 
     let result: { stdout: string | undefined; stderr: string | undefined }
     try {
-      result = await exec({ command: config.command, path: config.path })
+      const command = config.args ? `${config.command} ${config?.args.tap}` : config.command // TODO: enforce TAP
+      result = await exec({ command, dir: config.directory || config.path }) // TODO: remove config.path later
     } catch (err) {
       result = { stdout: err.stdout, stderr: err.stack }
     }

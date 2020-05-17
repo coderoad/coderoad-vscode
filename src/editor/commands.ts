@@ -50,11 +50,12 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
       // setup 1x1 horizontal layout
       webview.createOrShow()
     },
-    [COMMANDS.CONFIG_TEST_RUNNER]: async (config: TT.TutorialTestRunnerConfig) => {
-      if (config.actions) {
+    [COMMANDS.CONFIG_TEST_RUNNER]: async (config: TT.TestRunnerConfig) => {
+      const setup = config.setup || config.actions // TODO: depreacte and remove config.actions
+      if (setup) {
         // setup tutorial test runner commits
         // assumes git already exists
-        await setupActions({ actions: config.actions, send: webview.send, path: config.path })
+        await setupActions({ actions: setup, send: webview.send, dir: config.directory || config.path }) // TODO: deprecate and remove config.path
       }
       testRunner = createTestRunner(config, {
         onSuccess: (position: T.Position) => {
