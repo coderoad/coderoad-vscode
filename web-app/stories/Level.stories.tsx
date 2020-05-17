@@ -161,9 +161,9 @@ storiesOf('Level', module)
       type: 'error',
       title: 'Test Failed because X',
       summary: {
-        first: false,
-        second: true,
-        third: false,
+        'The first task in a set of multiple subtasks': false,
+        'The second task out of a bunch of subtasks': true,
+        'The third and final task that has more text and might even wrap around because the text just keeps rambling on longer than anyone would conceivably want to read': false,
       },
     }
     return (
