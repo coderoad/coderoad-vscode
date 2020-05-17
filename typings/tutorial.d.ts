@@ -49,7 +49,8 @@ export type StepActions = {
   commits: string[]
   files?: string[]
   watchers?: string[]
-  subtasks?: string[]
+  filter?: string
+  subtasks?: boolean
 }
 
 export interface TestRunnerArgs {
