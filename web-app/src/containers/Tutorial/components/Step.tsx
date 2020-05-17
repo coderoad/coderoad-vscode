@@ -8,6 +8,7 @@ interface Props {
   order: number
   content: string
   status: T.ProgressStatus
+  subtasks: { name: string; pass: boolean }[] | null
   onLoadSolution(): void
 }
 
@@ -48,6 +49,13 @@ const Step = (props: Props) => {
         <div>
           <Markdown>{props.content || ''}</Markdown>
         </div>
+        {props.subtasks ? (
+          <ul>
+            {props.subtasks.map((subtask) => (
+              <li key={subtask.name}>{subtask.name}</li>
+            ))}
+          </ul>
+        ) : null}
       </div>
     </div>
   )

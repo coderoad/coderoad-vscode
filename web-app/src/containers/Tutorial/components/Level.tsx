@@ -157,6 +157,16 @@ const Level = ({
                 if (!step) {
                   return null
                 }
+                let subtasks = null
+                if (step.setup.subtasks?.length) {
+                  if (testStatus?.summary) {
+                    subtasks = Object.keys(testStatus.summary).map((testName: string) => ({
+                      name: testName,
+                      // @ts-ignore typescript is wrong here
+                      pass: testStatus.summary[testName],
+                    }))
+                  }
+                }
                 return (
                   <Step
                     key={step.id}
@@ -164,6 +174,7 @@ const Level = ({
                     status={step.status}
                     content={step.content}
                     onLoadSolution={onLoadSolution}
+                    subtasks={subtasks}
                   />
                 )
               })}

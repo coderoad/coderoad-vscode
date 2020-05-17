@@ -31,11 +31,17 @@ const paragraphText = `Markdown included \`code\`, *bold*, & _italics_.
   Emojis: :) :| :(
   `
 
-storiesOf('Level', module)
+storiesOf('Step', module)
   .addDecorator(SideBarDecorator)
   .addDecorator(withKnobs)
   .add('Active Step', () => (
-    <Step order={1} content={text('text', stepText)} status="ACTIVE" onLoadSolution={action('onLoadSolution')} />
+    <Step
+      order={1}
+      content={text('text', stepText)}
+      status="ACTIVE"
+      onLoadSolution={action('onLoadSolution')}
+      subtasks={null}
+    />
   ))
   .add('Step Markdown', () => (
     <Step
@@ -43,5 +49,28 @@ storiesOf('Level', module)
       content={text('text', paragraphText)}
       status={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'ACTIVE', 'step')}
       onLoadSolution={action('onLoadSolution')}
+      subtasks={null}
+    />
+  ))
+  .add('Substasks', () => (
+    <Step
+      order={2}
+      content={'A task with subtasks'}
+      status={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'ACTIVE', 'step')}
+      onLoadSolution={action('onLoadSolution')}
+      subtasks={[
+        {
+          name: 'First Test',
+          pass: false,
+        },
+        {
+          name: 'Second Test',
+          pass: true,
+        },
+        {
+          name: 'Third Test',
+          pass: false,
+        },
+      ]}
     />
   ))

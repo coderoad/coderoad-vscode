@@ -93,10 +93,93 @@ storiesOf('Level', module)
         index={0}
         status={level.status}
         steps={level.steps}
+        onRunTest={action('onRunTest')}
+        onOpenLogs={action('onOpenLogs')}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
         processes={[]}
         testStatus={null}
+      />
+    )
+  })
+  .add('Subtasks', () => {
+    const level = {
+      id: 'L1',
+      index: 0,
+      title: 'A Title',
+      description: 'A summary of the level',
+      content: 'Some content here in markdown',
+      setup: null,
+      status: 'ACTIVE' as 'ACTIVE',
+      steps: [
+        {
+          id: 'L1:S1',
+          title: 'First Step',
+          content: 'First step description',
+          setup: {
+            id: 'L1:S1:SETUP',
+            commits: ['abcdefg'],
+          },
+          solution: {
+            id: 'L1:S1:SOLUTION',
+            commits: ['hijklmn'],
+          },
+          status: 'COMPLETE',
+        },
+        {
+          id: 'L1:S2',
+          title: 'Second Step',
+          content: 'Second step description',
+          setup: {
+            id: 'L1:S2:SETUP',
+            commits: ['abcdefg'],
+            subtasks: ['^SomeTest'],
+          },
+          solution: {
+            id: 'L1:S2:SOLUTION',
+            commits: ['hijklmn'],
+          },
+          status: 'ACTIVE',
+        },
+        {
+          id: 'L1:S3',
+          title: 'Third Step',
+          content: 'Third step description',
+          setup: {
+            id: 'L1:S3:SETUP',
+            commits: ['abcdefg'],
+          },
+          solution: {
+            id: 'L1:S3:SOLUTION',
+            commits: ['hijklmn'],
+          },
+          status: 'INCOMPLETE',
+        },
+      ],
+    }
+    const testStatus: T.TestStatus = {
+      type: 'error',
+      title: 'Test Failed because X',
+      summary: {
+        first: false,
+        second: true,
+        third: false,
+      },
+    }
+    return (
+      <Level
+        menu={menu}
+        title={level.title}
+        content={level.content}
+        index={0}
+        status={level.status}
+        steps={level.steps}
+        onRunTest={action('onRunTest')}
+        onOpenLogs={action('onOpenLogs')}
+        onContinue={action('onContinue')}
+        onLoadSolution={action('onLoadSolution')}
+        processes={[]}
+        testStatus={testStatus}
       />
     )
   })
@@ -143,7 +226,6 @@ storiesOf('Level', module)
           status: 'COMPLETE',
         },
       ],
-      status: 'COMPLETE',
     }
     return (
       <Level
@@ -151,8 +233,10 @@ storiesOf('Level', module)
         title={level.title}
         content={level.content}
         index={0}
-        status={level.status}
+        status={'COMPLETE'}
         steps={level.steps}
+        onRunTest={action('onRunTest')}
+        onOpenLogs={action('onOpenLogs')}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
         processes={[
@@ -242,6 +326,8 @@ storiesOf('Level', module)
         index={0}
         status={level.status}
         steps={level.steps}
+        onRunTest={action('onRunTest')}
+        onOpenLogs={action('onOpenLogs')}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
         processes={[]}
@@ -320,6 +406,8 @@ storiesOf('Level', module)
         index={0}
         status={level.status}
         steps={level.steps}
+        onRunTest={action('onRunTest')}
+        onOpenLogs={action('onOpenLogs')}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
         processes={[]}
@@ -346,6 +434,8 @@ storiesOf('Level', module)
         index={0}
         status={level.status}
         steps={level.steps}
+        onRunTest={action('onRunTest')}
+        onOpenLogs={action('onOpenLogs')}
         onContinue={action('onContinue')}
         onLoadSolution={action('onLoadSolution')}
         processes={[]}
