@@ -8,6 +8,7 @@ const durations = {
   warning: 20000,
   error: 4500,
   loading: 300000,
+  hidden: 0,
 }
 
 const useTimeout = ({ duration, key }: { duration: number; key: string }) => {

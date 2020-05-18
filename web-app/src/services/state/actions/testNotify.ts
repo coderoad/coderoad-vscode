@@ -29,6 +29,15 @@ const testActions: ActionFunctionMap<CR.MachineContext, CR.MachineEvent> = {
   testClear: assign({
     testStatus: null,
   }),
+  // @ts-ignore
+  testSubtasks: assign({
+    testStatus: (context, event) => ({
+      type: 'hidden',
+      title: '',
+      content: '',
+      summary: event.payload.summary,
+    }),
+  }),
 }
 
 export default testActions

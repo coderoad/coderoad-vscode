@@ -2,7 +2,7 @@ import { Message as AlifdMessage } from '@alifd/next'
 import * as React from 'react'
 
 interface Props {
-  type?: 'success' | 'warning' | 'error' | 'notice' | 'help' | 'loading'
+  type?: 'success' | 'warning' | 'error' | 'notice' | 'help' | 'loading' | 'hidden'
   shape?: 'inline' | 'addon' | 'toast'
   size?: 'medium' | 'large'
   title: string
@@ -16,6 +16,9 @@ interface Props {
 
 const Message = (props: Props) => {
   const [visible, setVisible] = React.useState(true)
+  if (props.type === 'hidden') {
+    return null
+  }
   function onClose() {
     if (props.onClose) {
       props.onClose()

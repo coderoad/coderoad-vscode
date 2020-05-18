@@ -170,6 +170,9 @@ export const createMachine = (options: any) => {
                 Normal: {
                   id: 'tutorial-level',
                   on: {
+                    LOAD_TEST_SUBTASKS: {
+                      actions: ['testSubtasks'],
+                    },
                     TEST_RUNNING: 'TestRunning',
                     STEP_SOLUTION_LOAD: {
                       actions: ['editorLoadSolution'],

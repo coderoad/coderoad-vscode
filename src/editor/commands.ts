@@ -81,13 +81,19 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
           // send test run message back to client
           webview.send({ type: 'TEST_RUNNING', payload: { position } })
         },
+        onLoadSubtasks: ({ summary }) => {
+          webview.send({ type: 'LOAD_TEST_SUBTASKS', payload: { summary } })
+        },
       })
     },
     [COMMANDS.SET_CURRENT_POSITION]: (position: T.Position) => {
       // set from last setup stepAction
       currentPosition = position
     },
-    [COMMANDS.RUN_TEST]: (callback?: { onSuccess: () => void }) => {
+    [COMMANDS.RUN_TEST]: ({
+      subtasks,
+      callbacks,
+    }: { subtasks?: boolean; callbacks?: { onSuccess: () => void } } = {}) => {
       logger('run test current', currentPosition)
       // use stepId from client, or last set stepId
       // const position: T.Position = {
@@ -95,7 +101,7 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
       //   stepId: current && current.position.stepId?.length ? current.position.stepId : currentPosition.stepId,
       // }
       logger('currentPosition', currentPosition)
-      testRunner({ position: currentPosition, onSuccess: callback?.onSuccess })
+      testRunner({ position: currentPosition, onSuccess: callbacks?.onSuccess, subtasks })
     },
   }
 }

@@ -39,7 +39,7 @@ export interface Environment {
 }
 
 export interface TestStatus {
-  type: 'success' | 'warning' | 'error' | 'loading'
+  type: 'success' | 'warning' | 'error' | 'loading' | 'hidden'
   title: string
   content?: string
   summary?: { [testName: string]: boolean }

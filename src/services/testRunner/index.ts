@@ -13,6 +13,7 @@ interface Callbacks {
   onFail(position: T.Position, failSummary: T.TestFail): void
   onRun(position: T.Position): void
   onError(position: T.Position): void
+  onLoadSubtasks({ summary }: { summary: { [testName: string]: boolean } }): void
 }
 
 const failChannelName = 'CodeRoad (Tests)'
@@ -20,13 +21,14 @@ const logChannelName = 'CodeRoad (Logs)'
 
 interface TestRunnerParams {
   position: T.Position
+  subtasks?: boolean
   onSuccess?: () => void
 }
 
 const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
   const testRunnerConfig = data.config.testRunner
   const testRunnerFilterArg = testRunnerConfig.args?.filter
-  return async ({ position, onSuccess }: TestRunnerParams): Promise<void> => {
+  return async ({ position, onSuccess, subtasks }: TestRunnerParams): Promise<void> => {
     const startTime = throttle()
     // throttle time early
     if (!startTime) {
@@ -36,7 +38,9 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
     logger('------------------- RUN TEST -------------------')
 
     // flag as running
-    callbacks.onRun(position)
+    if (!subtasks) {
+      callbacks.onRun(position)
+    }
 
     let result: { stdout: string | undefined; stderr: string | undefined }
     try {
@@ -79,6 +83,12 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
 
     const tap: ParserOutput = parser(stdout || '')
 
+    if (subtasks) {
+      callbacks.onLoadSubtasks({ summary: tap.summary })
+      // exit early
+      return
+    }
+
     addOutput({ channel: logChannelName, text: tap.logs.join('\n'), show: false })
 
     if (stderr) {
@@ -105,7 +115,9 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
     // PASS
     if (tap.ok) {
       clearOutput(failChannelName)
+
       callbacks.onSuccess(position)
+
       if (onSuccess) {
         onSuccess()
       }
