@@ -8,7 +8,8 @@ import SideBarDecorator from './utils/SideBarDecorator'
 const stepText =
   'This is a long paragraph of step text intended to wrap around the side after a short period of writing to demonstrate text wrap among other things'
 
-const paragraphText = `Markdown included \`code\`, *bold*, & _italics_.
+const paragraphText = `
+  ### Code
 
   Inline code: \`<h1>HTML</h1>\`, \`function someFunc() { var a = 1; return a; }\`
 
@@ -20,7 +21,7 @@ const paragraphText = `Markdown included \`code\`, *bold*, & _italics_.
   }
   \`\`\`
 
-  Headers can be added:
+  ### Headers
 
   # h1
   ## h2
@@ -28,7 +29,30 @@ const paragraphText = `Markdown included \`code\`, *bold*, & _italics_.
   #### h4
   ##### h5
 
-  Emojis: :) :| :(
+  ### Emojis
+
+  :) :| :(
+
+  ### Text Formatting
+
+  **bold**, *italics*, ~~strikethrough~~
+
+  ### BlockQuote
+
+  > A quote here
+
+  ### Tables
+  | First Header  | Second Header |
+  | ------------- | ------------- |
+  | Content Cell  | Content Cell  |
+  | Content Cell  | Content Cell  |
+
+  
+
+  | Left-aligned | Center-aligned | Right-aligned |
+  | :---         |     :---:      |          ---: |
+  | git status   | git status     | git status    |
+  | git diff     | git diff       | git diff      |
   `
 
 storiesOf('Step', module)
