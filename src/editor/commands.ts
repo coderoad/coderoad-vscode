@@ -50,13 +50,19 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
       // setup 1x1 horizontal layout
       webview.createOrShow()
     },
-    [COMMANDS.CONFIG_TEST_RUNNER]: async (config: TT.TutorialTestRunnerConfig) => {
-      if (config.actions) {
+    [COMMANDS.CONFIG_TEST_RUNNER]: async (data: TT.Tutorial) => {
+      const testRunnerConfig = data.config.testRunner
+      const setup = testRunnerConfig.setup || testRunnerConfig.actions // TODO: deprecate and remove config.actions
+      if (setup) {
         // setup tutorial test runner commits
         // assumes git already exists
-        await setupActions({ actions: config.actions, send: webview.send, path: config.path })
+        await setupActions({
+          actions: setup,
+          send: webview.send,
+          dir: testRunnerConfig.directory || testRunnerConfig.path,
+        }) // TODO: deprecate and remove config.path
       }
-      testRunner = createTestRunner(config, {
+      testRunner = createTestRunner(data, {
         onSuccess: (position: T.Position) => {
           logger('test pass position', position)
           // send test pass message back to client
@@ -75,20 +81,27 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
           // send test run message back to client
           webview.send({ type: 'TEST_RUNNING', payload: { position } })
         },
+        onLoadSubtasks: ({ summary }) => {
+          webview.send({ type: 'LOAD_TEST_SUBTASKS', payload: { summary } })
+        },
       })
     },
     [COMMANDS.SET_CURRENT_POSITION]: (position: T.Position) => {
       // set from last setup stepAction
       currentPosition = position
     },
-    [COMMANDS.RUN_TEST]: (callback?: { onSuccess: () => void }) => {
+    [COMMANDS.RUN_TEST]: ({
+      subtasks,
+      callbacks,
+    }: { subtasks?: boolean; callbacks?: { onSuccess: () => void } } = {}) => {
       logger('run test current', currentPosition)
       // use stepId from client, or last set stepId
       // const position: T.Position = {
       //   ...current,
       //   stepId: current && current.position.stepId?.length ? current.position.stepId : currentPosition.stepId,
       // }
-      testRunner(currentPosition, callback?.onSuccess)
+      logger('currentPosition', currentPosition)
+      testRunner({ position: currentPosition, onSuccess: callbacks?.onSuccess, subtasks })
     },
   }
 }

@@ -157,6 +157,14 @@ const Level = ({
                 if (!step) {
                   return null
                 }
+                let subtasks = null
+                if (step.setup.subtasks && testStatus?.summary) {
+                  subtasks = Object.keys(testStatus.summary).map((testName: string) => ({
+                    name: testName,
+                    // @ts-ignore typescript is wrong here
+                    pass: testStatus.summary[testName],
+                  }))
+                }
                 return (
                   <Step
                     key={step.id}
@@ -164,6 +172,7 @@ const Level = ({
                     status={step.status}
                     content={step.content}
                     onLoadSolution={onLoadSolution}
+                    subtasks={subtasks}
                   />
                 )
               })}
@@ -173,7 +182,7 @@ const Level = ({
 
         <div ref={pageBottomRef} />
 
-        {(testStatus || processes.length > 0) && (
+        {((testStatus && testStatus.type !== 'hidden') || processes.length > 0) && (
           <div css={styles.processes}>
             <ProcessMessages processes={processes} testStatus={testStatus} onOpenLogs={onOpenLogs} />
           </div>

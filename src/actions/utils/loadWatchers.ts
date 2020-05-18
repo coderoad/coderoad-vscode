@@ -38,9 +38,11 @@ const loadWatchers = (watchers: string[]) => {
         const now = +new Date()
         if (!lastFire || lastFire - now > 1000) {
           vscode.commands.executeCommand(COMMANDS.RUN_TEST, {
-            onSuccess: () => {
-              // cleanup watcher on success
-              disposeWatcher(watcher)
+            callbacks: {
+              onSuccess: () => {
+                // cleanup watcher on success
+                disposeWatcher(watcher)
+              },
             },
           })
         }

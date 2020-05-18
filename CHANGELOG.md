@@ -125,3 +125,33 @@ CODEROAD_TUTORIAL_URL='path/to/tutorial_config_file.json' // will load directly 
 ## [0.6.1]
 
 - Replace checkboxes with icons
+
+## [0.7.0]
+
+- Support loading subtasks (#340). Subtasks are a list of tests that need to pass before a task is complete. They can be loaded by:
+
+1. filtering down to a subset of tests by setting the `step.setup.filter` to a regex pattern that matches the tests you're targeting
+2. setting the `step.setup.subtasks` variable to true
+
+- Change for the test runner config. Changes are backwards compatible.
+
+1. `testRunner.path`=> `testRunner.directory`
+2. `testRunner.actions` => `testRunner.setup`
+3. Change command to capture `args` for "TAP" support, and test "filter"ing support. These changes will help lead to specific test suite presets in the future.
+
+```json
+{
+  "testRunner": {
+    "command": "mocha",
+    "args": {
+      "filter": "--grep",
+      "tap": "--reporter=mocha-tap-reporter"
+    },
+    "directory": ".coderoad",
+    "setup": {
+      "commits": ["410bd4f"],
+      "commands": ["npm install"]
+    }
+  }
+}
+```

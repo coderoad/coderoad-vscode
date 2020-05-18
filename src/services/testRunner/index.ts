@@ -2,7 +2,7 @@ import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import { exec } from '../node'
 import logger from '../logger'
-import parser from './parser'
+import parser, { ParserOutput } from './parser'
 import { debounce, throttle } from './throttle'
 import onError from '../sentry/onError'
 import { clearOutput, addOutput } from './output'
@@ -13,14 +13,22 @@ interface Callbacks {
   onFail(position: T.Position, failSummary: T.TestFail): void
   onRun(position: T.Position): void
   onError(position: T.Position): void
+  onLoadSubtasks({ summary }: { summary: { [testName: string]: boolean } }): void
 }
 
 const failChannelName = 'CodeRoad (Tests)'
 const logChannelName = 'CodeRoad (Logs)'
 
-const createTestRunner = (config: TT.TutorialTestRunnerConfig, callbacks: Callbacks) => {
-  return async (position: T.Position, onSuccess?: () => void): Promise<void> => {
-    logger('createTestRunner', position)
+interface TestRunnerParams {
+  position: T.Position
+  subtasks?: boolean
+  onSuccess?: () => void
+}
+
+const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
+  const testRunnerConfig = data.config.testRunner
+  const testRunnerFilterArg = testRunnerConfig.args?.filter
+  return async ({ position, onSuccess, subtasks }: TestRunnerParams): Promise<void> => {
     const startTime = throttle()
     // throttle time early
     if (!startTime) {
@@ -30,11 +38,35 @@ const createTestRunner = (config: TT.TutorialTestRunnerConfig, callbacks: Callba
     logger('------------------- RUN TEST -------------------')
 
     // flag as running
-    callbacks.onRun(position)
+    if (!subtasks) {
+      callbacks.onRun(position)
+    }
 
     let result: { stdout: string | undefined; stderr: string | undefined }
     try {
-      result = await exec({ command: config.command, path: config.path })
+      let command = testRunnerConfig.args
+        ? `${testRunnerConfig.command} ${testRunnerConfig?.args.tap}`
+        : testRunnerConfig.command // TODO: enforce TAP
+
+      // filter tests if requested
+      if (testRunnerFilterArg) {
+        // get tutorial step from position
+        // check the step actions for specific command
+        // NOTE: cannot just pass in step actions as the test can be called by:
+        // - onEditorSave, onWatcher, onSolution, onRunTest, onSubTask
+        const levels = data.levels
+        const level = levels.find((l) => l.id === position.levelId)
+        const step = level?.steps.find((s) => s.id === position.stepId)
+        const testFilter = step?.setup?.filter
+        if (testFilter) {
+          // append filter commands
+          command = [command, testRunnerFilterArg, testFilter].join(' ')
+        } else {
+          throw new Error('Test Runner filter not configured')
+        }
+      }
+      logger('COMMAND', command)
+      result = await exec({ command, dir: testRunnerConfig.directory || testRunnerConfig.path }) // TODO: remove config.path later
     } catch (err) {
       result = { stdout: err.stdout, stderr: err.stack }
     }
@@ -49,7 +81,13 @@ const createTestRunner = (config: TT.TutorialTestRunnerConfig, callbacks: Callba
 
     const { stdout, stderr } = result
 
-    const tap = parser(stdout || '')
+    const tap: ParserOutput = parser(stdout || '')
+
+    if (subtasks) {
+      callbacks.onLoadSubtasks({ summary: tap.summary })
+      // exit early
+      return
+    }
 
     addOutput({ channel: logChannelName, text: tap.logs.join('\n'), show: false })
 
@@ -60,6 +98,7 @@ const createTestRunner = (config: TT.TutorialTestRunnerConfig, callbacks: Callba
         const failSummary = {
           title: firstFail.message || 'Test Failed',
           description: firstFail.details || 'Unknown error',
+          summary: tap.summary,
         }
         callbacks.onFail(position, failSummary)
         const output = formatFailOutput(tap)
@@ -76,7 +115,9 @@ const createTestRunner = (config: TT.TutorialTestRunnerConfig, callbacks: Callba
     // PASS
     if (tap.ok) {
       clearOutput(failChannelName)
+
       callbacks.onSuccess(position)
+
       if (onSuccess) {
         onSuccess()
       }

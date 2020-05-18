@@ -10,10 +10,10 @@ import logger from '../services/logger'
 interface SetupActions {
   actions: TT.StepActions
   send: (action: T.Action) => void // send messages to client
-  path?: string
+  dir?: string
 }
 
-export const setupActions = async ({ actions, send, path }: SetupActions): Promise<void> => {
+export const setupActions = async ({ actions, send, dir }: SetupActions): Promise<void> => {
   if (!actions) {
     return
   }
@@ -45,7 +45,7 @@ export const setupActions = async ({ actions, send, path }: SetupActions): Promi
 
   // 4. run command
   if (!alreadyLoaded) {
-    await runCommands({ commands: commands || [], send, path }).catch(onError)
+    await runCommands({ commands: commands || [], send, dir }).catch(onError)
   }
 }
 

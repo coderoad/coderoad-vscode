@@ -6,7 +6,13 @@ describe('parser', () => {
 1..1
 ok 1 - Should pass
 `
-    expect(parser(example)).toEqual({ ok: true, passed: [{ message: 'Should pass' }], failed: [], logs: [] })
+    expect(parser(example)).toEqual({
+      ok: true,
+      passed: [{ message: 'Should pass' }],
+      failed: [],
+      logs: [],
+      summary: { 'Should pass': true },
+    })
   })
   test('should detect multiple successes', () => {
     const example = `
@@ -20,6 +26,10 @@ ok 2 - Should also pass
       passed: [{ message: 'Should pass' }, { message: 'Should also pass' }],
       failed: [],
       logs: [],
+      summary: {
+        'Should pass': true,
+        'Should also pass': true,
+      },
     })
   })
   test('should detect failure if no tests passed', () => {
@@ -170,6 +180,10 @@ at processImmediate (internal/timers.js:439:21)`,
         },
       ],
       logs: ['log 1', 'log 2'],
+      summary: {
+        'package.json should have "express" installed': true,
+        'server should log "Hello World"': false,
+      },
     })
   })
 })

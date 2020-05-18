@@ -56,6 +56,17 @@ export default (editorSend: any) => ({
           actions: step.setup,
         },
       })
+
+      if (step.setup.subtasks) {
+        // load subtask data by running tests and parsing result
+        editorSend({
+          type: 'EDITOR_RUN_TEST',
+          payload: {
+            position: context.position,
+            subtasks: true,
+          },
+        })
+      }
     }
   },
   editorLoadSolution(context: T.MachineContext): void {

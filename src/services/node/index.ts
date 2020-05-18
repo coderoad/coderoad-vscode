@@ -8,11 +8,11 @@ const asyncExec = promisify(cpExec)
 
 interface ExecParams {
   command: string
-  path?: string
+  dir?: string
 }
 
 export const exec = (params: ExecParams): Promise<{ stdout: string; stderr: string }> | never => {
-  const cwd = join(WORKSPACE_ROOT, params.path || '')
+  const cwd = join(WORKSPACE_ROOT, params.dir || '')
   return asyncExec(params.command, { cwd })
 }
 

@@ -6,12 +6,12 @@ import * as git from '../services/git'
 import { DISABLE_RUN_ON_SAVE } from '../environment'
 
 interface TutorialConfigParams {
-  config: TT.TutorialConfig
+  data: TT.Tutorial
   alreadyConfigured?: boolean
   onComplete?(): void
 }
 
-const tutorialConfig = async ({ config, alreadyConfigured }: TutorialConfigParams): Promise<E.ErrorMessage | void> => {
+const tutorialConfig = async ({ data, alreadyConfigured }: TutorialConfigParams): Promise<E.ErrorMessage | void> => {
   if (!alreadyConfigured) {
     // setup git, add remote
     const initError: E.ErrorMessage | void = await git.initIfNotExists().catch(
@@ -27,7 +27,7 @@ const tutorialConfig = async ({ config, alreadyConfigured }: TutorialConfigParam
     }
 
     // verify that internet is connected, remote exists and branch exists
-    const remoteConnectError: E.ErrorMessage | void = await git.checkRemoteConnects(config.repo).catch(
+    const remoteConnectError: E.ErrorMessage | void = await git.checkRemoteConnects(data.config.repo).catch(
       (error: Error): E.ErrorMessage => ({
         type: 'FailedToConnectToGitRepo',
         message: error.message,
@@ -40,7 +40,7 @@ const tutorialConfig = async ({ config, alreadyConfigured }: TutorialConfigParam
     }
 
     // TODO if remote not already set
-    const coderoadRemoteError: E.ErrorMessage | void = await git.setupCodeRoadRemote(config.repo.uri).catch(
+    const coderoadRemoteError: E.ErrorMessage | void = await git.setupCodeRoadRemote(data.config.repo.uri).catch(
       (error: Error): E.ErrorMessage => ({
         type: 'GitRemoteAlreadyExists',
         message: error.message,
@@ -52,7 +52,7 @@ const tutorialConfig = async ({ config, alreadyConfigured }: TutorialConfigParam
     }
   }
 
-  await vscode.commands.executeCommand(COMMANDS.CONFIG_TEST_RUNNER, config.testRunner)
+  await vscode.commands.executeCommand(COMMANDS.CONFIG_TEST_RUNNER, data)
 
   if (!DISABLE_RUN_ON_SAVE) {
     // verify if file test should run based on document saved

@@ -2,7 +2,7 @@ export type Maybe<T> = T | null
 
 export type TutorialConfig = {
   appVersions: TutorialAppVersions
-  testRunner: TutorialTestRunnerConfig
+  testRunner: TestRunnerConfig
   repo: TutorialRepo
   dependencies?: TutorialDependency[]
 }
@@ -27,6 +27,7 @@ export type Step = {
   content: string
   setup: StepActions
   solution: Maybe<StepActions>
+  subtasks?: { [testName: string]: boolean }
 }
 
 /** A tutorial for use in VSCode CodeRoad */
@@ -45,16 +46,26 @@ export type TutorialSummary = {
 }
 
 export type StepActions = {
-  commands: string[]
+  commands?: string[]
   commits: string[]
-  files: string[]
-  watchers: string[]
+  files?: string[]
+  watchers?: string[]
+  filter?: string
+  subtasks?: boolean
 }
 
-export interface TutorialTestRunnerConfig {
+export interface TestRunnerArgs {
+  filter?: string
+  tap: string
+}
+
+export interface TestRunnerConfig {
   command: string
-  path?: string
-  actions?: StepActions
+  args?: TestRunnerArgs
+  path?: string // deprecated
+  directory?: string
+  actions?: StepActions // deprecated
+  setup?: StepActions
 }
 
 export interface TutorialRepo {

@@ -39,9 +39,10 @@ export interface Environment {
 }
 
 export interface TestStatus {
-  type: 'success' | 'warning' | 'error' | 'loading'
+  type: 'success' | 'warning' | 'error' | 'loading' | 'hidden'
   title: string
   content?: string
+  summary?: { [testName: string]: boolean }
   timeout?: number
 }
 
@@ -121,4 +122,5 @@ export interface ProcessEvent {
 export type TestFail = {
   title: string
   description: string
+  summary: { [testName: string]: boolean }
 }
