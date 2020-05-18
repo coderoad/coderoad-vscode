@@ -128,6 +128,11 @@ CODEROAD_TUTORIAL_URL='path/to/tutorial_config_file.json' // will load directly 
 
 ## [0.7.0]
 
+- Support loading subtasks (#340). Subtasks are a list of tests that need to pass before a task is complete. They can be loaded by:
+
+1. filtering down to a subset of tests by setting the `step.setup.filter` to a regex pattern that matches the tests you're targeting
+2. setting the `step.setup.subtasks` variable to true
+
 - Change for the test runner config. Changes are backwards compatible.
 
 1. `testRunner.path`=> `testRunner.directory`
