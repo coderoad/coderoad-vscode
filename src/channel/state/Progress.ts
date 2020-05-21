@@ -40,7 +40,7 @@ class Progress {
     this.set(defaultValue)
   }
   public syncProgress = (progress: T.Progress): T.Progress => {
-    const next = { ...this.value, ...progress }
+    const next = { ...this.value, ...progress, complete: this.value.complete }
     return this.set(next)
   }
   public setStepComplete = (tutorial: TT.Tutorial, stepId: string): T.Progress => {
