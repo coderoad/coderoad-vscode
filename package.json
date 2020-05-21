@@ -36,13 +36,13 @@
   "dependencies": {
     "@sentry/node": "^5.15.5",
     "@types/assert": "^1.4.7",
-    "@types/jest": "^25.2.2",
+    "@types/jest": "^25.2.3",
     "@types/jsdom": "^16.2.3",
-    "@types/node": "^13.13.5",
+    "@types/node": "^14.0.4",
     "@types/node-fetch": "^2.5.7",
     "@types/semver": "^7.2.0",
-    "@typescript-eslint/eslint-plugin": "^2.33.0",
-    "@typescript-eslint/parser": "^2.33.0",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
     "chokidar": "^3.4.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
@@ -55,7 +55,7 @@
     "prettier": "^2.0.5",
     "semver": "^7.3.2",
     "ts-jest": "^26.0.0",
-    "typescript": "^3.9.2"
+    "typescript": "^3.9.3"
   },
   "devDependencies": {
     "vscode": "^1.1.37",
