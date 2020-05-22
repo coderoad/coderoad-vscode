@@ -92,8 +92,17 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
     addOutput({ channel: logChannelName, text: tap.logs.join('\n'), show: false })
 
     if (stderr) {
-      // FAIL also trigger stderr
-      if (stdout && stdout.length && !tap.ok) {
+      if (!tap.failed.length) {
+        // test runner failed
+        const failSummary = {
+          title: 'Test Runner Failed',
+          description: stderr,
+          summary: {},
+        }
+        callbacks.onFail(position, failSummary)
+        return
+      } else if (stdout && stdout.length && !tap.ok) {
+        // FAIL also trigger stderr
         const firstFail = tap.failed[0]
         const failSummary = {
           title: firstFail.message || 'Test Failed',
