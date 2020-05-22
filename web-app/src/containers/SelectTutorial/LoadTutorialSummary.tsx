@@ -12,6 +12,13 @@ interface Props {
 
 const LoadTutorialSummary = (props: Props) => {
   const { data, error, loading } = useFetch<TT.Tutorial>(props.url)
+  if (loading) {
+    return <LoadingPage text="Loading tutorial summary..." />
+  }
+  if (error) {
+    console.log(`Failed to load tutorial summary: ${error}`)
+    return <div>Error loading summary</div>
+  }
   if (!data) {
     return (
       <Dialog
@@ -24,15 +31,23 @@ const LoadTutorialSummary = (props: Props) => {
         No data returned for tutorial
       </Dialog>
     )
+  } else {
+    // quick validation
+    if (!data?.config?.repo) {
+      return (
+        <Dialog
+          title="Invalid Tutorial"
+          visible={true}
+          closeable={false}
+          footerActions={['ok']}
+          onOk={props.onReturnToSelection}
+        >
+          Loaded data does not match tutorial format
+        </Dialog>
+      )
+    }
+    props.onLoadSummary(data)
   }
-  if (loading) {
-    return <LoadingPage text="Loading tutorial summary..." />
-  }
-  if (error) {
-    console.log(`Failed to load tutorial summary: ${error}`)
-    return <div>Error loading summary</div>
-  }
-  props.onLoadSummary(data)
   return null
 }
 
