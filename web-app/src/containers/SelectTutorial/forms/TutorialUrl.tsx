@@ -9,12 +9,21 @@ interface Props {
   onTutorialLoad(url: string): void
 }
 
+const urlRegex = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)\.json/
+
 const TutorialUrl = (props: Props) => {
   const [url, setUrl] = React.useState(props.defaultUrl)
+  const [inputState, setInputState] = React.useState<undefined | 'success' | 'error'>()
+
   const onSubmit = (e: any) => {
     e.preventDefault()
     logger(`Tutorial url: ${url}`)
     props.onTutorialLoad(url)
+  }
+
+  const handleChange = (text: string) => {
+    setUrl(text)
+    !!text.match(urlRegex) ? setInputState('success') : setInputState('error')
   }
 
   return (
@@ -25,11 +34,12 @@ const TutorialUrl = (props: Props) => {
           size="large"
           placeholder="https://raw.githubusercontent.com/coderoad/fcc-learn-npm/master/coderoad-config.json"
           defaultValue={props.defaultUrl}
-          onChange={setUrl}
+          onChange={handleChange}
+          state={inputState}
           aria-label="input url path to coderoad config.json"
         />
       </FormItem>
-      <Button htmlType="submit" type="primary">
+      <Button htmlType="submit" type="primary" disabled={inputState !== 'success'}>
         Load
       </Button>{' '}
       &nbsp;&nbsp;
