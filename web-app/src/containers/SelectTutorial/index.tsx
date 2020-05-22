@@ -58,7 +58,9 @@ const SelectTutorialPage = (props: Props) => {
           setTab={setTab}
         />
       )}
-      {page === 'loading' && url && <LoadTutorialSummary url={url} onLoadSummary={onLoadSummary} />}
+      {page === 'loading' && url && (
+        <LoadTutorialSummary url={url} onLoadSummary={onLoadSummary} onReturnToSelection={() => setPage('form')} />
+      )}
       {page === 'summary' && data && <TutorialOverview onNext={onNext} tutorial={data} onClear={onClear} />}
     </div>
   )
