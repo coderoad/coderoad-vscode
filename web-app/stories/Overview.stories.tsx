@@ -3,7 +3,7 @@ import { linkTo } from '@storybook/addon-links'
 import { action } from '@storybook/addon-actions'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import OverViewPage from '../src/components/TutorialOverview'
+import OverViewPage from '../src/containers/SelectTutorial/TutorialOverview'
 import SideBarDecorator from './utils/SideBarDecorator'
 
 storiesOf('Overview', module)
@@ -13,18 +13,21 @@ storiesOf('Overview', module)
       id: '1',
       version: '0.1.0',
       config: {
+        appVersions: {
+          vscode: '0.1.0',
+        },
         testRunner: { command: '' },
         repo: { uri: '', branch: 'master' },
       },
       summary: {
         title: 'Manage NPM package.json',
-        description: 'Learn to use the package manager at the core of JavaScript projects.',
+        description: 'Learn to use the package manager at the core of JavaScript projects',
       },
       levels: [
         {
           id: 'L1',
-          title: 'The First Level',
-          summary: 'A Summary of the first level',
+          title: 'The First Level. `Markdown` supported here.',
+          summary: 'A Summary of the first level. `Markdown` supported here.',
           content: '',
           steps: [],
         },
