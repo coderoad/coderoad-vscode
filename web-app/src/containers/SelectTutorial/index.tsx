@@ -1,7 +1,7 @@
 import * as TT from 'typings/tutorial'
 import * as React from 'react'
 import SelectTutorialForm from './SelectTutorialForm'
-import TutorialOverview from '../../components/TutorialOverview'
+import TutorialOverview from './TutorialOverview'
 import LoadTutorialSummary from './LoadTutorialSummary'
 import processTutorial from '../../services/tutorial'
 

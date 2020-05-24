@@ -1,8 +1,8 @@
 import * as React from 'react'
 import * as TT from 'typings/tutorial'
 // import moment from 'moment'
-import Button from '../Button'
-import Markdown from '../Markdown'
+import Button from '../../../components/Button'
+import Markdown from '../../../components/Markdown'
 import { Breadcrumb } from '@alifd/next'
 
 const footerHeight = '3rem'
@@ -88,8 +88,8 @@ const Summary = (props: Props) => {
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
-          <h1 css={styles.title}>{props.tutorial.summary.title}</h1>
-          <h3>{props.tutorial.summary.description}</h3>
+          <Markdown css={styles.title}>{`# ${props.tutorial.summary.title}`}</Markdown>
+          <Markdown>{`### ${props.tutorial.summary.description}`}</Markdown>
           {/* <h5 css={styles.meta}>
           <div css={{ marginRight: '2rem' }}>Created by {props.createdBy.name}</div>
           <div>Last updated {moment(props.updatedAt).format('M/YYYY')}</div>
@@ -100,9 +100,7 @@ const Summary = (props: Props) => {
             <h2>Content</h2>
             {props.tutorial.levels.map((level: TT.Level, index: number) => (
               <div key={index}>
-                <h3>
-                  {index + 1}. {level.title}
-                </h3>
+                <Markdown>{`### ${index + 1}. ${level.title}`}</Markdown>
                 <div css={styles.levelSummary}>
                   <Markdown>{level.summary}</Markdown>
                 </div>
