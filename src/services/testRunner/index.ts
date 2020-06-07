@@ -61,8 +61,6 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
         if (testFilter) {
           // append filter commands
           command = [command, testRunnerFilterArg, testFilter].join(' ')
-        } else {
-          throw new Error('Test Runner filter not configured')
         }
       }
       logger('COMMAND', command)
