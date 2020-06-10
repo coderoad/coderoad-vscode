@@ -37,15 +37,15 @@ git rebase -i --root
 Choose the commit you want to edit
 
 ```text
-pick b73feaf commit 2.1 setup
-pick 0a3aa83 commit 2.1 solution
-pick 0d67935 commit 3.1 setup
+pick b73feaf INIT
+pick 0a3aa83 L1S1Q
+pick 0d67935 L2S1Q
 ```
 
-Let's say we want to edit step 2.1 Change the word pick to "edit" or "e".
+Let's say we want to edit step `L1S1Q` Change the word pick to "edit" or "e"
 
 ```text
-e b73feaf commit 2.1 setup
+e 0a3aa83 L1S1Q
 ```
 
 Save the modified rebase summary file and your rebase will start. Git will run through the commits until the first flagged "edit", then stop at the commit.
@@ -62,21 +62,21 @@ If you encounter any merge conflicts along the way, resolve them, add the change
 
 ### Adding Additional Commits
 
-Let's say we wanted to add an additional commit after the 2.1 solution.
+Let's say we wanted to add an additional commit after the `L1S1Q`.
 
 ```text
-pick b73feaf commit 2.1 setup
-pick 0a3aa83 commit 2.1 solution
-pick 0d67935 commit 3.1 setup
+pick b73feaf INIT
+pick 0a3aa83 L1S1Q
+pick 0d67935 L2S1Q
 ```
 
 To cause the rebase to pause after a commit, use the word "break" or "b".
 
 ```text
-pick b73feaf commit 2.1 setup
-pick 0a3aa83 commit 2.1 solution
+pick b73feaf INIT
+pick 0a3aa83 L1S1Q
 break
-pick 0d67935 commit 3.1 setup
+pick 0d67935 L2S1Q
 ```
 
 Save the rebase summary file to start the process. The process should stop at the "break".
@@ -91,20 +91,20 @@ If you encounter any merge conflicts along the way, resolve them, add the change
 
 ### Rewording a Commit
 
-Let's say we wanted to change the title of commit "3.1" to "2.2".
+Let's say we wanted to change the title of commit "L2S1Q" to "L1S1A".
 
 ```text
-pick b73feaf commit 2.1 setup
-pick 0a3aa83 commit 2.1 solution
-pick 0d67935 commit 3.1 setup
+pick b73feaf INIT
+pick 0a3aa83 L1S1Q
+pick 0d67935 L2S1Q
 ```
 
 You can use the "reword" or "r" method.
 
 ```text
-pick b73feaf commit 2.1 setup
-pick 0a3aa83 commit 2.1 solution
-reword 0d67935 commit 3.1 setup
+pick b73feaf INIT
+pick 0a3aa83 L1S1Q
+reword 0d67935 L2S1Q
 ```
 
 When you're finished, just save the file and the commits will be updated.

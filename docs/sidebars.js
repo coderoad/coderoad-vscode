@@ -4,11 +4,15 @@ module.exports = {
     Build: [
       'build-tutorial',
       'markdown',
+      'yaml',
       'git-timeline',
-      'test-runner',
       'init-commit',
+      'test-runner',
       'test-examples',
       'edit-tutorial',
+      'create-a-practice-tutorial',
+      'examples',
+      'errors'
     ],
   },
 }
