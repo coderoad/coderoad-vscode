@@ -4,7 +4,7 @@ title: Markdown
 sidebar_label: Markdown
 ---
 
-The markdown is the meta data that pulls the tutorial together.
+The markdown file lives on the master branch and has a name of `TUTORIAL.md`. It describes the structure of a tutorial and contains all the lessons, their descriptions, and the text users will read.
 
 ### Example
 
@@ -13,51 +13,52 @@ See a rough example below:
 ```md
 # Tutorial Title
 
-> Tutorial summary description
+> Tutorial introduction paragraph
 
-\`\`\`config
-config:
-testRunner:
-command: command to run tests
-fileFormats: - fileType (eg. JS, TS, etc)
-repo:
-uri: https://path/to/repo
-branch: git-branch
-\`\`\`
+## L1 Lesson 1
 
-## Level Name
+> Lesson 1 summary
 
-> Level summary description
+Lesson 1 decription and instructions.
 
-Level content in a paragraph. The text that appears when you load a level.
+### L1S1 Lesson 1 Step 1
 
-### Step Name
+Test text for L1S1
 
-\`\`\`config
-setup:
-files: - file-to-open.js
-commits: - 'setup-commit-hash'
-commands: - command to run
-watchers: - files to watch and run tests if they change
-solution:
-files: - file-to-open.js
-commits: - 'solution-commit-hash'
-\`\`\`
+#### HINTS
 
-Text to describe the step.
+* This is a hint for L1S1
+* This is another hint for L1S1
+
+## L2 Lesson 2
+
+> Lessons 2 summary
+
+Lesson 2 content.
+
+### L2S1 Lesson 2 Step 1
+
+Test text
+
+#### HINTS
+
+* Hint for L2S1
+
+### L2S2 Lesson 2 Step 2
+
+Test text for L2S2
+
+#### HINTS
+
+* Hint for L2S2
 ```
 
-### Format
+#### Explanation
 
-From a hierarchy perspective, a tutorial is made up of levels, which are made up of steps. When each level or step is loaded, if a config is provided, it will run in the extension.
+The example above has an introduction page and two lessons. 
 
-Level
+The introduction page is first thing users will see when they start a tutorial. It shows an overview of all the lessons and displays the lesson summary.
 
-- Optional level setup config
-- Steps
-  - Step setup config
-  - Step solution config
+Lessons need to start with `## Lx ` where `x` is the lesson number. The text after `Lx` will display as the lesson title. 
 
-### Parser
-
-Markdown is parsed by a CLI script and converted into JSON. The JSON is loaded as the core of the tutorial.
+The "Steps", or test text, need to start with `LxSy` where `x` matches the lesson number and `y` is the number for a "step".

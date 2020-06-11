@@ -25,6 +25,6 @@ See an example using “Mocha” and the “Mocha Tap Reporter”:
 }
 ```
 
-In this example, the extension can run `nom run programmatic-test` to run the tests as TAP, but the user can still run `nom run test` to see a more human readable output.
+In this example, the extension can run `npm run programmatic-test` to run the tests as TAP, but the user can still run `npm run test` to see a more human readable output.
 
 Ideally, try to choose a test runner that performs quickly. If possible, avoid Jest as it has slow install and running times.
