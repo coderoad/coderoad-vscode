@@ -28,6 +28,7 @@ export type Step = {
   setup: StepActions
   solution: Maybe<StepActions>
   subtasks?: { [testName: string]: boolean }
+  hints?: string[]
 }
 
 /** A tutorial for use in VSCode CodeRoad */
@@ -61,7 +62,7 @@ export interface TestRunnerArgs {
 
 export interface TestRunnerConfig {
   command: string
-  args?: TestRunnerArgs
+  args: TestRunnerArgs
   path?: string // deprecated
   directory?: string
   actions?: StepActions // deprecated
