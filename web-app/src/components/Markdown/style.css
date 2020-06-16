@@ -186,3 +186,7 @@ pre tt {
   background-color: transparent;
   border: none;
 }
+
+.coderoad-markdown > p {
+  margin-bottom: 0.5rem;
+}

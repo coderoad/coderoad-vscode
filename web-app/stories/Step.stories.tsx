@@ -6,7 +6,7 @@ import Step from '../src/containers/Tutorial/components/Step'
 import SideBarDecorator from './utils/SideBarDecorator'
 
 const stepText =
-  'This is a long paragraph of step text intended to wrap around the side after a short period of writing to demonstrate text wrap among other things'
+  'This is a long paragraph of step text intended to wrap around the side after a short period of writing to demonstrate text wrap among other things\n\nIt has a second paragraph'
 
 const paragraphText = `
   ### Code
