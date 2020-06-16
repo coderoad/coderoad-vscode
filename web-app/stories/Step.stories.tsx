@@ -98,3 +98,13 @@ storiesOf('Step', module)
       ]}
     />
   ))
+  .add('Hints', () => (
+    <Step
+      order={1}
+      content={text('text', stepText)}
+      status="ACTIVE"
+      onLoadSolution={action('onLoadSolution')}
+      subtasks={null}
+      hints={['First hint!', 'Second hint!']}
+    />
+  ))

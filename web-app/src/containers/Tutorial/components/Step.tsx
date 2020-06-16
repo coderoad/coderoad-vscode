@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
 import TestStatusIcon from './TestStatusIcon'
+import Hints from './Hints'
 import Markdown from '../../../components/Markdown'
 
 interface Props {
@@ -9,6 +10,7 @@ interface Props {
   content: string
   status: T.ProgressStatus
   subtasks: { name: string; pass: boolean }[] | null
+  hints?: string[]
   onLoadSolution(): void
 }
 
@@ -54,9 +56,11 @@ const Step = (props: Props) => {
           {props.status === 'COMPLETE' && <TestStatusIcon size="small" checked />}
         </div>
         <div>
+          {/* content */}
           <div css={styles.content}>
             <Markdown>{props.content || ''}</Markdown>
           </div>
+          {/* subtasks */}
           {props.subtasks ? (
             <ul css={styles.subtasks}>
               {props.subtasks.map((subtask) => (
@@ -68,6 +72,8 @@ const Step = (props: Props) => {
               ))}
             </ul>
           ) : null}
+          {/* hints */}
+          {props.hints && props.hints.length ? <Hints hints={props.hints} /> : null}
         </div>
       </div>
     </div>

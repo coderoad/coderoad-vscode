@@ -173,6 +173,7 @@ const Level = ({
                     content={step.content}
                     onLoadSolution={onLoadSolution}
                     subtasks={subtasks}
+                    hints={step.hints}
                   />
                 )
               })}
