@@ -38,14 +38,14 @@ Choose the commit you want to edit
 
 ```text
 pick b73feaf INIT
-pick 0a3aa83 L1S1Q
-pick 0d67935 L2S1Q
+pick 0a3aa83 1.1
+pick 0d67935 2.1
 ```
 
-Let's say we want to edit step `L1S1Q` Change the word pick to "edit" or "e"
+Let's say we want to edit step `1.1` Change the word pick to "edit" or "e"
 
 ```text
-e 0a3aa83 L1S1Q
+e 0a3aa83 1.1
 ```
 
 Save the modified rebase summary file and your rebase will start. Git will run through the commits until the first flagged "edit", then stop at the commit.
@@ -62,21 +62,21 @@ If you encounter any merge conflicts along the way, resolve them, add the change
 
 ### Adding Additional Commits
 
-Let's say we wanted to add an additional commit after the `L1S1Q`.
+Let's say we wanted to add an additional commit after the `1.1`.
 
 ```text
 pick b73feaf INIT
-pick 0a3aa83 L1S1Q
-pick 0d67935 L2S1Q
+pick 0a3aa83 1.1
+pick 0d67935 2.1
 ```
 
 To cause the rebase to pause after a commit, use the word "break" or "b".
 
 ```text
 pick b73feaf INIT
-pick 0a3aa83 L1S1Q
+pick 0a3aa83 1.1
 break
-pick 0d67935 L2S1Q
+pick 0d67935 2.1
 ```
 
 Save the rebase summary file to start the process. The process should stop at the "break".
@@ -91,20 +91,20 @@ If you encounter any merge conflicts along the way, resolve them, add the change
 
 ### Rewording a Commit
 
-Let's say we wanted to change the title of commit "L2S1Q" to "L1S1A".
+Let's say we wanted to change the title of commit "2.1" to "1.2".
 
 ```text
 pick b73feaf INIT
-pick 0a3aa83 L1S1Q
-pick 0d67935 L2S1Q
+pick 0a3aa83 1.1
+pick 0d67935 2.1
 ```
 
 You can use the "reword" or "r" method.
 
 ```text
 pick b73feaf INIT
-pick 0a3aa83 L1S1Q
-reword 0d67935 L2S1Q
+pick 0a3aa83 1.1
+reword 0d67935 2.1
 ```
 
 When you're finished, just save the file and the commits will be updated.

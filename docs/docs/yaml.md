@@ -16,29 +16,29 @@ An example of this for the markdown on the previous page might look like this:
 version: '0.1.0'
 config:
   testRunner:
-    command: npm run programmatic-test
+    command: ./node_modules/.bin/mocha
     args:
       filter: --grep
       tap: --reporter=mocha-tap-reporter
-  repo: 
+  repo:
     uri: https://github.com/username/repo
     branch: v0.1.0
   dependencies:
     - name: node
       version: '>=10'
 levels:
-  - id: L1
+  - id: '1'
     steps:
-      - id: L1S1
+      - id: '1.1'
         setup:
           subtasks: false
-  - id: L2
+  - id: '2'
     steps:
-      - id: L2S1
+      - id: '2.1'
         setup:
           files:
             - index.html
-      - id: L2S2
+      - id: '2.2'
         setup:
           subtasks: false
 ```
@@ -54,7 +54,7 @@ Here's an example of many available options and what they do:
 # This is a YAML-formatted file.
 ## Your personal version of the tutorial
 ##
-version: "0.1.0"
+version: '0.1.0'
 ## Data used to configure and setup the tutorial
 ##
 config:
@@ -82,15 +82,15 @@ config:
   ## App versions helps to ensure compatability with the Extension
   appVersions:
     ## Ensure compatability with a minimal VSCode CodeRoad version
-    vscode: ">=0.7.0"
+    vscode: '>=0.7.0'
   ## Repo information to load code from
   ##
   repo:
     ## The uri path to the repo containing the code commits. Required.
     ##
-    uri: ""
+    uri: ''
     ## The branch on the repo uri that contains the code commits. Required.
-    branch: ""
+    branch: ''
 
   ## A list of tutorial dependencies to ensure the environment is setup for the tutorial. Optional.
   ## The dependencies will be checked by running `dependency.name` --version and comparing it to the version provided.
@@ -104,10 +104,10 @@ config:
 
 ## A level is made up of
 levels:
-  - id: L1
+  - id: '1'
     steps:
       ## Example 1: Opening files
-      - id: L1S1
+      - id: '1.1'
         ## Setup for the first task. Required.
         setup:
           ## Files to open in a text editor when the task loads. Optional.
@@ -119,18 +119,16 @@ levels:
           files:
             - package.json
       ## Example Two: Running commands
-      - id: L1S2
+      - id: '1.2'
         setup:
           ## CLI commands that are run when the task loads. Optional.
           commands:
             - npm install
         solution:
-          commits:
-            - commit6
           commands:
             - npm install
       ## Example Three: Watchers
-      - id: L1S3
+      - id: '1.3'
         setup:
           files:
             - package.json
@@ -142,10 +140,10 @@ levels:
           files:
             - package.json
       ## Example Four: Subtasks
-      - id: L1S4
+      - id: '1.4'
         setup:
           ## A filter is a regex that limits the test results
-          filter: "^Example 2"
+          filter: '^Example 2'
           ## A feature that shows subtasks: all filtered active test names and the status of the tests (pass/fail).
           subtasks: true
 ```
