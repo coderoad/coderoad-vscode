@@ -40,10 +40,6 @@ config:
     directory: coderoad
     ## Commits to load to setup the test runner. Optional.
     setup:
-      ## A list of commits to load to setup the tutorial
-      commits:
-        - commit1
-        - commit2
       ## A list of commands to run to configure the tutorial
       commands:
         - npm install
@@ -57,7 +53,7 @@ config:
     ## The uri path to the repo containing the code commits. Required.
     uri: https://github.com/coderoad/fcc-learn-npm
     ## The branch on the repo uri that contains the code commits. Required.
-    branch: v0.3.0
+    branch: v0.4.1
   ## A list of tutorial dependencies to ensure the environment is setup for the tutorial. Optional.
   ## The dependencies will be checked by running `dependency.name` --version and comparing it to the version provided.
   ##
@@ -68,31 +64,23 @@ config:
       version: '>=10'
 ## A level is made up of
 levels:
-  - id: L1
+  - id: '1'
     steps:
       ## Example 1: Opening files
-      - id: L1S1
+      - id: '1.1'
         ## Setup for the first task. Required.
         setup:
           ## Files to open in a text editor when the task loads. Optional.
           files:
             - package.json
-          ## Commits to load when the task loads. These should include failing tests. Required.
-          commits:
-            - commit3
         ## Solution for the first task. Required.
         solution:
           ## Files to open when the solution loads. Optional.
           files:
             - package.json
-          ## Commits that complete the task. All tests should pass when the commits load. These commits will not be loaded by the tutorial user in normal tutorial activity.
-          commits:
-            - commit4
       ## Example Two: Running commands
-      - id: L1S2
+      - id: '1.2'
         setup:
-          commits:
-            - commit5
           ## CLI commands that are run when the task loads. Optional.
           commands:
             - npm install
@@ -102,12 +90,10 @@ levels:
           commands:
             - npm install
       ## Example Three: Watchers
-      - id: L1S3
+      - id: '1.3'
         setup:
           files:
             - package.json
-          commits:
-            - commit7
           ## Listeners that run tests when a file or directory changes.
           watchers:
             - package.json
@@ -118,25 +104,14 @@ levels:
           commits:
             - commit8
       ## Example Four: Subtasks
-      - id: L1S4
+      - id: '1.4'
         setup:
-          commits:
-            - commit8
           commands:
             ## A filter is a regex that limits the test results
             - filter: '^Example 2'
             ## A feature that shows subtasks: all filtered active test names and the status of the tests (pass/fail).
             - subtasks: true
-        solution:
-          commits:
-            - commit9
-  - id: L2
+  - id: '2'
     steps:
-      - id: L2S1
-        setup:
-          commits:
-            - commit10
-        solution:
-          commits:
-            - commit7
+      - id: '2.1'
 ```
