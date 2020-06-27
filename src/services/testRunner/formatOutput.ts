@@ -1,6 +1,6 @@
 import { ParserOutput, Fail } from './parser'
 
-// TODO: implement better success ouput
+// TODO: implement better success output
 // export const formatSuccessOutput = (tap: ParserOutput): string => {}
 
 export const formatFailOutput = (tap: ParserOutput): string => {
