@@ -201,18 +201,18 @@ ok 4 test_add_two_numbers (tests.math_test.MathTest)
       expect(parser(example)).toEqual({
         ok: true,
         passed: [
-          { message: 'test_add_no_numbers' },
-          { message: 'test_add_one_number' },
-          { message: 'test_add_three_numbers' },
-          { message: 'test_add_two_numbers' },
+          { message: 'add no numbers' },
+          { message: 'add one number' },
+          { message: 'add three numbers' },
+          { message: 'add two numbers' },
         ],
         failed: [],
         logs: [],
         summary: {
-          test_add_no_numbers: true,
-          test_add_one_number: true,
-          test_add_three_numbers: true,
-          test_add_two_numbers: true,
+          'add no numbers': true,
+          'add one number': true,
+          'add three numbers': true,
+          'add two numbers': true,
         },
       })
     })
@@ -229,14 +229,14 @@ not ok 1 test_add_no_numbers (tests.math_test.MathTest)
         passed: [],
         failed: [
           {
-            message: 'test_add_no_numbers',
+            message: 'add no numbers',
             details:
               'Traceback (most recent call last):\n   Fail Message\nAssertionError: 42 != 0 : Should return 0 with no params',
           },
         ],
         logs: [],
         summary: {
-          test_add_no_numbers: false,
+          'add no numbers': false,
         },
       })
     })
@@ -252,20 +252,18 @@ not ok 2 test_add_one_number (tests.math_test.MathTest)
 `
       expect(parser(example)).toEqual({
         ok: true,
-        passed: [{ message: 'test_add_no_numbers' }],
+        passed: [{ message: 'add no numbers' }],
         failed: [
           {
-            message: 'test_add_one_number',
+            message: 'add one number',
             details:
               'Traceback (most recent call last):\n   Fail Message\nAssertionError: 2 != 1 : Should add one number to 0',
           },
         ],
         logs: [],
         summary: {
-          test_add_no_numbers: true,
-          test_add_one_number: true,
-          test_add_three_numbers: true,
-          test_add_two_numbers: true,
+          'add no numbers': true,
+          'add one number': false,
         },
       })
     })

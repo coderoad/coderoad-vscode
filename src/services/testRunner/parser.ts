@@ -20,20 +20,39 @@ export interface ParserOutput {
 }
 
 const r = {
-  start: /^1\.\.[0-9]+$/,
-  fail: /^not ok \d+\s(\-\s)?(.+)+$/,
-  pass: /^ok \d+\s(\-\s)?(.+)+$/,
-  details: /^#\s{2}(.+)$/,
-  ignore: /^#\s+(tests|pass|fail|skip)\s+[0-9]+$/,
+  start: /^(not ok)|(ok)/,
+  fail: /^not ok (?<index>\d+)\s(\-\s)?(?<message>.+)$/,
+  pass: /^ok (?<index>\d+)\s(\-\s)?(?<message>.+)$/,
+  details: /^#\s{2}(?<message>.+)$/,
+  ignore: /^(1\.\.[0-9]+)|(#\s+(tests|pass|fail|skip)\s+[0-9]+)$/,
 }
 
-const detect = (type: 'fail' | 'pass' | 'details', text: string) => r[type].exec(text)
+const detect = (type: 'fail' | 'pass' | 'details', text: string) => {
+  const match = r[type].exec(text)
+  if (!match) {
+    return null
+  }
+  return match.groups
+}
 
+// see comment below for extracting logic into custom consumer later
+const formatMessage = (message: string): string => {
+  // specific for python tap.py output
+  const isTappy = message.match(/^test_(?<underscoredMessage>.+)\s(?<testPath>.+)$/)
+  if (isTappy?.groups?.underscoredMessage) {
+    return isTappy.groups.underscoredMessage.split('_').join(' ').trim()
+  }
+  return message.trim()
+}
+
+// TODO: consider creating custom TAP consumers for languages
+// otherwise code here will eventually get out of hand
+// currently supports: mocha, python tap.py
 const parser = (text: string): ParserOutput => {
   const lineList = text.split('\n')
   // start after 1..n output
   const startingPoint = lineList.findIndex((t) => t.match(r.start))
-  const lines = lineList.slice(startingPoint + 1)
+  const lines = lineList.slice(startingPoint)
 
   const result: ParserOutput = {
     ok: true,
@@ -59,10 +78,10 @@ const parser = (text: string): ParserOutput => {
     if (!line.length) {
       continue
     }
-    // be optimistic! check for success
+    // be optimistic! check for success first
     const isPass = detect('pass', line)
     if (!!isPass) {
-      const message = isPass[2].trim()
+      const message = formatMessage(isPass.message)
       const pass: Pass = { message }
       if (logs.length) {
         pass.logs = logs
@@ -79,7 +98,7 @@ const parser = (text: string): ParserOutput => {
     if (!!isFail) {
       result.ok = false
       addCurrentDetails()
-      const message = isFail[2].trim()
+      const message = formatMessage(isFail.message)
       const fail: Fail = { message }
       if (logs.length) {
         fail.logs = logs
@@ -93,7 +112,7 @@ const parser = (text: string): ParserOutput => {
     // check for error details
     const isDetails = detect('details', line)
     if (!!isDetails) {
-      const lineDetails: string = isDetails[1].trim()
+      const lineDetails: string = isDetails.message.trim()
       if (!currentDetails) {
         currentDetails = lineDetails
       } else {
