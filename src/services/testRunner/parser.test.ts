@@ -225,13 +225,13 @@ not ok 1 test_add_no_numbers (tests.math_test.MathTest)
 # AssertionError: 42 != 0 : Should return 0 with no params
 1..1`
       expect(parser(example)).toEqual({
-        ok: true,
+        ok: false,
         passed: [],
         failed: [
           {
             message: 'add no numbers',
             details:
-              'Traceback (most recent call last):\n   Fail Message\nAssertionError: 42 != 0 : Should return 0 with no params',
+              'Traceback (most recent call last):\nFail Message\nAssertionError: 42 != 0 : Should return 0 with no params',
           },
         ],
         logs: [],
@@ -251,13 +251,13 @@ not ok 2 test_add_one_number (tests.math_test.MathTest)
 1..2
 `
       expect(parser(example)).toEqual({
-        ok: true,
+        ok: false,
         passed: [{ message: 'add no numbers' }],
         failed: [
           {
             message: 'add one number',
             details:
-              'Traceback (most recent call last):\n   Fail Message\nAssertionError: 2 != 1 : Should add one number to 0',
+              'Traceback (most recent call last):\nFail Message\nAssertionError: 2 != 1 : Should add one number to 0',
           },
         ],
         logs: [],

@@ -23,7 +23,7 @@ const r = {
   start: /^(not ok)|(ok)/,
   fail: /^not ok (?<index>\d+)\s(\-\s)?(?<message>.+)$/,
   pass: /^ok (?<index>\d+)\s(\-\s)?(?<message>.+)$/,
-  details: /^#\s{2}(?<message>.+)$/,
+  details: /^#\s{1,2}(?<message>.+)$/,
   ignore: /^(1\.\.[0-9]+)|(#\s+(tests|pass|fail|skip)\s+[0-9]+)$/,
 }
 
@@ -75,7 +75,7 @@ const parser = (text: string): ParserOutput => {
   }
 
   for (const line of lines) {
-    if (!line.length) {
+    if (!line.length || !!r.ignore.exec(line)) {
       continue
     }
     // be optimistic! check for success first
@@ -121,11 +121,9 @@ const parser = (text: string): ParserOutput => {
       continue
     }
 
-    if (!r.ignore.exec(line)) {
-      // must be a log, associate with the next test
-      logs.push(line)
-      result.logs.push(line)
-    }
+    // must be a log, associate with the next test
+    logs.push(line)
+    result.logs.push(line)
   }
   addCurrentDetails()
   return result
