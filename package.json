@@ -27,7 +27,7 @@
     "build": "./scripts/build.sh",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "install-all": "yarn && yarn --cwd web-app",
-    "lint": "eslint src/**/*ts",
+    "lint": "eslint web-app/src/**/*.ts src/**/*.ts",
     "package": "./scripts/package.sh",
     "storybook": "yarn --cwd web-app storybook",
     "test": "jest",
