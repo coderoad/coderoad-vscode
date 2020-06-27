@@ -97,7 +97,6 @@ const parser = (text: string): ParserOutput => {
       if (!currentDetails) {
         currentDetails = lineDetails
       } else {
-        // @ts-ignore ignore as it must be a string
         currentDetails += `\n${lineDetails}`
       }
       continue
