@@ -32,6 +32,7 @@ const Hints = (props: Props) => {
   return (
     <div style={styles.hints}>
       <div style={styles.hintList}>
+        {/* only show revealed hints */}
         {props.hints.map((h, i) => {
           return i <= hintIndex ? (
             <div key={i} style={styles.hint}>

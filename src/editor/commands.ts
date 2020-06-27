@@ -19,7 +19,7 @@ interface CreateCommandProps {
   workspaceState: vscode.Memento
 }
 
-export const createCommands = ({ extensionPath, workspaceState }: CreateCommandProps) => {
+export const createCommands = ({ extensionPath, workspaceState }: CreateCommandProps): { [key: string]: any } => {
   // React panel webview
   let webview: any
   let currentPosition: T.Position

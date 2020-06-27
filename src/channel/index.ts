@@ -42,7 +42,7 @@ class Channel implements Channel {
   }
 
   // receive from webview
-  public receive = async (action: T.Action) => {
+  public receive = async (action: T.Action): Promise<void> => {
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
     // const onError = (error: T.ErrorMessage) => this.send({ type: 'ERROR', payload: { error } })
@@ -325,7 +325,7 @@ class Channel implements Channel {
     }
   }
   // send to webview
-  public send = async (action: T.Action) => {
+  public send = async (action: T.Action): Promise<void> => {
     // Error middleware
     if (action?.payload?.error?.type) {
       // load error markdown message
