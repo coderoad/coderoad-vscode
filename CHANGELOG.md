@@ -83,7 +83,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 Resulting in a folder structure like the following:
 
-```
+```text
 - .vscode
 - coderoad (test runner files only with their own setup)
   - package.json
@@ -114,7 +114,7 @@ Resulting in a folder structure like the following:
 
 - New configuration environment variables for web compatability
 
-```
+```text
 CODEROAD_DISABLE_RUN_ON_SAVE=true // blocks saving on file system changes
 CODEROAD_DISPLAY_RUN_TEST_BUTTON=true // adds a run test button to tutorial page
 CODEROAD_TUTORIAL_URL='path/to/tutorial_config_file.json' // will load directly into tutorial
@@ -156,4 +156,22 @@ CODEROAD_TUTORIAL_URL='path/to/tutorial_config_file.json' // will load directly 
     }
   }
 }
+```
+
+### [0.8.0]
+
+- Support Python with using [tap.py](https://github.com/python-tap/tappy)
+- Fix paragraph spacing
+- Support hints - clues that reveal on click to help guide users. Hints can be added to a step, see an example below.
+
+```md
+### 1.1
+
+A description of the task.
+
+#### HINTS
+
+- The first hint
+- The second hint
+- The last hint
 ```
