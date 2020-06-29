@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import { Menu } from '@alifd/next'
-import Icon from '../../components/Icon'
+import Icon from '../../../components/Icon'
 
 interface Props {
   tutorial: TT.Tutorial

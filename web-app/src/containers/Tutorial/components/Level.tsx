@@ -8,6 +8,7 @@ import Button from '../../../components/Button'
 import Markdown from '../../../components/Markdown'
 import ProcessMessages from '../../../components/ProcessMessages'
 import NuxTutorial from '../../../components/NewUserExperience/NuxTutorial'
+import ContentMenu from './ContentMenu'
 import Step from './Step'
 import { DISPLAY_RUN_TEST_BUTTON } from '../../../environment'
 
@@ -87,42 +88,69 @@ const styles = {
 }
 
 interface Props {
-  menu: any
-  steps: Array<TT.Step & { status: T.ProgressStatus }>
-  title: string
+  tutorial: TT.Tutorial
   index: number
-  content: string
   status: 'COMPLETE' | 'ACTIVE' | 'INCOMPLETE'
+  progress: T.Progress
+  position: T.Position
   processes: T.ProcessEvent[]
   testStatus: T.TestStatus | null
   onContinue(): void
   onRunTest(): void
   onLoadSolution(): void
   onOpenLogs(channel: string): void
+  displayHintsIndex: number[]
+  setHintsIndex(index: number, value: number): void
 }
 
 const Level = ({
-  menu,
-  steps,
-  title,
-  content,
+  tutorial,
   index,
   status,
+  progress,
+  position,
   onContinue,
   onRunTest,
   onLoadSolution,
   onOpenLogs,
   processes,
   testStatus,
+  displayHintsIndex,
+  setHintsIndex,
 }: Props) => {
-  // @ts-ignore
+  const level = tutorial.levels[index]
+
+  const [title, setTitle] = React.useState<string>(level.title)
+  const [content, setContent] = React.useState<string>(level.content)
+
+  const menu = (
+    <ContentMenu
+      tutorial={tutorial}
+      position={position}
+      progress={progress}
+      setTitle={setTitle}
+      setContent={setContent}
+    />
+  )
+
+  const steps: Array<TT.Step & { status: T.ProgressStatus }> = level.steps.map((step: TT.Step) => {
+    // label step status for step component
+    let status: T.ProgressStatus = 'INCOMPLETE'
+    if (progress.steps[step.id]) {
+      status = 'COMPLETE'
+    } else if (step.id === position.stepId) {
+      status = 'ACTIVE'
+    }
+    return { ...step, status }
+  })
+
+  // current
   let currentStep = steps.findIndex((s) => s.status === 'ACTIVE')
   if (currentStep === -1) {
     currentStep = steps.length
   }
 
   const pageBottomRef = React.useRef(null)
-
   const scrollToBottom = () => {
     // @ts-ignore
     pageBottomRef.current.scrollIntoView({ behavior: 'smooth' })
@@ -144,6 +172,7 @@ const Level = ({
             {menu}
           </Dropdown>
         </div>
+
         <div css={styles.text}>
           <h2 css={styles.title}>{title}</h2>
           <Markdown>{content || ''}</Markdown>
@@ -153,27 +182,30 @@ const Level = ({
           <div css={styles.tasks}>
             <div css={styles.header}>Tasks</div>
             <div css={styles.steps}>
-              {steps.map((step: (TT.Step & { status: T.ProgressStatus }) | null, index: number) => {
+              {steps.map((step: (TT.Step & { status: T.ProgressStatus }) | null, stepIndex: number) => {
                 if (!step) {
                   return null
                 }
                 let subtasks = null
-                if (step.setup.subtasks && testStatus?.summary) {
+                if (step?.setup?.subtasks && testStatus?.summary) {
                   subtasks = Object.keys(testStatus.summary).map((testName: string) => ({
                     name: testName,
                     // @ts-ignore typescript is wrong here
                     pass: testStatus.summary[testName],
                   }))
                 }
+                const hints = step.hints
                 return (
                   <Step
                     key={step.id}
-                    order={index + 1}
+                    index={index}
                     status={step.status}
                     content={step.content}
                     onLoadSolution={onLoadSolution}
                     subtasks={subtasks}
                     hints={step.hints}
+                    hintIndex={displayHintsIndex[stepIndex]}
+                    setHintIndex={(value) => setHintsIndex(stepIndex, value)}
                   />
                 )
               })}

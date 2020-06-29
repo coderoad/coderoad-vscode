@@ -19,22 +19,26 @@ const styles = {
 
 interface Props {
   hints: string[]
+  hintIndex: number
+  setHintIndex(value: number): void
 }
 
 const Hints = (props: Props) => {
-  const [hintIndex, setHintIndex] = React.useState(-1)
-  const isFinalHint = props.hints.length - 1 === hintIndex
+  const isFinalHint = props.hints.length - 1 === props.hintIndex
   const nextHint = () => {
-    if (!isFinalHint) {
-      setHintIndex((currentHintIndex) => currentHintIndex + 1)
+    console.log('hintIndex')
+    console.log(props.hintIndex)
+    if (isFinalHint) {
+      return
     }
+    props.setHintIndex(props.hintIndex + 1)
   }
   return (
     <div style={styles.hints}>
       <div style={styles.hintList}>
         {/* only show revealed hints */}
         {props.hints.map((h, i) => {
-          return i <= hintIndex ? (
+          return i <= props.hintIndex ? (
             <div key={i} style={styles.hint}>
               <Markdown>{h}</Markdown>
             </div>

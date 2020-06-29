@@ -6,11 +6,13 @@ import Hints from './Hints'
 import Markdown from '../../../components/Markdown'
 
 interface Props {
-  order: number
+  index: number
   content: string
   status: T.ProgressStatus
   subtasks: { name: string; pass: boolean }[] | null
   hints?: string[]
+  hintIndex: number
+  setHintIndex(value: number): void
   onLoadSolution(): void
 }
 
@@ -73,7 +75,9 @@ const Step = (props: Props) => {
             </ul>
           ) : null}
           {/* hints */}
-          {props.hints && props.hints.length ? <Hints hints={props.hints} /> : null}
+          {props.hints && props.hints.length ? (
+            <Hints hints={props.hints} hintIndex={props.hintIndex} setHintIndex={props.setHintIndex} />
+          ) : null}
         </div>
       </div>
     </div>

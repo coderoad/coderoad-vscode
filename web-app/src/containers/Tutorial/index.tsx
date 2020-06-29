@@ -2,7 +2,6 @@ import * as React from 'react'
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as selectors from '../../services/selectors'
-import ContentMenu from './ContentMenu'
 import Level from './components/Level'
 
 interface PageProps {
@@ -14,10 +13,6 @@ const TutorialPage = (props: PageProps) => {
   const { position, progress, processes, testStatus } = props.context
 
   const tutorial = selectors.currentTutorial(props.context)
-  const levelData: TT.Level = selectors.currentLevel(props.context)
-
-  const [title, setTitle] = React.useState<string>(levelData.title)
-  const [content, setContent] = React.useState<string>(levelData.content)
 
   const onContinue = (): void => {
     props.send({
@@ -40,39 +35,34 @@ const TutorialPage = (props: PageProps) => {
     props.send({ type: 'OPEN_LOGS', payload: { channel } })
   }
 
-  const steps = levelData.steps.map((step: TT.Step) => {
-    // label step status for step component
-    let status: T.ProgressStatus = 'INCOMPLETE'
-    if (progress.steps[step.id]) {
-      status = 'COMPLETE'
-    } else if (step.id === position.stepId) {
-      status = 'ACTIVE'
-    }
-    return { ...step, status }
-  })
+  const levelIndex = tutorial.levels.findIndex((l: TT.Level) => l.id === position.levelId)
+  const levelStatus = progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE'
+  const { steps } = tutorial.levels[levelIndex]
+  const [displayHintsIndex, setDisplayHintsIndex] = React.useState<number[]>(steps.map((s) => -1))
+
+  const setHintsIndex = (index: number, value: number) => {
+    return setDisplayHintsIndex((displayHintsIndex) => {
+      const next = [...displayHintsIndex]
+      next[index] = value
+      return next
+    })
+  }
 
   return (
     <Level
-      title={title}
-      content={content}
-      menu={
-        <ContentMenu
-          tutorial={tutorial}
-          position={position}
-          progress={progress}
-          setTitle={setTitle}
-          setContent={setContent}
-        />
-      }
-      index={tutorial.levels.findIndex((l: TT.Level) => l.id === position.levelId)}
-      steps={steps}
-      status={progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE'}
+      tutorial={tutorial}
+      index={levelIndex}
+      status={levelStatus}
+      progress={progress}
+      position={position}
       onContinue={onContinue}
       onRunTest={onRunTest}
       onLoadSolution={onLoadSolution}
       onOpenLogs={onOpenLogs}
       processes={processes}
       testStatus={testStatus}
+      displayHintsIndex={displayHintsIndex}
+      setHintsIndex={setHintsIndex}
     />
   )
 }
