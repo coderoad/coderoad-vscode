@@ -1,6 +1,6 @@
 import * as React from 'react'
-import useRouter from './components/Router'
-import Workspace from './components/Workspace'
+import useStateMachine from './services/state/useStateMachine'
+import { Router, Route } from './components/Router'
 import ErrorView from './components/Error'
 import LoadingPage from './containers/Loading'
 import StartPage from './containers/Start'
@@ -9,47 +9,40 @@ import CompletedPage from './containers/Tutorial/CompletedPage'
 import TutorialPage from './containers/Tutorial'
 
 const Routes = () => {
-  const { context, send, Router, Route } = useRouter()
+  const { context, route, send } = useStateMachine()
 
   // TODO: handle only full page errors
   if (context.error) {
-    return (
-      <Workspace>
-        <ErrorView send={send} error={context.error} />
-      </Workspace>
-    )
+    return <ErrorView send={send} error={context.error} />
   }
 
-  console.log('RENDER')
   return (
-    <Workspace>
-      <Router>
-        {/* Setup */}
-        <Route path={['Setup.Startup', 'Setup.ValidateSetup']}>
-          <LoadingPage text="Launching..." processes={context.processes} />
-        </Route>
-        <Route path="Setup.Start">
-          <StartPage send={send} context={context} />
-        </Route>
-        <Route path="Setup.SelectTutorial">
-          <SelectTutorialPage send={send} context={context} />
-        </Route>
-        <Route path={['Setup.SetupNewTutorial', 'Setup.StartTutorial']}>
-          <LoadingPage text="Configuring tutorial..." />
-        </Route>
-        {/* Tutorial */}
-        <Route path={['Tutorial.Level.Load']}>
-          <LoadingPage text="Loading Level..." processes={context.processes} />
-        </Route>
-        <Route path={['Tutorial.LoadNext', 'Tutorial.Level']}>
-          <TutorialPage send={send} context={context} />
-        </Route>
-        {/* Completed */}
-        <Route path="Tutorial.Completed">
-          <CompletedPage context={context} />
-        </Route>
-      </Router>
-    </Workspace>
+    <Router route={route}>
+      {/* Setup */}
+      <Route paths={{ Setup: { Startup: true, ValidateSetup: true } }}>
+        <LoadingPage text="Launching..." processes={context.processes} />
+      </Route>
+      <Route paths={{ Setup: { Start: true } }}>
+        <StartPage send={send} context={context} />
+      </Route>
+      <Route paths={{ Setup: { SelectTutorial: true } }}>
+        <SelectTutorialPage send={send} context={context} />
+      </Route>
+      <Route paths={{ Setup: { SetupNewTutorial: true, StartTutorial: true } }}>
+        <LoadingPage text="Configuring tutorial..." />
+      </Route>
+      {/* Tutorial */}
+      <Route paths={{ Tutorial: { Level: { Load: true } } }}>
+        <LoadingPage text="Loading Level..." processes={context.processes} />
+      </Route>
+      <Route paths={{ Tutorial: { LoadNext: true, Level: true } }}>
+        <TutorialPage send={send} context={context} />
+      </Route>
+      {/* Completed */}
+      <Route paths={{ Tutorial: { Completed: true } }}>
+        <CompletedPage context={context} />
+      </Route>
+    </Router>
   )
 }
 
