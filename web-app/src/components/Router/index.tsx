@@ -15,6 +15,10 @@ const matches = (route: string, paths: object): boolean => {
   for (const key of keys) {
     const next = current[key]
     if (next) {
+      // exit early if property value is true
+      if (next === true) {
+        return true
+      }
       current = next
       continue
     } else {

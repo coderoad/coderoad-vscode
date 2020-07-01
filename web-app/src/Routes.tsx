@@ -8,6 +8,10 @@ import SelectTutorialPage from './containers/SelectTutorial'
 import CompletedPage from './containers/Tutorial/CompletedPage'
 import TutorialPage from './containers/Tutorial'
 
+/*
+ * NOTE: due to a lack of URLs and a dependency on xstate
+ * we have to implement a custom router here
+ */
 const Routes = () => {
   const { context, route, send } = useStateMachine()
 
@@ -35,7 +39,7 @@ const Routes = () => {
       <Route paths={{ Tutorial: { Level: { Load: true } } }}>
         <LoadingPage text="Loading Level..." processes={context.processes} />
       </Route>
-      <Route paths={{ Tutorial: { LoadNext: true, Level: true } }}>
+      <Route paths={{ Tutorial: { Level: true } }}>
         <TutorialPage send={send} context={context} />
       </Route>
       {/* Completed */}
