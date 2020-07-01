@@ -71,7 +71,7 @@ const useStateMachine = (): Output => {
 
   // convert route to a string to avoid unnecessary React re-renders on deeply nested objects
   const route = createRouteString(state.value)
-  console.log(`STATE: ${route}`)
+  logger(`STATE: "${route}"`)
 
   return {
     context: state.context,

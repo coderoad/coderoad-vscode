@@ -129,13 +129,8 @@ const Level = ({
     })
   }
   React.useEffect(() => {
-    console.log(position.levelId)
-    console.log(JSON.stringify(position))
     // set the hints to empty on level starts
     setDisplayHintsIndex(steps.map((s) => -1))
-    return () => {
-      console.log('LEVEL UNMOUNTED')
-    }
   }, [position.levelId])
 
   const menu = (
