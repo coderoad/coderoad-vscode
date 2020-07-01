@@ -1,6 +1,5 @@
 import * as React from 'react'
 import * as T from 'typings'
-import { State } from 'xstate'
 import { createMachine } from './machine'
 import { useMachine } from '../xstate-react'
 import logger from '../logger'
@@ -13,9 +12,27 @@ interface Output {
 
 declare let acquireVsCodeApi: any
 
-const createRouteString = (routeObject: object) => {
-  let paths = []
-  const key = Object.keys(routeObject)[0]
+export const createRouteString = (route: object | string): string => {
+  if (typeof route === 'string') {
+    return route
+  }
+  const paths: string[] = []
+  let current: object | string | undefined = route
+  while (current) {
+    // current is final string value
+    if (typeof current === 'string') {
+      paths.push(current)
+      break
+    }
+
+    // current is object
+    const next: string = Object.keys(current)[0]
+    paths.push(next)
+    // @ts-ignore
+    current = current[next]
+  }
+
+  return paths.join('.')
 }
 
 const editor = acquireVsCodeApi()
@@ -32,8 +49,6 @@ const useStateMachine = (): Output => {
     logger(`SEND: ${action.type}`, action)
     send(action)
   }
-
-  console.log(`STATE: ${JSON.stringify(state.value)}`)
 
   // event bus listener
   React.useEffect(() => {
@@ -54,9 +69,13 @@ const useStateMachine = (): Output => {
     }
   }, [])
 
+  // convert route to a string to avoid unnecessary React re-renders on deeply nested objects
+  const route = createRouteString(state.value)
+  console.log(`STATE: ${route}`)
+
   return {
     context: state.context,
-    route: '',
+    route,
     send: sendWithLog,
   }
 }
