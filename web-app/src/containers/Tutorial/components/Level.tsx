@@ -99,8 +99,6 @@ interface Props {
   onRunTest(): void
   onLoadSolution(): void
   onOpenLogs(channel: string): void
-  displayHintsIndex: number[]
-  setHintsIndex(index: number, value: number): void
 }
 
 const Level = ({
@@ -115,13 +113,30 @@ const Level = ({
   onOpenLogs,
   processes,
   testStatus,
-  displayHintsIndex,
-  setHintsIndex,
 }: Props) => {
   const level = tutorial.levels[index]
 
   const [title, setTitle] = React.useState<string>(level.title)
   const [content, setContent] = React.useState<string>(level.content)
+
+  // hold state for hints for the level
+  const [displayHintsIndex, setDisplayHintsIndex] = React.useState<number[]>([])
+  const setHintsIndex = (index: number, value: number) => {
+    return setDisplayHintsIndex((displayHintsIndex) => {
+      const next = [...displayHintsIndex]
+      next[index] = value
+      return next
+    })
+  }
+  React.useEffect(() => {
+    console.log(position.levelId)
+    console.log(JSON.stringify(position))
+    // set the hints to empty on level starts
+    setDisplayHintsIndex(steps.map((s) => -1))
+    return () => {
+      console.log('LEVEL UNMOUNTED')
+    }
+  }, [position.levelId])
 
   const menu = (
     <ContentMenu

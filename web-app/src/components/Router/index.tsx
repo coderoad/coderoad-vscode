@@ -30,7 +30,7 @@ const useRouter = (): Output => {
     send(action)
   }
 
-  logger(`STATE: ${JSON.stringify(state.value)}`)
+  console.log(`STATE: ${JSON.stringify(state.value)}`)
 
   // event bus listener
   React.useEffect(() => {

@@ -37,16 +37,6 @@ const TutorialPage = (props: PageProps) => {
 
   const levelIndex = tutorial.levels.findIndex((l: TT.Level) => l.id === position.levelId)
   const levelStatus = progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE'
-  const { steps } = tutorial.levels[levelIndex]
-  const [displayHintsIndex, setDisplayHintsIndex] = React.useState<number[]>(steps.map((s) => -1))
-
-  const setHintsIndex = (index: number, value: number) => {
-    return setDisplayHintsIndex((displayHintsIndex) => {
-      const next = [...displayHintsIndex]
-      next[index] = value
-      return next
-    })
-  }
 
   return (
     <Level
@@ -61,8 +51,6 @@ const TutorialPage = (props: PageProps) => {
       onOpenLogs={onOpenLogs}
       processes={processes}
       testStatus={testStatus}
-      displayHintsIndex={displayHintsIndex}
-      setHintsIndex={setHintsIndex}
     />
   )
 }

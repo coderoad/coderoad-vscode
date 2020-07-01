@@ -20,6 +20,7 @@ const Routes = () => {
     )
   }
 
+  console.log('RENDER')
   return (
     <Workspace>
       <Router>
@@ -37,10 +38,10 @@ const Routes = () => {
           <LoadingPage text="Configuring tutorial..." />
         </Route>
         {/* Tutorial */}
-        <Route path={['Tutorial.LoadNext', 'Tutorial.Level.Load']}>
+        <Route path={['Tutorial.Level.Load']}>
           <LoadingPage text="Loading Level..." processes={context.processes} />
         </Route>
-        <Route path="Tutorial.Level">
+        <Route path={['Tutorial.LoadNext', 'Tutorial.Level']}>
           <TutorialPage send={send} context={context} />
         </Route>
         {/* Completed */}
