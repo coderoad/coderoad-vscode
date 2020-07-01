@@ -1,5 +1,6 @@
 import * as sentry from '@sentry/browser'
 import { NODE_ENV, SENTRY_DSN } from '../../environment'
+import logger from '../logger'
 
 try {
   if (SENTRY_DSN && NODE_ENV === 'production') {
@@ -9,5 +10,5 @@ try {
     })
   }
 } catch (error) {
-  console.log(`Error in Sentry init: ${error.message}`)
+  logger(`Error in Sentry init: ${error.message}`)
 }

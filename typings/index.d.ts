@@ -76,7 +76,6 @@ export interface MachineStateSchema {
     }
     Tutorial: {
       states: {
-        LoadNext: {}
         Level: {
           states: {
             Load: {}
@@ -86,6 +85,7 @@ export interface MachineStateSchema {
             TestFail: {}
             StepNext: {}
             LevelComplete: {}
+            LoadNext: {}
           }
         }
         Completed: {}

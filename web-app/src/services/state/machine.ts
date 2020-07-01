@@ -142,21 +142,6 @@ export const createMachine = (options: any) => {
           id: 'tutorial',
           initial: 'Level',
           states: {
-            LoadNext: {
-              id: 'tutorial-load-next',
-              onEntry: ['loadNext'],
-              on: {
-                NEXT_STEP: {
-                  target: 'Level',
-                  actions: ['updatePosition'],
-                },
-                NEXT_LEVEL: {
-                  target: 'Level',
-                  actions: ['updatePosition'],
-                },
-                COMPLETED: '#completed-tutorial',
-              },
-            },
             Level: {
               initial: 'Load',
               states: {
@@ -228,9 +213,24 @@ export const createMachine = (options: any) => {
                   onExit: ['syncLevelProgress'],
                   on: {
                     NEXT_LEVEL: {
-                      target: '#tutorial-load-next',
+                      target: 'LoadNext',
                       actions: ['testClear', 'updatePosition'],
                     },
+                  },
+                },
+                LoadNext: {
+                  id: 'tutorial-load-next',
+                  onEntry: ['loadNext'],
+                  on: {
+                    NEXT_STEP: {
+                      target: 'Load',
+                      actions: ['updatePosition'],
+                    },
+                    NEXT_LEVEL: {
+                      target: 'Load',
+                      actions: ['updatePosition'],
+                    },
+                    COMPLETED: '#completed-tutorial',
                   },
                 },
               },
