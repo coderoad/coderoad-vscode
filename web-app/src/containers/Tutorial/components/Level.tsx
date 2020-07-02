@@ -183,10 +183,12 @@ const Level = ({
           </Dropdown>
         </div>
 
-        <div css={styles.text}>
-          <h2 css={styles.title}>{title}</h2>
-          <Markdown>{content || ''}</Markdown>
-        </div>
+        {content.length ? (
+          <div css={styles.text}>
+            <h2 css={styles.title}>{title}</h2>
+            <Markdown>{content || ''}</Markdown>
+          </div>
+        ) : null}
 
         {steps.length ? (
           <div css={styles.tasks}>
