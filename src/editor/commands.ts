@@ -82,7 +82,7 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
           webview.send({ type: 'TEST_RUNNING', payload: { position } })
         },
         onLoadSubtasks: ({ summary }) => {
-          webview.send({ type: 'LOAD_TEST_SUBTASKS', payload: { summary } })
+          webview.send({ type: 'LOAD_SUBTASK_RESULTS', payload: { summary } })
         },
       })
     },

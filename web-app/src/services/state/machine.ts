@@ -155,7 +155,7 @@ export const createMachine = (options: any) => {
                 Normal: {
                   id: 'tutorial-level',
                   on: {
-                    LOAD_TEST_SUBTASKS: {
+                    LOAD_SUBTASK_RESULTS: {
                       actions: ['testSubtasks'],
                     },
                     TEST_RUNNING: 'TestRunning',

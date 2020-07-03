@@ -27,7 +27,7 @@ export type Step = {
   content: string
   setup: StepActions
   solution: Maybe<StepActions>
-  subtasks?: { [testName: string]: boolean }
+  subtasks?: { [index: number]: boolean }
   hints?: string[]
 }
 
@@ -52,7 +52,7 @@ export type StepActions = {
   files?: string[]
   watchers?: string[]
   filter?: string
-  subtasks?: boolean
+  subtasks?: string[]
 }
 
 export interface TestRunnerArgs {

@@ -199,14 +199,12 @@ const Level = ({
                   return null
                 }
                 let subtasks = null
-                if (step?.setup?.subtasks && testStatus?.summary) {
-                  subtasks = Object.keys(testStatus.summary).map((testName: string) => ({
-                    name: testName,
-                    // @ts-ignore typescript is wrong here
-                    pass: testStatus.summary[testName],
+                if (step?.setup?.subtasks) {
+                  subtasks = step.setup.subtasks.map((subtask: string, subtaskIndex: number) => ({
+                    name: subtask,
+                    pass: !!(testStatus?.summary ? testStatus.summary[subtaskIndex] : false),
                   }))
                 }
-                const hints = step.hints
                 return (
                   <Step
                     key={step.id}

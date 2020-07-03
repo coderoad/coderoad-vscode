@@ -58,7 +58,7 @@ export default (editorSend: any) => ({
       })
 
       if (step.setup.subtasks) {
-        // load subtask data by running tests and parsing result
+        // load subtask summary by running tests and parsing result
         editorSend({
           type: 'EDITOR_RUN_TEST',
           payload: {
