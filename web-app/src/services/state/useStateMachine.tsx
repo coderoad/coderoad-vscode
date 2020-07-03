@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as T from 'typings'
 import { createMachine } from './machine'
 import { useMachine } from '../xstate-react'
+import createRouteString from './utils/routeString'
 import logger from '../logger'
 
 interface Output {
@@ -11,29 +12,6 @@ interface Output {
 }
 
 declare let acquireVsCodeApi: any
-
-export const createRouteString = (route: object | string): string => {
-  if (typeof route === 'string') {
-    return route
-  }
-  const paths: string[] = []
-  let current: object | string | undefined = route
-  while (current) {
-    // current is final string value
-    if (typeof current === 'string') {
-      paths.push(current)
-      break
-    }
-
-    // current is object
-    const next: string = Object.keys(current)[0]
-    paths.push(next)
-    // @ts-ignore
-    current = current[next]
-  }
-
-  return paths.join('.')
-}
 
 const editor = acquireVsCodeApi()
 const editorSend = (action: T.Action) => {
