@@ -112,7 +112,7 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
           summary: tap.summary,
         }
 
-        if (step.setup.subtasks) {
+        if (step.subtasks) {
           const subtaskSummary = parseSubtasks(tap.summary, position.stepId || '')
 
           callbacks.onFail(position, {

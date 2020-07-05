@@ -27,8 +27,8 @@ export type Step = {
   content: string
   setup: StepActions
   solution: Maybe<StepActions>
-  subtasks?: { [index: number]: boolean }
   hints?: string[]
+  subtasks?: string[]
 }
 
 /** A tutorial for use in VSCode CodeRoad */
@@ -52,7 +52,6 @@ export type StepActions = {
   files?: string[]
   watchers?: string[]
   filter?: string
-  subtasks?: string[]
 }
 
 export interface TestRunnerArgs {
