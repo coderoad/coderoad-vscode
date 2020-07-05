@@ -63,7 +63,6 @@ export default (editorSend: any) => ({
           type: 'EDITOR_RUN_TEST',
           payload: {
             position: context.position,
-            subtasks: true,
           },
         })
       }

@@ -191,8 +191,6 @@ levels:
   - id: '1'
     steps:
       - id: '1.1'
-        setup:
-          subtasks: false
 ```
 
 Replace the `repo uri` URL with your github repo, note that it's just the username and repo in the URL. This file links everything together. You can see the repo URL and the branch that you created. And the `1.` and `1.1` id's that match the markdown. You can also add commands that will run when a lesson is started, as well as a host of other things.

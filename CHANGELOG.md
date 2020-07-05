@@ -175,3 +175,29 @@ A description of the task.
 - The second hint
 - The last hint
 ```
+
+### [0.9.0]
+
+Change subtask format to include subtasks in markdown.
+
+Subtasks no longer need to be included in yaml, or require a filter.
+
+See an example at <http://github.com/shmck/coderoad-tutorial-subtask-demo>
+
+```md
+### 1.1
+
+A description of the task
+
+#### SUBTASKS
+
+- The first subtask
+- The second subtask
+```
+
+Subtasks are then matched up with tests with names that match
+
+```text
+SUBTASK 1.1 :1 test name
+SUBTASK 1.2 :2 test name
+```
