@@ -1,4 +1,4 @@
-import { createRouteString } from './useStateMachine'
+import createRouteString from './routeString'
 
 describe('route string', () => {
   it('should take a single key route', () => {

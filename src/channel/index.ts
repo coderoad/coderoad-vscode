@@ -306,7 +306,7 @@ class Channel implements Channel {
         await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_POSITION, action.payload.position)
         await solutionActions({ actions: action.payload.actions, send: this.send })
         // run test following solution to update position
-        vscode.commands.executeCommand(COMMANDS.RUN_TEST, { subtasks: true })
+        vscode.commands.executeCommand(COMMANDS.RUN_TEST)
         return
       case 'EDITOR_SYNC_PROGRESS':
         // update progress when a level is deemed complete in the client

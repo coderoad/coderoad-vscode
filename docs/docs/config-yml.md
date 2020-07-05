@@ -103,14 +103,6 @@ levels:
             - package.json
           commits:
             - commit8
-      ## Example Four: Subtasks
-      - id: '1.4'
-        setup:
-          commands:
-            ## A filter is a regex that limits the test results
-            - filter: '^Example 2'
-            ## A feature that shows subtasks: all filtered active test names and the status of the tests (pass/fail).
-            - subtasks: true
   - id: '2'
     steps:
       - id: '2.1'

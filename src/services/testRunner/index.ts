@@ -3,6 +3,7 @@ import * as TT from 'typings/tutorial'
 import { exec } from '../node'
 import logger from '../logger'
 import parser, { ParserOutput } from './parser'
+import parseSubtasks from './subtasks'
 import { debounce, throttle } from './throttle'
 import onError from '../sentry/onError'
 import { clearOutput, addOutput } from './output'
@@ -13,7 +14,7 @@ interface Callbacks {
   onFail(position: T.Position, failSummary: T.TestFail): void
   onRun(position: T.Position): void
   onError(position: T.Position): void
-  onLoadSubtasks({ summary }: { summary: { [testName: string]: boolean } }): void
+  onLoadSubtasks({ summary }: { summary: { [testId: number]: boolean } }): void
 }
 
 const failChannelName = 'CodeRoad (Tests)'
@@ -28,7 +29,7 @@ interface TestRunnerParams {
 const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
   const testRunnerConfig = data.config.testRunner
   const testRunnerFilterArg = testRunnerConfig.args?.filter
-  return async ({ position, onSuccess, subtasks }: TestRunnerParams): Promise<void> => {
+  return async ({ position, onSuccess }: TestRunnerParams): Promise<void> => {
     const startTime = throttle()
     // throttle time early
     if (!startTime) {
@@ -37,10 +38,19 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
 
     logger('------------------- RUN TEST -------------------')
 
-    // flag as running
-    if (!subtasks) {
-      callbacks.onRun(position)
+    // calculate level & step from position
+    const level: TT.Level | null = data.levels.find((l) => l.id === position.levelId) || null
+    if (!level) {
+      console.warn(`Level "${position.levelId}" not found`)
+      return
     }
+    const step: TT.Step | null = level.steps.find((s) => s.id === position.stepId) || null
+    if (!step) {
+      console.warn(`Step "${position.stepId}" not found`)
+      return
+    }
+
+    callbacks.onRun(position)
 
     let result: { stdout: string | undefined; stderr: string | undefined }
     try {
@@ -81,12 +91,6 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
 
     const tap: ParserOutput = parser(stdout || '')
 
-    if (subtasks) {
-      callbacks.onLoadSubtasks({ summary: tap.summary })
-      // exit early
-      return
-    }
-
     addOutput({ channel: logChannelName, text: tap.logs.join('\n'), show: false })
 
     if (stderr) {
@@ -107,7 +111,18 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
           description: firstFail.details || 'Unknown error',
           summary: tap.summary,
         }
-        callbacks.onFail(position, failSummary)
+
+        if (step.setup.subtasks) {
+          const subtaskSummary = parseSubtasks(tap.summary, position.stepId || '')
+
+          callbacks.onFail(position, {
+            ...failSummary,
+            summary: subtaskSummary,
+          })
+        } else {
+          callbacks.onFail(position, failSummary)
+        }
+
         const output = formatFailOutput(tap)
         addOutput({ channel: failChannelName, text: output, show: true })
         return

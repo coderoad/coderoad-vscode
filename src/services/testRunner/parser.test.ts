@@ -269,3 +269,28 @@ not ok 2 test_add_one_number (tests.math_test.MathTest)
     })
   })
 })
+
+describe('subtasks', () => {
+  it('should parse subtasks', () => {
+    const summary = {
+      'SUBTASKS 1.1 :1 should add one number': true,
+      'SUBTASKS 1.1 :2 should add two numbers': false,
+      'SUBTASKS 1.1 :3 should add three numbers': false,
+    }
+    const subtaskRegex = /^SUBTASKS\s(?<stepId>(\d+\.\d+))\s:(?<testId>\d+)\s/
+    const subtaskSummary = {}
+    Object.keys(summary).forEach((key) => {
+      const match = key.match(subtaskRegex)
+      if (!!match) {
+        const { stepId, testId } = match.groups || {}
+        const testIndex = Number(testId) - 1
+        subtaskSummary[testIndex] = summary[key]
+      }
+    })
+    expect(subtaskSummary).toEqual({
+      0: true,
+      1: false,
+      2: false,
+    })
+  })
+})
