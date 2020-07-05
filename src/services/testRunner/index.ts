@@ -136,7 +136,6 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
 
     // PASS
     if (tap.ok) {
-      console.log('running pass')
       clearOutput(failChannelName)
 
       callbacks.onSuccess(position)
@@ -144,7 +143,6 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
       if (onSuccess) {
         onSuccess()
       }
-      5
     } else {
       // should never get here
       onError(new Error(`Error with running test ${JSON.stringify(position)}`))
