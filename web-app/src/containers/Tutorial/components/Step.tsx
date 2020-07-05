@@ -67,7 +67,7 @@ const Step = (props: Props) => {
             <ul css={styles.subtasks}>
               {props.subtasks.map((subtask) => (
                 <li key={subtask.name} css={styles.subtask}>
-                  <TestStatusIcon size="xs" checked={subtask.pass} />
+                  <TestStatusIcon size="xs" checked={props.status === 'COMPLETE' || subtask.pass} />
 
                   <span style={{ marginLeft: '0.5rem' }}>{subtask.name}</span>
                 </li>

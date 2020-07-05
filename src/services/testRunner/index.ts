@@ -50,14 +50,7 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
       return
     }
 
-    console.log('STEP')
-    console.log(JSON.stringify(step))
-
-    // flag as running
-    // no need to flag subtasks as running
-    if (!step.setup?.subtasks) {
-      callbacks.onRun(position)
-    }
+    callbacks.onRun(position)
 
     let result: { stdout: string | undefined; stderr: string | undefined }
     try {
@@ -98,16 +91,6 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
 
     const tap: ParserOutput = parser(stdout || '')
 
-    if (step.setup.subtasks) {
-      const summary = parseSubtasks(tap.summary, position.stepId || '')
-
-      console.log('---subtask summary')
-      console.log(summary)
-      callbacks.onLoadSubtasks({ summary })
-      // exit early
-      return
-    }
-
     addOutput({ channel: logChannelName, text: tap.logs.join('\n'), show: false })
 
     if (stderr) {
@@ -128,7 +111,18 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
           description: firstFail.details || 'Unknown error',
           summary: tap.summary,
         }
-        callbacks.onFail(position, failSummary)
+
+        if (step.setup.subtasks) {
+          const subtaskSummary = parseSubtasks(tap.summary, position.stepId || '')
+
+          callbacks.onFail(position, {
+            ...failSummary,
+            summary: subtaskSummary,
+          })
+        } else {
+          callbacks.onFail(position, failSummary)
+        }
+
         const output = formatFailOutput(tap)
         addOutput({ channel: failChannelName, text: output, show: true })
         return
@@ -142,6 +136,7 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
 
     // PASS
     if (tap.ok) {
+      console.log('running pass')
       clearOutput(failChannelName)
 
       callbacks.onSuccess(position)
@@ -149,6 +144,7 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
       if (onSuccess) {
         onSuccess()
       }
+      5
     } else {
       // should never get here
       onError(new Error(`Error with running test ${JSON.stringify(position)}`))
