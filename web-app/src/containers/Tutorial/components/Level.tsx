@@ -199,8 +199,8 @@ const Level = ({
                   return null
                 }
                 let subtasks = null
-                if (step?.setup?.subtasks) {
-                  subtasks = step.setup.subtasks.map((subtask: string, subtaskIndex: number) => ({
+                if (step?.subtasks) {
+                  subtasks = step.subtasks.map((subtask: string, subtaskIndex: number) => ({
                     name: subtask,
                     pass: !!(testStatus?.summary ? testStatus.summary[subtaskIndex] : false),
                   }))
