@@ -319,6 +319,9 @@ class Channel implements Channel {
       case 'EDITOR_RUN_TEST':
         vscode.commands.executeCommand(COMMANDS.RUN_TEST, action?.payload)
         return
+      case 'EDITOR_RUN_RESET_SCRIPT':
+        // if tutorial.config.reset.command, run it
+        return
       default:
         logger(`No match for action type: ${actionType}`)
         return
