@@ -88,7 +88,7 @@ const styles = {
 }
 
 interface Props {
-  tutorial: TT.Tutorial
+  tutorial: Exclude<TT.Tutorial, 'config'>
   index: number
   status: 'COMPLETE' | 'ACTIVE' | 'INCOMPLETE'
   progress: T.Progress
@@ -114,7 +114,9 @@ const Level = ({
   processes,
   testStatus,
 }: Props) => {
-  const level = tutorial.levels[index]
+  const level: TT.Level = tutorial.levels[index]
+
+  console.log(level)
 
   const [title, setTitle] = React.useState<string>(level.title)
   const [content, setContent] = React.useState<string>(level.content)
@@ -135,7 +137,7 @@ const Level = ({
 
   const menu = (
     <ContentMenu
-      tutorial={tutorial}
+      levels={tutorial.levels || []}
       position={position}
       progress={progress}
       setTitle={setTitle}

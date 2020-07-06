@@ -1,3 +1,5 @@
+import { ProgressStatus } from './index'
+
 export type Maybe<T> = T | null
 
 export type TutorialConfig = {
@@ -19,6 +21,7 @@ export type Level = {
   setup?: Maybe<StepActions>
   /** A set of tasks for users linked to unit tests */
   steps: Array<Step>
+  status?: ProgressStatus
 }
 
 /** A level task */
@@ -29,6 +32,7 @@ export type Step = {
   solution: Maybe<StepActions>
   hints?: string[]
   subtasks?: string[]
+  status?: ProgressStatus
 }
 
 /** A tutorial for use in VSCode CodeRoad */
