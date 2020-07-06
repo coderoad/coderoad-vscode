@@ -5,16 +5,16 @@ import { Menu } from '@alifd/next'
 import Icon from '../../../components/Icon'
 
 interface Props {
-  tutorial: TT.Tutorial
+  levels: TT.Level[]
   position: T.Position
   progress: T.Progress
   setTitle: (title: string) => void
   setContent: (content: string) => void
 }
 
-const ContentMenu = ({ tutorial, position, progress, setTitle, setContent }: Props) => {
+const ContentMenu = ({ levels, position, progress, setTitle, setContent }: Props) => {
   const setMenuContent = (levelId: string) => {
-    const selectedLevel: TT.Level | undefined = tutorial.levels.find((l: TT.Level) => l.id === levelId)
+    const selectedLevel: TT.Level | undefined = levels.find((l: TT.Level) => l.id === levelId)
     if (selectedLevel) {
       setTitle(selectedLevel.title)
       setContent(selectedLevel.content)
@@ -22,7 +22,7 @@ const ContentMenu = ({ tutorial, position, progress, setTitle, setContent }: Pro
   }
   return (
     <Menu>
-      {tutorial.levels.map((level: TT.Level) => {
+      {levels.map((level: TT.Level) => {
         const isCurrent = level.id === position.levelId
         const isComplete = progress.levels[level.id]
         let icon
