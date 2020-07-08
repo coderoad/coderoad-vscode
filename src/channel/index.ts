@@ -8,14 +8,15 @@ import saveCommit from '../actions/saveCommit'
 import { setupActions, solutionActions } from '../actions/setupActions'
 import tutorialConfig from '../actions/tutorialConfig'
 import { COMMANDS } from '../editor/commands'
-import logger from '../services/logger'
 import Context from './context'
-import { version, compareVersions } from '../services/dependencies'
-import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 import { readFile } from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
+import logger from '../services/logger'
+import { version, compareVersions } from '../services/dependencies'
+import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 import { showOutput } from '../services/testRunner/output'
+import { exec } from '../services/node'
 import { WORKSPACE_ROOT, TUTORIAL_URL } from '../environment'
 
 const readFileAsync = promisify(readFile)
@@ -320,7 +321,11 @@ class Channel implements Channel {
         vscode.commands.executeCommand(COMMANDS.RUN_TEST, action?.payload)
         return
       case 'EDITOR_RUN_RESET_SCRIPT':
+        const tutorial: TT.Tutorial | null = this.context.tutorial.get()
         // if tutorial.config.reset.command, run it
+        if (tutorial?.config?.reset?.command) {
+          await exec({ command: tutorial.config.reset.command })
+        }
         return
       default:
         logger(`No match for action type: ${actionType}`)
