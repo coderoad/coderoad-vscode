@@ -2,12 +2,10 @@ import * as React from 'react'
 import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
 import TestStatusIcon from './TestStatusIcon'
-import Icon from '../../../components/Icon'
 import Hints from './Hints'
 import Markdown from '../../../components/Markdown'
 
 interface Props {
-  index: number
   content: string
   status: T.ProgressStatus
   subtasks: { name: string; pass: boolean }[] | null
@@ -76,7 +74,6 @@ const Step = (props: Props) => {
                 return (
                   <li key={subtask.name} css={styles.subtask}>
                     <TestStatusIcon size="xs" status={subtaskStatus} />
-
                     <span style={{ marginLeft: '0.5rem' }}>{subtask.name}</span>
                   </li>
                 )

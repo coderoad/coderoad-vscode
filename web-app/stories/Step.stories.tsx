@@ -60,7 +60,6 @@ storiesOf('Step', module)
   .addDecorator(withKnobs)
   .add('Active Step', () => (
     <Step
-      index={1}
       content={text('text', stepText)}
       status="ACTIVE"
       onLoadSolution={action('onLoadSolution')}
@@ -71,7 +70,6 @@ storiesOf('Step', module)
   ))
   .add('Fail Step', () => (
     <Step
-      index={1}
       content={text('text', stepText)}
       status="FAIL"
       onLoadSolution={action('onLoadSolution')}
@@ -82,7 +80,6 @@ storiesOf('Step', module)
   ))
   .add('Step Markdown', () => (
     <Step
-      index={2}
       content={text('text', paragraphText)}
       status={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'ACTIVE', 'step')}
       onLoadSolution={action('onLoadSolution')}
@@ -93,7 +90,6 @@ storiesOf('Step', module)
   ))
   .add('Subtasks', () => (
     <Step
-      index={2}
       content={'A task with subtasks'}
       status={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'ACTIVE', 'step')}
       onLoadSolution={action('onLoadSolution')}
@@ -117,7 +113,6 @@ storiesOf('Step', module)
   ))
   .add('Hints', () => (
     <Step
-      index={1}
       content={text('text', stepText)}
       status="ACTIVE"
       onLoadSolution={action('onLoadSolution')}
