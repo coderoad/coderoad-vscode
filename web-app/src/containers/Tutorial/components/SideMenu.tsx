@@ -11,6 +11,10 @@ const styles = {
     margin: 0,
     height: '100%',
   },
+  active: {
+    color: 'white',
+    backgroundColor: 'rgb(85, 132, 255)',
+  },
   itemText: {
     marginLeft: '0.5rem',
   },
@@ -37,16 +41,31 @@ const SideMenu = (props: Props) => {
       onClose={onMenuClose}
     >
       <Menu style={styles.menu} defaultOpenKeys="sub-menu">
-        <Item key="level" disabled={props.page === 'level'} onClick={() => props.setPage('level')}>
+        <Item
+          key="level"
+          disabled={props.page === 'level'}
+          style={props.page === 'level' ? styles.active : {}}
+          onClick={() => props.setPage('level')}
+        >
           <Icon type="detail" size="small" color="#EBEBEB" />
           <span style={styles.itemText}>Level</span>
         </Item>
-        <Item key="review" disabled={props.page === 'review'} onClick={() => props.setPage('review')}>
+        <Item
+          key="review"
+          disabled={props.page === 'review'}
+          style={props.page === 'review' ? styles.active : {}}
+          onClick={() => props.setPage('review')}
+        >
           <Icon type="list" size="small" color="#EBEBEB" />
           <span style={styles.itemText}>Review</span>
         </Item>
         <Divider key="divider" />
-        <Item key="settings" disabled={props.page === 'settings'} onClick={() => props.setPage('review')}>
+        <Item
+          key="settings"
+          disabled={props.page === 'settings'}
+          style={props.page === 'settings' ? styles.active : {}}
+          onClick={() => props.setPage('settings')}
+        >
           <Icon type="set" size="small" color="#EBEBEB" />
           <span style={styles.itemText}>Settings</span>
         </Item>
