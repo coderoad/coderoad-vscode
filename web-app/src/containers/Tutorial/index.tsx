@@ -10,6 +10,7 @@ import ReviewPage from './containers/Review'
 import Button from '../../components/Button'
 import ProcessMessages from '../../components/ProcessMessages'
 import TestMessage from '../../components/TestMessage'
+import { Progress } from '@alifd/next'
 import { DISPLAY_RUN_TEST_BUTTON } from '../../environment'
 
 const styles = {
@@ -39,16 +40,19 @@ const styles = {
     backgroundColor: 'black',
     fontSize: '1rem',
     lineHeight: '1rem',
-    padding: '10px 1rem',
+    padding: '10px 0rem',
     position: 'fixed' as 'fixed',
     bottom: 0,
     left: 0,
     right: 0,
     color: 'white',
   },
-  taskCount: {
-    fontSize: '0.8rem',
-    opacity: 0.9,
+  taskProgress: {
+    display: 'flex' as 'flex',
+    justifyContent: 'flex-end' as 'flex-end',
+    alignItems: 'center' as 'center',
+    width: '10rem',
+    color: 'white',
   },
   processes: {
     padding: '0 1rem',
@@ -147,23 +151,42 @@ const TutorialPage = (props: PageProps) => {
             <TestMessage message={testStatus.title} />
           </div>
         )}
-
+        {/* Left */}
         {DISPLAY_RUN_TEST_BUTTON && levelStatus !== 'COMPLETE' ? (
-          <Button type="primary" onClick={onRunTest} disabled={processes.length > 0}>
+          <Button style={{ marginLeft: '1rem' }} type="primary" onClick={onRunTest} disabled={processes.length > 0}>
             Run
           </Button>
-        ) : null}
-        <span>
+        ) : (
+          <div />
+        )}
+
+        {/* Center */}
+        <div />
+
+        {/* Right */}
+        <div>
           {levelStatus === 'COMPLETE' || !level.steps.length ? (
             <Button type="primary" onClick={onContinue}>
               Continue
             </Button>
           ) : (
-            <span css={styles.taskCount}>
-              {currentStep} of {level.steps.length} tasks
-            </span>
+            <Progress
+              state="success"
+              progressive
+              percent={(currentStep / level.steps.length) * 100}
+              shape="line"
+              color="rgb(85, 132, 255)"
+              css={styles.taskProgress}
+              textRender={(percent: number) => {
+                return (
+                  <span style={{ color: 'white' }}>
+                    {currentStep} of {level.steps.length}
+                  </span>
+                )
+              }}
+            />
           )}
-        </span>
+        </div>
       </div>
       <SideMenu visible={menuVisible} toggleVisible={setMenuVisible} page={page} setPage={setPage} />
     </div>
