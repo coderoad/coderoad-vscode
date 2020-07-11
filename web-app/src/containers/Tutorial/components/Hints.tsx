@@ -1,19 +1,20 @@
 import * as React from 'react'
+import { css, jsx } from '@emotion/core'
 import Markdown from '../../../components/Markdown'
 import Button from '../../../components/Button'
 
 const styles = {
   hints: {
-    marginTop: '1rem',
+    marginTop: '0.5rem',
   },
   hintList: {
     marginBottom: '0.5rem',
   },
   hint: {
-    margin: '0.5rem 0',
+    marginBottom: '0.5rem',
     backgroundColor: 'rgba(255,229,100,0.3)',
     borderLeft: '#ffe564',
-    padding: '0.5rem',
+    padding: '0 0.5rem',
   },
 }
 
@@ -32,13 +33,13 @@ const Hints = (props: Props) => {
     props.setHintIndex(props.hintIndex + 1)
   }
   return (
-    <div style={styles.hints}>
-      <div style={styles.hintList}>
+    <div css={styles.hints}>
+      <div css={styles.hintList}>
         {/* only show revealed hints */}
         {props.hints.map((h, i) => {
           return i <= props.hintIndex ? (
-            <div key={i} style={styles.hint}>
-              <Markdown>{h}</Markdown>
+            <div key={i} css={styles.hint}>
+              <Markdown css={styles.hint}>{h}</Markdown>
             </div>
           ) : null
         })}

@@ -123,7 +123,7 @@ storiesOf('Step', module)
       onLoadSolution={action('onLoadSolution')}
       subtasks={null}
       hints={['First hint!', 'Second hint!']}
-      hintIndex={0}
+      hintIndex={1}
       setHintIndex={action('setHintIndex')}
     />
   ))
