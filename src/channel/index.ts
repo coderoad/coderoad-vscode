@@ -327,6 +327,10 @@ class Channel implements Channel {
           await exec({ command: tutorial.config.reset.command })
         }
         return
+      case 'EDITOR_RUN_RESET_TO_LAST_PASS':
+        return
+      case 'EDITOR_RUN_RESET_TO_TIMELINE':
+        return
       default:
         logger(`No match for action type: ${actionType}`)
         return
