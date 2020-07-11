@@ -14,6 +14,10 @@ type ModifiedLevel = TT.Level & {
 }
 
 const tutorial: Partial<TT.Tutorial> = {
+  summary: {
+    title: 'Example Title',
+    description: 'An example description',
+  },
   levels: [
     {
       id: '1',
@@ -96,7 +100,10 @@ storiesOf('Level', module)
   ))
   .add('No steps', () => (
     <Level
-      tutorial={{ levels: [{ id: '1', title: 'No Step Level', content: 'No steps in this one', steps: [] }] }}
+      tutorial={{
+        summary: tutorial.summary,
+        levels: [{ id: '1', title: 'No Step Level', content: 'No steps in this one', steps: [] }],
+      }}
       index={0}
       status="ACTIVE"
       position={{ levelId: '1', stepId: null, complete: false }}
@@ -111,7 +118,10 @@ storiesOf('Level', module)
   ))
   .add('No lesson', () => (
     <Level
-      tutorial={{ levels: [{ id: '1', title: 'No Step Level', content: '', steps: tutorial.levels[0].steps }] }}
+      tutorial={{
+        summary: tutorial.summary,
+        levels: [{ id: '1', title: 'No Step Level', content: '', steps: tutorial.levels[0].steps }],
+      }}
       index={0}
       status="ACTIVE"
       position={{ levelId: '1', stepId: '1.1', complete: false }}

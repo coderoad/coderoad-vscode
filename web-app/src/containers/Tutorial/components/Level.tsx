@@ -7,7 +7,6 @@ import Icon from '../../../components/Icon'
 import Button from '../../../components/Button'
 import Markdown from '../../../components/Markdown'
 import ProcessMessages from '../../../components/ProcessMessages'
-import NuxTutorial from '../../../components/NewUserExperience/NuxTutorial'
 import ContentMenu from './ContentMenu'
 import Step from './Step'
 import { DISPLAY_RUN_TEST_BUTTON } from '../../../environment'
@@ -42,6 +41,10 @@ const styles = {
   text: {
     padding: '0rem 1rem',
     paddingBottom: '1rem',
+  },
+  separator: {
+    height: 0,
+    borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
   },
   tasks: {},
   steps: {
@@ -171,20 +174,19 @@ const Level = ({
 
   return (
     <div css={styles.page}>
+      <div css={styles.header}>
+        <Dropdown
+          trigger={
+            <a css={styles.learn}>
+              {tutorial.summary.title} <Icon type="arrow-down" size="xxs" />
+            </a>
+          }
+          triggerType="click"
+        >
+          {menu}
+        </Dropdown>
+      </div>
       <div css={styles.content}>
-        <div css={styles.header}>
-          <Dropdown
-            trigger={
-              <a css={styles.learn}>
-                Learn <Icon type="arrow-down" size="xxs" />
-              </a>
-            }
-            triggerType="click"
-          >
-            {menu}
-          </Dropdown>
-        </div>
-
         {content.length ? (
           <div css={styles.text}>
             <h2 css={styles.title}>{title}</h2>
@@ -192,9 +194,10 @@ const Level = ({
           </div>
         ) : null}
 
+        {content.length && steps.length ? <div css={styles.separator} /> : null}
+
         {steps.length ? (
           <div css={styles.tasks}>
-            <div css={styles.header}>Tasks</div>
             <div css={styles.steps}>
               {steps.map((step: (TT.Step & { status: T.ProgressStatus }) | null, stepIndex: number) => {
                 if (!step) {
@@ -232,10 +235,6 @@ const Level = ({
             <ProcessMessages processes={processes} testStatus={testStatus} onOpenLogs={onOpenLogs} />
           </div>
         )}
-
-        <div css={styles.nux}>
-          <NuxTutorial onLoadSolution={onLoadSolution} />
-        </div>
 
         <div css={styles.footer}>
           {DISPLAY_RUN_TEST_BUTTON && status !== 'COMPLETE' ? (
