@@ -2,13 +2,10 @@ import * as React from 'react'
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import { css, jsx } from '@emotion/core'
-import { Dropdown } from '@alifd/next'
-import Icon from '../../../components/Icon'
 import Button from '../../../components/Button'
 import Markdown from '../../../components/Markdown'
 import ProcessMessages from '../../../components/ProcessMessages'
 import TestMessage from '../../../components/TestMessage'
-import ContentMenu from './ContentMenu'
 import Step from './Step'
 import { DISPLAY_RUN_TEST_BUTTON } from '../../../environment'
 
@@ -25,20 +22,7 @@ const styles = {
     padding: 0,
     paddingBottom: '5rem',
   },
-  header: {
-    display: 'flex' as 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    height: '2rem',
-    backgroundColor: '#EBEBEB',
-    fontSize: '1rem',
-    lineHeight: '1rem',
-    padding: '10px 1rem',
-  },
-  learn: {
-    textDecoration: 'none',
-    color: 'inherit',
-  },
+
   text: {
     padding: '0rem 1rem',
     paddingBottom: '1rem',
@@ -122,9 +106,6 @@ const Level = ({
 }: Props) => {
   const level: TT.Level = tutorial.levels[index]
 
-  const [title, setTitle] = React.useState<string>(level.title)
-  const [content, setContent] = React.useState<string>(level.content)
-
   // hold state for hints for the level
   const [displayHintsIndex, setDisplayHintsIndex] = React.useState<number[]>([])
   const setHintsIndex = (index: number, value: number) => {
@@ -138,16 +119,6 @@ const Level = ({
     // set the hints to empty on level starts
     setDisplayHintsIndex(steps.map((s) => -1))
   }, [position.levelId])
-
-  const menu = (
-    <ContentMenu
-      levels={tutorial.levels || []}
-      position={position}
-      progress={progress}
-      setTitle={setTitle}
-      setContent={setContent}
-    />
-  )
 
   const steps: Array<TT.Step & { status: T.ProgressStatus }> = level.steps.map((step: TT.Step) => {
     // label step status for step component
@@ -175,27 +146,15 @@ const Level = ({
 
   return (
     <div css={styles.page}>
-      <div css={styles.header}>
-        <Dropdown
-          trigger={
-            <a css={styles.learn}>
-              {tutorial.summary.title} <Icon type="arrow-down" size="xxs" />
-            </a>
-          }
-          triggerType="click"
-        >
-          {menu}
-        </Dropdown>
-      </div>
       <div css={styles.content}>
-        {content.length ? (
+        {level.content.length ? (
           <div css={styles.text}>
-            <h2 css={styles.title}>{title}</h2>
-            <Markdown>{content || ''}</Markdown>
+            <h2 css={styles.title}>{level.title}</h2>
+            <Markdown>{level.content || ''}</Markdown>
           </div>
         ) : null}
 
-        {content.length && steps.length ? <div css={styles.separator} /> : null}
+        {level.content.length && steps.length ? <div css={styles.separator} /> : null}
 
         {steps.length ? (
           <div css={styles.tasks}>
@@ -249,12 +208,7 @@ const Level = ({
             <Button type="primary" onClick={onRunTest} disabled={processes.length > 0}>
               Run
             </Button>
-          ) : (
-            <span>
-              {typeof index === 'number' ? `${index + 1}. ` : ''}
-              {title}
-            </span>
-          )}
+          ) : null}
           <span>
             {status === 'COMPLETE' || !steps.length ? (
               <Button type="primary" onClick={onContinue}>

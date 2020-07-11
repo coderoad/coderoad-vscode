@@ -1,8 +1,27 @@
 import * as React from 'react'
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
+// import { Dropdown } from '@alifd/next'
 import * as selectors from '../../services/selectors'
 import Level from './components/Level'
+// import Icon from '../../components/Icon'
+
+const styles = {
+  header: {
+    display: 'flex' as 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: '2rem',
+    backgroundColor: '#EBEBEB',
+    fontSize: '1rem',
+    lineHeight: '1rem',
+    padding: '10px 1rem',
+  },
+  learn: {
+    textDecoration: 'none',
+    color: 'inherit',
+  },
+}
 
 interface PageProps {
   context: T.MachineContext
@@ -39,19 +58,22 @@ const TutorialPage = (props: PageProps) => {
   const levelStatus = progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE'
 
   return (
-    <Level
-      tutorial={tutorial}
-      index={levelIndex}
-      status={levelStatus}
-      progress={progress}
-      position={position}
-      onContinue={onContinue}
-      onRunTest={onRunTest}
-      onLoadSolution={onLoadSolution}
-      onOpenLogs={onOpenLogs}
-      processes={processes}
-      testStatus={testStatus}
-    />
+    <div>
+      <div css={styles.header}>{tutorial.summary.title}</div>
+      <Level
+        tutorial={tutorial}
+        index={levelIndex}
+        status={levelStatus}
+        progress={progress}
+        position={position}
+        onContinue={onContinue}
+        onRunTest={onRunTest}
+        onLoadSolution={onLoadSolution}
+        onOpenLogs={onOpenLogs}
+        processes={processes}
+        testStatus={testStatus}
+      />
+    </div>
   )
 }
 
