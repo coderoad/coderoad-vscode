@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
-import { Button, Drawer } from '@alifd/next'
+import { Drawer } from '@alifd/next'
 import * as selectors from '../../services/selectors'
 import Level from './components/Level'
 import Icon from '../../components/Icon'
@@ -10,12 +10,15 @@ const styles = {
   header: {
     display: 'flex' as 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     height: '2rem',
     backgroundColor: '#EBEBEB',
     fontSize: '1rem',
     lineHeight: '1rem',
-    padding: '10px 1rem',
+    padding: '10px 0.4rem',
+  },
+  title: {
+    marginLeft: '0.5rem',
   },
   learn: {
     textDecoration: 'none',
@@ -65,10 +68,10 @@ const TutorialPage = (props: PageProps) => {
   return (
     <div>
       <div css={styles.header}>
-        <Button onClick={() => setMenuVisible(!menuVisible)}>
-          <Icon type="menu" />
-        </Button>
-        {tutorial.summary.title}
+        <a onClick={() => setMenuVisible(!menuVisible)}>
+          <Icon type="toggle-left" size="small" />
+        </a>
+        <span css={styles.title}>{tutorial.summary.title}</span>
       </div>
       <Level
         tutorial={tutorial}
