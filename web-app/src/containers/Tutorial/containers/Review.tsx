@@ -25,6 +25,7 @@ const ReviewPage = (props: Props) => {
               <Content title={level.title} content={level.content} />
               <Steps steps={level.steps} displayHintsIndex={level.steps.map((s) => -1)} setHintsIndex={() => {}} />
             </div>
+            {/* divider */}
             {index < props.levels.length - 1 ? <hr /> : null}
           </>
         )

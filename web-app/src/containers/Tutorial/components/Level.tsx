@@ -37,23 +37,11 @@ const styles = {
 
 interface Props {
   level: TT.Level
+  setHintsIndex(stepIndex: number, value: number): void
+  displayHintsIndex: number[]
 }
 
-const Level = ({ level }: Props) => {
-  // hold state for hints for the level
-  const [displayHintsIndex, setDisplayHintsIndex] = React.useState<number[]>([])
-  const setHintsIndex = (index: number, value: number) => {
-    return setDisplayHintsIndex((displayHintsIndex) => {
-      const next = [...displayHintsIndex]
-      next[index] = value
-      return next
-    })
-  }
-  React.useEffect(() => {
-    // set the hints to empty on level starts
-    setDisplayHintsIndex(level.steps.map((s: TT.Step) => -1))
-  }, [level.id])
-
+const Level = ({ level, setHintsIndex, displayHintsIndex }: Props) => {
   const pageBottomRef = React.useRef(null)
   const scrollToBottom = () => {
     // @ts-ignore

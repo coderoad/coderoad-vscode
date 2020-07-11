@@ -52,47 +52,9 @@ const level = {
 storiesOf('Level', module)
   .addDecorator(SideBarDecorator)
   .addDecorator(withKnobs)
-  .add('Level', () => (
-    <Level
-      level={level}
-      currentStep={0}
-      status="ACTIVE"
-      position={{ levelId: '1', stepId: '1.1', complete: false }}
-      progress={{ levels: {}, steps: {} }}
-      processes={[]}
-      testStatus={null}
-    />
-  ))
-  .add('Level 2', () => (
-    <Level
-      level={level}
-      currentStep={0}
-      status="ACTIVE"
-      position={{ levelId: '1', stepId: '1.2', complete: false }}
-      progress={{ levels: {}, steps: { '1.1': true } }}
-      processes={[]}
-      testStatus={null}
-    />
-  ))
+  .add('Level', () => <Level level={level} />)
+  .add('Level 2', () => <Level level={level} />)
   .add('No steps', () => (
-    <Level
-      level={{ id: '1', title: 'No Step Level', content: 'No steps in this one', steps: [] }}
-      currentStep={0}
-      status="ACTIVE"
-      position={{ levelId: '1', stepId: null, complete: false }}
-      progress={{ levels: {}, steps: {} }}
-      processes={[]}
-      testStatus={null}
-    />
+    <Level level={{ id: '1', title: 'No Step Level', content: 'No steps in this one', steps: [], status: 'ACTIVE' }} />
   ))
-  .add('No lesson', () => (
-    <Level
-      level={{ id: '1', title: 'No Step Level', content: '', steps: level.steps }}
-      currentStep={0}
-      status="ACTIVE"
-      position={{ levelId: '1', stepId: '1.1', complete: false }}
-      progress={{ levels: {}, steps: {} }}
-      processes={[]}
-      testStatus={null}
-    />
-  ))
+  .add('No lesson', () => <Level level={{ id: '1', title: 'No Step Level', content: '', steps: level.steps }} />)
