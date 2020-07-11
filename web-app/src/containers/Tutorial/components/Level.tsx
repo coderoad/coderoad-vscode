@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import { css, jsx } from '@emotion/core'
-import Markdown from '../../../components/Markdown'
+import Content from './Content'
 import Step from './Step'
 
 const styles = {
@@ -90,12 +90,7 @@ const Level = ({ level, progress, position, onLoadSolution, currentStep, testSta
   return (
     <div css={styles.page}>
       <div css={styles.content}>
-        {level.content.length ? (
-          <div css={styles.text}>
-            <h2 css={styles.title}>{level.title}</h2>
-            <Markdown>{level.content || ''}</Markdown>
-          </div>
-        ) : null}
+        <Content title={level.title} content={level.content} />
 
         {level.content.length && steps.length ? <div css={styles.separator} /> : null}
 
