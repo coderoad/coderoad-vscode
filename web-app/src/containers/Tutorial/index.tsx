@@ -1,8 +1,8 @@
 import * as React from 'react'
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
-import { Drawer } from '@alifd/next'
 import * as selectors from '../../services/selectors'
+import SideMenu from './components/SideMenu'
 import Level from './components/Level'
 import Icon from '../../components/Icon'
 
@@ -61,10 +61,6 @@ const TutorialPage = (props: PageProps) => {
   const levelStatus = progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE'
   const [menuVisible, setMenuVisible] = React.useState(false)
 
-  const onMenuClose = () => {
-    setMenuVisible(false)
-  }
-
   return (
     <div>
       <div css={styles.header}>
@@ -86,9 +82,7 @@ const TutorialPage = (props: PageProps) => {
         processes={processes}
         testStatus={testStatus}
       />
-      <Drawer title="Menu Title" visible={menuVisible} placement="left" onClose={onMenuClose}>
-        Menu content here
-      </Drawer>
+      <SideMenu visible={menuVisible} toggleVisible={setMenuVisible} />
     </div>
   )
 }
