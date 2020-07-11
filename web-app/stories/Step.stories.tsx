@@ -3,6 +3,7 @@ import { select, text, withKnobs } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import Step from '../src/containers/Tutorial/components/Step'
+import Hints from '../src/containers/Tutorial/components/Hints'
 import SideBarDecorator from './utils/SideBarDecorator'
 
 const stepText =
@@ -58,41 +59,19 @@ const paragraphText = `
 storiesOf('Step', module)
   .addDecorator(SideBarDecorator)
   .addDecorator(withKnobs)
-  .add('Active Step', () => (
-    <Step
-      content={text('text', stepText)}
-      status="ACTIVE"
-      onLoadSolution={action('onLoadSolution')}
-      subtasks={null}
-      hintIndex={0}
-      setHintIndex={action('setHintIndex')}
-    />
-  ))
-  .add('Fail Step', () => (
-    <Step
-      content={text('text', stepText)}
-      status="FAIL"
-      onLoadSolution={action('onLoadSolution')}
-      subtasks={null}
-      hintIndex={0}
-      setHintIndex={action('setHintIndex')}
-    />
-  ))
+  .add('Active Step', () => <Step content={text('text', stepText)} status="ACTIVE" subtasks={null} />)
+  .add('Fail Step', () => <Step content={text('text', stepText)} status="FAIL" subtasks={null} />)
   .add('Step Markdown', () => (
     <Step
       content={text('text', paragraphText)}
       status={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'ACTIVE', 'step')}
-      onLoadSolution={action('onLoadSolution')}
       subtasks={null}
-      hintIndex={0}
-      setHintIndex={action('setHintIndex')}
     />
   ))
   .add('Subtasks', () => (
     <Step
       content={'A task with subtasks'}
       status={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'ACTIVE', 'step')}
-      onLoadSolution={action('onLoadSolution')}
       subtasks={[
         {
           name: 'First Test',
@@ -107,18 +86,11 @@ storiesOf('Step', module)
           pass: false,
         },
       ]}
-      hintIndex={0}
-      setHintIndex={action('setHintIndex')}
     />
   ))
   .add('Hints', () => (
-    <Step
-      content={text('text', stepText)}
-      status="ACTIVE"
-      onLoadSolution={action('onLoadSolution')}
-      subtasks={null}
-      hints={['First hint!', 'Second hint!']}
-      hintIndex={1}
-      setHintIndex={action('setHintIndex')}
-    />
+    <>
+      <Step content={text('text', stepText)} status="ACTIVE" subtasks={null} />
+      <Hints hints={['First hint!', 'Second hint!']} hintIndex={1} setHintIndex={action('setHintIndex')} />
+    </>
   ))

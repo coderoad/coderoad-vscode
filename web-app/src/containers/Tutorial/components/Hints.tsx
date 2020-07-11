@@ -25,6 +25,9 @@ interface Props {
 }
 
 const Hints = (props: Props) => {
+  if (!props.hints || !props.hints.length) {
+    return null
+  }
   const isFinalHint = props.hints.length - 1 === props.hintIndex
   const nextHint = () => {
     if (isFinalHint) {

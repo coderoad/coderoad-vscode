@@ -2,16 +2,8 @@ import { action } from '@storybook/addon-actions'
 import { withKnobs } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
-import * as T from '../../typings'
-import * as TT from '../../typings/tutorial'
 import Level from '../src/containers/Tutorial/components/Level'
 import SideBarDecorator from './utils/SideBarDecorator'
-
-type ModifiedLevel = TT.Level & {
-  status: T.ProgressStatus
-  index: number
-  steps: Array<TT.Step & { status: T.ProgressStatus }>
-}
 
 const level = {
   id: '1',
@@ -69,10 +61,6 @@ storiesOf('Level', module)
       progress={{ levels: {}, steps: {} }}
       processes={[]}
       testStatus={null}
-      onRunTest={action('onRunTest')}
-      onOpenLogs={action('onOpenLogs')}
-      onContinue={action('onContinue')}
-      onLoadSolution={action('onLoadSolution')}
     />
   ))
   .add('Level 2', () => (
@@ -84,10 +72,6 @@ storiesOf('Level', module)
       progress={{ levels: {}, steps: { '1.1': true } }}
       processes={[]}
       testStatus={null}
-      onRunTest={action('onRunTest')}
-      onOpenLogs={action('onOpenLogs')}
-      onContinue={action('onContinue')}
-      onLoadSolution={action('onLoadSolution')}
     />
   ))
   .add('No steps', () => (
@@ -99,10 +83,6 @@ storiesOf('Level', module)
       progress={{ levels: {}, steps: {} }}
       processes={[]}
       testStatus={null}
-      onRunTest={action('onRunTest')}
-      onOpenLogs={action('onOpenLogs')}
-      onContinue={action('onContinue')}
-      onLoadSolution={action('onLoadSolution')}
     />
   ))
   .add('No lesson', () => (
@@ -114,9 +94,5 @@ storiesOf('Level', module)
       progress={{ levels: {}, steps: {} }}
       processes={[]}
       testStatus={null}
-      onRunTest={action('onRunTest')}
-      onOpenLogs={action('onOpenLogs')}
-      onContinue={action('onContinue')}
-      onLoadSolution={action('onLoadSolution')}
     />
   ))

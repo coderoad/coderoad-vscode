@@ -2,17 +2,12 @@ import * as React from 'react'
 import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
 import TestStatusIcon from './TestStatusIcon'
-import Hints from './Hints'
 import Markdown from '../../../components/Markdown'
 
 interface Props {
   content: string
   status: T.ProgressStatus
   subtasks: { name: string; pass: boolean }[] | null
-  hints?: string[]
-  hintIndex: number
-  setHintIndex(value: number): void
-  onLoadSolution(): void
 }
 
 const styles = {
@@ -79,10 +74,6 @@ const Step = (props: Props) => {
                 )
               })}
             </ul>
-          ) : null}
-          {/* hints */}
-          {props.hints && props.hints.length ? (
-            <Hints hints={props.hints} hintIndex={props.hintIndex} setHintIndex={props.setHintIndex} />
           ) : null}
         </div>
       </div>

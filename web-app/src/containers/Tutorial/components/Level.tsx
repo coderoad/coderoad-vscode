@@ -3,7 +3,7 @@ import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import { css, jsx } from '@emotion/core'
 import Content from './Content'
-import Step from './Step'
+import Steps from './Steps'
 
 const styles = {
   page: {
@@ -27,10 +27,7 @@ const styles = {
     height: 0,
     borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
   },
-  tasks: {},
-  steps: {
-    padding: '1rem 1rem',
-  },
+
   title: {
     fontSize: '1.2rem',
     fontWeight: 'bold' as 'bold',
@@ -46,13 +43,9 @@ interface Props {
   position: T.Position
   processes: T.ProcessEvent[]
   testStatus: T.TestStatus | null
-  onContinue(): void
-  onRunTest(): void
-  onLoadSolution(): void
-  onOpenLogs(channel: string): void
 }
 
-const Level = ({ level, progress, position, onLoadSolution, currentStep, testStatus }: Props) => {
+const Level = ({ level, progress, position, currentStep, testStatus }: Props) => {
   // hold state for hints for the level
   const [displayHintsIndex, setDisplayHintsIndex] = React.useState<number[]>([])
   const setHintsIndex = (index: number, value: number) => {
@@ -94,36 +87,12 @@ const Level = ({ level, progress, position, onLoadSolution, currentStep, testSta
 
         {level.content.length && steps.length ? <div css={styles.separator} /> : null}
 
-        {steps.length ? (
-          <div css={styles.tasks}>
-            <div css={styles.steps}>
-              {steps.map((step: TT.Step | null, stepIndex: number) => {
-                if (!step) {
-                  return null
-                }
-                let subtasks = null
-                if (step?.subtasks) {
-                  subtasks = step.subtasks.map((subtask: string, subtaskIndex: number) => ({
-                    name: subtask,
-                    pass: !!(testStatus?.summary ? testStatus.summary[subtaskIndex] : false),
-                  }))
-                }
-                return (
-                  <Step
-                    key={step.id}
-                    status={step.status || 'INCOMPLETE'}
-                    content={step.content}
-                    onLoadSolution={onLoadSolution}
-                    subtasks={subtasks}
-                    hints={step.hints}
-                    hintIndex={displayHintsIndex[stepIndex]}
-                    setHintIndex={(value) => setHintsIndex(stepIndex, value)}
-                  />
-                )
-              })}
-            </div>
-          </div>
-        ) : null}
+        <Steps
+          steps={steps}
+          testStatus={testStatus}
+          setHintsIndex={setHintsIndex}
+          displayHintsIndex={displayHintsIndex}
+        />
 
         <div ref={pageBottomRef} />
       </div>

@@ -86,17 +86,17 @@ const TutorialPage = (props: PageProps) => {
     })
   }
 
-  const onLoadSolution = (): void => {
-    props.send({ type: 'STEP_SOLUTION_LOAD' })
-  }
+  // const onLoadSolution = (): void => {
+  //   props.send({ type: 'STEP_SOLUTION_LOAD' })
+  // }
 
   const onRunTest = (): void => {
     props.send({ type: 'RUN_TEST' })
   }
 
-  const onOpenLogs = (channel: string): void => {
-    props.send({ type: 'OPEN_LOGS', payload: { channel } })
-  }
+  // const onOpenLogs = (channel: string): void => {
+  //   props.send({ type: 'OPEN_LOGS', payload: { channel } })
+  // }
 
   const levelIndex = tutorial.levels.findIndex((l: TT.Level) => l.id === position.levelId)
   const levelStatus = progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE'
@@ -127,16 +127,12 @@ const TutorialPage = (props: PageProps) => {
             status={levelStatus}
             progress={progress}
             position={position}
-            onContinue={onContinue}
-            onRunTest={onRunTest}
-            onLoadSolution={onLoadSolution}
-            onOpenLogs={onOpenLogs}
             processes={processes}
             testStatus={testStatus}
           />
         )}
         {page === 'settings' && <SettingsPage />}
-        {page === 'review' && <ReviewPage levels={tutorial.levels} />}
+        {page === 'review' && <ReviewPage levels={tutorial.levels} progress={progress} testStatus={testStatus} />}
       </div>
       <div css={styles.footer}>
         {/* Process Modal */}
