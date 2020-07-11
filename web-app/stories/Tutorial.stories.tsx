@@ -49,7 +49,7 @@ const context: Partial<T.MachineContext> = {
         steps: [
           {
             id: '1.1',
-            content: 'Should support markdown test\n ```shell\nnpn install some-packagen```\nwhew it works!',
+            content: 'Should support markdown test\n ```shell\nnpn install some-package\n```\nwhew it works!',
             setup: {
               commits: ['abcdefg'],
             },
