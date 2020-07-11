@@ -69,6 +69,17 @@ storiesOf('Step', module)
       setHintIndex={action('setHintIndex')}
     />
   ))
+  .add('Fail Step', () => (
+    <Step
+      index={1}
+      content={text('text', stepText)}
+      status="FAIL"
+      onLoadSolution={action('onLoadSolution')}
+      subtasks={null}
+      hintIndex={0}
+      setHintIndex={action('setHintIndex')}
+    />
+  ))
   .add('Step Markdown', () => (
     <Step
       index={2}
@@ -80,7 +91,7 @@ storiesOf('Step', module)
       setHintIndex={action('setHintIndex')}
     />
   ))
-  .add('Substasks', () => (
+  .add('Subtasks', () => (
     <Step
       index={2}
       content={'A task with subtasks'}

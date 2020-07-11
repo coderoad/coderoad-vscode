@@ -1,7 +1,7 @@
 import * as E from './error'
 import * as TT from './tutorial'
 
-export type ProgressStatus = 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE'
+export type ProgressStatus = 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE' | 'FAIL'
 
 export interface Progress {
   levels: {

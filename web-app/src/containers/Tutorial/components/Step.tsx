@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
 import TestStatusIcon from './TestStatusIcon'
+import Icon from '../../../components/Icon'
 import Hints from './Hints'
 import Markdown from '../../../components/Markdown'
 
@@ -54,8 +55,7 @@ const Step = (props: Props) => {
     <div>
       <div css={styles.card}>
         <div css={styles.statusContainer}>
-          {props.status === 'ACTIVE' && <TestStatusIcon size="small" />}
-          {props.status === 'COMPLETE' && <TestStatusIcon size="small" checked />}
+          <TestStatusIcon size="small" status={props.status} />
         </div>
         <div>
           {/* content */}
@@ -65,13 +65,22 @@ const Step = (props: Props) => {
           {/* subtasks */}
           {props.subtasks ? (
             <ul css={styles.subtasks}>
-              {props.subtasks.map((subtask) => (
-                <li key={subtask.name} css={styles.subtask}>
-                  <TestStatusIcon size="xs" checked={props.status === 'COMPLETE' || subtask.pass} />
+              {props.subtasks.map((subtask) => {
+                let subtaskStatus: 'COMPLETE' | 'ACTIVE'
+                if (props.status === 'COMPLETE') {
+                  subtaskStatus = 'COMPLETE'
+                } else {
+                  subtaskStatus = subtask.pass ? 'COMPLETE' : 'ACTIVE'
+                }
 
-                  <span style={{ marginLeft: '0.5rem' }}>{subtask.name}</span>
-                </li>
-              ))}
+                return (
+                  <li key={subtask.name} css={styles.subtask}>
+                    <TestStatusIcon size="xs" status={subtaskStatus} />
+
+                    <span style={{ marginLeft: '0.5rem' }}>{subtask.name}</span>
+                  </li>
+                )
+              })}
             </ul>
           ) : null}
           {/* hints */}
