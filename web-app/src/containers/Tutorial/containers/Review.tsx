@@ -6,8 +6,6 @@ import Content from '../components/Content'
 
 interface Props {
   levels: TT.Level[]
-  progress: T.Progress
-  testStatus: T.TestStatus
 }
 
 const styles = {
@@ -25,12 +23,7 @@ const ReviewPage = (props: Props) => {
           <>
             <div>
               <Content title={level.title} content={level.content} />
-              <Steps
-                steps={level.steps}
-                testStatus={props.testStatus}
-                displayHintsIndex={level.steps.map((s) => -1)}
-                setHintsIndex={() => {}}
-              />
+              <Steps steps={level.steps} displayHintsIndex={level.steps.map((s) => -1)} setHintsIndex={() => {}} />
             </div>
             {index < props.levels.length - 1 ? <hr /> : null}
           </>

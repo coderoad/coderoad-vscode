@@ -12,6 +12,7 @@ import ProcessMessages from '../../components/ProcessMessages'
 import TestMessage from '../../components/TestMessage'
 import { Progress } from '@alifd/next'
 import { DISPLAY_RUN_TEST_BUTTON } from '../../environment'
+import formatLevels from './formatLevels'
 
 const styles = {
   header: {
@@ -76,6 +77,12 @@ interface PageProps {
   send(action: T.Action): void
 }
 
+/**
+ * NOTE: Unused commands
+ * { type: 'STEP_SOLUTION_LOAD' }
+ * { type: 'OPEN_LOGS', payload: { channel } }
+ */
+
 const TutorialPage = (props: PageProps) => {
   const { position, progress, processes, testStatus } = props.context
 
@@ -90,29 +97,20 @@ const TutorialPage = (props: PageProps) => {
     })
   }
 
-  // const onLoadSolution = (): void => {
-  //   props.send({ type: 'STEP_SOLUTION_LOAD' })
-  // }
-
   const onRunTest = (): void => {
     props.send({ type: 'RUN_TEST' })
   }
 
-  // const onOpenLogs = (channel: string): void => {
-  //   props.send({ type: 'OPEN_LOGS', payload: { channel } })
-  // }
-
-  const levelIndex = tutorial.levels.findIndex((l: TT.Level) => l.id === position.levelId)
-  const levelStatus = progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE'
-  const level: TT.Level = tutorial.levels[levelIndex]
   const [menuVisible, setMenuVisible] = React.useState(false)
 
   const [page, setPage] = React.useState<'level' | 'settings' | 'review'>('level')
 
-  let currentStep = level.steps.findIndex((s: TT.Step) => s.status === 'ACTIVE')
-  if (currentStep === -1) {
-    currentStep = level.steps.length
-  }
+  const { level, levels, stepIndex } = formatLevels({
+    progress,
+    position,
+    levels: tutorial.levels,
+    testStatus,
+  })
 
   return (
     <div>
@@ -124,19 +122,9 @@ const TutorialPage = (props: PageProps) => {
           <span css={styles.title}>{tutorial.summary.title}</span>
         </div>
 
-        {page === 'level' && (
-          <Level
-            level={level}
-            currentStep={currentStep}
-            status={levelStatus}
-            progress={progress}
-            position={position}
-            processes={processes}
-            testStatus={testStatus}
-          />
-        )}
+        {page === 'level' && <Level level={level} />}
         {page === 'settings' && <SettingsPage />}
-        {page === 'review' && <ReviewPage levels={tutorial.levels} progress={progress} testStatus={testStatus} />}
+        {page === 'review' && <ReviewPage levels={levels} />}
       </div>
       <div css={styles.footer}>
         {/* Process Modal */}
@@ -152,7 +140,7 @@ const TutorialPage = (props: PageProps) => {
           </div>
         )}
         {/* Left */}
-        {DISPLAY_RUN_TEST_BUTTON && levelStatus !== 'COMPLETE' ? (
+        {DISPLAY_RUN_TEST_BUTTON && level.status !== 'COMPLETE' ? (
           <Button style={{ marginLeft: '1rem' }} type="primary" onClick={onRunTest} disabled={processes.length > 0}>
             Run
           </Button>
@@ -165,7 +153,7 @@ const TutorialPage = (props: PageProps) => {
 
         {/* Right */}
         <div>
-          {levelStatus === 'COMPLETE' || !level.steps.length ? (
+          {level.status === 'COMPLETE' || !level.steps.length ? (
             <Button type="primary" onClick={onContinue}>
               Continue
             </Button>
@@ -173,14 +161,14 @@ const TutorialPage = (props: PageProps) => {
             <Progress
               state="success"
               progressive
-              percent={(currentStep / level.steps.length) * 100}
+              percent={(stepIndex / level.steps.length) * 100}
               shape="line"
               color="rgb(85, 132, 255)"
               css={styles.taskProgress}
               textRender={(percent: number) => {
                 return (
                   <span style={{ color: 'white' }}>
-                    {currentStep} of {level.steps.length}
+                    {stepIndex} of {level.steps.length}
                   </span>
                 )
               }}

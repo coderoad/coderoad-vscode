@@ -37,15 +37,9 @@ const styles = {
 
 interface Props {
   level: TT.Level
-  currentStep: number
-  status: 'COMPLETE' | 'ACTIVE' | 'INCOMPLETE'
-  progress: T.Progress
-  position: T.Position
-  processes: T.ProcessEvent[]
-  testStatus: T.TestStatus | null
 }
 
-const Level = ({ level, progress, position, currentStep, testStatus }: Props) => {
+const Level = ({ level }: Props) => {
   // hold state for hints for the level
   const [displayHintsIndex, setDisplayHintsIndex] = React.useState<number[]>([])
   const setHintsIndex = (index: number, value: number) => {
@@ -58,41 +52,23 @@ const Level = ({ level, progress, position, currentStep, testStatus }: Props) =>
   React.useEffect(() => {
     // set the hints to empty on level starts
     setDisplayHintsIndex(level.steps.map((s: TT.Step) => -1))
-  }, [position.levelId])
-
-  const steps: TT.Step[] = level.steps.map((step: TT.Step) => {
-    // label step status for step component
-    let status: T.ProgressStatus = 'INCOMPLETE'
-    if (progress.steps[step.id]) {
-      status = 'COMPLETE'
-    } else if (step.id === position.stepId) {
-      status = 'ACTIVE'
-    }
-    return { ...step, status }
-  })
-
-  // current
+  }, [level.id])
 
   const pageBottomRef = React.useRef(null)
   const scrollToBottom = () => {
     // @ts-ignore
     pageBottomRef.current.scrollIntoView({ behavior: 'smooth' })
   }
-  React.useEffect(scrollToBottom, [currentStep])
+  React.useEffect(scrollToBottom, [level.id])
 
   return (
     <div css={styles.page}>
       <div css={styles.content}>
         <Content title={level.title} content={level.content} />
 
-        {level.content.length && steps.length ? <div css={styles.separator} /> : null}
+        {level.content.length && level.steps.length ? <div css={styles.separator} /> : null}
 
-        <Steps
-          steps={steps}
-          testStatus={testStatus}
-          setHintsIndex={setHintsIndex}
-          displayHintsIndex={displayHintsIndex}
-        />
+        <Steps steps={level.steps} setHintsIndex={setHintsIndex} displayHintsIndex={displayHintsIndex} />
 
         <div ref={pageBottomRef} />
       </div>
