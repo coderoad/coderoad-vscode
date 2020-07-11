@@ -7,6 +7,7 @@ import Icon from '../../../components/Icon'
 import Button from '../../../components/Button'
 import Markdown from '../../../components/Markdown'
 import ProcessMessages from '../../../components/ProcessMessages'
+import TestMessage from '../../../components/TestMessage'
 import ContentMenu from './ContentMenu'
 import Step from './Step'
 import { DISPLAY_RUN_TEST_BUTTON } from '../../../environment'
@@ -58,15 +59,17 @@ const styles = {
   processes: {
     padding: '0 1rem',
     position: 'fixed' as 'fixed',
-    bottom: '4rem',
-    left: 0,
-    right: 0,
-  },
-  nux: {
-    position: 'fixed' as 'fixed',
     bottom: '2rem',
     left: 0,
     right: 0,
+    top: 'auto',
+  },
+  testMessage: {
+    position: 'absolute' as 'absolute',
+    top: 'auto',
+    bottom: '2rem',
+    left: '5px',
+    right: '5px',
   },
   footer: {
     display: 'flex' as 'flex',
@@ -118,8 +121,6 @@ const Level = ({
   testStatus,
 }: Props) => {
   const level: TT.Level = tutorial.levels[index]
-
-  console.log(level)
 
   const [title, setTitle] = React.useState<string>(level.title)
   const [content, setContent] = React.useState<string>(level.content)
@@ -230,13 +231,20 @@ const Level = ({
 
         <div ref={pageBottomRef} />
 
-        {((testStatus && testStatus.type !== 'hidden') || processes.length > 0) && (
-          <div css={styles.processes}>
-            <ProcessMessages processes={processes} testStatus={testStatus} onOpenLogs={onOpenLogs} />
-          </div>
-        )}
-
         <div css={styles.footer}>
+          {/* Process Modal */}
+          {processes.length > 0 && (
+            <div css={styles.processes}>
+              <ProcessMessages processes={processes} />
+            </div>
+          )}
+          {/* Test Fail Modal */}
+          {testStatus && testStatus.type === 'warning' && (
+            <div css={styles.testMessage}>
+              <TestMessage message={testStatus.title} />
+            </div>
+          )}
+
           {DISPLAY_RUN_TEST_BUTTON && status !== 'COMPLETE' ? (
             <Button type="primary" onClick={onRunTest} disabled={processes.length > 0}>
               Run

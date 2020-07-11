@@ -65,6 +65,8 @@ storiesOf('Step', module)
       status="ACTIVE"
       onLoadSolution={action('onLoadSolution')}
       subtasks={null}
+      hintIndex={0}
+      setHintIndex={action('setHintIndex')}
     />
   ))
   .add('Step Markdown', () => (
@@ -74,6 +76,8 @@ storiesOf('Step', module)
       status={select('mode', { ACTIVE: 'ACTIVE', COMPLETE: 'COMPLETE', INCOMPLETE: 'INCOMPLETE' }, 'ACTIVE', 'step')}
       onLoadSolution={action('onLoadSolution')}
       subtasks={null}
+      hintIndex={0}
+      setHintIndex={action('setHintIndex')}
     />
   ))
   .add('Substasks', () => (
@@ -96,6 +100,8 @@ storiesOf('Step', module)
           pass: false,
         },
       ]}
+      hintIndex={0}
+      setHintIndex={action('setHintIndex')}
     />
   ))
   .add('Hints', () => (
