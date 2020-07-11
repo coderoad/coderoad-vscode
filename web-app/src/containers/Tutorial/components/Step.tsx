@@ -11,8 +11,8 @@ interface Props {
   status: T.ProgressStatus
   subtasks: { name: string; pass: boolean }[] | null
   hints?: string[]
-  hintIndex: number
-  setHintIndex(value: number): void
+  hintIndex?: number
+  setHintIndex?(value: number): void
   onLoadSolution(): void
 }
 
