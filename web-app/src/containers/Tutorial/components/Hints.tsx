@@ -20,29 +20,33 @@ const styles = {
 
 interface Props {
   hints: string[]
-  hintIndex: number
-  setHintIndex(value: number): void
 }
 
 const Hints = (props: Props) => {
+  // hold state for hints for the level
+  const [hintIndex, setHintIndex] = React.useState<number>(-1)
+
   if (!props.hints || !props.hints.length) {
     return null
   }
-  const isFinalHint = props.hints.length - 1 === props.hintIndex
+
+  const isFinalHint = props.hints.length - 1 === hintIndex
+
   const nextHint = () => {
     if (isFinalHint) {
       return
     }
-    props.setHintIndex(props.hintIndex + 1)
+    setHintIndex(hintIndex + 1)
   }
+
   return (
     <div css={styles.hints}>
       <div css={styles.hintList}>
         {/* only show revealed hints */}
-        {props.hints.map((h, i) => {
-          return i <= props.hintIndex ? (
-            <div key={i} css={styles.hint}>
-              <Markdown css={styles.hint}>{h}</Markdown>
+        {props.hints.map((hint, index) => {
+          return index <= hintIndex ? (
+            <div key={index} css={styles.hint}>
+              <Markdown css={styles.hint}>{hint}</Markdown>
             </div>
           ) : null
         })}

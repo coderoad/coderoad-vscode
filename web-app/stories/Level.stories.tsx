@@ -23,6 +23,7 @@ const level = {
         commits: ['hijklmn'],
       },
       status: 'COMPLETE',
+      hints: ['first hint', 'second hint'],
     },
     {
       id: '1.2',
@@ -34,6 +35,7 @@ const level = {
         commits: ['hijklmn'],
       },
       status: 'ACTIVE',
+      hints: ['more hint action', 'another second hint'],
     },
     {
       id: '1.3',

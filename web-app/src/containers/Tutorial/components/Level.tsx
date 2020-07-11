@@ -37,11 +37,9 @@ const styles = {
 
 interface Props {
   level: TT.Level
-  setHintsIndex(stepIndex: number, value: number): void
-  displayHintsIndex: number[]
 }
 
-const Level = ({ level, setHintsIndex, displayHintsIndex }: Props) => {
+const Level = ({ level }: Props) => {
   const pageBottomRef = React.useRef(null)
   const scrollToBottom = () => {
     // @ts-ignore
@@ -56,7 +54,7 @@ const Level = ({ level, setHintsIndex, displayHintsIndex }: Props) => {
 
         {level.content.length && level.steps.length ? <div css={styles.separator} /> : null}
 
-        <Steps steps={level.steps} setHintsIndex={setHintsIndex} displayHintsIndex={displayHintsIndex} />
+        <Steps steps={level.steps} />
 
         <div ref={pageBottomRef} />
       </div>

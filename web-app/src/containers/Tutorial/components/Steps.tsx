@@ -6,8 +6,6 @@ import Hints from './Hints'
 
 interface Props {
   steps: TT.Step[]
-  displayHintsIndex: number[]
-  setHintsIndex(stepIndex: number, value: number): void
 }
 
 const styles = {
@@ -23,19 +21,15 @@ const Steps = (props: Props) => {
   return (
     <div css={styles.steps}>
       {/* @ts-ignore typings are different between UI & data */}
-      {props.steps.map((step: TT.Step & { subtasks: null | { name: string; pass: boolean }[] }, stepIndex: number) => {
+      {props.steps.map((step: TT.Step & { subtasks: null | { name: string; pass: boolean }[] }) => {
         if (!step) {
           return null
         }
         return (
-          <>
+          <div key={step.id}>
             <Step key={step.id} status={step.status || 'INCOMPLETE'} content={step.content} subtasks={step.subtasks} />
-            <Hints
-              hints={step.hints || []}
-              hintIndex={props.displayHintsIndex[stepIndex]}
-              setHintIndex={(value) => props.setHintsIndex(stepIndex, value)}
-            />
-          </>
+            <Hints hints={step.hints || []} />
+          </div>
         )
       })}
     </div>

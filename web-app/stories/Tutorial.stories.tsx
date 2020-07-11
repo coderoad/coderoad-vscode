@@ -101,6 +101,7 @@ const context: Partial<T.MachineContext> = {
               commits: ['hijklmn'],
             },
             status: 'COMPLETE',
+            hints: ['first hint', 'second hint'],
           },
           {
             id: '2.2',
@@ -112,6 +113,7 @@ const context: Partial<T.MachineContext> = {
               commits: ['hijklmn'],
             },
             status: 'ACTIVE',
+            hints: ['another hint', 'another other hint'],
           },
           {
             id: '2.3',

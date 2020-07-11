@@ -85,15 +85,6 @@ interface PageProps {
 
 const TutorialPage = (props: PageProps) => {
   const { position, progress, processes, testStatus } = props.context
-  // hold state for hints for the level
-  const [displayHintsIndex, setDisplayHintsIndex] = React.useState<number[]>([])
-  const setHintsIndex = (index: number, value: number) => {
-    return setDisplayHintsIndex((displayHintsIndex) => {
-      const next = [...displayHintsIndex]
-      next[index] = value
-      return next
-    })
-  }
 
   const tutorial = selectors.currentTutorial(props.context)
 
@@ -121,11 +112,6 @@ const TutorialPage = (props: PageProps) => {
     testStatus,
   })
 
-  React.useEffect(() => {
-    // set the hints to empty on level starts
-    setDisplayHintsIndex(level.steps.map((s: TT.Step) => -1))
-  }, [level.id])
-
   return (
     <div>
       <div>
@@ -136,9 +122,7 @@ const TutorialPage = (props: PageProps) => {
           <span css={styles.title}>{tutorial.summary.title}</span>
         </div>
 
-        {page === 'level' && (
-          <Level level={level} displayHintsIndex={displayHintsIndex} setHintsIndex={setHintsIndex} />
-        )}
+        {page === 'level' && <Level level={level} />}
         {page === 'settings' && <SettingsPage />}
         {page === 'review' && <ReviewPage levels={levels} />}
       </div>
@@ -181,7 +165,7 @@ const TutorialPage = (props: PageProps) => {
               shape="line"
               color="rgb(85, 132, 255)"
               css={styles.taskProgress}
-              textRender={(percent: number) => {
+              textRender={() => {
                 return (
                   <span style={{ color: 'white' }}>
                     {stepIndex} of {level.steps.length}
