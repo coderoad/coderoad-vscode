@@ -45,7 +45,10 @@ const SideMenu = (props: Props) => {
           key="level"
           disabled={props.page === 'level'}
           style={props.page === 'level' ? styles.active : {}}
-          onClick={() => props.setPage('level')}
+          onClick={() => {
+            onMenuClose()
+            props.setPage('level')
+          }}
         >
           <Icon type="detail" size="small" color="#EBEBEB" />
           <span style={styles.itemText}>Level</span>
@@ -54,7 +57,10 @@ const SideMenu = (props: Props) => {
           key="review"
           disabled={props.page === 'review'}
           style={props.page === 'review' ? styles.active : {}}
-          onClick={() => props.setPage('review')}
+          onClick={() => {
+            onMenuClose()
+            props.setPage('review')
+          }}
         >
           <Icon type="list" size="small" color="#EBEBEB" />
           <span style={styles.itemText}>Review</span>
@@ -64,7 +70,10 @@ const SideMenu = (props: Props) => {
           key="settings"
           disabled={props.page === 'settings'}
           style={props.page === 'settings' ? styles.active : {}}
-          onClick={() => props.setPage('settings')}
+          onClick={() => {
+            onMenuClose()
+            props.setPage('settings')
+          }}
         >
           <Icon type="set" size="small" color="#EBEBEB" />
           <span style={styles.itemText}>Settings</span>
