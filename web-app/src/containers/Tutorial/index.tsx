@@ -1,10 +1,10 @@
 import * as React from 'react'
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
-// import { Dropdown } from '@alifd/next'
+import { Button, Drawer } from '@alifd/next'
 import * as selectors from '../../services/selectors'
 import Level from './components/Level'
-// import Icon from '../../components/Icon'
+import Icon from '../../components/Icon'
 
 const styles = {
   header: {
@@ -56,10 +56,20 @@ const TutorialPage = (props: PageProps) => {
 
   const levelIndex = tutorial.levels.findIndex((l: TT.Level) => l.id === position.levelId)
   const levelStatus = progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE'
+  const [menuVisible, setMenuVisible] = React.useState(false)
+
+  const onMenuClose = () => {
+    setMenuVisible(false)
+  }
 
   return (
     <div>
-      <div css={styles.header}>{tutorial.summary.title}</div>
+      <div css={styles.header}>
+        <Button onClick={() => setMenuVisible(!menuVisible)}>
+          <Icon type="menu" />
+        </Button>
+        {tutorial.summary.title}
+      </div>
       <Level
         tutorial={tutorial}
         index={levelIndex}
@@ -73,6 +83,9 @@ const TutorialPage = (props: PageProps) => {
         processes={processes}
         testStatus={testStatus}
       />
+      <Drawer title="Menu Title" visible={menuVisible} placement="left" onClose={onMenuClose}>
+        Menu content here
+      </Drawer>
     </div>
   )
 }
