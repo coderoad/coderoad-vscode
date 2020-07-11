@@ -16,8 +16,8 @@ type ModifiedLevel = TT.Level & {
 const context: Partial<T.MachineContext> = {
   env: { machineId: '', sessionId: '', token: '' },
   error: null,
-  position: { levelId: '1', stepId: '1.1' },
-  progress: { levels: {}, steps: {}, complete: false },
+  position: { levelId: '2', stepId: '2.2' },
+  progress: { levels: { '1': true }, steps: { '1.1': true, '1.2': true, '1.3': true, '2.1': true }, complete: false },
   processes: [],
   testStatus: null,
   tutorial: {
@@ -41,11 +41,11 @@ const context: Partial<T.MachineContext> = {
     levels: [
       {
         id: '1',
-        title: 'A Title',
-        summary: 'A summary of the level',
+        title: 'First Level',
+        summary: 'A summary of the first level',
         content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
         setup: null,
-        status: 'ACTIVE' as 'ACTIVE',
+        status: 'COMPLETE' as 'COMPLETE',
         steps: [
           {
             id: '1.1',
@@ -57,6 +57,7 @@ const context: Partial<T.MachineContext> = {
               commits: ['hijklmn'],
             },
             status: 'COMPLETE',
+            hints: ['First Hint', 'Second Hint'],
           },
           {
             id: '1.2',
@@ -67,10 +68,96 @@ const context: Partial<T.MachineContext> = {
             solution: {
               commits: ['hijklmn'],
             },
-            status: 'ACTIVE',
+            status: 'COMPLETE',
           },
           {
             id: '1.3',
+            content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
+            setup: {
+              commits: ['abcdefg'],
+            },
+            solution: {
+              commits: ['hijklmn'],
+            },
+            status: 'COMPLETE',
+          },
+        ],
+      },
+      {
+        id: '2',
+        title: 'The Second Level',
+        summary: 'A summary of the 2nd level',
+        content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
+        setup: null,
+        status: 'ACTIVE' as 'ACTIVE',
+        steps: [
+          {
+            id: '2.1',
+            content: 'Should support markdown test\n ```shell\nnpn install some-package\n```\nwhew it works!',
+            setup: {
+              commits: ['abcdefg'],
+            },
+            solution: {
+              commits: ['hijklmn'],
+            },
+            status: 'COMPLETE',
+          },
+          {
+            id: '2.2',
+            content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
+            setup: {
+              commits: ['abcdefg'],
+            },
+            solution: {
+              commits: ['hijklmn'],
+            },
+            status: 'ACTIVE',
+          },
+          {
+            id: '2.3',
+            content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
+            setup: {
+              commits: ['abcdefg'],
+            },
+            solution: {
+              commits: ['hijklmn'],
+            },
+            status: 'INCOMPLETE',
+          },
+        ],
+      },
+      {
+        id: '3',
+        title: 'A Third Level',
+        summary: 'A summary of the 3rd level',
+        content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
+        setup: null,
+        status: 'INCOMPLETE',
+        steps: [
+          {
+            id: '3.1',
+            content: 'Should support markdown test\n ```shell\nnpn install some-package\n```\nwhew it works!',
+            setup: {
+              commits: ['abcdefg'],
+            },
+            solution: {
+              commits: ['hijklmn'],
+            },
+            status: 'INCOMPLETE',
+          },
+          {
+            id: '3.2',
+            content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
+            setup: {
+              commits: ['abcdefg'],
+            },
+            solution: {
+              commits: ['hijklmn'],
+            },
+            status: 'INCOMPLETE',
+          },
+          {
+            id: '3.3',
             content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
             setup: {
               commits: ['abcdefg'],
