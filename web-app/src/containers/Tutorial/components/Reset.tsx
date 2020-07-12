@@ -25,7 +25,7 @@ const Reset = (props: Props) => {
 
   return (
     <>
-      <Button type="secondary" onClick={() => setModalState('confirm')} disabled={props.disabled}>
+      <Button type="secondary" size="medium" onClick={() => setModalState('confirm')} disabled={props.disabled}>
         Reset
       </Button>
       <Dialog

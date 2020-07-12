@@ -39,6 +39,7 @@
     "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^16.13.1",
     "reselect": "^4.0.0",
+    "use-media": "^1.4.0",
     "xstate": "^4.11.0"
   },
   "devDependencies": {
