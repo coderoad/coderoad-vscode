@@ -1,6 +1,5 @@
 import * as React from 'react'
 import * as T from 'typings'
-import * as TT from 'typings/tutorial'
 import * as selectors from '../../services/selectors'
 import SideMenu from './components/SideMenu'
 import Level from './components/Level'
@@ -154,7 +153,7 @@ const TutorialPage = (props: PageProps) => {
         {/* Right */}
         <div>
           {level.status === 'COMPLETE' || !level.steps.length ? (
-            <Button type="primary" onClick={onContinue}>
+            <Button style={{ marginRight: '1rem' }} type="primary" onClick={onContinue}>
               Continue
             </Button>
           ) : (

@@ -2,6 +2,8 @@ import * as React from 'react'
 
 const styles = {
   container: {
+    display: 'flex' as 'flex',
+    flexDirection: 'column' as 'column',
     padding: '1rem',
   },
 }
