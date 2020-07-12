@@ -1,0 +1,4 @@
+/* remove visited styles from menu button */
+i.next-icon:visited {
+  text-decoration: none;
+}

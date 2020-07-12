@@ -2,18 +2,13 @@ import * as React from 'react'
 import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
 import TestStatusIcon from './TestStatusIcon'
-import Hints from './Hints'
 import Markdown from '../../../components/Markdown'
 
 interface Props {
-  index: number
   content: string
   status: T.ProgressStatus
-  subtasks: { name: string; pass: boolean }[] | null
-  hints?: string[]
-  hintIndex: number
-  setHintIndex(value: number): void
-  onLoadSolution(): void
+  subtasks?: T.SubtaskUI[]
+  displayAll: boolean
 }
 
 const styles = {
@@ -46,7 +41,7 @@ const styles = {
 }
 
 const Step = (props: Props) => {
-  const showStep = props.status !== 'INCOMPLETE'
+  const showStep = props.displayAll || props.status !== 'INCOMPLETE'
   if (!showStep) {
     return null
   }
@@ -54,8 +49,7 @@ const Step = (props: Props) => {
     <div>
       <div css={styles.card}>
         <div css={styles.statusContainer}>
-          {props.status === 'ACTIVE' && <TestStatusIcon size="small" />}
-          {props.status === 'COMPLETE' && <TestStatusIcon size="small" checked />}
+          <TestStatusIcon size="small" status={props.status} />
         </div>
         <div>
           {/* content */}
@@ -65,18 +59,15 @@ const Step = (props: Props) => {
           {/* subtasks */}
           {props.subtasks ? (
             <ul css={styles.subtasks}>
-              {props.subtasks.map((subtask) => (
-                <li key={subtask.name} css={styles.subtask}>
-                  <TestStatusIcon size="xs" checked={props.status === 'COMPLETE' || subtask.pass} />
-
-                  <span style={{ marginLeft: '0.5rem' }}>{subtask.name}</span>
-                </li>
-              ))}
+              {props.subtasks.map((subtask) => {
+                return (
+                  <li key={subtask.name} css={styles.subtask}>
+                    <TestStatusIcon size="xs" status={subtask.status} />
+                    <span style={{ marginLeft: '0.5rem' }}>{subtask.name}</span>
+                  </li>
+                )
+              })}
             </ul>
-          ) : null}
-          {/* hints */}
-          {props.hints && props.hints.length ? (
-            <Hints hints={props.hints} hintIndex={props.hintIndex} setHintIndex={props.setHintIndex} />
           ) : null}
         </div>
       </div>

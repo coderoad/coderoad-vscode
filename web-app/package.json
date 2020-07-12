@@ -25,11 +25,11 @@
     "extends": "react-app"
   },
   "dependencies": {
-    "@alifd/next": "^1.20.14",
+    "@alifd/next": "^1.20.18",
     "@alifd/theme-4": "^0.3.1",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/core": "^10.0.28",
-    "@sentry/browser": "^5.18.1",
+    "@sentry/browser": "^5.19.1",
     "js-yaml": "^3.14.0",
     "markdown-it": "^11.0.0",
     "markdown-it-emoji": "^1.4.0",
@@ -39,24 +39,24 @@
     "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^16.13.1",
     "reselect": "^4.0.0",
-    "xstate": "^4.10.0"
+    "xstate": "^4.11.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.3",
+    "@babel/core": "^7.10.4",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-knobs": "^5.3.19",
     "@storybook/addon-links": "^5.3.19",
     "@storybook/addons": "^5.3.19",
-    "@storybook/preset-create-react-app": "^3.1.2",
+    "@storybook/preset-create-react-app": "^3.1.4",
     "@storybook/react": "^5.3.19",
     "@types/graphql": "^14.5.0",
     "@types/highlight.js": "^9.12.4",
-    "@types/jest": "^26.0.3",
+    "@types/jest": "^26.0.4",
     "@types/js-yaml": "^3.12.5",
     "@types/markdown-it": "^10.0.1",
-    "@types/node": "^14.0.14",
+    "@types/node": "^14.0.22",
     "@types/prismjs": "^1.16.1",
-    "@types/react": "^16.9.41",
+    "@types/react": "^16.9.43",
     "@types/react-addons-css-transition-group": "^15.0.5",
     "@types/react-dom": "^16.9.8",
     "babel-loader": "8.1.0",
@@ -68,6 +68,6 @@
     "react-app-rewired": "^2.1.6",
     "react-scripts": "^3.4.1",
     "sass-loader": "^8.0.2",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.6"
   }
 }

@@ -1,46 +1,59 @@
 import * as React from 'react'
+import { css, jsx } from '@emotion/core'
 import Markdown from '../../../components/Markdown'
 import Button from '../../../components/Button'
 
 const styles = {
   hints: {
-    marginTop: '1rem',
+    marginTop: '0.5rem',
   },
   hintList: {
     marginBottom: '0.5rem',
   },
   hint: {
-    margin: '0.5rem 0',
+    marginBottom: '0.5rem',
     backgroundColor: 'rgba(255,229,100,0.3)',
     borderLeft: '#ffe564',
-    padding: '0.5rem',
+    borderRadius: '2px',
+    padding: '0 0.5rem',
   },
 }
 
 interface Props {
   hints: string[]
-  hintIndex: number
-  setHintIndex(value: number): void
 }
 
 const Hints = (props: Props) => {
-  const isFinalHint = props.hints.length - 1 === props.hintIndex
+  // hold state for hints for the level
+  const [hintIndex, setHintIndex] = React.useState<number>(-1)
+
+  if (!props.hints || !props.hints.length) {
+    return null
+  }
+
+  const isFinalHint = props.hints.length - 1 === hintIndex
+
   const nextHint = () => {
     if (isFinalHint) {
       return
     }
-    props.setHintIndex(props.hintIndex + 1)
+    setHintIndex(hintIndex + 1)
   }
+
   return (
-    <div style={styles.hints}>
-      <div style={styles.hintList}>
+    <div css={styles.hints}>
+      <div css={styles.hintList}>
         {/* only show revealed hints */}
-        {props.hints.map((h, i) => {
-          return i <= props.hintIndex ? (
-            <div key={i} style={styles.hint}>
-              <Markdown>{h}</Markdown>
+        {props.hints.map((hint, index) => {
+          if (index > hintIndex) {
+            // hint not yet revealed
+            return null
+          }
+          return (
+            <div key={index} css={styles.hint}>
+              <Markdown>{`${index + 1}.&nbsp;${hint}`}</Markdown>
             </div>
-          ) : null
+          )
         })}
       </div>
       <Button onClick={nextHint} disabled={isFinalHint}>

@@ -32,7 +32,6 @@ export type Step = {
   solution: Maybe<StepActions>
   hints?: string[]
   subtasks?: string[]
-  status?: ProgressStatus
 }
 
 /** A tutorial for use in VSCode CodeRoad */
