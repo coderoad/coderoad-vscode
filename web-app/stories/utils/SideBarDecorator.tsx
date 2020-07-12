@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { css, jsx } from '@emotion/core'
+import { Provider } from './ProviderDecorator'
 
 const styles = {
   container: {
@@ -14,6 +15,10 @@ const styles = {
   },
 }
 
-const SideBarDecorator = (storyFn) => <div css={styles.container}>{storyFn()}</div>
+const SideBarDecorator = (storyFn) => (
+  <Provider>
+    <div css={styles.container}>{storyFn()}</div>
+  </Provider>
+)
 
 export default SideBarDecorator

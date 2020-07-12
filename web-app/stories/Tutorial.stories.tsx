@@ -56,7 +56,6 @@ const context: Partial<T.MachineContext> = {
             solution: {
               commits: ['hijklmn'],
             },
-            status: 'COMPLETE',
             hints: ['First Hint', 'Second Hint'],
           },
           {
@@ -68,7 +67,6 @@ const context: Partial<T.MachineContext> = {
             solution: {
               commits: ['hijklmn'],
             },
-            status: 'COMPLETE',
           },
           {
             id: '1.3',
@@ -79,7 +77,6 @@ const context: Partial<T.MachineContext> = {
             solution: {
               commits: ['hijklmn'],
             },
-            status: 'COMPLETE',
           },
         ],
       },
@@ -100,7 +97,6 @@ const context: Partial<T.MachineContext> = {
             solution: {
               commits: ['hijklmn'],
             },
-            status: 'COMPLETE',
             hints: ['first hint', 'second hint'],
           },
           {
@@ -112,7 +108,6 @@ const context: Partial<T.MachineContext> = {
             solution: {
               commits: ['hijklmn'],
             },
-            status: 'ACTIVE',
             hints: ['another hint', 'another other hint'],
           },
           {
@@ -124,7 +119,6 @@ const context: Partial<T.MachineContext> = {
             solution: {
               commits: ['hijklmn'],
             },
-            status: 'INCOMPLETE',
           },
         ],
       },
@@ -134,7 +128,6 @@ const context: Partial<T.MachineContext> = {
         summary: 'A summary of the 3rd level',
         content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
         setup: null,
-        status: 'INCOMPLETE',
         steps: [
           {
             id: '3.1',
@@ -145,7 +138,6 @@ const context: Partial<T.MachineContext> = {
             solution: {
               commits: ['hijklmn'],
             },
-            status: 'INCOMPLETE',
           },
           {
             id: '3.2',
@@ -156,7 +148,6 @@ const context: Partial<T.MachineContext> = {
             solution: {
               commits: ['hijklmn'],
             },
-            status: 'INCOMPLETE',
           },
           {
             id: '3.3',
@@ -167,7 +158,6 @@ const context: Partial<T.MachineContext> = {
             solution: {
               commits: ['hijklmn'],
             },
-            status: 'INCOMPLETE',
           },
         ],
       },

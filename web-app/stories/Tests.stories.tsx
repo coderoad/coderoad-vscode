@@ -5,4 +5,4 @@ import SideBarDecorator from './utils/SideBarDecorator'
 
 storiesOf('Test Message', module)
   .addDecorator(SideBarDecorator)
-  .add('Fail', () => <TestMessage content={'Test failed for some reason'} />)
+  .add('Fail', () => <TestMessage message={'Test failed for some reason'} />)
