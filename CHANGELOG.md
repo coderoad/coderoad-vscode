@@ -201,3 +201,16 @@ Subtasks are then matched up with tests with names that match
 SUBTASK 1.1 :1 test name
 SUBTASK 1.2 :2 test name
 ```
+
+### [0.10.0]
+
+UI redesign for the tutorial page:
+
+- removes unnecessary headers
+- adds a side panel
+- step progress indicator
+- removes logs from error messges
+
+Supports "reset button" for resetting state & running a reset script.
+
+Adds a review page for viewing tutorial content. The review page should be especially helpful for tutorial creators.
