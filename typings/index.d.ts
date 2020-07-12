@@ -1,6 +1,28 @@
 import * as E from './error'
 import * as TT from './tutorial'
 
+export type LevelUI = {
+  id: string
+  title: string
+  /** A summary of the level */
+  summary: string
+  /** The lesson content of the level, parsed as markdown */
+  content: string
+  /** A set of tasks for users linked to unit tests */
+  steps: StepUI[]
+  status: ProgressStatus
+}
+
+export type StepUI = {
+  id: string
+  content: string
+  status: ProgressStatus
+  hints?: string[]
+  subtasks?: SubtaskUI[]
+}
+
+export type SubtaskUI = { name: string; status: ProgressStatus }
+
 export type ProgressStatus = 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE' | 'FAIL'
 
 export interface Progress {

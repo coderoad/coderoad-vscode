@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as T from 'typings'
+import './style.css'
 import * as selectors from '../../services/selectors'
 import SideMenu from './components/SideMenu'
 import Level from './components/Level'
@@ -104,7 +105,7 @@ const TutorialPage = (props: PageProps) => {
 
   const [page, setPage] = React.useState<'level' | 'settings' | 'review'>('level')
 
-  const { level, levels, stepIndex } = formatLevels({
+  const { level, stepIndex } = formatLevels({
     progress,
     position,
     levels: tutorial.levels,
@@ -122,7 +123,7 @@ const TutorialPage = (props: PageProps) => {
         </div>
 
         {page === 'level' && <Level level={level} />}
-        {page === 'review' && <ReviewPage levels={levels} />}
+        {page === 'review' && <ReviewPage levels={tutorial.levels} />}
         {/* {page === 'settings' && <SettingsPage />} */}
       </div>
       <div css={styles.footer}>

@@ -7,7 +7,7 @@ import Markdown from '../../../components/Markdown'
 interface Props {
   content: string
   status: T.ProgressStatus
-  subtasks: { name: string; pass: boolean }[] | null
+  subtasks?: T.SubtaskUI[]
   displayAll: boolean
 }
 
@@ -60,16 +60,9 @@ const Step = (props: Props) => {
           {props.subtasks ? (
             <ul css={styles.subtasks}>
               {props.subtasks.map((subtask) => {
-                let subtaskStatus: 'COMPLETE' | 'ACTIVE'
-                if (props.status === 'COMPLETE') {
-                  subtaskStatus = 'COMPLETE'
-                } else {
-                  subtaskStatus = subtask.pass ? 'COMPLETE' : 'ACTIVE'
-                }
-
                 return (
                   <li key={subtask.name} css={styles.subtask}>
-                    <TestStatusIcon size="xs" status={subtaskStatus} />
+                    <TestStatusIcon size="xs" status={subtask.status} />
                     <span style={{ marginLeft: '0.5rem' }}>{subtask.name}</span>
                   </li>
                 )

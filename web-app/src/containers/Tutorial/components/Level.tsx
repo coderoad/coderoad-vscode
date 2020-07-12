@@ -1,6 +1,5 @@
 import * as React from 'react'
 import * as T from 'typings'
-import * as TT from 'typings/tutorial'
 import { css, jsx } from '@emotion/core'
 import Content from './Content'
 import Steps from './Steps'
@@ -35,8 +34,8 @@ const styles = {
   },
 }
 
-interface Props {
-  level: TT.Level
+type Props = {
+  level: T.LevelUI
 }
 
 const Level = ({ level }: Props) => {
