@@ -122,8 +122,8 @@ const TutorialPage = (props: PageProps) => {
         </div>
 
         {page === 'level' && <Level level={level} />}
-        {page === 'settings' && <SettingsPage />}
         {page === 'review' && <ReviewPage levels={levels} />}
+        {/* {page === 'settings' && <SettingsPage />} */}
       </div>
       <div css={styles.footer}>
         {/* Process Modal */}

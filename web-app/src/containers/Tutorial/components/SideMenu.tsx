@@ -65,7 +65,7 @@ const SideMenu = (props: Props) => {
           <Icon type="list" size="small" color="#EBEBEB" />
           <span style={styles.itemText}>Review</span>
         </Item>
-        <Divider key="divider" />
+        {/* <Divider key="divider" />
         <Item
           key="settings"
           disabled={props.page === 'settings'}
@@ -77,7 +77,7 @@ const SideMenu = (props: Props) => {
         >
           <Icon type="set" size="small" color="#EBEBEB" />
           <span style={styles.itemText}>Settings</span>
-        </Item>
+        </Item> */}
       </Menu>
     </Drawer>
   )
