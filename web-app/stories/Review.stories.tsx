@@ -142,16 +142,5 @@ storiesOf('Review', module)
   .addDecorator(SideBarDecorator)
   .addDecorator(withKnobs)
   .add('Example', () => {
-    const progress = {
-      levels: {
-        '1': true,
-      },
-      steps: {
-        '1.1': true,
-        '1.2': true,
-        '1.3': true,
-        '2.1': true,
-      },
-    }
-    return <Review levels={levels} progress={progress} />
+    return <Review levels={levels} />
   })

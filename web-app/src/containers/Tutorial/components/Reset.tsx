@@ -1,0 +1,53 @@
+import * as React from 'react'
+import { Dialog } from '@alifd/next'
+import Button from '../../../components/Button'
+
+interface Props {
+  onReset(): void
+}
+
+const Reset = (props: Props) => {
+  const [modalState, setModalState] = React.useState<'none' | 'confirm' | 'progress'>('none')
+
+  const onClose = () => {
+    setModalState('none')
+  }
+
+  const onOk = () => {
+    setModalState('progress')
+    props.onReset()
+    return setTimeout(() => {
+      setModalState('none')
+    }, 3000)
+  }
+
+  return (
+    <>
+      <Button type="secondary" onClick={() => setModalState('confirm')}>
+        Reset
+      </Button>
+      {/* TODO improve reset message */}
+      <Dialog
+        title="Reset"
+        visible={modalState === 'confirm'}
+        onOk={onOk}
+        onCancel={onClose}
+        onClose={onClose}
+        footerActions={['ok', 'cancel']}
+      >
+        Are you sure?
+      </Dialog>
+      <Dialog
+        title="Resetting..."
+        visible={modalState === 'progress'}
+        footer={false}
+        onClose={onClose}
+        closeable={false}
+      >
+        Reverting progress to an earlier commit...
+      </Dialog>
+    </>
+  )
+}
+
+export default Reset

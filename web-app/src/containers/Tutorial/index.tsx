@@ -4,9 +4,10 @@ import * as selectors from '../../services/selectors'
 import SideMenu from './components/SideMenu'
 import Level from './components/Level'
 import Icon from '../../components/Icon'
-import SettingsPage from './containers/Settings'
+// import SettingsPage from './containers/Settings'
 import ReviewPage from './containers/Review'
 import Button from '../../components/Button'
+import Reset from './components/Reset'
 import ProcessMessages from '../../components/ProcessMessages'
 import TestMessage from '../../components/TestMessage'
 import { Progress } from '@alifd/next'
@@ -100,6 +101,10 @@ const TutorialPage = (props: PageProps) => {
     props.send({ type: 'RUN_TEST' })
   }
 
+  const onReset = (): void => {
+    // TODO
+  }
+
   const [menuVisible, setMenuVisible] = React.useState(false)
 
   const [page, setPage] = React.useState<'level' | 'settings' | 'review'>('level')
@@ -149,7 +154,9 @@ const TutorialPage = (props: PageProps) => {
         )}
 
         {/* Center */}
-        <div />
+        <div>
+          <Reset onReset={onReset} />
+        </div>
 
         {/* Right */}
         <div>
