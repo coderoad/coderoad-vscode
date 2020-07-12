@@ -351,7 +351,6 @@ class Channel implements Channel {
 
     switch (actionType) {
       case 'TEST_PASS':
-        console.log('TEST_PASS', action)
         const tutorial = this.context.tutorial.get()
         if (!tutorial) {
           throw new Error('Error with current tutorial. Tutorial may be missing an id.')
