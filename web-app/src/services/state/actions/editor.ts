@@ -117,4 +117,9 @@ export default (editorSend: any) => ({
       payload: { position: context.position },
     })
   },
+  runResetScript() {
+    editorSend({
+      type: 'EDITOR_RUN_RESET_SCRIPT',
+    })
+  },
 })

@@ -4,14 +4,15 @@ import * as selectors from '../../services/selectors'
 import SideMenu from './components/SideMenu'
 import Level from './components/Level'
 import Icon from '../../components/Icon'
-import SettingsPage from './containers/Settings'
 import ReviewPage from './containers/Review'
 import Button from '../../components/Button'
 import ProcessMessages from '../../components/ProcessMessages'
 import TestMessage from '../../components/TestMessage'
-import { Progress } from '@alifd/next'
+import StepProgress from './components/StepProgress'
 import { DISPLAY_RUN_TEST_BUTTON } from '../../environment'
 import formatLevels from './formatLevels'
+// import SettingsPage from './containers/Settings'
+// import Reset from './components/Reset'
 
 const styles = {
   header: {
@@ -45,13 +46,6 @@ const styles = {
     bottom: 0,
     left: 0,
     right: 0,
-    color: 'white',
-  },
-  taskProgress: {
-    display: 'flex' as 'flex',
-    justifyContent: 'flex-end' as 'flex-end',
-    alignItems: 'center' as 'center',
-    width: '10rem',
     color: 'white',
   },
   processes: {
@@ -100,6 +94,10 @@ const TutorialPage = (props: PageProps) => {
     props.send({ type: 'RUN_TEST' })
   }
 
+  const onReset = (): void => {
+    // TODO
+  }
+
   const [menuVisible, setMenuVisible] = React.useState(false)
 
   const [page, setPage] = React.useState<'level' | 'settings' | 'review'>('level')
@@ -140,39 +138,27 @@ const TutorialPage = (props: PageProps) => {
           </div>
         )}
         {/* Left */}
-        {DISPLAY_RUN_TEST_BUTTON && level.status !== 'COMPLETE' ? (
-          <Button style={{ marginLeft: '1rem' }} type="primary" onClick={onRunTest} disabled={processes.length > 0}>
-            Run
-          </Button>
-        ) : (
-          <div />
-        )}
+        <div css={{ flex: 1 }}>
+          {DISPLAY_RUN_TEST_BUTTON && level.status !== 'COMPLETE' ? (
+            <Button style={{ marginLeft: '1rem' }} type="primary" onClick={onRunTest} disabled={processes.length > 0}>
+              Run
+            </Button>
+          ) : null}
+        </div>
 
         {/* Center */}
-        <div />
+        <div css={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+          {/* <Reset onReset={onReset} disabled={processes.length > 0} /> */}
+        </div>
 
         {/* Right */}
-        <div>
+        <div css={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           {level.status === 'COMPLETE' || !level.steps.length ? (
             <Button style={{ marginRight: '1rem' }} type="primary" onClick={onContinue}>
               Continue
             </Button>
           ) : (
-            <Progress
-              state="success"
-              progressive
-              percent={(stepIndex / level.steps.length) * 100}
-              shape="line"
-              color="rgb(85, 132, 255)"
-              css={styles.taskProgress}
-              textRender={() => {
-                return (
-                  <span style={{ color: 'white' }}>
-                    {stepIndex} of {level.steps.length}
-                  </span>
-                )
-              }}
-            />
+            <StepProgress current={stepIndex} max={level.steps.length} />
           )}
         </div>
       </div>
