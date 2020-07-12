@@ -35,7 +35,7 @@ const ReviewPage = (props: Props) => {
         <div key={level.id}>
           <div>
             <Content title={level.title} content={level.content} />
-            <Steps steps={level.steps} />
+            <Steps steps={level.steps} displayAll />
           </div>
           {/* divider */}
           {index < props.levels.length - 1 ? <hr /> : null}

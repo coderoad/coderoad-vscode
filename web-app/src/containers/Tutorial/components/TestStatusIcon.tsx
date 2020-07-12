@@ -19,12 +19,16 @@ const styles = {
     icon: 'warning',
     color: '#ff9300',
   },
+  incomplete: {
+    icon: 'lock',
+    color: 'lightgrey',
+  },
 }
 
 const TestStatusIcon = (props: Props) => {
   // @ts-ignore
   const style: { icon: string; color: string } = styles[props.status.toLowerCase()]
-  return <Icon type="success-filling" size={props.size} style={{ color: style.color }} />
+  return <Icon type={style.icon} size={props.size} style={{ color: style.color }} />
 }
 
 export default TestStatusIcon

@@ -8,6 +8,7 @@ interface Props {
   content: string
   status: T.ProgressStatus
   subtasks: { name: string; pass: boolean }[] | null
+  displayAll: boolean
 }
 
 const styles = {
@@ -40,7 +41,7 @@ const styles = {
 }
 
 const Step = (props: Props) => {
-  const showStep = props.status !== 'INCOMPLETE'
+  const showStep = props.displayAll || props.status !== 'INCOMPLETE'
   if (!showStep) {
     return null
   }
