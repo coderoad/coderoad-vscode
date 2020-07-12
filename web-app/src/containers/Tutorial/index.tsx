@@ -1,6 +1,5 @@
 import * as React from 'react'
 import * as T from 'typings'
-import './style.css'
 import * as selectors from '../../services/selectors'
 import SideMenu from './components/SideMenu'
 import Level from './components/Level'
@@ -118,7 +117,7 @@ const TutorialPage = (props: PageProps) => {
       <div>
         <div css={styles.header}>
           <a onClick={() => setMenuVisible(!menuVisible)}>
-            <Icon type="toggle-left" size="small" />
+            <Icon type="toggle-left" size="small" style={{ color: '#333' }} />
           </a>
           <span css={styles.title}>{tutorial.summary.title}</span>
         </div>
