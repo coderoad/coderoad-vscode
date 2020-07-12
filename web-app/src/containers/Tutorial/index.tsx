@@ -145,21 +145,21 @@ const TutorialPage = (props: PageProps) => {
           </div>
         )}
         {/* Left */}
-        {DISPLAY_RUN_TEST_BUTTON && level.status !== 'COMPLETE' ? (
-          <Button style={{ marginLeft: '1rem' }} type="primary" onClick={onRunTest} disabled={processes.length > 0}>
-            Run
-          </Button>
-        ) : (
-          <div />
-        )}
+        <div css={{ flex: 1 }}>
+          {DISPLAY_RUN_TEST_BUTTON && level.status !== 'COMPLETE' ? (
+            <Button style={{ marginLeft: '1rem' }} type="primary" onClick={onRunTest} disabled={processes.length > 0}>
+              Run
+            </Button>
+          ) : null}
+        </div>
 
         {/* Center */}
-        <div style={{}}>
-          <Reset onReset={onReset} />
+        <div css={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+          {/* <Reset onReset={onReset} disabled={processes.length > 0} /> */}
         </div>
 
         {/* Right */}
-        <div>
+        <div css={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           {level.status === 'COMPLETE' || !level.steps.length ? (
             <Button style={{ marginRight: '1rem' }} type="primary" onClick={onContinue}>
               Continue

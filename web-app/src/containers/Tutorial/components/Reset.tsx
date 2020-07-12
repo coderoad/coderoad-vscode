@@ -4,6 +4,7 @@ import Button from '../../../components/Button'
 import Markdown from '../../../components/Markdown'
 
 interface Props {
+  disabled: boolean
   onReset(): void
 }
 
@@ -24,7 +25,7 @@ const Reset = (props: Props) => {
 
   return (
     <>
-      <Button type="secondary" onClick={() => setModalState('confirm')}>
+      <Button type="secondary" onClick={() => setModalState('confirm')} disabled={props.disabled}>
         Reset
       </Button>
       <Dialog
