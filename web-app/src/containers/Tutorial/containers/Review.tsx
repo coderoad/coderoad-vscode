@@ -1,10 +1,10 @@
 import * as React from 'react'
-import * as TT from 'typings/tutorial'
+import * as T from 'typings'
 import Steps from '../components/Steps'
 import Content from '../components/Content'
 
 interface Props {
-  levels: TT.Level[]
+  levels: T.LevelUI[]
 }
 
 const styles = {
@@ -31,7 +31,7 @@ const ReviewPage = (props: Props) => {
   return (
     <div css={styles.container}>
       <div css={styles.header}>Review</div>
-      {props.levels.map((level: TT.Level, index: number) => (
+      {props.levels.map((level: T.LevelUI, index: number) => (
         <div key={level.id}>
           <div>
             <Content title={level.title} content={level.content} />

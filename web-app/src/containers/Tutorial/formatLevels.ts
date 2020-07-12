@@ -10,6 +10,7 @@ interface Input {
 
 type Output = {
   level: T.LevelUI
+  levels: T.LevelUI[]
   stepIndex: number
 }
 
@@ -22,16 +23,18 @@ type Output = {
 const formatLevels = ({ progress, position, levels, testStatus }: Input): Output => {
   // clone levels
 
-  const level: TT.Level | undefined = levels.find((l: TT.Level) => l.id === position.levelId)
+  const levelIndex: number = levels.findIndex((l: TT.Level) => l.id === position.levelId)
 
-  if (!level) {
+  if (levelIndex === -1) {
     throw new Error(`Level ${position.levelId} not found`)
   }
 
+  const currentLevel = levels[levelIndex]
+
   const levelUI: T.LevelUI = {
-    ...level,
+    ...currentLevel,
     status: progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE',
-    steps: level.steps.map((step: TT.Step) => {
+    steps: currentLevel.steps.map((step: TT.Step) => {
       // label step status for step component
       let status: T.ProgressStatus = 'INCOMPLETE'
       let subtasks
@@ -59,11 +62,34 @@ const formatLevels = ({ progress, position, levels, testStatus }: Input): Output
       return { ...step, status, subtasks }
     }),
   }
+
+  const completed: T.LevelUI[] = levels.slice(0, levelIndex).map((level: TT.Level) => ({
+    ...level,
+    status: 'COMPLETE',
+    steps: level.steps.map((step: TT.Step) => ({
+      ...step,
+      status: 'COMPLETE',
+      subtasks: step.subtasks ? step.subtasks.map((st) => ({ name: st, status: 'COMPLETE' })) : undefined,
+    })),
+  }))
+
+  const incompleted: T.LevelUI[] = levels.slice(levelIndex + 1, levels.length).map((level: TT.Level) => ({
+    ...level,
+    status: 'INCOMPLETE',
+    steps: level.steps.map((step: TT.Step) => ({
+      ...step,
+      status: 'INCOMPLETE',
+      subtasks: step.subtasks ? step.subtasks.map((st) => ({ name: st, status: 'INCOMPLETE' })) : undefined,
+    })),
+  }))
+
+  const levelsUI: T.LevelUI[] = [...completed, levelUI, ...incompleted]
+
   let stepIndex = levelUI.steps.findIndex((s: T.StepUI) => s.status === 'ACTIVE')
   if (stepIndex === -1) {
-    stepIndex = level.steps.length
+    stepIndex = levels[levelIndex].steps.length
   }
-  return { level: levelUI, stepIndex }
+  return { level: levelUI, levels: levelsUI, stepIndex }
 }
 
 export default formatLevels

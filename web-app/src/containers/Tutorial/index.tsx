@@ -105,7 +105,8 @@ const TutorialPage = (props: PageProps) => {
 
   const [page, setPage] = React.useState<'level' | 'settings' | 'review'>('level')
 
-  const { level, stepIndex } = formatLevels({
+  // format level code with status for easy rendering
+  const { level, levels, stepIndex } = formatLevels({
     progress,
     position,
     levels: tutorial.levels,
@@ -123,7 +124,7 @@ const TutorialPage = (props: PageProps) => {
         </div>
 
         {page === 'level' && <Level level={level} />}
-        {page === 'review' && <ReviewPage levels={tutorial.levels} />}
+        {page === 'review' && <ReviewPage levels={levels} />}
         {/* {page === 'settings' && <SettingsPage />} */}
       </div>
       <div css={styles.footer}>
