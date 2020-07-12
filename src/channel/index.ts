@@ -320,16 +320,16 @@ class Channel implements Channel {
       case 'EDITOR_RUN_TEST':
         vscode.commands.executeCommand(COMMANDS.RUN_TEST, action?.payload)
         return
-      case 'EDITOR_RUN_RESET_SCRIPT':
-        const tutorial: TT.Tutorial | null = this.context.tutorial.get()
+      case 'EDITOR_RUN_RESET':
+        // reset to timeline
+        // 1. get last pass commit
+        // 2. load timeline until last pass commit
+
         // if tutorial.config.reset.command, run it
+        const tutorial: TT.Tutorial | null = this.context.tutorial.get()
         if (tutorial?.config?.reset?.command) {
           await exec({ command: tutorial.config.reset.command })
         }
-        return
-      case 'EDITOR_RUN_RESET_TO_LAST_PASS':
-        return
-      case 'EDITOR_RUN_RESET_TO_TIMELINE':
         return
       default:
         logger(`No match for action type: ${actionType}`)
