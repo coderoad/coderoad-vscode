@@ -14,6 +14,7 @@ const styles = {
     marginBottom: '0.5rem',
     backgroundColor: 'rgba(255,229,100,0.3)',
     borderLeft: '#ffe564',
+    borderRadius: '2px',
     padding: '0 0.5rem',
   },
 }
@@ -44,11 +45,15 @@ const Hints = (props: Props) => {
       <div css={styles.hintList}>
         {/* only show revealed hints */}
         {props.hints.map((hint, index) => {
-          return index <= hintIndex ? (
+          if (index > hintIndex) {
+            // hint not yet revealed
+            return null
+          }
+          return (
             <div key={index} css={styles.hint}>
-              <Markdown css={styles.hint}>{hint}</Markdown>
+              <Markdown>{`${index + 1}.&nbsp;${hint}`}</Markdown>
             </div>
-          ) : null
+          )
         })}
       </div>
       <Button onClick={nextHint} disabled={isFinalHint}>

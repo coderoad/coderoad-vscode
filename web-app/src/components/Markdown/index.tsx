@@ -1,8 +1,5 @@
 import MarkdownIt from 'markdown-it'
-// @ts-ignore no types for package
-
 import Prism from 'prismjs'
-
 // @ts-ignore no types for package
 import markdownEmoji from 'markdown-it-emoji'
 import * as React from 'react'
