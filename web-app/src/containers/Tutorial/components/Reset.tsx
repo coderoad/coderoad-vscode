@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Dialog } from '@alifd/next'
 import Button from '../../../components/Button'
+import Markdown from '../../../components/Markdown'
 
 interface Props {
   onReset(): void
@@ -26,7 +27,6 @@ const Reset = (props: Props) => {
       <Button type="secondary" onClick={() => setModalState('confirm')}>
         Reset
       </Button>
-      {/* TODO improve reset message */}
       <Dialog
         title="Reset"
         visible={modalState === 'confirm'}
@@ -35,7 +35,10 @@ const Reset = (props: Props) => {
         onClose={onClose}
         footerActions={['ok', 'cancel']}
       >
-        Are you sure?
+        <Markdown>
+          {`Are you sure you want to reset your progress? 
+Resetting progress will remove the commits you have made and replace them with the tutorial commit timeline. Your code may look different after resetting.`}
+        </Markdown>
       </Dialog>
       <Dialog
         title="Resetting..."

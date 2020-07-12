@@ -154,7 +154,7 @@ const TutorialPage = (props: PageProps) => {
         )}
 
         {/* Center */}
-        <div>
+        <div style={{}}>
           <Reset onReset={onReset} />
         </div>
 
