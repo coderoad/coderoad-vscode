@@ -1,9 +1,8 @@
 import * as TT from 'typings/tutorial'
 import { exec, exists } from '../node'
 import logger from '../logger'
-import { stringify } from 'querystring'
 
-const gitOrigin = 'coderoad'
+export const gitOrigin = 'coderoad'
 
 const stashAllFiles = async (): Promise<never | void> => {
   // stash files including untracked (eg. newly created file)
