@@ -34,7 +34,7 @@ export type Step = {
   id: string
   content: string
   setup: StepActions
-  solution: Maybe<StepActions>
+  solution?: Maybe<StepActions>
   hints?: string[]
   subtasks?: string[]
 }

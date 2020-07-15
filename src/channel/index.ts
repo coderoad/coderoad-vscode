@@ -18,6 +18,8 @@ import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 import { showOutput } from '../services/testRunner/output'
 import { exec } from '../services/node'
 import { WORKSPACE_ROOT, TUTORIAL_URL } from '../environment'
+import reset from '../services/reset'
+import getLastCommitHash from '../services/reset/lastHash'
 
 const readFileAsync = promisify(readFile)
 
@@ -320,16 +322,28 @@ class Channel implements Channel {
       case 'EDITOR_RUN_TEST':
         vscode.commands.executeCommand(COMMANDS.RUN_TEST, action?.payload)
         return
-      case 'EDITOR_RUN_RESET_SCRIPT':
+      case 'EDITOR_RUN_RESET':
+        // reset to timeline
         const tutorial: TT.Tutorial | null = this.context.tutorial.get()
+        const position: T.Position = this.context.position.get()
+
+        // get last pass commit
+        const hash = getLastCommitHash(position, tutorial?.levels || [])
+
+        const branch = tutorial?.config.repo.branch
+
+        if (!branch) {
+          console.error('No repo branch found for tutorial')
+          return
+        }
+
+        // load timeline until last pass commit
+        reset({ branch, hash })
+
         // if tutorial.config.reset.command, run it
         if (tutorial?.config?.reset?.command) {
           await exec({ command: tutorial.config.reset.command })
         }
-        return
-      case 'EDITOR_RUN_RESET_TO_LAST_PASS':
-        return
-      case 'EDITOR_RUN_RESET_TO_TIMELINE':
         return
       default:
         logger(`No match for action type: ${actionType}`)

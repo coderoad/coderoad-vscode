@@ -168,8 +168,8 @@ export const createMachine = (options: any) => {
                     RUN_TEST: {
                       actions: ['runTest'],
                     },
-                    RESET_SCRIPT: {
-                      actions: ['runResetScript'],
+                    RUN_RESET: {
+                      actions: ['runReset'],
                     },
                   },
                 },

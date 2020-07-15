@@ -12,7 +12,7 @@ import StepProgress from './components/StepProgress'
 import { DISPLAY_RUN_TEST_BUTTON } from '../../environment'
 import formatLevels from './formatLevels'
 // import SettingsPage from './containers/Settings'
-// import Reset from './components/Reset'
+import Reset from './components/Reset'
 
 const styles = {
   header: {
@@ -95,7 +95,7 @@ const TutorialPage = (props: PageProps) => {
   }
 
   const onReset = (): void => {
-    // TODO
+    props.send({ type: 'RUN_RESET' })
   }
 
   const [menuVisible, setMenuVisible] = React.useState(false)
@@ -148,7 +148,7 @@ const TutorialPage = (props: PageProps) => {
 
         {/* Center */}
         <div css={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-          {/* <Reset onReset={onReset} disabled={processes.length > 0} /> */}
+          <Reset onReset={onReset} disabled={processes.length > 0} />
         </div>
 
         {/* Right */}
