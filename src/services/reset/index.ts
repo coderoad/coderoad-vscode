@@ -1,8 +1,4 @@
-import * as fs from 'fs'
-import { promisify } from 'util'
-import { exec } from '../node'
-
-const removeFile = promisify(fs.unlink)
+import { exec, removeFile } from '../node'
 
 interface Input {
   hash: string
