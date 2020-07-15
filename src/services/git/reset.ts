@@ -1,49 +1,74 @@
 import * as fs from 'fs'
-import { exec, exists } from '../node'
+import { promisify } from 'util'
+import { exec } from '../node'
+
+const removeFile = promisify(fs.unlink)
 
 interface Input {
   hash: string
   branch: string
 }
 
+const ignoreError = () => {}
+
 // note: attempted to do this as a bash script
 // but requires the bash script has git permissions
 const reset = async ({ branch, hash }: Input): Promise<void> => {
-  // TODO: capture branch
-  const localBranch = 'master'
+  const remote = 'coderoad'
 
-  // switch to an empty branch
-  await exec({
-    command: 'git checkout --orphan reset-orphan-branch',
-  })
-  // stash any current work
-  await exec({
-    command: 'git stash',
-  })
-  // remove any other files
-  await exec({
-    command: 'git rm -rf .',
-  })
-  // TODO: delete .gitignore
+  try {
+    // if no git init, will initialize
+    // otherwise re-initializes git
+    await exec({ command: 'git init' }).catch(console.log)
 
-  await exec({
-    command: `git branch -D ${localBranch}`,
-  })
-  await exec({
-    command: `git checkout -b ${localBranch}`,
-  })
+    // capture current branch
+    const hasBranch = await exec({ command: 'git branch --show-current' })
+    const localBranch = hasBranch.stdout
+    // check if coderoad remote exists
+    const hasRemote = await exec({ command: 'git remote -v' }).catch(console.warn)
+    if (!hasRemote || !hasRemote.stdout || !hasRemote.stdout.length) {
+      throw new Error('No remote found')
+    } else if (!hasRemote.stdout.match(new RegExp(remote))) {
+      throw new Error(`No "${remote}" remote found`)
+    }
 
-  // load git timeline
-  await exec({
-    command: `git fetch coderoad ${branch}`,
-  })
-  await exec({
-    command: `git merge coderoad/${localBranch}`,
-  })
-  // reset to target commit hash
-  await exec({
-    command: `git reset --hard ${hash}`,
-  })
+    // switch to an empty branch
+    await exec({
+      command: 'git checkout --orphan reset-orphan-branch',
+    })
+    // stash any current work
+    await exec({
+      command: 'git stash',
+    }).catch(ignoreError)
+
+    // remove any other files
+    await exec({
+      command: 'git rm -rf .',
+    }).catch(ignoreError)
+    await removeFile('.gitignore').catch(ignoreError)
+
+    await exec({
+      command: `git branch -D ${localBranch}`,
+    })
+    await exec({
+      command: `git checkout -b ${localBranch}`,
+    })
+
+    // load git timeline
+    await exec({
+      command: `git fetch coderoad ${branch}`,
+    })
+    await exec({
+      command: `git merge coderoad/${branch}`,
+    })
+    // reset to target commit hash
+    await exec({
+      command: `git reset --hard ${hash}`,
+    })
+  } catch (error) {
+    console.error('Error resetting')
+    console.error(error.message)
+  }
 }
 
 export default reset

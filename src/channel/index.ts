@@ -18,6 +18,7 @@ import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
 import { showOutput } from '../services/testRunner/output'
 import { exec } from '../services/node'
 import { WORKSPACE_ROOT, TUTORIAL_URL } from '../environment'
+import reset from '../services/git/reset'
 import getLastCommitHash from '../services/git/lastHash'
 
 const readFileAsync = promisify(readFile)
@@ -330,7 +331,7 @@ class Channel implements Channel {
         const hash = getLastCommitHash(position, tutorial?.levels || [])
 
         // load timeline until last pass commit
-        // TODO: run reset script
+        reset({ branch: tutorial?.config.repo.branch, hash })
 
         // if tutorial.config.reset.command, run it
         if (tutorial?.config?.reset?.command) {
