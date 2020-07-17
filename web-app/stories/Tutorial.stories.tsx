@@ -3,15 +3,8 @@ import { withKnobs } from '@storybook/addon-knobs'
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import * as T from '../../typings'
-import * as TT from '../../typings/tutorial'
 import Tutorial from '../src/containers/Tutorial'
 import SideBarDecorator from './utils/SideBarDecorator'
-
-type ModifiedLevel = TT.Level & {
-  status: T.ProgressStatus
-  index: number
-  steps: Array<TT.Step & { status: T.ProgressStatus }>
-}
 
 const context: Partial<T.MachineContext> = {
   env: { machineId: '', sessionId: '', token: '' },
