@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { Dialog, Message } from '@alifd/next'
+import { Dialog } from '@alifd/next'
 import Button from '../../../components/Button'
+import ProgressPie from './ProgressPie'
 
 interface Props {
   onContinue(): void
@@ -31,9 +32,9 @@ const Continue = (props: Props) => {
         onOk={onOk}
         onCancel={onClose}
         onClose={onClose}
-        footerActions={['ok', 'cancel']}
+        footerActions={['ok']}
       >
-        <Message>Level Complete</Message>
+        <ProgressPie />
       </Dialog>
     </>
   )
