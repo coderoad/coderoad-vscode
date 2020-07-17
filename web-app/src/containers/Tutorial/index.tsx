@@ -155,14 +155,16 @@ const TutorialPage = (props: PageProps) => {
         {/* Right */}
         <div css={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           {level.status === 'COMPLETE' || !level.steps.length ? (
-            <Continue
-              onContinue={onContinue}
-              current={levelIndex + 1}
-              max={level.steps.length}
-              title={tutorial.summary.title}
-            />
+            <div css={{ marginRight: '0.5rem' }}>
+              <Continue
+                onContinue={onContinue}
+                current={levelIndex + 1}
+                max={levels.length}
+                title={tutorial.summary.title}
+              />
+            </div>
           ) : level.steps.length > 1 ? (
-            <StepProgress current={stepIndex} max={level.steps.length} />
+            <StepProgress current={stepIndex + 1} max={level.steps.length} />
           ) : null}
         </div>
       </div>

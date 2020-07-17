@@ -7,8 +7,9 @@ import ProgressPie from './ProgressPie'
 const styles = {
   content: {
     display: 'flex' as 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    flexDirection: 'column' as 'column',
+    justifyContent: 'center' as 'center',
+    alignItems: 'center' as 'center',
   },
   message: {
     textAlign: 'center' as 'center',
