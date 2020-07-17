@@ -13,6 +13,7 @@ import { DISPLAY_RUN_TEST_BUTTON } from '../../environment'
 import formatLevels from './formatLevels'
 // import SettingsPage from './containers/Settings'
 import Reset from './components/Reset'
+import Continue from './components/Continue'
 
 const styles = {
   header: {
@@ -103,7 +104,7 @@ const TutorialPage = (props: PageProps) => {
   const [page, setPage] = React.useState<'level' | 'settings' | 'review'>('level')
 
   // format level code with status for easy rendering
-  const { level, levels, stepIndex } = formatLevels({
+  const { level, levels, levelIndex, stepIndex } = formatLevels({
     progress,
     position,
     levels: tutorial.levels,
@@ -154,9 +155,12 @@ const TutorialPage = (props: PageProps) => {
         {/* Right */}
         <div css={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           {level.status === 'COMPLETE' || !level.steps.length ? (
-            <Button style={{ marginRight: '1rem' }} type="primary" onClick={onContinue}>
-              Continue
-            </Button>
+            <Continue
+              onContinue={onContinue}
+              current={levelIndex + 1}
+              max={level.steps.length}
+              title={tutorial.summary.title}
+            />
           ) : (
             <StepProgress current={stepIndex} max={level.steps.length} />
           )}

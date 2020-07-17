@@ -1,40 +1,65 @@
 import * as React from 'react'
 import { Dialog } from '@alifd/next'
+import { css, jsx } from '@emotion/core'
 import Button from '../../../components/Button'
 import ProgressPie from './ProgressPie'
 
+const styles = {
+  content: {
+    display: 'flex' as 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  message: {
+    textAlign: 'center' as 'center',
+  },
+}
+
 interface Props {
+  title: string
+  current: number // level index
+  max: number // level count
   onContinue(): void
 }
 
 const Continue = (props: Props) => {
-  const [modalState, setModalState] = React.useState<'none' | 'continue'>('none')
+  const [modalState, setModalState] = React.useState<'closed' | 'open'>('closed')
 
   const onClose = () => {
-    setModalState('none')
+    setModalState('closed')
   }
 
-  const onOk = () => {
-    setModalState('continue')
+  const onOpen = () => {
+    setModalState('open')
+  }
+
+  const onContinue = () => {
     props.onContinue()
-    return setTimeout(() => {
-      setModalState('none')
-    }, 3000)
+    onClose()
   }
 
   return (
     <>
-      <Button type="primary" size="medium" onClick={() => setModalState('continue')}>
+      <Button type="primary" size="medium" onClick={onOpen}>
         Continue
       </Button>
       <Dialog
-        visible={modalState === 'continue'}
-        onOk={onOk}
-        onCancel={onClose}
+        title="Level Complete!"
+        visible={modalState === 'open'}
         onClose={onClose}
-        footerActions={['ok']}
+        footer={false}
+        css={{ padding: '1rem' }}
       >
-        <ProgressPie />
+        <div css={styles.content}>
+          <ProgressPie current={props.current} max={props.max} />
+          <div css={styles.message}>
+            <h3>{props.title}</h3>
+            <br />
+            <Button type="primary" size="large" onClick={onContinue}>
+              Continue
+            </Button>
+          </div>
+        </div>
       </Dialog>
     </>
   )

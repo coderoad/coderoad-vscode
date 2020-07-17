@@ -10,4 +10,7 @@ storiesOf('Modals', module)
   .addDecorator(SideBarDecorator)
   .addDecorator(withKnobs)
   .add('Reset', () => <Reset onReset={action('onReset')} />)
-  .add('Continue', () => <Continue onContinue={action('onContinue')} />)
+  .add('Continue', () => <Continue title="Tutorial Title" current={9} max={11} onContinue={action('onContinue')} />)
+  .add('Continue Complete', () => (
+    <Continue title="Tutorial Title" current={11} max={11} onContinue={action('onContinue')} />
+  ))

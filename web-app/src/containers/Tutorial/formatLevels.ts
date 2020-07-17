@@ -11,6 +11,7 @@ interface Input {
 type Output = {
   level: T.LevelUI
   levels: T.LevelUI[]
+  levelIndex: number
   stepIndex: number
 }
 
@@ -89,7 +90,7 @@ const formatLevels = ({ progress, position, levels, testStatus }: Input): Output
   if (stepIndex === -1) {
     stepIndex = levels[levelIndex].steps.length
   }
-  return { level: levelUI, levels: levelsUI, stepIndex }
+  return { level: levelUI, levels: levelsUI, levelIndex, stepIndex }
 }
 
 export default formatLevels
