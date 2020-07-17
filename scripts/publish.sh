@@ -1,6 +1,8 @@
 # Publish
-
-# sh scripts/publish.sh VSCE_KEY
+# publish the tutorial to the VSCode Marketplace
+# script requires a token
+# docs: https://code.visualstudio.com/api/working-with-extensions/publishing-extension
+# run: sh scripts/publish.sh {VSCE_KEY}
 
 VSCE_KEY=$1
 PACKAGE_VERSION=$(grep 'version' package.json \
@@ -14,4 +16,4 @@ git tag -a v$PACKAGE_VERSION -m "Releasing version v$PACKAGE_VERSION"
 git push origin v$PACKAGE_VERSION
 
 # send to VSCode Marketplace via 
-npx vsce publish -p $VSCE_KEY --packagePath ./$RELEASES_FOLDER/$OUTPUT_FILE --baseContentUrl $RAW_PATH --baseImagesUrl $RAW_PATH
+vsce publish -p $VSCE_KEY --packagePath ./$RELEASES_FOLDER/$OUTPUT_FILE --baseContentUrl $RAW_PATH --baseImagesUrl $RAW_PATH
