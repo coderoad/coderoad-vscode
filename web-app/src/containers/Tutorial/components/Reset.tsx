@@ -3,7 +3,7 @@ import { Dialog, Message } from '@alifd/next'
 import Button from '../../../components/Button'
 
 interface Props {
-  disabled: boolean
+  disabled?: boolean
   onReset(): void
 }
 
