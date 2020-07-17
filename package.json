@@ -78,6 +78,13 @@
         "title": "Start",
         "category": "CodeRoad"
       }
+    ],
+    "keybindings": [
+      {
+        "key": "ctrl+enter",
+        "mac": "ctrl+enter",
+        "command": "coderoad.enter"
+      }
     ]
   },
   "displayName": "CodeRoad",
