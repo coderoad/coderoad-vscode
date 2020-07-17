@@ -161,9 +161,9 @@ const TutorialPage = (props: PageProps) => {
               max={level.steps.length}
               title={tutorial.summary.title}
             />
-          ) : (
+          ) : level.steps.length > 1 ? (
             <StepProgress current={stepIndex} max={level.steps.length} />
-          )}
+          ) : null}
         </div>
       </div>
       <SideMenu visible={menuVisible} toggleVisible={setMenuVisible} page={page} setPage={setPage} />

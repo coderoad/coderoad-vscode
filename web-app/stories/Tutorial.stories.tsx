@@ -51,26 +51,6 @@ const context: Partial<T.MachineContext> = {
             },
             hints: ['First Hint', 'Second Hint'],
           },
-          {
-            id: '1.2',
-            content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
-            setup: {
-              commits: ['abcdefg'],
-            },
-            solution: {
-              commits: ['hijklmn'],
-            },
-          },
-          {
-            id: '1.3',
-            content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
-            setup: {
-              commits: ['abcdefg'],
-            },
-            solution: {
-              commits: ['hijklmn'],
-            },
-          },
         ],
       },
       {
@@ -161,4 +141,12 @@ const context: Partial<T.MachineContext> = {
 storiesOf('Tutorial', module)
   .addDecorator(SideBarDecorator)
   .addDecorator(withKnobs)
-  .add('Example', () => <Tutorial context={context} send={action('send')} />)
+  .add('1 step', () => {
+    const firstLevel = {
+      ...context,
+      position: { levelId: '1', stepId: '1.2' },
+      progress: { levels: {}, steps: {}, complete: false },
+    }
+    return <Tutorial context={firstLevel} send={action('send')} />
+  })
+  .add('3 step', () => <Tutorial context={context} send={action('send')} />)
