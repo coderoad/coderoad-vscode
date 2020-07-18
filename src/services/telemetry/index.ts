@@ -1,6 +1,12 @@
 import TelemetryReporter from 'vscode-extension-telemetry'
 import { EXTENSION_ID, VERSION, INSTRUMENTATION_KEY, NODE_ENV } from '../../environment'
 
+/**
+ * Telemetry
+ * https://github.com/microsoft/vscode-extension-telemetry
+ *
+ */
+
 interface Properties {
   [key: string]: string
 }
@@ -23,13 +29,13 @@ export const deactivate = (): void => {
   }
 }
 
-export const onError = (error: Error, properties: Properties, measurements: Measurements): void => {
+export const onError = (error: Error, properties?: Properties, measurements?: Measurements): void => {
   if (reporter) {
     reporter.sendTelemetryException(error, properties, measurements)
   }
 }
 
-export const onEvent = (eventName: string, properties: Properties, measurements: Measurements): void => {
+export const onEvent = (eventName: string, properties?: Properties, measurements?: Measurements): void => {
   if (reporter) {
     reporter.sendTelemetryEvent(eventName, properties, measurements)
   }

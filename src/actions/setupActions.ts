@@ -4,7 +4,7 @@ import * as git from '../services/git'
 import loadWatchers from './utils/loadWatchers'
 import openFiles from './utils/openFiles'
 import runCommands from './utils/runCommands'
-import onError from '../services/sentry/onError'
+import { onError } from '../services/telemetry'
 import logger from '../services/logger'
 
 interface SetupActions {

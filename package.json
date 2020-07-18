@@ -34,7 +34,6 @@
     "watch": "tsc -watch -p ./"
   },
   "dependencies": {
-    "@sentry/node": "^5.19.2",
     "@types/assert": "^1.5.1",
     "@types/jest": "^26.0.4",
     "@types/jsdom": "^16.2.3",

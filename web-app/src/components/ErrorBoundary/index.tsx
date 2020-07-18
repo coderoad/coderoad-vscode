@@ -1,12 +1,11 @@
 import * as React from 'react'
-import onError from '../../services/sentry/onError'
 import logger from '../../services/logger'
 
 class ErrorBoundary extends React.Component {
   public state = { errorMessage: null }
 
   public componentDidCatch(error: Error, info: any) {
-    onError(error)
+    // TODO: onError(error)
     // Display fallback UI
     this.setState({ errorMessage: error.message })
     // You can also log the error to an error reporting service

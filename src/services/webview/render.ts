@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom'
 import * as path from 'path'
 import * as vscode from 'vscode'
-import onError from '../sentry/onError'
+import { onError } from '../telemetry'
 
 const getNonce = (): string => {
   let text = ''

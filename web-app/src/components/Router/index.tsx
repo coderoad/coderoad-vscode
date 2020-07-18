@@ -1,5 +1,4 @@
 import * as React from 'react'
-import onError from '../../services/sentry/onError'
 
 interface RouterProps {
   children: React.ReactChildren | React.ReactChildren[]
@@ -41,7 +40,7 @@ export const Router = ({ children, route }: RouterProps) => {
     }
   }
   const message = `No Route matches for "${JSON.stringify(route)}"`
-  onError(new Error(message))
+  // TODO: onError(new Error(message))
   console.warn(message)
   return null
 }

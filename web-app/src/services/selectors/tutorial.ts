@@ -1,12 +1,11 @@
 import { createSelector } from 'reselect'
 import { MachineContext } from 'typings'
 import * as TT from 'typings/tutorial'
-import onError from '../../services/sentry/onError'
 
 export const currentTutorial = ({ tutorial }: MachineContext): TT.Tutorial => {
   if (!tutorial) {
     const error = new Error('Tutorial not found')
-    onError(error)
+    // TODO: onError(error)
     throw error
   }
   return tutorial
@@ -23,7 +22,7 @@ export const currentLevel = (context: MachineContext): TT.Level =>
       const levelIndex = levels.findIndex((l: TT.Level) => l.id === context.position.levelId)
       if (levelIndex < 0) {
         const error = new Error(`Level not found when selecting level for ${tutorial.id}`)
-        onError(error)
+        // TODO: onError(error)
         throw error
       }
       const level: TT.Level = levels[levelIndex]
