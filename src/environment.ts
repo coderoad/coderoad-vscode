@@ -8,7 +8,7 @@ export const EXTENSION_ID = 'coderoad'
 // Node env
 export type Env = 'test' | 'local' | 'development' | 'production'
 // @ts-ignore
-export const NODE_ENV: Env = process.env.NODE_ENV || 'production'
+export const NODE_ENV: Env = process.env.NODE_ENV || 'development'
 
 // toggle logging in development
 export const LOG = false

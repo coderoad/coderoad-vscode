@@ -17,9 +17,10 @@ interface Measurements {
 
 let reporter: any
 
-export const activate = (): void => {
+export const activate = (subscribeFn: (reporter: any) => void): void => {
   if (NODE_ENV === 'production') {
     reporter = new TelemetryReporter(EXTENSION_ID, VERSION, INSTRUMENTATION_KEY)
+    subscribeFn(reporter)
   }
 }
 

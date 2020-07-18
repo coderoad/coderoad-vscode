@@ -23,13 +23,17 @@ class Editor {
       workspaceState: this.vscodeExt.workspaceState,
     })
 
+    const subscribe = (sub: any) => {
+      this.vscodeExt.subscriptions.push(sub)
+    }
+
     // register commands
     for (const cmd in commands) {
       const command: vscode.Disposable = vscode.commands.registerCommand(cmd, commands[cmd])
-      this.vscodeExt.subscriptions.push(command)
+      subscribe(command)
     }
 
-    telemetry.activate()
+    telemetry.activate(subscribe)
   }
   public deactivate = (): void => {
     // cleanup subscriptions/tasks

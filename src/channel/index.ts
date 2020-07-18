@@ -20,6 +20,7 @@ import { exec } from '../services/node'
 import { WORKSPACE_ROOT, TUTORIAL_URL } from '../environment'
 import reset from '../services/reset'
 import getLastCommitHash from '../services/reset/lastHash'
+import { onEvent } from '../services/telemetry'
 
 const readFileAsync = promisify(readFile)
 
@@ -127,6 +128,12 @@ class Channel implements Channel {
       case 'EDITOR_TUTORIAL_CONFIG':
         try {
           const data: TT.Tutorial = action.payload.tutorial
+
+          onEvent('tutorial_start', {
+            tutorial_id: data.id,
+            tutorial_version: data.version,
+            tutorial_title: data.summary.title,
+          })
 
           // validate extension version
           const expectedAppVersion = data.config?.appVersions?.vscode
