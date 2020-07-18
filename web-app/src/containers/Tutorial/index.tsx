@@ -108,7 +108,7 @@ const TutorialPage = (props: PageProps) => {
     testStatus,
   })
 
-  const disableOptions = processes.length > 0 && props.state === 'TestRunning'
+  const disableOptions = processes.length > 0 || props.state === 'TestRunning'
 
   return (
     <div>
