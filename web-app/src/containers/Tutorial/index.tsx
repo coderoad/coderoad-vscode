@@ -151,7 +151,7 @@ const TutorialPage = (props: PageProps) => {
 
         {/* Center */}
         <div css={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-          <Reset onReset={onReset} disabled={disableOptions} />
+          <Reset onReset={onReset} disabled={disableOptions || props.state === 'LevelComplete'} />
         </div>
 
         {/* Right */}
