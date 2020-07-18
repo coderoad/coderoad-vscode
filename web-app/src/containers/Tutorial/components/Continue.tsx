@@ -20,11 +20,12 @@ interface Props {
   title: string
   current: number // level index
   max: number // level count
+  defaultOpen: boolean
   onContinue(): void
 }
 
 const Continue = (props: Props) => {
-  const [modalState, setModalState] = React.useState<'closed' | 'open'>('closed')
+  const [modalState, setModalState] = React.useState<'closed' | 'open'>(props.defaultOpen ? 'open' : 'closed')
 
   const onClose = () => {
     setModalState('closed')
