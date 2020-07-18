@@ -171,6 +171,9 @@ export const createMachine = (options: any) => {
                     RUN_RESET: {
                       actions: ['runReset'],
                     },
+                    KEY_PRESS_ENTER: {
+                      actions: ['runTest'],
+                    },
                   },
                 },
                 TestRunning: {

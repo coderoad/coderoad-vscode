@@ -105,7 +105,7 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
       testRunner({ position: currentPosition, onSuccess: callbacks?.onSuccess, subtasks })
     },
     [COMMANDS.ENTER]: () => {
-      console.log('KEY: ctrl+enter')
+      webview.send({ type: 'KEY_PRESS_ENTER' })
     },
   }
 }
