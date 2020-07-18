@@ -5,7 +5,7 @@ import logger from '../logger'
 import parser, { ParserOutput } from './parser'
 import parseSubtasks from './subtasks'
 import { debounce, throttle } from './throttle'
-import onError from '../sentry/onError'
+import { onError } from '../telemetry'
 import { clearOutput, addOutput } from './output'
 import { formatFailOutput } from './formatOutput'
 

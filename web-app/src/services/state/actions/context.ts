@@ -2,7 +2,6 @@ import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import { assign, send, ActionFunctionMap } from 'xstate'
 import * as selectors from '../../selectors'
-import onError from '../../../services/sentry/onError'
 import logger from '../../../services/logger'
 
 const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
@@ -148,7 +147,7 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
         // has next level?
         if (!context.tutorial) {
           const error = new Error('Tutorial not found')
-          onError(error)
+          // TODO: onError(error)
           throw error
         }
       }

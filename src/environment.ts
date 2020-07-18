@@ -1,19 +1,20 @@
 import { getWorkspaceRoot } from './services/workspace'
 import * as os from 'os'
 
-// CodeRoad version
-export const VERSION = 'unknown'
+export const VERSION = require('../package.json').version
+
+export const EXTENSION_ID = 'coderoad'
 
 // Node env
 export type Env = 'test' | 'local' | 'development' | 'production'
 // @ts-ignore
-export const NODE_ENV: Env = process.env.NODE_ENV || 'production'
+export const NODE_ENV: Env = process.env.NODE_ENV || 'development'
 
 // toggle logging in development
 export const LOG = false
 
 // error logging tool
-export const SENTRY_DSN: string | null = null
+export const INSTRUMENTATION_KEY = '6ff37c76-72f3-48e3-a1b9-d5636f519b7b'
 
 // uri path to the users project workspace
 export const WORKSPACE_ROOT: string = getWorkspaceRoot()

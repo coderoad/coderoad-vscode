@@ -6,8 +6,6 @@ import './mock'
 
 import App from './App'
 
-// init error logging
-import './services/sentry/init'
 // init initial styles
 import './styles/index.css'
 // init listeners
