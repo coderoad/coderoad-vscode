@@ -171,6 +171,9 @@ export const createMachine = (options: any) => {
                     RUN_RESET: {
                       actions: ['runReset'],
                     },
+                    KEY_PRESS_ENTER: {
+                      actions: ['runTest'],
+                    },
                   },
                 },
                 TestRunning: {
@@ -217,7 +220,11 @@ export const createMachine = (options: any) => {
                   on: {
                     NEXT_LEVEL: {
                       target: 'LoadNext',
-                      actions: ['testClear', 'updatePosition'],
+                      actions: ['testClear', 'updateLevel'],
+                    },
+                    KEY_PRESS_ENTER: {
+                      target: 'LoadNext',
+                      actions: ['testClear', 'updateLevel'],
                     },
                   },
                 },

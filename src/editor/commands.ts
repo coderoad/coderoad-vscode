@@ -12,6 +12,7 @@ export const COMMANDS = {
   CONFIG_TEST_RUNNER: 'coderoad.config_test_runner',
   RUN_TEST: 'coderoad.run_test',
   SET_CURRENT_POSITION: 'coderoad.set_current_position',
+  ENTER: 'coderoad.enter',
 }
 
 interface CreateCommandProps {
@@ -102,6 +103,9 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
       // }
       logger('currentPosition', currentPosition)
       testRunner({ position: currentPosition, onSuccess: callbacks?.onSuccess, subtasks })
+    },
+    [COMMANDS.ENTER]: () => {
+      webview.send({ type: 'KEY_PRESS_ENTER' })
     },
   }
 }

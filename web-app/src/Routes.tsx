@@ -40,7 +40,7 @@ const Routes = () => {
         <LoadingPage text="Loading Level..." processes={context.processes} />
       </Route>
       <Route paths={{ Tutorial: { Level: true } }}>
-        <TutorialPage send={send} context={context} />
+        <TutorialPage send={send} context={context} state={route.replace('Tutorial.Level.', '')} />
       </Route>
       {/* Completed */}
       <Route paths={{ Tutorial: { Completed: true } }}>

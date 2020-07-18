@@ -14,4 +14,4 @@ export const TUTORIAL_LIST_URL: string = process.env.REACT_APP_TUTORIAL_LIST_URL
 export const SENTRY_DSN: string | null = process.env.REACT_APP_SENTRY_DSN || null
 
 // config variables
-export const DISPLAY_RUN_TEST_BUTTON = (process.env.CODEROAD_DISPLAY_RUN_TEST_BUTTON || '').toLowerCase() === 'true'
+export const DISPLAY_RUN_TEST_BUTTON = (process.env.CODEROAD_DISPLAY_RUN_TEST_BUTTON || 'true').toLowerCase() === 'true'

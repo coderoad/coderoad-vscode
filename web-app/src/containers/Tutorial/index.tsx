@@ -11,7 +11,6 @@ import TestMessage from '../../components/TestMessage'
 import StepProgress from './components/StepProgress'
 import { DISPLAY_RUN_TEST_BUTTON } from '../../environment'
 import formatLevels from './formatLevels'
-// import SettingsPage from './containers/Settings'
 import Reset from './components/Reset'
 import Continue from './components/Continue'
 
@@ -69,6 +68,7 @@ const styles = {
 interface PageProps {
   context: T.MachineContext
   send(action: T.Action): void
+  state: string // 'Normal' | 'TestRunning' | 'TestFail' | 'TestPass' | 'LevelComplete'
 }
 
 /**
@@ -85,9 +85,6 @@ const TutorialPage = (props: PageProps) => {
   const onContinue = (): void => {
     props.send({
       type: 'NEXT_LEVEL',
-      payload: {
-        levelId: position.levelId,
-      },
     })
   }
 
@@ -110,6 +107,8 @@ const TutorialPage = (props: PageProps) => {
     levels: tutorial.levels,
     testStatus,
   })
+
+  const disableOptions = processes.length > 0 || props.state === 'TestRunning'
 
   return (
     <div>
@@ -141,7 +140,7 @@ const TutorialPage = (props: PageProps) => {
         {/* Left */}
         <div css={{ flex: 1 }}>
           {DISPLAY_RUN_TEST_BUTTON && level.status !== 'COMPLETE' ? (
-            <Button style={{ marginLeft: '1rem' }} type="primary" onClick={onRunTest} disabled={processes.length > 0}>
+            <Button style={{ marginLeft: '1rem' }} type="primary" onClick={onRunTest} disabled={disableOptions}>
               Run
             </Button>
           ) : null}
@@ -149,18 +148,29 @@ const TutorialPage = (props: PageProps) => {
 
         {/* Center */}
         <div css={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-          <Reset onReset={onReset} disabled={processes.length > 0} />
+          <Reset onReset={onReset} disabled={disableOptions || props.state === 'LevelComplete'} />
         </div>
 
         {/* Right */}
         <div css={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-          {level.status === 'COMPLETE' || !level.steps.length ? (
+          {!level.steps.length ? (
             <div css={{ marginRight: '0.5rem' }}>
               <Continue
                 onContinue={onContinue}
                 current={levelIndex + 1}
                 max={levels.length}
                 title={tutorial.summary.title}
+                defaultOpen={false}
+              />
+            </div>
+          ) : props.state === 'LevelComplete' ? (
+            <div css={{ marginRight: '0.5rem' }}>
+              <Continue
+                onContinue={onContinue}
+                current={levelIndex + 1}
+                max={levels.length}
+                title={tutorial.summary.title}
+                defaultOpen={true}
               />
             </div>
           ) : level.steps.length > 1 ? (

@@ -118,6 +118,13 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
       return event.payload
     },
   }),
+  // @ts-ignore
+  updateLevel: assign({
+    position: (context: T.MachineContext, event: T.MachineEvent): any => {
+      const levelId = context.position.levelId
+      return { levelId }
+    },
+  }),
   loadNext: send(
     (context: T.MachineContext): T.Action => {
       const { position, progress } = context

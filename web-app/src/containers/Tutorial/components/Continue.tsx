@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Dialog } from '@alifd/next'
+import { Dialog, Icon } from '@alifd/next'
 import { css, jsx } from '@emotion/core'
 import Button from '../../../components/Button'
 import ProgressPie from './ProgressPie'
@@ -14,17 +14,21 @@ const styles = {
   message: {
     textAlign: 'center' as 'center',
   },
+  buttonSubtext: {
+    padding: '0.5rem',
+  },
 }
 
 interface Props {
   title: string
   current: number // level index
   max: number // level count
+  defaultOpen: boolean
   onContinue(): void
 }
 
 const Continue = (props: Props) => {
-  const [modalState, setModalState] = React.useState<'closed' | 'open'>('closed')
+  const [modalState, setModalState] = React.useState<'closed' | 'open'>(props.defaultOpen ? 'open' : 'closed')
 
   const onClose = () => {
     setModalState('closed')
@@ -57,8 +61,10 @@ const Continue = (props: Props) => {
             <h3>{props.title}</h3>
             <br />
             <Button type="primary" size="large" onClick={onContinue}>
-              Continue
+              Continue&nbsp;&nbsp;
+              <Icon type="arrow-right" />
             </Button>
+            <div css={styles.buttonSubtext}>(ctrl + enter)</div>
           </div>
         </div>
       </Dialog>
