@@ -214,3 +214,10 @@ UI redesign for the tutorial page:
 Supports "reset button" for resetting state & running a reset script.
 
 Adds a review page for viewing tutorial content. The review page should be especially helpful for tutorial creators.
+
+### [0.11.0]
+
+- Improved UI for continue
+  - show overall level progress
+  - popup on level completion
+- Hotkey support for running tests and continue (ctrl + enter)

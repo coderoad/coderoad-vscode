@@ -1,6 +1,6 @@
 {
   "name": "coderoad-app",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "private": true,
   "scripts": {
     "build": "react-app-rewired build",
@@ -29,7 +29,7 @@
     "@alifd/theme-4": "^0.3.1",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/core": "^10.0.28",
-    "@sentry/browser": "^5.19.1",
+    "@sentry/browser": "^5.19.2",
     "js-yaml": "^3.14.0",
     "markdown-it": "^11.0.0",
     "markdown-it-emoji": "^1.4.0",
@@ -43,7 +43,7 @@
     "xstate": "^4.11.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.4",
+    "@babel/core": "^7.10.5",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-knobs": "^5.3.19",
     "@storybook/addon-links": "^5.3.19",
@@ -55,7 +55,7 @@
     "@types/jest": "^26.0.4",
     "@types/js-yaml": "^3.12.5",
     "@types/markdown-it": "^10.0.1",
-    "@types/node": "^14.0.22",
+    "@types/node": "^14.0.23",
     "@types/prismjs": "^1.16.1",
     "@types/react": "^16.9.43",
     "@types/react-addons-css-transition-group": "^15.0.5",
@@ -69,6 +69,6 @@
     "react-app-rewired": "^2.1.6",
     "react-scripts": "^3.4.1",
     "sass-loader": "^8.0.2",
-    "typescript": "^3.9.6"
+    "typescript": "^3.9.7"
   }
 }
