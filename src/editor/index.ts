@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import { createCommands } from './commands'
+import * as telemetry from '../services/telemetry'
 
 class Editor {
   // extension context set on activation
@@ -27,12 +28,16 @@ class Editor {
       const command: vscode.Disposable = vscode.commands.registerCommand(cmd, commands[cmd])
       this.vscodeExt.subscriptions.push(command)
     }
+
+    telemetry.activate()
   }
   public deactivate = (): void => {
     // cleanup subscriptions/tasks
     for (const disposable of this.vscodeExt.subscriptions) {
       disposable.dispose()
     }
+
+    telemetry.deactivate()
   }
 }
 
