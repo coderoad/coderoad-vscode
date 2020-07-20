@@ -15,7 +15,6 @@ const styles = {
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
     padding: 0,
-    paddingBottom: '5rem',
   },
 
   text: {

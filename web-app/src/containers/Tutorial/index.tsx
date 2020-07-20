@@ -16,6 +16,9 @@ import Continue from './components/Continue'
 import ScrollContent from './components/ScrollContent'
 
 const styles = {
+  page: {
+    paddingBottom: '5rem',
+  },
   header: {
     display: 'flex' as 'flex',
     alignItems: 'center',
@@ -113,7 +116,7 @@ const TutorialPage = (props: PageProps) => {
 
   return (
     <div>
-      <div>
+      <div css={styles.page}>
         <div css={styles.header}>
           <a onClick={() => setMenuVisible(!menuVisible)}>
             <Icon type="toggle-left" size="small" style={{ color: '#333' }} />
