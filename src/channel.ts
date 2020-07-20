@@ -3,7 +3,6 @@ import * as TT from 'typings/tutorial'
 import * as E from 'typings/error'
 import * as vscode from 'vscode'
 import { setupActions, solutionActions } from './actions/setupActions'
-import tutorialConfig from './actions/utils/tutorialConfig'
 import { COMMANDS } from './commands'
 import Context from './services/context/context'
 import logger from './services/logger'
@@ -60,24 +59,7 @@ class Channel implements Channel {
         actions.onTutorialConfig(action, this.context, this.workspaceState, this.send)
         return
       case 'EDITOR_TUTORIAL_CONTINUE_CONFIG':
-        try {
-          const tutorialContinue: TT.Tutorial | null = this.context.tutorial.get()
-          if (!tutorialContinue) {
-            throw new Error('Invalid tutorial to continue')
-          }
-          await tutorialConfig({
-            data: tutorialContinue,
-            alreadyConfigured: true,
-          })
-          // update the current stepId on startup
-          vscode.commands.executeCommand(COMMANDS.SET_CURRENT_POSITION, action.payload.position)
-        } catch (e) {
-          const error = {
-            type: 'UnknownError',
-            message: `Location: Editor tutorial continue config.\n\n ${e.message}`,
-          }
-          this.send({ type: 'CONTINUE_FAILED', payload: { error } })
-        }
+        actions.onTutorialContinueConfig(action, this.context, this.send)
         return
       case 'EDITOR_VALIDATE_SETUP':
         try {
