@@ -1,10 +1,10 @@
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
-import createTestRunner from '../services/testRunner'
-import { setupActions } from '../actions/setupActions'
-import createWebView from '../services/webview'
-import logger from '../services/logger'
+import createTestRunner from './services/testRunner'
+import { setupActions } from './actions/setupActions'
+import createWebView from './services/webview'
+import logger from './services/logger'
 
 export const COMMANDS = {
   START: 'coderoad.start',

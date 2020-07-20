@@ -1,6 +1,6 @@
 import { join } from 'path'
 import * as vscode from 'vscode'
-import { COMMANDS } from '../../editor/commands'
+import { COMMANDS } from '../../commands'
 
 const openFiles = async (files: string[]) => {
   if (!files.length) {

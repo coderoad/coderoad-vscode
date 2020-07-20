@@ -1,7 +1,7 @@
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
-import Storage from '../../services/storage'
+import Storage from '../../storage'
 
 const defaultValue: T.Progress = {
   levels: {},

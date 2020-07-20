@@ -1,5 +1,5 @@
 import * as vscode from 'vscode'
-import { createCommands } from './editor/commands'
+import { createCommands } from './commands'
 import * as telemetry from './services/telemetry'
 
 let onDeactivate = () => {}

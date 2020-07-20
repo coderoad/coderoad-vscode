@@ -4,25 +4,20 @@ import * as E from 'typings/error'
 import * as vscode from 'vscode'
 import fetch from 'node-fetch'
 import { satisfies } from 'semver'
-import saveCommit from '../actions/saveCommit'
-import { setupActions, solutionActions } from '../actions/setupActions'
-import tutorialConfig from '../actions/tutorialConfig'
-import { COMMANDS } from '../editor/commands'
-import Context from './context'
-import { readFile } from 'fs'
-import { join } from 'path'
-import { promisify } from 'util'
-import logger from '../services/logger'
-import { version, compareVersions } from '../services/dependencies'
-import { openWorkspace, checkWorkspaceEmpty } from '../services/workspace'
-import { showOutput } from '../services/testRunner/output'
-import { exec } from '../services/node'
-import { WORKSPACE_ROOT, TUTORIAL_URL } from '../environment'
-import reset from '../services/reset'
-import getLastCommitHash from '../services/reset/lastHash'
-import { onEvent } from '../services/telemetry'
-
-const readFileAsync = promisify(readFile)
+import { setupActions, solutionActions } from './actions/setupActions'
+import tutorialConfig from './actions/tutorialConfig'
+import { COMMANDS } from './commands'
+import Context from './services/context/context'
+import logger from './services/logger'
+import { version, compareVersions } from './services/dependencies'
+import { openWorkspace, checkWorkspaceEmpty } from './services/workspace'
+import { showOutput } from './services/testRunner/output'
+import { exec } from './services/node'
+import { WORKSPACE_ROOT, TUTORIAL_URL } from './environment'
+import reset from './services/reset'
+import getLastCommitHash from './services/reset/lastHash'
+import { onEvent } from './services/telemetry'
+import * as actions from './actions'
 
 interface Channel {
   receive(action: T.Action): Promise<void>
@@ -359,24 +354,8 @@ class Channel implements Channel {
   }
   // send to webview
   public send = async (action: T.Action): Promise<void> => {
-    // Error middleware
-    if (action?.payload?.error?.type) {
-      // load error markdown message
-      const error = action.payload.error
-      const errorMarkdownFile = join(__dirname, '..', '..', 'errors', `${action.payload.error.type}.md`)
-      const errorMarkdown = await readFileAsync(errorMarkdownFile).catch(() => {
-        // onError(new Error(`Error Markdown file not found for ${action.type}`))
-      })
-
-      // log error to console for safe keeping
-      logger(`ERROR:\n ${errorMarkdown}`)
-
-      if (errorMarkdown) {
-        // add a clearer error message for the user
-        error.message = `${errorMarkdown}\n\n${error.message}`
-      }
-    }
-
+    // load error page if error action is triggered
+    actions.onErrorPage(action)
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
 
@@ -384,14 +363,7 @@ class Channel implements Channel {
 
     switch (actionType) {
       case 'TEST_PASS':
-        const tutorial = this.context.tutorial.get()
-        if (!tutorial) {
-          throw new Error('Error with current tutorial. Tutorial may be missing an id.')
-        }
-        // update local storage stepProgress
-        const progress = this.context.progress.setStepComplete(tutorial, action.payload.position.stepId)
-        this.context.position.setPositionFromProgress(tutorial, progress)
-        saveCommit()
+        actions.onTestPass(action, this.context)
     }
 
     // send message
