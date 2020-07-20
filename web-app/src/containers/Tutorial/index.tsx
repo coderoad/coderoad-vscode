@@ -13,6 +13,7 @@ import { DISPLAY_RUN_TEST_BUTTON } from '../../environment'
 import formatLevels from './formatLevels'
 import Reset from './components/Reset'
 import Continue from './components/Continue'
+import ScrollContent from './components/ScrollContent'
 
 const styles = {
   header: {
@@ -120,7 +121,11 @@ const TutorialPage = (props: PageProps) => {
           <span css={styles.title}>{tutorial.summary.title}</span>
         </div>
 
-        {page === 'level' && <Level level={level} />}
+        {page === 'level' && (
+          <ScrollContent item={level.id}>
+            <Level level={level} />
+          </ScrollContent>
+        )}
         {page === 'review' && <ReviewPage levels={levels} />}
         {/* {page === 'settings' && <SettingsPage />} */}
       </div>

@@ -39,16 +39,8 @@ type Props = {
 }
 
 const Level = ({ level }: Props) => {
-  const pageTopRef = React.useRef(null)
-  const scrollToTop = () => {
-    // @ts-ignore
-    pageTopRef.current.scrollIntoView({ behavior: 'smooth' })
-  }
-  React.useEffect(scrollToTop, [level.id])
-
   return (
     <div css={styles.page}>
-      <div ref={pageTopRef} />
       <div css={styles.content}>
         <Content title={level.title} content={level.content} />
 
