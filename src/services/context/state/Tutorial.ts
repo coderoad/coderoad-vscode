@@ -1,6 +1,6 @@
 import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
-import Storage from '../../services/storage'
+import Storage from '../../storage'
 
 // Tutorial
 class Tutorial {

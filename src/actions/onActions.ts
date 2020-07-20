@@ -13,7 +13,7 @@ interface SetupActions {
   dir?: string
 }
 
-export const setupActions = async ({ actions, send, dir }: SetupActions): Promise<void> => {
+export const onSetupActions = async ({ actions, send, dir }: SetupActions): Promise<void> => {
   if (!actions) {
     return
   }
@@ -49,7 +49,7 @@ export const setupActions = async ({ actions, send, dir }: SetupActions): Promis
   }
 }
 
-export const solutionActions = async (params: SetupActions): Promise<void> => {
+export const onSolutionActions = async (params: SetupActions): Promise<void> => {
   await git.clear()
-  return setupActions(params).catch(onError)
+  return onSetupActions(params).catch(onError)
 }

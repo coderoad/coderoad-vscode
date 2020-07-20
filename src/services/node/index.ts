@@ -6,6 +6,7 @@ import { WORKSPACE_ROOT } from '../../environment'
 
 const asyncExec = promisify(cpExec)
 const asyncRemoveFile = promisify(fs.unlink)
+const asyncReadFile = promisify(fs.readFile)
 
 interface ExecParams {
   command: string
@@ -23,4 +24,8 @@ export const exists = (...paths: string[]): boolean | never => {
 
 export const removeFile = (...paths: string[]) => {
   return asyncRemoveFile(join(WORKSPACE_ROOT, ...paths))
+}
+
+export const readFile = (...paths: string[]) => {
+  return asyncReadFile(join(...paths))
 }
