@@ -63,7 +63,9 @@ const Step = (props: Props) => {
                 return (
                   <li key={subtask.name} css={styles.subtask}>
                     <TestStatusIcon size="xs" status={subtask.status} />
-                    <span style={{ marginLeft: '0.5rem' }}>{subtask.name}</span>
+                    <span style={{ marginLeft: '0.5rem' }}>
+                      <Markdown>{subtask.name}</Markdown>
+                    </span>
                   </li>
                 )
               })}
