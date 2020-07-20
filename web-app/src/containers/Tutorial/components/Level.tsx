@@ -39,23 +39,22 @@ type Props = {
 }
 
 const Level = ({ level }: Props) => {
-  const pageBottomRef = React.useRef(null)
-  const scrollToBottom = () => {
+  const pageTopRef = React.useRef(null)
+  const scrollToTop = () => {
     // @ts-ignore
-    pageBottomRef.current.scrollIntoView({ behavior: 'smooth' })
+    pageTopRef.current.scrollIntoView({ behavior: 'smooth' })
   }
-  React.useEffect(scrollToBottom, [level.id])
+  React.useEffect(scrollToTop, [level.id])
 
   return (
     <div css={styles.page}>
+      <div ref={pageTopRef} />
       <div css={styles.content}>
         <Content title={level.title} content={level.content} />
 
         {level.content.length && level.steps.length ? <div css={styles.separator} /> : null}
 
         <Steps steps={level.steps} />
-
-        <div ref={pageBottomRef} />
       </div>
     </div>
   )
