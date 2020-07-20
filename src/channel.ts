@@ -1,6 +1,6 @@
 import * as T from 'typings'
 import * as vscode from 'vscode'
-import { setupActions, solutionActions } from './actions/setupActions'
+import { setupActions, solutionActions } from './actions/onActions'
 import { COMMANDS } from './commands'
 import Context from './services/context/context'
 import logger from './services/logger'
@@ -62,12 +62,12 @@ class Channel implements Channel {
       // load step actions (git commits, commands, open files)
       case 'SETUP_ACTIONS':
         await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_POSITION, action.payload.position)
-        setupActions({ actions: action.payload.actions, send: this.send })
+        actions.onSetupActions({ actions: action.payload.actions, send: this.send })
         return
       // load solution step actions (git commits, commands, open files)
       case 'SOLUTION_ACTIONS':
         await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_POSITION, action.payload.position)
-        await solutionActions({ actions: action.payload.actions, send: this.send })
+        await actions.onSolutionActions({ actions: action.payload.actions, send: this.send })
         // run test following solution to update position
         vscode.commands.executeCommand(COMMANDS.RUN_TEST)
         return

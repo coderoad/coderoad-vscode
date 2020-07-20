@@ -2,7 +2,7 @@ import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import createTestRunner from './services/testRunner'
-import { setupActions } from './actions/setupActions'
+import { onSetupActions } from './actions/onActions'
 import createWebView from './services/webview'
 import logger from './services/logger'
 
@@ -57,7 +57,7 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
       if (setup) {
         // setup tutorial test runner commits
         // assumes git already exists
-        await setupActions({
+        await onSetupActions({
           actions: setup,
           send: webview.send,
           dir: testRunnerConfig.directory || testRunnerConfig.path,
