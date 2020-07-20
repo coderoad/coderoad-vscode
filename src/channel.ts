@@ -1,13 +1,11 @@
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
-import * as E from 'typings/error'
 import * as vscode from 'vscode'
 import { setupActions, solutionActions } from './actions/setupActions'
 import { COMMANDS } from './commands'
 import Context from './services/context/context'
 import logger from './services/logger'
-import { version } from './services/dependencies'
-import { openWorkspace, checkWorkspaceEmpty } from './services/workspace'
+import { openWorkspace } from './services/workspace'
 import { showOutput } from './services/testRunner/output'
 import { exec } from './services/node'
 import reset from './services/reset'
@@ -48,7 +46,6 @@ class Channel implements Channel {
       case 'EDITOR_STARTUP':
         actions.onStartup(this.context, this.workspaceState, this.send)
         return
-
       // clear tutorial local storage
       case 'TUTORIAL_CLEAR':
         // clear current progress/position/tutorial
@@ -62,52 +59,7 @@ class Channel implements Channel {
         actions.onTutorialContinueConfig(action, this.context, this.send)
         return
       case 'EDITOR_VALIDATE_SETUP':
-        try {
-          // check workspace is selected
-          const isEmptyWorkspace = await checkWorkspaceEmpty()
-          if (!isEmptyWorkspace) {
-            const error: E.ErrorMessage = {
-              type: 'WorkspaceNotEmpty',
-              message: '',
-              actions: [
-                {
-                  label: 'Open Workspace',
-                  transition: 'REQUEST_WORKSPACE',
-                },
-                {
-                  label: 'Check Again',
-                  transition: 'RETRY',
-                },
-              ],
-            }
-            this.send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
-            return
-          }
-          // check Git is installed.
-          // Should wait for workspace before running otherwise requires access to root folder
-          const isGitInstalled = await version('git')
-          if (!isGitInstalled) {
-            const error: E.ErrorMessage = {
-              type: 'GitNotFound',
-              message: '',
-              actions: [
-                {
-                  label: 'Check Again',
-                  transition: 'RETRY',
-                },
-              ],
-            }
-            this.send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
-            return
-          }
-          this.send({ type: 'SETUP_VALIDATED' })
-        } catch (e) {
-          const error = {
-            type: 'UknownError',
-            message: e.message,
-          }
-          this.send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
-        }
+        actions.onValidateSetup(this.send)
         return
       case 'EDITOR_REQUEST_WORKSPACE':
         openWorkspace()
