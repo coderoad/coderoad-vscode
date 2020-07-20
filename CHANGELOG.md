@@ -220,4 +220,8 @@ Adds a review page for viewing tutorial content. The review page should be espec
 - Improved UI for continue
   - show overall level progress
   - popup on level completion
-- Hotkey support for running tests and continue (ctrl + enter)
+- Hotkey support for:
+  - running tests (ctrl + enter)
+  - continue (ctrl + enter)
+- Fix scroll to bottom on next level
+- Add a scroll indicator when content is too long
