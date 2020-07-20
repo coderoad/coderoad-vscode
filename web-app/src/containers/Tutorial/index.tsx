@@ -13,8 +13,12 @@ import { DISPLAY_RUN_TEST_BUTTON } from '../../environment'
 import formatLevels from './formatLevels'
 import Reset from './components/Reset'
 import Continue from './components/Continue'
+import ScrollContent from './components/ScrollContent'
 
 const styles = {
+  page: {
+    paddingBottom: '5rem',
+  },
   header: {
     display: 'flex' as 'flex',
     alignItems: 'center',
@@ -47,6 +51,7 @@ const styles = {
     left: 0,
     right: 0,
     color: 'white',
+    zIndex: 1000,
   },
   processes: {
     padding: '0 1rem',
@@ -112,7 +117,7 @@ const TutorialPage = (props: PageProps) => {
 
   return (
     <div>
-      <div>
+      <div css={styles.page}>
         <div css={styles.header}>
           <a onClick={() => setMenuVisible(!menuVisible)}>
             <Icon type="toggle-left" size="small" style={{ color: '#333' }} />
@@ -120,7 +125,11 @@ const TutorialPage = (props: PageProps) => {
           <span css={styles.title}>{tutorial.summary.title}</span>
         </div>
 
-        {page === 'level' && <Level level={level} />}
+        {page === 'level' && (
+          <ScrollContent item={level.id}>
+            <Level level={level} />
+          </ScrollContent>
+        )}
         {page === 'review' && <ReviewPage levels={levels} />}
         {/* {page === 'settings' && <SettingsPage />} */}
       </div>

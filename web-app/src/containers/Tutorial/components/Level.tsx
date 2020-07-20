@@ -15,7 +15,6 @@ const styles = {
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
     padding: 0,
-    paddingBottom: '5rem',
   },
 
   text: {
@@ -39,13 +38,6 @@ type Props = {
 }
 
 const Level = ({ level }: Props) => {
-  const pageBottomRef = React.useRef(null)
-  const scrollToBottom = () => {
-    // @ts-ignore
-    pageBottomRef.current.scrollIntoView({ behavior: 'smooth' })
-  }
-  React.useEffect(scrollToBottom, [level.id])
-
   return (
     <div css={styles.page}>
       <div css={styles.content}>
@@ -54,8 +46,6 @@ const Level = ({ level }: Props) => {
         {level.content.length && level.steps.length ? <div css={styles.separator} /> : null}
 
         <Steps steps={level.steps} />
-
-        <div ref={pageBottomRef} />
       </div>
     </div>
   )
