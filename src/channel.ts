@@ -2,7 +2,6 @@ import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as E from 'typings/error'
 import * as vscode from 'vscode'
-import fetch from 'node-fetch'
 import { satisfies } from 'semver'
 import { setupActions, solutionActions } from './actions/setupActions'
 import tutorialConfig from './actions/tutorialConfig'
@@ -13,7 +12,6 @@ import { version, compareVersions } from './services/dependencies'
 import { openWorkspace, checkWorkspaceEmpty } from './services/workspace'
 import { showOutput } from './services/testRunner/output'
 import { exec } from './services/node'
-import { WORKSPACE_ROOT, TUTORIAL_URL } from './environment'
 import reset from './services/reset'
 import getLastCommitHash from './services/reset/lastHash'
 import { onEvent } from './services/telemetry'
@@ -50,68 +48,7 @@ class Channel implements Channel {
 
     switch (actionType) {
       case 'EDITOR_STARTUP':
-        try {
-          // check if a workspace is open, otherwise nothing works
-          const noActiveWorkspace = !WORKSPACE_ROOT.length
-          if (noActiveWorkspace) {
-            const error: E.ErrorMessage = {
-              type: 'NoWorkspaceFound',
-              message: '',
-              actions: [
-                {
-                  label: 'Open Workspace',
-                  transition: 'REQUEST_WORKSPACE',
-                },
-              ],
-            }
-            this.send({ type: 'NO_WORKSPACE', payload: { error } })
-            return
-          }
-
-          const env = {
-            machineId: vscode.env.machineId,
-            sessionId: vscode.env.sessionId,
-          }
-
-          // load tutorial from url
-          if (TUTORIAL_URL) {
-            try {
-              const tutorialRes = await fetch(TUTORIAL_URL)
-              const tutorial = await tutorialRes.json()
-              this.send({ type: 'START_TUTORIAL_FROM_URL', payload: { tutorial } })
-              return
-            } catch (e) {
-              console.log(`Failed to load tutorial from url ${TUTORIAL_URL} with error "${e.message}"`)
-            }
-          }
-
-          // continue from tutorial from local storage
-          const tutorial: TT.Tutorial | null = this.context.tutorial.get()
-
-          // no stored tutorial, must start new tutorial
-          if (!tutorial || !tutorial.id) {
-            this.send({ type: 'START_NEW_TUTORIAL', payload: { env } })
-            return
-          }
-
-          // load continued tutorial position & progress
-          const { position, progress } = await this.context.setTutorial(this.workspaceState, tutorial)
-          logger('CONTINUE STATE', position, progress)
-
-          if (progress.complete) {
-            // tutorial is already complete
-            this.send({ type: 'TUTORIAL_ALREADY_COMPLETE', payload: { env } })
-            return
-          }
-          // communicate to client the tutorial & stepProgress state
-          this.send({ type: 'LOAD_STORED_TUTORIAL', payload: { env, tutorial, progress, position } })
-        } catch (e) {
-          const error = {
-            type: 'UnknownError',
-            message: `Location: Editor startup\n\n${e.message}`,
-          }
-          this.send({ type: 'EDITOR_STARTUP_FAILED', payload: { error } })
-        }
+        actions.onStartup(this.context, this.workspaceState, this.send)
         return
 
       // clear tutorial local storage
