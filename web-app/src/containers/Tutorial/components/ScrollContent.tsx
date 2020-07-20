@@ -1,9 +1,17 @@
 import * as React from 'react'
+import { Icon } from '@alifd/next'
 
 const styles = {
   scrollIndicator: {
     position: 'fixed' as 'fixed',
-    bottom: '2rem',
+    display: 'flex' as 'flex',
+    justifyContent: 'center' as 'center',
+    alignItems: 'center' as 'center',
+    left: 'calc(50% - 8px)',
+    borderRadius: '100%',
+    zIndex: 100,
+    bottom: '2.2rem',
+    boxShadow: '0 0 0 5px transparent',
   },
 }
 
@@ -13,7 +21,7 @@ type Props = {
 }
 
 const ScrollContent = ({ item, children }: Props) => {
-  const [showScrollIndicator, setShowScrollIndicator] = React.useState(false)
+  const [showScrollIndicator, setShowScrollIndicator] = React.useState<'UNDETERMINED' | 'SHOW' | 'HIDE'>('UNDETERMINED')
   const pageTopRef: React.RefObject<any> = React.useRef(null)
   const pageBottomRef: React.RefObject<any> = React.useRef(null)
 
@@ -27,17 +35,16 @@ const ScrollContent = ({ item, children }: Props) => {
       ([entry]) => {
         // show a scroll indicator to let the user know
         // they can scroll down for more
-        const isVisible = !entry.isIntersecting
-        setShowScrollIndicator(isVisible)
-        if (!isVisible) {
-          hideTimeout = setTimeout(() => {
-            setShowScrollIndicator(false)
-          }, 3000)
+        const isVisible = entry.isIntersecting
+        if (!isVisible && showScrollIndicator === 'UNDETERMINED') {
+          setShowScrollIndicator('SHOW')
         }
+        hideTimeout = setTimeout(() => {
+          setShowScrollIndicator('HIDE')
+          observer.unobserve(pageBottomRef.current)
+        }, 2000)
       },
-      {
-        rootMargin: '0px',
-      },
+      { rootMargin: '0px' },
     )
 
     const showTimeout = setTimeout(() => {
@@ -46,7 +53,7 @@ const ScrollContent = ({ item, children }: Props) => {
       if (pageBottomRef.current) {
         observer.observe(pageBottomRef.current)
       }
-    }, 300)
+    }, 600)
     return () => {
       // cleanup timeouts & subs
       observer.unobserve(pageBottomRef.current)
@@ -57,15 +64,17 @@ const ScrollContent = ({ item, children }: Props) => {
 
   React.useEffect(scrollToTop, [item])
 
-  console.log(`showScrollIndicator = ${showScrollIndicator}`)
-
   return (
-    <>
+    <div css={{ position: 'relative' }}>
       <div ref={pageTopRef} />
       {children}
-      {showScrollIndicator ? <div style={styles.scrollIndicator}>MORE</div> : null}
-      <div ref={pageBottomRef}>BOTTOM</div>
-    </>
+      {showScrollIndicator === 'SHOW' ? (
+        <div style={styles.scrollIndicator}>
+          <Icon type="arrow-down" size="small" />
+        </div>
+      ) : null}
+      <div ref={pageBottomRef} />
+    </div>
   )
 }
 

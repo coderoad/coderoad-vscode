@@ -36,7 +36,8 @@ const context: Partial<T.MachineContext> = {
         id: '1',
         title: 'First Level',
         summary: 'A summary of the first level',
-        content: 'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
+        content:
+          'Should support markdown test\n ```js\nvar a = 1\n```\nwhew it works!\nShould support markdown test\n ```js\nvar a = 1\n```\nwhew it works!\nShould support markdown test\n ```js\nvar a = 1\n```\nwhew it works!\nShould support markdown test\n ```js\nvar a = 1\n```\nwhew it works!',
         setup: null,
         status: 'COMPLETE' as 'COMPLETE',
         steps: [
@@ -147,6 +148,6 @@ storiesOf('Tutorial', module)
       position: { levelId: '1', stepId: '1.2' },
       progress: { levels: {}, steps: {}, complete: false },
     }
-    return <Tutorial context={firstLevel} send={action('send')} />
+    return <Tutorial state="Normal" context={firstLevel} send={action('send')} />
   })
-  .add('3 step', () => <Tutorial context={context} send={action('send')} />)
+  .add('3 step', () => <Tutorial state="Normal" context={context} send={action('send')} />)

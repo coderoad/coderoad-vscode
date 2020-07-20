@@ -51,6 +51,7 @@ const styles = {
     left: 0,
     right: 0,
     color: 'white',
+    zIndex: 1000,
   },
   processes: {
     padding: '0 1rem',
