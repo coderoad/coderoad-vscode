@@ -1,9 +1,9 @@
 import * as E from 'typings/error'
 import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
-import { COMMANDS } from '../commands'
-import * as git from '../services/git'
-import { DISABLE_RUN_ON_SAVE } from '../environment'
+import { COMMANDS } from '../../commands'
+import * as git from '../../services/git'
+import { DISABLE_RUN_ON_SAVE } from '../../environment'
 
 interface TutorialConfigParams {
   data: TT.Tutorial
