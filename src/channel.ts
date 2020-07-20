@@ -1,11 +1,9 @@
 import * as T from 'typings'
 import * as vscode from 'vscode'
-import { setupActions, solutionActions } from './actions/onActions'
 import { COMMANDS } from './commands'
 import Context from './services/context/context'
 import logger from './services/logger'
 import { openWorkspace } from './services/workspace'
-import { showOutput } from './services/testRunner/output'
 import * as actions from './actions'
 
 interface Channel {
@@ -69,18 +67,17 @@ class Channel implements Channel {
         await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_POSITION, action.payload.position)
         await actions.onSolutionActions({ actions: action.payload.actions, send: this.send })
         // run test following solution to update position
-        vscode.commands.executeCommand(COMMANDS.RUN_TEST)
+        actions.onRunTest()
         return
       case 'EDITOR_SYNC_PROGRESS':
         // update progress when a level is deemed complete in the client
         await this.context.progress.syncProgress(action.payload.progress)
         return
       case 'EDITOR_OPEN_LOGS':
-        const channel = action.payload.channel
-        await showOutput(channel)
+        actions.onOpenLogs(action)
         return
       case 'EDITOR_RUN_TEST':
-        vscode.commands.executeCommand(COMMANDS.RUN_TEST, action?.payload)
+        actions.onRunTest(action)
         return
       case 'EDITOR_RUN_RESET':
         actions.onRunReset(this.context)
