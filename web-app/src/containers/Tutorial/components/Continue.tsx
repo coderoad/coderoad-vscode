@@ -43,13 +43,15 @@ const Continue = (props: Props) => {
     onClose()
   }
 
+  const isComplete = props.current === props.max
+
   return (
     <>
       <Button type="primary" size="medium" onClick={onOpen}>
         Continue
       </Button>
       <Dialog
-        title="Level Complete!"
+        title={isComplete ? 'Tutorial Complete!' : 'Level Complete!'}
         visible={modalState === 'open'}
         onClose={onClose}
         footer={false}
@@ -57,8 +59,9 @@ const Continue = (props: Props) => {
       >
         <div css={styles.content}>
           <ProgressPie current={props.current} max={props.max} />
+
           <div css={styles.message}>
-            <h3>{props.title}</h3>
+            <h3>{isComplete ? 'Congratulations!' : props.title}</h3>
             <br />
             <Button type="primary" size="large" onClick={onContinue}>
               Continue&nbsp;&nbsp;
