@@ -11,6 +11,8 @@ jobs:
         run: yarn test
   build-web:
     runs-on: ubuntu-latest
+    env:
+      SKIP_PREFLIGHT_CHECK: true
     steps:
       - uses: actions/checkout@v2
       - name: Install modules
