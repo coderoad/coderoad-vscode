@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { Dialog, Message } from '@alifd/next'
-import Button from '../../../components/Button'
+import { Button, Dialog, Message } from '@alifd/next'
 
 interface Props {
   disabled?: boolean
@@ -24,7 +23,13 @@ const Reset = (props: Props) => {
 
   return (
     <>
-      <Button type="secondary" size="medium" onClick={() => setModalState('confirm')} disabled={props.disabled}>
+      <Button
+        ghost="dark"
+        type="secondary"
+        size="medium"
+        onClick={() => setModalState('confirm')}
+        disabled={props.disabled}
+      >
         Reset
       </Button>
       <Dialog
