@@ -43,22 +43,22 @@ const formatLevels = ({ progress, position, levels, testStatus }: Input): Output
         status = 'COMPLETE'
       } else if (step.id === position.stepId) {
         status = 'ACTIVE'
-        if (step.subtasks && step.subtasks) {
-          subtasks = step.subtasks.map((subtask: string, subtaskIndex: number) => {
-            let subtaskStatus: T.ProgressStatus = 'INCOMPLETE'
-            // task is complete, subtasks must be complete
-            if (status === 'COMPLETE') {
-              subtaskStatus = 'COMPLETE'
-              // task is active, check which are complete from test results
-            } else if (status === 'ACTIVE') {
-              subtaskStatus = !!(testStatus?.summary && testStatus.summary[subtaskIndex]) ? 'COMPLETE' : 'ACTIVE'
-            }
-            return {
-              name: subtask,
-              status: subtaskStatus,
-            }
-          })
-        }
+      }
+      if (step.subtasks && step.subtasks) {
+        subtasks = step.subtasks.map((subtask: string, subtaskIndex: number) => {
+          let subtaskStatus: T.ProgressStatus = 'INCOMPLETE'
+          // task is complete, subtasks must be complete
+          if (status === 'COMPLETE') {
+            subtaskStatus = 'COMPLETE'
+            // task is active, check which are complete from test results
+          } else if (status === 'ACTIVE') {
+            subtaskStatus = !!(testStatus?.summary && testStatus.summary[subtaskIndex]) ? 'COMPLETE' : 'ACTIVE'
+          }
+          return {
+            name: subtask,
+            status: subtaskStatus,
+          }
+        })
       }
       return { ...step, status, subtasks }
     }),
