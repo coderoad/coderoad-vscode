@@ -16,7 +16,7 @@ storiesOf('Overview', module)
         appVersions: {
           vscode: '0.1.0',
         },
-        testRunner: { command: '' },
+        testRunner: { command: '', args: { tap: '' } },
         repo: { uri: '', branch: 'master' },
       },
       summary: {
