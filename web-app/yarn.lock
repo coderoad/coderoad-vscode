@@ -10,10 +10,10 @@
     "@alifd/validate" "^1.2.0"
     prop-types "^15.5.8"
 
-"@alifd/next@^1.20.18":
-  version "1.20.18"
-  resolved "https://registry.yarnpkg.com/@alifd/next/-/next-1.20.18.tgz#355d02a8ce3fe7996e52ee0295d696c8a9032060"
-  integrity sha512-acwDvwxQFmuheMtwHcxWqwcWrPQtNDimddzK5ZV9lthonCsEWikhZq+MCKYl/UbXRuSUnnLRApAkULOrDXqeBg==
+"@alifd/next@^1.20.20":
+  version "1.20.20"
+  resolved "https://registry.yarnpkg.com/@alifd/next/-/next-1.20.20.tgz#aeebd7d036b63d3279be520284d20967d0e44e8f"
+  integrity sha512-iACP/7wP3hXzxFcvD0J9UGlCXLtxm5pAHGEWKMOpT+B2X5b3URsTlPdZkQ2y8Sgl8MF4waLPYz3BF1DsBTZ4ew==
   dependencies:
     "@alifd/field" "~1.4.1"
     "@alifd/validate" "~1.2.0"
@@ -2351,10 +2351,10 @@
     "@types/istanbul-lib-coverage" "*"
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@^26.0.4":
-  version "26.0.4"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.4.tgz#d2e513e85aca16992816f192582b5e67b0b15efb"
-  integrity sha512-4fQNItvelbNA9+sFgU+fhJo8ZFF+AS4Egk3GWwCW2jFtViukXbnztccafAdLhzE/0EiCogljtQQXP8aQ9J7sFg==
+"@types/jest@^26.0.5":
+  version "26.0.5"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.5.tgz#23a8eecf4764a770ea8d3a0d1ea16b96c822035d"
+  integrity sha512-heU+7w8snfwfjtcj2H458aTx3m5unIToOJhx75ebHilBiiQ39OIdA18WkG4LP08YKeAoWAGvWg8s+22w/PeJ6w==
   dependencies:
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
@@ -2397,10 +2397,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.13.0.tgz#30d2d09f623fe32cde9cb582c7a6eda2788ce4a8"
   integrity sha512-WE4IOAC6r/yBZss1oQGM5zs2D7RuKR6Q+w+X2SouPofnWn+LbCqClRyhO3ZE7Ix8nmFgo/oVuuE01cJT2XB13A==
 
-"@types/node@^14.0.23":
-  version "14.0.23"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.23.tgz#676fa0883450ed9da0bb24156213636290892806"
-  integrity sha512-Z4U8yDAl5TFkmYsZdFPdjeMa57NOvnaf1tljHzhouaPEp7LCj2JKkejpI1ODviIAQuW4CcQmxkQ77rnLsOOoKw==
+"@types/node@^14.0.24":
+  version "14.0.24"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.24.tgz#b0f86f58564fa02a28b68f8b55d4cdec42e3b9d6"
+  integrity sha512-btt/oNOiDWcSuI721MdL8VQGnjsKjlTMdrKyTcLCKeQp/n4AAMFJ961wMbp+09y8WuGPClDEv07RIItdXKIXAA==
 
 "@types/npmlog@^4.1.2":
   version "4.1.2"

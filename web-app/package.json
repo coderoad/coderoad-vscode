@@ -1,6 +1,6 @@
 {
   "name": "coderoad-app",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "private": true,
   "scripts": {
     "build": "react-app-rewired build",
@@ -25,7 +25,7 @@
     "extends": "react-app"
   },
   "dependencies": {
-    "@alifd/next": "^1.20.18",
+    "@alifd/next": "^1.20.20",
     "@alifd/theme-4": "^0.3.1",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/core": "^10.0.28",
@@ -52,10 +52,10 @@
     "@storybook/react": "^5.3.19",
     "@types/graphql": "^14.5.0",
     "@types/highlight.js": "^9.12.4",
-    "@types/jest": "^26.0.4",
+    "@types/jest": "^26.0.5",
     "@types/js-yaml": "^3.12.5",
     "@types/markdown-it": "^10.0.1",
-    "@types/node": "^14.0.23",
+    "@types/node": "^14.0.24",
     "@types/prismjs": "^1.16.1",
     "@types/react": "^16.9.43",
     "@types/react-addons-css-transition-group": "^15.0.5",

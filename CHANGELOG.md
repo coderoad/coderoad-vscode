@@ -225,3 +225,8 @@ Adds a review page for viewing tutorial content. The review page should be espec
   - continue (ctrl + enter)
 - Fix scroll to bottom on next level
 - Add a scroll indicator when content is too long
+
+### [0.12.0]
+
+- Change completion page to a banner that prompts the user to open a new workspace
+- Adds an "About" section to the tutorial side menu
