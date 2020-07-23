@@ -5,7 +5,6 @@ import ErrorView from './components/Error'
 import LoadingPage from './containers/Loading'
 import StartPage from './containers/Start'
 import SelectTutorialPage from './containers/SelectTutorial'
-import CompletedPage from './containers/Tutorial/CompletedPage'
 import TutorialPage from './containers/Tutorial'
 
 /*
@@ -39,12 +38,8 @@ const Routes = () => {
       <Route paths={{ Tutorial: { Level: { Load: true } } }}>
         <LoadingPage text="Loading Level..." processes={context.processes} />
       </Route>
-      <Route paths={{ Tutorial: { Level: true } }}>
-        <TutorialPage send={send} context={context} state={route.replace('Tutorial.Level.', '')} />
-      </Route>
-      {/* Completed */}
-      <Route paths={{ Tutorial: { Completed: true } }}>
-        <CompletedPage context={context} />
+      <Route paths={{ Tutorial: { Level: true, Completed: true } }}>
+        <TutorialPage send={send} context={context} state={route.replace('Tutorial.', '')} />
       </Route>
     </Router>
   )

@@ -44,7 +44,7 @@ For learners, there are a number of advantages to running tutorials inside VSCod
 
 a. Learn in a real world coding environment
 b. Get rapid feedback on save and helpful error messages
-c. Users own the code, and can build a Git timeline and deploy a portfolio
+c.Users own the code, and can build a Git timeline and deploy a portfolio
 
 ##### Subscribe
 
