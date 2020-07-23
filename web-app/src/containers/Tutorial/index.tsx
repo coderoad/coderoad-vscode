@@ -124,8 +124,6 @@ const TutorialPage = (props: PageProps) => {
 
   const disableOptions = processes.length > 0 || props.state === 'Level.TestRunning'
 
-  console.log(`STATE: ${props.state}`)
-
   return (
     <div>
       <div css={styles.page}>
@@ -150,7 +148,10 @@ const TutorialPage = (props: PageProps) => {
 
       {props.state === 'Completed' ? (
         <div css={styles.completeFooter}>
-          <CompletedBanner title={tutorial.summary.title || 'Unknown'} />
+          <CompletedBanner
+            title={tutorial.summary.title || 'Unknown'}
+            onRequestWorkspace={() => props.send({ type: 'REQUEST_WORKSPACE' })}
+          />
         </div>
       ) : (
         <div css={styles.footer}>

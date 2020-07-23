@@ -253,6 +253,9 @@ export const createMachine = (options: any) => {
                   target: '#select-new-tutorial',
                   actions: ['reset'],
                 },
+                REQUEST_WORKSPACE: {
+                  actions: 'requestWorkspaceSelect',
+                },
               },
             },
           },
