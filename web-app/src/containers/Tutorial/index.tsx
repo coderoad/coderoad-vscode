@@ -19,6 +19,7 @@ import CompletedBanner from './components/CompletedBanner'
 
 const styles = {
   page: {
+    width: '100vw',
     paddingBottom: '5rem',
   },
   header: {

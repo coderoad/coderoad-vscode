@@ -11,7 +11,6 @@ interface Props {
 const styles = {
   container: {
     height: 'auto',
-    width: '100%',
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
   },
