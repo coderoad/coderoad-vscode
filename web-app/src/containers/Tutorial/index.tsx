@@ -4,6 +4,7 @@ import * as selectors from '../../services/selectors'
 import SideMenu from './components/SideMenu'
 import Level from './components/Level'
 import Icon from '../../components/Icon'
+import AboutPage from './containers/About'
 import ReviewPage from './containers/Review'
 import Button from '../../components/Button'
 import ProcessMessages from '../../components/ProcessMessages'
@@ -14,6 +15,7 @@ import formatLevels from './formatLevels'
 import Reset from './components/Reset'
 import Continue from './components/Continue'
 import ScrollContent from './components/ScrollContent'
+import CompletedBanner from './components/CompletedBanner'
 
 const styles = {
   page: {
@@ -53,6 +55,13 @@ const styles = {
     color: 'white',
     zIndex: 1000,
   },
+  completeFooter: {
+    position: 'fixed' as 'fixed',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+  },
   processes: {
     padding: '0 1rem',
     position: 'fixed' as 'fixed',
@@ -73,7 +82,7 @@ const styles = {
 interface PageProps {
   context: T.MachineContext
   send(action: T.Action): void
-  state: string // 'Normal' | 'TestRunning' | 'TestFail' | 'TestPass' | 'LevelComplete'
+  state: string // 'Normal' | 'TestRunning' | 'TestFail' | 'TestPass' | 'Level.LevelComplete'
 }
 
 /**
@@ -103,7 +112,7 @@ const TutorialPage = (props: PageProps) => {
 
   const [menuVisible, setMenuVisible] = React.useState(false)
 
-  const [page, setPage] = React.useState<'level' | 'settings' | 'review'>('level')
+  const [page, setPage] = React.useState<'about' | 'level' | 'review' | 'settings'>('level')
 
   // format level code with status for easy rendering
   const { level, levels, levelIndex, stepIndex } = formatLevels({
@@ -113,7 +122,7 @@ const TutorialPage = (props: PageProps) => {
     testStatus,
   })
 
-  const disableOptions = processes.length > 0 || props.state === 'TestRunning'
+  const disableOptions = processes.length > 0 || props.state === 'Level.TestRunning'
 
   return (
     <div>
@@ -125,68 +134,81 @@ const TutorialPage = (props: PageProps) => {
           <span css={styles.title}>{tutorial.summary.title}</span>
         </div>
 
+        {page === 'about' && <AboutPage />}
+
         {page === 'level' && (
           <ScrollContent item={level.id}>
             <Level level={level} />
           </ScrollContent>
         )}
         {page === 'review' && <ReviewPage levels={levels} />}
+
         {/* {page === 'settings' && <SettingsPage />} */}
       </div>
-      <div css={styles.footer}>
-        {/* Process Modal */}
-        {processes.length > 0 && (
-          <div css={styles.processes}>
-            <ProcessMessages processes={processes} />
-          </div>
-        )}
-        {/* Test Fail Modal */}
-        {testStatus && testStatus.type === 'warning' && (
-          <div css={styles.testMessage}>
-            <TestMessage message={testStatus.title} />
-          </div>
-        )}
-        {/* Left */}
-        <div css={{ flex: 1 }}>
-          {DISPLAY_RUN_TEST_BUTTON && level.status !== 'COMPLETE' ? (
-            <Button style={{ marginLeft: '1rem' }} type="primary" onClick={onRunTest} disabled={disableOptions}>
-              Run
-            </Button>
-          ) : null}
-        </div>
 
-        {/* Center */}
-        <div css={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-          <Reset onReset={onReset} disabled={disableOptions || props.state === 'LevelComplete'} />
+      {props.state === 'Completed' ? (
+        <div css={styles.completeFooter}>
+          <CompletedBanner
+            title={tutorial.summary.title || 'Unknown'}
+            onRequestWorkspace={() => props.send({ type: 'REQUEST_WORKSPACE' })}
+          />
         </div>
+      ) : (
+        <div css={styles.footer}>
+          {/* Process Modal */}
+          {processes.length > 0 && (
+            <div css={styles.processes}>
+              <ProcessMessages processes={processes} />
+            </div>
+          )}
+          {/* Test Fail Modal */}
+          {testStatus && testStatus.type === 'warning' && (
+            <div css={styles.testMessage}>
+              <TestMessage message={testStatus.title} />
+            </div>
+          )}
+          {/* Left */}
+          <div css={{ flex: 1 }}>
+            {DISPLAY_RUN_TEST_BUTTON && level.status !== 'COMPLETE' ? (
+              <Button style={{ marginLeft: '1rem' }} type="primary" onClick={onRunTest} disabled={disableOptions}>
+                Run
+              </Button>
+            ) : null}
+          </div>
 
-        {/* Right */}
-        <div css={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-          {!level.steps.length ? (
-            <div css={{ marginRight: '0.5rem' }}>
-              <Continue
-                onContinue={onContinue}
-                current={levelIndex + 1}
-                max={levels.length}
-                title={tutorial.summary.title}
-                defaultOpen={false}
-              />
-            </div>
-          ) : props.state === 'LevelComplete' ? (
-            <div css={{ marginRight: '0.5rem' }}>
-              <Continue
-                onContinue={onContinue}
-                current={levelIndex + 1}
-                max={levels.length}
-                title={tutorial.summary.title}
-                defaultOpen={true}
-              />
-            </div>
-          ) : level.steps.length > 1 ? (
-            <StepProgress current={stepIndex + 1} max={level.steps.length} />
-          ) : null}
+          {/* Center */}
+          <div css={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+            <Reset onReset={onReset} disabled={disableOptions || props.state === 'Level.LevelComplete'} />
+          </div>
+
+          {/* Right */}
+          <div css={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+            {!level.steps.length ? (
+              <div css={{ marginRight: '0.5rem' }}>
+                <Continue
+                  onContinue={onContinue}
+                  current={levelIndex + 1}
+                  max={levels.length}
+                  title={tutorial.summary.title}
+                  defaultOpen={false}
+                />
+              </div>
+            ) : props.state === 'Level.LevelComplete' ? (
+              <div css={{ marginRight: '0.5rem' }}>
+                <Continue
+                  onContinue={onContinue}
+                  current={levelIndex + 1}
+                  max={levels.length}
+                  title={tutorial.summary.title}
+                  defaultOpen={true}
+                />
+              </div>
+            ) : level.steps.length > 1 ? (
+              <StepProgress current={stepIndex + 1} max={level.steps.length} />
+            ) : null}
+          </div>
         </div>
-      </div>
+      )}
       <SideMenu visible={menuVisible} toggleVisible={setMenuVisible} page={page} setPage={setPage} />
     </div>
   )

@@ -146,7 +146,7 @@ storiesOf('Tutorial', module)
       position: { levelId: '1', stepId: '1.2' },
       progress: { levels: {}, steps: {}, complete: false },
     }
-    return <Tutorial state="Normal" context={firstLevel} send={action('send')} />
+    return <Tutorial state="Level.Normal" context={firstLevel} send={action('send')} />
   })
   .add('1.3 Level Complete', () => {
     const levelComplete = {
@@ -154,7 +154,7 @@ storiesOf('Tutorial', module)
       position: { levelId: '1', stepId: '1.2' },
       progress: { levels: {}, steps: { '1.1': true }, complete: false },
     }
-    return <Tutorial state="LevelComplete" context={levelComplete} send={action('send')} />
+    return <Tutorial state="Level.LevelComplete" context={levelComplete} send={action('send')} />
   })
   .add('3.1 Level Start', () => {
     const newLevel = {
@@ -162,7 +162,7 @@ storiesOf('Tutorial', module)
       position: { levelId: '1', stepId: '1.2' },
       progress: { levels: { '1': true, '2': true }, steps: {}, complete: false },
     }
-    return <Tutorial state="Normal" context={newLevel} send={action('send')} />
+    return <Tutorial state="Level.Normal" context={newLevel} send={action('send')} />
   })
   .add('3.3 Final', () => {
     const lastLevel = {
@@ -170,5 +170,13 @@ storiesOf('Tutorial', module)
       position: { levelId: '3', stepId: '3.3' },
       progress: { levels: { '3': true }, steps: { '3.3': true }, complete: true },
     }
-    return <Tutorial state="LevelComplete" context={lastLevel} send={action('send')} />
+    return <Tutorial state="Level.LevelComplete" context={lastLevel} send={action('send')} />
+  })
+  .add('3.3 Completed', () => {
+    const lastLevel = {
+      ...context,
+      position: { levelId: '3', stepId: '3.3' },
+      progress: { levels: { '3': true }, steps: { '3.3': true }, complete: true },
+    }
+    return <Tutorial state="Completed" context={lastLevel} send={action('send')} />
   })
