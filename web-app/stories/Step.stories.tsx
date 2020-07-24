@@ -91,6 +91,6 @@ storiesOf('Step', module)
   .add('Hints', () => (
     <>
       <Step content={text('text', stepText)} status="ACTIVE" subtasks={null} />
-      <Hints hints={['First hint!', 'Second hint!']} hintIndex={1} setHintIndex={action('setHintIndex')} />
+      <Hints hints={['First hint!', 'Second hint!']} />
     </>
   ))
