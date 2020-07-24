@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { css, jsx } from '@emotion/core'
 import { Provider } from './ProviderDecorator'
+import { ThemeProvider } from 'emotion-theming'
+import theme from '../../src/styles/theme'
 
 const styles = {
   container: {
@@ -17,7 +19,9 @@ const styles = {
 
 const SideBarDecorator = (storyFn) => (
   <Provider>
-    <div css={styles.container}>{storyFn()}</div>
+    <ThemeProvider theme={theme}>
+      <div css={styles.container}>{storyFn()}</div>
+    </ThemeProvider>
   </Provider>
 )
 
