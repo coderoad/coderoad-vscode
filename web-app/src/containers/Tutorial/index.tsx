@@ -16,22 +16,27 @@ import Reset from './components/Reset'
 import Continue from './components/Continue'
 import ScrollContent from './components/ScrollContent'
 import CompletedBanner from './components/CompletedBanner'
+import { Theme } from '../../styles/theme'
+import { useTheme } from 'emotion-theming'
 
 const styles = {
   page: {
     width: '100vw',
     paddingBottom: '5rem',
   },
-  header: {
+  header: (theme: Theme) => ({
     display: 'flex' as 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
     height: '2rem',
-    backgroundColor: '#EBEBEB',
+    backgroundColor: theme['$color-fill1-4'],
     fontSize: '1rem',
     lineHeight: '1rem',
     padding: '10px 0.4rem',
-  },
+  }),
+  menuIcon: (theme: Theme) => ({
+    color: theme['$color-text1-4'],
+  }),
   title: {
     marginLeft: '0.5rem',
   },
@@ -39,7 +44,7 @@ const styles = {
     textDecoration: 'none',
     color: 'inherit',
   },
-  footer: {
+  footer: (theme: Theme) => ({
     display: 'flex' as 'flex',
     flexDirection: 'row' as 'row',
     justifyContent: 'space-between',
@@ -53,9 +58,9 @@ const styles = {
     bottom: 0,
     left: 0,
     right: 0,
-    color: 'white',
+    color: theme['$color-white'],
     zIndex: 1000,
-  },
+  }),
   completeFooter: {
     position: 'fixed' as 'fixed',
     bottom: 0,
@@ -93,6 +98,7 @@ interface PageProps {
  */
 
 const TutorialPage = (props: PageProps) => {
+  const theme: Theme = useTheme()
   const { position, progress, processes, testStatus } = props.context
 
   const tutorial = selectors.currentTutorial(props.context)
@@ -130,7 +136,7 @@ const TutorialPage = (props: PageProps) => {
       <div css={styles.page}>
         <div css={styles.header}>
           <a onClick={() => setMenuVisible(!menuVisible)}>
-            <Icon type="toggle-left" size="small" style={{ color: '#333' }} />
+            <Icon type="toggle-left" size="small" style={styles.menuIcon(theme)} />
           </a>
           <span css={styles.title}>{tutorial.summary.title}</span>
         </div>

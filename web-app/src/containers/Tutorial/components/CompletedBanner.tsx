@@ -1,18 +1,19 @@
 import * as React from 'react'
 import { css, jsx } from '@emotion/core'
 import { Button, Icon } from '@alifd/next'
+import { Theme } from '../../../styles/theme'
 
 const styles = {
-  banner: {
+  banner: (theme: Theme) => ({
     height: 'auto',
-    width: '100%',
-    backgroundColor: 'rgb(85, 132, 255)',
-    color: 'white',
+    width: '100vw',
+    backgroundColor: theme['$color-brand1-9'],
+    color: theme['$color-white'],
     padding: '0.5rem 1rem',
-  },
+  }),
   header: {
     position: 'relative' as 'relative',
-    width: '100%',
+    width: '100vw',
   },
   headerMessage: {
     marginLeft: '0.5rem',

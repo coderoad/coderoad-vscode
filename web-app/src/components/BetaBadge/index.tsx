@@ -5,7 +5,7 @@ import { Theme } from '../../styles/theme'
 
 const styles = {
   betaBadge: (theme: Theme) => ({
-    backgroundColor: theme['$color-brand1-9'], // '#6a67ce',
+    backgroundColor: theme['$color-brand1-9'],
     color: theme['$color-white'],
   }),
 }

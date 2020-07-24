@@ -8,7 +8,7 @@ import TutorialFile from './forms/TutorialFile'
 const styles = {
   formWrapper: {
     padding: '1rem',
-    width: '100wvw',
+    width: '100vw',
     height: 'auto',
   },
 }

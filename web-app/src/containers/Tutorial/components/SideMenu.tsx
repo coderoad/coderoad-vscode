@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { Menu, Icon, Drawer } from '@alifd/next'
+import { useTheme } from 'emotion-theming'
+import { Theme } from '../../../styles/theme'
 
 const { Item, Divider } = Menu
 
@@ -11,10 +13,10 @@ const styles = {
     margin: 0,
     height: '100%',
   },
-  active: {
-    color: 'white',
-    backgroundColor: 'rgb(85, 132, 255)',
-  },
+  active: (theme: Theme) => ({
+    color: theme['$color-white'],
+    backgroundColor: theme['$color-brand1-9'],
+  }),
   itemText: {
     marginLeft: '0.5rem',
   },
@@ -31,6 +33,7 @@ const SideMenu = (props: Props) => {
   const onMenuClose = () => {
     props.toggleVisible(false)
   }
+  const theme: Theme = useTheme()
   return (
     <Drawer
       bodyStyle={styles.drawer}
@@ -44,7 +47,7 @@ const SideMenu = (props: Props) => {
         <Item
           key="level"
           disabled={props.page === 'level'}
-          style={props.page === 'level' ? styles.active : {}}
+          style={props.page === 'level' ? styles.active(theme) : {}}
           onClick={() => {
             onMenuClose()
             props.setPage('level')
@@ -56,7 +59,7 @@ const SideMenu = (props: Props) => {
         <Item
           key="review"
           disabled={props.page === 'review'}
-          style={props.page === 'review' ? styles.active : {}}
+          style={props.page === 'review' ? styles.active(theme) : {}}
           onClick={() => {
             onMenuClose()
             props.setPage('review')
@@ -69,7 +72,7 @@ const SideMenu = (props: Props) => {
         <Item
           key="about"
           disabled={props.page === 'about'}
-          style={props.page === 'about' ? styles.active : {}}
+          style={props.page === 'about' ? styles.active(theme) : {}}
           onClick={() => {
             onMenuClose()
             props.setPage('about')

@@ -1,21 +1,22 @@
 import * as React from 'react'
 import Markdown from '../../../components/Markdown'
+import { Theme } from '../../../styles/theme'
 
 const styles = {
   container: {
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
   },
-  header: {
+  header: (theme: Theme) => ({
     display: 'flex' as 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     height: '2rem',
-    backgroundColor: '#EBEBEB',
+    backgroundColor: theme['$color-fill1-2'],
     fontSize: '1rem',
     lineHeight: '1rem',
     padding: '10px 0.4rem',
-  },
+  }),
   content: {
     padding: '0.5rem',
   },

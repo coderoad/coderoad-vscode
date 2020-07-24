@@ -10,8 +10,8 @@ const styles = {
     position: 'relative' as 'relative',
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
-    width: '100%',
-    height: window.innerHeight,
+    width: '100vw',
+    height: '100vh',
   },
   header: {
     flex: 1,
