@@ -1,6 +1,8 @@
 import * as React from 'react'
 import * as TT from 'typings/tutorial'
-import { Form } from '@alifd/next'
+import { css, jsx } from '@emotion/core'
+import { Icon, Form } from '@alifd/next'
+import { Theme } from '../../../styles/theme'
 
 const FormItem = Form.Item
 
@@ -9,13 +11,19 @@ interface Props {
 }
 
 const styles = {
-  uploadFileButton: {
+  form: {
+    maxWidth: '600px',
+    padding: '0 0.3rem',
+  },
+  uploadLabel: (theme: Theme) => ({
     padding: '0.3rem 0.5rem',
-    outline: '1px dotted rgb(51, 51, 51)',
-    borderRadius: '0.2rem',
-    fontWeight: 400,
-    fontFamily:
-      '-apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;',
+    outline: `1.5px solid ${theme['$color-line1-3']}`,
+    fontSize: theme['$form-element-medium-font-size'],
+    fontFamily: theme['$font-family-base'],
+    color: theme['$color-text1-3'],
+  }),
+  uploadButton: {
+    display: 'none',
   },
 }
 
@@ -39,12 +47,13 @@ const TutorialFile = (props: Props) => {
   }
 
   return (
-    <Form style={{ maxWidth: '600px' }}>
+    <Form css={styles.form}>
       <FormItem label="Load coderoad config.json">
         <br />
-        <label style={styles.uploadFileButton}>
-          Upload
-          <input style={{ display: 'none' }} type="file" accept="application/json" onChange={onChange} />
+        <label css={styles.uploadLabel}>
+          <Icon type="upload" size="xs" />
+          &nbsp;&nbsp;Upload
+          <input css={styles.uploadButton} type="file" accept="application/json" onChange={onChange} />
         </label>
         <br />
       </FormItem>

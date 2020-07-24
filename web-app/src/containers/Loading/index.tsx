@@ -17,7 +17,7 @@ const styles = {
     alignItems: 'center' as 'center',
     justifyContent: 'center' as 'center',
     height: '100%',
-    width: '100%',
+    width: '100vw',
   },
   processes: {
     padding: '0 1rem',

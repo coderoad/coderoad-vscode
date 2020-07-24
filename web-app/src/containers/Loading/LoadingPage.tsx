@@ -15,7 +15,7 @@ const styles = {
     flexDirection: 'column' as 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
+    width: '100vw',
   },
 }
 

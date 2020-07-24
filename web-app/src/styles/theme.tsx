@@ -193,6 +193,8 @@ const theme = {
   '$s-48': '192px',
   '$s-49': '196px',
   '$s-50': '200px',
+  '$footer-height': '3rem',
+  '$nav-height': '2rem',
 }
 
 export type Theme = typeof theme
