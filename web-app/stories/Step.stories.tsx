@@ -75,15 +75,15 @@ storiesOf('Step', module)
       subtasks={[
         {
           name: 'First Test',
-          pass: false,
+          status: 'ACTIVE',
         },
         {
           name: 'Second Test',
-          pass: true,
+          status: 'COMPLETE',
         },
         {
           name: 'Third Test',
-          pass: false,
+          status: 'ACTIVE',
         },
       ]}
     />
