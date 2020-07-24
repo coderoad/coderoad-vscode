@@ -9,8 +9,9 @@ interface ReactWebViewProps {
   workspaceState: vscode.Memento
 }
 
+let state = { loaded: false }
+
 const createReactWebView = ({ extensionPath, workspaceState }: ReactWebViewProps) => {
-  let loaded = false
   // TODO add disposables
   const disposables: vscode.Disposable[] = []
 
@@ -27,7 +28,7 @@ const createReactWebView = ({ extensionPath, workspaceState }: ReactWebViewProps
       // allows scripts to load external resources (eg. markdown images, fonts)
       enableCommandUris: true,
     }
-    loaded = true
+    state.loaded = true
     return vscode.window.createWebviewPanel(viewType, title, vscode.ViewColumn.Two, config)
   }
 
@@ -35,7 +36,15 @@ const createReactWebView = ({ extensionPath, workspaceState }: ReactWebViewProps
 
   // Listen for when the panel is disposed
   // This happens when the user closes the panel or when the panel is closed programmatically
-  panel.onDidDispose(panel.dispose, null, disposables)
+  panel.onDidDispose(
+    () => {
+      console.log('dispose panel')
+      panel.dispose()
+      state.loaded = false
+    },
+    null,
+    disposables,
+  )
 
   const channel = new Channel({
     workspaceState,
@@ -49,16 +58,18 @@ const createReactWebView = ({ extensionPath, workspaceState }: ReactWebViewProps
 
   panel.webview.onDidReceiveMessage(receive, null, disposables)
 
+  // panel.onDidDispose(() => {
+  //   // Clean up our resources
+  //   loaded = false
+  //   panel.dispose()
+  //   Promise.all(disposables.map((x) => x.dispose()))
+  // })
+
   const rootPath = path.join(extensionPath, 'build')
   render(panel, rootPath)
 
   return {
-    dispose() {
-      // Clean up our resources
-      loaded = false
-      panel.dispose()
-      Promise.all(disposables.map((x) => x.dispose()))
-    },
+    state,
     createOrShow() {
       vscode.commands.executeCommand('vscode.setEditorLayout', {
         orientation: 0,
@@ -68,10 +79,8 @@ const createReactWebView = ({ extensionPath, workspaceState }: ReactWebViewProps
       // Otherwise, create a new panel.
 
       if (panel && panel.webview) {
-        if (!loaded) {
-          panel.reveal(vscode.ViewColumn.Two)
-          loaded = true
-        }
+        vscode.window.showInformationMessage('CodeRoad already open')
+        panel.reveal(vscode.ViewColumn.Two)
       } else {
         panel = createWebViewPanel()
       }

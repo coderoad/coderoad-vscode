@@ -8,7 +8,6 @@ import logger from './services/logger'
 
 export const COMMANDS = {
   START: 'coderoad.start',
-  OPEN_WEBVIEW: 'coderoad.open_webview',
   CONFIG_TEST_RUNNER: 'coderoad.config_test_runner',
   RUN_TEST: 'coderoad.run_test',
   SET_CURRENT_POSITION: 'coderoad.set_current_position',
@@ -29,27 +28,16 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
   return {
     // initialize
     [COMMANDS.START]: async () => {
-      let webviewState: 'INITIALIZING' | 'RESTARTING'
-      if (!webview) {
-        webviewState = 'INITIALIZING'
-      } else if (webview.loaded) {
-        // already loaded
-        vscode.window.showInformationMessage('CodeRoad already open')
-        return
+      console.log('start')
+      if (webview && webview.state.loaded) {
+        webview.createOrShow()
       } else {
-        webviewState = 'RESTARTING'
+        // activate machine
+        webview = createWebView({
+          extensionPath,
+          workspaceState,
+        })
       }
-
-      // activate machine
-      webview = createWebView({
-        extensionPath,
-        workspaceState,
-      })
-    },
-    // open React webview
-    [COMMANDS.OPEN_WEBVIEW]: () => {
-      // setup 1x1 horizontal layout
-      webview.createOrShow()
     },
     [COMMANDS.CONFIG_TEST_RUNNER]: async (data: TT.Tutorial) => {
       const testRunnerConfig = data.config.testRunner
