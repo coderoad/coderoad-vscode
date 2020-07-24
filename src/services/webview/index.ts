@@ -53,6 +53,7 @@ const createReactWebView = ({ extensionPath, workspaceState }: ReactWebViewProps
   render(panel, rootPath)
 
   return {
+    loaded,
     dispose() {
       // Clean up our resources
       loaded = false
