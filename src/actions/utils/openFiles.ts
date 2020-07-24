@@ -16,9 +16,6 @@ const openFiles = async (files: string[]) => {
       const absoluteFilePath = join(wr, filePath)
       const doc = await vscode.workspace.openTextDocument(absoluteFilePath)
       await vscode.window.showTextDocument(doc, vscode.ViewColumn.One)
-      // there are times when initialization leave the panel behind any files opened
-      // ensure the panel is redrawn on the right side first
-      vscode.commands.executeCommand(COMMANDS.OPEN_WEBVIEW)
     } catch (error) {
       console.log(`Failed to open file ${filePath}: ${error.message}`)
     }
