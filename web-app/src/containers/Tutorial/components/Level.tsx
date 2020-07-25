@@ -10,7 +10,7 @@ const styles = {
     backgroundColor: theme['$color-white'],
     position: 'relative' as 'relative',
     height: 'auto',
-    width: '100vw',
+    width: '100%',
   }),
   content: {
     display: 'flex' as 'flex',

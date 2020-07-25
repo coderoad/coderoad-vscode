@@ -9,7 +9,7 @@ const styles = {
   page: {
     position: 'relative' as 'relative',
     height: 'auto',
-    width: '100vw',
+    width: '100%',
   },
   selectPage: {
     padding: '1rem',

@@ -5,6 +5,7 @@ const styles = {
   text: {
     padding: '0rem 1rem',
     paddingBottom: '1rem',
+    width: '100%',
   },
   title: {
     fontSize: '1.2rem',

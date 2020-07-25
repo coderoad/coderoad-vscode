@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { css, jsx } from '@emotion/core'
-import { useWindowResize } from './resize'
 import { Theme } from '../../styles/theme'
 
 interface Props {
@@ -13,13 +12,14 @@ const styles = {
     position: 'relative' as 'relative',
     margin: 0,
     width: '100vw',
+    maxWidth: '100%',
     backgroundColor: theme['$color-white'],
+    overflow: 'auto',
   }),
 }
 
 const Workspace = ({ children }: Props) => {
-  const dimensions = useWindowResize()
-  return <div css={{ ...styles.page, ...dimensions }}>{children}</div>
+  return <div css={styles.page}>{children}</div>
 }
 
 export default Workspace

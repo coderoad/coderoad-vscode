@@ -10,7 +10,7 @@ const styles = {
     position: 'relative' as 'relative',
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
-    width: '100vw',
+    width: '100%',
   },
   nav: (theme: Theme) => ({
     height: theme['$nav-height'],

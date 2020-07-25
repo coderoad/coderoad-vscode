@@ -21,7 +21,9 @@ import { useTheme } from 'emotion-theming'
 
 const styles = {
   page: {
-    width: '100vw',
+    width: '100%',
+    maxWidth: '100%',
+    height: 'auto',
     paddingBottom: '5rem',
   },
   header: (theme: Theme) => ({

@@ -6,14 +6,14 @@ import { Theme } from '../../../styles/theme'
 const styles = {
   banner: (theme: Theme) => ({
     height: 'auto',
-    width: '100vw',
+    width: '100%',
     backgroundColor: theme['$color-brand1-9'],
     color: theme['$color-white'],
     padding: '0.5rem 1rem',
   }),
   header: {
     position: 'relative' as 'relative',
-    width: '100vw',
+    width: '100%',
   },
   headerMessage: {
     marginLeft: '0.5rem',

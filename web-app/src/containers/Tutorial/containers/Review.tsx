@@ -10,11 +10,13 @@ interface Props {
 }
 
 const styles = {
-  container: {
-    height: 'auto',
+  container: (theme: Theme) => ({
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
-  },
+    height: 'auto',
+    backgroundColor: theme['$color-white'],
+    paddingBottom: '2rem',
+  }),
   header: (theme: Theme) => ({
     display: 'flex' as 'flex',
     alignItems: 'center',
@@ -33,13 +35,11 @@ const styles = {
     alignItems: 'center',
     fontSize: '70%',
   },
-  levels: {
-    paddingBottom: '2rem',
-  },
+  levels: {},
 }
 
 const ReviewPage = (props: Props) => {
-  const [stepVisibility, setStepVisibility] = React.useState(false)
+  const [stepVisibility, setStepVisibility] = React.useState(true)
   return (
     <div css={styles.container}>
       <div css={styles.header}>
@@ -49,16 +49,14 @@ const ReviewPage = (props: Props) => {
           <Switch checked={stepVisibility} onChange={(checked) => setStepVisibility(checked)} />
         </div>
       </div>
+
       <div css={styles.levels}>
         {props.levels.map((level: T.LevelUI, index: number) => (
-          <div key={level.id}>
-            <div>
-              <Content title={level.title} content={level.content} />
-              {stepVisibility ? <Steps steps={level.steps} displayAll /> : null}
-            </div>
-            {/* divider */}
+          <>
+            <Content title={level.title} content={level.content} />
+            {stepVisibility ? <Steps steps={level.steps} displayAll /> : null}
             {index < props.levels.length - 1 ? <hr /> : null}
-          </div>
+          </>
         ))}
       </div>
     </div>

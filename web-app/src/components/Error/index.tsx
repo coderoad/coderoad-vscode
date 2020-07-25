@@ -14,7 +14,8 @@ const styles = {
     alignItems: 'center' as 'center',
     border: `0.5rem solid ${theme['$color-error-2']}`,
     padding: '1rem',
-    width: '100vw',
+    width: '100%',
+    maxWidth: '100%',
     height: '100%',
   }),
   content: (theme: Theme) => ({

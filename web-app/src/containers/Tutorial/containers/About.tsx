@@ -3,10 +3,12 @@ import Markdown from '../../../components/Markdown'
 import { Theme } from '../../../styles/theme'
 
 const styles = {
-  container: {
+  container: (theme: Theme) => ({
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
-  },
+    backgroundColor: theme['$color-white'],
+    height: 'auto',
+  }),
   header: (theme: Theme) => ({
     display: 'flex' as 'flex',
     alignItems: 'center',
