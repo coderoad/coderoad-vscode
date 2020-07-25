@@ -3,14 +3,15 @@ import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
 import Content from './Content'
 import Steps from './Steps'
+import { Theme } from '../../../styles/theme'
 
 const styles = {
-  page: {
-    backgroundColor: 'white',
+  page: (theme: Theme) => ({
+    backgroundColor: theme['$color-white'],
     position: 'relative' as 'relative',
     height: 'auto',
     width: '100%',
-  },
+  }),
   content: {
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',

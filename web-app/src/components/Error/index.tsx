@@ -4,22 +4,24 @@ import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
 import Markdown from '../Markdown'
 import Button from '../../components/Button'
+import { Theme } from '../../styles/theme'
 
 const styles = {
-  container: {
+  container: (theme: Theme) => ({
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
     justifyContent: 'center' as 'center',
     alignItems: 'center' as 'center',
-    border: '0.5rem solid #FFBABA',
+    border: `0.5rem solid ${theme['$color-error-2']}`,
     padding: '1rem',
     width: '100%',
+    maxWidth: '100%',
     height: '100%',
-  },
-  content: {
+  }),
+  content: (theme: Theme) => ({
     textAlign: 'center' as 'center',
-    color: 'rgb(40, 40, 40);',
-  },
+    color: theme['$color-text1-3'],
+  }),
   options: {
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',

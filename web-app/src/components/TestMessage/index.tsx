@@ -1,23 +1,25 @@
 import * as React from 'react'
 import Icon from '../Icon'
 import { css, jsx } from '@emotion/core'
+import { useTheme } from 'emotion-theming'
+import { Theme } from '../../styles/theme'
 
 const styles = {
-  container: {
-    backgroundColor: '#fff3e0',
+  container: (theme: Theme) => ({
+    backgroundColor: theme['$color-warning-1'],
     padding: '0.5rem',
     animationDuration: '0.3s',
     animationTimingFunction: 'ease-in-out',
-    borderTopLeftRadius: '4px',
-    borderTopRightRadius: '4px',
-    color: 'rgb(51, 51, 51)',
-    fontSize: '0.8rem',
-  },
-  icon: {
-    color: '#ff9300',
-  },
+    borderTopLeftRadius: theme['$corner-1'],
+    borderTopRightRadius: theme['$corner-1'],
+    color: theme['$color-text1-3'],
+    fontSize: theme['$font-size-caption'],
+  }),
+  icon: (theme: Theme) => ({
+    color: theme['$color-warning-3'],
+  }),
   content: {
-    marginLeft: '0.5rem',
+    padding: '0 0.5rem',
   },
 }
 
@@ -38,9 +40,10 @@ const TestMessage = (props: Props) => {
     }
   }, [props.message])
 
+  const theme: Theme = useTheme()
   return visible && props.message ? (
     <div css={styles.container}>
-      <Icon type="warning" style={styles.icon} size="xs" />
+      <Icon type="warning" style={styles.icon(theme)} size="xs" />
       <span css={styles.content}>{props.message}</span>
     </div>
   ) : null

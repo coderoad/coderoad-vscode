@@ -75,15 +75,15 @@ storiesOf('Step', module)
       subtasks={[
         {
           name: 'First Test',
-          pass: false,
+          status: 'ACTIVE',
         },
         {
           name: 'Second Test',
-          pass: true,
+          status: 'COMPLETE',
         },
         {
           name: 'Third Test',
-          pass: false,
+          status: 'ACTIVE',
         },
       ]}
     />
@@ -91,6 +91,6 @@ storiesOf('Step', module)
   .add('Hints', () => (
     <>
       <Step content={text('text', stepText)} status="ACTIVE" subtasks={null} />
-      <Hints hints={['First hint!', 'Second hint!']} hintIndex={1} setHintIndex={action('setHintIndex')} />
+      <Hints hints={['First hint!', 'Second hint!']} />
     </>
   ))

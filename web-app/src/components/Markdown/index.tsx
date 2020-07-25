@@ -1,5 +1,6 @@
 import MarkdownIt from 'markdown-it'
 import Prism from 'prismjs'
+import { css, jsx, InterpolationWithTheme } from '@emotion/core'
 // @ts-ignore no types for package
 import markdownEmoji from 'markdown-it-emoji'
 import * as React from 'react'

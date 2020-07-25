@@ -28,7 +28,6 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
   return {
     // initialize
     [COMMANDS.START]: async () => {
-      console.log('start')
       if (webview && webview.state.loaded) {
         webview.createOrShow()
       } else {

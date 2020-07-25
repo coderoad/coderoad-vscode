@@ -16,22 +16,29 @@ import Reset from './components/Reset'
 import Continue from './components/Continue'
 import ScrollContent from './components/ScrollContent'
 import CompletedBanner from './components/CompletedBanner'
+import { Theme } from '../../styles/theme'
+import { useTheme } from 'emotion-theming'
 
 const styles = {
   page: {
-    width: '100vw',
+    width: '100%',
+    maxWidth: '100%',
+    height: 'auto',
     paddingBottom: '5rem',
   },
-  header: {
+  header: (theme: Theme) => ({
     display: 'flex' as 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
     height: '2rem',
-    backgroundColor: '#EBEBEB',
+    backgroundColor: theme['$color-fill1-4'],
     fontSize: '1rem',
     lineHeight: '1rem',
     padding: '10px 0.4rem',
-  },
+  }),
+  menuIcon: (theme: Theme) => ({
+    color: theme['$color-text1-4'],
+  }),
   title: {
     marginLeft: '0.5rem',
   },
@@ -39,12 +46,12 @@ const styles = {
     textDecoration: 'none',
     color: 'inherit',
   },
-  footer: {
+  footer: (theme: Theme) => ({
     display: 'flex' as 'flex',
     flexDirection: 'row' as 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: '2rem',
+    height: theme['$footer-height'],
     backgroundColor: 'black',
     fontSize: '1rem',
     lineHeight: '1rem',
@@ -53,9 +60,9 @@ const styles = {
     bottom: 0,
     left: 0,
     right: 0,
-    color: 'white',
+    color: theme['$color-white'],
     zIndex: 1000,
-  },
+  }),
   completeFooter: {
     position: 'fixed' as 'fixed',
     bottom: 0,
@@ -63,21 +70,21 @@ const styles = {
     right: 0,
     zIndex: 1000,
   },
-  processes: {
+  processes: (theme: Theme) => ({
     padding: '0 1rem',
     position: 'fixed' as 'fixed',
-    bottom: '2rem',
+    bottom: theme['$footer-height'],
     left: 0,
     right: 0,
     top: 'auto',
-  },
-  testMessage: {
+  }),
+  testMessage: (theme: Theme) => ({
     position: 'absolute' as 'absolute',
     top: 'auto',
-    bottom: '2rem',
+    bottom: theme['$footer-height'],
     left: '5px',
     right: '5px',
-  },
+  }),
 }
 
 interface PageProps {
@@ -93,6 +100,7 @@ interface PageProps {
  */
 
 const TutorialPage = (props: PageProps) => {
+  const theme: Theme = useTheme()
   const { position, progress, processes, testStatus } = props.context
 
   const tutorial = selectors.currentTutorial(props.context)
@@ -130,7 +138,7 @@ const TutorialPage = (props: PageProps) => {
       <div css={styles.page}>
         <div css={styles.header}>
           <a onClick={() => setMenuVisible(!menuVisible)}>
-            <Icon type="toggle-left" size="small" style={{ color: '#333' }} />
+            <Icon type="toggle-left" size="small" style={styles.menuIcon(theme)} />
           </a>
           <span css={styles.title}>{tutorial.summary.title}</span>
         </div>
@@ -155,7 +163,7 @@ const TutorialPage = (props: PageProps) => {
           />
         </div>
       ) : (
-        <div css={styles.footer}>
+        <footer css={styles.footer}>
           {/* Process Modal */}
           {processes.length > 0 && (
             <div css={styles.processes}>
@@ -208,7 +216,7 @@ const TutorialPage = (props: PageProps) => {
               <StepProgress current={stepIndex + 1} max={level.steps.length} />
             ) : null}
           </div>
-        </div>
+        </footer>
       )}
       <SideMenu visible={menuVisible} toggleVisible={setMenuVisible} page={page} setPage={setPage} />
     </div>

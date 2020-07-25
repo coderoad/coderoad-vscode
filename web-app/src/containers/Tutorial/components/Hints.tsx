@@ -2,6 +2,7 @@ import * as React from 'react'
 import { css, jsx } from '@emotion/core'
 import Markdown from '../../../components/Markdown'
 import Button from '../../../components/Button'
+import { Theme } from '../../../styles/theme'
 
 const styles = {
   hints: {
@@ -10,13 +11,11 @@ const styles = {
   hintList: {
     marginBottom: '0.5rem',
   },
-  hint: {
+  hint: (theme: Theme) => ({
     marginBottom: '0.5rem',
-    backgroundColor: 'rgba(255,229,100,0.3)',
-    borderLeft: '#ffe564',
-    borderRadius: '2px',
+    backgroundColor: theme['$color-warning-1'],
     padding: '0 0.5rem',
-  },
+  }),
 }
 
 interface Props {

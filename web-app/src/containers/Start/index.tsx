@@ -4,15 +4,18 @@ import * as TT from 'typings/tutorial'
 import BetaBadge from '../../components/BetaBadge'
 import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
+import { Theme } from '../../styles/theme'
 
 const styles = {
-  page: {
+  page: (theme: Theme) => ({
     position: 'relative' as 'relative',
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
     width: '100%',
-    height: window.innerHeight,
-  },
+    maxWidth: '100%',
+    height: '100vh',
+    backgroundColor: theme['$color-white'],
+  }),
   header: {
     flex: 1,
     display: 'flex' as 'flex',

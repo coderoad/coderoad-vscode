@@ -1,5 +1,7 @@
 import * as React from 'react'
+import { useTheme } from 'emotion-theming'
 import Icon from '../../../components/Icon'
+import { Theme } from '../../../styles/theme'
 
 interface Props {
   size: 'small' | 'xs'
@@ -7,27 +9,28 @@ interface Props {
 }
 
 const styles = {
-  complete: {
+  complete: (theme: Theme) => ({
     icon: 'success-filling',
-    color: '#37B809',
-  },
-  active: {
+    color: theme['$color-success-3'],
+  }),
+  active: (theme: Theme) => ({
     icon: 'success-filling',
-    color: 'lightgrey',
-  },
-  fail: {
+    color: theme['$color-disabled-1'],
+  }),
+  fail: (theme: Theme) => ({
     icon: 'warning',
-    color: '#ff9300',
-  },
-  incomplete: {
+    color: theme['$color-warning-3'],
+  }),
+  incomplete: (theme: Theme) => ({
     icon: 'lock',
-    color: 'lightgrey',
-  },
+    color: theme['$color-disabled-1'],
+  }),
 }
 
 const TestStatusIcon = (props: Props) => {
-  // @ts-ignore
-  const style: { icon: string; color: string } = styles[props.status.toLowerCase()]
+  const theme: Theme = useTheme()
+  // @ts-ignore(
+  const style: { icon: string; color: string } = styles[props.status.toLowerCase()](theme)
   return <Icon type={style.icon} size={props.size} style={{ color: style.color }} />
 }
 

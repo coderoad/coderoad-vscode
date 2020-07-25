@@ -8,7 +8,7 @@ interface Props {
   content: string
   status: T.ProgressStatus
   subtasks?: T.SubtaskUI[]
-  displayAll: boolean
+  displayAll?: boolean
 }
 
 const styles = {

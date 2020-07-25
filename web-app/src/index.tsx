@@ -7,7 +7,7 @@ import './mock'
 import App from './App'
 
 // init initial styles
-import './styles/index.css'
+import './styles/reset.css'
 // init listeners
 import './services/listeners'
 
