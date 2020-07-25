@@ -42,6 +42,15 @@ class Position {
 
     // get step
     const currentLevel: TT.Level = levels[lastLevelIndex]
+    if (!currentLevel) {
+      // tutorial complete but not reached completed view
+      const finalLevel = levels[levels.length - 1]
+      return {
+        levelId: finalLevel.id,
+        stepId: finalLevel.steps.length ? finalLevel.steps[finalLevel.steps.length - 1].id : null,
+        complete: true,
+      }
+    }
     let currentStepId: string | null
     if (!currentLevel.steps.length) {
       // no steps available for level

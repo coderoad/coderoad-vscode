@@ -79,7 +79,7 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
 
       const nextPosition: T.Position = {
         levelId: level.id,
-        stepId: level.steps[0].id,
+        stepId: level.steps.length ? level.steps[0].id : null,
       }
 
       return nextPosition
@@ -163,7 +163,7 @@ const contextActions: ActionFunctionMap<T.MachineContext, T.MachineEvent> = {
         const nextLevel = levels[levelIndex + 1]
         const nextPosition = {
           levelId: nextLevel.id,
-          stepId: nextLevel.steps[0].id,
+          stepId: nextLevel.steps.length ? nextLevel.steps[0].id : null,
         }
         return { type: 'NEXT_LEVEL', payload: nextPosition }
       }

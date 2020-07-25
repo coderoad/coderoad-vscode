@@ -16,8 +16,8 @@ const styles = {
     flexDirection: 'column' as 'column',
     alignItems: 'center' as 'center',
     justifyContent: 'center' as 'center',
-    height: '100%',
-    width: '100%',
+    height: '100vh',
+    width: '100vw',
   },
   processes: {
     padding: '0 1rem',
