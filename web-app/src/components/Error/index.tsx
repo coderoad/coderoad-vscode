@@ -14,9 +14,9 @@ const styles = {
     alignItems: 'center' as 'center',
     border: `0.5rem solid ${theme['$color-error-2']}`,
     padding: '1rem',
-    width: '100%',
+    width: '100vw',
     maxWidth: '100%',
-    height: '100%',
+    height: '100vh',
   }),
   content: (theme: Theme) => ({
     textAlign: 'center' as 'center',
