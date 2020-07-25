@@ -179,8 +179,13 @@ const TutorialPage = (props: PageProps) => {
           {/* Left */}
           <div css={{ flex: 1 }}>
             {DISPLAY_RUN_TEST_BUTTON && level.status !== 'COMPLETE' ? (
-              <Button style={{ marginLeft: '1rem' }} type="primary" onClick={onRunTest} disabled={disableOptions}>
-                Run
+              <Button
+                style={{ marginLeft: '1rem', width: '3rem' }}
+                type="primary"
+                onClick={onRunTest}
+                disabled={disableOptions}
+              >
+                {props.state === 'Level.TestRunning' ? <Icon type="loading" size="small" /> : 'Run'}
               </Button>
             ) : null}
           </div>
