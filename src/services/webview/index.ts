@@ -38,7 +38,6 @@ const createReactWebView = ({ extensionPath, workspaceState }: ReactWebViewProps
   // This happens when the user closes the panel or when the panel is closed programmatically
   panel.onDidDispose(
     () => {
-      console.log('dispose panel')
       panel.dispose()
       state.loaded = false
     },

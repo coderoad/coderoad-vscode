@@ -134,7 +134,8 @@ export async function setupCodeRoadRemote(repo: string): Promise<never | void> {
   // git remote add coderoad tutorial
   // git fetch coderoad
   if (hasRemote) {
-    throw new Error('A CodeRoad remote is already configured')
+    // TODO: verify the remote is the same
+    return
   }
   await addRemote(repo)
 }
