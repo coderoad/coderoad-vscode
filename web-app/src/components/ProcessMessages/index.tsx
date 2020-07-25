@@ -1,4 +1,4 @@
-import Message from '../Message'
+import { Message } from '@alifd/next'
 import * as React from 'react'
 import * as T from 'typings'
 import { css, jsx } from '@emotion/core'
@@ -22,7 +22,9 @@ const ProcessMessages = ({ processes }: Props) => {
   return (
     <div css={styles.container}>
       {processes.map((process) => (
-        <Message key={process.title} type="loading" size="medium" title={process.title} content={process.description} />
+        <Message key={process.title} type="notice" iconType="loading" size="medium" title={process.title}>
+          {process.description}
+        </Message>
       ))}
     </div>
   )
