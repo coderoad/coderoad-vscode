@@ -102,12 +102,12 @@ const Summary = (props: Props) => (
       </div>
     </div>
 
-    <div css={styles.footer}>
+    <footer css={styles.footer}>
       {/* TODO Add back button */}
       <Button type="primary" onClick={props.onNext}>
         Start
       </Button>
-    </div>
+    </footer>
   </div>
 )
 

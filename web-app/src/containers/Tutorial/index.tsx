@@ -51,7 +51,7 @@ const styles = {
     flexDirection: 'row' as 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: '2rem',
+    height: theme['$footer-height'],
     backgroundColor: 'black',
     fontSize: '1rem',
     lineHeight: '1rem',
@@ -70,21 +70,21 @@ const styles = {
     right: 0,
     zIndex: 1000,
   },
-  processes: {
+  processes: (theme: Theme) => ({
     padding: '0 1rem',
     position: 'fixed' as 'fixed',
-    bottom: '2rem',
+    bottom: theme['$footer-height'],
     left: 0,
     right: 0,
     top: 'auto',
-  },
-  testMessage: {
+  }),
+  testMessage: (theme: Theme) => ({
     position: 'absolute' as 'absolute',
     top: 'auto',
-    bottom: '2rem',
+    bottom: theme['$footer-height'],
     left: '5px',
     right: '5px',
-  },
+  }),
 }
 
 interface PageProps {
@@ -163,7 +163,7 @@ const TutorialPage = (props: PageProps) => {
           />
         </div>
       ) : (
-        <div css={styles.footer}>
+        <footer css={styles.footer}>
           {/* Process Modal */}
           {processes.length > 0 && (
             <div css={styles.processes}>
@@ -216,7 +216,7 @@ const TutorialPage = (props: PageProps) => {
               <StepProgress current={stepIndex + 1} max={level.steps.length} />
             ) : null}
           </div>
-        </div>
+        </footer>
       )}
       <SideMenu visible={menuVisible} toggleVisible={setMenuVisible} page={page} setPage={setPage} />
     </div>

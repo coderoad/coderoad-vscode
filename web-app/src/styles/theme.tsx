@@ -143,7 +143,7 @@ const theme = {
   '$shadow-3-right': '4px 0px 10px 0px rgba(0, 0, 0, 0.1)',
   '$shadow-3-down': '0px 4px 10px 0px rgba(0, 0, 0, 0.1)',
   '$shadow-3-left': '-4px 0px 10px 0px rgba(0, 0, 0, 0.1)',
-  '$footer-height': '3rem',
+  '$footer-height': '2.2rem',
   '$nav-height': '2rem',
 }
 
