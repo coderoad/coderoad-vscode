@@ -180,3 +180,12 @@ storiesOf('Tutorial', module)
     }
     return <Tutorial state="Completed" context={lastLevel} send={action('send')} />
   })
+  .add('1.1 Loading', () => {
+    const firstLevel = {
+      ...context,
+      processes: [{ title: 'Process', description: 'A process here', status: 'RUNNING' }],
+      position: { levelId: '1', stepId: '1.2' },
+      progress: { levels: {}, steps: {}, complete: false },
+    }
+    return <Tutorial state="Level.Normal" context={firstLevel} send={action('send')} />
+  })
