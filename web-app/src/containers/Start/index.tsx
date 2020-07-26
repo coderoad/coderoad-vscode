@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as CR from 'typings'
 import * as TT from 'typings/tutorial'
+import { Progress } from '@alifd/next'
 import BetaBadge from '../../components/BetaBadge'
 import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
@@ -55,7 +56,7 @@ const styles = {
       borderColor: theme['$color-line1-4'],
     }),
   }),
-  tutorialTitle: (theme: Theme) => ({
+  continueTitle: (theme: Theme) => ({
     color: theme['$color-text1-3'],
     fontSize: '12px',
   }),
@@ -72,6 +73,7 @@ interface Props {
   onContinue(): void
   onNew(): void
   tutorial?: TT.Tutorial
+  progress?: number
 }
 
 export const StartPage = (props: Props) => (
@@ -96,7 +98,8 @@ export const StartPage = (props: Props) => (
         <div css={styles.buttonContainer}>
           <button onClick={props.onContinue} css={styles.buttonLarge}>
             Continue Tutorial
-            <div css={styles.tutorialTitle}>"{props.tutorial.summary.title}"</div>
+            <div css={styles.continueTitle}>"{props.tutorial.summary.title}"</div>
+            <Progress style={{ marginLeft: '1rem' }} percent={props.progress || 0} hasBorder size="large" />
           </button>
         </div>
       )}
@@ -111,11 +114,18 @@ interface ContainerProps {
 
 const StartPageContainer = ({ context, send }: ContainerProps) => {
   const tutorial = context.tutorial || undefined
+  let progress
+  if (tutorial) {
+    const totalLevels = tutorial.levels.length
+    const firstIncompleteLevelIndex = tutorial.levels.findIndex((level) => !context.progress.levels[level.id])
+    progress = Math.round((firstIncompleteLevelIndex / totalLevels) * 100)
+  }
   return (
     <StartPage
       onContinue={() => send({ type: 'CONTINUE_TUTORIAL' })}
       onNew={() => send({ type: 'NEW_TUTORIAL' })}
       tutorial={tutorial}
+      progress={progress}
     />
   )
 }
