@@ -1,27 +1,27 @@
 import * as React from 'react'
 import { css, jsx } from '@emotion/core'
-import { Provider } from './ProviderDecorator'
-import { ThemeProvider } from 'emotion-theming'
-import theme from '../../src/styles/theme'
+import Provider from '../../src/Provider'
 
 const styles = {
-  container: {
-    left: '25rem',
-    position: 'absolute' as 'absolute',
-    boxSizing: 'border-box' as 'border-box',
-    borderLeft: '2px solid black',
-    borderRight: '2px solid black',
+  limitedWidthContainer: {
+    left: 0,
+    top: 0,
+    position: 'fixed' as 'fixed',
+    borderRight: '1px solid black',
     width: '50rem',
-    height: window.innerHeight,
-    backgroundColor: 'white',
+    height: '100%',
+    // backgroundColor: 'white',
+  },
+  container: {
+    position: 'relative' as 'relative',
   },
 }
 
 const SideBarDecorator = (storyFn) => (
   <Provider>
-    <ThemeProvider theme={theme}>
-      <div css={styles.container}>{storyFn()}</div>
-    </ThemeProvider>
+    <div css={styles.container}>
+      <div css={styles.limitedWidthContainer}>{storyFn()}</div>
+    </div>
   </Provider>
 )
 

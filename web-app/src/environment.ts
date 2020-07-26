@@ -14,3 +14,6 @@ export const TUTORIAL_LIST_URL: string = process.env.REACT_APP_TUTORIAL_LIST_URL
 
 // config variables
 export const DISPLAY_RUN_TEST_BUTTON = (process.env.CODEROAD_DISPLAY_RUN_TEST_BUTTON || 'true').toLowerCase() === 'true'
+
+export const ADMIN_MODE = true
+// (process.env.CODEROAD_ADMIN_MODE || process.env.STORYBOOK_ADMIN_MODE || '').toLowerCase() === 'true'

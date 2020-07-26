@@ -56,7 +56,7 @@ const styles = {
     fontSize: '1rem',
     lineHeight: '1rem',
     padding: '10px 0rem',
-    position: 'fixed' as 'fixed',
+    position: 'absolute' as 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
@@ -64,7 +64,7 @@ const styles = {
     zIndex: 1000,
   }),
   completeFooter: {
-    position: 'fixed' as 'fixed',
+    position: 'absolute' as 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
@@ -72,7 +72,7 @@ const styles = {
   },
   processes: (theme: Theme) => ({
     padding: '0 1rem',
-    position: 'fixed' as 'fixed',
+    position: 'absolute' as 'absolute',
     bottom: theme['$footer-height'],
     left: 0,
     right: 0,

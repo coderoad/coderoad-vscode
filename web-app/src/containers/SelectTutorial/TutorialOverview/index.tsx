@@ -45,7 +45,7 @@ const styles = {
     paddingLeft: '1.1rem',
   },
   footer: (theme: Theme) => ({
-    position: 'fixed' as 'fixed',
+    position: 'absolute' as 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
