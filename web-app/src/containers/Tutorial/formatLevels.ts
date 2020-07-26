@@ -45,33 +45,29 @@ const formatLevels = ({ progress, position, levels, testStatus }: Input): Output
         status = 'ACTIVE'
       }
       if (step.subtasks && step.subtasks) {
-        if (Object.keys(testStatus?.summary || {}).length !== step.subtasks.length) {
+        const testSummaries = Object.keys(testStatus?.summary || {})
+        if (testSummaries.length && testSummaries.length !== step.subtasks.length) {
           // test result count and subtask count don't match
           // something is wrong with the tutorial
           // NOTE: hacky temp solution as should be caught by tutorial creators / build tools
-          subtasks = [
-            {
-              name:
-                'ERROR: subtasks and test results have a different number of results. This is likely an error with the tutorial.',
-              status: 'ACTIVE' as 'ACTIVE',
-            },
-          ]
-        } else {
-          subtasks = step.subtasks.map((subtask: string, subtaskIndex: number) => {
-            let subtaskStatus: T.ProgressStatus = 'INCOMPLETE'
-            // task is complete, subtasks must be complete
-            if (status === 'COMPLETE') {
-              subtaskStatus = 'COMPLETE'
-              // task is active, check which are complete from test results
-            } else if (status === 'ACTIVE') {
-              subtaskStatus = !!(testStatus?.summary && testStatus.summary[subtaskIndex]) ? 'COMPLETE' : 'ACTIVE'
-            }
-            return {
-              name: subtask,
-              status: subtaskStatus,
-            }
-          })
+          console.error(
+            'ERROR: subtasks and test results have a different number of results. This is likely an error with the tutorial or an edited test file.',
+          )
         }
+        subtasks = step.subtasks.map((subtask: string, subtaskIndex: number) => {
+          let subtaskStatus: T.ProgressStatus = 'INCOMPLETE'
+          // task is complete, subtasks must be complete
+          if (status === 'COMPLETE') {
+            subtaskStatus = 'COMPLETE'
+            // task is active, check which are complete from test results
+          } else if (status === 'ACTIVE') {
+            subtaskStatus = !!(testStatus?.summary && testStatus.summary[subtaskIndex]) ? 'COMPLETE' : 'ACTIVE'
+          }
+          return {
+            name: subtask,
+            status: subtaskStatus,
+          }
+        })
       }
       return { ...step, status, subtasks }
     }),
