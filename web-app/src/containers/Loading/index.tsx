@@ -11,17 +11,19 @@ interface Props {
 
 const styles = {
   page: {
-    position: 'relative' as 'relative',
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
     alignItems: 'center' as 'center',
     justifyContent: 'center' as 'center',
-    height: '100vh',
-    width: '100vw',
+    position: 'absolute' as 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   processes: {
     padding: '0 1rem',
-    position: 'fixed' as 'fixed',
+    position: 'absolute' as 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
