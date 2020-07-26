@@ -11,6 +11,7 @@ const styles = {
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
     width: '100%',
+    height: '100%',
   },
   nav: (theme: Theme) => ({
     height: theme['$nav-height'],
@@ -22,6 +23,7 @@ const styles = {
     cursor: 'pointer',
   }),
   content: {
+    height: '100%',
     paddingBottom: '5rem',
   },
   header: (theme: Theme) => ({
@@ -54,10 +56,11 @@ const styles = {
     alignItems: 'center' as 'center',
     justifyContent: 'flex-end' as 'flex-end',
     height: theme['$footer-height'],
-    padding: '1rem',
+    padding: '0rem 0.5rem',
     paddingRight: '2rem',
     backgroundColor: theme['$color-black'],
     width: '100%',
+    zIndex: 100,
   }),
 }
 
