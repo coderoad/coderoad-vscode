@@ -21,7 +21,7 @@ storiesOf('Start', module)
   .add('Continue', () => {
     const tutorial = {
       summary: {
-        title: 'Tutorial Title',
+        title: 'Tutorial Title With A Really Long Name',
         summary: 'Tutorial Summary',
       },
     }

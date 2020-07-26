@@ -41,7 +41,29 @@ const styles = {
     justifyContent: 'flex-start' as 'flex-start',
     alignItems: 'center' as 'center',
   },
+  buttonLarge: (theme: Theme) => ({
+    padding: '0.2rem 1rem',
+    border: `solid 1px ${theme['$color-line1-3']}`,
+    borderRadius: '3px',
+    minHeight: '2rem',
+    fontSize: '16px',
+    backgroundColor: 'white',
+    lineHeight: '1.5rem',
+    color: theme['$color-text1-4'],
+    '&:hover,&:focus': css({
+      backgroundColor: theme['$color-fill1-1'],
+      borderColor: theme['$color-line1-4'],
+    }),
+  }),
+  tutorialTitle: (theme: Theme) => ({
+    color: theme['$color-text1-3'],
+    fontSize: '12px',
+  }),
   buttonContainer: {
+    display: 'flex' as 'flex',
+    flexDirection: 'column' as 'column',
+    justifyContent: 'center' as 'center',
+    alignItems: 'center' as 'center',
     margin: '0.5rem',
   },
 }
@@ -72,9 +94,10 @@ export const StartPage = (props: Props) => (
       </div>
       {props.tutorial && (
         <div css={styles.buttonContainer}>
-          <Button size="large" onClick={props.onContinue} style={{ padding: '0 1rem' }}>
-            Continue Current Tutorial
-          </Button>
+          <button onClick={props.onContinue} css={styles.buttonLarge}>
+            Continue Tutorial
+            <div css={styles.tutorialTitle}>"{props.tutorial.summary.title}"</div>
+          </button>
         </div>
       )}
     </div>
