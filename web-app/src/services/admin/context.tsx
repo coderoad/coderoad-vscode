@@ -10,14 +10,19 @@ type State = {
 
 type Action = { type: 'ADMIN_MODE_ON' | 'ADMIN_MODE_OFF' }
 
-const AdminContext = React.createContext<{ state: State; dispatch: (action: Action) => void }>({
+export type AdminContextType = { state: State; dispatch: (action: Action) => void }
+
+const AdminContext = React.createContext<AdminContextType>({
   state: { adminMode: false },
   dispatch: () => {},
 })
 
+export default AdminContext
+
 export const AdminProvider = (props: Props) => {
   const [state, dispatch] = React.useReducer(
     (state: State, action: Action) => {
+      console.log('action.type', action.type)
       switch (action.type) {
         case 'ADMIN_MODE_ON':
           return { ...state, adminMode: true }

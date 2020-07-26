@@ -6,6 +6,8 @@ import BetaBadge from '../../components/BetaBadge'
 import { css, jsx } from '@emotion/core'
 import Button from '../../components/Button'
 import { Theme } from '../../styles/theme'
+import { ADMIN_MODE } from '../../environment'
+import AdminToggle from '../../services/admin/AdminToggle'
 
 const styles = {
   page: (theme: Theme) => ({
@@ -104,6 +106,7 @@ export const StartPage = (props: Props) => (
         </div>
       )}
     </div>
+    {ADMIN_MODE ? <AdminToggle /> : null}
   </div>
 )
 
