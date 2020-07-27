@@ -35,24 +35,24 @@ const onStartup = async (
       sessionId: vscode.env.sessionId,
     }
 
-    // load tutorial from url
-    if (TUTORIAL_URL) {
-      try {
-        const tutorialRes = await fetch(TUTORIAL_URL)
-        const tutorial = await tutorialRes.json()
-        send({ type: 'START_TUTORIAL_FROM_URL', payload: { tutorial } })
-        return
-      } catch (e) {
-        console.log(`Failed to load tutorial from url ${TUTORIAL_URL} with error "${e.message}"`)
-      }
-    }
-
     // continue from tutorial from local storage
     const tutorial: TT.Tutorial | null = context.tutorial.get()
 
     // no stored tutorial, must start new tutorial
     if (!tutorial || !tutorial.id) {
-      send({ type: 'START_NEW_TUTORIAL', payload: { env } })
+      if (TUTORIAL_URL) {
+        // launch from a url env variable
+        try {
+          const tutorialRes = await fetch(TUTORIAL_URL)
+          const tutorial = await tutorialRes.json()
+          send({ type: 'START_TUTORIAL_FROM_URL', payload: { tutorial } })
+        } catch (e) {
+          console.log(`Failed to load tutorial from url ${TUTORIAL_URL} with error "${e.message}"`)
+        }
+      } else {
+        // launch from a selected tutorial
+        send({ type: 'START_NEW_TUTORIAL', payload: { env } })
+      }
       return
     }
 
