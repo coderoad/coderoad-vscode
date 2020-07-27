@@ -12,14 +12,20 @@ import AdminToggle from '../../services/admin/AdminToggle'
 const styles = {
   page: (theme: Theme) => ({
     position: 'relative' as 'relative',
-    display: 'flex' as 'flex',
-    flexDirection: 'column' as 'column',
+    display: 'grid' as 'grid',
+    gridTemplateColumns: '1fr',
+    gridTemplateRows: '1fr 1fr 1fr 1fr',
+    gridTemplateAreas: `
+      "." "header" "options" "hidden-options";
+    `,
+    justifyItems: 'center',
     width: '100%',
     maxWidth: '100%',
     height: '100vh',
     backgroundColor: theme['$color-white'],
   }),
   header: {
+    gridArea: 'header',
     flex: 1,
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
@@ -38,6 +44,7 @@ const styles = {
     textAlign: 'center' as 'center',
   },
   options: {
+    gridArea: 'options',
     flex: 1,
     display: 'flex' as 'flex',
     flexDirection: 'column' as 'column',
@@ -56,6 +63,8 @@ const styles = {
     '&:hover,&:focus': css({
       backgroundColor: theme['$color-fill1-1'],
       borderColor: theme['$color-line1-4'],
+      outline: 'none',
+      boxShadow: 'none',
     }),
   }),
   continueTitle: (theme: Theme) => ({
@@ -69,6 +78,18 @@ const styles = {
     alignItems: 'center' as 'center',
     margin: '0.5rem',
   },
+  hiddenOptions: (theme: Theme) => ({
+    gridArea: 'hidden-options',
+    display: 'flex' as 'flex',
+    justifyContent: 'center' as 'center',
+    alignItems: 'center' as 'center',
+    width: '6rem',
+    padding: '0.5rem',
+    marginTop: '8rem',
+    borderTopLeftRadius: '8px',
+    borderTopRightRadius: '8px',
+    backgroundColor: theme['$color-fill1-1'],
+  }),
 }
 
 interface Props {
@@ -106,7 +127,11 @@ export const StartPage = (props: Props) => (
         </div>
       )}
     </div>
-    {ADMIN_MODE ? <AdminToggle /> : null}
+    {ADMIN_MODE ? (
+      <div css={styles.hiddenOptions}>
+        <AdminToggle />
+      </div>
+    ) : null}
   </div>
 )
 

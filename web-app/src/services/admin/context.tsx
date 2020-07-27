@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { ADMIN_MODE } from '../../environment'
 
 type Props = {
   children: React.ReactElement
@@ -13,7 +14,7 @@ type Action = { type: 'ADMIN_MODE_ON' | 'ADMIN_MODE_OFF' }
 export type AdminContextType = { state: State; dispatch: (action: Action) => void }
 
 const AdminContext = React.createContext<AdminContextType>({
-  state: { adminMode: false },
+  state: { adminMode: ADMIN_MODE },
   dispatch: () => {},
 })
 
@@ -22,7 +23,6 @@ export default AdminContext
 export const AdminProvider = (props: Props) => {
   const [state, dispatch] = React.useReducer(
     (state: State, action: Action) => {
-      console.log('action.type', action.type)
       switch (action.type) {
         case 'ADMIN_MODE_ON':
           return { ...state, adminMode: true }
@@ -32,7 +32,7 @@ export const AdminProvider = (props: Props) => {
           throw new Error()
       }
     },
-    { adminMode: false },
+    { adminMode: ADMIN_MODE },
   )
   return <AdminContext.Provider value={{ state, dispatch }}>{props.children}</AdminContext.Provider>
 }
