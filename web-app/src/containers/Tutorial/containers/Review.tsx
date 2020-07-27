@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as T from 'typings'
+import { Button, Icon } from '@alifd/next'
 import Step from '../components/Step'
 import Hints from '../components/Hints'
 import Content from '../components/Content'
@@ -40,12 +41,19 @@ const styles = {
   steps: {
     padding: '1rem 1rem',
   },
+  adminNav: {
+    position: 'absolute' as 'absolute',
+    right: '1rem',
+    lineHeight: '16px',
+  },
 }
 
 const ReviewPage = (props: Props) => {
-  const { state: adminState } = React.useContext(AdminContext)
+  const {
+    state: { adminMode },
+  } = React.useContext(AdminContext)
   const show = (status: T.ProgressStatus): boolean => {
-    return adminState.adminMode || status !== 'INCOMPLETE'
+    return adminMode || status !== 'INCOMPLETE'
   }
   return (
     <div css={styles.container}>
@@ -57,6 +65,14 @@ const ReviewPage = (props: Props) => {
         {props.levels.map((level: T.LevelUI, index: number) =>
           show(level.status) ? (
             <div key={level.id}>
+              {adminMode && (
+                <div css={styles.adminNav}>
+                  <Button type="normal" warning>
+                    {level.id}&nbsp;
+                    <Icon type="refresh" />
+                  </Button>
+                </div>
+              )}
               <Content title={level.title} content={level.content} />
 
               <div css={styles.steps}>
@@ -66,6 +82,14 @@ const ReviewPage = (props: Props) => {
                   }
                   return show(step.status) ? (
                     <div key={step.id}>
+                      {adminMode && (
+                        <div css={styles.adminNav}>
+                          <Button type="normal" warning>
+                            {step.id}&nbsp;
+                            <Icon type="refresh" />
+                          </Button>
+                        </div>
+                      )}
                       <Step
                         key={step.id}
                         status={step.status}
