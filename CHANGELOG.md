@@ -229,4 +229,10 @@ Adds a review page for viewing tutorial content. The review page should be espec
 ### [0.12.0]
 
 - Change completion page to a banner that prompts the user to open a new workspace
+- On launch, show details on tutorial to continue
 - Adds an "About" section to the tutorial side menu
+- Run test indicator
+- Various style & UX fixes
+- Launch from URL fixes
+- Move styles into a central theme
+- Prevent multiple versions of CodeRoad from launching
