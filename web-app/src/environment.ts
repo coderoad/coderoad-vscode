@@ -13,7 +13,8 @@ export const LOG: boolean = (process.env.REACT_APP_LOG || '').toLowerCase() === 
 export const TUTORIAL_LIST_URL: string = process.env.REACT_APP_TUTORIAL_LIST_URL || ''
 
 // config variables
-export const DISPLAY_RUN_TEST_BUTTON = (process.env.CODEROAD_DISPLAY_RUN_TEST_BUTTON || 'true').toLowerCase() === 'true'
+export const DISPLAY_RUN_TEST_BUTTON =
+  (process.env.CODEROAD_DISPLAY_RUN_TEST_BUTTON || 'true').toLowerCase() !== 'false' // default true
 
 export const ADMIN_MODE =
-  (process.env.CODEROAD_ADMIN_MODE || process.env.STORYBOOK_ADMIN_MODE || '').toLowerCase() === 'true'
+  (process.env.CODEROAD_ADMIN_MODE || process.env.STORYBOOK_ADMIN_MODE || '').toLowerCase() === 'true' // default false
