@@ -53,10 +53,10 @@ const styles = {
     alignItems: 'center',
     height: theme['$footer-height'],
     backgroundColor: 'black',
-    fontSize: '1rem',
-    lineHeight: '1rem',
+    fontSize: '12px',
+    lineHeight: '16px',
     padding: '10px 0rem',
-    position: 'absolute' as 'absolute',
+    position: 'fixed' as 'fixed',
     bottom: 0,
     left: 0,
     right: 0,
@@ -64,7 +64,7 @@ const styles = {
     zIndex: 1000,
   }),
   completeFooter: {
-    position: 'absolute' as 'absolute',
+    position: 'fixed' as 'fixed',
     bottom: 0,
     left: 0,
     right: 0,
@@ -72,14 +72,14 @@ const styles = {
   },
   processes: (theme: Theme) => ({
     padding: '0 1rem',
-    position: 'absolute' as 'absolute',
+    position: 'fixed' as 'fixed',
     bottom: theme['$footer-height'],
     left: 0,
     right: 0,
     top: 'auto',
   }),
   testMessage: (theme: Theme) => ({
-    position: 'absolute' as 'absolute',
+    position: 'fixed' as 'fixed',
     top: 'auto',
     bottom: theme['$footer-height'],
     left: '5px',
@@ -180,7 +180,7 @@ const TutorialPage = (props: PageProps) => {
           <div css={{ flex: 1 }}>
             {DISPLAY_RUN_TEST_BUTTON && level.status !== 'COMPLETE' ? (
               <Button
-                style={{ marginLeft: '1rem', width: '3rem' }}
+                style={{ marginLeft: '1rem', width: '57px' }}
                 type="primary"
                 onClick={onRunTest}
                 disabled={disableOptions}
