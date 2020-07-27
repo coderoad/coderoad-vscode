@@ -47,9 +47,11 @@ const Continue = (props: Props) => {
 
   return (
     <>
-      <Button type="primary" size="medium" onClick={onOpen}>
-        Continue
-      </Button>
+      {modalState === 'closed' ? (
+        <Button type="primary" size="medium" onClick={onOpen}>
+          Continue
+        </Button>
+      ) : null}
       <Dialog
         title={isComplete ? 'Tutorial Complete!' : 'Level Complete!'}
         visible={modalState === 'open'}
