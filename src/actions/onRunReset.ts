@@ -17,7 +17,7 @@ const onRunReset = async (action: ResetAction, context: Context) => {
   const position: T.Position = action.position ? action.position : context.position.get()
 
   // get last pass commit
-  const hash: string = getCommitHashByPosition(position, tutorial?.levels || [])
+  const hash: string = getCommitHashByPosition(position, tutorial)
 
   const branch = tutorial?.config.repo.branch
 
