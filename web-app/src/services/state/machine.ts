@@ -196,7 +196,7 @@ export const createMachine = (options: any) => {
                 TestPass: {
                   onExit: ['updateStepPosition'],
                   after: {
-                    1000: 'StepNext',
+                    0: 'StepNext',
                   },
                 },
                 TestFail: {
