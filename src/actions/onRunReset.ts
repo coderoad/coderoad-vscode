@@ -3,16 +3,21 @@ import * as TT from 'typings/tutorial'
 import Context from '../services/context/context'
 import { exec } from '../services/node'
 import reset from '../services/reset'
-import getLastCommitHash from '../services/reset/lastHash'
+import getCommitHashByPosition from '../services/reset/lastHash'
+
+type ResetAction = {
+  type: 'LATEST' | 'POSITION'
+  position?: T.Position
+}
 
 // reset to the start of the last test
-const onRunLatestReset = async (context: Context) => {
+const onRunReset = async (action: ResetAction, context: Context) => {
   // reset to timeline
   const tutorial: TT.Tutorial | null = context.tutorial.get()
-  const position: T.Position = context.position.get()
+  const position: T.Position = action.position ? action.position : context.position.get()
 
   // get last pass commit
-  const hash = getLastCommitHash(position, tutorial?.levels || [])
+  const hash: string = getCommitHashByPosition(position, tutorial?.levels || [])
 
   const branch = tutorial?.config.repo.branch
 
@@ -30,4 +35,4 @@ const onRunLatestReset = async (context: Context) => {
   }
 }
 
-export default onRunLatestReset
+export default onRunReset

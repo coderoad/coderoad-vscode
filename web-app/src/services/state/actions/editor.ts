@@ -119,7 +119,7 @@ export default (editorSend: any) => ({
   },
   runReset() {
     editorSend({
-      type: 'EDITOR_RUN_RESET',
+      type: 'EDITOR_RUN_RESET_LATEST',
     })
   },
 })

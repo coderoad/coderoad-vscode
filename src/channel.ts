@@ -79,8 +79,11 @@ class Channel implements Channel {
       case 'EDITOR_RUN_TEST':
         actions.onRunTest(action)
         return
-      case 'EDITOR_RUN_RESET':
-        actions.onRunLatestReset(this.context)
+      case 'EDITOR_RUN_RESET_LATEST':
+        actions.onRunReset({ type: 'LATEST' }, this.context)
+        return
+      case 'EDITOR_RUN_RESET_POSITION':
+        actions.onRunReset({ type: 'POSITION', position: action.payload.position }, this.context)
         return
       default:
         logger(`No match for action type: ${actionType}`)
