@@ -5,7 +5,8 @@ import { exec } from '../services/node'
 import reset from '../services/reset'
 import getLastCommitHash from '../services/reset/lastHash'
 
-const onRunReset = async (context: Context) => {
+// reset to the start of the last test
+const onRunLatestReset = async (context: Context) => {
   // reset to timeline
   const tutorial: TT.Tutorial | null = context.tutorial.get()
   const position: T.Position = context.position.get()
@@ -29,4 +30,4 @@ const onRunReset = async (context: Context) => {
   }
 }
 
-export default onRunReset
+export default onRunLatestReset

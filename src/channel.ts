@@ -80,7 +80,7 @@ class Channel implements Channel {
         actions.onRunTest(action)
         return
       case 'EDITOR_RUN_RESET':
-        actions.onRunReset(this.context)
+        actions.onRunLatestReset(this.context)
         return
       default:
         logger(`No match for action type: ${actionType}`)
