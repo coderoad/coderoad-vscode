@@ -1,5 +1,6 @@
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
+import { assign } from 'xstate'
 import * as selectors from '../../selectors'
 
 export default (editorSend: any) => ({
@@ -117,9 +118,19 @@ export default (editorSend: any) => ({
       payload: { position: context.position },
     })
   },
-  runReset() {
+  runReset(): void {
     editorSend({
-      type: 'EDITOR_RUN_RESET',
+      type: 'EDITOR_RUN_RESET_LATEST',
     })
   },
+  // @ts-ignore
+  runResetToPosition: assign({
+    position: (context: T.MachineContext, event: T.MachineEvent) => {
+      editorSend({
+        type: 'EDITOR_RUN_RESET_POSITION',
+        payload: event.payload,
+      })
+      return event.payload.position
+    },
+  }),
 })
