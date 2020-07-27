@@ -32,17 +32,24 @@ const formatLevels = ({ progress, position, levels, testStatus }: Input): Output
 
   const currentLevel = levels[levelIndex]
 
+  let stepIndex = currentLevel.steps.findIndex((s: TT.Step) => s.id === position.stepId)
+  if (stepIndex === -1) {
+    stepIndex = levels[levelIndex].steps.length
+  }
+
   const levelUI: T.LevelUI = {
     ...currentLevel,
     status: progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE',
-    steps: currentLevel.steps.map((step: TT.Step) => {
+    steps: currentLevel.steps.map((step: TT.Step, index) => {
       // label step status for step component
       let status: T.ProgressStatus = 'INCOMPLETE'
       let subtasks
-      if (progress.steps[step.id]) {
+      if (index < stepIndex || (index === stepIndex && progress.steps[step.id])) {
         status = 'COMPLETE'
-      } else if (step.id === position.stepId) {
+      } else if (index === stepIndex) {
         status = 'ACTIVE'
+      } else {
+        status = 'INCOMPLETE'
       }
       if (step.subtasks && step.subtasks) {
         const testSummaries = Object.keys(testStatus?.summary || {})
@@ -95,10 +102,6 @@ const formatLevels = ({ progress, position, levels, testStatus }: Input): Output
 
   const levelsUI: T.LevelUI[] = [...completed, levelUI, ...incompleted]
 
-  let stepIndex = levelUI.steps.findIndex((s: T.StepUI) => s.status === 'ACTIVE')
-  if (stepIndex === -1) {
-    stepIndex = levels[levelIndex].steps.length
-  }
   return { level: levelUI, levels: levelsUI, levelIndex, stepIndex }
 }
 
