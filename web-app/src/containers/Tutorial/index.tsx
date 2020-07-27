@@ -119,6 +119,10 @@ const TutorialPage = (props: PageProps) => {
     props.send({ type: 'RUN_RESET' })
   }
 
+  const onResetToPosition = (position: T.Position): void => {
+    props.send({ type: 'RUN_RESET_TO_POSITION', payload: { position } })
+  }
+
   const [menuVisible, setMenuVisible] = React.useState(false)
 
   const [page, setPage] = React.useState<'about' | 'level' | 'review' | 'settings'>('level')
@@ -150,7 +154,7 @@ const TutorialPage = (props: PageProps) => {
             <Level level={level} />
           </ScrollContent>
         )}
-        {page === 'review' && <ReviewPage levels={levels} />}
+        {page === 'review' && <ReviewPage levels={levels} onResetToPosition={onResetToPosition} />}
 
         {/* {page === 'settings' && <SettingsPage />} */}
       </div>

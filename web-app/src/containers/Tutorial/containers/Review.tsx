@@ -9,6 +9,7 @@ import AdminContext from '../../../services/admin/context'
 
 interface Props {
   levels: T.LevelUI[]
+  onResetToPosition(position: T.Position): void
 }
 
 const styles = {
@@ -67,7 +68,16 @@ const ReviewPage = (props: Props) => {
             <div key={level.id}>
               {adminMode && (
                 <div css={styles.adminNav}>
-                  <Button type="normal" warning>
+                  <Button
+                    type="normal"
+                    warning
+                    onClick={() =>
+                      props.onResetToPosition({
+                        levelId: level.id,
+                        stepId: level.steps.length ? level.steps[0].id : null,
+                      })
+                    }
+                  >
                     {level.id}&nbsp;
                     <Icon type="refresh" />
                   </Button>
@@ -84,7 +94,11 @@ const ReviewPage = (props: Props) => {
                     <div key={step.id}>
                       {adminMode && (
                         <div css={styles.adminNav}>
-                          <Button type="normal" warning>
+                          <Button
+                            type="normal"
+                            warning
+                            onClick={() => props.onResetToPosition({ levelId: level.id, stepId: step.id })}
+                          >
                             {step.id}&nbsp;
                             <Icon type="refresh" />
                           </Button>
