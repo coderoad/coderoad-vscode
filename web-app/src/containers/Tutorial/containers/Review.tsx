@@ -93,16 +93,19 @@ const ReviewPage = (props: Props) => {
                   return show(step.status) ? (
                     <div key={step.id}>
                       {adminMode && (
-                        <div css={styles.adminNav}>
-                          <Button
-                            type="normal"
-                            warning
-                            onClick={() => props.onResetToPosition({ levelId: level.id, stepId: step.id })}
-                          >
-                            {step.id}&nbsp;
-                            <Icon type="refresh" />
-                          </Button>
-                        </div>
+                        <>
+                          <div css={styles.adminNav}>
+                            <Button
+                              type="normal"
+                              warning
+                              onClick={() => props.onResetToPosition({ levelId: level.id, stepId: step.id })}
+                            >
+                              {step.id}&nbsp;
+                              <Icon type="refresh" />
+                            </Button>
+                          </div>
+                          <br />
+                        </>
                       )}
                       <Step
                         key={step.id}
