@@ -37,6 +37,7 @@ const formatLevels = ({ progress, position, levels, testStatus }: Input): Output
     stepIndex = levels[levelIndex].steps.length
   }
 
+  // current level
   const levelUI: T.LevelUI = {
     ...currentLevel,
     status: progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE',
@@ -80,6 +81,7 @@ const formatLevels = ({ progress, position, levels, testStatus }: Input): Output
     }),
   }
 
+  // flag all levels before as complete
   const completed: T.LevelUI[] = levels.slice(0, levelIndex).map((level: TT.Level) => ({
     ...level,
     status: 'COMPLETE',
@@ -90,6 +92,7 @@ const formatLevels = ({ progress, position, levels, testStatus }: Input): Output
     })),
   }))
 
+  // flag all levels after as incomplete
   const incompleted: T.LevelUI[] = levels.slice(levelIndex + 1, levels.length).map((level: TT.Level) => ({
     ...level,
     status: 'INCOMPLETE',

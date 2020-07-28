@@ -141,6 +141,12 @@ export const createMachine = (options: any) => {
         Tutorial: {
           id: 'tutorial',
           initial: 'Level',
+          on: {
+            RUN_RESET_TO_POSITION: {
+              actions: ['runResetToPosition'],
+              target: 'Tutorial.Level',
+            },
+          },
           states: {
             Level: {
               initial: 'Load',
@@ -170,9 +176,6 @@ export const createMachine = (options: any) => {
                     },
                     RUN_RESET: {
                       actions: ['runReset'],
-                    },
-                    RUN_RESET_TO_POSITION: {
-                      actions: ['runResetToPosition'],
                     },
                     KEY_PRESS_ENTER: {
                       actions: ['runTest'],
