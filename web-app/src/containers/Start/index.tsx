@@ -8,6 +8,7 @@ import Button from '../../components/Button'
 import { Theme } from '../../styles/theme'
 import { ADMIN_MODE } from '../../environment'
 import AdminToggle from '../../services/admin/AdminToggle'
+import getProgress from './getProgress'
 
 const styles = {
   page: (theme: Theme) => ({
@@ -95,8 +96,8 @@ const styles = {
 interface Props {
   onContinue(): void
   onNew(): void
-  tutorial?: TT.Tutorial
-  progress?: number
+  tutorial: TT.Tutorial | null
+  progress: number
 }
 
 export const StartPage = (props: Props) => (
@@ -122,7 +123,7 @@ export const StartPage = (props: Props) => (
           <button onClick={props.onContinue} css={styles.buttonLarge}>
             Continue Tutorial
             <div css={styles.continueTitle}>"{props.tutorial.summary.title}"</div>
-            <Progress style={{ marginLeft: '1rem' }} percent={props.progress || 0} hasBorder size="large" />
+            <Progress style={{ marginLeft: '1rem' }} percent={props.progress} hasBorder size="large" />
           </button>
         </div>
       )}
@@ -141,32 +142,12 @@ interface ContainerProps {
 }
 
 const StartPageContainer = ({ context, send }: ContainerProps) => {
-  const tutorial = context.tutorial || undefined
-  let progress
-  let isLevelComplete = false
-  if (tutorial) {
-    const totalLevels = tutorial.levels.length
-    const { position } = context
-    const findLevel = (level: TT.Level) => level.id === position.levelId
-    const currentLevel: TT.Level | undefined = tutorial.levels.find(findLevel)
-    let currentLevelIndex: number = tutorial.levels.findIndex(findLevel)
-    if (!currentLevel) {
-      throw new Error('Invalid level')
-    }
-    // check if the level is complete
-    if (position.stepId && currentLevel.steps && currentLevel.steps.length) {
-      const lastStepInLevel: TT.Step | null = currentLevel.steps[currentLevel.steps.length]
-      isLevelComplete = position.complete && lastStepInLevel.id === position.stepId
-    } else {
-      isLevelComplete = position.complete
-    }
-    progress = Math.round(((currentLevelIndex + (isLevelComplete ? 1 : 0)) / totalLevels) * 100)
-  }
+  const progress: number = getProgress(context?.tutorial?.levels, context.position)
   return (
     <StartPage
       onContinue={() => send({ type: 'CONTINUE_TUTORIAL' })}
       onNew={() => send({ type: 'NEW_TUTORIAL' })}
-      tutorial={tutorial}
+      tutorial={context.tutorial}
       progress={progress}
     />
   )
