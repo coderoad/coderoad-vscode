@@ -60,27 +60,6 @@ export const updateStepPosition = assign({
   },
 })
 
-export const updateLevelPosition = assign({
-  position: (context: T.MachineContext): any => {
-    const { position } = context
-    const tutorial = selectors.currentTutorial(context)
-    // merge in the updated position
-    // sent with the test to ensure consistency
-    const levels: TT.Level[] = tutorial.levels
-
-    const levelIndex = levels.findIndex((l: TT.Level) => l.id === position.levelId)
-    const level: TT.Level = levels[levelIndex + 1]
-
-    const nextPosition: T.Position = {
-      levelId: level.id,
-      stepId: level.steps.length ? level.steps[0].id : null,
-      complete: !level.steps.length,
-    }
-
-    return nextPosition
-  },
-})
-
 export const updatePosition = assign({
   position: (context: T.MachineContext, event: T.MachineEvent): any => {
     return event.payload
@@ -90,6 +69,7 @@ export const updatePosition = assign({
 export const updateLevel = assign({
   position: (context: T.MachineContext, event: T.MachineEvent): any => {
     const levelId = context.position.levelId
+    console.log(`updateLevel: ${JSON.stringify(context.position)}`)
     return { levelId, complete: false }
   },
 })

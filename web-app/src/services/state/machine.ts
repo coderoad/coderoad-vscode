@@ -215,16 +215,10 @@ export const createMachine = (options: any) => {
                   },
                 },
                 LevelComplete: {
-                  onExit: ['syncLevelPosition'],
+                  onExit: ['testClear', 'syncLevelPosition'],
                   on: {
-                    NEXT_LEVEL: {
-                      target: 'LoadNext',
-                      actions: ['testClear', 'updateLevel'],
-                    },
-                    KEY_PRESS_ENTER: {
-                      target: 'LoadNext',
-                      actions: ['testClear', 'updateLevel'],
-                    },
+                    NEXT_LEVEL: 'LoadNext',
+                    KEY_PRESS_ENTER: 'LoadNext',
                   },
                 },
                 LoadNext: {
