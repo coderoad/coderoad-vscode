@@ -215,7 +215,7 @@ export const createMachine = (options: any) => {
                   },
                 },
                 LevelComplete: {
-                  onExit: ['testClear', 'syncLevelPosition'],
+                  onExit: ['testClear'],
                   on: {
                     NEXT_LEVEL: 'LoadNext',
                     KEY_PRESS_ENTER: 'LoadNext',
@@ -224,6 +224,7 @@ export const createMachine = (options: any) => {
                 LoadNext: {
                   id: 'tutorial-load-next',
                   onEntry: ['loadNext'],
+                  onExit: ['syncLevelPosition'],
                   on: {
                     NEXT_STEP: {
                       target: 'Load',
