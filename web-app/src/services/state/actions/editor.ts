@@ -129,7 +129,7 @@ export default (editorSend: any) => ({
     editorSend({
       type: 'EDITOR_SYNC_POSITION',
       payload: {
-        position: { ...context.position, complete: true },
+        position: context.position,
       },
     })
   },

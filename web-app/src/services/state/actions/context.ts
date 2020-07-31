@@ -113,10 +113,18 @@ export const clearError = assign({
 })
 
 export const checkLevelCompleted = send((context: T.MachineContext) => {
-  // no step id indicates no steps to complete
-  logger(context.position)
+  const currentLevel = selectors.currentLevel(context)
+  let hasNoSteps = false
+  let finalStepComplete = false
+  if (!currentLevel.steps.length) {
+    hasNoSteps = true
+  } else {
+    const finalStep = currentLevel.steps[currentLevel.steps.length - 1]
+    finalStepComplete = finalStep.id === context.position.stepId && context.position.complete
+  }
+
   return {
-    type: context.position.stepId === null ? 'START_COMPLETED_LEVEL' : 'START_LEVEL',
+    type: hasNoSteps || finalStepComplete ? 'START_COMPLETED_LEVEL' : 'START_LEVEL',
   }
 })
 
