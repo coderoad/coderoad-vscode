@@ -2,7 +2,6 @@ import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import { assign, send } from 'xstate'
 import * as selectors from '../../selectors'
-import logger from '../../../services/logger'
 import getStepNext from './utils/stepNext'
 import getNext from './utils/getNext'
 
@@ -63,14 +62,6 @@ export const updateStepPosition = assign({
 export const updatePosition = assign({
   position: (context: T.MachineContext, event: T.MachineEvent): any => {
     return event.payload
-  },
-})
-
-export const updateLevel = assign({
-  position: (context: T.MachineContext, event: T.MachineEvent): any => {
-    const levelId = context.position.levelId
-    console.log(`updateLevel: ${JSON.stringify(context.position)}`)
-    return { levelId, complete: false }
   },
 })
 
