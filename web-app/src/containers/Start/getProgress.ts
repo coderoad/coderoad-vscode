@@ -14,7 +14,7 @@ const getProgress = (levels: TT.Level[] = [], position: T.Position): number => {
     }
     // check if the level is complete
     if (position.stepId && currentLevel.steps && currentLevel.steps.length) {
-      const lastStepInLevel: TT.Step | null = currentLevel.steps[currentLevel.steps.length]
+      const lastStepInLevel: TT.Step | null = currentLevel.steps[currentLevel.steps.length - 1]
       isLevelComplete = position.complete && lastStepInLevel.id === position.stepId
     } else {
       isLevelComplete = position.complete
