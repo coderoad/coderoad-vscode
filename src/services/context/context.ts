@@ -1,33 +1,27 @@
-import * as CR from 'typings'
+import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import Position from './state/Position'
-import Progress from './state/Progress'
 import Tutorial from './state/Tutorial'
 
 class Context {
   public tutorial: Tutorial
   public position: Position
-  public progress: Progress
+  private workspaceState: vscode.Memento
   constructor(workspaceState: vscode.Memento) {
     // state held in one place
+    this.workspaceState = workspaceState
     this.tutorial = new Tutorial(workspaceState)
     this.position = new Position()
-    this.progress = new Progress()
   }
-  public setTutorial = async (
-    workspaceState: vscode.Memento,
-    tutorial: TT.Tutorial,
-  ): Promise<{ progress: CR.Progress; position: CR.Position }> => {
+  public onNew = async (tutorial: TT.Tutorial): Promise<{ position: T.Position }> => {
     this.tutorial.set(tutorial)
-    const progress: CR.Progress = await this.progress.setTutorial(workspaceState, tutorial)
-    const position: CR.Position = this.position.setPositionFromProgress(tutorial, progress)
-    return { progress, position }
+    const position: T.Position = await this.position.initPosition(this.workspaceState, tutorial)
+    return { position }
   }
-  public reset = (): void => {
-    this.tutorial.reset()
-    this.progress.reset()
-    this.position.reset()
+  public onContinue = async (tutorial: TT.Tutorial): Promise<{ position: T.Position }> => {
+    const position: T.Position = await this.position.continuePosition(this.workspaceState, tutorial)
+    return { position }
   }
 }
 

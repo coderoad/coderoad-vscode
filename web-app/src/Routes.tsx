@@ -19,6 +19,8 @@ const Routes = () => {
     return <ErrorView send={send} error={context.error} />
   }
 
+  console.log(`ROUTE: ${route}`)
+
   return (
     <Router route={route}>
       {/* Setup */}

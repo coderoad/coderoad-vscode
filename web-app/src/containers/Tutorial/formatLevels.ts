@@ -2,7 +2,6 @@ import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 
 interface Input {
-  progress: T.Progress
   position: T.Position
   levels: TT.Level[]
   testStatus: T.TestStatus | null
@@ -21,7 +20,7 @@ type Output = {
  * - step.status = 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE' | 'FAIL'
  * - step.subtasks as { name: string, status: 'ACTIVE' | 'COMPLETE' | 'INCOMPLETE' }[]
  */
-const formatLevels = ({ progress, position, levels, testStatus }: Input): Output => {
+const formatLevels = ({ position, levels, testStatus }: Input): Output => {
   // clone levels
 
   const levelIndex: number = levels.findIndex((l: TT.Level) => l.id === position.levelId)
@@ -40,12 +39,12 @@ const formatLevels = ({ progress, position, levels, testStatus }: Input): Output
   // current level
   const levelUI: T.LevelUI = {
     ...currentLevel,
-    status: progress.levels[position.levelId] ? 'COMPLETE' : 'ACTIVE',
+    status: position.complete ? 'COMPLETE' : 'ACTIVE',
     steps: currentLevel.steps.map((step: TT.Step, index) => {
       // label step status for step component
       let status: T.ProgressStatus = 'INCOMPLETE'
       let subtasks
-      if (index < stepIndex || (index === stepIndex && progress.steps[step.id])) {
+      if (index < stepIndex || (index === stepIndex && position.complete)) {
         status = 'COMPLETE'
       } else if (index === stepIndex) {
         status = 'ACTIVE'

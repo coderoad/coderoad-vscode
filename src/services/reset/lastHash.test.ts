@@ -4,7 +4,7 @@ import getLastCommitHash from './lastHash'
 
 describe('lastHash', () => {
   it('should grab the last passing hash from a step', () => {
-    const position: T.Position = { levelId: '1', stepId: '1.2' }
+    const position: T.Position = { levelId: '1', stepId: '1.2', complete: false }
     // @ts-ignore
     const tutorial: TT.Tutorial = {
       levels: [
@@ -32,7 +32,7 @@ describe('lastHash', () => {
     expect(result).toBe('abcdef2')
   })
   it('should grab the last passing hash from a step with several commits', () => {
-    const position: T.Position = { levelId: '1', stepId: '1.2' }
+    const position: T.Position = { levelId: '1', stepId: '1.2', complete: false }
     // @ts-ignore
     const tutorial: TT.Tutorial = {
       levels: [
@@ -60,7 +60,7 @@ describe('lastHash', () => {
     expect(result).toBe('abcdef3')
   })
   it('should grab the last passing hash when level has no steps', () => {
-    const position: T.Position = { levelId: '1', stepId: null }
+    const position: T.Position = { levelId: '1', stepId: null, complete: false }
     // @ts-ignore
     const tutorial: TT.Tutorial = {
       config: {

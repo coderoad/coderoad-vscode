@@ -143,10 +143,24 @@ interface ContainerProps {
 const StartPageContainer = ({ context, send }: ContainerProps) => {
   const tutorial = context.tutorial || undefined
   let progress
+  let isLevelComplete = false
   if (tutorial) {
     const totalLevels = tutorial.levels.length
-    const firstIncompleteLevelIndex = tutorial.levels.findIndex((level) => !context.progress.levels[level.id])
-    progress = Math.round((firstIncompleteLevelIndex / totalLevels) * 100)
+    const { position } = context
+    const findLevel = (level: TT.Level) => level.id === position.levelId
+    const currentLevel: TT.Level | undefined = tutorial.levels.find(findLevel)
+    let currentLevelIndex: number = tutorial.levels.findIndex(findLevel)
+    if (!currentLevel) {
+      throw new Error('Invalid level')
+    }
+    // check if the level is complete
+    if (position.stepId && currentLevel.steps && currentLevel.steps.length) {
+      const lastStepInLevel: TT.Step | null = currentLevel.steps[currentLevel.steps.length]
+      isLevelComplete = position.complete && lastStepInLevel.id === position.stepId
+    } else {
+      isLevelComplete = position.complete
+    }
+    progress = Math.round(((currentLevelIndex + (isLevelComplete ? 1 : 0)) / totalLevels) * 100)
   }
   return (
     <StartPage

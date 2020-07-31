@@ -25,35 +25,6 @@
     react-transition-group "^2.2.1"
     shallow-element-equals "^1.0.1"
 
-"@alifd/next@~1.20.4":
-  version "1.20.5"
-  resolved "https://registry.yarnpkg.com/@alifd/next/-/next-1.20.5.tgz#776ea840707cbfa7c944cfab90e480fda154bea2"
-  integrity sha512-fJOA8ppyF1PXnKb2jVTymdxVWhD/x9DcmK7HGwcShZQ7sd+Zu1HiR1MA7HkBeheuotOaB7mooh35oY5xCYiF2w==
-  dependencies:
-    "@alifd/field" "~1.4.1"
-    "@alifd/validate" "~1.2.0"
-    babel-runtime "^6.26.0"
-    classnames "^2.2.3"
-    hoist-non-react-statics "^2.1.0"
-    prop-types "^15.6.0"
-    react-lifecycles-compat "^3.0.4"
-    react-transition-group "^2.2.1"
-    shallow-element-equals "^1.0.1"
-
-"@alifd/theme-1@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@alifd/theme-1/-/theme-1-0.3.1.tgz#da3ddf986775b5c70ebf5111f5d6f11b6fac69bb"
-  integrity sha512-VdSsTifO5nvc0gl1yMkVv3XZsI5FNyg8Vv2+sb3C+ApIl7AL6FwKs8Ljc4AAlpfurT1Ke5tQpzgMV1ejrinAww==
-  dependencies:
-    "@alifd/next" "~1.20.4"
-
-"@alifd/theme-4@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@alifd/theme-4/-/theme-4-0.3.1.tgz#be5f26f777a11122ab1def8d1f1333c0e7942d7e"
-  integrity sha512-Hsi2svQ+3aoaUmwfogI0O29xO8BVo8pNaMyZ4aYbW0mlpAeS07Ii+fdx3bZiIcvE1ir/t3fsR6+/5iQqgEmyrg==
-  dependencies:
-    "@alifd/next" "~1.20.4"
-
 "@alifd/validate@^1.2.0", "@alifd/validate@~1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@alifd/validate/-/validate-1.2.0.tgz#252e0add24e64efd54fe611ba8c66d0147d850f6"

@@ -40,16 +40,12 @@ class Channel implements Channel {
         actions.onStartup(this.context, this.workspaceState, this.send)
         return
       // clear tutorial local storage
-      case 'TUTORIAL_CLEAR':
-        // clear current progress/position/tutorial
-        this.context.reset()
-        return
       // configure test runner, language, git
       case 'EDITOR_TUTORIAL_CONFIG':
-        actions.onTutorialConfig(action, this.context, this.workspaceState, this.send)
+        actions.onTutorialConfigNew(action, this.context, this.send)
         return
       case 'EDITOR_TUTORIAL_CONTINUE_CONFIG':
-        actions.onTutorialContinueConfig(action, this.context, this.send)
+        actions.onTutorialConfigContinue(action, this.context, this.send)
         return
       case 'EDITOR_VALIDATE_SETUP':
         actions.onValidateSetup(this.send)
@@ -69,9 +65,9 @@ class Channel implements Channel {
         // run test following solution to update position
         actions.onRunTest()
         return
-      case 'EDITOR_SYNC_PROGRESS':
+      case 'EDITOR_SYNC_POSITION':
         // update progress when a level is deemed complete in the client
-        await this.context.progress.syncProgress(action.payload.progress)
+        await this.context.position.set(action.payload.position)
         return
       case 'EDITOR_OPEN_LOGS':
         actions.onOpenLogs(action)

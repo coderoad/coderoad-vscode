@@ -43,7 +43,7 @@ export interface StepProgress {
 export interface Position {
   levelId: string
   stepId: string | null
-  complete?: boolean
+  complete: boolean
 }
 
 // current tutorial state
@@ -73,7 +73,6 @@ export interface MachineContext {
   error: E.ErrorMessage | null
   tutorial: TT.Tutorial | null
   position: Position
-  progress: Progress
   processes: ProcessEvent[]
   testStatus: TestStatus | null
 }
@@ -122,18 +121,9 @@ export interface StateMachine {
   send(action: string | Action): void
 }
 
-interface MessageData {
-  tutorial?: { id: string }
-  position: Position
-  progress: Progress
-}
-
 interface MessageState {
   state: string
 }
-
-// TODO type each string param and payload
-export type EditorDispatch = (type: string, payload?: MessageData | MessageState | any) => void
 
 export interface ProcessEvent {
   title: string

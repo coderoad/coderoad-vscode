@@ -20,12 +20,7 @@ export const createMachine = (options: any) => {
         error: null,
         env: { machineId: '', sessionId: '', token: '' },
         tutorial: null,
-        position: { levelId: '', stepId: null },
-        progress: {
-          levels: {},
-          steps: {},
-          complete: false,
-        },
+        position: { levelId: '', stepId: null, complete: false },
         processes: [],
         testStatus: null,
       },
@@ -110,7 +105,6 @@ export const createMachine = (options: any) => {
               },
             },
             SelectTutorial: {
-              onEntry: ['clearStorage'],
               id: 'select-new-tutorial',
               on: {
                 TUTORIAL_START: {
@@ -131,7 +125,7 @@ export const createMachine = (options: any) => {
               },
             },
             StartTutorial: {
-              onEntry: ['initProgressPosition'],
+              onEntry: ['initPosition'],
               after: {
                 0: '#tutorial',
               },
@@ -187,7 +181,7 @@ export const createMachine = (options: any) => {
                   on: {
                     TEST_PASS: {
                       target: 'TestPass',
-                      actions: ['updateStepProgress', 'testPass'],
+                      actions: ['testPass'],
                     },
                     TEST_FAIL: {
                       target: 'TestFail',
@@ -221,8 +215,7 @@ export const createMachine = (options: any) => {
                   },
                 },
                 LevelComplete: {
-                  onEntry: ['updateLevelProgress'],
-                  onExit: ['syncLevelProgress'],
+                  onExit: ['syncLevelPosition'],
                   on: {
                     NEXT_LEVEL: {
                       target: 'LoadNext',

@@ -101,7 +101,7 @@ interface PageProps {
 
 const TutorialPage = (props: PageProps) => {
   const theme: Theme = useTheme()
-  const { position, progress, processes, testStatus } = props.context
+  const { position, processes, testStatus } = props.context
 
   const tutorial = selectors.currentTutorial(props.context)
 
@@ -129,7 +129,6 @@ const TutorialPage = (props: PageProps) => {
 
   // format level code with status for easy rendering
   const { level, levels, levelIndex, stepIndex } = formatLevels({
-    progress,
     position,
     levels: tutorial.levels,
     testStatus,

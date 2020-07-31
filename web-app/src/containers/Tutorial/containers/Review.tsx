@@ -75,6 +75,7 @@ const ReviewPage = (props: Props) => {
                       props.onResetToPosition({
                         levelId: level.id,
                         stepId: level.steps.length ? level.steps[0].id : null,
+                        complete: false,
                       })
                     }
                   >
@@ -98,7 +99,9 @@ const ReviewPage = (props: Props) => {
                             <Button
                               type="normal"
                               warning
-                              onClick={() => props.onResetToPosition({ levelId: level.id, stepId: step.id })}
+                              onClick={() =>
+                                props.onResetToPosition({ levelId: level.id, stepId: step.id, complete: false })
+                              }
                             >
                               {step.id}&nbsp;
                               <Icon type="refresh" />

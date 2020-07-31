@@ -5,13 +5,7 @@ import { COMMANDS } from '../commands'
 import Context from '../services/context/context'
 
 export const onTestPass = (action: T.Action, context: Context) => {
-  const tutorial = context.tutorial.get()
-  if (!tutorial) {
-    throw new Error('Error with current tutorial. Tutorial may be missing an id.')
-  }
-  // update local storage stepProgress
-  const progress = context.progress.setStepComplete(tutorial, action.payload.position.stepId)
-  context.position.setPositionFromProgress(tutorial, progress)
+  context.position.set({ ...action.payload.position, complete: true })
   git.saveCommit('Save progress')
 }
 
