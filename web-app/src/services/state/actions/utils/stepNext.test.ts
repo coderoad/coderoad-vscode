@@ -32,16 +32,6 @@ describe('stepNext', () => {
     expect(result).toEqual({
       type: 'LOAD_NEXT_STEP',
       payload: {
-        step: level.steps[1],
-      },
-    })
-  })
-  it('should LOAD_NEXT_STEP when there is another step but no more', () => {
-    const position = { levelId: '1', stepId: '1.3', complete: false }
-    const result = getStepNext(position, level)
-    expect(result).toEqual({
-      type: 'LOAD_NEXT_STEP',
-      payload: {
         step: level.steps[2],
       },
     })

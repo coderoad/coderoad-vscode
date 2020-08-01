@@ -34,28 +34,7 @@ export const initPosition = assign({
 
 export const updateStepPosition = assign({
   position: (context: T.MachineContext, event: T.MachineEvent): any => {
-    const { position } = context
-    // merge in the updated position
-    // sent with the test to ensure consistency
-    const level: TT.Level = selectors.currentLevel(context)
-    const steps: TT.Step[] = level.steps
-
-    // final step now completed
-    if (steps[steps.length - 1].id === position.stepId) {
-      return { ...position, complete: true }
-    }
-
-    const stepIndex = steps.findIndex((s: TT.Step) => s.id === position.stepId)
-
-    const step: TT.Step = steps[stepIndex + 1]
-
-    const nextPosition: T.Position = {
-      ...position,
-      stepId: step.id,
-      complete: false,
-    }
-
-    return nextPosition
+    return event.payload.position
   },
 })
 
