@@ -2,7 +2,7 @@ import * as T from 'typings'
 import { readFile } from '../services/node'
 import logger from '../services/logger'
 
-const onErrorPage = async (action: T.Action) => {
+const onErrorPage = async (action: T.Action): void => {
   // Error middleware
   if (action?.payload?.error?.type) {
     // load error markdown message

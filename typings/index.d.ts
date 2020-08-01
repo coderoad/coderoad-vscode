@@ -54,6 +54,8 @@ export interface Action {
   meta?: any
 }
 
+export type Send = (action: Action) => void
+
 export interface Environment {
   machineId: string
   sessionId: string

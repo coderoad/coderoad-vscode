@@ -2,7 +2,7 @@ import * as E from 'typings/error'
 import { version } from '../services/dependencies'
 import { checkWorkspaceEmpty } from '../services/workspace'
 
-const onValidateSetup = async (send: any) => {
+const onValidateSetup = async (send: T.Send): void => {
   try {
     // check workspace is selected
     const isEmptyWorkspace = await checkWorkspaceEmpty()
