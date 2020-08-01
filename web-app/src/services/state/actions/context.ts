@@ -4,6 +4,7 @@ import { assign, send } from 'xstate'
 import * as selectors from '../../selectors'
 import getStepNext from './utils/stepNext'
 import getNext from './utils/getNext'
+import logger from 'services/logger'
 
 export const setStart = assign({
   env: (context: T.MachineContext, event: T.MachineEvent) => {
@@ -34,6 +35,7 @@ export const initPosition = assign({
 
 export const updateStepPosition = assign({
   position: (context: T.MachineContext, event: T.MachineEvent): any => {
+    logger('updateStepPosition', event)
     return event.payload.position
   },
 })
@@ -54,8 +56,6 @@ export const loadNext = send(
 export const stepNext = send(
   (context: T.MachineContext): T.Action => {
     const level: TT.Level = selectors.currentLevel(context)
-    console.log(`STEP_NEXT: ${JSON.stringify(context.position)}`)
-    console.log(`STEP NEXT LEVEL ${JSON.stringify(level)}`)
     return getStepNext(context.position, level)
   },
 )

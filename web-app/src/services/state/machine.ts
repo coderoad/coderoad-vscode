@@ -198,7 +198,7 @@ export const createMachine = (options: any) => {
                   on: {
                     LOAD_NEXT_STEP: {
                       target: 'Normal',
-                      actions: ['loadStep'],
+                      actions: ['loadStep', 'updateStepPosition'],
                     },
                     LEVEL_COMPLETE: 'LevelComplete',
                   },

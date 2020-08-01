@@ -21,6 +21,7 @@ const Routes = () => {
   }
 
   logger(`ROUTE: ${route}`)
+  logger(`POSITION: ${JSON.stringify(context.position)}`)
 
   return (
     <Router route={route}>

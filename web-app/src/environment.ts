@@ -1,10 +1,10 @@
 // validate .env
-const requiredKeys = ['REACT_APP_TUTORIAL_LIST_URL']
-for (const required of requiredKeys) {
-  if (!process.env[required]) {
-    throw new Error(`Missing Environmental Variable: ${required}`)
-  }
-}
+// const requiredKeys = ['REACT_APP_TUTORIAL_LIST_URL']
+// for (const required of requiredKeys) {
+//   if (!process.env[required]) {
+//     throw new Error(`Missing Environmental Variable: ${required}`)
+//   }
+// }
 
 export const DEBUG: boolean = (process.env.REACT_APP_DEBUG || '').toLowerCase() === 'true'
 export const VERSION: string = process.env.VERSION || 'unknown'

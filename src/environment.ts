@@ -11,7 +11,7 @@ export type Env = 'test' | 'local' | 'development' | 'production'
 export const NODE_ENV: Env = process.env.NODE_ENV || 'development'
 
 // toggle logging in development
-export const LOG = true
+export const LOG = false
 
 // error logging tool
 export const INSTRUMENTATION_KEY = '6ff37c76-72f3-48e3-a1b9-d5636f519b7b'
