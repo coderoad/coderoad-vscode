@@ -8,7 +8,7 @@ import { version, compareVersions } from '../services/dependencies'
 import Context from '../services/context/context'
 import tutorialConfig from './utils/tutorialConfig'
 
-const onTutorialConfig = async (action: T.Action, context: Context, workspaceState: vscode.Memento, send: any) => {
+const onTutorialConfigNew = async (action: T.Action, context: Context, send: any) => {
   try {
     const data: TT.Tutorial = action.payload.tutorial
 
@@ -37,7 +37,7 @@ const onTutorialConfig = async (action: T.Action, context: Context, workspaceSta
     }
 
     // setup tutorial config (save watcher, test runner, etc)
-    await context.setTutorial(workspaceState, data)
+    await context.onNew(data)
 
     // validate dependencies
     const dependencies = data.config.dependencies
@@ -118,4 +118,4 @@ const onTutorialConfig = async (action: T.Action, context: Context, workspaceSta
   }
 }
 
-export default onTutorialConfig
+export default onTutorialConfigNew

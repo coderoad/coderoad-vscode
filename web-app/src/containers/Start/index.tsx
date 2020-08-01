@@ -8,6 +8,7 @@ import Button from '../../components/Button'
 import { Theme } from '../../styles/theme'
 import { ADMIN_MODE } from '../../environment'
 import AdminToggle from '../../services/admin/AdminToggle'
+import getProgress from './getProgress'
 
 const styles = {
   page: (theme: Theme) => ({
@@ -95,8 +96,8 @@ const styles = {
 interface Props {
   onContinue(): void
   onNew(): void
-  tutorial?: TT.Tutorial
-  progress?: number
+  tutorial: TT.Tutorial | null
+  progress: number | null
 }
 
 export const StartPage = (props: Props) => (
@@ -117,7 +118,7 @@ export const StartPage = (props: Props) => (
           Start New Tutorial
         </Button>
       </div>
-      {props.tutorial && (
+      {!!props.tutorial && props.progress !== null && (
         <div css={styles.buttonContainer}>
           <button onClick={props.onContinue} css={styles.buttonLarge}>
             Continue Tutorial
@@ -141,18 +142,12 @@ interface ContainerProps {
 }
 
 const StartPageContainer = ({ context, send }: ContainerProps) => {
-  const tutorial = context.tutorial || undefined
-  let progress
-  if (tutorial) {
-    const totalLevels = tutorial.levels.length
-    const firstIncompleteLevelIndex = tutorial.levels.findIndex((level) => !context.progress.levels[level.id])
-    progress = Math.round((firstIncompleteLevelIndex / totalLevels) * 100)
-  }
+  const progress = getProgress(context?.tutorial?.levels, context.position)
   return (
     <StartPage
       onContinue={() => send({ type: 'CONTINUE_TUTORIAL' })}
       onNew={() => send({ type: 'NEW_TUTORIAL' })}
-      tutorial={tutorial}
+      tutorial={context.tutorial}
       progress={progress}
     />
   )

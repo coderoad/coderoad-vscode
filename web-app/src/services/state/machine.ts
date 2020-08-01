@@ -20,12 +20,7 @@ export const createMachine = (options: any) => {
         error: null,
         env: { machineId: '', sessionId: '', token: '' },
         tutorial: null,
-        position: { levelId: '', stepId: null },
-        progress: {
-          levels: {},
-          steps: {},
-          complete: false,
-        },
+        position: { levelId: '', stepId: null, complete: false },
         processes: [],
         testStatus: null,
       },
@@ -110,7 +105,6 @@ export const createMachine = (options: any) => {
               },
             },
             SelectTutorial: {
-              onEntry: ['clearStorage'],
               id: 'select-new-tutorial',
               on: {
                 TUTORIAL_START: {
@@ -131,7 +125,7 @@ export const createMachine = (options: any) => {
               },
             },
             StartTutorial: {
-              onEntry: ['initProgressPosition'],
+              onEntry: ['initPosition'],
               after: {
                 0: '#tutorial',
               },
@@ -186,28 +180,17 @@ export const createMachine = (options: any) => {
                   onEntry: ['testStart'],
                   on: {
                     TEST_PASS: {
-                      target: 'TestPass',
-                      actions: ['updateStepProgress', 'testPass'],
+                      target: 'StepNext',
+                      actions: ['testPass', 'updateStepPosition'],
                     },
                     TEST_FAIL: {
-                      target: 'TestFail',
+                      target: 'Normal',
                       actions: ['testFail'],
                     },
                     TEST_ERROR: {
-                      target: 'TestFail',
+                      target: 'Normal',
                       actions: ['testFail'],
                     },
-                  },
-                },
-                TestPass: {
-                  onExit: ['updateStepPosition'],
-                  after: {
-                    0: 'StepNext',
-                  },
-                },
-                TestFail: {
-                  after: {
-                    0: 'Normal',
                   },
                 },
                 StepNext: {
@@ -215,28 +198,22 @@ export const createMachine = (options: any) => {
                   on: {
                     LOAD_NEXT_STEP: {
                       target: 'Normal',
-                      actions: ['loadStep'],
+                      actions: ['loadStep', 'updateStepPosition'],
                     },
                     LEVEL_COMPLETE: 'LevelComplete',
                   },
                 },
                 LevelComplete: {
-                  onEntry: ['updateLevelProgress'],
-                  onExit: ['syncLevelProgress'],
+                  onExit: ['testClear', 'incrementLevel'],
                   on: {
-                    NEXT_LEVEL: {
-                      target: 'LoadNext',
-                      actions: ['testClear', 'updateLevel'],
-                    },
-                    KEY_PRESS_ENTER: {
-                      target: 'LoadNext',
-                      actions: ['testClear', 'updateLevel'],
-                    },
+                    NEXT_LEVEL: 'LoadNext',
+                    KEY_PRESS_ENTER: 'LoadNext',
                   },
                 },
                 LoadNext: {
                   id: 'tutorial-load-next',
                   onEntry: ['loadNext'],
+                  onExit: ['syncLevelPosition'],
                   on: {
                     NEXT_STEP: {
                       target: 'Load',

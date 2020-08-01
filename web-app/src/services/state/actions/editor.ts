@@ -37,6 +37,7 @@ export default (editorSend: any) => ({
         position: {
           stepId: step?.id || null,
           levelId: level.id,
+          complete: false,
         },
         actions: level.setup,
       },
@@ -53,6 +54,7 @@ export default (editorSend: any) => ({
           position: {
             stepId: step.id,
             levelId: context.position.levelId,
+            complete: false,
           },
           actions: step.setup,
         },
@@ -79,22 +81,12 @@ export default (editorSend: any) => ({
           position: {
             stepId: step.id,
             levelId: context.position.levelId,
+            complete: false,
           },
           actions: step.solution,
         },
       })
     }
-  },
-  syncLevelProgress(context: T.MachineContext): void {
-    editorSend({
-      type: 'EDITOR_SYNC_PROGRESS',
-      payload: {
-        progress: context.progress,
-      },
-    })
-  },
-  clearStorage(): void {
-    editorSend({ type: 'TUTORIAL_CLEAR' })
   },
   validateSetup() {
     editorSend({
@@ -133,4 +125,12 @@ export default (editorSend: any) => ({
       return event.payload.position
     },
   }),
+  syncLevelPosition(context: T.MachineContext): void {
+    editorSend({
+      type: 'EDITOR_SYNC_POSITION',
+      payload: {
+        position: context.position,
+      },
+    })
+  },
 })

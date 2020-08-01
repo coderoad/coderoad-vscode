@@ -6,6 +6,7 @@ import LoadingPage from './containers/Loading'
 import StartPage from './containers/Start'
 import SelectTutorialPage from './containers/SelectTutorial'
 import TutorialPage from './containers/Tutorial'
+import logger from './services/logger'
 
 /*
  * NOTE: due to a lack of URLs and a dependency on xstate
@@ -18,6 +19,9 @@ const Routes = () => {
   if (context.error) {
     return <ErrorView send={send} error={context.error} />
   }
+
+  logger(`ROUTE: ${route}`)
+  logger(`POSITION: ${JSON.stringify(context.position)}`)
 
   return (
     <Router route={route}>

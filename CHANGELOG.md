@@ -236,3 +236,8 @@ Adds a review page for viewing tutorial content. The review page should be espec
 - Launch from URL fixes
 - Move styles into a central theme
 - Prevent multiple versions of CodeRoad from launching
+
+### [0.13.0]
+
+- Significant internal refactor to remove recording progress
+- Admin mode to allow creators to jump between tutorial levels/steps during development

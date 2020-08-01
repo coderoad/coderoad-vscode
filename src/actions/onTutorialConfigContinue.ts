@@ -5,7 +5,7 @@ import Context from '../services/context/context'
 import tutorialConfig from './utils/tutorialConfig'
 import { COMMANDS } from '../commands'
 
-const onTutorialContinueConfig = async (action: T.Action, context: Context, send: any) => {
+const onTutorialConfigContinue = async (action: T.Action, context: Context, send: any) => {
   try {
     const tutorialContinue: TT.Tutorial | null = context.tutorial.get()
     if (!tutorialContinue) {
@@ -26,4 +26,4 @@ const onTutorialContinueConfig = async (action: T.Action, context: Context, send
   }
 }
 
-export default onTutorialContinueConfig
+export default onTutorialConfigContinue

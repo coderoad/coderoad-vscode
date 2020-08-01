@@ -1,78 +1,54 @@
-import * as CR from 'typings'
+import * as vscode from 'vscode'
+import * as T from 'typings'
 import * as TT from 'typings/tutorial'
+import Storage from '../../storage'
 
-const defaultValue: CR.Position = {
+const defaultValue: T.Position = {
   levelId: '',
   stepId: null,
+  complete: false,
 }
 
 // position
 class Position {
-  private value: CR.Position
+  private value: T.Position
+  private storage: Storage<T.Position> | undefined
   constructor() {
     this.value = defaultValue
+  }
+  setTutorial(workspaceState: vscode.Memento, tutorial: TT.Tutorial) {
+    this.storage = new Storage<T.Position>({
+      key: `coderoad:position:${tutorial.id}:${tutorial.version}`,
+      storage: workspaceState,
+      defaultValue,
+    })
+  }
+  async initPosition(workspaceState: vscode.Memento, tutorial: TT.Tutorial): Promise<T.Position> {
+    // set value from storage
+    this.setTutorial(workspaceState, tutorial)
+    // find first level & step id
+    let initLevel = tutorial.levels.length ? tutorial.levels[0] : null
+    return this.set({
+      levelId: initLevel?.id || '',
+      stepId: initLevel?.steps.length ? initLevel.steps[0].id : null,
+      complete: false,
+    })
+  }
+  async continuePosition(workspaceState: vscode.Memento, tutorial: TT.Tutorial): Promise<T.Position> {
+    this.setTutorial(workspaceState, tutorial)
+    let position: T.Position = (await this.storage?.get()) || defaultValue
+    return this.set(position)
   }
   public get = () => {
     return this.value
   }
-  public set = (value: CR.Position) => {
+  public set = (value: T.Position) => {
     this.value = value
+    this.storage?.set(value)
+    return this.value
   }
   public reset = () => {
-    this.value = defaultValue
-  }
-  // calculate the current position based on the saved progress
-  public setPositionFromProgress = (tutorial: TT.Tutorial, progress: CR.Progress): CR.Position => {
-    // tutorial already completed
-    // TODO handle start again?
-    if (progress.complete) {
-      return this.value
-    }
-
-    if (!tutorial || !tutorial.levels) {
-      throw new Error('Error setting position from progress')
-    }
-
-    // get level
-    const { levels } = tutorial
-    const lastLevelIndex: number | undefined = levels.findIndex((l: TT.Level) => !progress.levels[l.id])
-    if (lastLevelIndex >= levels.length) {
-      throw new Error('Error setting progress level')
-    }
-
-    // get step
-    const currentLevel: TT.Level = levels[lastLevelIndex]
-    if (!currentLevel) {
-      // tutorial complete but not reached completed view
-      const finalLevel = levels[levels.length - 1]
-      return {
-        levelId: finalLevel.id,
-        stepId: finalLevel.steps.length ? finalLevel.steps[finalLevel.steps.length - 1].id : null,
-        complete: true,
-      }
-    }
-    let currentStepId: string | null
-    if (!currentLevel.steps.length) {
-      // no steps available for level
-      currentStepId = null
-    } else {
-      // find current step id
-      const { steps } = currentLevel
-      const lastStepIndex: number | undefined = steps.findIndex((s: TT.Step) => !progress.steps[s.id])
-      if (lastStepIndex >= steps.length) {
-        throw new Error('Error setting progress step')
-      }
-      // handle position when last step is complete but "continue" not yet selected
-      const adjustedLastStepIndex = lastStepIndex === -1 ? steps.length - 1 : lastStepIndex
-      currentStepId = steps[adjustedLastStepIndex].id
-    }
-
-    this.value = {
-      levelId: currentLevel.id,
-      stepId: currentStepId,
-    }
-
-    return this.value
+    return this.set(defaultValue)
   }
 }
 
