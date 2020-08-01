@@ -32,7 +32,7 @@ describe('stepNext', () => {
     expect(result).toEqual({
       type: 'LOAD_NEXT_STEP',
       payload: {
-        step: level.steps[1],
+        position: { levelId: '1', stepId: '1.2', complete: false },
       },
     })
   })
@@ -42,7 +42,7 @@ describe('stepNext', () => {
     expect(result).toEqual({
       type: 'LOAD_NEXT_STEP',
       payload: {
-        step: level.steps[2],
+        position: { levelId: '1', stepId: '1.3', complete: false },
       },
     })
   })
