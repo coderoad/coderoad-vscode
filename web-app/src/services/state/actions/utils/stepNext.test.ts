@@ -26,8 +26,8 @@ const level: TT.Level = {
 }
 
 describe('stepNext', () => {
-  it('should LOAD_NEXT_STEP when there is another step and is complete', () => {
-    const position = { stepId: '1.1', levelId: '1', complete: true }
+  it('should LOAD_NEXT_STEP when there is another step', () => {
+    const position = { levelId: '1', stepId: '1.2', complete: false }
     const result = getStepNext(position, level)
     expect(result).toEqual({
       type: 'LOAD_NEXT_STEP',
@@ -36,25 +36,26 @@ describe('stepNext', () => {
       },
     })
   })
-  it('should LOAD_NEXT_STEP to the same step if not complete', () => {
-    const position = { stepId: '1.1', levelId: '1', complete: false }
+  it('should LOAD_NEXT_STEP when there is another step but no more', () => {
+    const position = { levelId: '1', stepId: '1.3', complete: false }
     const result = getStepNext(position, level)
     expect(result).toEqual({
       type: 'LOAD_NEXT_STEP',
       payload: {
-        step: level.steps[0],
+        step: level.steps[2],
       },
     })
   })
+
   it('should LEVEL_COMPLETE when there are no steps', () => {
-    const position = { stepId: '1.3', levelId: '1', complete: true }
-    const result = getStepNext(position, level)
+    const position = { levelId: '1', stepId: null, complete: false }
+    const result = getStepNext(position, { ...level, steps: [] })
     expect(result).toEqual({
       type: 'LEVEL_COMPLETE',
     })
   })
   it('should LEVEL_COMPLETE when all steps are complete', () => {
-    const position = { stepId: '1.3', levelId: '1', complete: true }
+    const position = { levelId: '1', stepId: '1.3', complete: true }
     const result = getStepNext(position, { ...level, steps: [] })
     expect(result).toEqual({
       type: 'LEVEL_COMPLETE',

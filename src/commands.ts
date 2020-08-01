@@ -54,7 +54,7 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
         onSuccess: (position: T.Position) => {
           logger('test pass position', position)
           // send test pass message back to client
-          webview.send({ type: 'TEST_PASS', payload: { position } })
+          webview.send({ type: 'TEST_PASS', payload: { position: { ...position, complete: true } } })
         },
         onFail: (position: T.Position, failSummary: T.TestFail): void => {
           // send test fail message back to client with failure message
@@ -82,13 +82,6 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
       subtasks,
       callbacks,
     }: { subtasks?: boolean; callbacks?: { onSuccess: () => void } } = {}) => {
-      logger('run test current', currentPosition)
-      // use stepId from client, or last set stepId
-      // const position: T.Position = {
-      //   ...current,
-      //   stepId: current && current.position.stepId?.length ? current.position.stepId : currentPosition.stepId,
-      // }
-      logger('currentPosition', currentPosition)
       testRunner({ position: currentPosition, onSuccess: callbacks?.onSuccess, subtasks })
     },
     [COMMANDS.ENTER]: () => {

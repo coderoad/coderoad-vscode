@@ -40,9 +40,9 @@ export const updateStepPosition = assign({
     const level: TT.Level = selectors.currentLevel(context)
     const steps: TT.Step[] = level.steps
 
-    // final step but not completed
+    // final step now completed
     if (steps[steps.length - 1].id === position.stepId) {
-      return { ...position, complete: false }
+      return { ...position, complete: true }
     }
 
     const stepIndex = steps.findIndex((s: TT.Step) => s.id === position.stepId)
@@ -75,6 +75,8 @@ export const loadNext = send(
 export const stepNext = send(
   (context: T.MachineContext): T.Action => {
     const level: TT.Level = selectors.currentLevel(context)
+    console.log(`STEP_NEXT: ${JSON.stringify(context.position)}`)
+    console.log(`STEP NEXT LEVEL ${JSON.stringify(level)}`)
     return getStepNext(context.position, level)
   },
 )
