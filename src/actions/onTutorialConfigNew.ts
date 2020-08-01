@@ -8,7 +8,7 @@ import { version, compareVersions } from '../services/dependencies'
 import Context from '../services/context/context'
 import tutorialConfig from './utils/tutorialConfig'
 
-const onTutorialConfigNew = async (action: T.Action, context: Context, send: any) => {
+const onTutorialConfigNew = async (action: T.Action, context: Context, send: T.Send): void => {
   try {
     const data: TT.Tutorial = action.payload.tutorial
 
@@ -82,7 +82,7 @@ const onTutorialConfigNew = async (action: T.Action, context: Context, send: any
         if (satisfiedDependency !== true) {
           const error: E.ErrorMessage = satisfiedDependency || {
             type: 'UnknownError',
-            message: `Something went wrong comparing dependency for ${name}`,
+            message: `Something went wrong comparing dependency for ${dep.name}`,
             actions: [
               {
                 label: 'Try Again',

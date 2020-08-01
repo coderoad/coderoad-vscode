@@ -11,7 +11,7 @@ const onStartup = async (
   context: Context,
   workspaceState: vscode.Memento,
   send: (action: T.Action) => Promise<void>,
-) => {
+): void => {
   try {
     // check if a workspace is open, otherwise nothing works
     const noActiveWorkspace = !WORKSPACE_ROOT.length
