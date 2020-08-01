@@ -102,8 +102,6 @@ export interface MachineStateSchema {
             Load: {}
             Normal: {}
             TestRunning: {}
-            TestPass: {}
-            TestFail: {}
             StepNext: {}
             LevelComplete: {}
             LoadNext: {}

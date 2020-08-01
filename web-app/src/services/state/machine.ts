@@ -180,28 +180,17 @@ export const createMachine = (options: any) => {
                   onEntry: ['testStart'],
                   on: {
                     TEST_PASS: {
-                      target: 'TestPass',
-                      actions: ['testPass'],
+                      target: 'StepNext',
+                      actions: ['testPass', 'updateStepPosition'],
                     },
                     TEST_FAIL: {
-                      target: 'TestFail',
+                      target: 'Normal',
                       actions: ['testFail'],
                     },
                     TEST_ERROR: {
-                      target: 'TestFail',
+                      target: 'Normal',
                       actions: ['testFail'],
                     },
-                  },
-                },
-                TestPass: {
-                  onExit: ['updateStepPosition'],
-                  after: {
-                    0: 'StepNext',
-                  },
-                },
-                TestFail: {
-                  after: {
-                    0: 'Normal',
                   },
                 },
                 StepNext: {

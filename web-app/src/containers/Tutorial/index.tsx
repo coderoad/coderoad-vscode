@@ -90,7 +90,7 @@ const styles = {
 interface PageProps {
   context: T.MachineContext
   send(action: T.Action): void
-  state: string // 'Normal' | 'TestRunning' | 'TestFail' | 'TestPass' | 'Level.LevelComplete'
+  state: string // 'Normal' | 'TestRunning' | 'Level.LevelComplete'
 }
 
 /**
