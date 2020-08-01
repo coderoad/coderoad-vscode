@@ -97,7 +97,7 @@ interface Props {
   onContinue(): void
   onNew(): void
   tutorial: TT.Tutorial | null
-  progress: number
+  progress: number | null
 }
 
 export const StartPage = (props: Props) => (
@@ -118,12 +118,12 @@ export const StartPage = (props: Props) => (
           Start New Tutorial
         </Button>
       </div>
-      {props.tutorial && (
+      {!!props.tutorial && props.progress !== null && (
         <div css={styles.buttonContainer}>
           <button onClick={props.onContinue} css={styles.buttonLarge}>
             Continue Tutorial
             <div css={styles.continueTitle}>"{props.tutorial.summary.title}"</div>
-            <Progress style={{ marginLeft: '1rem' }} percent={props.progress} hasBorder size="large" />
+            <Progress style={{ marginLeft: '1rem' }} percent={props.progress || 0} hasBorder size="large" />
           </button>
         </div>
       )}
@@ -142,7 +142,7 @@ interface ContainerProps {
 }
 
 const StartPageContainer = ({ context, send }: ContainerProps) => {
-  const progress: number = getProgress(context?.tutorial?.levels, context.position)
+  const progress = getProgress(context?.tutorial?.levels, context.position)
   return (
     <StartPage
       onContinue={() => send({ type: 'CONTINUE_TUTORIAL' })}
