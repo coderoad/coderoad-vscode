@@ -1,3 +1,4 @@
+import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as git from '../git'
 import loadCommits from './utils/loadCommits'
@@ -38,4 +39,19 @@ export const onSolutionEnter = async (actions: TT.StepActions): Promise<void> =>
 
 export const onError = async (error: Error): Promise<void> => {
   telemetryOnError(error)
+}
+
+export const onStepComplete = async ({ position }: { position: T.Position }): Promise<void> => {
+  /* TODO */
+  console.log(`ON STEP COMPLETE: ${JSON.stringify(position)}`)
+}
+
+export const onLevelComplete = async ({ position }: { position: T.Position }): Promise<void> => {
+  /* TODO */
+  console.log(`ON LEVEL COMPLETE: ${JSON.stringify(position)}`)
+}
+
+export const onTutorialComplete = async ({ position }: { position: T.Position }): Promise<void> => {
+  /* TODO */
+  console.log(`ON LEVEL COMPLETE: ${JSON.stringify(position)}`)
 }

@@ -133,4 +133,28 @@ export default (editorSend: any) => ({
       },
     })
   },
+  onStepComplete(context: T.MachineContext): void {
+    editorSend({
+      type: 'EDITOR_STEP_COMPLETE',
+      payload: {
+        position: context.position,
+      },
+    })
+  },
+  onLevelComplete(context: T.MachineContext): void {
+    editorSend({
+      type: 'EDITOR_LEVEL_COMPLETE',
+      payload: {
+        position: context.position,
+      },
+    })
+  },
+  onTutorialComplete(context: T.MachineContext): void {
+    editorSend({
+      type: 'EDITOR_TUTORIAL_COMPLETE',
+      payload: {
+        position: context.position,
+      },
+    })
+  },
 })

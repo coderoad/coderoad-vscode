@@ -81,6 +81,15 @@ class Channel implements Channel {
       case 'EDITOR_RUN_RESET_POSITION':
         actions.onRunReset({ type: 'POSITION', position: action.payload.position }, this.context)
         return
+      case 'EDITOR_STEP_COMPLETE':
+        hooks.onStepComplete(action.payload)
+        return
+      case 'EDITOR_LEVEL_COMPLETE':
+        hooks.onLevelComplete(action.payload)
+        return
+      case 'EDITOR_TUTORIAL_COMPLETE':
+        hooks.onTutorialComplete(action.payload)
+        return
       default:
         logger(`No match for action type: ${actionType}`)
         return

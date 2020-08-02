@@ -198,9 +198,12 @@ export const createMachine = (options: any) => {
                   on: {
                     LOAD_NEXT_STEP: {
                       target: 'Normal',
-                      actions: ['loadStep', 'updateStepPosition'],
+                      actions: ['onStepComplete', 'loadStep', 'updateStepPosition'],
                     },
-                    LEVEL_COMPLETE: 'LevelComplete',
+                    LEVEL_COMPLETE: {
+                      target: 'LevelComplete',
+                      actions: ['onLevelComplete'],
+                    },
                   },
                 },
                 LevelComplete: {
@@ -223,14 +226,16 @@ export const createMachine = (options: any) => {
                       target: 'Load',
                       actions: ['updatePosition'],
                     },
-                    COMPLETED: '#completed-tutorial',
+                    COMPLETED: {
+                      target: '#completed-tutorial',
+                      actions: ['onTutorialComplete'],
+                    },
                   },
                 },
               },
             },
             Completed: {
               id: 'completed-tutorial',
-              onEntry: ['userTutorialComplete'], // unusued
               on: {
                 SELECT_TUTORIAL: {
                   target: '#select-new-tutorial',
