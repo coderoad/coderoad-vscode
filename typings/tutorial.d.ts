@@ -61,6 +61,7 @@ export type StepActions = {
   files?: string[]
   watchers?: string[]
   filter?: string
+  vscodeCommands?: VSCodeCommand[]
 }
 
 export interface TestRunnerArgs {
@@ -88,3 +89,5 @@ export interface TutorialDependency {
 export interface TutorialAppVersions {
   vscode: string
 }
+
+export type VSCodeCommand = string | [string, any]
