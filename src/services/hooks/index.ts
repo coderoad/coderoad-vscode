@@ -8,6 +8,7 @@ import runCommands from './utils/runCommands'
 import runVSCodeCommands from './utils/runVSCodeCommands'
 import { onError as telemetryOnError } from '../telemetry'
 import { onRunTest } from '../../actions/onTest'
+import logger from '../logger'
 
 export const onInit = async (actions: TT.StepActions): Promise<void> => {
   await loadCommits(actions?.commits)
@@ -41,17 +42,14 @@ export const onError = async (error: Error): Promise<void> => {
   telemetryOnError(error)
 }
 
-export const onStepComplete = async ({ position }: { position: T.Position }): Promise<void> => {
-  /* TODO */
-  console.log(`ON STEP COMPLETE: ${JSON.stringify(position)}`)
+export const onStepComplete = async ({ levelId, stepId }: { levelId: string; stepId: string }): Promise<void> => {
+  logger(`ON STEP COMPLETE: ${JSON.stringify({ levelId, stepId })}`)
 }
 
-export const onLevelComplete = async ({ position }: { position: T.Position }): Promise<void> => {
-  /* TODO */
-  console.log(`ON LEVEL COMPLETE: ${JSON.stringify(position)}`)
+export const onLevelComplete = async ({ levelId }: { levelId: string }): Promise<void> => {
+  logger(`ON LEVEL COMPLETE: ${JSON.stringify(levelId)}`)
 }
 
-export const onTutorialComplete = async ({ position }: { position: T.Position }): Promise<void> => {
-  /* TODO */
-  console.log(`ON LEVEL COMPLETE: ${JSON.stringify(position)}`)
+export const onTutorialComplete = async ({ tutorialId }: { tutorialId: string }): Promise<void> => {
+  logger(`ON TUTORIAL COMPLETE: ${JSON.stringify(tutorialId)}`)
 }

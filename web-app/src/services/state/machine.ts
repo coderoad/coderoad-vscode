@@ -181,7 +181,7 @@ export const createMachine = (options: any) => {
                   on: {
                     TEST_PASS: {
                       target: 'StepNext',
-                      actions: ['testPass', 'updateStepPosition'],
+                      actions: ['onStepComplete', 'testPass', 'updateStepPosition'],
                     },
                     TEST_FAIL: {
                       target: 'Normal',
@@ -198,7 +198,7 @@ export const createMachine = (options: any) => {
                   on: {
                     LOAD_NEXT_STEP: {
                       target: 'Normal',
-                      actions: ['onStepComplete', 'loadStep', 'updateStepPosition'],
+                      actions: ['loadStep', 'updateStepPosition'],
                     },
                     LEVEL_COMPLETE: {
                       target: 'LevelComplete',

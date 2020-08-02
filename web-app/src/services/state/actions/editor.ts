@@ -137,7 +137,8 @@ export default (editorSend: any) => ({
     editorSend({
       type: 'EDITOR_STEP_COMPLETE',
       payload: {
-        position: context.position,
+        levelId: context.position.levelId,
+        stepId: context.position.levelId,
       },
     })
   },
@@ -145,7 +146,7 @@ export default (editorSend: any) => ({
     editorSend({
       type: 'EDITOR_LEVEL_COMPLETE',
       payload: {
-        position: context.position,
+        levelId: context.position.levelId,
       },
     })
   },
@@ -153,7 +154,7 @@ export default (editorSend: any) => ({
     editorSend({
       type: 'EDITOR_TUTORIAL_COMPLETE',
       payload: {
-        position: context.position,
+        tutorialId: context.tutorial?.id,
       },
     })
   },
