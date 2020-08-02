@@ -32,7 +32,7 @@ export default (editorSend: any) => ({
     const step: TT.Step | null = selectors.currentStep(context)
     // load step actions
     editorSend({
-      type: 'SETUP_ACTIONS',
+      type: 'EDITOR_LEVEL_ENTER',
       payload: {
         position: {
           stepId: step?.id || null,
@@ -48,7 +48,7 @@ export default (editorSend: any) => ({
     if (step && step.setup) {
       // load step actions
       editorSend({
-        type: 'SETUP_ACTIONS',
+        type: 'EDITOR_STEP_ENTER',
         payload: {
           // set position here
           position: {
@@ -76,7 +76,7 @@ export default (editorSend: any) => ({
     // tell editor to load solution commit
     if (step && step.solution) {
       editorSend({
-        type: 'SOLUTION_ACTIONS',
+        type: 'EDITOR_SOLUTION_ENTER',
         payload: {
           position: {
             stepId: step.id,
