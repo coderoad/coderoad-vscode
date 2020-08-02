@@ -239,5 +239,10 @@ Adds a review page for viewing tutorial content. The review page should be espec
 
 ### [0.13.0]
 
-- Significant internal refactor to remove recording progress
+- BREAKING CHANGE:
+  - `config.testRunner.setup` is now `config.setup`
+  - `config.setup` runs in the root workspace directory, not the `config.testRunner.directory`
+- Significant internal refactor to:
+  - remove recording progress
+  - simplify structure with "hooks"
 - Admin mode to allow creators to jump between tutorial levels/steps during development
