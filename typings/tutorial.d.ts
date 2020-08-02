@@ -4,6 +4,7 @@ export type Maybe<T> = T | null
 
 export type ConfigReset = {
   command?: string
+  commands?: string[]
 }
 
 export type TutorialConfig = {

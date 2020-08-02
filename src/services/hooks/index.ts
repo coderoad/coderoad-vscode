@@ -38,6 +38,10 @@ export const onSolutionEnter = async (actions: TT.StepActions): Promise<void> =>
   await onRunTest()
 }
 
+export const onReset = async (commands: string[]): Promise<void> => {
+  await runCommands(commands)
+}
+
 export const onError = async (error: Error): Promise<void> => {
   telemetryOnError(error)
 }
