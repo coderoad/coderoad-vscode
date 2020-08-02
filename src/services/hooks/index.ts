@@ -4,12 +4,14 @@ import loadCommits from './utils/loadCommits'
 import loadWatchers from './utils/loadWatchers'
 import openFiles from './utils/openFiles'
 import runCommands from './utils/runCommands'
+import runVSCodeCommands from './utils/runVSCodeCommands'
 import { onError as telemetryOnError } from '../telemetry'
 import { onRunTest } from '../../actions/onTest'
 
 export const onInit = async (actions: TT.StepActions): Promise<void> => {
   await loadCommits(actions.commits)
   await runCommands(actions.commands)
+  await runVSCodeCommands(actions.vscodeCommands)
 }
 
 export const onLevelEnter = async (actions: TT.StepActions): Promise<void> => {
@@ -23,6 +25,7 @@ export const onSetupEnter = async (actions: TT.StepActions): Promise<void> => {
   await openFiles(actions.files)
   await loadWatchers(actions.watchers)
   await runCommands(actions.commands)
+  await runVSCodeCommands(actions.vscodeCommands)
 }
 
 export const onSolutionEnter = async (actions: TT.StepActions): Promise<void> => {
@@ -31,6 +34,7 @@ export const onSolutionEnter = async (actions: TT.StepActions): Promise<void> =>
   await loadCommits(actions.commits)
   await openFiles(actions.files)
   await runCommands(actions.commands)
+  await runVSCodeCommands(actions.vscodeCommands)
   await onRunTest()
 }
 
