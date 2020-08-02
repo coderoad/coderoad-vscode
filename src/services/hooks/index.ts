@@ -38,8 +38,9 @@ export const onSolutionEnter = async (actions: TT.StepActions): Promise<void> =>
   await onRunTest()
 }
 
-export const onReset = async (commands: string[]): Promise<void> => {
-  await runCommands(commands)
+export const onReset = async (actions: TT.StepActions): Promise<void> => {
+  await runCommands(actions?.commands)
+  await runVSCodeCommands(actions?.vscodeCommands)
 }
 
 export const onError = async (error: Error): Promise<void> => {

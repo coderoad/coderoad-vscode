@@ -3,8 +3,8 @@ import { ProgressStatus } from './index'
 export type Maybe<T> = T | null
 
 export type ConfigReset = {
-  command?: string
   commands?: string[]
+  vscodeCommands?: VSCodeCommand[]
 }
 
 export type TutorialConfig = {
@@ -58,7 +58,7 @@ export type TutorialSummary = {
 
 export type StepActions = {
   commands?: string[]
-  commits: string[]
+  commits?: string[]
   files?: string[]
   watchers?: string[]
   filter?: string

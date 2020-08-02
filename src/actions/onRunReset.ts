@@ -30,12 +30,10 @@ const onRunReset = async (action: ResetAction, context: Context): Promise<void> 
   // load timeline until last pass commit
   reset({ branch, hash })
 
-  // TODO: @deprecate command in favor of commands
   // if tutorial.config.reset.command, run it
-  if (tutorial?.config?.reset?.command) {
-    hooks.onReset([tutorial?.config?.reset?.command])
-  } else if (tutorial?.config?.reset?.commands) {
-    hooks.onReset(tutorial?.config?.reset?.commands)
+  const resetActions = tutorial?.config?.reset
+  if (resetActions) {
+    hooks.onReset({ commands: resetActions?.commands, vscodeCommands: resetActions?.vscodeCommands })
   }
 }
 
