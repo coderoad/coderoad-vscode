@@ -1,4 +1,3 @@
-import * as T from 'typings'
 import { exec } from '../../node'
 import { send } from '../../../commands'
 

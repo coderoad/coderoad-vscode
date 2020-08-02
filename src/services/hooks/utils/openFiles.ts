@@ -1,6 +1,5 @@
 import { join } from 'path'
 import * as vscode from 'vscode'
-import { COMMANDS } from '../../../commands'
 
 const openFiles = async (files: string[] = []): Promise<void> => {
   if (!files.length) {
