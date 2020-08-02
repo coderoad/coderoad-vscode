@@ -20,9 +20,11 @@ interface CreateCommandProps {
 }
 
 let sendToClient = (action: T.Action): void => {
-  /* */
+  // function is replaced when webclient loads
 }
 
+// This makes it easier to pass the send
+// function throughout the codebase
 export const send = (action: T.Action): void => {
   sendToClient(action)
 }
@@ -38,16 +40,15 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
     [COMMANDS.START]: async () => {
       if (webview && webview.state.loaded) {
         webview.createOrShow()
-        // make send to client function exportable
-        // as "send". This makes it easier to pass the send
-        // function throughout the codebase
-        sendToClient = webview.send
       } else {
         // activate machine
         webview = createWebView({
           extensionPath,
           workspaceState,
         })
+        // make send to client function exportable
+        // as "send".
+        sendToClient = webview.send
       }
     },
     [COMMANDS.CONFIG_TEST_RUNNER]: async (data: TT.Tutorial) => {
