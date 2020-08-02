@@ -1,7 +1,7 @@
 import { getWorkspaceRoot } from './services/workspace'
 import * as os from 'os'
 
-export const VERSION = require('../package.json').version
+export const VERSION = require('../package.json').version // eslint-disable-line
 
 export const EXTENSION_ID = 'coderoad'
 

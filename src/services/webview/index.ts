@@ -1,3 +1,4 @@
+import * as T from 'typings'
 import * as path from 'path'
 import { Action } from 'typings'
 import * as vscode from 'vscode'
@@ -9,9 +10,16 @@ interface ReactWebViewProps {
   workspaceState: vscode.Memento
 }
 
-let state = { loaded: false }
+interface Output {
+  state: { loaded: boolean }
+  createOrShow(): void
+  send: T.Send
+  receive: T.Send
+}
 
-const createReactWebView = ({ extensionPath, workspaceState }: ReactWebViewProps) => {
+const state = { loaded: false }
+
+const createReactWebView = ({ extensionPath, workspaceState }: ReactWebViewProps): Output => {
   // TODO add disposables
   const disposables: vscode.Disposable[] = []
 

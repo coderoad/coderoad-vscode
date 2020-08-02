@@ -8,7 +8,7 @@ import { version, compareVersions } from '../services/dependencies'
 import Context from '../services/context/context'
 import tutorialConfig from './utils/tutorialConfig'
 
-const onTutorialConfigNew = async (action: T.Action, context: Context, send: T.Send): void => {
+const onTutorialConfigNew = async (action: T.Action, context: Context, send: T.Send): Promise<void> => {
   try {
     const data: TT.Tutorial = action.payload.tutorial
 

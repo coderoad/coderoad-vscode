@@ -5,7 +5,9 @@ interface Input {
   branch: string
 }
 
-const ignoreError = () => {}
+const ignoreError = () => {
+  /* */
+}
 
 // note: attempted to do this as a bash script
 // but requires the bash script has git permissions

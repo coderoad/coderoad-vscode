@@ -14,7 +14,7 @@ const disposeWatcher = (watcher: string) => {
   delete watcherObject[watcher]
 }
 
-const loadWatchers = (watchers: string[]) => {
+const loadWatchers = (watchers: string[]): void => {
   if (!watchers.length) {
     // remove all watchers
     for (const watcher of Object.keys(watcherObject)) {

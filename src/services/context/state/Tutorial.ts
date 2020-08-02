@@ -17,14 +17,14 @@ class Tutorial {
       this.value = value
     })
   }
-  public get = () => {
+  public get = (): TT.Tutorial | null => {
     return this.value
   }
-  public set = (value: TT.Tutorial | null) => {
+  public set = (value: TT.Tutorial | null): void => {
     this.value = value
     this.storage.set(value)
   }
-  public reset = () => {
+  public reset = (): void => {
     this.set(null)
   }
 }

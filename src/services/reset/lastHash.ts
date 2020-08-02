@@ -1,7 +1,7 @@
 import * as TT from '../../../typings/tutorial'
 import * as T from '../../../typings'
 
-const getLastCommitHash = (position: T.Position, tutorial: TT.Tutorial | null) => {
+const getLastCommitHash = (position: T.Position, tutorial: TT.Tutorial | null): string => {
   if (!tutorial) {
     throw new Error('No tutorial found')
   }

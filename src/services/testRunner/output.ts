@@ -1,6 +1,10 @@
 import * as vscode from 'vscode'
 
-const channels: { key: string; value: vscode.OutputChannel } | {} = {}
+const channels:
+  | { key: string; value: vscode.OutputChannel }
+  | {
+      /* */
+    } = {}
 
 const getOutputChannel = (name: string): vscode.OutputChannel => {
   if (!channels[name]) {
@@ -15,18 +19,18 @@ interface ChannelOutput {
   show?: boolean
 }
 
-export const addOutput = (params: ChannelOutput) => {
+export const addOutput = (params: ChannelOutput): void => {
   const channel = getOutputChannel(params.channel)
   channel.clear()
   channel.append(params.text)
 }
 
-export const showOutput = (channelName: string) => {
+export const showOutput = (channelName: string): void => {
   const channel = getOutputChannel(channelName)
   channel.show()
 }
 
-export const clearOutput = (channelName: string) => {
+export const clearOutput = (channelName: string): void => {
   const channel = getOutputChannel(channelName)
   channel.clear()
   channel.hide()

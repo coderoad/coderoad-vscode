@@ -11,7 +11,7 @@ type ResetAction = {
 }
 
 // reset to the start of the last test
-const onRunReset = async (action: ResetAction, context: Context): void => {
+const onRunReset = async (action: ResetAction, context: Context): Promise<void> => {
   // reset to timeline
   const tutorial: TT.Tutorial | null = context.tutorial.get()
   const position: T.Position = action.position ? action.position : context.position.get()

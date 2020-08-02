@@ -1,6 +1,6 @@
 import { LOG } from '../../environment'
 
-export type Log = string | number | object | null | undefined
+export type Log = string | number | object | null | undefined // eslint-disable-line
 
 const logger = (...messages: Log[]): void => {
   if (!LOG) {

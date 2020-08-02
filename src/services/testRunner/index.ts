@@ -26,10 +26,10 @@ interface TestRunnerParams {
   onSuccess?: () => void
 }
 
-const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks) => {
+const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks): ((params: any) => Promise<void>) => {
   const testRunnerConfig = data.config.testRunner
   const testRunnerFilterArg = testRunnerConfig.args?.filter
-  return async ({ position, onSuccess }: TestRunnerParams): Promise<void> => {
+  return async ({ position, onSuccess }: TestRunnerParams): Promise<any> => {
     const startTime = throttle()
     // throttle time early
     if (!startTime) {

@@ -7,7 +7,7 @@ interface RunCommands {
   dir?: string
 }
 
-const runCommands = async ({ commands, send, dir }: RunCommands) => {
+const runCommands = async ({ commands, send, dir }: RunCommands): Promise<void> => {
   if (!commands.length) {
     return
   }

@@ -9,7 +9,7 @@ import logger from '../services/logger'
 
 interface SetupActions {
   actions: TT.StepActions
-  send: (action: T.Action) => void // send messages to client
+  send: T.Send
   dir?: string
 }
 
