@@ -1,13 +1,8 @@
 import * as T from 'typings'
-import { exec } from '../../services/node'
+import { exec } from '../../node'
+import { send } from '../../../commands'
 
-interface RunCommands {
-  commands: string[]
-  send: (action: T.Action) => void
-  dir?: string
-}
-
-const runCommands = async ({ commands, send, dir }: RunCommands): Promise<void> => {
+const runCommands = async (commands: string[] = []): Promise<void> => {
   if (!commands.length) {
     return
   }
@@ -19,10 +14,10 @@ const runCommands = async ({ commands, send, dir }: RunCommands): Promise<void> 
     send({ type: 'COMMAND_START', payload: { process: { ...process, status: 'RUNNING' } } })
     let result: { stdout: string; stderr: string }
     try {
-      result = await exec({ command, dir })
+      result = await exec({ command })
       console.log(result)
     } catch (error) {
-      console.log(`Test failed: ${error.message}`)
+      console.error(`Test failed: ${error.message}`)
       send({ type: 'COMMAND_FAIL', payload: { process: { ...process, status: 'FAIL' } } })
       return
     }

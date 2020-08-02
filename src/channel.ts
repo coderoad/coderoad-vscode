@@ -5,6 +5,7 @@ import Context from './services/context/context'
 import logger from './services/logger'
 import { openWorkspace } from './services/workspace'
 import * as actions from './actions'
+import * as hooks from './services/hooks'
 
 interface Channel {
   receive(action: T.Action): Promise<void>
@@ -56,14 +57,12 @@ class Channel implements Channel {
       // load step actions (git commits, commands, open files)
       case 'SETUP_ACTIONS':
         await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_POSITION, action.payload.position)
-        actions.onSetupActions({ actions: action.payload.actions, send: this.send })
+        hooks.onSetupEnter(action.payload.actions)
         return
       // load solution step actions (git commits, commands, open files)
       case 'SOLUTION_ACTIONS':
         await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_POSITION, action.payload.position)
-        await actions.onSolutionActions({ actions: action.payload.actions, send: this.send })
-        // run test following solution to update position
-        actions.onRunTest()
+        hooks.onSolutionEnter(action.payload.actions)
         return
       case 'EDITOR_SYNC_POSITION':
         // update progress when a level is deemed complete in the client

@@ -65,10 +65,9 @@ describe('lastHash', () => {
     const tutorial: TT.Tutorial = {
       config: {
         // @ts-ignore
-        testRunner: {
-          setup: {
-            commits: ['abcdef2', 'abcdef3'],
-          },
+        testRunner: {},
+        setup: {
+          commits: ['abcdef2', 'abcdef3'],
         },
       },
       levels: [

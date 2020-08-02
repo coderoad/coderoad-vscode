@@ -1,7 +1,7 @@
 import * as chokidar from 'chokidar'
 import * as vscode from 'vscode'
-import { COMMANDS } from '../../commands'
-import { WORKSPACE_ROOT } from '../../environment'
+import { COMMANDS } from '../../../commands'
+import { WORKSPACE_ROOT } from '../../../environment'
 
 // NOTE: vscode createFileWatcher doesn't seem to detect changes outside of vscode
 // such as `npm install` of a package. Went with chokidar instead
@@ -14,7 +14,7 @@ const disposeWatcher = (watcher: string) => {
   delete watcherObject[watcher]
 }
 
-const loadWatchers = (watchers: string[]): void => {
+const loadWatchers = (watchers: string[] = []): void => {
   if (!watchers.length) {
     // remove all watchers
     for (const watcher of Object.keys(watcherObject)) {

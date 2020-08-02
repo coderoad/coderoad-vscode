@@ -11,6 +11,7 @@ export type TutorialConfig = {
   testRunner: TestRunnerConfig
   repo: TutorialRepo
   dependencies?: TutorialDependency[]
+  setup?: StepActions
   reset?: ConfigReset
 }
 
@@ -70,10 +71,7 @@ export interface TestRunnerArgs {
 export interface TestRunnerConfig {
   command: string
   args: TestRunnerArgs
-  path?: string // deprecated
   directory?: string
-  actions?: StepActions // deprecated
-  setup?: StepActions
 }
 
 export interface TutorialRepo {

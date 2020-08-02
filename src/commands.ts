@@ -2,9 +2,9 @@ import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import createTestRunner from './services/testRunner'
-import { onSetupActions } from './actions/onActions'
 import createWebView from './services/webview'
 import logger from './services/logger'
+import * as hooks from './services/hooks'
 
 export const COMMANDS = {
   START: 'coderoad.start',
@@ -19,6 +19,14 @@ interface CreateCommandProps {
   workspaceState: vscode.Memento
 }
 
+let sendToClient = (action: T.Action): void => {
+  /* */
+}
+
+export const send = (action: T.Action): void => {
+  sendToClient(action)
+}
+
 export const createCommands = ({ extensionPath, workspaceState }: CreateCommandProps): { [key: string]: any } => {
   // React panel webview
   let webview: any
@@ -30,6 +38,10 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
     [COMMANDS.START]: async () => {
       if (webview && webview.state.loaded) {
         webview.createOrShow()
+        // make send to client function exportable
+        // as "send". This makes it easier to pass the send
+        // function throughout the codebase
+        sendToClient = webview.send
       } else {
         // activate machine
         webview = createWebView({
@@ -39,38 +51,31 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
       }
     },
     [COMMANDS.CONFIG_TEST_RUNNER]: async (data: TT.Tutorial) => {
-      const testRunnerConfig = data.config.testRunner
-      const setup = testRunnerConfig.setup || testRunnerConfig.actions // TODO: deprecate and remove config.actions
-      if (setup) {
-        // setup tutorial test runner commits
-        // assumes git already exists
-        await onSetupActions({
-          actions: setup,
-          send: webview.send,
-          dir: testRunnerConfig.directory || testRunnerConfig.path,
-        }) // TODO: deprecate and remove config.path
+      const setupActions = data.config.setup
+      if (setupActions) {
+        hooks.onInit(setupActions)
       }
       testRunner = createTestRunner(data, {
         onSuccess: (position: T.Position) => {
           logger('test pass position', position)
           // send test pass message back to client
-          webview.send({ type: 'TEST_PASS', payload: { position: { ...position, complete: true } } })
+          send({ type: 'TEST_PASS', payload: { position: { ...position, complete: true } } })
         },
         onFail: (position: T.Position, failSummary: T.TestFail): void => {
           // send test fail message back to client with failure message
-          webview.send({ type: 'TEST_FAIL', payload: { position, fail: failSummary } })
+          send({ type: 'TEST_FAIL', payload: { position, fail: failSummary } })
         },
         onError: (position: T.Position) => {
           // TODO: send test error message back to client
           const message = 'Error with test runner'
-          webview.send({ type: 'TEST_ERROR', payload: { position, message } })
+          send({ type: 'TEST_ERROR', payload: { position, message } })
         },
         onRun: (position: T.Position) => {
           // send test run message back to client
-          webview.send({ type: 'TEST_RUNNING', payload: { position } })
+          send({ type: 'TEST_RUNNING', payload: { position } })
         },
         onLoadSubtasks: ({ summary }) => {
-          webview.send({ type: 'LOAD_SUBTASK_RESULTS', payload: { summary } })
+          send({ type: 'LOAD_SUBTASK_RESULTS', payload: { summary } })
         },
       })
     },
@@ -85,7 +90,7 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
       testRunner({ position: currentPosition, onSuccess: callbacks?.onSuccess, subtasks })
     },
     [COMMANDS.ENTER]: () => {
-      webview.send({ type: 'KEY_PRESS_ENTER' })
+      send({ type: 'KEY_PRESS_ENTER' })
     },
   }
 }
