@@ -11,6 +11,7 @@ export type TutorialConfig = {
   testRunner: TestRunnerConfig
   repo: TutorialRepo
   dependencies?: TutorialDependency[]
+  setup?: StepActions
   reset?: ConfigReset
 }
 
@@ -60,6 +61,7 @@ export type StepActions = {
   files?: string[]
   watchers?: string[]
   filter?: string
+  vscodeCommands?: VSCodeCommand[]
 }
 
 export interface TestRunnerArgs {
@@ -70,10 +72,7 @@ export interface TestRunnerArgs {
 export interface TestRunnerConfig {
   command: string
   args: TestRunnerArgs
-  path?: string // deprecated
   directory?: string
-  actions?: StepActions // deprecated
-  setup?: StepActions
 }
 
 export interface TutorialRepo {
@@ -90,3 +89,5 @@ export interface TutorialDependency {
 export interface TutorialAppVersions {
   vscode: string
 }
+
+export type VSCodeCommand = string | [string, any]

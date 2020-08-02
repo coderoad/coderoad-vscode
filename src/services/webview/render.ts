@@ -12,7 +12,7 @@ const getNonce = (): string => {
   return text
 }
 
-async function render(panel: vscode.WebviewPanel, rootPath: string) {
+async function render(panel: vscode.WebviewPanel, rootPath: string): Promise<void> {
   try {
     // load copied index.html from web app build
     const dom = await JSDOM.fromFile(path.join(rootPath, 'index.html'))

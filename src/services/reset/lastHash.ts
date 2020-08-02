@@ -28,7 +28,7 @@ const getLastCommitHash = (position: T.Position, tutorial: TT.Tutorial | null): 
         level = levels[levelIndex - 1]
       } else {
         // use init commit
-        const configCommits = tutorial.config.testRunner.setup?.commits
+        const configCommits = tutorial.config.setup?.commits
         if (!configCommits) {
           throw new Error('No commits found to reset back to')
         }
