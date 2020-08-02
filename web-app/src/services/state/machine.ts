@@ -181,7 +181,7 @@ export const createMachine = (options: any) => {
                   on: {
                     TEST_PASS: {
                       target: 'StepNext',
-                      actions: ['testPass', 'updateStepPosition'],
+                      actions: ['onStepComplete', 'testPass', 'updateStepPosition'],
                     },
                     TEST_FAIL: {
                       target: 'Normal',
@@ -200,7 +200,10 @@ export const createMachine = (options: any) => {
                       target: 'Normal',
                       actions: ['loadStep', 'updateStepPosition'],
                     },
-                    LEVEL_COMPLETE: 'LevelComplete',
+                    LEVEL_COMPLETE: {
+                      target: 'LevelComplete',
+                      actions: ['onLevelComplete'],
+                    },
                   },
                 },
                 LevelComplete: {
@@ -223,14 +226,16 @@ export const createMachine = (options: any) => {
                       target: 'Load',
                       actions: ['updatePosition'],
                     },
-                    COMPLETED: '#completed-tutorial',
+                    COMPLETED: {
+                      target: '#completed-tutorial',
+                      actions: ['onTutorialComplete'],
+                    },
                   },
                 },
               },
             },
             Completed: {
               id: 'completed-tutorial',
-              onEntry: ['userTutorialComplete'], // unusued
               on: {
                 SELECT_TUTORIAL: {
                   target: '#select-new-tutorial',

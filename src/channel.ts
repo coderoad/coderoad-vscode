@@ -55,12 +55,13 @@ class Channel implements Channel {
         openWorkspace()
         return
       // load step actions (git commits, commands, open files)
-      case 'SETUP_ACTIONS':
+      case 'EDITOR_LEVEL_ENTER':
+      case 'EDITOR_STEP_ENTER':
         await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_POSITION, action.payload.position)
         hooks.onSetupEnter(action.payload.actions)
         return
       // load solution step actions (git commits, commands, open files)
-      case 'SOLUTION_ACTIONS':
+      case 'EDITOR_SOLUTION_ENTER':
         await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_POSITION, action.payload.position)
         hooks.onSolutionEnter(action.payload.actions)
         return
@@ -79,6 +80,15 @@ class Channel implements Channel {
         return
       case 'EDITOR_RUN_RESET_POSITION':
         actions.onRunReset({ type: 'POSITION', position: action.payload.position }, this.context)
+        return
+      case 'EDITOR_STEP_COMPLETE':
+        hooks.onStepComplete(action.payload)
+        return
+      case 'EDITOR_LEVEL_COMPLETE':
+        hooks.onLevelComplete(action.payload)
+        return
+      case 'EDITOR_TUTORIAL_COMPLETE':
+        hooks.onTutorialComplete(action.payload)
         return
       default:
         logger(`No match for action type: ${actionType}`)

@@ -1,3 +1,4 @@
+import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as git from '../git'
 import loadCommits from './utils/loadCommits'
@@ -7,6 +8,7 @@ import runCommands from './utils/runCommands'
 import runVSCodeCommands from './utils/runVSCodeCommands'
 import { onError as telemetryOnError } from '../telemetry'
 import { onRunTest } from '../../actions/onTest'
+import logger from '../logger'
 
 export const onInit = async (actions: TT.StepActions): Promise<void> => {
   await loadCommits(actions?.commits)
@@ -38,4 +40,16 @@ export const onSolutionEnter = async (actions: TT.StepActions): Promise<void> =>
 
 export const onError = async (error: Error): Promise<void> => {
   telemetryOnError(error)
+}
+
+export const onStepComplete = async ({ levelId, stepId }: { levelId: string; stepId: string }): Promise<void> => {
+  logger(`ON STEP COMPLETE: ${JSON.stringify({ levelId, stepId })}`)
+}
+
+export const onLevelComplete = async ({ levelId }: { levelId: string }): Promise<void> => {
+  logger(`ON LEVEL COMPLETE: ${JSON.stringify(levelId)}`)
+}
+
+export const onTutorialComplete = async ({ tutorialId }: { tutorialId: string }): Promise<void> => {
+  logger(`ON TUTORIAL COMPLETE: ${JSON.stringify(tutorialId)}`)
 }
