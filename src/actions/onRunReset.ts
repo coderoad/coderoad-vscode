@@ -3,6 +3,7 @@ import * as TT from 'typings/tutorial'
 import Context from '../services/context/context'
 import { exec } from '../services/node'
 import reset from '../services/reset'
+import * as hooks from '../services/hooks'
 import getCommitHashByPosition from '../services/reset/lastHash'
 
 type ResetAction = {
@@ -30,8 +31,9 @@ const onRunReset = async (action: ResetAction, context: Context): Promise<void> 
   reset({ branch, hash })
 
   // if tutorial.config.reset.command, run it
-  if (tutorial?.config?.reset?.command) {
-    await exec({ command: tutorial.config.reset.command })
+  const resetActions = tutorial?.config?.reset
+  if (resetActions) {
+    hooks.onReset({ commands: resetActions?.commands, vscodeCommands: resetActions?.vscodeCommands })
   }
 }
 
