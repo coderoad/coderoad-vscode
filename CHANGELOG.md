@@ -245,4 +245,6 @@ Adds a review page for viewing tutorial content. The review page should be espec
 - Significant internal refactor to:
   - remove recording progress
   - simplify structure with "hooks"
+- Supports commands on reset
+- Supports running vscode commands anywhere that command line commands can be run
 - Admin mode to allow creators to jump between tutorial levels/steps during development
