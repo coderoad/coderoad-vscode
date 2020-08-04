@@ -7,7 +7,7 @@ import openFiles from './utils/openFiles'
 import runCommands from './utils/runCommands'
 import runVSCodeCommands from './utils/runVSCodeCommands'
 import { onError as telemetryOnError } from '../telemetry'
-import { onRunTest } from '../../actions/onTest'
+import { runTest } from '../../actions/onTest'
 import logger from '../logger'
 
 export const onInit = async (actions: TT.StepActions): Promise<void> => {
@@ -35,7 +35,7 @@ export const onSolutionEnter = async (actions: TT.StepActions): Promise<void> =>
   await openFiles(actions?.files)
   await runCommands(actions?.commands)
   await runVSCodeCommands(actions?.vscodeCommands)
-  await onRunTest()
+  await runTest()
 }
 
 export const onReset = async (actions: TT.StepActions): Promise<void> => {

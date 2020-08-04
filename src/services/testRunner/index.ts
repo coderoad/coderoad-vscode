@@ -63,7 +63,7 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks): ((params: an
         // get tutorial step from position
         // check the step actions for specific command
         // NOTE: cannot just pass in step actions as the test can be called by:
-        // - onEditorSave, onWatcher, onSolution, onRunTest, onSubTask
+        // - onEditorSave, onWatcher, onSolution, runTest, onSubTask
         const levels = data.levels
         const level = levels.find((l) => l.id === position.levelId)
         const step = level?.steps.find((s) => s.id === position.stepId)

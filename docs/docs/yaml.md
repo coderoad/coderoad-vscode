@@ -70,15 +70,11 @@ config:
       tap: --reporter=mocha-tap-reporter
     ## The directory where to run the test runner from. If not specified, tests will run from the root of the project. Optional.
     directory: coderoad
-    ## Commits to load to setup the test runner. Optional.
-    ##
-    setup:
-      # - commit1
-      # - commit2
-      ## A list of commands to run to configure the tutorial
-      commands:
-        []
-        # - npm install
+  ## Initial setup
+  ##
+  setup:
+    ## A list of commands to run to configure the tutorial
+    commands: []
   ## App versions helps to ensure compatability with the Extension
   appVersions:
     ## Ensure compatability with a minimal VSCode CodeRoad version

@@ -9,6 +9,6 @@ export const onTestPass = (action: T.Action, context: Context): void => {
   git.saveCommit('Save progress')
 }
 
-export const onRunTest = (action?: T.Action): void => {
+export const runTest = (action?: T.Action): void => {
   vscode.commands.executeCommand(COMMANDS.RUN_TEST, action?.payload)
 }

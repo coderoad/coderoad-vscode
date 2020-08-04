@@ -73,7 +73,7 @@ class Channel implements Channel {
         actions.onOpenLogs(action)
         return
       case 'EDITOR_RUN_TEST':
-        actions.onRunTest(action)
+        actions.runTest(action)
         return
       case 'EDITOR_RUN_RESET_LATEST':
         actions.onRunReset({ type: 'LATEST' }, this.context)
