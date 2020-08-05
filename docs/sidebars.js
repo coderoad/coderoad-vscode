@@ -1,6 +1,6 @@
 module.exports = {
   someSidebar: {
-    Intro: ['overview', 'setup'],
+    Intro: ['overview', 'setup', 'how-coderoad-works'],
     Build: [
       'build-tutorial',
       'markdown',
@@ -12,7 +12,7 @@ module.exports = {
       'edit-tutorial',
       'create-a-practice-tutorial',
       'examples',
-      'errors'
+      'errors',
     ],
   },
 }
