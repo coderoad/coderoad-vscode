@@ -44,6 +44,10 @@ Install CodeRoad from [this link in the VSCode Marketplace](https://marketplace.
 - Node.js 10+
 - Git
 
+## How CodeRoad Works
+
+Read more in the docs about [how CodeRoad works](https://coderoad.github.io/docs/how-coderoad-works).
+
 ## Creating Tutorials
 
 Build and share your own interactive tutorials.

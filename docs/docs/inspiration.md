@@ -12,4 +12,8 @@ In 2016, I developed an earlier version of [CodeRoad using the Atom editor](http
 
 Years later it hit me that using Git as a tutorial format in CodeRoad would have been a simpler solution for both tutorial creation and consumption. Back in 2015, I had worked on a tutorial series for [Angular-Meteor](https://angular-meteor.com/tutorials/socially/angular2/bootstrap) using [Meteor Tutorial Tools](https://github.com/meteor/tutorial-tools). Meteor tutorial tools showed me that a tutorial can be versioned in Git, and that it can help ensure each step in the tutorial in cohesive and consistent.
 
-The idea of CodeRoad sat with me for years to the point where the product started to feel obvious in my mind. It wasn’t so much that I wanted to build a platform, but it was a tool I wanted to use, and nobody else seemed to be working on it. In mid-2019, I had spent enough time thinking about how it would work that I decided to use my spare time to design and build it out.
+The idea of CodeRoad sat with me for years to the point where the product started to feel obvious in my mind. It wasn’t so much that I wanted to build a platform, but it was a tool I wanted to use, and nobody else seemed to be working on it. In mid-2019, I had spent enough time thinking about how it would work that I decided to use my spare time to design and build it.
+
+Shawn McKay
+
+CodeRoad creator
