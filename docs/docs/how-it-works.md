@@ -17,3 +17,41 @@ If a test fails, the first failing test name is returned to the user as a hint t
 Tests might be in another directory. Those folders or files might even be hidden from you by the tutorial creator.
 
 But where does the code for these tests come from?
+
+### Built on Git
+
+CodeRoad tutorials are stored and loaded using Git, a popular version control system. If you're unfamiliar with Git, think of it as a way to save or load progress from checkpoints called "commits".
+
+![Git Commit Example](../images/git-commit-example.png)
+
+In a tutorial, these commits have a standardized order. First you setup the test runner, then the task tests, then the solution. This pattern is similar to a kind of development called “TDD” or “test driven development”. Write tests for the problem you want to solve, then save the results when all the tests pass. This pattern can also be used to play out a tutorial like a game: users get a task, then must solve it to continue.
+
+![CodeRoad Commit Example](../images/coderoad-commit-example.png)
+
+When a tutorial starts, CodeRoad loads git commits from a tutorial up until the first task commit. These commits contain all of the code setup, test runner configuration and tests for the given task.
+
+![Loading Tutorial Commits](../images/loading-tutorial-commits.png)
+
+When a user passes a task, their progress is saved as a commit. Then the next task commit is loaded.
+
+![Tutorial commits with user solution](../images/tutorial-commits-user-solution.png)
+
+Again notice that the user provides the solution and it is not loaded from the tutorial. This allows users to go a little off-road in a tutorial and provide their own solutions.
+
+#### Why Git
+
+Git provides a number of benefits:
+
+- users can save their progress to a service like GitHub to build a public portfolio
+- users can continue working on their project after a tutorial is completed
+- software developers are largely familiar with Git, and often TDD, making it easy to create tutorials
+- Git provides a mechanism for resolving merge conflicts if they happen to occur
+- Git provides a mechanism for "resetting" a tutorial, see more below!
+
+#### Reset
+
+If at some point the user is a bit too “off-road” of the solution, they call always return to the “golden path” by pressing the "reset" button. The reset button reloads the commits up to that point entirely from the tutorial.
+
+![Tutorial commits reset example](../images/tutorial-commits-reset.png)
+
+In the example above you can see the user is “reset” back to the original tutorial answers, and back to the second task.
