@@ -14,6 +14,6 @@ Interactive learning is the most effective way to gain new skills and knowledge.
 
 For learners, there are a number of advantages to running tutorials inside VSCode:
 
-- learn in a real world coding environment
-- get rapid feedback on save and helpful error messages
-- users own the code, and can build a Git timeline and deploy a portfolio
+- Learn in a real world coding environment
+- Get rapid feedback on save and helpful error messages
+- Users own the code, and can build a Git timeline and deploy a portfolio
