@@ -9,17 +9,17 @@ import styles from './styles.module.css'
 const features = [
   {
     title: <>Your Editor</>,
-    imageUrl: 'img/undraw_docusaurus_mountain.svg',
+    imageUrl: 'img/undraw_editor.svg',
     description: <>Playing tutorials in a real-world setting: within your coding editor.</>,
   },
   {
     title: <>Your Code</>,
-    imageUrl: 'img/undraw_docusaurus_tree.svg',
+    imageUrl: 'img/undraw_code.svg',
     description: <>You own your progress. Save with Git to build your timeline. Deploy to build your portfolio.</>,
   },
   {
     title: <>Free & Open</>,
-    imageUrl: 'img/undraw_docusaurus_react.svg',
+    imageUrl: 'img/undraw_open_source.svg',
     description: <>CodeRoad is open-source. Build your own tutorials. Contribute to the tooling.</>,
   },
 ]
