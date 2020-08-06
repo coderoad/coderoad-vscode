@@ -6,7 +6,7 @@
 
 CodeRoad is a VSCode extension that allows you to play interactive coding tutorials in your editor.
 
-![CodeRoad Image](./docs/images/tutorial-example.png)
+![CodeRoad Image](./docs/static/img/tutorial-example.png)
 
 ## Why
 
@@ -43,6 +43,10 @@ Install CodeRoad from [this link in the VSCode Marketplace](https://marketplace.
 - VSCode 1.39.2+
 - Node.js 10+
 - Git
+
+## How CodeRoad Works
+
+Read more in the docs about [how CodeRoad works](https://coderoad.github.io/docs/how-coderoad-works).
 
 ## Creating Tutorials
 
