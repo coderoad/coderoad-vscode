@@ -16,11 +16,11 @@ There are really a few major pieces to understand how CodeRoad works.
 
 In CodeRoad, the user is given a set of **levels** composed of one more **tasks**.
 
-![Level / Task Flow](https://raw.githubusercontent.com/coderoad/coderoad-vscode/docs/docs/images/level-task-flow.png)
+![Level / Task Flow](/img/level-task-flow.png)
 
 Each task is judged to pass (✔) or fail (✘) by the result of code tests that runs in the background. Tests can be triggered by saving a file, or by a trigger that listens to specific files for changes.
 
-![Test Flow Diagram](../https://raw.githubusercontent.com/coderoad/coderoad-vscode/docs/docs/images/test-flow-diagram.png)
+![Test Flow Diagram](/img/test-flow-diagram.png)
 
 If a test fails, the first failing test name is returned to the user as a hint to identify the problem.
 
@@ -32,19 +32,19 @@ But where does the code for these tests come from?
 
 CodeRoad tutorials are stored and loaded using Git, a popular version control system. If you're unfamiliar with Git, think of it as a way to save or load progress from checkpoints called "commits".
 
-![Git Commit Example](../https://raw.githubusercontent.com/coderoad/coderoad-vscode/docs/docs/images/git-commit-example.png)
+![Git Commit Example](/img/git-commit-example.png)
 
 In a tutorial, these commits have a standardized order. First you setup the test runner, then the task tests, then the solution. This pattern is similar to a kind of development called “TDD” or “test driven development”. Write tests for the problem you want to solve, then save the results when all the tests pass. This pattern can also be used to play out a tutorial like a game: users get a task, then must solve it to continue.
 
-![CodeRoad Commit Example](../https://raw.githubusercontent.com/coderoad/coderoad-vscode/docs/docs/images/coderoad-commit-example.png)
+![CodeRoad Commit Example](/img/coderoad-commit-example.png)
 
 When a tutorial starts, CodeRoad loads git commits from a tutorial up until the first task commit. These commits contain all of the code setup, test runner configuration and tests for the given task.
 
-![Loading Tutorial Commits](../https://raw.githubusercontent.com/coderoad/coderoad-vscode/docs/docs/images/loading-tutorial-commits.png)
+![Loading Tutorial Commits](/img/loading-tutorial-commits.png)
 
 When a user passes a task, their progress is saved as a commit. Then the next task commit is loaded.
 
-![Tutorial commits with user solution](../https://raw.githubusercontent.com/coderoad/coderoad-vscode/docs/docs/images/tutorial-commits-user-solution.png)
+![Tutorial commits with user solution](/img/tutorial-commits-user-solution.png)
 
 Again notice that the user provides the solution and it is not loaded from the tutorial. This allows users to go a little off-road in a tutorial and provide their own solutions.
 
@@ -62,7 +62,7 @@ Git provides a number of benefits:
 
 If at some point the user is a bit too “off-road” from the solution, the user can always return to the “golden path” by pressing the **reset** button. The reset button reloads the commits up to that point entirely from the tutorial.
 
-![Tutorial commits reset example](../https://raw.githubusercontent.com/coderoad/coderoad-vscode/docs/docs/images/tutorial-commits-reset.png)
+![Tutorial commits reset example](/img/tutorial-commits-reset.png)
 
 In the example above you can see the user is “reset” back to the original tutorial answers, and back to the second task.
 
