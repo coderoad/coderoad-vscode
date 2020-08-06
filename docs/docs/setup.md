@@ -22,8 +22,8 @@ Install CodeRoad from [this link in the VSCode Marketplace](https://marketplace.
 
 To start the extension, inside VSCode:
 
-- open an empty VSCode workspace (an empty folder)
-- launch the app from the VSCode command palette:
-  - select “View” > “Command Palette” from the top panel OR press `cmd/ctrl + shift + P`
-  - in the command palette, search for and run `CodeRoad:Start`
-- a webview should appear on the right side of your editor. Click "Start"
+- Open an empty VSCode workspace (an empty folder)
+- Launch the app from the VSCode command palette:
+  - Select “View” > “Command Palette” from the top panel OR press `cmd/ctrl + shift + P`
+  - In the command palette, search for and run `CodeRoad:Start`
+- A webview should appear on the right side of your editor. Click "Start"

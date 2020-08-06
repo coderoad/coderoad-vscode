@@ -57,7 +57,7 @@ Test text for 2.2
 
 The example above has an introduction page and two lessons.
 
-The introduction page is first thing users will see when they start a tutorial. It shows an overview of all the lessons and displays the lesson summary.
+The introduction page is the first thing users will see when they start a tutorial. It shows an overview of all the lessons and displays the lesson summary.
 
 Lessons need to start with `## x.` where `x` is the lesson number. The text after `x.` will display as the lesson title.
 
