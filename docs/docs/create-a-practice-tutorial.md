@@ -51,11 +51,11 @@ This is the test text. Create an `index.html` file to pass this lesson.
 
 The above tutorial has an introduction page and one lesson.
 
-### Commit to github
+### Commit to GitHub
 
 - Back in the terminal, add all your new files to be committed with `git add .`
 - Commit them with `git commit -m "create markdown"`
-- Push them to github with `git push origin master`
+- Push them to GitHub with `git push origin master`
 
 ### Create a version branch
 
@@ -68,7 +68,7 @@ This will make a branch that isn't created from master, so it has no commit hist
 
 ### Create your project files
 
-This branch is also where users create their projects, modify files for a tutorial, and most anything they need to do.
+This branch is also where users create their projects, modify files for a tutorial, and anything else that they need to do.
 
 - Make a new folder named `coderoad` on your branch.
 
@@ -93,7 +93,7 @@ This folder will hold as much of the CodeRoad stuff as it can so users aren't co
 
 ```
 
-These scripts will be for CodeRoad and you to test things.
+These scripts will be for CodeRoad and for you to test things.
 
 - From the terminal, in your `coderoad` folder, run `npm install --save mocha mocha-tap-reporter` to install some depenedencies
 - **Go back to the main repo folder** and add your changes with `git add .`
@@ -162,11 +162,11 @@ That stands for "Lesson 1 Step 1 Setup & Tests". You can put an additional note 
 That stands for "Lesson 1 Step 1 Solution", and it's the solution to the test.
 
 - Take a quick look at the commit history with `git log`. You can see the messages there, they align with the titles you put in the markdown and there's one commit for the test (`1.1`) and an optional commit for the solution (`1.1S`)
-- Push your changes to github with `git push origin v0.1.0`
+- Push your changes to GitHub with `git push origin v0.1.0`
 
 ### Create the YAML file
 
-- Go back your your master branch with `git checkout master`
+- Go back to your master branch with `git checkout master`
   You can think of these two branches like separate repositories, the branches will never merge and the files will always be different, even if some look the same.
 - Create a new file named `coderoad.yaml` and add this to it:
 
@@ -193,14 +193,14 @@ levels:
       - id: '1.1'
 ```
 
-Replace the `repo uri` URL with your github repo, note that it's just the username and repo in the URL. This file links everything together. You can see the repo URL and the branch that you created. And the `1.` and `1.1` id's that match the markdown. You can also add commands that will run when a lesson is started, as well as a host of other things.
+Replace the `repo uri` URL with your GitHub repo, note that it's just the username and repo in the URL. This file links everything together. You can see the repo URL and the branch that you created. And the `1.` and `1.1` ID's that match the markdown. You can also add commands that will run when a lesson has started, as well as a host of other things.
 
 - Add this with `git add .`
 - Commit it with `git commit -m "create yaml"`
 
 The commit messages on master can be whatever you want.
 
-- Push it to github with `git push origin master`
+- Push it to GitHub with `git push origin master`
 
 ### Build the config.json file
 
@@ -259,7 +259,7 @@ Add the DOCTYPE
 
 - Add all the files
 - Commit the files with any message
-- Push the changes to github
+- Push the changes to GitHub
 
 ### Add second lesson test
 
@@ -307,7 +307,7 @@ There should be one passing and one failing test
 - Commit it with a message of "2.1"
 - Add the `index.html` file to be committed
 - Commit it with a message of "2.1S"
-- Push your changes to github to your `v0.1.0` branch
+- Push your changes to GitHub to your `v0.1.0` branch
 
 ### Update the YAML
 

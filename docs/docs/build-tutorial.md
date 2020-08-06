@@ -4,7 +4,7 @@ title: Building a Tutorial
 sidebar_label: Building a Tutorial
 ---
 
-A tutorial is made from a github repository that includes three parts:
+A tutorial is made from a GitHub repository that includes three parts:
 
 1. Markdown
 2. YAML
@@ -12,4 +12,4 @@ A tutorial is made from a github repository that includes three parts:
 
 The Markdown and YAML live on the master branch of the repo, and the Git commits live on a version branch.
 
-We'll go into each in detail in more detail.
+We'll go into each parts in more detail.

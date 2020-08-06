@@ -43,7 +43,7 @@ levels:
           subtasks: false
 ```
 
-Note that the id's for each lesson and step match the id's in the markdown.
+Note that the ID's for each lesson and step matches the ID's in the markdown.
 
 ### Options
 
