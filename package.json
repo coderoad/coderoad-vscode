@@ -94,9 +94,10 @@
   },
   "displayName": "CodeRoad",
   "galleryBanner": {
-    "color": "#6a67ce",
+    "color": "#272728",
     "theme": "dark"
   },
   "preview": true,
-  "publisher": "CodeRoad"
+  "publisher": "CodeRoad",
+  "icon": "docs/static/img/logo-128.png"
 }
