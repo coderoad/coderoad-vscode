@@ -15,7 +15,7 @@ module.exports = {
     navbar: {
       title: 'CodeRoad',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'CodeRoad Logo',
         src: 'img/logo.svg',
       },
       links: [
