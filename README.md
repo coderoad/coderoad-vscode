@@ -8,14 +8,14 @@ CodeRoad VSCode
 </h1>
 
 <p align="center">
-  <a href="#" alt="Version"><img src="https://vsmarketplacebadge.apphb.com/version/Coderoad.coderoad.svg" /></a>
-  <a href="#" alt="Installs"><img src="https://vsmarketplacebadge.apphb.com/installs/Coderoad.coderoad.svg" /></a>
-   <a href="#" alt="Downloads"><img src="https://vsmarketplacebadge.apphb.com/downloads/Coderoad.coderoad.svg" /></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=CodeRoad.coderoad" alt="Version"><img src="https://vsmarketplacebadge.apphb.com/version/Coderoad.coderoad.svg" /></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=CodeRoad.coderoad" alt="Installs"><img src="https://vsmarketplacebadge.apphb.com/installs/Coderoad.coderoad.svg" /></a>
+   <a href="https://marketplace.visualstudio.com/items?itemName=CodeRoad.coderoad" alt="Downloads"><img src="https://vsmarketplacebadge.apphb.com/downloads/Coderoad.coderoad.svg" /></a>
 </p>
 
 CodeRoad is a VSCode extension that allows you to play interactive coding tutorials in your editor.
 
-![CodeRoad Image](./docs/static/img/tutorial-example.png)
+![CodeRoad Example](./docs/static/gif/coderoad-example.gif)
 
 ## Why
 
