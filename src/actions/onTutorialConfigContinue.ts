@@ -4,19 +4,21 @@ import * as TT from 'typings/tutorial'
 import Context from '../services/context/context'
 import tutorialConfig from './utils/tutorialConfig'
 import { COMMANDS, send } from '../commands'
+import logger from '../services/logger'
 
 const onTutorialConfigContinue = async (action: T.Action, context: Context): Promise<void> => {
+  logger('onTutorialConfigContinue', action)
   try {
-    const tutorialContinue: TT.Tutorial | null = context.tutorial.get()
-    if (!tutorialContinue) {
+    const tutorialToContinue: TT.Tutorial | null = context.tutorial.get()
+    if (!tutorialToContinue) {
       throw new Error('Invalid tutorial to continue')
     }
-    await tutorialConfig({
-      data: tutorialContinue,
-      alreadyConfigured: true,
-    })
     // update the current stepId on startup
     vscode.commands.executeCommand(COMMANDS.SET_CURRENT_POSITION, action.payload.position)
+    await tutorialConfig({
+      data: tutorialToContinue,
+      alreadyConfigured: true,
+    })
   } catch (e) {
     const error = {
       type: 'UnknownError',

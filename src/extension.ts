@@ -2,7 +2,9 @@ import * as vscode from 'vscode'
 import { createCommands } from './commands'
 import * as telemetry from './services/telemetry'
 
-let onDeactivate = () => {}
+let onDeactivate = () => {
+  /* placeholder for unsubscribing fn */
+}
 
 // activate run on vscode extension initialization
 export const activate = (vscodeExt: vscode.ExtensionContext): void => {

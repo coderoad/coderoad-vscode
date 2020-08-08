@@ -33,9 +33,9 @@ const onStartup = async (context: Context): Promise<void> => {
     // continue from tutorial from local storage
     const tutorial: TT.Tutorial | null = context.tutorial.get()
 
-    // no stored tutorial, must start new tutorial
+    // NEW: no stored tutorial, must start new tutorial
     if (!tutorial || !tutorial.id) {
-      if (TUTORIAL_URL) {
+      if (!!TUTORIAL_URL) {
         // NEW_FROM_URL
         try {
           const tutorialRes = await fetch(TUTORIAL_URL)
@@ -47,7 +47,7 @@ const onStartup = async (context: Context): Promise<void> => {
           console.log(`Failed to load tutorial from url ${TUTORIAL_URL} with error "${e.message}"`)
         }
       }
-      // NEW
+      // NEW from start click
       send({ type: 'START_NEW_TUTORIAL', payload: { env } })
       return
     }

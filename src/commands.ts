@@ -59,10 +59,18 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
         sendToClient = webview.send
       }
     },
-    [COMMANDS.CONFIG_TEST_RUNNER]: async (data: TT.Tutorial) => {
-      const setupActions = data.config.setup
-      if (setupActions) {
-        hooks.onInit(setupActions)
+    [COMMANDS.CONFIG_TEST_RUNNER]: async ({
+      data,
+      alreadyConfigured,
+    }: {
+      data: TT.Tutorial
+      alreadyConfigured: boolean
+    }) => {
+      if (!alreadyConfigured) {
+        const setupActions = data.config.setup
+        if (setupActions) {
+          hooks.onInit(setupActions)
+        }
       }
       testRunner = createTestRunner(data, {
         onSuccess: (position: T.Position) => {

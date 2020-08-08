@@ -15,16 +15,14 @@ export const setStart = assign({
   },
 })
 
-export const loadContinuedTutorial = assign((context: T.MachineContext, event: T.MachineEvent): any => {
-  return {
-    env: {
-      ...context.env,
-      ...event.payload.env,
-    },
-    tutorial: event.payload.tutorial,
-    position: event.payload.position,
-  }
-})
+export const loadContinuedTutorial = assign((context: T.MachineContext, event: T.MachineEvent): any => ({
+  env: {
+    ...context.env,
+    ...event.payload.env,
+  },
+  tutorial: event.payload.tutorial,
+  position: event.payload.position,
+}))
 
 export const initPosition = assign({
   position: (context: T.MachineContext, event: T.MachineEvent): any => {
