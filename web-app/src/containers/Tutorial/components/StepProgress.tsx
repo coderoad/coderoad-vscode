@@ -9,13 +9,14 @@ const styles = {
     display: 'flex' as 'flex',
     justifyContent: 'flex-end' as 'flex-end',
     alignItems: 'center' as 'center',
-    width: '10rem',
+    width: '150px',
     color: theme['$color-white'],
+    marginRight: '-16px',
   }),
   text: (theme: Theme) => ({
     color: theme['$color-white'],
-    marginRight: '0.5rem',
-    fontSize: '80%',
+    marginRight: '5px',
+    fontSize: '10px',
   }),
 }
 
@@ -28,7 +29,11 @@ const StepProgress = (props: Props) => {
   const theme: Theme = useTheme()
   const isWide = useMedia({ minWidth: '340px' })
 
-  const Text = `${props.current} of ${props.max}`
+  const Text = (
+    <span style={styles.text(theme)}>
+      {props.current} of {props.max}
+    </span>
+  )
 
   if (isWide) {
     return (

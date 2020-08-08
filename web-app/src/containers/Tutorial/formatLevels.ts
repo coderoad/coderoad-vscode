@@ -36,6 +36,10 @@ const formatLevels = ({ position, levels, testStatus }: Input): Output => {
     stepIndex = levels[levelIndex].steps.length
   }
 
+  if (position.complete) {
+    stepIndex += 1
+  }
+
   // current level
   const levelUI: T.LevelUI = {
     ...currentLevel,
@@ -44,7 +48,7 @@ const formatLevels = ({ position, levels, testStatus }: Input): Output => {
       // label step status for step component
       let status: T.ProgressStatus = 'INCOMPLETE'
       let subtasks
-      if (index < stepIndex || (index === stepIndex && position.complete)) {
+      if (index < stepIndex) {
         status = 'COMPLETE'
       } else if (index === stepIndex) {
         status = 'ACTIVE'

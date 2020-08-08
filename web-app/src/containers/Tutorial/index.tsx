@@ -181,7 +181,7 @@ const TutorialPage = (props: PageProps) => {
           )}
           {/* Left */}
           <div css={{ flex: 1 }}>
-            {DISPLAY_RUN_TEST_BUTTON && level.status !== 'COMPLETE' ? (
+            {DISPLAY_RUN_TEST_BUTTON && level.steps.length && level.status !== 'COMPLETE' ? (
               <Button
                 style={{ marginLeft: '1rem', width: '57px' }}
                 type="primary"
@@ -221,7 +221,7 @@ const TutorialPage = (props: PageProps) => {
                 />
               </div>
             ) : level.steps.length > 1 ? (
-              <StepProgress current={stepIndex + 1} max={level.steps.length} />
+              <StepProgress current={stepIndex} max={level.steps.length} />
             ) : null}
           </div>
         </footer>
