@@ -1,8 +1,7 @@
-import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as git from '../git'
 import loadCommits from './utils/loadCommits'
-import loadWatchers from './utils/loadWatchers'
+import { loadWatchers, resetWatchers } from './utils/watchers'
 import openFiles from './utils/openFiles'
 import runCommands from './utils/runCommands'
 import runVSCodeCommands from './utils/runVSCodeCommands'
@@ -39,6 +38,7 @@ export const onSolutionEnter = async (actions: TT.StepActions): Promise<void> =>
 }
 
 export const onReset = async (actions: TT.StepActions): Promise<void> => {
+  await resetWatchers()
   await runCommands(actions?.commands)
   await runVSCodeCommands(actions?.vscodeCommands)
 }
