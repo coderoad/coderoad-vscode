@@ -89,27 +89,28 @@ export interface MachineStateSchema {
   states: {
     Setup: {
       states: {
-        Startup: {}
-        ValidateSetup: {}
-        Start: {}
-        SelectTutorial: {}
-        SetupNewTutorial: {}
-        StartTutorial: {}
+        Startup: Record<string, unknown>
+        ValidateSetup: Record<string, unknown>
+        Start: Record<string, unknown>
+        SelectTutorial: Record<string, unknown>
+        SetupNewTutorial: Record<string, unknown>
+        StartTutorial: Record<string, unknown>
       }
     }
     Tutorial: {
       states: {
         Level: {
           states: {
-            Load: {}
-            Normal: {}
-            TestRunning: {}
-            StepNext: {}
-            LevelComplete: {}
-            LoadNext: {}
+            Load: Record<string, unknown>
+            Normal: Record<string, unknown>
+            TestRunning: Record<string, unknown>
+            StepNext: Record<string, unknown>
+            LevelComplete: Record<string, unknown>
+            LoadNext: Record<string, unknown>
           }
         }
-        Completed: {}
+        Reset: Record<string, unknown>
+        Completed: Record<string, unknown>
       }
     }
   }

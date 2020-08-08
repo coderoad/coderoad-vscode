@@ -14,7 +14,7 @@ const disposeWatcher = (watcher: string) => {
   delete watcherObject[watcher]
 }
 
-const loadWatchers = (watchers: string[] = []): void => {
+export const loadWatchers = (watchers: string[] = []): void => {
   if (!watchers.length) {
     // remove all watchers
     for (const watcher of Object.keys(watcherObject)) {
@@ -55,4 +55,8 @@ const loadWatchers = (watchers: string[] = []): void => {
   }
 }
 
-export default loadWatchers
+export const resetWatchers = (): void => {
+  for (const watcher of Object.keys(watcherObject)) {
+    disposeWatcher(watcher)
+  }
+}

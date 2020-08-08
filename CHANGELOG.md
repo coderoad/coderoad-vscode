@@ -248,3 +248,8 @@ Adds a review page for viewing tutorial content. The review page should be espec
 - Supports commands on reset
 - Supports running vscode commands anywhere that command line commands can be run
 - Admin mode to allow creators to jump between tutorial levels/steps during development
+
+### [0.13.1]
+
+- Add logo
+- Fix issue with watcher tests running on reset

@@ -69,7 +69,6 @@ export const createMachine = (options: any) => {
                   target: 'SetupNewTutorial',
                   actions: ['setTutorialContext'],
                 },
-                // TODO: handle completed tutorial differently
                 TUTORIAL_ALREADY_COMPLETE: {
                   target: 'Start',
                   actions: ['setStart'],
@@ -168,9 +167,7 @@ export const createMachine = (options: any) => {
                     RUN_TEST: {
                       actions: ['runTest'],
                     },
-                    RUN_RESET: {
-                      actions: ['runReset'],
-                    },
+                    RUN_RESET: '#reset-tutorial',
                     KEY_PRESS_ENTER: {
                       actions: ['runTest'],
                     },
@@ -232,6 +229,14 @@ export const createMachine = (options: any) => {
                     },
                   },
                 },
+              },
+            },
+            Reset: {
+              id: 'reset-tutorial',
+              onEntry: ['runReset'],
+              onExit: ['testClear'],
+              after: {
+                3000: '#tutorial',
               },
             },
             Completed: {
