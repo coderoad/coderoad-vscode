@@ -221,7 +221,7 @@ const TutorialPage = (props: PageProps) => {
                 />
               </div>
             ) : level.steps.length > 1 ? (
-              <StepProgress current={stepIndex + 1} max={level.steps.length} />
+              <StepProgress current={stepIndex} max={level.steps.length} />
             ) : null}
           </div>
         </footer>
