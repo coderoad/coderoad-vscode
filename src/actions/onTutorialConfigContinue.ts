@@ -3,9 +3,9 @@ import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import Context from '../services/context/context'
 import tutorialConfig from './utils/tutorialConfig'
-import { COMMANDS } from '../commands'
+import { COMMANDS, send } from '../commands'
 
-const onTutorialConfigContinue = async (action: T.Action, context: Context, send: T.Send): Promise<void> => {
+const onTutorialConfigContinue = async (action: T.Action, context: Context): Promise<void> => {
   try {
     const tutorialContinue: TT.Tutorial | null = context.tutorial.get()
     if (!tutorialContinue) {

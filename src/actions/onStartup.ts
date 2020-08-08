@@ -1,17 +1,12 @@
 import * as vscode from 'vscode'
-import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as E from 'typings/error'
 import Context from '../services/context/context'
+import { send } from '../commands'
 import { WORKSPACE_ROOT, TUTORIAL_URL } from '../environment'
 import fetch from 'node-fetch'
-import logger from '../services/logger'
 
-const onStartup = async (
-  context: Context,
-  workspaceState: vscode.Memento,
-  send: (action: T.Action) => Promise<void>,
-): Promise<void> => {
+const onStartup = async (context: Context): Promise<void> => {
   try {
     // check if a workspace is open, otherwise nothing works
     const noActiveWorkspace = !WORKSPACE_ROOT.length

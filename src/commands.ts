@@ -5,6 +5,8 @@ import createTestRunner from './services/testRunner'
 import createWebView from './services/webview'
 import * as hooks from './services/hooks'
 import logger from './services/logger'
+import * as actions from './actions'
+import Channel from './channel'
 
 export const COMMANDS = {
   START: 'coderoad.start',
@@ -26,7 +28,12 @@ let sendToClient = (action: T.Action): void => {
 // This makes it easier to pass the send
 // function throughout the codebase
 export const send = (action: T.Action): void => {
-  sendToClient(action)
+  // load error page if error action is triggered
+  actions.onErrorPage(action)
+
+  logger(`EXT TO CLIENT: "${typeof action === 'string' ? action : action.type}"`)
+
+  if (action) sendToClient(action)
 }
 
 export const createCommands = ({ extensionPath, workspaceState }: CreateCommandProps): { [key: string]: any } => {
@@ -34,6 +41,7 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
   let webview: any
   let currentPosition: T.Position
   let testRunner: any
+  const channel = new Channel(workspaceState)
 
   return {
     // initialize
@@ -42,9 +50,9 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
         webview.createOrShow()
       } else {
         // activate machine
-        webview = createWebView({
+        webview = await createWebView({
           extensionPath,
-          workspaceState,
+          channel,
         })
         // make send to client function exportable
         // as "send".
@@ -60,6 +68,7 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
         onSuccess: (position: T.Position) => {
           logger('test pass position', position)
           // send test pass message back to client
+          channel.context.position.set({ ...position, complete: true })
           send({ type: 'TEST_PASS', payload: { position: { ...position, complete: true } } })
         },
         onFail: (position: T.Position, failSummary: T.TestFail): void => {
@@ -83,6 +92,7 @@ export const createCommands = ({ extensionPath, workspaceState }: CreateCommandP
     [COMMANDS.SET_CURRENT_POSITION]: (position: T.Position) => {
       // set from last setup stepAction
       currentPosition = position
+      channel.context.position.set(position)
     },
     [COMMANDS.RUN_TEST]: ({
       subtasks,
