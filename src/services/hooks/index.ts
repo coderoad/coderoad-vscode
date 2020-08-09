@@ -1,6 +1,6 @@
 import * as TT from 'typings/tutorial'
 import * as git from '../git'
-import loadCommits from './utils/loadCommits'
+import { loadCommits } from './utils/commits'
 import { loadWatchers, resetWatchers } from './utils/watchers'
 import openFiles from './utils/openFiles'
 import runCommands from './utils/runCommands'
