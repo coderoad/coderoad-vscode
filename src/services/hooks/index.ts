@@ -48,7 +48,7 @@ export const onError = async (error: Error): Promise<void> => {
 }
 
 export const onStepComplete = async ({ levelId, stepId }: { levelId: string; stepId: string }): Promise<void> => {
-  git.saveCommit('Save progress')
+  git.saveCommit(`Save progress: ${stepId}`)
   logger(`ON STEP COMPLETE: ${JSON.stringify({ levelId, stepId })}`)
 }
 

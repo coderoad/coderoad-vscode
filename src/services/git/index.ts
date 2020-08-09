@@ -179,8 +179,7 @@ export async function getCommitMessage(hash: string): Promise<string | null> {
 
 export async function commitsExistsByMessage(message: string): Promise<boolean> {
   try {
-    // returns an list of commit hashes
-    // note: may not work with quotes in message
+    // returns a list of commit hashes
     const { stdout, stderr } = await exec({ command: `git log -g --grep='${message}'` })
     if (stderr) {
       return false
