@@ -138,7 +138,7 @@ export default (editorSend: any) => ({
       type: 'EDITOR_STEP_COMPLETE',
       payload: {
         levelId: context.position.levelId,
-        stepId: context.position.levelId,
+        stepId: context.position.stepId,
       },
     })
   },

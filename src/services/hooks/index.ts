@@ -1,6 +1,6 @@
 import * as TT from 'typings/tutorial'
 import * as git from '../git'
-import loadCommits from './utils/loadCommits'
+import { loadCommits } from './utils/commits'
 import { loadWatchers, resetWatchers } from './utils/watchers'
 import openFiles from './utils/openFiles'
 import runCommands from './utils/runCommands'
@@ -48,6 +48,7 @@ export const onError = async (error: Error): Promise<void> => {
 }
 
 export const onStepComplete = async ({ levelId, stepId }: { levelId: string; stepId: string }): Promise<void> => {
+  git.saveCommit(`Save progress: ${stepId}`)
   logger(`ON STEP COMPLETE: ${JSON.stringify({ levelId, stepId })}`)
 }
 

@@ -1,17 +1,12 @@
 import * as vscode from 'vscode'
-import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as E from 'typings/error'
 import Context from '../services/context/context'
+import { send } from '../commands'
 import { WORKSPACE_ROOT, TUTORIAL_URL } from '../environment'
 import fetch from 'node-fetch'
-import logger from '../services/logger'
 
-const onStartup = async (
-  context: Context,
-  workspaceState: vscode.Memento,
-  send: (action: T.Action) => Promise<void>,
-): Promise<void> => {
+const onStartup = async (context: Context): Promise<void> => {
   try {
     // check if a workspace is open, otherwise nothing works
     const noActiveWorkspace = !WORKSPACE_ROOT.length
@@ -38,9 +33,9 @@ const onStartup = async (
     // continue from tutorial from local storage
     const tutorial: TT.Tutorial | null = context.tutorial.get()
 
-    // no stored tutorial, must start new tutorial
+    // NEW: no stored tutorial, must start new tutorial
     if (!tutorial || !tutorial.id) {
-      if (TUTORIAL_URL) {
+      if (!!TUTORIAL_URL) {
         // NEW_FROM_URL
         try {
           const tutorialRes = await fetch(TUTORIAL_URL)
@@ -52,7 +47,7 @@ const onStartup = async (
           console.log(`Failed to load tutorial from url ${TUTORIAL_URL} with error "${e.message}"`)
         }
       }
-      // NEW
+      // NEW from start click
       send({ type: 'START_NEW_TUTORIAL', payload: { env } })
       return
     }

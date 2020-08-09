@@ -160,3 +160,34 @@ export async function loadCommitHistory(): Promise<string[]> {
 export function getShortHash(hash: string): string {
   return hash.slice(0, 7)
 }
+
+export async function getCommitMessage(hash: string): Promise<string | null> {
+  try {
+    // returns an list of commit hashes
+    const { stdout, stderr } = await exec({ command: `git log -n 1 --pretty=format:%s ${hash}` })
+    if (stderr) {
+      return null
+    }
+    // string match on remote output
+    return stdout
+  } catch (error) {
+    logger('error', error)
+    // likely no git commit message found
+    return null
+  }
+}
+
+export async function commitsExistsByMessage(message: string): Promise<boolean> {
+  try {
+    // returns a list of commit hashes
+    const { stdout, stderr } = await exec({ command: `git log -g --grep='${message}'` })
+    if (stderr) {
+      return false
+    }
+    return !!stdout.length
+  } catch (error) {
+    logger('error', error)
+    // likely no commit found
+    return false
+  }
+}

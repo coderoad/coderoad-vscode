@@ -7,8 +7,9 @@ import { onEvent } from '../services/telemetry'
 import { version, compareVersions } from '../services/dependencies'
 import Context from '../services/context/context'
 import tutorialConfig from './utils/tutorialConfig'
+import { send } from '../commands'
 
-const onTutorialConfigNew = async (action: T.Action, context: Context, send: T.Send): Promise<void> => {
+const onTutorialConfigNew = async (action: T.Action, context: Context): Promise<void> => {
   try {
     const data: TT.Tutorial = action.payload.tutorial
 

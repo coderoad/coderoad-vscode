@@ -1,13 +1,11 @@
 import * as T from 'typings'
 import * as path from 'path'
-import { Action } from 'typings'
 import * as vscode from 'vscode'
-import Channel from '../../channel'
 import render from './render'
 
 interface ReactWebViewProps {
   extensionPath: string
-  workspaceState: vscode.Memento
+  channel: any
 }
 
 interface Output {
@@ -19,7 +17,7 @@ interface Output {
 
 const state = { loaded: false }
 
-const createReactWebView = ({ extensionPath, workspaceState }: ReactWebViewProps): Output => {
+const createReactWebView = ({ extensionPath, channel }: ReactWebViewProps): Output => {
   // TODO add disposables
   const disposables: vscode.Disposable[] = []
 
@@ -53,15 +51,9 @@ const createReactWebView = ({ extensionPath, workspaceState }: ReactWebViewProps
     disposables,
   )
 
-  const channel = new Channel({
-    workspaceState,
-    postMessage: (action: Action): Thenable<boolean> => {
-      return panel.webview.postMessage(action)
-    },
-  })
   // Handle messages from the webview
   const receive = channel.receive
-  const send = channel.send
+  const send = (action: T.Action) => panel.webview.postMessage(action)
 
   panel.webview.onDidReceiveMessage(receive, null, disposables)
 

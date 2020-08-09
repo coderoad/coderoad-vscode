@@ -2,8 +2,9 @@ import * as T from 'typings'
 import * as E from 'typings/error'
 import { version } from '../services/dependencies'
 import { checkWorkspaceEmpty } from '../services/workspace'
+import { send } from '../commands'
 
-const onValidateSetup = async (send: T.Send): Promise<void> => {
+const onValidateSetup = async (): Promise<void> => {
   try {
     // check workspace is selected
     const isEmptyWorkspace = await checkWorkspaceEmpty()

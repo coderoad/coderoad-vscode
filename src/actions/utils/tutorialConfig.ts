@@ -52,7 +52,7 @@ const tutorialConfig = async ({ data, alreadyConfigured }: TutorialConfigParams)
     }
   }
 
-  await vscode.commands.executeCommand(COMMANDS.CONFIG_TEST_RUNNER, data)
+  await vscode.commands.executeCommand(COMMANDS.CONFIG_TEST_RUNNER, { data, alreadyConfigured })
 
   if (!DISABLE_RUN_ON_SAVE) {
     // verify if file test should run based on document saved
