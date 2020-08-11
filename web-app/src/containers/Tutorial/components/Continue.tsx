@@ -28,7 +28,7 @@ interface Props {
 }
 
 const Continue = (props: Props) => {
-  const [modalState, setModalState] = React.useState<'closed' | 'open'>(props.defaultOpen ? 'open' : 'closed')
+  const [modalState, setModalState] = React.useState<'init' | 'closed' | 'open'>(props.defaultOpen ? 'open' : 'closed')
 
   const onClose = () => {
     setModalState('closed')
@@ -47,8 +47,13 @@ const Continue = (props: Props) => {
 
   return (
     <>
-      {modalState === 'closed' ? (
+      {modalState === 'init' ? (
         <Button type="primary" size="medium" onClick={onOpen}>
+          Continue
+        </Button>
+      ) : null}
+      {modalState === 'closed' ? (
+        <Button type="primary" size="medium" onClick={onContinue}>
           Continue
         </Button>
       ) : null}
