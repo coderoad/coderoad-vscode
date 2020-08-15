@@ -22,8 +22,8 @@ scripts/**
 .prettierrc.js
 jest.config.js
 
-## Icons
-docs/{.docusaurus, assets, build, docs, node_modules, src, package.json, docusaurus.config.js, .gitignore, README.md, sidebars.js, yarn.lock}
+## Docs
+docs
 
 ## Tests
 build/test/**
