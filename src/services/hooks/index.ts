@@ -9,17 +9,20 @@ import { onError as telemetryOnError } from '../telemetry'
 import { runTest } from '../../actions/onTest'
 import logger from '../logger'
 
+// run at the end of when a tutorial is configured
 export const onInit = async (actions: TT.StepActions): Promise<void> => {
   await loadCommits(actions?.commits)
   await runCommands(actions?.commands)
   await runVSCodeCommands(actions?.vscodeCommands)
 }
 
+// run when a level starts
 export const onLevelEnter = async (actions: TT.StepActions): Promise<void> => {
   await loadCommits(actions?.commits)
   await runCommands(actions?.commands)
 }
 
+// run when a step starts
 export const onSetupEnter = async (actions: TT.StepActions): Promise<void> => {
   await loadCommits(actions?.commits)
   await openFiles(actions?.files)
@@ -28,6 +31,7 @@ export const onSetupEnter = async (actions: TT.StepActions): Promise<void> => {
   await runVSCodeCommands(actions?.vscodeCommands)
 }
 
+// run when a step solution starts
 export const onSolutionEnter = async (actions: TT.StepActions): Promise<void> => {
   await git.clear()
   await loadCommits(actions?.commits)
@@ -37,25 +41,30 @@ export const onSolutionEnter = async (actions: TT.StepActions): Promise<void> =>
   await runTest()
 }
 
+// run when "reset" is triggered
 export const onReset = async (actions: TT.StepActions): Promise<void> => {
   await resetWatchers()
   await runCommands(actions?.commands)
   await runVSCodeCommands(actions?.vscodeCommands)
 }
 
+// run when an uncaught exception is thrown
 export const onError = async (error: Error): Promise<void> => {
   telemetryOnError(error)
 }
 
+// run when a step task passes
 export const onStepComplete = async ({ levelId, stepId }: { levelId: string; stepId: string }): Promise<void> => {
   git.saveCommit(`Save progress: ${stepId}`)
   logger(`ON STEP COMPLETE: ${JSON.stringify({ levelId, stepId })}`)
 }
 
+// run when a level is complete (all tasks pass or no tasks)
 export const onLevelComplete = async ({ levelId }: { levelId: string }): Promise<void> => {
   logger(`ON LEVEL COMPLETE: ${JSON.stringify(levelId)}`)
 }
 
+// run when all levels are complete
 export const onTutorialComplete = async ({ tutorialId }: { tutorialId: string }): Promise<void> => {
   logger(`ON TUTORIAL COMPLETE: ${JSON.stringify(tutorialId)}`)
 }
