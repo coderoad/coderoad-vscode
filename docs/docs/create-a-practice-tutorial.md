@@ -177,10 +177,10 @@ config:
     command: ./node_modules/.bin/mocha
     args:
       tap: --reporter=mocha-tap-reporter
-    setup:
-      commands:
-        - npm install
     directory: coderoad
+  setup:
+    commands:
+      - cd coderoad && npm install
   repo:
     uri: https://github.com/moT01/first-tut
     branch: v0.1.0

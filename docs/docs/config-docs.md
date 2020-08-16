@@ -1,7 +1,7 @@
 ---
-id: yaml
-title: Yaml
-sidebar_label: Yaml
+id: config-docs
+title: Config
+sidebar_label: Config
 ---
 
 ### Description
