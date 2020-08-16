@@ -87,11 +87,11 @@ The above example will open the "README.md" file in the users workspace. Note th
 
 ### `filter` (string)
 
-A regex passed into the test runner to limit the tests returned
+A glob passed into the test runner to limit the tests returned.
 
 ```yaml
 setup:
-  filter: 'level_1_tests'
+  filter: 'tests/{level1, level2}/*'
 ```
 
 Will restrict tests to only run a subset of tests that match the filter. Filter depends on your test runner, and can be configured in the test runner.
@@ -106,6 +106,48 @@ config:
 
 Essentially, the above example will run `./node_modules/.bin/mocha --grep level_1_tests` as the test command.
 
-### `subtasks` (boolean)
+### subtasks
 
-A task made up of multiple other tests where all must pass to continue
+A task made up of multiple other tests where all must pass to continue.
+
+![subtask example](/gif/subtask-demo.gif)
+
+See an [example](https://github.com/shmck/coderoad-tutorial-subtask-demo).
+
+Subtasks do not require any config, but may be written in the TUTORIAL.md with corresponding test names.
+
+##### 1. Add the subtask titles to the TUTORIAL.md
+
+```md
+## 1. Subtask Example
+
+A subtask example
+
+### 1.1
+
+Create a function `add` that can take a variety of params.
+
+#### SUBTASKS
+
+- Add one number
+- Add two numbers
+- Add three numbers
+```
+
+##### 2. Label the tests with `:#`
+
+As an example, the below test corresponds to the index of the first subtask ("Add one number").
+
+```js
+it(':1 should add one number', function () {
+  const result = add(1) === 1
+  const message = 'Should accept a single param'
+  assert.ok(result, message)
+  const result2 = add(42) === 42
+  assert.ok(result2, message)
+})
+```
+
+See [an example subtask test file](https://github.com/ShMcK/coderoad-tutorial-subtask-demo/blob/v0.2.1/.coderoad/test/add.test.js) for more.
+
+The number of subtasks should match the number of tests being run. If this is not the case, use [filter](#filter-string) to limit the tests.
