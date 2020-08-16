@@ -8,19 +8,19 @@ import styles from './styles.module.css'
 
 const features = [
   {
-    title: <>Your Editor</>,
+    title: <>Real Coding</>,
     imageUrl: 'img/undraw_editor.svg',
-    description: <>Playing tutorials in a real-world setting: within your coding editor.</>,
+    description: <>The first tutorial platform to run in a real coding environment: VSCode. </>,
   },
   {
-    title: <>Your Code</>,
+    title: <>Real Progress</>,
     imageUrl: 'img/undraw_code.svg',
-    description: <>You own your progress. Save with Git to build your timeline. Deploy to build your portfolio.</>,
+    description: <>CodeRoad is built on Git. Push your progress to GitHub, share with peers or potential employers.</>,
   },
   {
-    title: <>Free & Open</>,
+    title: <>Create</>,
     imageUrl: 'img/undraw_open_source.svg',
-    description: <>CodeRoad is open-source. Build your own tutorials. Contribute to the tooling.</>,
+    description: <>CodeRoad is built for creators. Contribute to the open source platform or build tutorials.</>,
   },
 ]
 
