@@ -34,20 +34,15 @@ CodeRoad is a VSCode extension that allows you to create and play interactive co
 
 ### Start
 
+![CodeRoad Example](./docs/static/gif/launch-coderoad.gif)
+
 To start the extension, inside VSCode:
 
 - Open an **empty** VSCode workspace (a project folder)
 - Launch the app from the VSCode command palette. How?
+
   - select “View” > “Command Palette” from the top panel OR press `cmd/ctrl + shift + P`
   - in the command palette popup, search for and run `CodeRoad:Start`
-
-## Contact & Support
-
-- Create a GitHub issue for bug reports, feature requests, or questions
-- See [the docs](http://coderoad.github.io/docs/development) on how to run this project locally for development
-- Leave [a review](https://marketplace.visualstudio.com/items?itemName=CodeRoad.coderoad&ssr=false#review-details) in the VSCode Marketplace
-- Add a ⭐️ star on GitHub to support the project!
-- Reach out at `coderoadapp@gmail.com`
 
 ## Contributing
 
@@ -58,3 +53,11 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md).
 ## License
 
 [AGPL v3](./LICENSE.md)
+
+## Contact & Support
+
+- Create a GitHub issue for bug reports, feature requests, or questions
+- See [the docs](http://coderoad.github.io/docs/development) on how to run this project locally for development
+- Reach out at `coderoadapp@gmail.com`
+- Leave [a review](https://marketplace.visualstudio.com/items?itemName=CodeRoad.coderoad&ssr=false#review-details) in the VSCode Marketplace
+- Add a ⭐️ star on GitHub to support the project!

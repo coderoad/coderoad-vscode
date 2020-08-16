@@ -18,6 +18,8 @@ Once installed, reload the window (`ctrl/cmd + R`) to get started.
 
 ### Start
 
+![CodeRoad Example](/gif/coderoad-example.gif)
+
 To start the extension, inside VSCode:
 
 - Open an **empty** VSCode workspace (a project folder)
