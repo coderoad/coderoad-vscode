@@ -4,7 +4,7 @@
   </a>
 </p>
 <h1 align="center">
-CodeRoad VSCode
+CodeRoad
 </h1>
 
 <p align="center">
@@ -13,74 +13,41 @@ CodeRoad VSCode
    <a href="https://marketplace.visualstudio.com/items?itemName=CodeRoad.coderoad" alt="Downloads"><img src="https://vsmarketplacebadge.apphb.com/downloads/Coderoad.coderoad.svg" /></a>
 </p>
 
-CodeRoad is a VSCode extension that allows you to play interactive coding tutorials in your editor.
+CodeRoad is a VSCode extension that allows you to create and play interactive coding tutorials in your editor.
 
 ![CodeRoad Example](./docs/static/gif/coderoad-example.gif)
 
-## Why
-
-Interactive learning is the most effective way to gain new skills and knowledge. CodeRoad aims to help tutorial creators develop and share interactive content with the community.
-
-For learners, there are a number of advantages to running tutorials inside VSCode:
-
-- learn in a real world coding environment
-- get rapid feedback on save and helpful error messages
-- users own the code, and can build a Git timeline and deploy a portfolio
+## [Documentation](https://coderoad.github.io/docs/overview)
 
 ## Getting Started
-
-### Start
-
-To start the extension, inside VSCode:
-
-- open an empty VSCode workspace (an empty folder)
-- launch the app from the VSCode command palette:
-  - select “View” > “Command Palette” from the top panel OR press `cmd/ctrl + shift + P`
-  - in the command palette, search for and run `CodeRoad:Start`
-- a webview should appear on the right side of your editor. Click "Start"
-
-### Install
-
-Install CodeRoad from [this link in the VSCode Marketplace](https://marketplace.visualstudio.com/items?itemName=CodeRoad.coderoad).
-
-- You may need to reload the window (`ctrl/cmd + R`)
-- See ["Start"](#start) to get started.
 
 ### Requirements
 
 - OS: MacOS, Windows, Linux
 - VSCode 1.39.2+
-- Node.js 10+
 - Git
 
-## How CodeRoad Works
+### Install
 
-Read more in the docs about [how CodeRoad works](https://coderoad.github.io/docs/how-coderoad-works).
+1. install CodeRoad from [the VSCode Marketplace](https://marketplace.visualstudio.com/items?itemName=CodeRoad.coderoad).
+2. reload the window (`ctrl/cmd + R`) to get started.
 
-## Creating Tutorials
+### Start
 
-Build and share your own interactive tutorials.
+To start the extension, inside VSCode:
 
-Learn more about [how tutorials area created](https://coderoad.github.io/docs/build-tutorial).
+- Open an **empty** VSCode workspace (a project folder)
+- Launch the app from the VSCode command palette. How?
+  - select “View” > “Command Palette” from the top panel OR press `cmd/ctrl + shift + P`
+  - in the command palette popup, search for and run `CodeRoad:Start`
 
-## Editing Tutorials
+## Contact & Support
 
-Tutorials can be edited directly as markdown on Github.
-
-## Development
-
-To run the extension locally:
-
-- copy environmental variables from `/web-app/.env.example` as `/web-app/.env`
-- install dependencies with `yarn install-all`
-- build the extension with `yarn build`
-- open the extension with the vscode extension debugger by pressing F5. In the new window, open CodeRoad.
-
-To test a packaged build locally:
-
-- if on Mac, ensure you have [VSCode command line tools](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line) installed
-- run `yarn package`. It will build the extension and install it locally.
-- open a new vscode window and launch the new version of CodeRoad
+- Create a GitHub issue for bug reports, feature requests, or questions
+- See [the docs](http://coderoad.github.io/docs/development) on how to run this project locally for development
+- Leave [a review](https://marketplace.visualstudio.com/items?itemName=CodeRoad.coderoad&ssr=false#review-details) in the VSCode Marketplace
+- Add a ⭐️ star on GitHub to support the project!
+- Reach out at `coderoadapp@gmail.com`
 
 ## Contributing
 

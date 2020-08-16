@@ -13,6 +13,7 @@ module.exports = {
       'examples',
       'starters',
     ],
+    Development: ['development'],
     More: ['inspiration'],
   },
 }
