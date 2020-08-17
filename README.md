@@ -19,6 +19,10 @@ CodeRoad is a VSCode extension that allows you to create and play interactive co
 
 ## [Documentation](https://coderoad.github.io/docs/overview)
 
+- [How CodeRoad Works](https://coderoad.github.io/docs/how-coderoad-works)
+- [Create a Tutorial](https://coderoad.github.io/docs/build-tutorial)
+- [Develop the Extension](https://coderoad.github.io/docs/development)
+
 ## Getting Started
 
 ### Requirements
@@ -56,8 +60,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Contact & Support
 
-- Create a GitHub issue for bug reports, feature requests, or questions
-- See [the docs](http://coderoad.github.io/docs/development) on how to run this project locally for development
+- Create a [GitHub issue](https://github.com/coderoad/coderoad-vscode/issues/new/choose) for bug reports, feature requests, or questions
 - Reach out at `coderoadapp@gmail.com`
 - Leave [a review](https://marketplace.visualstudio.com/items?itemName=CodeRoad.coderoad&ssr=false#review-details) in the VSCode Marketplace
 - Add a ⭐️ star on GitHub to support the project!
