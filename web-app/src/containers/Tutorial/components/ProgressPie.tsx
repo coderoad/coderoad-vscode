@@ -8,12 +8,14 @@ interface Props {
 
 const ProgressPie = (props: Props) => {
   const [progress, setProgress] = React.useState(0)
-
   React.useEffect(() => {
     let timeout: any
+    let difference = (props.current - progress) / 4
+    // for difference>0.01 update progress or make it stop
+    let newProgress = difference > 0.01 ? progress + difference : props.current
     if (progress < props.current) {
       timeout = setTimeout(() => {
-        setProgress(progress + 1)
+        setProgress(newProgress)
       }, 100)
     }
     return () => {
