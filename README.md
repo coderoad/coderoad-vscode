@@ -29,7 +29,7 @@ Works with a variety of languages: JavaScript, Python, Bash, SQL, with more to c
 
 ### Requirements
 
-- OS: MacOS, Linux (Windows coming soon!)
+- OS: MacOS, Linux, Windows
 - VSCode 1.39.2+
 - Git
 
