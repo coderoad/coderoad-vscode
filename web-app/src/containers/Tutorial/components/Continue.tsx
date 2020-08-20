@@ -24,6 +24,7 @@ interface Props {
   current: number // level index
   max: number // level count
   defaultOpen: boolean
+  disabled?: boolean
   onContinue(): void
 }
 
@@ -48,12 +49,12 @@ const Continue = (props: Props) => {
   return (
     <>
       {modalState === 'init' ? (
-        <Button type="primary" size="medium" onClick={onOpen}>
+        <Button type="primary" size="medium" onClick={onOpen} disabled={props.disabled}>
           Continue
         </Button>
       ) : null}
       {modalState === 'closed' ? (
-        <Button type="primary" size="medium" onClick={onContinue}>
+        <Button type="primary" size="medium" onClick={onContinue} disabled={props.disabled}>
           Continue
         </Button>
       ) : null}
