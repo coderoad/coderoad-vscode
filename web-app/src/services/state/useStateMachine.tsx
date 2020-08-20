@@ -33,12 +33,12 @@ const useStateMachine = (): Output => {
     const listener = 'message'
     // propograte channel event to state machine
     const handler = (event: any) => {
-      // NOTE: must call event.data, cannot destructure. VSCode acts odd
-      const action = event.data
-      // ignore browser events from other extensions
-      if (action.source) {
+      // ensure events are coming from coderoad webview
+      if (!event.origin.match(/^vscode-webview/)) {
         return
       }
+      // NOTE: must call event.data, cannot destructure. VSCode acts odd
+      const action = event.data
       sendWithLog(action)
     }
     window.addEventListener(listener, handler)
