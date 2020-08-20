@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Progress, Icon } from '@alifd/next'
+import useNaturalProgress from 'services/hooks/useNaturalProgress'
 
 interface Props {
   current: number
@@ -7,21 +8,7 @@ interface Props {
 }
 
 const ProgressPie = (props: Props) => {
-  const [progress, setProgress] = React.useState(0)
-
-  React.useEffect(() => {
-    let timeout: any
-    if (progress < props.current) {
-      timeout = setTimeout(() => {
-        setProgress(progress + 1)
-      }, 100)
-    }
-    return () => {
-      if (timeout) {
-        clearTimeout(timeout)
-      }
-    }
-  }, [progress])
+  const progress = useNaturalProgress({ stop: props.current })
 
   const progressPercent = Math.floor((progress / props.max) * 100)
 
