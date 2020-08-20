@@ -208,6 +208,7 @@ const TutorialPage = (props: PageProps) => {
                   max={levels.length}
                   title={tutorial.summary.title}
                   defaultOpen={false}
+                  disabled={processes.length > 0}
                 />
               </div>
             ) : props.state === 'Level.LevelComplete' ? (
@@ -218,6 +219,7 @@ const TutorialPage = (props: PageProps) => {
                   max={levels.length}
                   title={tutorial.summary.title}
                   defaultOpen={true}
+                  disabled={processes.length > 0}
                 />
               </div>
             ) : level.steps.length > 1 ? (
