@@ -28,9 +28,6 @@ let sendToClient = (action: T.Action): void => {
 // This makes it easier to pass the send
 // function throughout the codebase
 export const send = (action: T.Action): void => {
-  // load error page if error action is triggered
-  actions.onErrorPage(action)
-
   logger(`EXT TO CLIENT: "${typeof action === 'string' ? action : action.type}"`)
 
   if (action) sendToClient(action)
