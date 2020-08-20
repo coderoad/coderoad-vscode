@@ -1,0 +1,12 @@
+{
+  "FailedToConnectToGitRepo": "### Failed to Connect to Git Repo\n\nThere are several possible causes:\n\n- you may not be connected to the internet or have an unstable connection.\n- you may not have access permission to the remote tutorial repo.\n- the remote tutorial repo may not exist at the provided location",
+  "GitNotFound": "### Git Not Found\n\nMake sure you have Git installed.\n\nSee the [Git docs](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) for help.",
+  "GitProjectAlreadyExists": "### Git Remote Already Exists\n\nHave you started this tutorial before in this workspace? The Git remote already exists.\n\nConsider deleting your `.git` folder and restarting.",
+  "GitRemoteAlreadyExists": "### Git Project Already Exists\n\nCodeRoad requires an empty Git project.\n\nOpen a new workspace to start a tutorial.",
+  "MissingTutorialDependency": "### Missing Tutorial Dependency\n\nThe tutorial cannot run because it a dependency is not yet installed. Install the dependency and click \"Check Again\".",
+  "NoWorkspaceFound": "### Open a Workspace Folder\n\nCodeRoad requires a workspace folder to run. Open a new workspace and re-launch CodeRoad.",
+  "UnknownError": "### Unknown Error\n\nSorry! An unknown error occurred.\n\nPlease help out by posting an issue at github.com/coderoad/coderoad-vscode/issues/new/choose!",
+  "UnmetExtensionVersion": "### Unmet Extension Version\n\nVSCode extension version is below requirements. Update VSCode to use CodeRoad.",
+  "UnmetTutorialDependency": "### Unmet Tutorial Dependency\n\nTutorial cannot run because a dependency version doesn't match. Install the correct dependency and click \"Check Again\".",
+  "WorkspaceNotEmpty": "### Select An Empty VSCode Workspace\n\nStart a project in an empty folder.\n\nOnce selected, the extension will close and need to be re-started."
+}

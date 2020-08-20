@@ -1,10 +1,12 @@
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
+import * as E from 'typings/error'
 import { assign, send } from 'xstate'
 import * as selectors from '../../selectors'
 import getStepNext from './utils/stepNext'
 import getNext from './utils/getNext'
 import logger from 'services/logger'
+import errors from '../../errors/en.json'
 
 export const setStart = assign({
   env: (context: T.MachineContext, event: T.MachineEvent) => {
@@ -73,8 +75,23 @@ export const reset = assign({
 
 export const setError = assign({
   error: (context: T.MachineContext, event: T.MachineEvent): any => {
-    const message: string | null = event.payload.error
-    return message
+    const error: string | null | E.ErrorMessage = event.payload.error
+    if (error) {
+      if (typeof error === 'string') {
+        console.log(`ERROR: ${error}`)
+        return error
+      } else if (error.type) {
+        const errorMessage = errors[error.type]
+        const content = errorMessage || ''
+        const message = `${content}\n\n${error.message || ''}`
+        console.log(`ERROR: ${message}`)
+        return {
+          ...error,
+          message,
+        }
+      }
+    }
+    return null
   },
 })
 
