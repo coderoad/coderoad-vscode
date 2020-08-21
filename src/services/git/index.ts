@@ -191,3 +191,16 @@ export async function commitsExistsByMessage(message: string): Promise<boolean> 
     return false
   }
 }
+
+export async function validateGitConfig(target: string): Promise<boolean> {
+  try {
+    // returns a list of commit hashes
+    const { stdout, stderr } = await exec({ command: `git config ${target}` })
+    if (stderr) {
+      return false
+    }
+    return !!stdout.length
+  } catch (error) {
+    return false
+  }
+}

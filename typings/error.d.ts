@@ -3,6 +3,7 @@ export type ErrorMessageView = 'FULL_PAGE' | 'NOTIFY' | 'NONE'
 export type ErrorMessageType =
   | 'FailedToConnectToGitRepo'
   | 'GitNotFound'
+  | 'GitUserNotConfigured'
   | 'GitProjectAlreadyExists'
   | 'GitRemoteAlreadyExists'
   | 'MissingTutorialDependency'
