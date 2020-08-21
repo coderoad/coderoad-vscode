@@ -1,8 +1,8 @@
-import * as T from 'typings'
 import * as E from 'typings/error'
 import { version } from '../services/dependencies'
 import { checkWorkspaceEmpty } from '../services/workspace'
 import { send } from '../commands'
+import { validateGitConfig } from '../services/git'
 
 const onValidateSetup = async (): Promise<void> => {
   try {
@@ -43,6 +43,27 @@ const onValidateSetup = async (): Promise<void> => {
       send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
       return
     }
+
+    const isGitUserNameConfigured = await validateGitConfig('user.name')
+    const isGitUserEmailConfigured = await validateGitConfig('user.email')
+    if (!isGitUserNameConfigured || !isGitUserEmailConfigured) {
+      let message = ''
+      if (!isGitUserNameConfigured) message += 'Git user not configured.\n'
+      if (!isGitUserEmailConfigured) message += 'Git email not configured.'
+      const error: E.ErrorMessage = {
+        type: 'GitUserNotConfigured',
+        message,
+        actions: [
+          {
+            label: 'Check Again',
+            transition: 'RETRY',
+          },
+        ],
+      }
+      send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
+      return
+    }
+
     send({ type: 'SETUP_VALIDATED' })
   } catch (e) {
     const error = {

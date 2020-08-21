@@ -1,6 +1,7 @@
 {
   "FailedToConnectToGitRepo": "### Failed to Connect to Git Repo\n\nThere are several possible causes:\n\n- you may not be connected to the internet or have an unstable connection.\n- you may not have access permission to the remote tutorial repo.\n- the remote tutorial repo may not exist at the provided location",
   "GitNotFound": "### Git Not Found\n\nMake sure you have Git installed.\n\nSee the [Git docs](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) for help.",
+  "GitUserNotConfigured": "### Git User Not Configured\n\nThe first thing you should do when you install Git is to set your user name and email address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you start creating:\n```shell\ngit config --global user.name \"John Doe\"\ngit config --global user.email johndoe@example.com\n```",
   "GitProjectAlreadyExists": "### Git Remote Already Exists\n\nHave you started this tutorial before in this workspace? The Git remote already exists.\n\nConsider deleting your `.git` folder and restarting.",
   "GitRemoteAlreadyExists": "### Git Project Already Exists\n\nCodeRoad requires an empty Git project.\n\nOpen a new workspace to start a tutorial.",
   "MissingTutorialDependency": "### Missing Tutorial Dependency\n\nThe tutorial cannot run because it a dependency is not yet installed. Install the dependency and click \"Check Again\".",
