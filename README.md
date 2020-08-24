@@ -50,6 +50,10 @@ To start the extension, inside VSCode:
   - select “View” > “Command Palette” from the top panel OR press `cmd/ctrl + shift + P`
   - in the command palette popup, search for and run `CodeRoad:Start`
 
+## How CodeRoad Works
+
+[See a video explaining how CodeRoad works](http://www.youtube.com/watch?v=htrbKlgAvuE 'How CodeRoad Works')
+
 ## Contributing
 
 CodeRoad is an ambitious project, we're always looking for contributors :)
