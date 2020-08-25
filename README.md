@@ -19,19 +19,24 @@ Works with a variety of languages: JavaScript, Python, Bash, SQL, with more to c
 
 ![CodeRoad Example](./docs/static/gif/coderoad-example.gif)
 
+---
+
 ## [📖 Documentation](https://coderoad.github.io/docs/overview)
 
 - [Create a Tutorial](https://coderoad.github.io/docs/build-tutorial)
 - [Develop the Extension](https://coderoad.github.io/docs/development)
 
-### How CodeRoad Works
+## How CodeRoad Works
 
 1. Text is written in Markdown. [🔗](https://github.com/coderoad/fcc-learn-npm/blob/master/TUTORIAL.md)
-2. Tutorials are stored and played in Git. [🔗](https://github.com/coderoad/fcc-learn-npm/commits/v0.4.2)
-3. Hooks & actions give access to the command line & VSCode API. [📖](https://coderoad.github.io/docs/hooks-actions/)
+2. Tutorials are built on Git using a TDD pattern. [🔗](https://github.com/coderoad/fcc-learn-npm/commits/v0.4.2)
+3. Hooks & actions give flexible access to the command line & VSCode API. [📖](https://coderoad.github.io/docs/hooks-actions/)
 
-- ▶️ [See a video explaining how CodeRoad works](http://www.youtube.com/watch?v=htrbKlgAvuE 'How CodeRoad Works')
-- 📖 [Learn more](https://coderoad.github.io/docs/how-coderoad-works)
+▶️ &nbsp;[See a video explaining how CodeRoad works](http://www.youtube.com/watch?v=htrbKlgAvuE 'How CodeRoad Works')
+
+📖 &nbsp;[Learn more](https://coderoad.github.io/docs/how-coderoad-works)
+
+---
 
 ## Getting Started
 
@@ -57,6 +62,8 @@ To start the extension, inside VSCode:
 
   - select “View” > “Command Palette” from the top panel OR press `cmd/ctrl + shift + P`
   - in the command palette popup, search for and run `CodeRoad:Start`
+
+---
 
 ## Contributing
 
