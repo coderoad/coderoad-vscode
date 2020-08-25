@@ -1,6 +1,6 @@
 {
   "name": "coderoad-app",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "private": true,
   "scripts": {
     "build": "react-app-rewired build",
@@ -27,7 +27,7 @@
   "dependencies": {
     "@alifd/next": "^1.20.28",
     "@emotion/babel-preset-css-prop": "^10.0.27",
-    "@emotion/core": "^10.0.34",
+    "@emotion/core": "^10.0.35",
     "babel-jest": "^26.3.0",
     "emotion-theming": "^10.0.27",
     "js-yaml": "^3.14.0",
@@ -40,24 +40,24 @@
     "react-dom": "^16.13.1",
     "reselect": "^4.0.0",
     "use-media": "^1.4.0",
-    "xstate": "^4.11.0"
+    "xstate": "^4.12.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.1",
-    "@storybook/addon-actions": "^6.0.10",
-    "@storybook/addon-knobs": "^6.0.10",
-    "@storybook/addon-links": "^6.0.10",
-    "@storybook/addons": "^6.0.10",
+    "@babel/core": "^7.11.4",
+    "@storybook/addon-actions": "^6.0.17",
+    "@storybook/addon-knobs": "^6.0.17",
+    "@storybook/addon-links": "^6.0.17",
+    "@storybook/addons": "^6.0.17",
     "@storybook/preset-create-react-app": "^3.1.4",
-    "@storybook/react": "^6.0.10",
+    "@storybook/react": "^6.0.17",
     "@types/graphql": "^14.5.0",
     "@types/highlight.js": "^9.12.4",
     "@types/jest": "^26.0.10",
     "@types/js-yaml": "^3.12.5",
     "@types/markdown-it": "^10.0.2",
-    "@types/node": "^14.0.27",
+    "@types/node": "^14.6.0",
     "@types/prismjs": "^1.16.1",
-    "@types/react": "^16.9.46",
+    "@types/react": "^16.9.47",
     "@types/react-addons-css-transition-group": "^15.0.5",
     "@types/react-dom": "^16.9.8",
     "babel-loader": "8.1.0",
@@ -65,10 +65,10 @@
     "customize-cra": "^1.0.0",
     "mini-css-extract-plugin": "^0.10.0",
     "node-sass": "^4.14.1",
-    "prettier": "2.0.5",
+    "prettier": "^2.1.0",
     "react-app-rewired": "^2.1.6",
     "react-scripts": "^3.4.3",
     "sass-loader": "^8.0.2",
-    "typescript": "^3.9.7"
+    "typescript": "^4.0.2"
   }
 }

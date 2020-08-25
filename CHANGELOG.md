@@ -256,3 +256,8 @@ Adds a review page for viewing tutorial content. The review page should be espec
   - issue with watcher tests running on reset
   - issue with some commits loading multiple times on continue
   - issue with task progress not displaying correctly
+
+### [0.14.1]
+
+- Resolve issues with error pages
+- Include better errors for supporting Windows
