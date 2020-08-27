@@ -199,11 +199,11 @@ export const createMachine = (options: any) => {
                     },
                     LEVEL_COMPLETE: {
                       target: 'LevelComplete',
-                      actions: ['onLevelComplete'],
                     },
                   },
                 },
                 LevelComplete: {
+                  onEntry: ['onLevelComplete'],
                   onExit: ['testClear', 'incrementLevel'],
                   on: {
                     NEXT_LEVEL: 'LoadNext',
