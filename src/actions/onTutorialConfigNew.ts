@@ -14,9 +14,9 @@ const onTutorialConfigNew = async (action: T.Action, context: Context): Promise<
     const data: TT.Tutorial = action.payload.tutorial
 
     onEvent('tutorial_start', {
-      tutorial_id: data.id,
-      tutorial_version: data.version,
-      tutorial_title: data.summary.title,
+      tutorialId: data.id,
+      tutorialVersion: data.version,
+      tutorialTitle: data.summary.title,
     })
 
     // validate extension version
