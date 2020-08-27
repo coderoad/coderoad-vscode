@@ -46,3 +46,7 @@ Test shallow renders with @testing-library/react.
 Eg. [setup: working message form input · ShMcK/coderoad-tutorial-tweeter@1c248ff · GitHub](https://github.com/ShMcK/coderoad-tutorial-tweeter/commit/1c248ff9846c5a27c12a2cbbb77cab1d66613be4)
 You can also test hooks with @testing-library/react-hooks
 Eg. [setup: useText hook refactor · ShMcK/coderoad-tutorial-tweeter@71deafa · GitHub](https://github.com/ShMcK/coderoad-tutorial-tweeter/commit/71deafa34fb0c271e57fb1749df184c0df3bcd8b)
+
+### Testing a Test 🤯
+
+It's even possible to write tests for tests. The trick is to mock the solution, and run the tests. [Eg Test a Test](https://github.com/ShMcK/test-a-test)
