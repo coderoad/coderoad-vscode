@@ -5,9 +5,10 @@ import { loadWatchers, resetWatchers } from './utils/watchers'
 import openFiles from './utils/openFiles'
 import runCommands from './utils/runCommands'
 import runVSCodeCommands from './utils/runVSCodeCommands'
-import { onError as telemetryOnError } from '../telemetry'
+import * as telemetry from '../telemetry'
 import { runTest } from '../../actions/onTest'
 import logger from '../logger'
+import { VERSION } from '../../environment'
 
 // run at the end of when a tutorial is configured
 export const onInit = async (actions: TT.StepActions): Promise<void> => {
@@ -50,21 +51,35 @@ export const onReset = async (actions: TT.StepActions): Promise<void> => {
 
 // run when an uncaught exception is thrown
 export const onError = async (error: Error): Promise<void> => {
-  telemetryOnError(error)
+  telemetry.onError(error)
 }
 
 // run when a step task passes
-export const onStepComplete = async ({ levelId, stepId }: { levelId: string; stepId: string }): Promise<void> => {
+export const onStepComplete = async ({
+  tutorialId,
+  levelId,
+  stepId,
+}: {
+  tutorialId: string
+  levelId: string
+  stepId: string
+}): Promise<void> => {
   git.saveCommit(`Save progress: ${stepId}`)
-  logger(`ON STEP COMPLETE: ${JSON.stringify({ levelId, stepId })}`)
+  telemetry.onEvent('step_complete', { tutorialId, stepId, levelId, version: VERSION })
 }
 
 // run when a level is complete (all tasks pass or no tasks)
-export const onLevelComplete = async ({ levelId }: { levelId: string }): Promise<void> => {
-  logger(`ON LEVEL COMPLETE: ${JSON.stringify(levelId)}`)
+export const onLevelComplete = async ({
+  tutorialId,
+  levelId,
+}: {
+  tutorialId: string
+  levelId: string
+}): Promise<void> => {
+  telemetry.onEvent('level_complete', { tutorialId, levelId, version: VERSION })
 }
 
 // run when all levels are complete
 export const onTutorialComplete = async ({ tutorialId }: { tutorialId: string }): Promise<void> => {
-  logger(`ON TUTORIAL COMPLETE: ${JSON.stringify(tutorialId)}`)
+  telemetry.onEvent('tutorial_complete', { tutorialId, version: VERSION })
 }

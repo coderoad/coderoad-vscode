@@ -1,5 +1,6 @@
 import TelemetryReporter from 'vscode-extension-telemetry'
-import { EXTENSION_ID, VERSION, INSTRUMENTATION_KEY, NODE_ENV } from '../../environment'
+import { EXTENSION_ID, VERSION, INSTRUMENTATION_KEY } from '../../environment'
+import logger from '../logger'
 
 /**
  * Telemetry
@@ -18,10 +19,9 @@ interface Measurements {
 let reporter: any
 
 export const activate = (subscribeFn: (reporter: any) => void): void => {
-  if (NODE_ENV === 'production') {
-    reporter = new TelemetryReporter(EXTENSION_ID, VERSION, INSTRUMENTATION_KEY)
-    subscribeFn(reporter)
-  }
+  logger(EXTENSION_ID, VERSION, INSTRUMENTATION_KEY)
+  reporter = new TelemetryReporter(EXTENSION_ID, VERSION, INSTRUMENTATION_KEY)
+  subscribeFn(reporter)
 }
 
 export const deactivate = (): void => {
@@ -31,12 +31,14 @@ export const deactivate = (): void => {
 }
 
 export const onError = (error: Error, properties?: Properties, measurements?: Measurements): void => {
+  logger(error, properties, measurements)
   if (reporter) {
     reporter.sendTelemetryException(error, properties, measurements)
   }
 }
 
 export const onEvent = (eventName: string, properties?: Properties, measurements?: Measurements): void => {
+  logger(eventName, properties, measurements)
   if (reporter) {
     reporter.sendTelemetryEvent(eventName, properties, measurements)
   }
