@@ -1,6 +1,6 @@
 {
   "name": "coderoad",
-  "version": "0.14.1",
+  "version": "0.14.2",
   "description": "Play interactive coding tutorials in your editor",
   "keywords": [
     "tutorial",
@@ -34,6 +34,7 @@
     "watch": "tsc -watch -p ./"
   },
   "dependencies": {
+    "@types/events": "^3.0.0",
     "chokidar": "^3.4.2",
     "dotenv": "^8.2.0",
     "eslint": "^7.8.1",

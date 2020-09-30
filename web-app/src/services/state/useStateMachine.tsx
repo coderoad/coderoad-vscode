@@ -1,7 +1,7 @@
 import * as React from 'react'
-import * as T from 'typings'
+import * as T from 'typings' // eslint-disable-line
+import { useMachine } from '@xstate/react'
 import { createMachine } from './machine'
-import { useMachine } from '../xstate-react'
 import createRouteString from './utils/routeString'
 import logger from '../logger'
 
@@ -45,7 +45,7 @@ const useStateMachine = (): Output => {
     return () => {
       window.removeEventListener(listener, handler)
     }
-  }, [])
+  }, []) // eslint-disable-line
 
   // convert route to a string to avoid unnecessary React re-renders on deeply nested objects
   const route = createRouteString(state.value)

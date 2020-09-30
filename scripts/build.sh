@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "Building Extension..."
+tsc -v
 
 # remove build directory
 echo "Cleaning up previous build..."
