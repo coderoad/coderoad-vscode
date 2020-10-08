@@ -19,10 +19,10 @@ cd ..
 # For Windows build: switch the next 2 lines
 if [[ "$OSTYPE" == "msys" ]]; then
 echo "linux subsystem on windows selected"
-cp -R ./web-app/build/ ./
+    cp -R ./web-app/build/ ./
 else
 echo "Unix system selected"
-cp -R ./web-app/build/ ./build/
+    cp -R ./web-app/build/. ./build/
 fi
 
 node scripts/fixFontPaths.js
