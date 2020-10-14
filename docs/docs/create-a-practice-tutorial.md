@@ -296,7 +296,7 @@ That should check if `<!DOCTYPE html>` was added to the `index.html` file.
 
 There should be one passing and one failing test
 
-- Add `!<DOCTYPE html>` to the `index.html` file
+- Add `<!DOCTYPE html>` to the `index.html` file
 - Run the test again to see if it passed after adding that
 
 ### Commit second test
