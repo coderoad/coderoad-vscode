@@ -13,7 +13,7 @@ To create a tutorial in CodeRoad, there are a few requirements.
 
 ## Disclaimer
 
-Before we start, note thatthese processes are workarounds to accomplish two necessary goals:
+Before we start, note that these processes are workarounds to accomplish two necessary goals:
 
 1. an intermediary working product (even without a full featured build tool).
 2. zero server costs so that CodeRoad can scale and remain free.
