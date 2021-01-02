@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 interface RouterProps {
-  children: React.ReactChildren | React.ReactChildren[]
+  children: any
   route: string
 }
 

@@ -6,6 +6,7 @@ package-lock.json
 # local
 .env
 .env.local
+.npmrc
 
 # output directory
 out
