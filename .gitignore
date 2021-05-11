@@ -21,3 +21,6 @@ vsc-extension-quickstart.md
 # releases
 *.vsix
 /releases
+
+# other
+/other
