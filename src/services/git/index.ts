@@ -70,9 +70,10 @@ export async function clear(): Promise<Error | void> {
 }
 
 async function init(): Promise<Error | void> {
-  const { stderr } = await exec({ command: 'git init' })
+  // note: prevents stderr warning concerning default init branch
+  const { stderr } = await exec({ command: 'git init --initial-branch=master' })
   if (stderr) {
-    throw new Error('Error initializing Git')
+    throw new Error(`Error initializing Git: ${stderr}`)
   }
 }
 
