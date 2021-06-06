@@ -5,7 +5,6 @@ import createTestRunner from './services/testRunner'
 import createWebView from './services/webview'
 import * as hooks from './services/hooks'
 import logger from './services/logger'
-import * as actions from './actions'
 import Channel from './channel'
 
 export const COMMANDS = {
