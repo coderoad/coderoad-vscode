@@ -15,7 +15,8 @@ echo "Building..."
 yarn build
 
 echo "Packaging Extension..."
-vsce package --yarn --out ./$RELEASES_FOLDER
+mkdir -p ./$RELEASES_FOLDER
+npx vsce package --yarn --out ./$RELEASES_FOLDER
 
 echo "Installing Extension..."
 code --install-extension ./$RELEASES_FOLDER/$OUTPUT_FILE
