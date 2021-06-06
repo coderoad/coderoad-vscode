@@ -1,7 +1,6 @@
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import Context from '../services/context/context'
-import { exec } from '../services/node'
 import reset from '../services/reset'
 import * as hooks from '../services/hooks'
 import getCommitHashByPosition from '../services/reset/lastHash'
