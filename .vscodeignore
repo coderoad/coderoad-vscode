@@ -22,11 +22,11 @@ scripts/**
 .prettierrc.js
 jest.config.js
 
-## Docs
+## Other
 docs
+releases
+other
+DEV.md
 
 ## Tests
 build/test/**
-
-## Docs
-DEV.md

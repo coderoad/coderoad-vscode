@@ -25,6 +25,7 @@ const Steps = (props: Props) => {
         if (!step) {
           return null
         }
+
         return (
           <div key={step.id}>
             <Step
@@ -34,7 +35,7 @@ const Steps = (props: Props) => {
               content={step.content}
               subtasks={step.subtasks}
             />
-            <Hints hints={step.hints || []} />
+            {['ACTIVE', 'COMPLETE'].includes(step.status) && <Hints hints={step.hints || []} />}
           </div>
         )
       })}
