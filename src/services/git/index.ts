@@ -1,5 +1,6 @@
 import * as TT from 'typings/tutorial'
 import { exec, exists } from '../node'
+import { version, compareVersions } from '../dependencies'
 import logger from '../logger'
 
 export const gitOrigin = 'coderoad'
@@ -70,8 +71,22 @@ export async function clear(): Promise<Error | void> {
 }
 
 async function init(): Promise<Error | void> {
+  const gitVersion = await version('git')
+  if (!gitVersion) {
+    throw new Error('Error: No git version found')
+  }
+  const hasInitialBranch = await compareVersions(gitVersion, '>=2.28.0')
+  let stderr
+  if (hasInitialBranch) {
+    // --initial-branch is introduced in git v2.28 when git changed the default master -> main
+    const initResult = await exec({ command: 'git init --initial-branch=master' })
+    stderr = initResult.stderr
+  } else {
+    // pre git v2.28, master is default branch
+    const initResult = await exec({ command: 'git init' })
+    stderr = initResult.stderr
+  }
   // note: prevents stderr warning concerning default init branch
-  const { stderr } = await exec({ command: 'git init --initial-branch=master' })
   if (stderr) {
     throw new Error(`Error initializing Git: ${stderr}`)
   }
