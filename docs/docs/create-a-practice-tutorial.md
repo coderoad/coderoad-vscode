@@ -285,7 +285,7 @@ describe('index.html', () => {
   })
 
   it('should have a DOCTYPE', () => {
-    assert(/<!doctype html>/i.test(indexFile))
+    assert(/<!DOCTYPE html>/i.test(indexFile))
   })
 })
 ```
