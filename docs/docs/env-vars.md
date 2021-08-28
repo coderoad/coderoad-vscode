@@ -16,6 +16,8 @@ CodeRoad has a number of configurations:
 
 - `CODEROAD_ADMIN_MODE` - a mode for tutorial developers. Under the "Review" page, you can jump around between levels & steps to test development. Defaults `false`.
 
+- `CODEROAD_CONTENT_SECURITY_POLICY_EXEMPTIONS` - a list of CSP exemption hashes. For multiples, separate the list with a space.
+
 ## How to Use Variables
 
 ### Local

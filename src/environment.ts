@@ -38,3 +38,8 @@ if (!supportedOS.includes(OS_PLATFORM)) {
 export const TUTORIAL_URL: string | null = process.env.CODEROAD_TUTORIAL_URL || null
 
 export const DISABLE_RUN_ON_SAVE = (process.env.CODEROAD_DISABLE_RUN_ON_SAVE || '').toLowerCase() === 'true'
+
+// bypass "Refused to execute inline script because it violates the following Content Security Policy directive" issue
+// for multiple exemptions, separate each with a space "a1 b1"
+export const CONTENT_SECURITY_POLICY_EXEMPTIONS: string | null =
+  process.env.CODEROAD_CONTENT_SECURITY_POLICY_EXEMPTIONS || null
