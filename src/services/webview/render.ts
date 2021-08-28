@@ -2,6 +2,7 @@ import { JSDOM } from 'jsdom'
 import * as path from 'path'
 import * as vscode from 'vscode'
 import { onError } from '../telemetry'
+import { CONTENT_SECURITY_POLICY_EXEMPTIONS } from '../../environment'
 
 const getNonce = (): string => {
   let text = ''
@@ -43,6 +44,13 @@ async function render(panel: vscode.WebviewPanel, rootPath: string): Promise<voi
         nonces.push(nonce)
         script.nonce = nonce
         script.src = createUri(script.src)
+      }
+    }
+
+    // support additional CSP exemptions when CodeRoad is embedded
+    if (CONTENT_SECURITY_POLICY_EXEMPTIONS && CONTENT_SECURITY_POLICY_EXEMPTIONS.length) {
+      for (const exemption of CONTENT_SECURITY_POLICY_EXEMPTIONS.split(' ')) {
+        nonces.push(exemption)
       }
     }
 
