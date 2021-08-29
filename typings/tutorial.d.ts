@@ -14,6 +14,7 @@ export type TutorialConfig = {
   dependencies?: TutorialDependency[]
   setup?: StepActions
   reset?: ConfigReset
+  webhook?: WebhookConfig
 }
 
 /** Logical groupings of tasks */
@@ -92,3 +93,17 @@ export interface TutorialAppVersions {
 }
 
 export type VSCodeCommand = string | [string, any]
+
+export interface WebhookConfig {
+  url: string
+  config: {
+    token: boolean
+  }
+  events: {
+    init?: boolean
+    reset?: boolean
+    step_complete?: boolean
+    level_complete?: boolean
+    tutorial_complete?: boolean
+  }
+}
