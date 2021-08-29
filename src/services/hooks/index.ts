@@ -7,14 +7,18 @@ import runCommands from './utils/runCommands'
 import runVSCodeCommands from './utils/runVSCodeCommands'
 import * as telemetry from '../telemetry'
 import { runTest } from '../../actions/onTest'
-import logger from '../logger'
 import { VERSION } from '../../environment'
+import * as webhooks from './webhooks'
 
 // run at the end of when a tutorial is configured
 export const onInit = async (actions: TT.StepActions): Promise<void> => {
   await loadCommits(actions?.commits)
   await runCommands(actions?.commands)
   await runVSCodeCommands(actions?.vscodeCommands)
+  webhooks.onInit({
+    // tutorialId,
+    version: VERSION,
+  })
 }
 
 // run when a level starts
@@ -47,6 +51,10 @@ export const onReset = async (actions: TT.StepActions): Promise<void> => {
   await resetWatchers()
   await runCommands(actions?.commands)
   await runVSCodeCommands(actions?.vscodeCommands)
+  webhooks.onReset({
+    // tutorialId,
+    version: VERSION,
+  })
 }
 
 // run when an uncaught exception is thrown
@@ -66,6 +74,12 @@ export const onStepComplete = async ({
 }): Promise<void> => {
   git.saveCommit(`Save progress: ${stepId}`)
   telemetry.onEvent('step_complete', { tutorialId, stepId, levelId, version: VERSION })
+  webhooks.onStepComplete({
+    tutorialId,
+    version: VERSION,
+    levelId,
+    stepId,
+  })
 }
 
 // run when a level is complete (all tasks pass or no tasks)
@@ -77,9 +91,18 @@ export const onLevelComplete = async ({
   levelId: string
 }): Promise<void> => {
   telemetry.onEvent('level_complete', { tutorialId, levelId, version: VERSION })
+  webhooks.onLevelComplete({
+    tutorialId,
+    version: VERSION,
+    levelId,
+  })
 }
 
 // run when all levels are complete
 export const onTutorialComplete = async ({ tutorialId }: { tutorialId: string }): Promise<void> => {
   telemetry.onEvent('tutorial_complete', { tutorialId, version: VERSION })
+  webhooks.onTutorialComplete({
+    tutorialId,
+    version: VERSION,
+  })
 }
