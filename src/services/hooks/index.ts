@@ -17,7 +17,7 @@ export const onInit = async (actions: TT.StepActions): Promise<void> => {
   await runVSCodeCommands(actions?.vscodeCommands)
   webhooks.onInit({
     // tutorialId,
-    version: VERSION,
+    coderoadVersion: VERSION,
   })
 }
 
@@ -53,7 +53,6 @@ export const onReset = async (actions: TT.StepActions): Promise<void> => {
   await runVSCodeCommands(actions?.vscodeCommands)
   webhooks.onReset({
     // tutorialId,
-    version: VERSION,
   })
 }
 
@@ -76,7 +75,6 @@ export const onStepComplete = async ({
   telemetry.onEvent('step_complete', { tutorialId, stepId, levelId, version: VERSION })
   webhooks.onStepComplete({
     tutorialId,
-    version: VERSION,
     levelId,
     stepId,
   })
@@ -93,7 +91,6 @@ export const onLevelComplete = async ({
   telemetry.onEvent('level_complete', { tutorialId, levelId, version: VERSION })
   webhooks.onLevelComplete({
     tutorialId,
-    version: VERSION,
     levelId,
   })
 }
@@ -103,6 +100,5 @@ export const onTutorialComplete = async ({ tutorialId }: { tutorialId: string })
   telemetry.onEvent('tutorial_complete', { tutorialId, version: VERSION })
   webhooks.onTutorialComplete({
     tutorialId,
-    version: VERSION,
   })
 }

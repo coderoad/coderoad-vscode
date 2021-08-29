@@ -28,7 +28,7 @@ const callWebhookEndpoint = async <B>(bodyObject: B): Promise<void> => {
 
 type InitEvent = {
   // tutorialId: string;
-  version: string
+  coderoadVersion: string
 }
 
 export const onInit = (event: InitEvent): void => {
@@ -39,7 +39,6 @@ export const onInit = (event: InitEvent): void => {
 
 type ResetEvent = {
   // tutorialId: string;
-  version: string
 }
 
 export const onReset = (event: ResetEvent): void => {
