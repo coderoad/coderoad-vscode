@@ -32,7 +32,10 @@ const onRunReset = async (action: ResetAction, context: Context): Promise<void> 
   // if tutorial.config.reset.command, run it
   const resetActions = tutorial?.config?.reset
   if (resetActions) {
-    hooks.onReset({ commands: resetActions?.commands, vscodeCommands: resetActions?.vscodeCommands })
+    hooks.onReset(
+      { commands: resetActions?.commands, vscodeCommands: resetActions?.vscodeCommands },
+      tutorial?.id as string,
+    )
   }
 }
 

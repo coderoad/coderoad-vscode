@@ -11,12 +11,12 @@ import { VERSION } from '../../environment'
 import * as webhooks from './webhooks'
 
 // run at the end of when a tutorial is configured
-export const onInit = async (actions: TT.StepActions): Promise<void> => {
+export const onInit = async (actions: TT.StepActions, tutorialId: string): Promise<void> => {
   await loadCommits(actions?.commits)
   await runCommands(actions?.commands)
   await runVSCodeCommands(actions?.vscodeCommands)
   webhooks.onInit({
-    // tutorialId,
+    tutorialId,
     coderoadVersion: VERSION,
   })
 }
@@ -47,12 +47,12 @@ export const onSolutionEnter = async (actions: TT.StepActions): Promise<void> =>
 }
 
 // run when "reset" is triggered
-export const onReset = async (actions: TT.StepActions): Promise<void> => {
+export const onReset = async (actions: TT.StepActions, tutorialId: string): Promise<void> => {
   await resetWatchers()
   await runCommands(actions?.commands)
   await runVSCodeCommands(actions?.vscodeCommands)
   webhooks.onReset({
-    // tutorialId,
+    tutorialId,
   })
 }
 

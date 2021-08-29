@@ -26,47 +26,47 @@ const callWebhookEndpoint = async <B>(bodyObject: B): Promise<void> => {
   }
 }
 
-type InitEvent = {
-  // tutorialId: string;
+type WebhookEventInit = {
+  tutorialId: string
   coderoadVersion: string
 }
 
-export const onInit = (event: InitEvent): void => {
+export const onInit = (event: WebhookEventInit): void => {
   if (WEBHOOKS.init) {
-    callWebhookEndpoint<InitEvent>(event)
+    callWebhookEndpoint<WebhookEventInit>(event)
   }
 }
 
-type ResetEvent = {
-  // tutorialId: string;
+type WebhookEventReset = {
+  tutorialId: string
 }
 
-export const onReset = (event: ResetEvent): void => {
+export const onReset = (event: WebhookEventReset): void => {
   if (WEBHOOKS.reset) {
-    callWebhookEndpoint<ResetEvent>(event)
+    callWebhookEndpoint<WebhookEventReset>(event)
   }
 }
 
-type StepCompleteEvent = { tutorialId: string; version: string; levelId: string; stepId: string }
+type WebhookEventStepComplete = { tutorialId: string; version: string; levelId: string; stepId: string }
 
-export const onStepComplete = (event: StepCompleteEvent): void => {
+export const onStepComplete = (event: WebhookEventStepComplete): void => {
   if (WEBHOOKS.step_complete) {
-    callWebhookEndpoint<StepCompleteEvent>(event)
+    callWebhookEndpoint<WebhookEventStepComplete>(event)
   }
 }
 
-type LevelCompleteEvent = { tutorialId: string; version: string; levelId: string }
+type WebhookEventLevelComplete = { tutorialId: string; version: string; levelId: string }
 
-export const onLevelComplete = (event: LevelCompleteEvent): void => {
+export const onLevelComplete = (event: WebhookEventLevelComplete): void => {
   if (WEBHOOKS.level_complete) {
-    callWebhookEndpoint<LevelCompleteEvent>(event)
+    callWebhookEndpoint<WebhookEventLevelComplete>(event)
   }
 }
 
-type TutorialCompleteEvent = { tutorialId: string; version: string }
+type WebhookEevntTutorialComplete = { tutorialId: string; version: string }
 
-export const onTutorialComplete = (event: TutorialCompleteEvent): void => {
+export const onTutorialComplete = (event: WebhookEevntTutorialComplete): void => {
   if (WEBHOOKS.tutorial_complete) {
-    callWebhookEndpoint<TutorialCompleteEvent>(event)
+    callWebhookEndpoint<WebhookEevntTutorialComplete>(event)
   }
 }
