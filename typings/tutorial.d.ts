@@ -94,16 +94,14 @@ export interface TutorialAppVersions {
 
 export type VSCodeCommand = string | [string, any]
 
+export interface WebhookConfigEvents {
+  init?: boolean
+  reset?: boolean
+  step_complete?: boolean
+  level_complete?: boolean
+  tutorial_complete?: boolean
+}
 export interface WebhookConfig {
   url: string
-  config: {
-    token: boolean
-  }
-  events: {
-    init?: boolean
-    reset?: boolean
-    step_complete?: boolean
-    level_complete?: boolean
-    tutorial_complete?: boolean
-  }
+  events?: WebhookConfigEvents
 }

@@ -43,3 +43,6 @@ export const DISABLE_RUN_ON_SAVE = (process.env.CODEROAD_DISABLE_RUN_ON_SAVE || 
 // for multiple exemptions, separate each with a space "a1 b1"
 export const CONTENT_SECURITY_POLICY_EXEMPTIONS: string | null =
   process.env.CODEROAD_CONTENT_SECURITY_POLICY_EXEMPTIONS || null
+
+// optional token for authorization/authentication of webhook calls
+export const WEBHOOK_TOKEN = process.env.CODEROAD_WEBHOOK_TOKEN || null

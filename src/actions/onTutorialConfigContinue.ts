@@ -5,6 +5,7 @@ import Context from '../services/context/context'
 import tutorialConfig from './utils/tutorialConfig'
 import { COMMANDS, send } from '../commands'
 import logger from '../services/logger'
+import { setupWebhook } from '../services/hooks/webhooks'
 
 const onTutorialConfigContinue = async (action: T.Action, context: Context): Promise<void> => {
   logger('onTutorialConfigContinue', action)
@@ -19,6 +20,11 @@ const onTutorialConfigContinue = async (action: T.Action, context: Context): Pro
       data: tutorialToContinue,
       alreadyConfigured: true,
     })
+
+    // configure webhook
+    if (tutorialToContinue.config?.webhook) {
+      setupWebhook(tutorialToContinue.config.webhook)
+    }
   } catch (e) {
     const error = {
       type: 'UnknownError',
