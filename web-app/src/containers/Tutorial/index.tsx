@@ -18,6 +18,7 @@ import ScrollContent from './components/ScrollContent'
 import CompletedBanner from './components/CompletedBanner'
 import { Theme } from '../../styles/theme'
 import { useTheme } from 'emotion-theming'
+import SettingsPage from './containers/Settings'
 
 const styles = {
   page: {
@@ -155,7 +156,7 @@ const TutorialPage = (props: PageProps) => {
         )}
         {page === 'review' && <ReviewPage levels={levels} onResetToPosition={onResetToPosition} />}
 
-        {/* {page === 'settings' && <SettingsPage />} */}
+        {page === 'settings' && <SettingsPage />}
       </div>
 
       {props.state === 'Completed' ? (
