@@ -134,7 +134,7 @@ const TutorialPage = (props: PageProps) => {
     levels: tutorial.levels,
     testStatus,
   })
-
+  console.log({ position })
   const disableOptions = processes.length > 0 || props.state === 'Level.TestRunning'
 
   return (
@@ -156,7 +156,7 @@ const TutorialPage = (props: PageProps) => {
         )}
         {page === 'review' && <ReviewPage levels={levels} onResetToPosition={onResetToPosition} />}
 
-        {page === 'settings' && <SettingsPage />}
+        {page === 'settings' && <SettingsPage levels={levels} onResetToPosition={onResetToPosition} />}
       </div>
 
       {props.state === 'Completed' ? (

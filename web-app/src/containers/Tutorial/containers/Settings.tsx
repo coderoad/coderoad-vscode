@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { Theme } from '../../../styles/theme'
 import Reset from '../components/Reset'
 
+import * as T from 'typings'
+
 const styles = {
   flexColumn: {
     display: 'flex' as 'flex',
@@ -43,11 +45,21 @@ const styles = {
   },
 }
 
-interface Props {}
+interface Props {
+  levels: T.LevelUI[]
+  onResetToPosition(position: T.Position): void
+}
 
 const SettingsPage = (props: Props) => {
   const onReset = () => {
-    console.log('Trigger a reset event here')
+    const level: T.LevelUI | null = props.levels.length ? props.levels[0] : null
+    if (level) {
+      props.onResetToPosition({
+        levelId: level.id,
+        stepId: null,
+        complete: false,
+      })
+    }
   }
   return (
     <div css={styles.container}>
@@ -61,7 +73,9 @@ const SettingsPage = (props: Props) => {
               <div css={styles.menuItemHeader}>Reset Tutorial</div>
               <div css={styles.menuItemContent}>
                 This will reset the whole tutorial and change the source files back to the first level and first task
-                checkpoint.
+                checkpoint. This will reset the whole tutorial and change the source files back to the first level and
+                first task checkpoint. This will reset the whole tutorial and change the source files back to the first
+                level and first task checkpoint.
               </div>
             </div>
             <Reset style={styles.menuItemButton} warning onReset={onReset} />
