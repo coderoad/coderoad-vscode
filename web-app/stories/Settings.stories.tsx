@@ -6,5 +6,5 @@ import Settings from '../src/containers/Tutorial/containers/Settings'
 storiesOf('Settings', module)
   .addDecorator(SideBarDecorator)
   .add('Settings Page', () => {
-    return <Settings />
+    return <Settings onReset={() => console.log('Reset...')} />
   })

@@ -128,13 +128,25 @@ const TutorialPage = (props: PageProps) => {
 
   const [page, setPage] = React.useState<'about' | 'level' | 'review' | 'settings'>('level')
 
+  const onSettingsReset = () => {
+    //Reset to first level first step
+    const level: T.LevelUI | null = levels.length ? levels[1] : null
+    if (level) {
+      onResetToPosition({
+        levelId: level.id,
+        stepId: level.steps.length ? level.steps[0].id : null,
+        complete: false,
+      })
+      setPage('level')
+    }
+  }
   // format level code with status for easy rendering
   const { level, levels, levelIndex, stepIndex } = formatLevels({
     position,
     levels: tutorial.levels,
     testStatus,
   })
-  console.log({ position })
+
   const disableOptions = processes.length > 0 || props.state === 'Level.TestRunning'
 
   return (
@@ -156,7 +168,7 @@ const TutorialPage = (props: PageProps) => {
         )}
         {page === 'review' && <ReviewPage levels={levels} onResetToPosition={onResetToPosition} />}
 
-        {page === 'settings' && <SettingsPage levels={levels} onResetToPosition={onResetToPosition} />}
+        {page === 'settings' && <SettingsPage onReset={onSettingsReset} />}
       </div>
 
       {props.state === 'Completed' ? (

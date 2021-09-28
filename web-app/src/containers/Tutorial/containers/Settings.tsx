@@ -1,5 +1,5 @@
 import Button from 'components/Button'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Theme } from '../../../styles/theme'
 import Reset from '../components/Reset'
 
@@ -46,21 +46,10 @@ const styles = {
 }
 
 interface Props {
-  levels: T.LevelUI[]
-  onResetToPosition(position: T.Position): void
+  onReset(): void
 }
 
 const SettingsPage = (props: Props) => {
-  const onReset = () => {
-    const level: T.LevelUI | null = props.levels.length ? props.levels[0] : null
-    if (level) {
-      props.onResetToPosition({
-        levelId: level.id,
-        stepId: null,
-        complete: false,
-      })
-    }
-  }
   return (
     <div css={styles.container}>
       <div css={styles.header}>
@@ -78,7 +67,7 @@ const SettingsPage = (props: Props) => {
                 level and first task checkpoint.
               </div>
             </div>
-            <Reset style={styles.menuItemButton} warning onReset={onReset} />
+            <Reset style={styles.menuItemButton} warning onReset={props.onReset} />
           </div>
         </div>
       </div>
