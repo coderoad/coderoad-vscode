@@ -35,7 +35,7 @@
     "markdown-it": "11.0.1",
     "markdown-it-emoji": "1.4.0",
     "moment": "2.29.1",
-    "prismjs": "1.24.0",
+    "prismjs": "1.25.0",
     "react": "16.13.1",
     "react-addons-css-transition-group": "15.6.2",
     "react-dom": "16.13.1",
