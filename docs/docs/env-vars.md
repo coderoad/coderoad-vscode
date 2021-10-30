@@ -18,6 +18,8 @@ CodeRoad has a number of configurations:
 
 - `CODEROAD_CONTENT_SECURITY_POLICY_EXEMPTIONS` - a list of CSP exemption hashes. For multiples, separate the list with a space.
 
+- `CODEROAD_WEBHOOK_TOKEN` - an optional token for authenticating/authorizing webhook endpoints. Passed to the webhook endpoint in a `CodeRoad-User-Token` header.
+
 ## How to Use Variables
 
 ### Local

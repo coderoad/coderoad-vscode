@@ -71,7 +71,7 @@ export const createCommands = (commandProps: CreateCommandProps): { [key: string
       if (!alreadyConfigured) {
         const setupActions = data.config.setup
         if (setupActions) {
-          hooks.onInit(setupActions)
+          hooks.onInit(setupActions, data.id)
         }
       }
       testRunner = createTestRunner(data, {

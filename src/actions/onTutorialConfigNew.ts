@@ -8,6 +8,7 @@ import { version, compareVersions } from '../services/dependencies'
 import Context from '../services/context/context'
 import tutorialConfig from './utils/tutorialConfig'
 import { send } from '../commands'
+import { setupWebhook } from '../services/hooks/webhooks'
 
 const onTutorialConfigNew = async (action: T.Action, context: Context): Promise<void> => {
   try {
@@ -106,6 +107,11 @@ const onTutorialConfigNew = async (action: T.Action, context: Context): Promise<
     if (error && error.type) {
       send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error } })
       return
+    }
+
+    // configure webhook
+    if (data.config?.webhook) {
+      setupWebhook(data.config.webhook)
     }
 
     // report back to the webview that setup is complete
