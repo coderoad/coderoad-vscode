@@ -2,7 +2,7 @@ import * as T from 'typings'
 import * as TT from 'typings/tutorial'
 import * as vscode from 'vscode'
 import createTestRunner from './services/testRunner'
-import createWebView from './services/webview'
+import createWebView from './services/webview/create'
 import * as hooks from './services/hooks'
 import logger from './services/logger'
 import Channel from './channel'
@@ -32,29 +32,35 @@ export const send = (action: T.Action): void => {
   if (action) sendToClient(action)
 }
 
-export const createCommands = ({ extensionPath, workspaceState }: CreateCommandProps): { [key: string]: any } => {
+export const createCommands = (commandProps: CreateCommandProps): { [key: string]: any } => {
+  console.log(commandProps)
+  const { extensionPath, workspaceState } = commandProps
   // React panel webview
   let webview: any
   let currentPosition: T.Position
   let testRunner: any
   const channel = new Channel(workspaceState)
 
+  const start = async () => {
+    if (webview && webview.state.loaded) {
+      webview.createOrShow()
+    } else {
+      // activate machine
+      webview = await createWebView({
+        extensionPath,
+        channel,
+      })
+      // make send to client function exportable
+      // as "send".
+      sendToClient = webview.send
+    }
+  }
+
+  // run activation if triggered by "workspaceContains"
+  start()
+
   return {
-    // initialize
-    [COMMANDS.START]: async () => {
-      if (webview && webview.state.loaded) {
-        webview.createOrShow()
-      } else {
-        // activate machine
-        webview = await createWebView({
-          extensionPath,
-          channel,
-        })
-        // make send to client function exportable
-        // as "send".
-        sendToClient = webview.send
-      }
-    },
+    [COMMANDS.START]: start,
     [COMMANDS.CONFIG_TEST_RUNNER]: async ({
       data,
       alreadyConfigured,

@@ -18,6 +18,9 @@ interface Output {
 const state = { loaded: false }
 
 const createReactWebView = ({ extensionPath, channel }: ReactWebViewProps): Output => {
+  // throttle "already open" popup
+  let lastWebviewOpenedAt = new Date()
+
   // TODO add disposables
   const disposables: vscode.Disposable[] = []
 
@@ -78,11 +81,14 @@ const createReactWebView = ({ extensionPath, channel }: ReactWebViewProps): Outp
       // Otherwise, create a new panel.
 
       if (panel && panel.webview) {
-        vscode.window.showInformationMessage('CodeRoad already open')
+        if (Date.now() - lastWebviewOpenedAt.getTime() > 5000) {
+          vscode.window.showInformationMessage('CodeRoad already open')
+        }
         panel.reveal(vscode.ViewColumn.Two)
       } else {
         panel = createWebViewPanel()
       }
+      lastWebviewOpenedAt = new Date()
     },
     send,
     receive,

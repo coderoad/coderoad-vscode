@@ -72,7 +72,8 @@
     "vscode": "^1.39.2"
   },
   "activationEvents": [
-    "onCommand:coderoad.start"
+    "onCommand:coderoad.start",
+    "workspaceContains:**/codeally.json"
   ],
   "categories": [
     "Other"
