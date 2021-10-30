@@ -4,6 +4,8 @@ import { Button, Dialog, Message } from '@alifd/next'
 interface Props {
   disabled?: boolean
   onReset(): void
+  warning?: boolean
+  style?: React.CSSProperties
 }
 
 const Reset = (props: Props) => {
@@ -24,11 +26,13 @@ const Reset = (props: Props) => {
   return (
     <>
       <Button
-        ghost="dark"
-        type="secondary"
+        ghost={props.warning ? false : 'dark'}
+        type={props.warning ? 'normal' : 'secondary'}
         size="medium"
         onClick={() => setModalState('confirm')}
         disabled={props.disabled}
+        warning={props.warning}
+        style={props.style}
       >
         Reset
       </Button>

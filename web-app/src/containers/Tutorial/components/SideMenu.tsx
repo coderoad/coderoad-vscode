@@ -81,10 +81,10 @@ const SideMenu = (props: Props) => {
           <Icon type="prompt" size="xs" color="#EBEBEB" />
           <span style={styles.itemText}>About</span>
         </Item>
-        {/* <Item
+        <Item
           key="settings"
           disabled={props.page === 'settings'}
-          style={props.page === 'settings' ? styles.active : {}}
+          style={props.page === 'settings' ? styles.active(theme) : {}}
           onClick={() => {
             onMenuClose()
             props.setPage('settings')
@@ -92,8 +92,7 @@ const SideMenu = (props: Props) => {
         >
           <Icon type="set" size="small" color="#EBEBEB" />
           <span style={styles.itemText}>Settings</span>
-        </Item>{' '}
-        */}
+        </Item>
       </Menu>
     </Drawer>
   )
