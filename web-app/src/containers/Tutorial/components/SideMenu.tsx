@@ -25,8 +25,8 @@ const styles = {
 interface Props {
   visible: boolean
   toggleVisible(visible: boolean): void
-  page: 'about' | 'level' | 'review' | 'settings'
-  setPage(page: 'about' | 'level' | 'review' | 'settings'): void
+  page: 'level' | 'review' | 'settings'
+  setPage(page: 'level' | 'review' | 'settings'): void
 }
 
 const SideMenu = (props: Props) => {
@@ -69,18 +69,6 @@ const SideMenu = (props: Props) => {
           <span style={styles.itemText}>Review</span>
         </Item>
         <Divider key="divider" />
-        <Item
-          key="about"
-          disabled={props.page === 'about'}
-          style={props.page === 'about' ? styles.active(theme) : {}}
-          onClick={() => {
-            onMenuClose()
-            props.setPage('about')
-          }}
-        >
-          <Icon type="prompt" size="xs" color="#EBEBEB" />
-          <span style={styles.itemText}>About</span>
-        </Item>
         <Item
           key="settings"
           disabled={props.page === 'settings'}

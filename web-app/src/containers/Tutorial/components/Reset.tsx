@@ -33,6 +33,7 @@ const Reset = (props: Props) => {
         disabled={props.disabled}
         warning={props.warning}
         style={props.style}
+        htmlType="reset"
       >
         Reset
       </Button>
