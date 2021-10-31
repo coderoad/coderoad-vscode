@@ -76,7 +76,7 @@ export const onReset = (event: WebhookEventReset): void => {
   }
 }
 
-type WebhookEventStepComplete = { tutorialId: string; version: string; levelId: string; stepId: string }
+type WebhookEventStepComplete = { tutorialId: string; version?: string; levelId: string; stepId: string }
 
 export const onStepComplete = (event: WebhookEventStepComplete): void => {
   if (WEBHOOK_EVENTS.step_complete) {
@@ -84,7 +84,7 @@ export const onStepComplete = (event: WebhookEventStepComplete): void => {
   }
 }
 
-type WebhookEventLevelComplete = { tutorialId: string; version: string; levelId: string }
+type WebhookEventLevelComplete = { tutorialId: string; version?: string; levelId: string }
 
 export const onLevelComplete = (event: WebhookEventLevelComplete): void => {
   if (WEBHOOK_EVENTS.level_complete) {
@@ -92,10 +92,10 @@ export const onLevelComplete = (event: WebhookEventLevelComplete): void => {
   }
 }
 
-type WebhookEevntTutorialComplete = { tutorialId: string; version: string }
+type WebhookEventTutorialComplete = { tutorialId: string; version?: string }
 
-export const onTutorialComplete = (event: WebhookEevntTutorialComplete): void => {
+export const onTutorialComplete = (event: WebhookEventTutorialComplete): void => {
   if (WEBHOOK_EVENTS.tutorial_complete) {
-    callWebhookEndpoint<WebhookEevntTutorialComplete>(event)
+    callWebhookEndpoint<WebhookEventTutorialComplete>(event)
   }
 }
