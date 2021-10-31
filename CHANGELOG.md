@@ -261,3 +261,11 @@ Adds a review page for viewing tutorial content. The review page should be espec
 
 - Resolve issues with error pages
 - Include better errors for supporting Windows
+
+### [0.15.0]
+
+- Webhook support
+- Updated Settings page
+- Reset tutorial button
+- New env variable: CODEROAD_CONTENT_SECURITY_POLICY_EXEMPTIONS
+- CodeRoad launches automatically if repo includes `codeally.json`
