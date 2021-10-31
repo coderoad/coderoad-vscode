@@ -22,7 +22,7 @@ const styles = {
     backgroundColor: theme['$color-fill1-2'],
     fontSize: '1rem',
     lineHeight: '1rem',
-    padding: '10px 0.4rem',
+    padding: '10px 0.4rem 10px 1rem',
     marginBottom: '0.5rem',
   }),
   content: {
