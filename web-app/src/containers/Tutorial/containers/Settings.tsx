@@ -1,9 +1,7 @@
-import Button from 'components/Button'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+import { Card } from '@alifd/next'
 import { Theme } from '../../../styles/theme'
 import Reset from '../components/Reset'
-
-import * as T from 'typings'
 
 const styles = {
   flexColumn: {
@@ -24,24 +22,14 @@ const styles = {
     backgroundColor: theme['$color-fill1-2'],
     fontSize: '1rem',
     lineHeight: '1rem',
-    padding: '10px 0.4rem',
+    padding: '10px 0.4rem 10px 1rem',
+    marginBottom: '0.5rem',
   }),
   content: {
     padding: '0.5rem',
-  },
-  menu: {},
-  menuItem: {
     display: 'flex' as 'flex',
-    border: '1px solid rgb(173, 173, 173)',
-    borderRadius: '5px',
-    padding: '0.5rem',
-  },
-  menuItemHeader: {
-    fontWeight: 'bold' as 'bold',
-  },
-  menuItemContent: {},
-  menuItemButton: {
-    marginLeft: 'auto' as 'auto',
+    flexDirection: 'column' as 'column',
+    gap: '1rem',
   },
 }
 
@@ -56,20 +44,37 @@ const SettingsPage = (props: Props) => {
         <div>Settings</div>
       </div>
       <div css={styles.content}>
-        <div css={styles.menu}>
-          <div css={styles.menuItem}>
-            <div css={styles.flexColumn}>
-              <div css={styles.menuItemHeader}>Reset Tutorial</div>
-              <div css={styles.menuItemContent}>
-                This will reset the whole tutorial and change the source files back to the first level and first task
-                checkpoint. This will reset the whole tutorial and change the source files back to the first level and
-                first task checkpoint. This will reset the whole tutorial and change the source files back to the first
-                level and first task checkpoint.
-              </div>
+        <Card free>
+          <Card.Header title="About" />
+          <Card.Divider />
+          <Card.Content>
+            <div>
+              CodeRoad is an open source VSCode extension that allows you to <strong>create</strong> and{' '}
+              <strong>play</strong> interactive coding tutorials inside VSCode.
             </div>
-            <Reset style={styles.menuItemButton} warning onReset={props.onReset} />
-          </div>
-        </div>
+          </Card.Content>
+          <Card.Divider />
+          <Card.Actions>
+            <a href="https://github.com/coderoad/coderoad-vscode">GitHub</a>
+            <a href="mailto:coderoadapp@gmail.com" style={{ marginLeft: '0.5rem' }}>
+              Email
+            </a>
+          </Card.Actions>
+        </Card>
+        <Card free>
+          <Card.Header title="Reset Tutorial" />
+          <Card.Divider />
+          <Card.Content>
+            This will reset the whole tutorial and change the source files back to the first level and first task
+            checkpoint. This will reset the whole tutorial and change the source files back to the first level and first
+            task checkpoint. This will reset the whole tutorial and change the source files back to the first level and
+            first task checkpoint.
+          </Card.Content>
+          <Card.Divider />
+          <Card.Actions>
+            <Reset warning onReset={props.onReset} />
+          </Card.Actions>
+        </Card>
       </div>
     </div>
   )

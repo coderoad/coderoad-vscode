@@ -4,7 +4,6 @@ import * as selectors from '../../services/selectors'
 import SideMenu from './components/SideMenu'
 import Level from './components/Level'
 import Icon from '../../components/Icon'
-import AboutPage from './containers/About'
 import ReviewPage from './containers/Review'
 import Button from '../../components/Button'
 import ProcessMessages from '../../components/ProcessMessages'
@@ -126,7 +125,7 @@ const TutorialPage = (props: PageProps) => {
 
   const [menuVisible, setMenuVisible] = React.useState(false)
 
-  const [page, setPage] = React.useState<'about' | 'level' | 'review' | 'settings'>('level')
+  const [page, setPage] = React.useState<'level' | 'review' | 'settings'>('level')
 
   const onSettingsReset = () => {
     //Reset to first level first step
@@ -158,8 +157,6 @@ const TutorialPage = (props: PageProps) => {
           </a>
           <span css={styles.title}>{tutorial.summary.title}</span>
         </div>
-
-        {page === 'about' && <AboutPage />}
 
         {page === 'level' && (
           <ScrollContent item={level.id}>
