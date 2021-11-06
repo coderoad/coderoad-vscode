@@ -1,13 +1,13 @@
 import * as TT from 'typings/tutorial'
 import { exec, exists } from '../node'
-import { version, compareVersions } from '../dependencies'
+import { getVersion, compareVersions } from '../dependencies'
 import logger from '../logger'
 
 export const gitOrigin = 'coderoad'
 
 const stashAllFiles = async (): Promise<never | void> => {
   // stash files including untracked (eg. newly created file)
-  const { stdout, stderr } = await exec({ command: `git stash --include-untracked` })
+  const { stderr } = await exec({ command: `git stash --include-untracked` })
   if (stderr) {
     console.error(stderr)
     throw new Error('Error stashing files')
@@ -71,7 +71,10 @@ export async function clear(): Promise<Error | void> {
 }
 
 async function init(): Promise<Error | void> {
-  const gitVersion = await version('git')
+  const { version: gitVersion, error: gitError } = await getVersion('git')
+  if (gitError) {
+    throw new Error(`Error: Git config error: ${gitError.message}`)
+  }
   if (!gitVersion) {
     throw new Error('Error: No git version found')
   }

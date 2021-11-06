@@ -10,5 +10,8 @@
     ".vscode-test/**": true
   },
   "git.alwaysSignOff": true,
-  "typescript.tsdk": "./node_modules/typescript/lib"
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "cSpell.words": [
+    "coderoad"
+  ]
 }
