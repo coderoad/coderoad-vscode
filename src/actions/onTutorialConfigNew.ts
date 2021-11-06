@@ -4,7 +4,7 @@ import * as TT from 'typings/tutorial'
 import * as E from 'typings/error'
 import { satisfies } from 'semver'
 import { onEvent } from '../services/telemetry'
-import { version, compareVersions } from '../services/dependencies'
+import { getVersion, compareVersions } from '../services/dependencies'
 import Context from '../services/context/context'
 import tutorialConfig from './utils/tutorialConfig'
 import { send } from '../commands'
@@ -46,8 +46,23 @@ const onTutorialConfigNew = async (action: T.Action, context: Context): Promise<
     if (dependencies && dependencies.length) {
       for (const dep of dependencies) {
         // check dependency is installed
-        const currentVersion: string | null = await version(dep.name)
-        if (!currentVersion) {
+        const { version, error: gitError } = await getVersion(dep.name)
+        if (gitError) {
+          // git config issue
+          const error: E.ErrorMessage = {
+            type: 'GitConfigError',
+            message: gitError.message,
+            actions: [
+              {
+                label: 'Check Again',
+                transition: 'TRY_AGAIN',
+              },
+            ],
+          }
+          send({ type: 'TUTORIAL_CONFIGURE_FAIL', payload: { error } })
+          return
+        }
+        if (!version) {
           // use a custom error message
           const error: E.ErrorMessage = {
             type: 'MissingTutorialDependency',
@@ -64,12 +79,12 @@ const onTutorialConfigNew = async (action: T.Action, context: Context): Promise<
         }
 
         // check dependency version
-        const satisfiedDependency = await compareVersions(currentVersion, dep.version)
+        const satisfiedDependency = await compareVersions(version, dep.version)
 
         if (!satisfiedDependency) {
           const error: E.ErrorMessage = {
             type: 'UnmetTutorialDependency',
-            message: `Expected ${dep.name} to have version ${dep.version}, but found version ${currentVersion}`,
+            message: `Expected ${dep.name} to have version ${dep.version}, but found version ${version}`,
             actions: [
               {
                 label: 'Check Again',
@@ -116,7 +131,7 @@ const onTutorialConfigNew = async (action: T.Action, context: Context): Promise<
 
     // report back to the webview that setup is complete
     send({ type: 'TUTORIAL_CONFIGURED' })
-  } catch (e) {
+  } catch (e: any) {
     const error = {
       type: 'UnknownError',
       message: `Location: EditorTutorialConfig.\n\n ${e.message}`,

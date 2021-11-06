@@ -1,5 +1,5 @@
 import * as E from 'typings/error'
-import { version } from '../services/dependencies'
+import { getVersion } from '../services/dependencies'
 import { checkWorkspaceEmpty } from '../services/workspace'
 import { send } from '../commands'
 import { validateGitConfig } from '../services/git'
@@ -28,8 +28,23 @@ const onValidateSetup = async (): Promise<void> => {
     }
     // check Git is installed.
     // Should wait for workspace before running otherwise requires access to root folder
-    const isGitInstalled = await version('git')
-    if (!isGitInstalled) {
+    const { version, error: gitError } = await getVersion('git')
+    if (gitError) {
+      // git config issue
+      const error: E.ErrorMessage = {
+        type: 'GitConfigError',
+        message: gitError.message,
+        actions: [
+          {
+            label: 'Check Again',
+            transition: 'TRY_AGAIN',
+          },
+        ],
+      }
+      send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
+      return
+    }
+    if (!version) {
       const error: E.ErrorMessage = {
         type: 'GitNotFound',
         message: '',
@@ -46,6 +61,9 @@ const onValidateSetup = async (): Promise<void> => {
 
     const isGitUserNameConfigured = await validateGitConfig('user.name')
     const isGitUserEmailConfigured = await validateGitConfig('user.email')
+    console.log(`isGitUserNameConf: ${isGitUserNameConfigured}`)
+    console.log(`isGitUserEmailConf: ${isGitUserEmailConfigured}`)
+
     if (!isGitUserNameConfigured || !isGitUserEmailConfigured) {
       let message = ''
       if (!isGitUserNameConfigured) message += 'Git user not configured.\n'
@@ -65,9 +83,9 @@ const onValidateSetup = async (): Promise<void> => {
     }
 
     send({ type: 'SETUP_VALIDATED' })
-  } catch (e) {
+  } catch (e: any) {
     const error = {
-      type: 'UknownError',
+      type: 'UnknownError',
       message: e.message,
     }
     send({ type: 'VALIDATE_SETUP_FAILED', payload: { error } })
