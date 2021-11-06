@@ -27,5 +27,5 @@ fi
 # send to Open-VSX Marketplace (https://github.com/eclipse/openvsx/wiki/Publishing-Extensions)
 if ! [[ -z "$OVSX_KEY" ]]; then
   echo "publishing to open-vsx marketplace..."
-  npx ovsx publish -p $OVSX_KEY ./$RELEASES_FOLDER/$OUTPUT_FILE --baseContentUrl $RAW_PATH --baseImagesUrl $RAW_PATH"
+  npx ovsx publish -p $OVSX_KEY ./$RELEASES_FOLDER/$OUTPUT_FILE --baseContentUrl $RAW_PATH --baseImagesUrl $RAW_PATH
 fi
