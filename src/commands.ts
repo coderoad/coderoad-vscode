@@ -33,7 +33,6 @@ export const send = (action: T.Action): void => {
 }
 
 export const createCommands = (commandProps: CreateCommandProps): { [key: string]: any } => {
-  console.log(commandProps)
   const { extensionPath, workspaceState } = commandProps
   // React panel webview
   let webview: any

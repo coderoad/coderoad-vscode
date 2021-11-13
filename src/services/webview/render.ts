@@ -27,6 +27,7 @@ async function render(panel: vscode.WebviewPanel, rootPath: string): Promise<voi
 
     // used for CSP
     const nonces: string[] = []
+    const hashes: string[] = []
 
     // generate vscode-resource build path uri
     const createUri = (_filePath: string): any => {
@@ -50,7 +51,12 @@ async function render(panel: vscode.WebviewPanel, rootPath: string): Promise<voi
     // support additional CSP exemptions when CodeRoad is embedded
     if (CONTENT_SECURITY_POLICY_EXEMPTIONS && CONTENT_SECURITY_POLICY_EXEMPTIONS.length) {
       for (const exemption of CONTENT_SECURITY_POLICY_EXEMPTIONS.split(' ')) {
-        nonces.push(exemption)
+        // sha hashes should not be prefixed with 'nonce-'
+        if (exemption.match(/^sha/)) {
+          hashes.push(exemption)
+        } else {
+          nonces.push(exemption)
+        }
       }
     }
 
@@ -71,17 +77,24 @@ async function render(panel: vscode.WebviewPanel, rootPath: string): Promise<voi
     }
 
     // set CSP (content security policy) to grant permission to local files
+    // while blocking unexpected malicious network requests
     const cspMeta: HTMLMetaElement = document.createElement('meta')
     cspMeta.httpEquiv = 'Content-Security-Policy'
+
+    const wrapInQuotes = (str: string) => `'${str}'`
+    const nonceString = nonces.map((nonce: string) => wrapInQuotes(`nonce-${nonce}`)).join(' ')
+    const hashString = hashes.map(wrapInQuotes).join(' ')
+
     cspMeta.content =
       [
         `default-src 'self'`,
+        `manifest-src ${hashString} 'self'`,
         `connect-src https: http:`,
         // @ts-ignore
         `font-src ${panel.webview.cspSource} http: https: data:`,
         // @ts-ignore
         `img-src ${panel.webview.cspSource} https:`,
-        `script-src ${nonces.map((nonce) => `'nonce-${nonce}'`).join(' ')} data:`,
+        `script-src ${nonceString} ${hashString} data:`,
         // @ts-ignore
         `style-src ${panel.webview.cspSource} https: 'self' 'unsafe-inline'`,
       ].join('; ') + ';'
@@ -92,7 +105,7 @@ async function render(panel: vscode.WebviewPanel, rootPath: string): Promise<voi
 
     // set view
     panel.webview.html = html
-  } catch (error) {
+  } catch (error: any) {
     onError(error)
     console.error(error)
   }
