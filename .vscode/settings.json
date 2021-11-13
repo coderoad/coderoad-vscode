@@ -12,6 +12,12 @@
   "git.alwaysSignOff": true,
   "typescript.tsdk": "./node_modules/typescript/lib",
   "cSpell.words": [
-    "coderoad"
+    "alifd",
+    "browserslist",
+    "codeally",
+    "coderoad",
+    "flowtype",
+    "prismjs",
+    "xstate"
   ]
 }

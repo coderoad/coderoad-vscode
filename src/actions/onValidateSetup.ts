@@ -61,8 +61,6 @@ const onValidateSetup = async (): Promise<void> => {
 
     const isGitUserNameConfigured = await validateGitConfig('user.name')
     const isGitUserEmailConfigured = await validateGitConfig('user.email')
-    console.log(`isGitUserNameConf: ${isGitUserNameConfigured}`)
-    console.log(`isGitUserEmailConf: ${isGitUserEmailConfigured}`)
 
     if (!isGitUserNameConfigured || !isGitUserEmailConfigured) {
       let message = ''
