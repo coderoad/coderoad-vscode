@@ -1,4 +1,6 @@
 import * as vscode from 'vscode'
+import { readFile, writeFile } from '../node'
+import { SESSION_FILE_PATH } from '../../environment'
 
 // NOTE: localStorage is not available on client
 // and must be stored in editor
@@ -19,6 +21,18 @@ class Storage<T> {
     const value: string | undefined = await this.storage.get(this.key)
     if (value) {
       return JSON.parse(value)
+    } else if (SESSION_FILE_PATH) {
+      // optionally read from file as a fallback to localstorage
+      const sessionFile = await readFile(SESSION_FILE_PATH)
+      try {
+        const session = JSON.parse(sessionFile)
+        if (session && session[this.key]) {
+          // TODO: validate session
+          return session[this.key]
+        }
+      } catch (err) {
+        console.error(`Failed to parse session file: ${SESSION_FILE_PATH}`)
+      }
     }
     return this.defaultValue
   }
@@ -32,7 +46,12 @@ class Storage<T> {
       ...current,
       ...value,
     })
-    this.storage.update(this.key, next)
+    this.storage.update(this.key, next).then(() => {
+      // optionally write to file
+      if (SESSION_FILE_PATH) {
+        writeFile(this.storage, SESSION_FILE_PATH)
+      }
+    })
   }
   public reset = () => {
     this.set(this.defaultValue)

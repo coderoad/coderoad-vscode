@@ -7,6 +7,7 @@ import { WORKSPACE_ROOT } from '../../environment'
 const asyncExec = promisify(cpExec)
 const asyncRemoveFile = promisify(fs.unlink)
 const asyncReadFile = promisify(fs.readFile)
+const asyncWriteFile = promisify(fs.writeFile)
 
 interface ExecParams {
   command: string
@@ -27,5 +28,12 @@ export const removeFile = (...paths: string[]) => {
 }
 
 export const readFile = (...paths: string[]) => {
-  return asyncReadFile(join(...paths))
+  return asyncReadFile(join(...paths), 'utf8')
+}
+
+export const writeFile = (data: any, ...paths: string[]) => {
+  const filePath = join(...paths)
+  return asyncWriteFile(filePath, JSON.stringify(data)).catch((err) => {
+    console.error(`Failed to write to ${filePath}`)
+  })
 }
