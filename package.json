@@ -1,6 +1,6 @@
 {
   "name": "coderoad",
-  "version": "0.15.1",
+  "version": "0.15.2",
   "description": "Play interactive coding tutorials in your editor",
   "keywords": [
     "tutorial",
@@ -34,21 +34,21 @@
     "watch": "tsc -watch -p ./"
   },
   "dependencies": {
-    "@types/events": "^3.0.0",
-    "chokidar": "^3.5.2",
+    "chokidar": "3.5.2",
     "dotenv": "^8.2.0",
     "eslint": "7.26.0",
-    "git-url-parse": "^11.6.0",
+    "git-url-parse": "11.6.0",
     "jest": "26.6.3",
     "jsdom": "16.5.3",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "2.6.1",
     "semver": "7.3.5",
     "ts-jest": "26.5.6",
-    "typescript": "^4.4.4",
+    "typescript": "4.4.4",
     "vscode-extension-telemetry": "0.1.7"
   },
   "devDependencies": {
     "@types/assert": "^1.5.6",
+    "@types/events": "3.0.0",
     "@types/jest": "26.0.23",
     "@types/jsdom": "^16.2.13",
     "@types/node": "15.0.2",
