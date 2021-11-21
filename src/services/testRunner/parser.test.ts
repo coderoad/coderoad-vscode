@@ -174,7 +174,7 @@ not ok 2 server should log "Hello World"
         failed: [
           {
             message: 'server should log "Hello World"',
-            details: `AssertionError [ERR_ASSERTION]: \"Hello World was not logged
+            details: `AssertionError [ERR_ASSERTION]: "Hello World was not logged
 at Context.<anonymous> (test/server.test.js:15:12)
 at processImmediate (internal/timers.js:439:21)`,
             logs: ['log 1', 'log 2'],
@@ -282,7 +282,7 @@ describe('subtasks', () => {
     Object.keys(summary).forEach((key) => {
       const match = key.match(subtaskRegex)
       if (!!match) {
-        const { stepId, testId } = match.groups || {}
+        const { testId } = match.groups || {}
         const testIndex = Number(testId) - 1
         subtaskSummary[testIndex] = summary[key]
       }
