@@ -20,6 +20,8 @@ CodeRoad has a number of configurations:
 
 - `CODEROAD_WEBHOOK_TOKEN` - an optional token for authenticating/authorizing webhook endpoints. Passed to the webhook endpoint in a `CodeRoad-User-Token` header.
 
+- `CODEROAD_SESSION_STORAGE_PATH` - the path to a directory for writing session storage to files. Helps preserves state across containers. Example: `../tmp`.
+
 ## How to Use Variables
 
 ### Local
