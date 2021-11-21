@@ -22,16 +22,25 @@ class Storage<T> {
     if (value) {
       return JSON.parse(value)
     } else if (SESSION_FILE_PATH) {
-      // optionally read from file as a fallback to localstorage
-      const sessionFile = await readFile(SESSION_FILE_PATH)
       try {
+        // optionally read from file as a fallback to local storage
+        const sessionFile = await readFile(SESSION_FILE_PATH)
+        if (!sessionFile) {
+          throw new Error('No session file found')
+        }
         const session = JSON.parse(sessionFile)
-        if (session && session[this.key]) {
-          // TODO: validate session
-          return session[this.key]
+
+        if (session) {
+          const keys = Object.keys(session)
+          // validate session
+          if (keys.length) {
+            // should only be one
+            this.key = keys[0]
+            return session[this.key]
+          }
         }
       } catch (err) {
-        console.error(`Failed to parse session file: ${SESSION_FILE_PATH}`)
+        console.warn(`Failed to read or parse session file: ${SESSION_FILE_PATH}`)
       }
     }
     return this.defaultValue
@@ -39,6 +48,7 @@ class Storage<T> {
   public set = (value: T): void => {
     const stringValue = JSON.stringify(value)
     this.storage.update(this.key, stringValue)
+    this.writeToSessionFile(stringValue)
   }
   public update = async (value: T): Promise<void> => {
     const current = await this.get()
@@ -46,12 +56,19 @@ class Storage<T> {
       ...current,
       ...value,
     })
-    this.storage.update(this.key, next).then(() => {
-      // optionally write to file
-      if (SESSION_FILE_PATH) {
-        writeFile(this.storage, SESSION_FILE_PATH)
+    await this.storage.update(this.key, next)
+
+    this.writeToSessionFile(next)
+  }
+  public writeToSessionFile(data: string) {
+    // optionally write to file
+    if (SESSION_FILE_PATH) {
+      try {
+        writeFile({ [this.key]: data }, SESSION_FILE_PATH)
+      } catch (err: any) {
+        console.warn(`Failed to write coderoad session to path: ${SESSION_FILE_PATH}`)
       }
-    })
+    }
   }
   public reset = () => {
     this.set(this.defaultValue)

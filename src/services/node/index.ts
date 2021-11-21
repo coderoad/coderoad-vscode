@@ -14,26 +14,34 @@ interface ExecParams {
   dir?: string
 }
 
+// correct paths to be from workspace root rather than extension folder
+const getWorkspacePath = (...paths: string[]) => {
+  return join(WORKSPACE_ROOT, ...paths)
+}
+
 export const exec = (params: ExecParams): Promise<{ stdout: string; stderr: string }> | never => {
   const cwd = join(WORKSPACE_ROOT, params.dir || '')
   return asyncExec(params.command, { cwd })
 }
 
 export const exists = (...paths: string[]): boolean | never => {
-  return fs.existsSync(join(WORKSPACE_ROOT, ...paths))
+  return fs.existsSync(getWorkspacePath(...paths))
 }
 
 export const removeFile = (...paths: string[]) => {
-  return asyncRemoveFile(join(WORKSPACE_ROOT, ...paths))
+  return asyncRemoveFile(getWorkspacePath(...paths))
 }
 
-export const readFile = (...paths: string[]) => {
-  return asyncReadFile(join(...paths), 'utf8')
+export const readFile = (...paths: string[]): Promise<string | void> => {
+  const filePath = getWorkspacePath(...paths)
+  return asyncReadFile(getWorkspacePath(...paths), 'utf8').catch((err) => {
+    console.warn(`Failed to read from ${filePath}`)
+  })
 }
 
-export const writeFile = (data: any, ...paths: string[]) => {
-  const filePath = join(...paths)
+export const writeFile = (data: any, ...paths: string[]): Promise<void> => {
+  const filePath = getWorkspacePath(...paths)
   return asyncWriteFile(filePath, JSON.stringify(data)).catch((err) => {
-    console.error(`Failed to write to ${filePath}`)
+    console.warn(`Failed to write to ${filePath}`)
   })
 }
