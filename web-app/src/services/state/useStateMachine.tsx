@@ -16,7 +16,10 @@ declare let acquireVsCodeApi: any
 const editor = acquireVsCodeApi()
 const editorSend = (action: T.Action) => {
   logger(`TO EXT: "${action.type}"`)
-  return editor.postMessage(action)
+  return editor.postMessage({
+    ...action,
+    source: 'coderoad', // filter events by source on editor side
+  })
 }
 
 // router finds first state match of <Route path='' />
@@ -31,14 +34,15 @@ const useStateMachine = (): Output => {
   // event bus listener
   React.useEffect(() => {
     const listener = 'message'
-    // propograte channel event to state machine
+    // propagate channel event to state machine
     const handler = (event: any) => {
-      // ensure events are coming from coderoad webview
-      if (!event.origin.match(/^vscode-webview/)) {
-        return
-      }
       // NOTE: must call event.data, cannot destructure. VSCode acts odd
       const action = event.data
+
+      if (action.source !== 'coderoad') {
+        // filter out events from other extensions
+        return
+      }
       sendWithLog(action)
     }
     window.addEventListener(listener, handler)

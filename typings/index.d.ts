@@ -49,6 +49,7 @@ export interface Position {
 // current tutorial state
 
 export interface Action {
+  source?: 'coderoad' // filter received actions by this
   type: string
   payload?: any
   meta?: any

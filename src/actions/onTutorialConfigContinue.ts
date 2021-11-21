@@ -25,7 +25,7 @@ const onTutorialConfigContinue = async (action: T.Action, context: Context): Pro
     if (tutorialToContinue.config?.webhook) {
       setupWebhook(tutorialToContinue.config.webhook)
     }
-  } catch (e) {
+  } catch (e: any) {
     const error = {
       type: 'UnknownError',
       message: `Location: Editor tutorial continue config.\n\n ${e.message}`,

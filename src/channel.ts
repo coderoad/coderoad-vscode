@@ -20,6 +20,11 @@ class Channel implements Channel {
 
   // receive from webview
   public receive = async (action: T.Action): Promise<void> => {
+    if (action.source !== 'coderoad') {
+      // filter out events from other extensions
+      return
+    }
+
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
 

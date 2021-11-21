@@ -15,7 +15,7 @@ const openFiles = async (files: string[] = []): Promise<void> => {
       const absoluteFilePath = join(wr, filePath)
       const doc = await vscode.workspace.openTextDocument(absoluteFilePath)
       await vscode.window.showTextDocument(doc, vscode.ViewColumn.One)
-    } catch (error) {
+    } catch (error: any) {
       console.log(`Failed to open file ${filePath}: ${error.message}`)
     }
   }
