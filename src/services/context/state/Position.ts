@@ -19,6 +19,7 @@ class Position {
   setTutorial(workspaceState: vscode.Memento, tutorial: TT.Tutorial): void {
     this.storage = new Storage<T.Position>({
       key: `coderoad:position:${tutorial.id}:${tutorial.version}`,
+      filePath: 'coderoad_position',
       storage: workspaceState,
       defaultValue,
     })
