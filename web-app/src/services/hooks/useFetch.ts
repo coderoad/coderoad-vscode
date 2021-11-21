@@ -3,7 +3,7 @@ import * as yaml from 'js-yaml'
 
 const useFetch = <T>(url: string, options: object = {}): { data: T | null; error: string | null; loading: boolean } => {
   const [data, setData] = React.useState(null)
-  const [error, setError] = React.useState(null)
+  const [error, setError] = React.useState<string | null>(null)
   const [loading, setLoading] = React.useState(true)
   React.useEffect(() => {
     const fetchData = async () => {
@@ -28,11 +28,11 @@ const useFetch = <T>(url: string, options: object = {}): { data: T | null; error
         setLoading(false)
         setData(data)
       } catch (error) {
-        setError(error)
+        setError((error as any).message)
       }
     }
     fetchData()
-  }, [url])
+  }, [options, url])
   return { data, error, loading }
 }
 

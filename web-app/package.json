@@ -70,6 +70,6 @@
     "react-app-rewired": "2.1.8",
     "react-scripts": "3.4.3",
     "sass-loader": "8.0.2",
-    "typescript": "4.2.4"
+    "typescript": "4.4.4"
   }
 }
