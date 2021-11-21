@@ -9,6 +9,7 @@ class Tutorial {
   constructor(workspaceState: vscode.Memento) {
     this.storage = new Storage<TT.Tutorial | null>({
       key: 'coderoad:currentTutorial',
+      filePath: 'coderoad_tutorial',
       storage: workspaceState,
       defaultValue: null,
     })

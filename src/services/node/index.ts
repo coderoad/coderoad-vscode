@@ -35,13 +35,13 @@ export const removeFile = (...paths: string[]) => {
 export const readFile = (...paths: string[]): Promise<string | void> => {
   const filePath = getWorkspacePath(...paths)
   return asyncReadFile(getWorkspacePath(...paths), 'utf8').catch((err) => {
-    console.warn(`Failed to read from ${filePath}`)
+    console.warn(`Failed to read from ${filePath}: ${err.message}`)
   })
 }
 
 export const writeFile = (data: any, ...paths: string[]): Promise<void> => {
   const filePath = getWorkspacePath(...paths)
   return asyncWriteFile(filePath, JSON.stringify(data)).catch((err) => {
-    console.warn(`Failed to write to ${filePath}`)
+    console.warn(`Failed to write to ${filePath}: ${err.message}`)
   })
 }

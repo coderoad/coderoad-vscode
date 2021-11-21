@@ -48,4 +48,4 @@ export const CONTENT_SECURITY_POLICY_EXEMPTIONS: string | null =
 export const WEBHOOK_TOKEN = process.env.CODEROAD_WEBHOOK_TOKEN || null
 
 // a path to write session state to a file. Useful for maintaining session across containers
-export const SESSION_FILE_PATH = process.env.CODEROAD_SESSION_FILE_PATH || null
+export const SESSION_STORAGE_PATH = process.env.CODEROAD_STORAGE_PATH || null
