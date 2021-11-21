@@ -36,7 +36,7 @@
   "dependencies": {
     "chokidar": "3.5.2",
     "dotenv": "^8.2.0",
-    "eslint": "7.26.0",
+    "eslint": "7.32.0",
     "git-url-parse": "11.6.0",
     "jest": "27.3.1",
     "jsdom": "18.1.0",

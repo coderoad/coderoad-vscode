@@ -10,6 +10,5 @@ module.exports = {
     // 'react/forbid-component-props': [1, { forbid: ['style'] }],
     // 'react/forbid-dom-props': [1, { forbid: ['style'] }],
     'space-before-function-paren': 0,
-    'prettier/prettier': 'error',
   },
 }
