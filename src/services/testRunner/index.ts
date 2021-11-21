@@ -75,7 +75,7 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks): ((params: an
       }
       logger('COMMAND', command)
       result = await exec({ command, dir: testRunnerConfig.directory })
-    } catch (err) {
+    } catch (err: any) {
       result = { stdout: err.stdout, stderr: err.stack }
     }
 

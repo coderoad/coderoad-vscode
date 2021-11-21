@@ -63,7 +63,7 @@ const reset = async ({ branch, hash }: Input): Promise<void> => {
     await exec({
       command: `git reset --hard ${hash}`,
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error resetting')
     console.error(error.message)
   }

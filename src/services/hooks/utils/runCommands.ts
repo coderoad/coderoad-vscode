@@ -15,7 +15,7 @@ const runCommands = async (commands: string[] = []): Promise<void> => {
     try {
       result = await exec({ command })
       console.log(result)
-    } catch (error) {
+    } catch (error: any) {
       console.error(`Command failed: ${error.message}`)
       send({ type: 'COMMAND_FAIL', payload: { process: { ...process, status: 'FAIL' } } })
       return

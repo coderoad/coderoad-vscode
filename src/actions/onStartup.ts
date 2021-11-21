@@ -42,9 +42,9 @@ const onStartup = async (context: Context): Promise<void> => {
           const tutorial = await tutorialRes.json()
           send({ type: 'START_TUTORIAL_FROM_URL', payload: { tutorial } })
           return
-        } catch (e) {
+        } catch (e: any) {
           // on failure to load a tutorial url fallback to NEW
-          console.log(`Failed to load tutorial from url ${TUTORIAL_URL} with error "${e.message}"`)
+          throw new Error(`Failed to load tutorial from url ${TUTORIAL_URL} with error "${e.message}"`)
         }
       }
       // NEW from start click
@@ -56,7 +56,7 @@ const onStartup = async (context: Context): Promise<void> => {
     const { position } = await context.onContinue(tutorial)
     // communicate to client the tutorial & stepProgress state
     send({ type: 'LOAD_STORED_TUTORIAL', payload: { env, tutorial, position } })
-  } catch (e) {
+  } catch (e: any) {
     const error = {
       type: 'UnknownError',
       message: `Location: Editor startup\n\n${e.message}`,
