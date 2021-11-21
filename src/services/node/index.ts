@@ -41,7 +41,7 @@ export const readFile = (...paths: string[]): Promise<string | void> => {
 
 export const writeFile = (data: any, ...paths: string[]): Promise<void> => {
   const filePath = getWorkspacePath(...paths)
-  return asyncWriteFile(filePath, JSON.stringify(data)).catch((err) => {
+  return asyncWriteFile(filePath, data).catch((err) => {
     console.warn(`Failed to write to ${filePath}: ${err.message}`)
   })
 }

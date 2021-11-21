@@ -35,8 +35,8 @@ const onStartup = async (context: Context): Promise<void> => {
 
     // NEW: no stored tutorial, must start new tutorial
     if (!tutorial || !tutorial.id) {
-      if (!!TUTORIAL_URL) {
-        // NEW_FROM_URL
+      if (TUTORIAL_URL) {
+        // if a tutorial URL is added, launch on startup
         try {
           const tutorialRes = await fetch(TUTORIAL_URL)
           const tutorial = await tutorialRes.json()
