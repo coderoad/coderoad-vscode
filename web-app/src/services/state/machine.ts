@@ -58,8 +58,8 @@ export const createMachine = (options: any) => {
                   actions: 'requestWorkspaceSelect',
                 },
                 LOAD_STORED_TUTORIAL: {
-                  target: 'Start',
-                  actions: ['loadContinuedTutorial'],
+                  target: '#tutorial',
+                  actions: ['loadContinuedTutorial', 'continueConfig'],
                 },
                 START_NEW_TUTORIAL: {
                   target: 'Start',
