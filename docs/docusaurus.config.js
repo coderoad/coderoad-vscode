@@ -93,14 +93,5 @@ module.exports = {
       },
     ],
   ],
-  plugins: [
-    '@docusaurus/plugin-ideal-image',
-    [
-      '@docusaurus/plugin-sitemap',
-      {
-        changefreq: 'weekly',
-        priority: 0.5,
-      },
-    ],
-  ],
+  plugins: ['@docusaurus/plugin-ideal-image'],
 }
