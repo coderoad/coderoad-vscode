@@ -65,11 +65,11 @@
     "babel-plugin-import": "1.13.3",
     "customize-cra": "1.0.0",
     "mini-css-extract-plugin": "0.11.2",
-    "node-sass": "4.14.1",
+    "node-sass": "6.0.1",
     "prettier": "2.4.1",
     "react-app-rewired": "2.1.8",
     "react-scripts": "4.0.3",
-    "sass-loader": "8.0.2",
+    "sass-loader": "12.3.0",
     "typescript": "4.4.4"
   }
 }
