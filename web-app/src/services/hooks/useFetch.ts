@@ -19,7 +19,7 @@ const useFetch = <T>(url: string, options: object = {}): { data: T | null; error
           case 'text/plain':
           case 'text/yaml':
             const text = await res.text()
-            data = yaml.safeLoad(text)
+            data = yaml.load(text)
             break
           default:
             throw new Error(`Unsupported content-type "${contentType}"`)
