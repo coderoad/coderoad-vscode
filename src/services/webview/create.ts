@@ -56,7 +56,11 @@ const createReactWebView = ({ extensionPath, channel }: ReactWebViewProps): Outp
 
   // Handle messages from the webview
   const receive = channel.receive
-  const send = (action: T.Action) => panel.webview.postMessage(action)
+  const send = (action: T.Action) =>
+    panel.webview.postMessage({
+      ...action,
+      source: 'coderoad', // filter events on client by source. origin is not reliable
+    })
 
   panel.webview.onDidReceiveMessage(receive, null, disposables)
 
