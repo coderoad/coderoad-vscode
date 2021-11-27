@@ -11,7 +11,7 @@ const WEBHOOK_EVENTS = {
   tutorial_complete: false,
 }
 
-// varaibles set on init
+// variables set on init
 let WEBHOOK_URI: string | undefined
 
 export const setupWebhook = (webhookConfig: TT.WebhookConfig) => {

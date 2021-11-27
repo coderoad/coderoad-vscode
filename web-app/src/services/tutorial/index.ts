@@ -1,5 +1,4 @@
 import * as TT from 'typings/tutorial'
-// @ts-ignore
 import gitUrlParser from 'git-url-parse'
 
 const processTutorial = (tutorial: TT.Tutorial): TT.Tutorial => {
