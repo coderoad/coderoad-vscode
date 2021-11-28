@@ -17,7 +17,7 @@ module.exports = function override(config) {
 
   // load @alifd/next component css
   addBabelPlugin([
-    'babel-plugin-import',
+    'import',
     {
       libraryName: '@alifd/next',
       style: true,

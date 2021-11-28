@@ -14,6 +14,7 @@ module.exports = ({ config }) => {
     loader: require.resolve('babel-loader'),
     options: {
       plugins: [
+        new MiniCssExtractPlugin(),
         [
           'babel-plugin-import',
           {

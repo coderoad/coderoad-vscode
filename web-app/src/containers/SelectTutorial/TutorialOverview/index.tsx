@@ -85,10 +85,6 @@ const Summary = (props: Props) => (
         </div>
         <Markdown>{`# ${props.tutorial.summary.title}`}</Markdown>
         <Markdown>{`### ${props.tutorial.summary.description}`}</Markdown>
-        {/* <h5 css={styles.meta}>
-          <div css={{ marginRight: '2rem' }}>Created by {props.createdBy.name}</div>
-          <div>Last updated {moment(props.updatedAt).format('M/YYYY')}</div>
-        </h5> */}
       </div>
       <div>
         <div css={styles.levelList}>
