@@ -18,6 +18,7 @@
     "coderoad",
     "esbuild",
     "flowtype",
+    "fsevents",
     "outfile",
     "packagejson",
     "prismjs",

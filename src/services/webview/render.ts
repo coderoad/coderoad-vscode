@@ -1,6 +1,7 @@
 import { JSDOM } from 'jsdom'
 import * as path from 'path'
 import * as vscode from 'vscode'
+import { asyncReadFile } from '../node'
 import { onError } from '../telemetry'
 import { CONTENT_SECURITY_POLICY_EXEMPTIONS } from '../../environment'
 
@@ -64,7 +65,18 @@ async function render(panel: vscode.WebviewPanel, rootPath: string): Promise<voi
     const runTimeScript = document.createElement('script')
     runTimeScript.nonce = getNonce()
     nonces.push(runTimeScript.nonce)
-    const manifest = await import(path.join(rootPath, 'asset-manifest.json'))
+
+    // note: file cannot be imported or results in esbuild error. Easier to read it.
+    let manifest
+    try {
+      const manifestPath = path.join(rootPath, 'asset-manifest.json')
+      console.log(manifestPath)
+      const manifestFile = await asyncReadFile(manifestPath, 'utf8')
+      manifest = JSON.parse(manifestFile)
+    } catch (e) {
+      throw new Error('Failed to read manifest file')
+    }
+
     runTimeScript.src = createUri(manifest.files['runtime-main.js'])
     document.body.appendChild(runTimeScript)
 
