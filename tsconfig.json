@@ -26,5 +26,15 @@
     "allowJs": true,
     "removeComments": true
   },
-  "exclude": ["docs", "node_modules", ".vscode-test", "build", "resources", "web-app", "*.js", "*.test.ts", "scripts"]
+  "exclude": [
+    "docs",
+    "node_modules",
+    ".vscode-test",
+    "build",
+    "resources",
+    "web-app",
+    "*.js",
+    "*.test.ts",
+    "scripts"
+  ]
 }

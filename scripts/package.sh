@@ -14,6 +14,7 @@ echo "Creating $OUTPUT_FILE..."
 echo "Building..."
 GENERATE_SOURCEMAP=false # reduces output size by 5mb+
 yarn build
+npm run esbuild-base -- --minify
 
 echo "Packaging Extension..."
 mkdir -p ./$RELEASES_FOLDER

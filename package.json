@@ -31,7 +31,10 @@
     "package": "./scripts/package.sh",
     "storybook": "yarn --cwd web-app storybook",
     "test": "jest",
-    "watch": "tsc -watch -p ./"
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=build/extension.js --external:vscode --external:fsevents --external:jsdom --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "test-compile": "tsc -watch -p ./"
   },
   "dependencies": {
     "chokidar": "3.5.2",
@@ -56,6 +59,7 @@
     "@types/semver": "^7.3.9",
     "@typescript-eslint/eslint-plugin": "5.4.0",
     "@typescript-eslint/parser": "5.4.0",
+    "esbuild": "0.14.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-config-react-app": "6.0.0",
     "eslint-plugin-flowtype": "8.0.3",
