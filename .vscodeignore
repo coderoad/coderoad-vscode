@@ -6,6 +6,9 @@
 .vscode-test/**
 vsc-extension-quickstart.md
 
+## Modules
+node_modules/**
+
 ## TypeScript
 **/tsconfig.json
 **/tslint.json
