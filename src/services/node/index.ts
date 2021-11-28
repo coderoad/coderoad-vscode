@@ -6,7 +6,7 @@ import { WORKSPACE_ROOT } from '../../environment'
 
 const asyncExec = promisify(cpExec)
 const asyncRemoveFile = promisify(fs.unlink)
-const asyncReadFile = promisify(fs.readFile)
+export const asyncReadFile = promisify(fs.readFile)
 const asyncWriteFile = promisify(fs.writeFile)
 
 interface ExecParams {

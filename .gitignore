@@ -9,8 +9,8 @@ package-lock.json
 .npmrc
 
 # output directory
-out
 build
+dist
 web-app/build/
 web-app/node_modules
 

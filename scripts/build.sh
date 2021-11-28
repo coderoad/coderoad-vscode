@@ -8,20 +8,22 @@ echo "Cleaning up previous build..."
 rm -rf build
 
 # build extension
-echo "Compiling..."
-tsc -p ./
+echo "Bundling src..."
+npm run esbuild
 
 # build web app
+echo "Building webapp..."
 cd web-app
 yarn build
 cd ..
 
 # For Windows build: switch the next 2 lines
+echo "Bundling webapp..."
 if [[ "$OSTYPE" == "msys" ]]; then
-echo "linux subsystem on windows selected"
+    # linux subsystem on windows selected
     cp -R ./web-app/build/ ./
 else
-echo "Unix system selected"
+    # unix
     cp -R ./web-app/build/. ./build/
 fi
 
