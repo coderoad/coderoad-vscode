@@ -4,6 +4,14 @@ All notable changes to the "coderoad-vscode" extension will be documented in thi
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.17.2]
+
+- Bundle size down to ~1mb
+
+## [0.17.1]
+
+- Bundle size down to ~2mb
+
 ## [0.17.0]
 
 - auto-launch a continued tutorial
