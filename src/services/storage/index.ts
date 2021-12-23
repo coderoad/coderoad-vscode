@@ -30,7 +30,6 @@ class Storage<T> {
     this.defaultValue = defaultValue
   }
   public get = async (): Promise<T> => {
-    const value: string | undefined = await this.storage.get(this.key)
     if (SESSION_STORAGE_PATH) {
       try {
         // 1. read from file instead of local storage if specified
@@ -51,6 +50,7 @@ class Storage<T> {
         console.warn(`Failed to read or parse session file: ${SESSION_STORAGE_PATH}/${this.filePath}.json`)
       }
     }
+    const value: string | undefined = await this.storage.get(this.key)
     if (value) {
       // 2. read from local storage
       try {
