@@ -10,8 +10,8 @@ export type Env = 'test' | 'local' | 'development' | 'production'
 // @ts-ignore
 export const NODE_ENV: Env = process.env.NODE_ENV || 'development'
 
-// toggle logging in development
-export const LOG = false
+// toggle logging
+export const LOG = (process.env.CODEROAD_ENABLE_LOG || '').toLowerCase() === 'true'
 
 // error logging tool
 export const INSTRUMENTATION_KEY = '6ff37c76-72f3-48e3-a1b9-d5636f519b7b'
