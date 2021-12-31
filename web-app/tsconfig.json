@@ -24,7 +24,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "sourceMap": true,
     "noFallthroughCasesInSwitch": true
   },
