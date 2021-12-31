@@ -7,7 +7,9 @@ package-lock.json
 .env
 .env.local
 .npmrc
-.yarn
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
 
 # output directory
 build
