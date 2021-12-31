@@ -1,7 +1,7 @@
 import * as T from 'typings'
 import { assign } from 'xstate'
 
-export default {
+const commands = {
   commandStart: assign({
     processes: (context: T.MachineContext, event: T.MachineEvent): any => {
       let processes: T.ProcessEvent[] = context.processes
@@ -28,3 +28,5 @@ export default {
     },
   }),
 }
+
+export default commands

@@ -9,7 +9,7 @@ interface Props {
   onTutorialLoad(url: string): void
 }
 
-const urlRegex = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)\.json/
+const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)\.json/
 
 const TutorialUrl = (props: Props) => {
   const [url, setUrl] = React.useState(props.defaultUrl)

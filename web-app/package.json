@@ -52,8 +52,6 @@
     "@storybook/preset-create-react-app": "3.2.0",
     "@storybook/react": "6.4.0",
     "@types/git-url-parse": "9.0.1",
-    "@types/graphql": "14.5.0",
-    "@types/highlight.js": "10.1.0",
     "@types/jest": "26.0.23",
     "@types/js-yaml": "4.0.5",
     "@types/markdown-it": "12.2.3",

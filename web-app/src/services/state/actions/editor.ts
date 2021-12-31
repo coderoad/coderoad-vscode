@@ -3,7 +3,7 @@ import * as TT from 'typings/tutorial'
 import { assign } from 'xstate'
 import * as selectors from '../../selectors'
 
-export default (editorSend: any) => ({
+const editorActions = (editorSend: any) => ({
   startup(): void {
     editorSend({
       type: 'EDITOR_STARTUP',
@@ -161,3 +161,5 @@ export default (editorSend: any) => ({
     })
   },
 })
+
+export default editorActions
