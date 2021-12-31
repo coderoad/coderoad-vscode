@@ -76,7 +76,8 @@
   },
   "activationEvents": [
     "onCommand:coderoad.start",
-    "workspaceContains:/codeally.json"
+    "workspaceContains:/codeally.json",
+    "workspaceContains:/codeAlly.json"
   ],
   "categories": [
     "Other"
