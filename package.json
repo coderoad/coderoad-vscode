@@ -37,6 +37,7 @@
     "test-compile": "tsc -watch -p ./"
   },
   "dependencies": {
+    "@types/vscode": "^1.63.1",
     "chokidar": "3.5.2",
     "dotenv": "^8.2.0",
     "eslint": "7.32.0",
@@ -68,7 +69,6 @@
     "eslint-plugin-react": "7.27.1",
     "eslint-plugin-react-hooks": "^4.3.0",
     "prettier": "2.5.0",
-    "vscode": "^1.1.37",
     "vscode-test": "^1.6.1"
   },
   "engines": {
@@ -104,5 +104,6 @@
   },
   "preview": true,
   "publisher": "CodeRoad",
-  "icon": "coderoad_icon.png"
+  "icon": "coderoad_icon.png",
+  "packageManager": "yarn@3.1.1"
 }

@@ -37,13 +37,13 @@ class Storage<T> {
         if (!sessionFile) {
           throw new Error('No session file found')
         }
-        const data: T = JSON.parse(sessionFile)
+        const valueFromFile: T = JSON.parse(sessionFile)
 
-        if (data) {
+        if (valueFromFile) {
           // validate session
-          const keys = Object.keys(data)
+          const keys = Object.keys(valueFromFile)
           if (keys.length) {
-            return data
+            return valueFromFile
           }
         }
       } catch (err) {
@@ -54,7 +54,8 @@ class Storage<T> {
     if (value) {
       // 2. read from local storage
       try {
-        return JSON.parse(value)
+        const valueFromLocalStorage = JSON.parse(value)
+        return valueFromLocalStorage
       } catch (err) {
         console.warn(`Failed to parse session state from local storage: ${value}`)
       }
