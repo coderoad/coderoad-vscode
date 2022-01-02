@@ -204,7 +204,7 @@ export const createMachine = (options: any) => {
                 },
                 LevelComplete: {
                   onEntry: ['onLevelComplete'],
-                  onExit: ['testClear', 'incrementLevel'],
+                  onExit: ['testClear'],
                   on: {
                     NEXT_LEVEL: 'LoadNext',
                     KEY_PRESS_ENTER: 'LoadNext',

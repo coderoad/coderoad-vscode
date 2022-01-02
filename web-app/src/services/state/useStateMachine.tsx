@@ -25,11 +25,6 @@ const editorSend = (action: T.Action) =>
 const useStateMachine = (): Output => {
   const [state, send] = useMachine<T.MachineContext, any>(createMachine({ editorSend }))
 
-  const sendWithLog = (action: T.Action): void => {
-    logger(action)
-    send(action)
-  }
-
   // event bus listener
   React.useEffect(() => {
     const listener = 'message'
@@ -57,7 +52,7 @@ const useStateMachine = (): Output => {
   return {
     context: state.context,
     route,
-    send: sendWithLog,
+    send,
   }
 }
 

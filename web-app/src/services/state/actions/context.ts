@@ -47,7 +47,7 @@ export const updatePosition = assign({
 })
 
 export const loadNext = send((context: T.MachineContext): T.Action => {
-  const level = selectors.currentLevel(context)
+  const level: TT.Level = selectors.currentLevel(context)
   return getNext(context.position, level, context.tutorial?.levels || [])
 })
 
