@@ -53,7 +53,7 @@ export async function saveCommit(message: string): Promise<never | void> {
     logger(`Error: ${stderr}`)
     throw new Error('Error saving progress to Git')
   }
-  logger(stdout)
+  logger(`Commit saved: ${stdout}`)
 }
 
 export async function clear(): Promise<Error | void> {

@@ -42,7 +42,7 @@ export const Router = ({ children, route }: RouterProps) => {
   }
   const message = `No Route matches for "${JSON.stringify(route)}"`
   // TODO: onError(new Error(message))
-  logger(message)
+  logger(`Error: ${message}`)
   return null
 }
 

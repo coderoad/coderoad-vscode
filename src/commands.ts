@@ -75,7 +75,7 @@ export const createCommands = (commandProps: CreateCommandProps): { [key: string
       }
       testRunner = createTestRunner(data, {
         onSuccess: (position: T.Position) => {
-          logger('test pass position', position)
+          logger(`Test pass position: ${JSON.stringify(position)}`)
           // send test pass message back to client
           channel.context.position.set({ ...position, complete: true })
           send({ type: 'TEST_PASS', payload: { position: { ...position, complete: true } } })

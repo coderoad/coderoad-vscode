@@ -15,7 +15,7 @@ const runCommands = async (commands: string[] = []): Promise<void> => {
     let result: { stdout: string; stderr: string }
     try {
       result = await exec({ command })
-      logger(result)
+      logger(`Command output: ${JSON.stringify(result)}`)
     } catch (error: any) {
       logger(`Command failed: ${error.message}`)
       send({ type: 'COMMAND_FAIL', payload: { process: { ...process, status: 'FAIL' } } })

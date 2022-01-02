@@ -31,14 +31,12 @@ export const deactivate = (): void => {
 }
 
 export const onError = (error: Error, properties?: Properties, measurements?: Measurements): void => {
-  logger(error, properties, measurements)
   if (reporter) {
     reporter.sendTelemetryException(error, properties, measurements)
   }
 }
 
 export const onEvent = (eventName: string, properties?: Properties, measurements?: Measurements): void => {
-  logger(eventName, properties, measurements)
   if (reporter) {
     reporter.sendTelemetryEvent(eventName, properties, measurements)
   }
