@@ -72,7 +72,7 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks): ((params: an
           command = [command, testRunnerFilterArg, testFilter].join(' ')
         }
       }
-      logger('COMMAND', command)
+      logger(`COMMAND: ${command}`)
       result = await exec({ command, dir: testRunnerConfig.directory })
     } catch (err: any) {
       result = { stdout: err.stdout, stderr: err.stack }
@@ -84,13 +84,15 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks): ((params: an
       return
     }
 
-    logger('----------------- PROCESS TEST -----------------')
+    logger('---------------- TEST RESULTS -----------------')
 
     const { stdout, stderr } = result
 
     const tap: ParserOutput = parser(stdout || '')
 
-    logger(tap.logs.join('\n'))
+    if (tap.logs.length) {
+      logger(tap.logs.join('\n'))
+    }
 
     if (stderr) {
       if (!tap.failed.length) {

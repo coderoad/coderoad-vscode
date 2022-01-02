@@ -21,15 +21,15 @@ interface CreateCommandProps {
 }
 
 let sendToClient = (action: T.Action): void => {
-  // function is replaced when webclient loads
+  // function is replaced when webview mounts
 }
 
 // This makes it easier to pass the send
 // function throughout the codebase
 export const send = (action: T.Action): void => {
-  logger(`EXT TO CLIENT: "${typeof action === 'string' ? action : action.type}"`)
-
-  if (action) sendToClient(action)
+  // log send of event to client
+  logger(`${typeof action === 'string' ? action : action.type}`)
+  sendToClient(action)
 }
 
 export const createCommands = (commandProps: CreateCommandProps): { [key: string]: any } => {
@@ -91,7 +91,7 @@ export const createCommands = (commandProps: CreateCommandProps): { [key: string
         },
         onRun: (position: T.Position) => {
           // send test run message back to client
-          send({ type: 'TEST_RUNNING', payload: { position } })
+          send({ type: 'START_TEST', payload: { position } })
         },
         onLoadSubtasks: ({ summary }) => {
           send({ type: 'LOAD_SUBTASK_RESULTS', payload: { summary } })

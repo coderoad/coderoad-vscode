@@ -157,7 +157,7 @@ export const createMachine = (options: any) => {
                     LOAD_SUBTASK_RESULTS: {
                       actions: ['testSubtasks'],
                     },
-                    TEST_RUNNING: 'TestRunning',
+                    START_TEST: 'TestRunning',
                     STEP_SOLUTION_LOAD: {
                       actions: ['editorLoadSolution'],
                     },
