@@ -6,7 +6,7 @@ import parser, { ParserOutput } from './parser'
 import parseSubtasks from './subtasks'
 import { debounce, throttle } from './throttle'
 import { onError } from '../telemetry'
-import { clearOutput, addOutput } from './output'
+import { clearOutput, addOutput } from '../logger/output'
 import { formatFailOutput } from './formatOutput'
 
 interface Callbacks {
@@ -18,7 +18,6 @@ interface Callbacks {
 }
 
 const failChannelName = 'CodeRoad (Tests)'
-const logChannelName = 'CodeRoad (Logs)'
 
 interface TestRunnerParams {
   position: T.Position
@@ -91,7 +90,7 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks): ((params: an
 
     const tap: ParserOutput = parser(stdout || '')
 
-    addOutput({ channel: logChannelName, text: tap.logs.join('\n'), show: false })
+    logger(tap.logs.join('\n'))
 
     if (stderr) {
       if (!tap.failed.length) {
