@@ -13,21 +13,20 @@ interface Output {
 
 declare let acquireVsCodeApi: any
 
-const editor = acquireVsCodeApi()
-const editorSend = (action: T.Action) => {
-  logger(`TO EXT: "${action.type}"`)
-  return editor.postMessage({
+export const editor = acquireVsCodeApi()
+
+const editorSend = (action: T.Action) =>
+  editor.postMessage({
     ...action,
     source: 'coderoad', // filter events by source on editor side
   })
-}
 
 // router finds first state match of <Route path='' />
 const useStateMachine = (): Output => {
   const [state, send] = useMachine<T.MachineContext, any>(createMachine({ editorSend }))
 
   const sendWithLog = (action: T.Action): void => {
-    logger(`SEND: ${action.type}`, action)
+    logger(action)
     send(action)
   }
 
@@ -43,7 +42,7 @@ const useStateMachine = (): Output => {
         // filter out events from other extensions
         return
       }
-      sendWithLog(action)
+      send(action)
     }
     window.addEventListener(listener, handler)
     return () => {

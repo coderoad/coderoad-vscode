@@ -28,7 +28,14 @@ class Channel implements Channel {
     // action may be an object.type or plain string
     const actionType: string = typeof action === 'string' ? action : action.type
 
-    logger(`EXT RECEIVED: "${actionType}"`)
+    if (actionType === 'CLIENT_LOG') {
+      // logs in web client are not easily visible
+      // it's simpler to log to the "CodeRoad (Logs)" channel
+      logger(action.payload)
+      return
+    }
+
+    logger(actionType)
 
     switch (actionType) {
       case 'EDITOR_STARTUP':

@@ -9,7 +9,7 @@ const logger = (...messages: Log[]): void => {
   // to get around it, we can log with multiple log statements
   for (const message of messages) {
     if (typeof message === 'object') {
-      logChannel.appendLine(JSON.stringify(message))
+      logChannel.appendLine(message)
     } else {
       logChannel.appendLine(message)
     }
