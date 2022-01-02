@@ -10,16 +10,6 @@ const logger = (...messages: Log[]): void => {
     payload: messages,
     source: 'coderoad', // filter events by source on editor side
   })
-
-  // Inside vscode, you console.log does not allow more than 1 param
-  // to get around it, we can log with multiple log statements
-  for (const message of messages) {
-    if (typeof message === 'object') {
-      console.log(JSON.stringify(message))
-    } else {
-      console.log(message)
-    }
-  }
 }
 
 export default logger

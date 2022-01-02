@@ -40,12 +40,12 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks): ((params: an
     // calculate level & step from position
     const level: TT.Level | null = data.levels.find((l) => l.id === position.levelId) || null
     if (!level) {
-      console.warn(`Level "${position.levelId}" not found`)
+      logger(`Error: Level "${position.levelId}" not found`)
       return
     }
     const step: TT.Step | null = level.steps.find((s) => s.id === position.stepId) || null
     if (!step) {
-      console.warn(`Step "${position.stepId}" not found`)
+      logger(`Error: Step "${position.stepId}" not found`)
       return
     }
 

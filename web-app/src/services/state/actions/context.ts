@@ -35,7 +35,7 @@ export const initPosition = assign({
 
 export const updateStepPosition = assign({
   position: (context: T.MachineContext, event: T.MachineEvent): any => {
-    logger('updateStepPosition', event)
+    logger(`updateStepPosition: ${JSON.stringify(event)})`)
     return event.payload.position
   },
 })
@@ -46,19 +46,15 @@ export const updatePosition = assign({
   },
 })
 
-export const loadNext = send(
-  (context: T.MachineContext): T.Action => {
-    const level = selectors.currentLevel(context)
-    return getNext(context.position, level, context.tutorial?.levels || [])
-  },
-)
+export const loadNext = send((context: T.MachineContext): T.Action => {
+  const level = selectors.currentLevel(context)
+  return getNext(context.position, level, context.tutorial?.levels || [])
+})
 
-export const stepNext = send(
-  (context: T.MachineContext): T.Action => {
-    const level: TT.Level = selectors.currentLevel(context)
-    return getStepNext(context.position, level)
-  },
-)
+export const stepNext = send((context: T.MachineContext): T.Action => {
+  const level: TT.Level = selectors.currentLevel(context)
+  return getStepNext(context.position, level)
+})
 
 export const reset = assign({
   tutorial() {
@@ -78,13 +74,13 @@ export const setError = assign({
     const error: string | null | E.ErrorMessage = event.payload.error
     if (error) {
       if (typeof error === 'string') {
-        console.log(`ERROR: ${error}`)
+        logger(`ERROR: ${error}`)
         return error
       } else if (error.type) {
         const errorMessage = errors[error.type]
         const content = errorMessage || ''
         const message = `${content}\n\n${error.message || ''}`
-        console.log(`ERROR: ${message}`)
+        logger(`ERROR: ${message}`)
         return {
           ...error,
           message,

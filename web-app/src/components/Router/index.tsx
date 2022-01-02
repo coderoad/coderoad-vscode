@@ -1,4 +1,5 @@
 import * as React from 'react'
+import logger from '../../services/logger'
 
 interface RouterProps {
   children: any
@@ -41,7 +42,7 @@ export const Router = ({ children, route }: RouterProps) => {
   }
   const message = `No Route matches for "${JSON.stringify(route)}"`
   // TODO: onError(new Error(message))
-  console.warn(message)
+  logger(message)
   return null
 }
 

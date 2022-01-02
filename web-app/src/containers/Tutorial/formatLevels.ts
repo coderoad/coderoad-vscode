@@ -1,5 +1,6 @@
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
+import logger from '../../services/logger'
 
 interface Input {
   position: T.Position
@@ -61,8 +62,8 @@ const formatLevels = ({ position, levels, testStatus }: Input): Output => {
           // test result count and subtask count don't match
           // something is wrong with the tutorial
           // NOTE: hacky temp solution as should be caught by tutorial creators / build tools
-          console.error(
-            'ERROR: subtasks and test results have a different number of results. This is likely an error with the tutorial or an edited test file.',
+          logger(
+            'Error: subtasks and test results have a different number of results. This is likely an error with the tutorial or an edited test file.',
           )
         }
         subtasks = step.subtasks.map((subtask: string, subtaskIndex: number) => {

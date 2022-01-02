@@ -5,6 +5,7 @@ import { css, jsx } from '@emotion/core'
 import Markdown from '../Markdown'
 import Button from '../../components/Button'
 import { Theme } from '../../styles/theme'
+import logger from '../../services/logger'
 
 const styles = {
   container: (theme: Theme) => ({
@@ -42,7 +43,7 @@ const ErrorMarkdown = ({ error, send }: Props) => {
   React.useEffect(() => {
     if (error) {
       // log error
-      console.log(`ERROR in markdown: ${error.message}`)
+      logger(`ERROR in markdown: ${error.message}`)
     }
   }, [error])
 

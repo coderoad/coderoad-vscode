@@ -3,6 +3,7 @@ import * as fs from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
 import { WORKSPACE_ROOT } from '../../environment'
+import logger from '../logger'
 
 const asyncExec = promisify(cpExec)
 const asyncRemoveFile = promisify(fs.unlink)
@@ -35,13 +36,13 @@ export const removeFile = (...paths: string[]) => {
 export const readFile = (...paths: string[]): Promise<string | void> => {
   const filePath = getWorkspacePath(...paths)
   return asyncReadFile(getWorkspacePath(...paths), 'utf8').catch((err) => {
-    console.warn(`Failed to read from ${filePath}: ${err.message}`)
+    logger(`Failed to read from ${filePath}: ${err.message}`)
   })
 }
 
 export const writeFile = (data: any, ...paths: string[]): Promise<void> => {
   const filePath = getWorkspacePath(...paths)
   return asyncWriteFile(filePath, data).catch((err) => {
-    console.warn(`Failed to write to ${filePath}: ${err.message}`)
+    logger(`Failed to write to ${filePath}: ${err.message}`)
   })
 }
