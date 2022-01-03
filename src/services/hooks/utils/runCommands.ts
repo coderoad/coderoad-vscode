@@ -1,5 +1,6 @@
 import { exec } from '../../node'
 import { send } from '../../../commands'
+import logger from '../../logger'
 
 const runCommands = async (commands: string[] = []): Promise<void> => {
   if (!commands.length) {
@@ -14,9 +15,9 @@ const runCommands = async (commands: string[] = []): Promise<void> => {
     let result: { stdout: string; stderr: string }
     try {
       result = await exec({ command })
-      console.log(result)
+      logger(`Command output: ${JSON.stringify(result)}`)
     } catch (error: any) {
-      console.error(`Command failed: ${error.message}`)
+      logger(`Command failed: ${error.message}`)
       send({ type: 'COMMAND_FAIL', payload: { process: { ...process, status: 'FAIL' } } })
       return
     }

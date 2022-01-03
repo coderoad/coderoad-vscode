@@ -4,6 +4,7 @@ import Context from '../services/context/context'
 import reset from '../services/reset'
 import * as hooks from '../services/hooks'
 import getCommitHashByPosition from '../services/reset/lastHash'
+import logger from '../services/logger'
 
 type ResetAction = {
   type: 'LATEST' | 'POSITION'
@@ -22,7 +23,7 @@ const onRunReset = async (action: ResetAction, context: Context): Promise<void> 
   const branch = tutorial?.config.repo.branch
 
   if (!branch) {
-    console.error('No repo branch found for tutorial')
+    logger('Error: No repo branch found for tutorial')
     return
   }
 

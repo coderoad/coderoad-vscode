@@ -1,11 +1,12 @@
 import MarkdownIt from 'markdown-it'
 import Prism from 'prismjs'
-import { css, jsx, InterpolationWithTheme } from '@emotion/core'
+import { css, jsx } from '@emotion/core'
 // @ts-ignore no types for package
 import markdownEmoji from 'markdown-it-emoji'
 import * as React from 'react'
 // load prism styles & language support
 import './prism'
+import logger from '../../services/logger'
 
 // markdown highlighter instance
 const md: MarkdownIt = new MarkdownIt({
@@ -17,8 +18,8 @@ const md: MarkdownIt = new MarkdownIt({
 
     try {
       hl = Prism.highlight(str, Prism.languages[lang], lang)
-    } catch (error) {
-      console.error(error)
+    } catch (error: any) {
+      logger(`Error highlighting markdown: ${error.message}`)
       hl = md.utils.escapeHtml(str)
     }
 
@@ -66,7 +67,7 @@ const Markdown = (props: Props) => {
   } catch (error) {
     const message = `Failed to parse markdown for ${props.children}`
     // TODO: onError(new Error(message))
-    console.log(message)
+    logger(`Error: ${message}`)
     html = `<div style='background-color: #FFB81A; padding: 0.5rem;'>
 			<strong style='padding-bottom: 0.5rem;'>ERROR: Failed to parse markdown</strong>
 			<p>${props.children}</p>

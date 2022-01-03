@@ -1,5 +1,6 @@
 import { join } from 'path'
 import * as vscode from 'vscode'
+import logger from '../../logger'
 
 const openFiles = async (files: string[] = []): Promise<void> => {
   if (!files.length) {
@@ -16,7 +17,7 @@ const openFiles = async (files: string[] = []): Promise<void> => {
       const doc = await vscode.workspace.openTextDocument(absoluteFilePath)
       await vscode.window.showTextDocument(doc, vscode.ViewColumn.One)
     } catch (error: any) {
-      console.log(`Failed to open file ${filePath}: ${error.message}`)
+      logger(`Failed to open file ${filePath}: ${error.message}`)
     }
   }
 }

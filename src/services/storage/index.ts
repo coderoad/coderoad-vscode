@@ -1,6 +1,7 @@
 import * as vscode from 'vscode'
 import { readFile, writeFile } from '../node'
 import { SESSION_STORAGE_PATH } from '../../environment'
+import logger from '../logger'
 
 // NOTE: localStorage is not available on client
 // and must be stored in editor
@@ -46,8 +47,8 @@ class Storage<T> {
             return data
           }
         }
-      } catch (err) {
-        console.warn(`Failed to read or parse session file: ${SESSION_STORAGE_PATH}/${this.filePath}.json`)
+      } catch (err: any) {
+        logger(`Failed to read or parse session file: ${SESSION_STORAGE_PATH}/${this.filePath}.json: ${err.message}`)
       }
     }
     const value: string | undefined = await this.storage.get(this.key)
@@ -55,8 +56,8 @@ class Storage<T> {
       // 2. read from local storage
       try {
         return JSON.parse(value)
-      } catch (err) {
-        console.warn(`Failed to parse session state from local storage: ${value}`)
+      } catch (err: any) {
+        logger(`Failed to parse session state from local storage: ${value}: ${err.message}`)
       }
     }
     // 3. fallback to the default
@@ -83,7 +84,9 @@ class Storage<T> {
       try {
         writeFile(data, SESSION_STORAGE_PATH, `${this.filePath}.json`)
       } catch (err: any) {
-        console.warn(`Failed to write coderoad session to path: ${SESSION_STORAGE_PATH}/${this.filePath}.json`)
+        logger(
+          `Failed to write coderoad session to path: ${SESSION_STORAGE_PATH}/${this.filePath}.json: ${err.message}`,
+        )
       }
     }
   }

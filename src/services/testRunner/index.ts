@@ -6,7 +6,7 @@ import parser, { ParserOutput } from './parser'
 import parseSubtasks from './subtasks'
 import { debounce, throttle } from './throttle'
 import { onError } from '../telemetry'
-import { clearOutput, addOutput } from './output'
+import { clearOutput, addOutput } from '../logger/output'
 import { formatFailOutput } from './formatOutput'
 
 interface Callbacks {
@@ -18,7 +18,6 @@ interface Callbacks {
 }
 
 const failChannelName = 'CodeRoad (Tests)'
-const logChannelName = 'CodeRoad (Logs)'
 
 interface TestRunnerParams {
   position: T.Position
@@ -41,12 +40,12 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks): ((params: an
     // calculate level & step from position
     const level: TT.Level | null = data.levels.find((l) => l.id === position.levelId) || null
     if (!level) {
-      console.warn(`Level "${position.levelId}" not found`)
+      logger(`Error: Level "${position.levelId}" not found`)
       return
     }
     const step: TT.Step | null = level.steps.find((s) => s.id === position.stepId) || null
     if (!step) {
-      console.warn(`Step "${position.stepId}" not found`)
+      logger(`Error: Step "${position.stepId}" not found`)
       return
     }
 
@@ -73,7 +72,7 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks): ((params: an
           command = [command, testRunnerFilterArg, testFilter].join(' ')
         }
       }
-      logger('COMMAND', command)
+      logger(`COMMAND: ${command}`)
       result = await exec({ command, dir: testRunnerConfig.directory })
     } catch (err: any) {
       result = { stdout: err.stdout, stderr: err.stack }
@@ -85,13 +84,15 @@ const createTestRunner = (data: TT.Tutorial, callbacks: Callbacks): ((params: an
       return
     }
 
-    logger('----------------- PROCESS TEST -----------------')
+    logger('---------------- TEST RESULTS -----------------')
 
     const { stdout, stderr } = result
 
     const tap: ParserOutput = parser(stdout || '')
 
-    addOutput({ channel: logChannelName, text: tap.logs.join('\n'), show: false })
+    if (tap.logs.length) {
+      logger(tap.logs.join('\n'))
+    }
 
     if (stderr) {
       if (!tap.failed.length) {

@@ -3,6 +3,7 @@ import { Dialog } from '@alifd/next'
 import useFetch from '../../services/hooks/useFetch'
 import * as TT from 'typings/tutorial'
 import LoadingPage from '../Loading'
+import logger from '../../services/logger'
 
 interface Props {
   url: string
@@ -16,7 +17,7 @@ const LoadTutorialSummary = (props: Props) => {
     return <LoadingPage text="Loading tutorial summary..." />
   }
   if (error) {
-    console.log(`Failed to load tutorial summary: ${error}`)
+    logger(`Failed to load tutorial summary: ${error}`)
     return <div>Error loading summary</div>
   }
   if (!data) {

@@ -9,14 +9,14 @@ const stashAllFiles = async (): Promise<never | void> => {
   // stash files including untracked (eg. newly created file)
   const { stderr } = await exec({ command: `git stash --include-untracked` })
   if (stderr) {
-    console.error(stderr)
+    logger(`Error: ${stderr}`)
     throw new Error('Error stashing files')
   }
 }
 
 const cherryPickCommit = async (commit: string, count = 0): Promise<never | void> => {
   if (count > 1) {
-    console.warn('cherry-pick failed')
+    logger('cherry-pick failed')
     return
   }
   try {
@@ -26,8 +26,8 @@ const cherryPickCommit = async (commit: string, count = 0): Promise<never | void
     if (!stdout) {
       throw new Error('No cherry-pick output')
     }
-  } catch (error) {
-    console.log('cherry-pick-commit failed')
+  } catch (error: any) {
+    logger(`cherry-pick-commit failed: ${error.message}`)
     // stash all files if cherry-pick fails
     await stashAllFiles()
     return cherryPickCommit(commit, ++count)
@@ -50,10 +50,10 @@ export function loadCommit(commit: string): Promise<never | void> {
 export async function saveCommit(message: string): Promise<never | void> {
   const { stdout, stderr } = await exec({ command: `git commit -am '${message}'` })
   if (stderr) {
-    console.error(stderr)
+    logger(`Error: ${stderr}`)
     throw new Error('Error saving progress to Git')
   }
-  logger(['save with commit & continue stdout', stdout])
+  logger(`Commit saved: ${stdout}`)
 }
 
 export async function clear(): Promise<Error | void> {
@@ -63,9 +63,9 @@ export async function clear(): Promise<Error | void> {
     if (!stderr) {
       return
     }
-    console.error(stderr)
-  } catch (error) {
-    console.error(error)
+    logger(`Error: ${stderr}`)
+  } catch (error: any) {
+    logger(`Error: ${error.message}`)
   }
   throw new Error('Error cleaning up current unsaved work')
 }
@@ -127,7 +127,7 @@ export async function addRemote(repo: string): Promise<never | void> {
 
     // validate the response is acceptable
     if (!alreadyExists && !successfulNewBranch) {
-      console.error(stderr)
+      logger(`Error: ${stderr}`)
       throw new Error('Error adding git remote')
     }
   }
@@ -142,7 +142,8 @@ export async function checkRemoteExists(): Promise<boolean> {
     // string match on remote output
     // TODO improve the specificity of this regex
     return !!stdout.match(gitOrigin)
-  } catch (error) {
+  } catch (error: any) {
+    logger(`Warn: ${error.message}`)
     return false
   }
 }
@@ -168,8 +169,9 @@ export async function loadCommitHistory(): Promise<string[]> {
     }
     // string match on remote output
     return stdout.split('\n')
-  } catch (error) {
+  } catch (error: any) {
     // likely no git setup or no commits
+    logger(`Warn: ${error.message}`)
     return []
   }
 }
@@ -189,8 +191,8 @@ export async function getCommitMessage(hash: string): Promise<string | null> {
     }
     // string match on remote output
     return stdout
-  } catch (error) {
-    logger('error', error)
+  } catch (error: any) {
+    logger(`Error: ${error.message}`)
     // likely no git commit message found
     return null
   }
@@ -204,8 +206,8 @@ export async function commitsExistsByMessage(message: string): Promise<boolean> 
       return false
     }
     return !!stdout.length
-  } catch (error) {
-    logger('error', error)
+  } catch (error: any) {
+    logger(`Error: ${error.message}`)
     // likely no commit found
     return false
   }

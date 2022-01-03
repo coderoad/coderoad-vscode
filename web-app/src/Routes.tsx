@@ -20,8 +20,11 @@ const Routes = () => {
     return <ErrorView send={send} error={context.error} />
   }
 
-  logger(`ROUTE: ${route}`)
-  logger(`POSITION: ${JSON.stringify(context.position)}`)
+  logger(
+    `ROUTE: "${route}": ${context.position?.complete ? 'Completed' : 'On'} level ${
+      context.position?.levelId || 'unknown'
+    }, step ${context.position?.stepId || 'unknown'}`,
+  )
 
   return (
     <Router route={route}>

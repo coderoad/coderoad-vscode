@@ -6,7 +6,7 @@ const channels:
       /* */
     } = {}
 
-const getOutputChannel = (name: string): vscode.OutputChannel => {
+export const getOutputChannel = (name: string): vscode.OutputChannel => {
   if (!channels[name]) {
     channels[name] = vscode.window.createOutputChannel(name)
   }

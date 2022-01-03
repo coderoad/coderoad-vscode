@@ -3,6 +3,7 @@ import * as vscode from 'vscode'
 import { asyncReadFile } from '../node'
 import { onError } from '../telemetry'
 import { CONTENT_SECURITY_POLICY_EXEMPTIONS } from '../../environment'
+import logger from '../logger'
 
 const getNonce = (): string => {
   let text = ''
@@ -142,8 +143,8 @@ async function render(panel: vscode.WebviewPanel, rootPath: string): Promise<voi
     // set view
     panel.webview.html = html
   } catch (error: any) {
+    logger(`Error: ${error.message}`)
     onError(error)
-    console.error(error)
   }
 }
 

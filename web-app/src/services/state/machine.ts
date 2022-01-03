@@ -157,7 +157,7 @@ export const createMachine = (options: any) => {
                     LOAD_SUBTASK_RESULTS: {
                       actions: ['testSubtasks'],
                     },
-                    TEST_RUNNING: 'TestRunning',
+                    START_TEST: 'TestRunning',
                     STEP_SOLUTION_LOAD: {
                       actions: ['editorLoadSolution'],
                     },
@@ -204,7 +204,7 @@ export const createMachine = (options: any) => {
                 },
                 LevelComplete: {
                   onEntry: ['onLevelComplete'],
-                  onExit: ['testClear', 'incrementLevel'],
+                  onExit: ['testClear'],
                   on: {
                     NEXT_LEVEL: 'LoadNext',
                     KEY_PRESS_ENTER: 'LoadNext',

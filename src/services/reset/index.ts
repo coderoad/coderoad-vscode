@@ -1,5 +1,5 @@
 import { exec, removeFile } from '../node'
-
+import logger from '../logger'
 interface Input {
   hash: string
   branch: string
@@ -17,13 +17,13 @@ const reset = async ({ branch, hash }: Input): Promise<void> => {
   try {
     // if no git init, will initialize
     // otherwise re-initializes git
-    await exec({ command: 'git init' }).catch(console.log)
+    await exec({ command: 'git init' }).catch(logger)
 
     // capture current branch
     const hasBranch = await exec({ command: 'git branch --show-current' })
     const localBranch = hasBranch.stdout
     // check if coderoad remote exists
-    const hasRemote = await exec({ command: 'git remote -v' }).catch(console.warn)
+    const hasRemote = await exec({ command: 'git remote -v' }).catch(logger)
     if (!hasRemote || !hasRemote.stdout || !hasRemote.stdout.length) {
       throw new Error('No remote found')
     } else if (!hasRemote.stdout.match(new RegExp(remote))) {
@@ -64,8 +64,7 @@ const reset = async ({ branch, hash }: Input): Promise<void> => {
       command: `git reset --hard ${hash}`,
     })
   } catch (error: any) {
-    console.error('Error resetting')
-    console.error(error.message)
+    logger(`Error resetting: ${error.message}`)
   }
 }
 

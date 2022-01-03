@@ -1,8 +1,8 @@
-import ReactDOM from 'react-dom'
+import logger from '../logger'
 
-// document listeners
-
-document.addEventListener('securitypolicyviolation', () => {
+document.addEventListener('securitypolicyviolation', (event) => {
   // TODO: add error handling
-  console.log('Security warning for resource')
+  if (event.isTrusted !== true) {
+    logger(`Security warning for resource: ${JSON.stringify(event)}`)
+  }
 })
