@@ -4,6 +4,10 @@ All notable changes to the "coderoad-vscode" extension will be documented in thi
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.18.0]
+
+- Improved error logging in output channel "CodeRoad (Logs)"
+
 ## [0.17.2]
 
 - Bundle size down to ~1mb
