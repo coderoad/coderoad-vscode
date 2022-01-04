@@ -5,6 +5,7 @@ import Context from '../services/context/context'
 import { send } from '../commands'
 import { WORKSPACE_ROOT, TUTORIAL_URL } from '../environment'
 import fetch from 'node-fetch'
+import logger from '../services/logger'
 
 const onStartup = async (context: Context): Promise<void> => {
   try {
@@ -36,10 +37,12 @@ const onStartup = async (context: Context): Promise<void> => {
     // NEW: no stored tutorial, must start new tutorial
     if (!tutorial || !tutorial.version) {
       if (TUTORIAL_URL) {
+        logger(`Using tutorial url from env: ${TUTORIAL_URL}`)
         // if a tutorial URL is added, launch on startup
         try {
           const tutorialRes = await fetch(TUTORIAL_URL)
-          const tutorial = await tutorialRes.json()
+          const tutorial: TT.Tutorial = await tutorialRes.json()
+          logger(`Tutorial: ${tutorial?.summary?.title} (${tutorial?.version})`)
           send({ type: 'START_TUTORIAL_FROM_URL', payload: { tutorial } })
           return
         } catch (e: any) {
@@ -54,6 +57,7 @@ const onStartup = async (context: Context): Promise<void> => {
 
     // CONTINUE_FROM_PROGRESS
     const { position } = await context.onContinue(tutorial)
+    logger(`Continuing tutorial from progress: level ${position?.levelId} step ${position?.stepId}`)
     // communicate to client the tutorial & stepProgress state
     send({ type: 'LOAD_STORED_TUTORIAL', payload: { env, tutorial, position } })
   } catch (e: any) {

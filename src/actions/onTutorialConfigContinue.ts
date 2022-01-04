@@ -8,9 +8,9 @@ import logger from '../services/logger'
 import { setupWebhook } from '../services/hooks/webhooks'
 
 const onTutorialConfigContinue = async (action: T.Action, context: Context): Promise<void> => {
-  logger(`Continuing tutorial from progress: ${JSON.stringify(action.payload)}`)
   try {
     const tutorialToContinue: TT.Tutorial | null = context.tutorial.get()
+    logger(`Tutorial: ${tutorialToContinue?.summary?.title} (${tutorialToContinue?.version})`)
     if (!tutorialToContinue) {
       throw new Error('Invalid tutorial to continue')
     }
