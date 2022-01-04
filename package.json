@@ -1,6 +1,6 @@
 {
   "name": "coderoad",
-  "version": "0.18.2",
+  "version": "0.18.3",
   "description": "Play interactive coding tutorials in your editor",
   "keywords": [
     "tutorial",
@@ -77,7 +77,8 @@
   "activationEvents": [
     "onCommand:coderoad.start",
     "workspaceContains:/codeally.json",
-    "workspaceContains:/codeAlly.json"
+    "workspaceContains:/codeAlly.json",
+    "workspaceContains:/.freeCodeCamp"
   ],
   "categories": [
     "Other"
