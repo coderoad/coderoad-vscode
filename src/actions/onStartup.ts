@@ -34,7 +34,7 @@ const onStartup = async (context: Context): Promise<void> => {
     const tutorial: TT.Tutorial | null = context.tutorial.get()
 
     // NEW: no stored tutorial, must start new tutorial
-    if (!tutorial || !tutorial.id) {
+    if (!tutorial || !tutorial.version) {
       if (TUTORIAL_URL) {
         // if a tutorial URL is added, launch on startup
         try {
