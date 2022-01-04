@@ -18,7 +18,7 @@ const runCommands = async (commands: string[] = []): Promise<void> => {
       logger(`Command output: ${JSON.stringify(result)}`)
     } catch (error: any) {
       logger(`Command failed: ${error.message}`)
-      send({ type: 'COMMAND_FAIL', payload: { process: { ...process, status: 'FAIL' } } })
+      send({ type: '', payload: { process: { ...process, status: 'FAIL' } } })
       return
     }
     send({ type: 'COMMAND_SUCCESS', payload: { process: { ...process, status: 'SUCCESS' } } })
