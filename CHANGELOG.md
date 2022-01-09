@@ -4,6 +4,12 @@ All notable changes to the "coderoad-vscode" extension will be documented in thi
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+# [0.19.0]
+
+- Add the ability to run scripts on continue to address an issue where continued tutorials weren't configured correctly.
+    - adds a "continue" webhook
+    - adds a `tutorial.config.continue` that lets you run `commands` or `vscodeCommands`
+
 ## [0.18.0]
 
 - Improved error logging in output channel "CodeRoad (Logs)"
@@ -18,10 +24,10 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.17.0]
 
-- auto-launch a continued tutorial
+- Auto-launch a continued tutorial
 ## [0.16.0]
 
-- add support for writing session state to a file. This is useful in multi-container environments where local storage is not necessarily preserved across sessions.
+- Add support for writing session state to a file. This is useful in multi-container environments where local storage is not necessarily preserved across sessions.
 
 ## [0.15.1]
 

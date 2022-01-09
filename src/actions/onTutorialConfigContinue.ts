@@ -6,6 +6,7 @@ import tutorialConfig from './utils/tutorialConfig'
 import { COMMANDS, send } from '../commands'
 import logger from '../services/logger'
 import { setupWebhook } from '../services/hooks/webhooks'
+import * as hooks from '../services/hooks'
 
 const onTutorialConfigContinue = async (action: T.Action, context: Context): Promise<void> => {
   try {
@@ -24,6 +25,15 @@ const onTutorialConfigContinue = async (action: T.Action, context: Context): Pro
     // configure webhook
     if (tutorialToContinue.config?.webhook) {
       setupWebhook(tutorialToContinue.config.webhook)
+    }
+
+    // if tutorial.config.reset.command, run it
+    const resetActions = tutorialToContinue?.config?.continue
+    if (resetActions) {
+      hooks.onReset(
+        { commands: resetActions?.commands, vscodeCommands: resetActions?.vscodeCommands },
+        tutorialToContinue?.id as string,
+      )
     }
   } catch (e: any) {
     const error = {
