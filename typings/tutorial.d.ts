@@ -2,7 +2,7 @@ import { ProgressStatus } from './index'
 
 export type Maybe<T> = T | null
 
-export type ConfigReset = {
+export type ConfigCommands = {
   commands?: string[]
   vscodeCommands?: VSCodeCommand[]
 }
@@ -13,7 +13,8 @@ export type TutorialConfig = {
   repo: TutorialRepo
   dependencies?: TutorialDependency[]
   setup?: StepActions
-  reset?: ConfigReset
+  continue?: ConfigCommands
+  reset?: ConfigCommands
   webhook?: WebhookConfig
 }
 
@@ -97,6 +98,7 @@ export type VSCodeCommand = string | [string, any]
 export interface WebhookConfigEvents {
   init?: boolean
   reset?: boolean
+  continue?: boolean
   step_complete?: boolean
   level_complete?: boolean
   tutorial_complete?: boolean

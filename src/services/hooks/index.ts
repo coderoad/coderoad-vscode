@@ -56,6 +56,15 @@ export const onReset = async (actions: TT.StepActions, tutorialId: string): Prom
   })
 }
 
+// run when a tutorial is continued
+export const onContinue = async (actions: TT.StepActions, tutorialId: string): Promise<void> => {
+  await runCommands(actions?.commands)
+  await runVSCodeCommands(actions?.vscodeCommands)
+  webhooks.onContinue({
+    tutorialId,
+  })
+}
+
 // run when an uncaught exception is thrown
 export const onError = async (error: Error): Promise<void> => {
   telemetry.onError(error)

@@ -6,6 +6,7 @@ import { WEBHOOK_TOKEN } from '../../environment'
 const WEBHOOK_EVENTS = {
   init: false,
   reset: false,
+  continue: false,
   step_complete: false,
   level_complete: false,
   tutorial_complete: false,
@@ -73,6 +74,16 @@ type WebhookEventReset = {
 export const onReset = (event: WebhookEventReset): void => {
   if (WEBHOOK_EVENTS.reset) {
     callWebhookEndpoint<WebhookEventReset>(event)
+  }
+}
+
+type WebhookEventContinue = {
+  tutorialId: string
+}
+
+export const onContinue = (event: WebhookEventReset): void => {
+  if (WEBHOOK_EVENTS.continue) {
+    callWebhookEndpoint<WebhookEventContinue>(event)
   }
 }
 
