@@ -51,8 +51,9 @@ const callWebhookEndpoint = async <B>(bodyObject: B): Promise<void> => {
     if (!sendEvent.ok) {
       throw new Error('Error sending event')
     }
+    logger(`Called webhook endpoint ${WEBHOOK_URI} with body ${JSON.stringify(body)}`)
   } catch (err: unknown) {
-    logger(`Failed to call webhook endpoint ${WEBHOOK_URI} with body ${body}`)
+    logger(`Failed to call webhook endpoint ${WEBHOOK_URI} with body ${JSON.stringify(body)}`)
   }
 }
 
