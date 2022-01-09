@@ -1,6 +1,17 @@
 #!/bin/bash
 
-echo "Building Extension..."
+echo "Checking Node version..."
+nodeVersion="$(node --version)"
+requiredNodeVersion="16.0.0"
+ if [ "$(printf '%s\n' "$requiredNodeVersion" "${nodeVersion##v}" | sort -V | head -n1)" = "$requiredNodeVersion" ]; then 
+        echo "Using Node ${nodeVersion}"
+ else
+        echo "Build requires Node ${requiredNodeVersion} or above but using ${nodeVersion##v}"
+        exit 1
+ fi
+
+
+echo "Building extension..."
 tsc -v
 
 # remove build directory
