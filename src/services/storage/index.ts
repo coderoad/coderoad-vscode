@@ -33,7 +33,7 @@ class Storage<T> {
   public get = async (): Promise<T> => {
     if (SESSION_STORAGE_PATH) {
       try {
-        // 1. read from file instead of local storage if specified
+        // 1. attempt to read from file instead of local storage if specified
         const sessionFile = await readFile(SESSION_STORAGE_PATH, `${this.filePath}.json`)
         if (!sessionFile) {
           throw new Error('No session file found')
@@ -50,14 +50,15 @@ class Storage<T> {
       } catch (err: any) {
         logger(`Failed to read or parse session file: ${SESSION_STORAGE_PATH}/${this.filePath}.json: ${err.message}`)
       }
-    }
-    const value: string | undefined = await this.storage.get(this.key)
-    if (value) {
-      // 2. read from local storage
-      try {
-        return JSON.parse(value)
-      } catch (err: any) {
-        logger(`Failed to parse session state from local storage: ${value}: ${err.message}`)
+    } else {
+      // 2. attempt to read from local storage
+      const value: string | undefined = await this.storage.get(this.key)
+      if (value) {
+        try {
+          return JSON.parse(value)
+        } catch (err: any) {
+          logger(`Failed to parse session state from local storage: ${value}: ${err.message}`)
+        }
       }
     }
     // 3. fallback to the default
