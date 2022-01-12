@@ -59,12 +59,12 @@ class Channel implements Channel {
       case 'EDITOR_LEVEL_ENTER':
       case 'EDITOR_STEP_ENTER':
         await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_POSITION, action.payload.position)
-        hooks.onSetupEnter(action.payload.actions)
+        await hooks.onSetupEnter(action.payload.actions)
         return
       // load solution step actions (git commits, commands, open files)
       case 'EDITOR_SOLUTION_ENTER':
         await vscode.commands.executeCommand(COMMANDS.SET_CURRENT_POSITION, action.payload.position)
-        hooks.onSolutionEnter(action.payload.actions)
+        await hooks.onSolutionEnter(action.payload.actions)
         return
       case 'EDITOR_SYNC_POSITION':
         // update progress when a level is deemed complete in the client
@@ -83,13 +83,13 @@ class Channel implements Channel {
         actions.onRunReset({ type: 'POSITION', position: action.payload.position }, this.context)
         return
       case 'EDITOR_STEP_COMPLETE':
-        hooks.onStepComplete(action.payload)
+        await hooks.onStepComplete(action.payload)
         return
       case 'EDITOR_LEVEL_COMPLETE':
-        hooks.onLevelComplete(action.payload)
+        await hooks.onLevelComplete(action.payload)
         return
       case 'EDITOR_TUTORIAL_COMPLETE':
-        hooks.onTutorialComplete(action.payload)
+        await hooks.onTutorialComplete(action.payload)
         return
       default:
         logger(`No match for action type: ${actionType}`)

@@ -36,7 +36,7 @@ const reset = async ({ branch, hash }: Input): Promise<void> => {
     })
     // stash any current work
     await exec({
-      command: 'git stash',
+      command: 'git stash --include-untracked',
     }).catch(ignoreError)
 
     // remove any other files
