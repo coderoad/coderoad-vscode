@@ -30,7 +30,7 @@ const onTutorialConfigContinue = async (action: T.Action, context: Context): Pro
     // if tutorial.config.reset.command, run it
     const continueActions = tutorialToContinue?.config?.continue
     if (continueActions) {
-      hooks.onContinue(
+      await hooks.onContinue(
         { commands: continueActions?.commands, vscodeCommands: continueActions?.vscodeCommands },
         tutorialToContinue?.id as string,
       )

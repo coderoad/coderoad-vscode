@@ -28,12 +28,12 @@ const onRunReset = async (action: ResetAction, context: Context): Promise<void> 
   }
 
   // load timeline until last pass commit
-  reset({ branch, hash })
+  await reset({ branch, hash })
 
   // if tutorial.config.reset.command, run it
   const resetActions = tutorial?.config?.reset
   if (resetActions) {
-    hooks.onReset(
+    await hooks.onReset(
       { commands: resetActions?.commands, vscodeCommands: resetActions?.vscodeCommands },
       tutorial?.id as string,
     )
