@@ -1,6 +1,6 @@
 {
   "name": "coderoad-app",
-  "version": "0.19.1",
+  "version": "0.19.2",
   "private": true,
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
