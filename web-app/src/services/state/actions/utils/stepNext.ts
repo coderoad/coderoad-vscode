@@ -1,6 +1,5 @@
 import * as T from 'typings'
 import * as TT from 'typings/tutorial'
-import logger from '../../../../services/logger'
 
 const getStepNext = (position: T.Position, level: TT.Level): T.Action => {
   const { steps } = level

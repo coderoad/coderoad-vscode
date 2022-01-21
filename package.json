@@ -37,15 +37,10 @@
     "test-compile": "tsc -watch -p ./"
   },
   "dependencies": {
-    "chokidar": "3.5.2",
-    "dotenv": "^8.2.0",
-    "eslint": "7.32.0",
+    "chokidar": "3.5.3",
     "git-url-parse": "11.6.0",
-    "jest": "27.3.1",
     "node-fetch": "2.6.6",
     "semver": "7.3.5",
-    "ts-jest": "27.0.7",
-    "typescript": "4.4.4",
     "vscode-extension-telemetry": "0.1.7"
   },
   "devDependencies": {
@@ -59,6 +54,7 @@
     "@typescript-eslint/eslint-plugin": "5.4.0",
     "@typescript-eslint/parser": "5.4.0",
     "esbuild": "0.14.0",
+    "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-config-react-app": "6.0.0",
     "eslint-plugin-flowtype": "8.0.3",
@@ -68,6 +64,9 @@
     "eslint-plugin-react": "7.27.1",
     "eslint-plugin-react-hooks": "^4.3.0",
     "prettier": "2.5.0",
+    "jest": "27.3.1",
+    "ts-jest": "27.0.7",
+    "typescript": "4.4.4",
     "vscode": "^1.1.37",
     "vscode-test": "^1.6.1"
   },
