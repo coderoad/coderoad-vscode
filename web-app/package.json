@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.14.0",
+    "@babel/helper-environment-visitor": "7.16.7",
     "@storybook/addon-actions": "6.4.0",
     "@storybook/addon-knobs": "6.4.0",
     "@storybook/addon-links": "6.4.0",
