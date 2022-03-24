@@ -46,10 +46,13 @@
   "devDependencies": {
     "@babel/core": "7.14.0",
     "@babel/helper-environment-visitor": "7.16.7",
+    "@babel/preset-react": "7.16.7",
     "@storybook/addon-actions": "6.4.19",
     "@storybook/addon-knobs": "6.4.0",
     "@storybook/addon-links": "6.4.19",
     "@storybook/addons": "6.4.19",
+    "@storybook/builder-webpack5": "6.4.19",
+    "@storybook/manager-webpack5": "6.4.19",
     "@storybook/preset-create-react-app": "4.1.0",
     "@storybook/react": "6.4.19",
     "@types/git-url-parse": "9.0.1",
@@ -73,6 +76,7 @@
     "react-scripts": "4.0.3",
     "sass-loader": "12.3.0",
     "source-map-explorer": "2.5.2",
-    "typescript": "4.4.4"
+    "typescript": "4.4.4",
+    "webpack": "5"
   }
 }
