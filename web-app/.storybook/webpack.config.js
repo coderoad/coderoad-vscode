@@ -15,7 +15,13 @@ module.exports = ({ config }) => {
   })
 
   config.plugins.push(new MiniCssExtractPlugin({ filename: '[name].css' }))
-  // config.plugins.push(['import', { libraryName: '@alifd/next', libraryDirectory: 'lib', style: true }])
+  // config.plugins.push([
+  //   'babel-plugin-import',
+  //   {
+  //     libraryName: '@alifd/next',
+  //     style: true,
+  //   },
+  // ])
 
   config.resolve.extensions.push('.ts', '.tsx')
 
