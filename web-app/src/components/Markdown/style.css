@@ -1,3 +1,7 @@
+.coderoad-markdown {
+  font-size: var(--vscode-editor-font-size, 12px);
+}
+
 .coderoad-markdown pre {
   border-radius: 0.3rem;
 }
