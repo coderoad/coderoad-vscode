@@ -12,27 +12,16 @@ module.exports = ({ config }) => {
   config.module.rules.push({
     test: /\.(ts|tsx)$/,
     loader: require.resolve('babel-loader'),
-    options: {
-      plugins: [
-        new MiniCssExtractPlugin(),
-        [
-          'babel-plugin-import',
-          {
-            libraryName: '@alifd/next',
-            style: true,
-          },
-        ],
-      ],
-      presets: [
-        // react-app
-        ['react-app', { flow: false, typescript: true }],
-        // allow emotion css prop on html
-        ['@emotion/babel-preset-css-prop'],
-      ],
-    },
   })
 
   config.plugins.push(new MiniCssExtractPlugin({ filename: '[name].css' }))
+  // config.plugins.push([
+  //   'babel-plugin-import',
+  //   {
+  //     libraryName: '@alifd/next',
+  //     style: true,
+  //   },
+  // ])
 
   config.resolve.extensions.push('.ts', '.tsx')
 
